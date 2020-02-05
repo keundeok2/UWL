@@ -163,7 +163,7 @@ public class ChallengeServiceTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void testGetCompleteChallengeList() throws Exception{
 		
 		Search search = new Search();
@@ -180,11 +180,11 @@ public class ChallengeServiceTest {
 		System.out.println("testGetCompleteChallengeList list : " + list.size());
 		System.out.println("map 담긴정보 확인 : " + map);
 		
-		Assert.assertEquals(3, list.size());
+		Assert.assertEquals(2, list.size());
 		
 	}
 	
-	@Test
+	//@Test
 	public void testCompleteChallenge() throws Exception{
 		
 		Challenge challenge = new Challenge();

@@ -1,12 +1,15 @@
 package com.uwl.service.reward.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.uwl.common.Search;
 import com.uwl.service.challenge.ChallengeDAO;
+import com.uwl.service.domain.Purchase;
 import com.uwl.service.domain.Reward;
 import com.uwl.service.reward.RewardDAO;
 import com.uwl.service.reward.RewardService;
@@ -42,8 +45,17 @@ public class RewardServiceImpl implements RewardService{
 
 	//Method
 	@Override
-	public List<Reward> getUserBothPointList(String userId) throws Exception {
-		return rewardDAO.getUserBothPointList(userId);
+	public Map<String,Object> getUserBothPointList(Search search, String userId) throws Exception {
+		
+		System.out.println("RewardServiceImple getUserBothPointList() 작동 중");
+		
+		int totalCount = rewardDAO.getTotalCountOne(userId);
+		
+		Map<String, Object> map = rewardDAO.getUserBothPointList(search, userId);
+		
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
 	}
 	
 
@@ -53,10 +65,11 @@ public class RewardServiceImpl implements RewardService{
 	}
 
 
+
+
 	@Override
-	public void decreasePoint(Reward reward) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void decreasePoint(Purchase purchase) throws Exception {
+		rewardDAO.decreasePoint(purchase);
 	}
 
 

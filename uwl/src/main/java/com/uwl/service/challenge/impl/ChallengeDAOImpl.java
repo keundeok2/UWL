@@ -77,7 +77,7 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 		
 		List<Reward> completeList = sqlSession.selectList("ChallengeMapper.getCompleteChallengeList", completeMap);
 		
-		completeMap.put("totalCount", sqlSession.selectOne("ChallengeMapper.getTotalCount", search));
+		completeMap.put("totalCount", sqlSession.selectOne("ChallengeMapper.getTotalCountOne", userId));
 		completeMap.put("list", completeList);
 		
 		return completeMap;

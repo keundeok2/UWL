@@ -11,6 +11,9 @@ public class SchoolRank {
 	private String schoolName;
 	private String schoolAddress;
 	
+	//학교랭킹을 가져올 수
+	private int ranking;
+	
 	//재학중인 총 학생인원 수, 재학중인 총 활동점수
 	private int totalUser;
 	private int totalActivityPoint;
@@ -91,6 +94,14 @@ public class SchoolRank {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public int getRanking() {
+		return ranking;
+	}
+
+	public void setRanking(int ranking) {
+		this.ranking = ranking;
 	}
 
 	@Override

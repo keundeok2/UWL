@@ -11,6 +11,8 @@
 		<result property="userId" 			column="user_id" 			jdbcType="VARCHAR"/>
 		
 		<result property="purchaseItem.purchaseNo" 			column="purchase_no" 			jdbcType="NUMERIC"/>
+		<result property="purchaseItem.itemCategory" 			column="item_category" 			jdbcType="VARCHAR"/>
+		<result property="challenge.challTitle" 			column="chall_title" 			jdbcType="VARCHAR"/>
 		
 		<result property="challenge.challNo" 			column="chall_no" 			jdbcType="NUMERIC"/>
 		<result property="challenge.challReward" 			column="chall_reward" 			jdbcType="NUMERIC"/>
@@ -20,21 +22,34 @@
 		<result property="variableDate" 	column="variable_date" 		jdbcType="DATE" />
 		<result property="totalPoint" 	column="total_point" 		jdbcType="NUMERIC" />
 		<result property="totalActivityPoint" 	column="total_activity_point" 		jdbcType="NUMERIC" />
+	
+		
+		
 	</resultMap>
 	
 	
 	<!-- SQL : SELECT LIST 얘도 Search 추가할 것.-->
-	 <select  id="getUserBothPointList"  parameterType="String"	resultMap="rewardSelectMap">
-	  	SELECT reward_no,
-				user_id,
-				purchase_no,
-				chall_no,
-				variable_point,
-				variable_activity_point,
-				variable_date
-		FROM reward 
-		WHERE user_id = #{value}
-		ORDER BY variable_date DESC
+	 <select  id="getUserBothPointList"  parameterType="map"	resultMap="rewardSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT r.reward_no,
+												r.user_id,
+												r.purchase_no,
+												r.chall_no,
+												r.variable_point,
+												r.variable_activity_point,
+												r.variable_date,
+												total_point.total_point,
+												total_point.total_activity,
+												p.item_category,
+												c.chall_title
+										FROM challenge c, purchase p, reward r,(SELECT sum(variable_point) total_point, 
+																					sum(variable_activity_point) total_activity 
+																		FROM reward WHERE user_id=#{userId}) total_point
+											WHERE r.user_id = #{userId}
+										ORDER BY variable_date DESC) inner_table
+						WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER} )
+		WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER} 	
 	 </select>
 	 
 	 <!-- Reward -->
@@ -55,12 +70,22 @@
 							(SELECT chall_reward FROM challenge WHERE chall_no = #{challenge.challNo:NUMERIC}),SYSDATE)
 	 </insert>
 	 
+	 <!-- SQL : INSERT -->
+	<insert 	id="decreasePoint"		parameterType="purchase" >
+	 	INSERT INTO reward(reward_no, 
+							user_id, 
+							purchase_no, 
+							variable_point, 
+							variable_date)
+		VALUES (seq_reward_reward_no.NEXTVAL,#{userId},seq_purchase_purchase_no.CURRVAL,#{price},SYSDATE)
+		<!-- VALUES (seq_reward_reward_no.NEXTVAL,#{userId},#{purchaseNo},#{price},SYSDATE) -->
+	 </insert>
 	 
 	 
 	 
 	 <!-- SQL : SELECT ROW Count -->
 	 <!-- 이거 어디에 쓰는지 알아볼것 -->	 
-	 <select  id="getTotalCount"  parameterType="String"	 resultType="int">
+	 <select  id="getTotalCountOne"  parameterType="String"	 resultType="int">
 	  	SELECT COUNT(*)
 				  	FROM(	 SELECT reward_no,
 									user_id,
@@ -68,10 +93,9 @@
 									chall_no,
 									variable_point,
 									variable_activity_point,
-									variable_date,
-									total_point,
-									total_activity_point
-									FROM reward WHERE user_id = #{value} ORDER BY variable_date DESC) countTable
+									variable_date
+									FROM reward WHERE user_id = #{userId} ORDER BY variable_date DESC) countTable
 	 </select>
+ 	
  	
 </mapper>

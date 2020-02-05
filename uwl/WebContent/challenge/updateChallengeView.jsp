@@ -151,7 +151,7 @@ function fncAddChallenge(){
 		  	
 		  	<br>
 		  	<div class="col-sm-2">
-			  	<select class="custom-select" name="challCategory">
+			  	<select class="custom-select" name="challCategory" >
 
 				  <option value="1" ${!empty searchCondition && searchCondition == "1" ? "selected" : ""} >Map</option>
 				 
