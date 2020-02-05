@@ -22,6 +22,7 @@
  		<result property="questionStatus" column="QUESTION_STATUS" jdbcType="VARCHAR"/>
  		<result property="place" column="PLACE" jdbcType="VARCHAR"/>
  		<result property="replyPostNo" column="REPLY_POST_NO" jdbcType="NUMERIC"/>
+ 		<result property="nickName" column="NICKNAME" jdbcType="VARCHAR"/>	<!-- 가상 컬럼 바인딩 -->
  	</resultMap>
  	
  	<select id="getBoard" parameterType="int" resultMap = "postSelectMap">
@@ -73,7 +74,7 @@
 	 								<!--  AND 작성자-->
 	 							</if>
 	 						</if>
- 						ORDER BY post_no) inner_table
+ 						ORDER BY post_date DESC) inner_table
  			WHERE ROWNUM &lt;= #{search.endRowNum} )
  		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
  	</select>
@@ -110,51 +111,51 @@
  		WHERE post_no = #{value}
  	</update>
  	
- 	<select id="getNoticeList" parameterType="map" resultMap="postSelectMap">
+ 	<select id="getNoticeList" parameterType="search" resultMap="postSelectMap">
  		SELECT 
  			post_no, user_id, post_title, post_content, post_date, hit_count, like_count, comment_count, view_status, post_category_no, gather_category_no
  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
  			FROM ( SELECT * FROM post
  						WHERE post_category_no = '1'
  						AND view_status = '1'
-	 						<if test="gatherCategoryNo != null">
-	 							<if test="gatherCategoryNo ==  '101' ">
-	 								AND gather_category_no = #{gatherCategoryNo} 
+	 						<if test="searchCondition != null">
+	 							<if test="searchCondition ==  '101' ">
+	 								AND gather_category_no = #{searchCondition} 
 	 							</if>
-	 							<if test="gatherCategoryNo ==  '102' ">
-	 								AND gather_category_no = #{gatherCategoryNo} 
+	 							<if test="searchCondition ==  '102' ">
+	 								AND gather_category_no = #{searchCondition} 
 	 							</if>
-	 							<if test="gatherCategoryNo ==  '103' ">
-	 								AND gather_category_no = #{gatherCategoryNo} 
+	 							<if test="searchCondition ==  '103' ">
+	 								AND gather_category_no = #{searchCondition} 
 	 							</if>
-	 							<if test="gatherCategoryNo ==  '104' ">
-	 								AND gather_category_no = #{gatherCategoryNo} 
+	 							<if test="searchCondition ==  '104' ">
+	 								AND gather_category_no = #{searchCondition} 
 	 							</if>
-	 							<if test="gatherCategoryNo ==  '105' ">
-	 								AND gather_category_no = #{gatherCategoryNo} 
+	 							<if test="searchCondition ==  '105' ">
+	 								AND gather_category_no = #{searchCondition} 
 	 							</if>
-	 							<if test="gatherCategoryNo ==  '106' ">
-	 								AND gather_category_no = #{gatherCategoryNo} 
+	 							<if test="searchCondition ==  '106' ">
+	 								AND gather_category_no = #{searchCondition} 
 	 							</if>
-	 							<if test="gatherCategoryNo ==  '107' ">
-	 								AND gather_category_no = #{gatherCategoryNo} 
+	 							<if test="searchCondition ==  '107' ">
+	 								AND gather_category_no = #{searchCondition} 
 	 							</if>
-	 							<if test="gatherCategoryNo ==  '108' ">
-	 								AND gather_category_no = #{gatherCategoryNo} 
+	 							<if test="searchCondition ==  '108' ">
+	 								AND gather_category_no = #{searchCondition} 
 	 							</if>
-	 							<if test="gatherCategoryNo ==  '109' ">
-	 								AND gather_category_no = #{gatherCategoryNo} 
+	 							<if test="searchCondition ==  '109' ">
+	 								AND gather_category_no = #{searchCondition} 
 	 							</if>
-	 							<if test="gatherCategoryNo ==  '110' ">
-	 								AND gather_category_no = #{gatherCategoryNo} 
+	 							<if test="searchCondition ==  '110' ">
+	 								AND gather_category_no = #{searchCondition} 
 	 							</if>
-	 							<if test="gatherCategoryNo ==  '111' ">
-	 								AND gather_category_no = #{gatherCategoryNo} 
+	 							<if test="searchCondition ==  '111' ">
+	 								AND gather_category_no = #{searchCondition} 
 	 							</if>
 	 						</if>
- 						ORDER BY post_no) inner_table
- 			WHERE ROWNUM &lt;= #{search.endRowNum} )
- 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+ 						ORDER BY post_date DESC) inner_table
+ 			WHERE ROWNUM &lt;= #{endRowNum} )
+ 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
  	</select>
  	
  	

@@ -86,13 +86,20 @@ public class CommunityServiceImpl implements CommunityService {
 		return map;
 	}
 	
-	
+	@Override
+	public Likey getLike(Likey likey) throws Exception {
+		return communityDAO.getLike(likey);
+	}
 
+	
+	
 
 	@Override
 	public void addNotification(Notification notification) throws Exception {
 		communityDAO.addNotification(notification);
 	}
+
+
 
 	
 	

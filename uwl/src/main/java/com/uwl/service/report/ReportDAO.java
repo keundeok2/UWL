@@ -16,7 +16,7 @@ public interface ReportDAO {
 		
 		public void updateReport(Report report) throws Exception; //신고처리
 		
-		public List<Report> getReportList(Search Search, Report report) throws Exception;
+		public List<Report> getReportList(Search Search) throws Exception;
 		
 		
 		public int getTotalCount(Search search) throws Exception;

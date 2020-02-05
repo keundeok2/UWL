@@ -61,6 +61,9 @@
             <li>
                 <a href="#">도전과제 관리</a><br>
             </li>
+            <li>
+                <a href="/report/listReport">신고목록 확인</a><br>
+            </li>
         </ul>
     </div>
     
@@ -113,7 +116,7 @@
     <div id="dd">
         <ul>
             <li>
-                <a href="#">공지사항</a><br>
+                <a href="/post/listNotice">공지사항</a><br>
             </li>
             <li>
                 <a href="#">문의사항</a><br>

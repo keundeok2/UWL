@@ -17,5 +17,5 @@ public interface ReportService {
 	
 	public void updateReport(Report report) throws Exception; //신고처리
 	
-	public Map<String, Object> getReportList(Search search, Report report) throws Exception;
+	public Map<String, Object> getReportList(Search search) throws Exception;
 }

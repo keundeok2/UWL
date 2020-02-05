@@ -10,7 +10,8 @@
  		<result property="refPostNo" column="REF_POST_NO" jdbcType="NUMERIC"/>
  		<result property="refCommentNo" column="REF_COMMENT_NO" jdbcType="NUMERIC"/>
  		<result property="reportWhat" column="REPORT_WHAT" jdbcType="VARCHAR"/>
- 		<result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
+ 		<result property="userId01" column="USER_ID01" jdbcType="VARCHAR"/>
+ 		<result property="userId02" column="USER_ID02" jdbcType="VARCHAR"/>
  		<result property="reportStatus" column="REPORT_STATUS" jdbcType="VARCHAR"/>
  		<result property="reportCategoryNo" column="REPORT_CATEGORY_NO" jdbcType="VARCHAR"/>
  		<result property="reportDate" column="REPORT_DATE" jdbcType="DATE"/>
@@ -21,43 +22,42 @@
  	
  	<select id="getReport" parameterType="int" resultMap="reportSelectMap">
  		SELECT 
- 			report_no, ref_post_no, ref_comment_no, user_id, report_what, report_status, report_category_no, report_date, proceed_date, report_content, stop_date
+ 			report_no, ref_post_no, ref_comment_no, user_id01, user_id02, report_what, report_status, report_category_no, report_date, proceed_date, report_content, stop_date
 		FROM report
 		WHERE report_no = #{value}
  	</select>
  	
  	
- 	<insert id="addPostReport" parameterType="report">
+ 	<insert id="addReport" parameterType="report">
  		INSERT
  		INTO report(
- 			report_no, ref_post_no, ref_comment_no, user_id, report_what, report_status, report_category_no, report_date, proceed_date, report_content, stop_date)
- 		VALUES(seq_report_report_no.NEXTVAL, #{refPostNo}, null, #{userId}, #{reportWhat}, '1', #{reportCategoryNo}, SYSDATE, null, #{reportContent}, null)
+ 			report_no, ref_post_no, ref_comment_no, user_id01, user_id02, report_what, report_status, report_category_no, report_date, proceed_date, report_content, stop_date)
+ 		VALUES(seq_report_report_no.NEXTVAL, #{refPostNo}, (NVL2(#{refCommentNo},null,#{refCommentNo})), #{userId01}, #{userId02}, #{reportWhat}, '1', #{reportCategoryNo}, SYSDATE, null, #{reportContent}, null)
  	</insert>
  	
  	<update id="updateReport" parameterType="report"> <!-- 신고 처리 -->
  		UPDATE report
  		SET
- 			report_status = #{reportStatus},
+ 			report_status = '2',
  			proceed_date = SYSDATE,
  			stop_date = SYSDATE + #{plusStopDate}
  		WHERE report_no = #{reportNo}
  	</update>
  	
- 	<select id="getReportList" parameterType="map" resultMap="reportSelectMap">
+ 	<select id="getReportList" parameterType="search" resultMap="reportSelectMap">
  		SELECT 
- 			report_no, ref_post_no, ref_comment_no, user_id, report_what, report_status, report_category_no, report_date, proceed_date, report_content, stop_date
+ 			report_no, ref_post_no, ref_comment_no, user_id01, user_id02, report_what, report_status, report_category_no, report_date, proceed_date, report_content, stop_date
  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
  			FROM ( SELECT * FROM report
- 						WHERE report_status = #{report.reportStatus}
- 						<if test="report.reportWhat == '1' ">
- 							AND report_what = '1'
+ 						WHERE report_status = #{searchCondition}
+ 						<if test="searchCondition == 1">
+	 						ORDER BY report_date DESC) inner_table
  						</if>
- 						<if test="report.reportWhat == '2' ">
- 							AND report_what = '2'
+ 						<if test="searchCondition == 2">
+ 							ORDER BY proceed_date DESC) inner_table
  						</if>
- 						ORDER BY report_no) inner_table
- 			WHERE ROWNUM &lt;= #{search.endRowNum} )
- 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+ 			WHERE ROWNUM &lt;= #{endRowNum} )
+ 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
  	</select>
  	
  	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">

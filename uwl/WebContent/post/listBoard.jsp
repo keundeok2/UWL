@@ -64,6 +64,7 @@
     </c:forEach>
     <br><br>
     <a href="/post/addBoard?gatherCategoryNo=${gatherCategoryNo }">글작성</a>
+    <a href="javascript:history.go(-1)">뒤로</a>
     </form>
 </body>
 </html>

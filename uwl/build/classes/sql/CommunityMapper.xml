@@ -38,7 +38,7 @@
 		INSERT
 		INTO commentt(
 				comment_no, user_id, post_no, comment_content, comment_date, comment_status, like_count)
-		VALUES(seq_comment_comment_no.NEXTVAL, #{userId}, #{postNo}, #{commentContent}, SYSDATE, '1', 0)
+		VALUES(seq_commentt_comment_no.NEXTVAL, #{userId}, #{postNo}, #{commentContent}, SYSDATE, '1', 0)
 	</insert>
 	
 	<select id="getComment" parameterType="int" resultMap="commentSelectMap">
@@ -69,10 +69,10 @@
  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
  			FROM ( SELECT * FROM commentt
  						WHERE comment_status = '1'
- 						<if test="search.searchCondition == '1' ">
+ 						<if test="search.searchCondition == '1'">
  							AND post_no = #{postNo}
  						</if>
- 						<if test="search.searchCondition == '2' ">
+ 						<if test="search.searchCondition == '2'">
  							AND user_id = #{userId}
  						</if>
  						ORDER BY comment_no) inner_table
@@ -121,6 +121,20 @@
 		WHERE like_no = #{likeNo}
 	</delete>
 	
+	<select id="getLike" parameterType="likey" resultMap="likeSelectMap">
+		SELECT
+			like_no, ref_comment_no, ref_post_no, user_id, like_what
+		FROM likey
+		WHERE 
+			user_id = #{userId}
+			<if test="refCommentNo == 0">
+				AND ref_post_no = #{refPostNo}
+			</if>
+			<if test="refCommentNo != 0">
+				AND ref_comment_no = #{refCommentNo}
+			</if>
+	</select>
+	
 	<!-- 게시글 좋아요(1), 댓글 좋아요(2) -->
 	<select id="getLikeList" parameterType="map" resultMap="likeSelectMap">
 		SELECT 
@@ -167,6 +181,12 @@
 				noti_no, user_id, noti_date, noti_origin, noti_code)
 		VALUES(seq_likey_like_no.NEXTVAL, #{refCommentNo}, null, #{userId}, '2')
 	</insert>
+	
+	
+	
+	
+	
+	
 	
 	<!-- 포스트의 댓글수 업데이트 -->
 	<update id="updateCommentStatus" parameterType="map">

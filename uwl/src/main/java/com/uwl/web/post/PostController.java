@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.uwl.common.Page;
 import com.uwl.common.Search;
+import com.uwl.service.community.CommunityService;
 import com.uwl.service.domain.Post;
 import com.uwl.service.post.PostService;
 
@@ -28,15 +30,40 @@ public class PostController {
 	@Qualifier("postServiceImpl")
 	private PostService postService;
 	
+	@Autowired
+	@Qualifier("communityServiceImpl")
+	private CommunityService communityService;
+	
 	public PostController() {
 		System.out.println(this.getClass());
 	}
 	
-	@RequestMapping(value="getBoard", method=RequestMethod.GET)	//------------------------------------------------테스트 종료
+	
+	@Value("#{commonProperties['pageUnit']}")
+	int pageUnit;
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
+	
+	
+	@RequestMapping(value="getBoard", method=RequestMethod.GET)	//------------------------------------------------테스트 종료(무슨글이든 댓글 다가져오는거 수정해야함)
 	public String getBoard(@RequestParam("postNo") int postNo, Model model) throws Exception{
 		System.out.println("getBoard.GET");
 		Post post = postService.getBoard(postNo);
-		model.addAttribute(post);
+		
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(pageSize);
+		search.setSearchCondition("1");
+		Map<String, Object> map = communityService.getCommentList(search, postNo, "user01");		//user는 세션처리 할꺼
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		
+		
+		model.addAttribute("post", post);
 		return "forward:/post/getBoard.jsp";
 	}
 	
@@ -47,7 +74,7 @@ public class PostController {
 		return "forward:/post/addBoard.jsp";
 	}
 	
-	@RequestMapping(value="addBoard", method=RequestMethod.POST)	//------------------------------------------------테스트 종료
+	@RequestMapping(value="addBoard", method=RequestMethod.POST)	//------------------------------------------------테스트 종료(테스트 중)
 	public String addBoard(@ModelAttribute("post") Post post,
 					HttpServletRequest request, Model model, @RequestParam("fileName") MultipartFile file) throws Exception {
 		System.out.println("addBoard.POST");
@@ -59,13 +86,11 @@ public class PostController {
 			name = file.getOriginalFilename();
 			post.setUploadFileName(name);
 			postService.addBoard(post);
-			model.addAttribute("post", post);
-			return "forward:/post/getBoard.jsp";
+			return "forward:/post/listBoard";
 		}else { 	//썸네일을 안올렸을 때
 			post.setUploadFileName("empty.jpg");
 			postService.addBoard(post);
-			model.addAttribute("post", post);
-			return "forward:/post/getBoard.jsp";
+			return "forward:/post/listBoard";
 		}
 	}
 	
@@ -88,19 +113,21 @@ public class PostController {
 			name = file.getOriginalFilename();
 			post.setUploadFileName(name);
 			postService.updateBoard(post);
+			post = postService.getBoard(post.getPostNo());
 			model.addAttribute("post", post);
 			return "forward:/post/getBoard.jsp";
 		}else { 	//썸네일을 안올렸을 때
 			post.setUploadFileName("empty.jpg");
 			postService.updateBoard(post);
+			post = postService.getBoard(post.getPostNo());
 			model.addAttribute("post", post);
 			return "forward:/post/getBoard.jsp";
 			}
 		}
 
 	@RequestMapping(value="deleteBoard", method=RequestMethod.GET) //--------------------------------테스트 종료
-	public String deleteBoard(@RequestParam("postNo") int postNo, @RequestParam("gatherCategoryNo") String gatherCategoryNo) throws Exception{
-		System.out.println("deleteBoard.POST");
+	public String deleteBoard(@RequestParam("postNo") int postNo) throws Exception{
+		System.out.println("deleteBoard.GET");
 		postService.deleteBoard(postNo);
 		return "forward:/post/listBoard";
 	}
@@ -112,20 +139,25 @@ public class PostController {
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(5);		//몇개의 게시글을 노출시킬 것?
+		search.setPageSize(pageSize);		//몇개의 게시글을 노출시킬 것?
 		
 		Map<String, Object> map = postService.getBoardList(search, gatherCategoryNo);
-		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), 3, 5);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		
 		model.addAttribute("list", map.get("list"));
-		System.out.println(map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
 		return "forward:/post/listBoard.jsp";
 	}
 	
-	@RequestMapping(value="getNotice", method=RequestMethod.GET)
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value="getNotice", method=RequestMethod.GET)	//-----------------------테스트 종료
 	public String getNotice(@RequestParam("postNo") int postNo, Model model) throws Exception {
 		System.out.println("getNotice.GET");
 		Post post = postService.getNotice(postNo);
@@ -133,9 +165,63 @@ public class PostController {
 		return "forward:/post/getNotice.jsp";
 	}
 	
-//	@RequestMapping(value="addBoard", method=RequestMethod.GET)
-//	public String addNotice(@RequestParam("gatherCategory") String gatherCategoryNo, Model model) throws Exception{
-//		
-//		return null;
-//	}
+	@RequestMapping(value="addNotice", method=RequestMethod.GET)	//--------------------테스트 종료
+	public String addNotice() throws Exception{
+		System.out.println("addNotice.GET");
+		return "forward:/post/addNotice.jsp";
+	}
+	
+	@RequestMapping(value="addNotice", method=RequestMethod.POST)	//--------------------테스트 종료
+	public String addNotice(@ModelAttribute("post") Post post,
+							HttpServletRequest request, Model model) throws Exception{
+		System.out.println("addNotice.POST");
+		postService.addNotice(post);
+		return "forward:/post/listNotice";
+	}
+	
+	@RequestMapping(value="updateNotice", method=RequestMethod.GET)	//---------------------테스트 종료
+	public String updateNotice(@RequestParam("postNo") int postNo, Model model) throws Exception{
+		System.out.println("updateNotice.GET");
+		Post post = postService.getNotice(postNo);
+		model.addAttribute("post", post);
+		return "forward:/post/updateNotice.jsp";
+	}
+	
+	@RequestMapping(value="updateNotice", method=RequestMethod.POST)	//-----------------------테스트 종료
+	public String updateNotice(@ModelAttribute("post") Post post, Model model) throws Exception{
+		postService.updateNotice(post);
+		post = postService.getNotice(post.getPostNo());
+		model.addAttribute("post", post);
+		return "forward:/post/getNotice.jsp";
+	}
+	
+	@RequestMapping(value="deleteNotice", method=RequestMethod.GET)		//-------------------------테스트 종료
+	public String deleteNotice(@RequestParam("postNo") int postNo) throws Exception{
+		System.out.println("deleteNotice.GET");
+		postService.deleteBoard(postNo);
+		return "forward:/post/listNotice";
+	}
+	
+	@RequestMapping(value="listNotice")			//-------------------테스트 종료
+	public String getNoticeList(@ModelAttribute("search") Search search, Model model) throws Exception{
+		System.out.println("getNoticeList.POST or GET");
+		if(search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		Map<String, Object> map = postService.getNoticeList(search);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		return "forward:/post/listNotice.jsp";
+	}
+	
+	
+	
+	
+	
+	
 }

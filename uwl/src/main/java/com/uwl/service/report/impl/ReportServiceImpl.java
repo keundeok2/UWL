@@ -41,13 +41,13 @@ public class ReportServiceImpl implements ReportService{
 	}
 
 	@Override
-	public void updateReport(Report report) throws Exception {
+	public void updateReport(Report report) throws Exception {	//신고처리
 		reportDAO.updateReport(report);
 	}
 
 	@Override
-	public Map<String, Object> getReportList(Search search, Report report) throws Exception {
-		List<Report> list = reportDAO.getReportList(search, report);
+	public Map<String, Object> getReportList(Search search) throws Exception {
+		List<Report> list = reportDAO.getReportList(search);
 		int totalCount = reportDAO.getTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();

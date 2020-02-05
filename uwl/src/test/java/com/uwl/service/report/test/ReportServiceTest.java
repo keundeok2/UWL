@@ -1,6 +1,5 @@
 package com.uwl.service.report.test;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,7 +43,7 @@ public class ReportServiceTest {
 	public void addPostReport() throws Exception{
 		Report report = new Report();
 		report.setRefPostNo(10000);
-		report.setUserId("user01");
+		report.setUserId01("user01");
 		report.setReportWhat("1");
 		report.setReportCategoryNo("1");
 		report.setReportContent("이거 순 나쁜 새기에여 ㅋㅋ");
@@ -57,7 +56,7 @@ public class ReportServiceTest {
 	public void addCommentReport() throws Exception{
 		Report report = new Report();
 		report.setRefCommentNo(10000);
-		report.setUserId("user01");
+		report.setUserId01("user01");
 		report.setReportWhat("2");
 		report.setReportCategoryNo("1");
 		report.setReportContent("이거 순 나쁜 새기에여 ㅋㅋ");
@@ -86,6 +85,6 @@ public class ReportServiceTest {
 		report.setReportWhat("1");
 		
 		
-		System.out.println(reportService.getReportList(search, report));
+		System.out.println(reportService.getReportList(search));
 	}
 }

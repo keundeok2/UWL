@@ -28,7 +28,7 @@ public interface PostDAO {
 		
 		public void deleteNotice(int PostNo) throws Exception;
 		
-		public List<Post> getNoticeList(Search search, String gatherCategoryNo) throws Exception;
+		public List<Post> getNoticeList(Search search) throws Exception;
 	
 		
 		//getTotalCount

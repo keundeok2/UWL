@@ -106,11 +106,8 @@ public class PostDAOImpl implements PostDAO{
 	}
 
 	@Override
-	public List<Post> getNoticeList(Search search, String gatherCategoryNo) throws Exception {
-		Map<String ,Object> map = new HashMap<String, Object>();
-		map.put("search", search);
-		map.put("gatherCategoryNo", gatherCategoryNo);
-		return sqlSession.selectList("PostMapper.getNoticeList", map);
+	public List<Post> getNoticeList(Search search) throws Exception {
+		return sqlSession.selectList("PostMapper.getNoticeList", search);
 	}
 
 	

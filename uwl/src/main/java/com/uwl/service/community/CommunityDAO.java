@@ -31,6 +31,8 @@ public interface CommunityDAO {
 		
 		public List<Likey> getLikeList(Search search, String userId) throws Exception;
 		
+		public Likey getLike(Likey likey) throws Exception;
+		
 		
 		//알림
 		public void addNotification(Notification notification) throws Exception;	

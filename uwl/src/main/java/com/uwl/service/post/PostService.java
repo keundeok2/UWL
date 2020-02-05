@@ -28,7 +28,7 @@ public interface PostService {
 	
 	public void deleteNotice(int PostNo) throws Exception;
 	
-	public Map<String, Object> getNoticeList(Search search, String gatherCategoryNo) throws Exception;
+	public Map<String, Object> getNoticeList(Search search) throws Exception;
 	
 	
 }

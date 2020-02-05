@@ -30,10 +30,10 @@ public class CommunityDAOImpl implements CommunityDAO {
 		super();
 	}
 	
-	
 	@Override
 	public void addComment(Commentt comment) throws Exception {
 		sqlSession.insert("CommunityMapper.addComment", comment);
+		System.out.println(comment);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("postNo", comment.getPostNo());
 		map.put("change", +1);
@@ -65,6 +65,7 @@ public class CommunityDAOImpl implements CommunityDAO {
 		map.put("search", search);
 		map.put("postNo", postNo);
 		map.put("userId", userId);
+		
 		return sqlSession.selectList("CommunityMapper.getCommentList", map);
 	}
 
@@ -112,6 +113,12 @@ public class CommunityDAOImpl implements CommunityDAO {
 		map.put("userId", userId);
 		return sqlSession.selectList("CommunityMapper.getLikeList", map);
 	}
+	
+	
+	@Override
+	public Likey getLike(Likey likey) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getLike", likey);
+	}
 
 	@Override
 	public void addNotification(Notification notification) throws Exception {
@@ -127,5 +134,6 @@ public class CommunityDAOImpl implements CommunityDAO {
 	public int getLikeTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("CommunityMapper.getLikeTotalCount", search);
 	}
+
 	
 }

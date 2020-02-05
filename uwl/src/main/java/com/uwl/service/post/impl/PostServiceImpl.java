@@ -78,8 +78,8 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public Map<String ,Object> getNoticeList(Search search, String gatherCategoryNo) throws Exception {
-		List<Post> list = postDAO.getNoticeList(search, gatherCategoryNo);
+	public Map<String ,Object> getNoticeList(Search search) throws Exception {
+		List<Post> list = postDAO.getNoticeList(search);
 		int totalCount = postDAO.getTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();

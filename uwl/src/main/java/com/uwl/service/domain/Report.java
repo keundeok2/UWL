@@ -10,7 +10,8 @@ public class Report {
 	private String reportWhat;	//뭘신고(게시글,댓글)
 			//	1 : 게시글
 			//	2 : 댓글
-	private String userId;	//회원아이디
+	private String userId01;	//신고자회원아이디
+	private String userId02;	//신고당한회원아이디
 	private String reportStatus;	//신고상태
 			//	1 : 신고등록
 			//	2 : 신고처리
@@ -25,6 +26,10 @@ public class Report {
 	private int plusStopDate;	//정지날짜 몇일줄래?
 	private Date stopDate;	//정지날짜결과
 	
+	
+	public Report() {
+		super();
+	}
 	
 	
 	//method
@@ -51,12 +56,6 @@ public class Report {
 	}
 	public void setReportWhat(String reportWhat) {
 		this.reportWhat = reportWhat;
-	}
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 	public String getReportStatus() {
 		return reportStatus;
@@ -100,14 +99,26 @@ public class Report {
 	public void setPlusStopDate(int plusStopDate) {
 		this.plusStopDate = plusStopDate;
 	}
+	public String getUserId01() {
+		return userId01;
+	}
+	public void setUserId01(String userId01) {
+		this.userId01 = userId01;
+	}
+	public String getUserId02() {
+		return userId02;
+	}
+	public void setUserId02(String userId02) {
+		this.userId02 = userId02;
+	}
 	@Override
 	public String toString() {
 		return "Report [reportNo=" + reportNo + ", refPostNo=" + refPostNo + ", refCommentNo=" + refCommentNo
-				+ ", reportWhat=" + reportWhat + ", userId=" + userId + ", reportStatus=" + reportStatus
-				+ ", reportCategoryNo=" + reportCategoryNo + ", reportDate=" + reportDate + ", proceedDate="
-				+ proceedDate + ", reportContent=" + reportContent + ", plusStopDate=" + plusStopDate + ", stopDate="
-				+ stopDate + "]";
+				+ ", reportWhat=" + reportWhat + ", userId01=" + userId01 + ", userId02=" + userId02 + ", reportStatus="
+				+ reportStatus + ", reportCategoryNo=" + reportCategoryNo + ", reportDate=" + reportDate
+				+ ", proceedDate=" + proceedDate + ", reportContent=" + reportContent + ", plusStopDate=" + plusStopDate
+				+ ", stopDate=" + stopDate + "]";
 	}
-	
+
 	
 }

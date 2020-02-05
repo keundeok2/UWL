@@ -34,12 +34,12 @@ public class ReportDAOImpl implements ReportDAO{
 
 	@Override
 	public void addPostReport(Report report) throws Exception {
-		sqlSession.insert("ReportMapper.addPostReport", report);
+		sqlSession.insert("ReportMapper.addReport", report);
 	}
 	
 	@Override
 	public void addCommentReport(Report report) throws Exception {
-		sqlSession.insert("ReportMapper.addCommentReport", report);
+		sqlSession.insert("ReportMapper.addReport", report);
 	}
 
 	@Override
@@ -48,11 +48,8 @@ public class ReportDAOImpl implements ReportDAO{
 	}
 
 	@Override
-	public List<Report> getReportList(Search search, Report report) throws Exception {
-		Map<String ,Object> map = new HashMap<String ,Object>();
-		map.put("search", search);
-		map.put("report", report);
-		return sqlSession.selectList("ReportMapper.getReportList",map);
+	public List<Report> getReportList(Search search) throws Exception {
+		return sqlSession.selectList("ReportMapper.getReportList",search);
 	}
 
 	

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,7 +14,98 @@
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 	    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-<title>Insert title here</title>
+	    
+	    <script type="text/javascript">
+	    	$(document).ready(function(){
+	    		var refPostNo = ${post.postNo}
+	    		$.ajax({
+	    			url : "/community/rest/getLike",
+	    			method : "POST",
+	    			dataType : 'json',
+	    			data : JSON.stringify({
+	    				refPostNo : refPostNo
+	    			}),
+	    			headers : {
+	    				"Accept" : "application/json",
+	    				"content-Type" : "application/json"
+	    			},
+	    			success : function(data){
+	    				if(data != true){	//좋아요를 안누른 게시글일때
+	    					var view = "<button type='button' class='btn btn-primary' id='like'>좋아요</button>";
+	    					$('.buttonAppend').append(view);
+	    				}else{	//좋아요를 누른 게시글일때
+	    					var view = "<button type='button' class='btn btn-danger' id='likeCancel'>좋아요 취소</button>";
+	    					$('.buttonAppend').append(view);
+	    				}
+	    			},
+	    			error : function(){
+	    				alert('실패 ㅋㅋ');
+	    			}
+	    		});
+	    	});
+	    	
+	    	$(document).on("click", "#like", function() {
+	    		var refPostNo = ${post.postNo}
+	    		$.ajax({
+	    			url : "/community/rest/addPostLike",
+	    			method : "POST",
+	    			dataType : 'json',
+	    			data : JSON.stringify({
+	    				refPostNo : refPostNo
+	    			}),
+	    			headers : {
+	    				"Accept" : "application/json",
+	    				"content-Type" : "application/json"
+	    			},
+	    			success : function(data){
+	    				if(data != true){	//좋아요를 안누른 게시글일때
+	    					var view = "<button type='button' class='btn btn-primary' id='like'>좋아요</button>";
+	    				}else{	//좋아요를 누른 게시글일때
+	    					var view = "<button type='button' class='btn btn-danger' id='likeCancel'>좋아요 취소</button>";
+	    					$('#like').remove();
+	    					$('.buttonAppend').append(view);
+	    				}
+	    			},
+	    			error : function(){
+	    				alert('실패 ㅋㅋ');
+	    			}
+	    		});
+			});
+			
+	    	
+	    	$(document).on("click", "#likeCancel", function() {
+	    		var refPostNo = ${post.postNo}
+	    		$.ajax({
+	    			url : "/community/rest/deleteLike",
+	    			method : "POST",
+	    			dataType : 'json',
+	    			data : JSON.stringify({
+	    				refPostNo : refPostNo
+	    			}),
+	    			headers : {
+	    				"Accept" : "application/json",
+	    				"content-Type" : "application/json"
+	    			},
+	    			success : function(data){
+	    				if(data != true){	//좋아요를 안누른 게시글일때
+	    					var view = "<button type='button' class='btn btn-primary' id='like'>좋아요</button>";
+	    					$('#likeCancel').remove();
+	    					$('.buttonAppend').append(view);
+	    				}else{	//좋아요를 누른 게시글일때
+	    					var view = "<button type='button' class='btn btn-danger' id='likeCancel'>좋아요 취소</button>";
+	    					$('#like').remove();
+	    					$('.buttonAppend').append(view);
+	    				}
+	    			},
+	    			error : function(){
+	    				alert('실패 ㅋㅋ');
+	    			}
+	    		});
+			});
+	    	
+	    </script>
+	    
+		<title>Insert title here</title>
 </head>
 
 <body>
@@ -44,8 +136,8 @@
 			제목
 			${post.postTitle}
 		</div>
+        	<div>작성날짜 : ${post.postDate }</div>
 		<br>
-		<div>${post.postDate }</div>
 		<br>
 		<div>
 			${post.userId}
@@ -57,7 +149,9 @@
 		<input type="hidden" name="gatherCategoryNo" value="${post.gatherCategoryNo }">
 		<a href="/post/deleteBoard?gatherCategoryNo=${post.gatherCategoryNo }&postNo=${post.postNo }">삭제</a>
 		<!--if 문으로 본인 게시판일 때만 출력되도록 설정-->
-		<input type="button" value="신고">
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  			신고하기
+		</button>
 		<!--신고 버튼 누르면 모달창 출력해야됨-->
 		<br>
 		<br>
@@ -66,10 +160,48 @@
 			내용
 			${post.postContent }
 		</div>
-		<br> <br> <input type="button" value="좋아요">
+		
+		<div class="buttonAppend"></div>
+		<br> <br>
+		<hr>
+		<jsp:include page="../community/listComment.jsp"/>
 		
 		<br><br>
-		<a href="javascript:history.go(-1)">뒤로</a>
-	</form>
+		<h1><a href="javascript:history.go(-1)">뒤로</a></h1>
+		</form>
+		
+		<form method="POST" action="/report/addReport">
+		<input type="hidden" name="refPostNo" value="${post.postNo }">
+		<input type="hidden" name="userId02" value="${post.userId }">
+		
+		<div class="container">
+ 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	            <div class="modal-dialog" role="document">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+	                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                        <h4 class="modal-title" id="myModalLabel"></h4>
+	                    </div>
+                    <div class="modal-body">
+                        	<h1>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;신고하기</h1>
+                    </div>
+                    <div class="modal-footer">
+                        <select class="form-control" name="reportCategoryNo">
+                        	  <option value=1>부적절한 게시글</option>
+							  <option value=2>음란성 게시글</option>
+							  <option value=3>명예훼손/저작권 침해</option>
+							  <option value=4>기타</option>
+						</select>
+						<br>
+						<textarea cols="75" rows="10" placeholder="내용입력" name="reportContent"></textarea>
+						<br>
+                        <button type="submit" class="btn btn-primary">신고하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 	</div>
+ 	</form>
+ 	
 </body>
 </html>
