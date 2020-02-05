@@ -16,7 +16,7 @@ import com.uwl.service.domain.Matching;
 import com.uwl.service.matching.MatchingDAO;
 
 @Repository("matchingDAOImpl")
-public class MatchingDAOImpl implements MatchingDAO{
+public class MatchingDAOImpl implements MatchingDAO {
 	
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
@@ -36,82 +36,117 @@ public class MatchingDAOImpl implements MatchingDAO{
 	}
 
 	@Override
-	public Matching getMatching(String firstUserId) throws Exception {
+	public Matching getMatching(String userId) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("MatchingMapper.getMatching", firstUserId);
+		return sqlSession.selectOne("MatchingMapper.getMatching", userId);
 	}
-
+	
 	@Override
-	public List<Matching> getMatchingList(Search search) throws Exception {
+	public void updateMatching(Matching matching) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("MatchingMapper.getMatchingList", search);
+		sqlSession.update("MatchingMapper.updateMatching", matching);
 	}
 
 	
 
 	@Override
-	public void updateMatchingStatus(Matching matching) throws Exception {
+	public void deleteMatching(Matching matching) throws Exception {
 		// TODO Auto-generated method stub
-		sqlSession.update("MatchingMapper.updateMatchingStatus", matching);
+		sqlSession.update("MatchingMapper.deleteMatching", matching);
 	}
 
 	@Override
-	public int getTotalCount(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("MatchingMapper.getTotalCount", search);
-	}
-
-	@Override
-	public int getTotalFlower(Search search, String firstUserId) throws Exception {
+	public List<Matching> getMatchingList(Search search, String userId) throws Exception {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("search", search);
-		map.put("firstUserId", firstUserId);
-		return sqlSession.selectOne("MatchingMapeer.getTotalFlower", map);
+		map.put("userId", userId);
+		
+		return sqlSession.selectList("MatchingMapper.getMatchingList", map);
 	}
 
 	@Override
-	public Item getItem(int itemNo) throws Exception {
+	public List<Matching> getAllMatchingList(Search search) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("MatchingMapper.getItem", itemNo);
+		return sqlSession.selectList("MatchingMapper.getAllMatchingList", search);
 	}
 
 	@Override
-	public List<Item> getItemList(Search search, String firstUserId) throws Exception {
+	public int getTotalMatchingCount(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("MatchingMapper.getTotalMatchingCount", search);
+	}
+
+	@Override
+	public int getTotalMatching(Search search, String userId) throws Exception {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("search", search);
-		map.put("firstUserId", firstUserId);
+		map.put("userId", userId);
+		
+		return sqlSession.selectOne("MatchingMapper.getTotalMatching", map);
+	}
+
+	@Override
+	public Item getItem(String userId, String itemCategory) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("userId", userId);
+		map.put("itemCategory", itemCategory);
+		
+		return sqlSession.selectOne("MatchingMapper.getItem", map);
+	}
+
+	@Override
+	public void updateItem(Item item) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update("MatchingMapper.updateItem", item);
+	}
+
+	@Override
+	public List<Item> getItemList(Search search, String userId, String itemCategory) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("userId", userId);
+		map.put("itemCategory", itemCategory);
+		
 		return sqlSession.selectList("MatchingMapper.getItemList", map);
 	}
 
-	
-
-	
-
 	@Override
-	public void updateSpear(Item item) throws Exception {
+	public List<Item> getAllItemList(Search search) throws Exception {
 		// TODO Auto-generated method stub
-		sqlSession.update("MatchingMapper.updateSpear", item);
+		return sqlSession.selectList("MatchingMapper.getAllItemList", search);
 	}
 
 	@Override
-	public void updateShield(Item item) throws Exception {
+	public int getTotalItemCount(Search search) throws Exception {
 		// TODO Auto-generated method stub
-		sqlSession.update("MatchingMapper.updateShield", item);
+		return sqlSession.selectOne("MatchingMapper.getTotalItemCount", search);
 	}
 
 	@Override
-	public int getTotalItem(Search search, String firstUserId) throws Exception {
+	public int getTotalItem(Search search, String userId, String itemCategory) throws Exception {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("search", search);
-		map.put("firstUserId", firstUserId);
+		map.put("userId", userId);
+		map.put("itemCategory", itemCategory);
+		
 		return sqlSession.selectOne("MatchingMapper.getTotalItem", map);
 	}
+
+	
+
+	
+
+	
 
 	
 

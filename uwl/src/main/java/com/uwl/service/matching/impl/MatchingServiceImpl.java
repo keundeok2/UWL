@@ -35,42 +35,72 @@ public class MatchingServiceImpl implements MatchingService{
 	}
 
 	@Override
-	public Matching getMatching(String firstUserId) throws Exception {
+	public Matching getMatching(String userId) throws Exception {
 		// TODO Auto-generated method stub
-		return matchingDAO.getMatching(firstUserId);
+		return matchingDAO.getMatching(userId);
+	}
+	
+	@Override
+	public void updateMatching(Matching matching) throws Exception {
+		// TODO Auto-generated method stub
+		matchingDAO.updateMatching(matching);
 	}
 
 	@Override
-	public Map<String, Object> getMatchingList(Search search) throws Exception {
+	public void deleteMatching(Matching matching) throws Exception {
 		// TODO Auto-generated method stub
-		List<Matching> list = matchingDAO.getMatchingList(search);
-		int totalCount = matchingDAO.getTotalCount(search);
+		matchingDAO.deleteMatching(matching);
+	}
+
+	@Override
+	public Map<String, Object> getMatchingList(Search search, String userId) throws Exception {
+		// TODO Auto-generated method stub
+		List<Matching> list = matchingDAO.getMatchingList(search, userId);
+		int totalMatching = matchingDAO.getTotalMatching(search, userId);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
-		map.put("totalCount", new Integer(totalCount));
+		map.put("totalMatching", new Integer(totalMatching));
+		
 		return map;
 	}
 
 	@Override
-	public void updateMatchingStatus(Matching matching) throws Exception {
+	public Map<String, Object> getAllMatchingList(Search search) throws Exception {
 		// TODO Auto-generated method stub
-		matchingDAO.updateMatchingStatus(matching);
+		List<Matching> list = matchingDAO.getAllMatchingList(search);
+		int totalMatchingCount = matchingDAO.getTotalMatchingCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalMatchingCount", new Integer(totalMatchingCount));
+		
+		return map;
 	}
 
-	
-
 	@Override
-	public Item getItem(int itemNo) throws Exception {
+	public int getTotalMatching(Search search, String userId) throws Exception {
 		// TODO Auto-generated method stub
-		return matchingDAO.getItem(itemNo);
+		return matchingDAO.getTotalMatching(search, userId);
 	}
 
 	@Override
-	public Map<String, Object> getItemList(Search search, String firstUserId) throws Exception {
+	public Item getItem(String userId, String itemCategory) throws Exception {
 		// TODO Auto-generated method stub
-		List<Item> list = matchingDAO.getItemList(search, firstUserId);
-		int totalItem = matchingDAO.getTotalItem(search, firstUserId);
+		return matchingDAO.getItem(userId, itemCategory);
+	}
+
+	@Override
+	public void updateItem(Item item) throws Exception {
+		// TODO Auto-generated method stub
+		matchingDAO.updateItem(item);
+	}
+
+	@Override
+	public Map<String, Object> getItemList(Search search, String userId, String itemCategory) throws Exception {
+		// TODO Auto-generated method stub
+		List<Item> list = matchingDAO.getItemList(search, userId, itemCategory);
+		int totalItem = matchingDAO.getTotalItem(search, userId, itemCategory);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
@@ -80,16 +110,29 @@ public class MatchingServiceImpl implements MatchingService{
 	}
 
 	@Override
-	public void updateSpear(Item item) throws Exception {
+	public Map<String, Object> getAllItemList(Search search) throws Exception {
 		// TODO Auto-generated method stub
-		matchingDAO.updateSpear(item);
+		List<Item> list = matchingDAO.getAllItemList(search);
+		int totalItemCount = matchingDAO.getTotalItemCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalItemCount", new Integer(totalItemCount));
+		
+		return map;
 	}
 
 	@Override
-	public void updateShield(Item item) throws Exception {
+	public int getTotalItem(Search search, String userId, String itemCategory) throws Exception {
 		// TODO Auto-generated method stub
-		matchingDAO.updateShield(item);
+		return matchingDAO.getTotalItem(search, userId, itemCategory);
 	}
+
+	
+
+	
+
+	
 
 	
 

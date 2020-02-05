@@ -1,6 +1,5 @@
 package com.uwl.service.matching;
 
-import java.util.List;
 import java.util.Map;
 
 import com.uwl.common.Search;
@@ -11,21 +10,37 @@ public interface MatchingService {
 
 	public void addMatching(Matching matching) throws Exception;
 	
-	public Matching getMatching(String firstUserId) throws Exception;
+	public Matching getMatching(String userId) throws Exception;
 	
-	public Map<String, Object> getMatchingList(Search search) throws Exception;
+	public void updateMatching(Matching matching) throws Exception;
 	
-	public void updateMatchingStatus(Matching matching) throws Exception;
+	public void deleteMatching(Matching matching) throws Exception;
+	
+	public Map<String, Object> getMatchingList(Search search, String userId) throws Exception;
+	
+	public Map<String, Object> getAllMatchingList(Search search) throws Exception;
+	
+	public int getTotalMatching(Search search, String userId) throws Exception;
 	
 	
 	
-	public Item getItem(int itemNo) throws Exception;
 	
-	public Map<String, Object> getItemList(Search search, String firstUserId) throws Exception;
 	
-	public void updateSpear(Item item) throws Exception;
 	
-	public void updateShield(Item item) throws Exception;
+	
+	
+	
+	public Item getItem(String userId, String itemCategory) throws Exception;
+	
+	public void updateItem(Item item) throws Exception;
+	
+	public Map<String, Object> getItemList(Search search, String userId, String itemCategory) throws Exception;
+	
+	public Map<String, Object> getAllItemList(Search search) throws Exception;
+	
+	public int getTotalItem(Search search, String userId, String itemCategory) throws Exception;
+	
+	
 	
 	
 }
