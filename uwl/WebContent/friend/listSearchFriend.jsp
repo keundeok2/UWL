@@ -12,8 +12,8 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<!-- bootstrap 4.4 CDN -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" >	
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 	<!-- jQuery Redirect CDN     https://github.com/mgalante/jquery.redirect  -->
 	<script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
 	<!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
@@ -35,6 +35,9 @@
 			self.location = "/user/getProfile/"+userId;
 		})
 		
+		friendBtn();
+		askedBtn();
+		requestBtn();
 		
 	})
 	
@@ -45,7 +48,7 @@
 		console.log("userId", userId);
 		
 		$.ajax({
-			url : "/friend/json/requestFriend",
+			url : "/friend/rest/requestFriend",
 			method : "POST",
 			headers : {
 				"Accept" : "application/json",
@@ -70,7 +73,7 @@
 		var userId = $(this).next().val();
 		console.log("userId", userId);
 		$.ajax({
-			url : "/friend/json/deleteFriend",
+			url : "/friend/rest/deleteFriend",
 			method : "post",
 			headers : {
 				"Accept" : "application/json",
@@ -88,6 +91,81 @@
 			}
 		})
 	})
+	
+	function friendBtn() {
+		var sessionId = $("input#sessionId").val();
+		console.log("sessionId", sessionId);
+		
+		$.ajax({
+			url : "/friend/rest/getFriendListForSearch",
+			method : "POST",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			data : JSON.stringify({
+				userId : sessionId
+			}),
+			success : function(d) {
+				for (var i = 0; i < d.list.length; i++) {
+										
+				var html = "<button type='button' class='btn btn-success'>친구</button>";
+				$("."+d.list[i].userId+"").remove();
+				$(html).appendTo("#"+d.list[i].userId+"");
+				}
+			}
+		})
+	}	
+		
+	function askedBtn() {
+			var sessionId = $("input#sessionId").val();
+			$.ajax({
+				url : "/friend/rest/getAskedList",
+				method : "POST",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				data : JSON.stringify({
+					userId : sessionId
+				}),
+				success : function(d) {
+					for (var i = 0; i < d.list.length; i++) {
+					var html = "<button type='button' class='btn btn-primary "+d.list[i].userId+"' id='acceptButton'>수락</button>"
+								+"<button type='button' class='btn btn-danger "+d.list[i].userId+"' id='deleteButton'>거절</button>"
+								+"<input type='hidden' value='"+d.list[i].userId+"'/>";
+					$("."+d.list[i].userId+"").remove();
+					$(html).appendTo("#"+d.list[i].userId+"");
+													
+				
+					}	
+				}
+			})
+		}
+	
+	function requestBtn() {
+		var sessionId = $("input#sessionId").val();
+		$.ajax({
+			url : "/friend/rest/getRequestList",
+			method : "POST",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			data : JSON.stringify({
+				userId : sessionId
+			}),
+			success : function(d) {
+				for (var i = 0; i < d.list.length; i++) {
+				var html = "<button type='button' class='btn btn-secondary "+d.list[i].userId+"' id='cancelBtn'>신청취소</button>"
+							+"<input type='hidden' value='"+d.list[i].userId+"'/>";
+				$("."+d.list[i].userId+"").remove();
+				$(html).appendTo("#"+d.list[i].userId+"");
+												
+				}	
+			}
+		})
+	}
 	
 	</script>
 	
@@ -114,6 +192,7 @@
 				<span id="userId">${friendUser.userId}</span> &nbsp; 
 				<span id="name">${friendUser.name}</span> &nbsp; 
 				<span>${friendUser.schoolName}</span> &nbsp;
+				<!-- 곧 버튼 삭제 -->
 				 <button type="button" class="btn btn-primary ${friendUser.userId}" id="applyBtn">친구신청</button>
 				 <input type="hidden" value="${friendUser.userId}"/>
 			</div>

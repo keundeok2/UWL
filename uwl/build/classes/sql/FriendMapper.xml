@@ -158,24 +158,27 @@
  	</select>
  	
  	
- 	<select id="getSearchTotalCount" parameterType="search" resultType="int">
+ 	<select id="getSearchTotalCount" parameterType="map" resultType="int">
  		SELECT COUNT(*)
 		FROM (
-				SELECT user_id, name, school_no, gender, birth, profile_name
-		                    FROM users
-		                    <if test="searchCondition != null">
-								<where>
-									<if test="searchCondition == 0 and searchKeyword !='' ">
-										user_id LIKE '%'|| #{searchKeyword}||'%'
+				SELECT u.user_id, u.name, u.school_no, u.gender, u.birth, u.profile_name, s.school_name
+		                    FROM users u,(SELECT school_no, school_name
+                                    FROM school_rank) s
+                                    <where>
+		                    	<if test="search.searchCondition != null">
+									<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										u.user_id LIKE '%'|| #{search.searchKeyword}||'%'
 									</if>
-									<if test="searchCondition == 1 and searchKeyword !='' ">
-										name LIKE '%'||#{searchKeyword}||'%'
+									<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+										u.name LIKE '%'||#{search.searchKeyword}||'%'
 									</if>
-									<if test="searchCondition == 2 and searchKeyword !='' ">
-										school_no LIKE '%'||#{searchKeyword}||'%'
+									<if test="search.searchCondition == 2 and search.searchKeyword !='' ">
+										s.school_name LIKE '%'||#{search.searchKeyword}||'%'
 									</if>
-								</where>
-							</if>
+								</if>
+									AND u.user_id != #{userId}
+                                    </where>
+								
 		) countTable
  	
  	</select>

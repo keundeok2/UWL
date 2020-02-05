@@ -81,7 +81,7 @@ public class FriendServiceImpl implements FriendService{
 	public Map<String, Object> getSearchFriendList(Search search, String userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", friendDAO.getSearchFriendList(search, userId));
-		map.put("totalCount", friendDAO.getSearchTotalCount(search));
+		map.put("totalCount", friendDAO.getSearchTotalCount(search, userId));
 		
 		return map;
 	}
