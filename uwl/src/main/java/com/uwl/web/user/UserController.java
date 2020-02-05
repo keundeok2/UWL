@@ -2,12 +2,14 @@ package com.uwl.web.user;
 
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uwl.common.Page;
 import com.uwl.common.Search;
+import com.uwl.service.domain.Post;
 import com.uwl.service.domain.User;
 import com.uwl.service.schoolRank.SchoolRankService;
 import com.uwl.service.user.UserService;
@@ -29,12 +32,14 @@ public class UserController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
-	
+
 	@Autowired
 	@Qualifier("schoolRankServiceImpl")
 	private SchoolRankService schoolRankService;
-	
-	// setter Method 구현 않음
+
+//	메일 인증
+//	@Resource(name="mailSender")
+//	private JavaMailSender mailSender;	
 
 	public UserController() {
 		System.out.println(this.getClass());
@@ -65,8 +70,8 @@ public class UserController {
 		// Business Logic
 		userService.addUser(user);
 
-		//SchoolRank 추가하기!!!!!!!!!!!!!!!
-		
+		// SchoolRank 추가하기!!!!!!!!!!!!!!!
+
 		return "redirect:/user/loginView.jsp";
 	}
 
@@ -95,21 +100,20 @@ public class UserController {
 
 		return "forward:/user/getUser.jsp";
 	}
-	
-	//수정!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	// 수정!!!!!!!!!!!!!!!!!!!!!!!!!!
 	// 회원정보 보기
-		@RequestMapping(value = "getUser", method = RequestMethod.POST)
-		public String getUser(@ModelAttribute("user") User user) throws Exception {
-			System.out.println("UserController : getUser() POST 호출");
-			
-			System.out.println("/user/getUser : POST");
-			// Business Logic
+	@RequestMapping(value = "getUser", method = RequestMethod.POST)
+	public String getUser(@ModelAttribute("user") User user) throws Exception {
+		System.out.println("UserController : getUser() POST 호출");
+
+		System.out.println("/user/getUser : POST");
+		// Business Logic
 //			userService.getUser(userId);
 
-			return "redirect:/user/getUser?userId=" + user.getUserId();
-		}
-	
-	
+		return "redirect:/user/getUser?userId=" + user.getUserId();
+	}
+
 	// 회원정보 수정
 	@RequestMapping(value = "updateUser", method = RequestMethod.GET)
 	public String updateUser(@RequestParam("userId") String userId, Model model) throws Exception {
@@ -130,10 +134,10 @@ public class UserController {
 		System.out.println("UserController : updateUser() POST 호출");
 
 		System.out.println("/user/updateUser : POST");
-		
+
 		// Business Logic
 		userService.updateUser(user);
-		
+
 		String sessionId = ((User) session.getAttribute("user")).getUserId();
 		if (sessionId.equals(user.getUserId())) {
 			session.setAttribute("user", user);
@@ -174,50 +178,65 @@ public class UserController {
 
 	// 문의사항 등록
 	@RequestMapping(value = "addQuestions", method = RequestMethod.POST)
-	public String addQuestions(@ModelAttribute("user") User user) throws Exception {
+	public String addQuestions(@ModelAttribute("post") Post post) throws Exception {
 		System.out.println("UserController : addQuestions() 호출");
 
-		System.out.println("/user/addQuestions : POST");
+		System.out.println("/user/addQuestions : POST"+post);
 		// Business Logic
-		userService.addQuestions(user);
-
-		return "redirect:/user/addQuestions.jsp";
+		userService.addQuestions(post);
+		return "forward:/user/getQuestions.jsp";
 	}
 
 	// 문의사항 수정
 	@RequestMapping(value = "updateQuestions", method = RequestMethod.POST)
-	public String updateQuestions(@ModelAttribute("user") User user, Model model, HttpSession session)
+	public String updateQuestions(@ModelAttribute("post") Post post, Model model, HttpSession session)
 			throws Exception {
 		System.out.println("UserController : updateQuestions() 호출");
 
 		System.out.println("/user/updateQuestions : POST");
 		// Business Logic
-		userService.updateQuestions(user);
+		userService.updateQuestions(post);
 
 		String sessionId = ((User) session.getAttribute("user")).getUserId();
-		if (sessionId.equals(user.getUserId())) {
-			session.setAttribute("user", user);
+		if (sessionId.equals(post.getUserId())) {
+			session.setAttribute("post", post);
 		}
 
-		return "redirect:/user/getUserQuestions?userId=" + user.getUserId();
+		return "forward:/user/getUserQuestions?userId=" + post.getUserId();
+	}
+
+	
+	// 문의사항 내용
+		@RequestMapping(value = "getQuestions", method = RequestMethod.GET)
+		public String getQuestions(@RequestParam("post") Post post, Model model) throws Exception {
+			System.out.println("UserController : getQuestions() GET 호출");
+
+			System.out.println("/user/getQuestions : GET");
+			// Business Logic
+			User user = userService.getQuestions(post);
+			// Model 과 View 연결
+			model.addAttribute("post", user);
+
+			return "forward:/user/getUserQuestions.jsp";
 	}
 
 	// 나의 문의사항 내역
 	@RequestMapping(value = "getUserQuestions", method = RequestMethod.GET)
-	public String getUserQuestions(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)
+	public String getUserQuestions(@ModelAttribute("search") Search search, Model model, HttpSession httpSession)
 			throws Exception {
 		System.out.println("UserController : getUserQuestions() 호출");
 
 		System.out.println("/user/getUserQuestions : GET");
-		
+
+		User user = (User)httpSession.getAttribute("user");
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-
+		
 		// Business logic 수행
-		Map<String, Object> map = userService.getUserQuestions(search);
-
+		Map<String, Object> map = userService.getUserQuestions(search, user.getUserId());
+		
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
 		System.out.println(resultPage);
@@ -226,7 +245,7 @@ public class UserController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-
+		System.out.println("오나요");
 		return "forward:/user/getUserQuestions.jsp";
 	}
 
@@ -382,22 +401,21 @@ public class UserController {
 
 		return "forward:/user/checkDuplicationNickname.jsp";
 	}
-	
-	
+
 	// 메일 중복체크
-		@RequestMapping(value = "checkDuplicationMail", method = RequestMethod.POST)
-		public String checkDuplicationMail(@RequestParam("mail") String mail, Model model) throws Exception {
-			System.out.println("UserController : checkDuplicationMail() 호출");
+	@RequestMapping(value = "checkDuplicationMail", method = RequestMethod.POST)
+	public String checkDuplicationMail(@RequestParam("mail") String mail, Model model) throws Exception {
+		System.out.println("UserController : checkDuplicationMail() 호출");
 
-			System.out.println("/user/checkDuplicationMail : POST");
-			// Business Logic
-			boolean result = userService.checkDuplicationMail(mail);
-			// Model 과 View 연결
-			model.addAttribute("result", new Boolean(result));
-			model.addAttribute("mail", mail);
+		System.out.println("/user/checkDuplicationMail : POST");
+		// Business Logic
+		boolean result = userService.checkDuplicationMail(mail);
+		// Model 과 View 연결
+		model.addAttribute("result", new Boolean(result));
+		model.addAttribute("mail", mail);
 
-			return "forward:/user/checkDuplicationMail.jsp";
-		}
+		return "forward:/user/checkDuplicationMail.jsp";
+	}
 
 //	// 전체 회원목록
 //	@RequestMapping(value = "listUser")
@@ -427,12 +445,12 @@ public class UserController {
 //	}
 
 	// 전체 회원목록
-	@RequestMapping(value = "listUser", method = RequestMethod.GET)
+	@RequestMapping(value = "getUserList", method = RequestMethod.GET)
 	public String listUser(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)
 			throws Exception {
-		System.out.println("UserController : listUser() 호출");
+		System.out.println("UserController : getUserList() 호출");
 
-		System.out.println("/user/listUser : GET / POST");
+		System.out.println("/user/getUserList : GET / POST");
 
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -451,16 +469,16 @@ public class UserController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 
-		return "forward:/user/listUser.jsp";
+		return "forward:/user/getUserList.jsp";
 	}
 
 	// 전체 문의사항 목록
-	@RequestMapping(value = "listQuestions")
+	@RequestMapping(value = "getUserQuestionsList")
 	public String listQuestions(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)
 			throws Exception {
-		System.out.println("UserController : listQuestions() 호출");
+		System.out.println("UserController : getUserQuestionsList() 호출");
 
-		System.out.println("/user/listQuestions : GET / POST");
+		System.out.println("/user/getUserQuestionsList : GET / POST");
 
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -479,7 +497,7 @@ public class UserController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 
-		return "forward:/user/listQuestions.jsp";
+		return "forward:/user/getUserQuestionsList.jsp";
 	}
 
 //	// 전체 문의사항 목록

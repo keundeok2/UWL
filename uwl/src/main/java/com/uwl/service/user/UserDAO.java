@@ -3,6 +3,7 @@ package com.uwl.service.user;
 import java.util.List;
 
 import com.uwl.common.Search;
+import com.uwl.service.domain.Post;
 import com.uwl.service.domain.User;
 
 public interface UserDAO {
@@ -10,7 +11,7 @@ public interface UserDAO {
 	// INSERT
 	public void addUser(User user) throws Exception; // 회원가입
 
-	public void addQuestions(User user) throws Exception; // 문의사항 등록
+	public void addQuestions(Post post) throws Exception; // 문의사항 등록
 
 	public void addRealname(User user) throws Exception; // 실명인증 여부
 
@@ -23,7 +24,9 @@ public interface UserDAO {
 
 	public User getProfile(String userId) throws Exception; // 프로필 조회
 
-	public List<User> getUserQuestions(Search search) throws Exception; // 나의 문의사항 내역
+	public User getQuestions(Post post) throws Exception; // 문의사항 내용
+
+	public List<Post> getUserQuestions(Search search, String userId) throws Exception; // 나의 문의사항 내역
 
 //	public List<User> getUserPostList(Search search) throws Exception; // 내가 쓴 게시글 목록
 
@@ -43,7 +46,7 @@ public interface UserDAO {
 
 	public void updateProfile(User user) throws Exception; // 프로필 수정
 
-	public void updateQuestions(User user) throws Exception; // 문의사항 수정
+	public void updateQuestions(Post post) throws Exception; // 문의사항 수정
 
 	public void updateSchoolNo(User user) throws Exception; // 학교번호 수정
 

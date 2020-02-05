@@ -32,27 +32,29 @@
 	
 	getUser.jsp
 			
-	<hr>
+<br>
 	아 이 디  <div>${user.userId}</div>
-	<hr>
+<br>
 	비밀번호  <div>${user.password}</div>
-	<hr>
+<br>
 	이     름  <div>${user.name}</div>
-	<hr>
+<br>
 	닉 네 임  <div>${user.nickname}</div>
-	<hr>
+<br>
 	학     교  <div>${user.schoolNo}</div>
-	<hr>
+<br>
 	전화번호  <div>${user.phone}</div>
-	<hr>
+<br>
 	생      일  <div>${user.birth}</div>
-	<hr>
+<br>
 	성      별  <div>${user.gender}</div>
-	<hr>
+<br>
 	메      일  <div>${user.mail}</div>
-	<hr>
+<br>
 
 	<button type="button" id="updateUser">정보수정</button>
+	<br><br>
+	<a href="javascript:history.go(-1)">뒤로</a>
 
 </body>
 

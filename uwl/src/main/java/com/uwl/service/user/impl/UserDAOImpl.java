@@ -1,6 +1,8 @@
 package com.uwl.service.user.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.uwl.common.Search;
+import com.uwl.service.domain.Post;
 import com.uwl.service.domain.User;
 import com.uwl.service.user.UserDAO;
 
@@ -38,9 +41,9 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void addQuestions(User user) throws Exception {
+	public void addQuestions(Post post) throws Exception {
 		System.out.println("UserDAOImpl : addQuestions() 호출");
-		sqlSession.insert("UserMapper.addQuestions", user);
+		sqlSession.insert("UserMapper.addQuestions", post);
 
 	}
 
@@ -74,11 +77,20 @@ public class UserDAOImpl implements UserDAO {
 		System.out.println("UserDAOImpl : getProfile() 호출");
 		return sqlSession.selectOne("UserMapper.getProfile", userId);
 	}
+	
+	@Override
+	public User getQuestions(Post post) throws Exception {
+		System.out.println("UserDAOImpl : getQuestions() 호출");
+		return sqlSession.selectOne("UserMapper.getQuestions", post);
+	}
 
 	@Override
-	public List<User> getUserQuestions(Search search) throws Exception {
+	public List<Post> getUserQuestions(Search search, String userId) throws Exception {
 		System.out.println("UserDAOImpl : getUserQuestions() 호출");
-		return sqlSession.selectList("UserMapper.getUserQuestions", search);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("userId", userId);
+		return sqlSession.selectList("UserMapper.getUserQuestions", map);
 	}
 	
 //	@Override
@@ -131,9 +143,9 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void updateQuestions(User user) throws Exception {
+	public void updateQuestions(Post post) throws Exception {
 		System.out.println("UserDAOImpl : updateQuestions() 호출");
-		sqlSession.update("UserMapper.updateQuestions", user);
+		sqlSession.update("UserMapper.updateQuestions", post);
 
 	}
 

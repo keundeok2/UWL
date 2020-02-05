@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.uwl.common.Search;
+import com.uwl.service.domain.Post;
 import com.uwl.service.domain.User;
 import com.uwl.service.schoolRank.SchoolRankDAO;
 import com.uwl.service.user.UserDAO;
@@ -41,9 +42,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addQuestions(User user) throws Exception {
+	public void addQuestions(Post post) throws Exception {
 		System.out.println("UserServiceImpl : addQuestions() 호출");
-		userDAO.addQuestions(user);
+		userDAO.addQuestions(post);
 	}
 
 	@Override
@@ -77,10 +78,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Map<String, Object> getUserQuestions(Search search) throws Exception {
+	public User getQuestions(Post post) throws Exception {
+		System.out.println("UserServiceImpl : getQuestions() 호출");
+		return userDAO.getQuestions(post);
+	}
+	
+	
+	
+	
+	@Override
+	public Map<String, Object> getUserQuestions(Search search, String userId) throws Exception {
 		System.out.println("UserServiceImpl : getUserQuestions() 호출");
 
-		List<User> list= userDAO.getUserQuestions(search);
+		List<Post> list= userDAO.getUserQuestions(search, userId);
 		int totalCount = userDAO.getTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -209,9 +219,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateQuestions(User user) throws Exception {
+	public void updateQuestions(Post post) throws Exception {
 		System.out.println("UserServiceImpl : updateQuestions() 호출");
-		userDAO.updateQuestions(user);
+		userDAO.updateQuestions(post);
 	}
 
 	@Override

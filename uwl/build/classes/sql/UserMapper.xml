@@ -100,7 +100,7 @@
 		 
 		 
 	<!-- 전체회원목록 -->
-	<select  id="getUserList"  parameterType="string"	resultMap="userSelectMap">
+	<select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
 		SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  			FROM (	SELECT u.user_id , u.password , u.name , u.nickname, u.phone, u.gender, u.birth, u.mail, u.role , 
@@ -160,15 +160,15 @@
 	 
 	 
 	 <!-- 문의사항 등록 -->
-	 <insert 	id="addQuestions"		parameterType="user" >
+	 <insert 	id="addQuestions"		parameterType="post" >
 		INSERT
 		INTO post (post_category_no, post_no, user_id, post_title, post_content, post_date, hit_count, like_count, comment_count, view_status)
-        values ('5', #{postNo}, #{userId},#{postTitle},#{postContent},#{postDate},#{hitCount},#{likeCount},#{commentCount},#{viewStatus})
+        values ('5', SEQ_POST_POST_NO.NEXTVAL, #{userId},#{postTitle},#{postContent},SYSDATE,#{hitCount},#{likeCount},#{commentCount},#{viewStatus})
 	 </insert>
 	 
 	 
 	  <!-- 문의사항 수정 -->
-	 <update	id="updateQuestions"	parameterType="user" >
+	 <update	id="updateQuestions"	parameterType="post" >
 	   	UPDATE post
 	   	<set>
 	   		post_title 			= #{postTitle} ,
@@ -179,15 +179,27 @@
 	 </update>
 	 
 	 
-	 <!-- 나의 문의사항 목록 -->
-	 <select 	id="getUserQuestions"	parameterType="string"	resultMap="postSelectMap">
+	 <!-- 문의사항 내용 -->
+	 <select 	id="getQuestions"	parameterType="post"	resultMap="postSelectMap">
 		SELECT * 
         FROM (  SELECT inner_table.* , ROWNUM AS row_seq
-                  FROM ( SELECT post_no , post_title
+                  FROM ( SELECT post_no , post_title, post_content
                             FROM post
 							WHERE user_id = #{userId} AND post_category_no = '5') 
 				inner_table)
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 
+	 
+	 <!-- 나의 문의사항 목록 -->
+	 <select 	id="getUserQuestions"	parameterType="map"	resultMap="postSelectMap">
+		SELECT * 
+        FROM (  SELECT inner_table.* , ROWNUM AS row_seq
+                  FROM ( SELECT post_no , post_title, post_content, post_date
+                            FROM post
+							WHERE user_id = #{userId} AND post_category_no = '5') 
+				inner_table)
+		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 
 	 </select>
 	 
 	 
