@@ -12,7 +12,8 @@
 		
 		<result property="schoolNo" 			column="school_no" 			jdbcType="NUMERIC"/>
 		<result property="schoolName" 			column="school_name" 			jdbcType="VARCHAR"/>
-		<result property="schoolAddress" 			column="school_address" 			jdbcType="VARCHAR"/>
+		<result property="schoolAddress" 			column="school_address" 			jdbcType="NUMERIC"/>
+		<result property="ranking" 					column="ranking" 		jdbcType="NUMERIC" />
 		<result property="totalUser" 			column="total_user" 			jdbcType="NUMERIC"/>
 		<result property="totalActivityPoint" 	column="total_activity_point" 		jdbcType="NUMERIC" />
 	</resultMap>

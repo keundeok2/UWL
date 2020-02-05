@@ -17,6 +17,9 @@ public class Challenge {
 	//도전과제 flag (1: 수행, 2: 미수행)
 	private String challStatus;
 	
+	//reward가 필요하면 가져올려고 만들었지만 일단은 필요없어서 대기중
+	//private Reward reward;
+	
 	//Map을 이용한 도전과제 수행 시 위치
 	private String firstUser;
 	private int firstUserLocation;  //위도, 경도

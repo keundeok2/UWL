@@ -43,7 +43,7 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method","POST").attr("action","/challenge/getAdminChallengeList").submit();
+			$("form").attr("method","POST").attr("action","/schoolRank/getSchoolRankingList").submit();
 		}
 		
 		
@@ -64,76 +64,74 @@
 					fncGetList(1);
 				});
 			 
+			 $( ".page-header h2" ).on("click" , function() {
+					//Debug..
+					console.log("sds");
+					self.location ="/schoolRank/getSchoolRankingList/";
+				});
+			 
 			 
 		 });
 		
 		
-		//============= userId 에 회원정보보기  Event  처리(Click) =============	
-		 $(function() {
 		
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
-				var challNo = $(this).children("input:hidden").val();
-				console.log("challNo : "+ challNo); 
-				self.location ="/challenge/getChallengeAdmin?challNo="+challNo;  
-			});
-			
-						
-		});	
+		//============= 무한스크롤 처리 =============
+		var page = 1;
 		
-		
-		//============= userId 에 회원정보보기  Event  처리 (double Click)=============
-		 $(function() {
-			 
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(  "td:nth-child(5) > i" ).on("click" , function() {
-
-				var prodNo = $(this).parent().children("input:hidden").val();
-				//alert("prodNo : " + prodNo);
-				$.ajax(
-						{
-							url: "/product/json/getProduct/" + prodNo,
-							method : "GET",
-							dataType : "json",
-							headers : {
-								"Accept" : "application/json",
-								"Content-Type" : "application/json"
-							},
-							success : function(JSONData , status){
-								
-								//Debug...
-								//alert(status);
-								//Debug...
-								//alert("JSONData : \n"+JSONData);
-								
-								var displayValue = "<h6>"
-															+"상품번호 : "+JSONData.prodNo+"<br/>"
-															+"상품명 : "+JSONData.prodName+"<br/>"
-															+"상품이미지 : "+JSONData.fileName+"<br/>"
-															+"상품상세정보 : "+JSONData.prodDetail+"<br/>"
-															+"제조일자 : "+JSONData.manuDate+"<br/>"
-															+"가격 : "+JSONData.price+"<br/>"
-															+"가입일자 : "+JSONData.regDate+"<br/>"
-															+"</h3>";
-								//Debug...									
-								//alert(displayValue);
-								$("h6").remove();
-								$( "#"+prodNo+"" ).html(displayValue);
-								
-							}
+		$(function(){
+			$(window).data('ajaxready', true).scroll(function(){
+				var maxHeight = $(document).height();
+				var currentScroll = $(window).scrollTop() + $(window).height();
+				var searchCondition = $("select[name='searchCondition']").val();
+				var searchKeyword = $("input[name='searchKeyword']").val();
+				
+				if($(window).data('ajaxready') == false) return;
+				if(maxHeight <= currentScroll){
+					if(page <= ${resultPage.maxPage}){
+					$(window).data('ajaxready', false);
+					page++;
+					console.log('page : ' + page);
 					
-				});
-					 console.log("prodNo : "+ prodNo); 
-			});
+					$.ajax({
+						url : "/schoolRank/rest/getSchoolRankingList",
+						method : "POST",
+						dataType : "json",
+						data : JSON.stringify({
+							searchCondition : searchCondition,
+							searchKeyword : searchKeyword,
+							currentPage : page
+						}),
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(data){
+							console.log(data);
+							
+							 for (var i = 0; i < data.list.length; i++) {
+								console.log("학교이름 : " + data.list[i].schoolName);
+								
+								var addData = "<td align='center'>" + ${schoolRank.ranking} + "</td>"
+												+ "<td></td>"
+												+ "<td align='left'><input type='hidden' value='" + ${schoolRank.schoolNo} + "'>" +  ${schoolRank.schoolName} + "</td>"
+												+ "<td></td>"
+												+ "<td align='left'>" + ${schoolRank.schoolAddress} + "</td>"
+												+ "<td></td>"
+												+ "<td align='left'>" + ${schoolRank.totalActivityPoint} + "</td>"
+												+ "<td></td>";
+								
+								$(addData).appendTo("#loadList");
+							} 
+							
+							$(window).data('ajaxready', true);
+						}
+					});
+						
+					}
+				}
+			})
 			
-			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "blue");
-			$("h7").css("color" , "red");
-			
-			//==> 아래와 같이 정의한 이유는 ??
-			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
-		});	
-	
+		})
 	</script>
 	
 </head>
@@ -146,7 +144,7 @@
 	
 		<div class="page-header text-info">
 		<!-- role에 따른 admin user 분류 할것 -->
-			<h2>도전과제 리스트</h2>
+			<h2>학교랭킹 리스트</h2>
 		<%-- <c:if test="${param.menu == 'manage'}">
 	       <h3>상품 관리</h3>
        </c:if> --%>
@@ -168,16 +166,16 @@
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="1" ${!empty searchCondition && searchCondition == "1" ? "selected" : ""} >제목</option>
+						<option value="1" ${!empty searchCondition && searchCondition == "1" ? "selected" : ""} >학교이름</option>
 						
-						<option value="2" ${!empty searchCondition && searchCondition == "2" ? "selected" : ""} >내용</option>
+						<option value="2" ${!empty searchCondition && searchCondition == "2" ? "selected" : ""} >주소</option>
 					
 					</select>
 				  </div>
 				  
 				  <div class="form-group">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어입력하셈 ㅋㅋ"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
 				  </div>
 				  
@@ -205,51 +203,32 @@
 		<div class="container">
 		<div class="row">
 			<tr class="ct_list_pop">
-						<td align="center">번호</td>
+						<td align="center">랭킹</td>
 						<td></td>
-	
-						<td align="left">제목</td>
+						<td align="left">학교이름</td>
 						<td></td>
-						<td align="left">카테고리</td>
+						<td align="left">주소</td>
 						<td></td>
-						<td align="left">내용</td>
+						<td align="left">총 점수</td>
 						<td></td>
-						<td align="left">보상점수</td>
-						<td></td>
-						<td align="left">날짜</td>
-						<td align="left">
-							</td>
 					</tr>
 					<tr>
 						<td colspan="12" bgcolor="D6D7D6" height="1"></td>
 					</tr>
 		   <c:set var="i" value="0" />
-				<c:forEach var="challenge" items="${list}">
-					<c:set var="i" value="${i + 1}" />
+				<c:forEach var="schoolRank" items="${list}">
 						
-					<tr class="ct_list_pop">
-						<td align="center">${i}</td>
+					<tr id="loadList" class="ct_list_pop">
+						<td align="center">${schoolRank.ranking}</td>
 						<td></td>
 	
-						<td align="left"><input type="hidden" value="${challenge.challNo}"> ${challenge.challTitle}</td>
+						<td align="left"><input type="hidden" value="${schoolRank.schoolNo}"> ${schoolRank.schoolName}</td>
 					
 						<td></td>
-						<c:if test="${challenge.challCategory == '1'}">
-							<td align="left">Map</td>
-						</c:if>
-						<c:if test="${challenge.challCategory == '2'}">
-							<td align="left">Vision</td>
-						</c:if>
-						<c:if test="${challenge.challCategory == '3'}">
-							<td align="left">게시판활동</td>
-						</c:if>
+						<td align="left">${schoolRank.schoolAddress}</td>
 						<td></td>
-						<td align="left">${challenge.challContent}</td>
+						<td align="left">${schoolRank.totalActivityPoint}</td>
 						<td></td>
-						<td align="left">${challenge.challReward}</td>
-						<td></td>
-						<td align="left">${challenge.challDate}</td>
-						<td align="left"><td>
 				</tr>
 				<tr>
 					<td colspan="12" bgcolor="D6D7D6" height="1"></td>
@@ -268,9 +247,6 @@
  	<!--  화면구성 div End /////////////////////////////////////-->
  	
  	
- 	<!-- PageNavigation Start... -->
-	<jsp:include page="../common/pageNavigator_new.jsp"/>
-	<!-- PageNavigation End... -->
 	
 </body>
 

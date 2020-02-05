@@ -18,6 +18,8 @@ public class Reward {
 	private int variablePoint;
 	private int variableActivityPoint;
 	private Date variableDate;
+	private int totalPoint;
+	private int totalActivityPoint;
 	
 	//Constructor
 	public Reward() {
@@ -57,7 +59,6 @@ public class Reward {
 	public String getUserId() {
 		return userId;
 	}
-
 
 
 
@@ -109,6 +110,26 @@ public class Reward {
 	}
 
 
+
+
+	public int getTotalPoint() {
+		return totalPoint;
+	}
+
+
+	public void setTotalPoint(int totalPoint) {
+		this.totalPoint = totalPoint;
+	}
+
+
+	public int getTotalActivityPoint() {
+		return totalActivityPoint;
+	}
+
+
+	public void setTotalActivityPoint(int totalActivityPoint) {
+		this.totalActivityPoint = totalActivityPoint;
+	}
 
 
 	@Override

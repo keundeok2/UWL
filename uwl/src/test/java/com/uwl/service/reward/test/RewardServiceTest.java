@@ -2,6 +2,7 @@ package com.uwl.service.reward.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,9 +12,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.uwl.common.Search;
 import com.uwl.service.domain.Challenge;
+import com.uwl.service.domain.Purchase;
 import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.User;
+import com.uwl.service.purchase.PurchaseService;
 import com.uwl.service.reward.RewardService;
 import com.uwl.service.user.UserService;
 
@@ -43,15 +47,26 @@ public class RewardServiceTest {
 	private RewardService rewardService;
 	
 	//@Test
-	public void getUserBothPointList()throws Exception{
-		List<Reward> rewardUser = new ArrayList<Reward>();
-		rewardUser = rewardService.getUserBothPointList("user01");
+	public void testGetUserBothPointList()throws Exception{
 		
-		Assert.assertEquals(4,rewardUser.size());
-		//System.out.println("===>" + rewardUser.size());
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(5);
+		
+		String userId = "user41";
+		
+		Map<String, Object> map = rewardService.getUserBothPointList(search, userId);
+		
+		//List에 담긴 갯수를 Assert와 비교하기 위해서 list변수를 만들어서 함
+		List<Reward> list = (ArrayList<Reward>) map.get("list");
+		
+		System.out.println("testGetUserBothPointList list : " + list);
+		System.out.println("map에 담긴 정보 확인 : " + map);
+		
+		Assert.assertEquals(2,list.size());
 	}
 	
-	@Test
+	//@Test
 	public void testIncreasePoint() throws Exception{
 		
 		Challenge challenge = new Challenge();
@@ -66,6 +81,22 @@ public class RewardServiceTest {
 		Assert.assertEquals(10002, challenge.getChallNo());
 	
 		
+		
+	}
+	
+	@Test
+	public void decreasePoint() throws Exception{
+	
+		Purchase purchase = new Purchase();
+		purchase.setPrice(-99000);
+		purchase.setUserId("user41");
+		purchase.setPurchaseNo(10001);
+		
+		
+		rewardService.decreasePoint(purchase);
+		
+//			Assert.assertEquals(10002, challenge.getChallNo());
+	
 		
 	}
 	

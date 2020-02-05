@@ -23,10 +23,14 @@
 	
 	
 	<!-- Bootstrap Dropdown Hover CSS -->
+   <link href="/css/animate.min.css" rel="stylesheet">
+   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
     <!-- Bootstrap Dropdown Hover JS -->
+   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    
    
    <!-- jQuery UI toolTip 사용 CSS-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- jQuery UI toolTip 사용 JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
@@ -43,7 +47,8 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method","POST").attr("action","/challenge/getAdminChallengeList").submit();
+			$("form").attr("method","POST").attr("action","/product/listProduct?menu=${param.menu}").submit();
+			console.log("menu : ${param.menu}" );
 		}
 		
 		
@@ -64,6 +69,11 @@
 					fncGetList(1);
 				});
 			 
+			 $( "a:contains('구매')" ).on("click" , function() {
+				 var prodNo = $(this).parents(".caption").children("input:hidden").val();
+				 //alert("여기여기 " + prodNo );
+				 self.location = "/purchase/addPurchase?prodNo=" + prodNo;
+			});
 			 
 		 });
 		
@@ -72,10 +82,11 @@
 		 $(function() {
 		
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
-				var challNo = $(this).children("input:hidden").val();
-				console.log("challNo : "+ challNo); 
-				self.location ="/challenge/getChallengeAdmin?challNo="+challNo;  
+			$( "a:contains('상세정보')" ).on("click" , function() {
+				var prodNo = $(this).parents(".caption").children("input:hidden").val();
+				//alert("prodNo : "+ prodNo);
+					self.location ="/product/getProduct?prodNo=" + prodNo + "&menu=${param.menu}";  
+				console.log("prodNo : "+ prodNo); 
 			});
 			
 						
@@ -127,7 +138,7 @@
 			});
 			
 			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "blue");
+			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
 			$("h7").css("color" , "red");
 			
 			//==> 아래와 같이 정의한 이유는 ??
@@ -140,16 +151,11 @@
 
 <body>
 	
-	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
 		<div class="page-header text-info">
-		<!-- role에 따른 admin user 분류 할것 -->
-			<h2>도전과제 리스트</h2>
-		<%-- <c:if test="${param.menu == 'manage'}">
-	       <h3>상품 관리</h3>
-       </c:if> --%>
+	       <h3>완료된 도전과제 목록 </h3>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -159,8 +165,6 @@
 		    	<p class="text-primary">
 		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
 		    	</p>
-		    	
-		    	
 		    </div>
 		    
 		    <div class="col-md-6 text-right">
@@ -168,10 +172,11 @@
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="1" ${!empty searchCondition && searchCondition == "1" ? "selected" : ""} >제목</option>
+						<option value="0" ${!empty searchCondition && searchCondition == "0" ? "selected" : ""} >상품번호</option>
 						
-						<option value="2" ${!empty searchCondition && searchCondition == "2" ? "selected" : ""} >내용</option>
+						<option value="1" ${!empty searchCondition && searchCondition == "1" ? "selected" : ""} >상품명</option>
 					
+						<option value="2" ${!empty searchCondition && searchCondition == "2" ? "selected" : ""} >상품가격</option>
 					</select>
 				  </div>
 				  
@@ -204,59 +209,25 @@
 		
 		<div class="container">
 		<div class="row">
-			<tr class="ct_list_pop">
-						<td align="center">번호</td>
-						<td></td>
-	
-						<td align="left">제목</td>
-						<td></td>
-						<td align="left">카테고리</td>
-						<td></td>
-						<td align="left">내용</td>
-						<td></td>
-						<td align="left">보상점수</td>
-						<td></td>
-						<td align="left">날짜</td>
-						<td align="left">
-							</td>
-					</tr>
-					<tr>
-						<td colspan="12" bgcolor="D6D7D6" height="1"></td>
-					</tr>
-		   <c:set var="i" value="0" />
-				<c:forEach var="challenge" items="${list}">
-					<c:set var="i" value="${i + 1}" />
-						
-					<tr class="ct_list_pop">
-						<td align="center">${i}</td>
-						<td></td>
-	
-						<td align="left"><input type="hidden" value="${challenge.challNo}"> ${challenge.challTitle}</td>
-					
-						<td></td>
-						<c:if test="${challenge.challCategory == '1'}">
-							<td align="left">Map</td>
-						</c:if>
-						<c:if test="${challenge.challCategory == '2'}">
-							<td align="left">Vision</td>
-						</c:if>
-						<c:if test="${challenge.challCategory == '3'}">
-							<td align="left">게시판활동</td>
-						</c:if>
-						<td></td>
-						<td align="left">${challenge.challContent}</td>
-						<td></td>
-						<td align="left">${challenge.challReward}</td>
-						<td></td>
-						<td align="left">${challenge.challDate}</td>
-						<td align="left"><td>
-				</tr>
-				<tr>
-					<td colspan="12" bgcolor="D6D7D6" height="1"></td>
-				</tr>
-			</c:forEach>
-		</div>
-		</div>
+		  <c:forEach var="challenge" items="${list}">
+			  <div class="col-sm-6 col-md-4">
+			    <div class="thumbnail">
+			      <br/>
+			      <div class="caption">
+			    	<input type="hidden" value="${challenge.challNo}">
+			        <h3>${challenge.challTitle} </h3>
+			        <p>
+			        	${challenge.challTitle}<br/>
+			        	카테고리 : ${challenge.challCategory}<br/>
+			        	포인트 : ${challenge.challReward}<br/>
+			        	</p>
+			        <p><a href="#" class="btn btn-primary" role="button">상세정보</a> 
+			      </div>
+			    </div>
+			  </div>
+          </c:forEach>
+			</div>
+			</div>
 			
         
         </tbody>
