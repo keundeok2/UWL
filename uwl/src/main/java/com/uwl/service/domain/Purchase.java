@@ -7,13 +7,12 @@ public class Purchase {
 	// Field
 	private String userId;
 	private int purchaseNo;
-	private String itemName;
-	private String itemCategory;
+	private String itemCategory; // 1 : 창  2 : 방패
 	private int price;
-	private String paymentOption;
+	private String paymentOption; // 1 : 카드 2 : 포인트
 	private String importId;
 	private Date purchaseDate;
-	private String refundOption;
+	private String refundOption; // 1 : 구매 2 : 환불
 
 	// 추가된 변수명
 	// itemCategory, importId
@@ -24,7 +23,6 @@ public class Purchase {
 		// TODO Auto-generated constructor stub
 	}
 
-	// Method
 	public String getUserId() {
 		return userId;
 	}
@@ -39,14 +37,6 @@ public class Purchase {
 
 	public void setPurchaseNo(int purchaseNo) {
 		this.purchaseNo = purchaseNo;
-	}
-
-	public String getItemName() {
-		return itemName;
-	}
-
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
 	}
 
 	public String getItemCategory() {
@@ -99,9 +89,10 @@ public class Purchase {
 
 	@Override
 	public String toString() {
-		return "Purchase [userId=" + userId + ", purchaseNo=" + purchaseNo + ", itemName=" + itemName
-				+ ", itemCategory=" + itemCategory + ", price=" + price + ", paymentOption=" + paymentOption
-				+ ", importId=" + importId + ", purchaseDate=" + purchaseDate + ", refundOption=" + refundOption + "]";
+		return "Purchase [userId=" + userId + ", purchaseNo=" + purchaseNo + ", itemCategory=" + itemCategory
+				+ ", price=" + price + ", paymentOption=" + paymentOption + ", importId=" + importId + ", purchaseDate="
+				+ purchaseDate + ", refundOption=" + refundOption + "]";
 	}
 
+	
 }

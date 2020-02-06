@@ -33,9 +33,6 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public void addPurchase(Purchase purchase) throws Exception {
 		purchaseDAO.addPurchase(purchase);
-		if (purchase.getPaymentOption().equals("3")) {
-			// decreasePoint
-		}
 	}
 
 	@Override
