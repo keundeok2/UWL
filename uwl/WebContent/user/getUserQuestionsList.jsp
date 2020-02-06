@@ -36,7 +36,7 @@
  <div> <c:forEach var="post" items="${ list }">
  		
 <c:set var ="i" value="${i}"/>
-	<c:out value="${post.postNo}"></c:out> 
+	 <a href="/user/getQuestions?postNo=${post.postNo}">${post.postNo}</a>
   	<c:out value="${post.postTitle}"></c:out> 
 	<c:out value="${post.postContent}"></c:out>
 	<c:out value="${post.postDate}"></c:out>

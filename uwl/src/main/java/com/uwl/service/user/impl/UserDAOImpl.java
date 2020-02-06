@@ -57,6 +57,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public User getUserByMail(String mail) throws Exception {
 		System.out.println("UserDAOImpl : getUserByMail() 호출");
+		System.out.println(mail + "userDAO");
 		return sqlSession.selectOne("UserMapper.getUserByMail", mail);
 	}
 	
@@ -78,10 +79,11 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne("UserMapper.getProfile", userId);
 	}
 	
+	
 	@Override
-	public User getQuestions(Post post) throws Exception {
+	public Post getQuestions(int postNo) throws Exception {
 		System.out.println("UserDAOImpl : getQuestions() 호출");
-		return sqlSession.selectOne("UserMapper.getQuestions", post);
+		return sqlSession.selectOne("UserMapper.getQuestions", postNo);
 	}
 
 	@Override

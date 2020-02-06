@@ -168,26 +168,24 @@
 	 
 	 
 	  <!-- 문의사항 수정 -->
-	 <update	id="updateQuestions"	parameterType="post" >
+	 <update	id="updateQuestions"	parameterType="post">
 	   	UPDATE post
 	   	<set>
+	   		user_id				= #{userId},
 	   		post_title 			= #{postTitle} ,
 	   		post_content		= #{postContent} ,
+	   		post_date			= #{postDate},
 	   		view_status 		= #{viewStatus}	   		
 	   	</set>
-	   	WHERE user_id = #{userId}
+	   	WHERE post_no = #{postNo}
 	 </update>
 	 
 	 
 	 <!-- 문의사항 내용 -->
-	 <select 	id="getQuestions"	parameterType="post"	resultMap="postSelectMap">
-		SELECT * 
-        FROM (  SELECT inner_table.* , ROWNUM AS row_seq
-                  FROM ( SELECT post_no , post_title, post_content
-                            FROM post
-							WHERE user_id = #{userId} AND post_category_no = '5') 
-				inner_table)
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 <select 	id="getQuestions"	parameterType="int"	resultMap="postSelectMap">
+		SELECT post_no , post_title, post_content
+        FROM post
+		WHERE post_no = #{postNo} AND post_category_no = '5'
 	 </select>
 	 
 	 
@@ -200,6 +198,7 @@
 							WHERE user_id = #{userId} AND post_category_no = '5') 
 				inner_table)
 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 
+		ORDER BY post_date DESC
 	 </select>
 	 
 	 
@@ -241,7 +240,7 @@
 
 	 <!-- mail로 id 불러오기 -->
 	 <select 	id="getUserByMail"	parameterType="string"	resultMap="userSelectMap">
-		SELECT user_id
+		SELECT user_id, mail
 		FROM users
 		WHERE mail = #{value}
 	 </select>

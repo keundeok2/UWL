@@ -43,8 +43,8 @@
  <div> <c:forEach var="post" items="${ list }">
  		
 <c:set var ="i" value="${i}"/>
-	<c:out value="${post.postNo}"></c:out> 
-  	 <a href="javascript:history.go(-1)"><c:out value="${post.postTitle}"></c:out> </a>
+  	 <a href="/user/getQuestions?postNo=${post.postNo}">${post.postNo}</a>
+	<c:out value="${post.postTitle}"></c:out> 
 	<c:out value="${post.postContent}"></c:out>
 	<c:out value="${post.postDate}"></c:out>
 <%-- 	<c:out value="${post.questionStatus}"></c:out> --%>
