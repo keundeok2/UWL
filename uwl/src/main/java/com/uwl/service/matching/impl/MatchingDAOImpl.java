@@ -88,6 +88,12 @@ public class MatchingDAOImpl implements MatchingDAO {
 		
 		return sqlSession.selectOne("MatchingMapper.getTotalMatching", map);
 	}
+	
+	@Override
+	public void addItem(Item item) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.insert("MatchingMapper.addItem", item);
+	}
 
 	@Override
 	public Item getItem(String userId, String itemCategory) throws Exception {
@@ -141,6 +147,8 @@ public class MatchingDAOImpl implements MatchingDAO {
 		
 		return sqlSession.selectOne("MatchingMapper.getTotalItem", map);
 	}
+
+	
 
 	
 

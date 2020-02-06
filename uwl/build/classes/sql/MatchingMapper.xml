@@ -116,6 +116,18 @@
  		)
  	</select>
  	
+ 	<insert id="addItem" parameterType="item">
+ 	
+ 		
+ 		insert
+ 		into item(item_no, first_user_id, item_category, item_default)
+ 		values(seq_item_item_no.nextval,
+ 		#{firstUserId:VARCHAR},
+ 		#{itemCategory:VARCHAR},
+ 		2)
+ 		
+ 	</insert>
+ 	
  	<select id="getItem" parameterType="map" resultMap="itemSelectMap">
  		select
  		rownum, item.*

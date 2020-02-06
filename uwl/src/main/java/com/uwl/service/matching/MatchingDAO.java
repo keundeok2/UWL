@@ -31,6 +31,8 @@ public interface MatchingDAO {
 	
 	public int getTotalMatching(Search search, String userId) throws Exception;
 	
+	public void addItem(Item item) throws Exception;
+	
 	
 	
 	public Item getItem(String userId, String itemCategory) throws Exception;
