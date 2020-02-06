@@ -46,14 +46,14 @@ public class RewardServiceTest {
 	@Qualifier("rewardServiceImpl")
 	private RewardService rewardService;
 	
-	//@Test
+	@Test
 	public void testGetUserBothPointList()throws Exception{
 		
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(5);
 		
-		String userId = "user41";
+		String userId = "user01";
 		
 		Map<String, Object> map = rewardService.getUserBothPointList(search, userId);
 		
@@ -63,7 +63,7 @@ public class RewardServiceTest {
 		System.out.println("testGetUserBothPointList list : " + list);
 		System.out.println("map에 담긴 정보 확인 : " + map);
 		
-		Assert.assertEquals(2,list.size());
+		Assert.assertEquals(4,list.size());
 	}
 	
 	//@Test
@@ -71,11 +71,13 @@ public class RewardServiceTest {
 		
 		Challenge challenge = new Challenge();
 		challenge.setChallNo(10002);
+		challenge.setChallReward(5000);
+		
 		
 		Reward reward = new Reward();
 		reward.setUserId("user60");
 		reward.setChallenge(challenge);
-		
+		reward.setTotalActivityPoint(5000);
 		rewardService.increasePoint(reward);
 		
 		Assert.assertEquals(10002, challenge.getChallNo());
@@ -84,7 +86,7 @@ public class RewardServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void decreasePoint() throws Exception{
 	
 		Purchase purchase = new Purchase();
