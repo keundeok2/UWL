@@ -87,8 +87,11 @@ public class FriendDAOImpl implements FriendDAO {
 	}
 	
 	@Override
-	public int getSearchTotalCount(Search search) {
-		return sqlSession.selectOne("FriendMapper.getSearchTotalCount", search);
+	public int getSearchTotalCount(Search search, String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("userId", userId);
+		return sqlSession.selectOne("FriendMapper.getSearchTotalCount", map);
 	}
 
 }
