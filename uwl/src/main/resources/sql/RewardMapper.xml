@@ -32,22 +32,24 @@
 	 <select  id="getUserBothPointList"  parameterType="map"	resultMap="rewardSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT r.reward_no,
-												r.user_id,
-												r.purchase_no,
-												r.chall_no,
-												r.variable_point,
-												r.variable_activity_point,
-												r.variable_date,
-												total_point.total_point,
-												total_point.total_activity,
-												p.item_category,
-												c.chall_title
-										FROM challenge c, purchase p, reward r,(SELECT sum(variable_point) total_point, 
-																					sum(variable_activity_point) total_activity 
-																		FROM reward WHERE user_id=#{userId}) total_point
-											WHERE r.user_id = #{userId}
-										ORDER BY variable_date DESC) inner_table
+	  					FROM		(	SELECT DISTINCT r.reward_no,
+														r.user_id,
+														r.purchase_no,
+														r.chall_no,
+														c.chall_title,
+														r.variable_point,
+														r.variable_activity_point,
+														r.variable_date,
+														r.total_point,
+														r.total_activity_point,
+														p.item_category,
+														ranking.ranking_point,
+														ranking.ranking_activity_point
+												FROM challenge c,purchase p,reward r, (SELECT sum(variable_point) ranking_point, 
+																							sum(variable_activity_point) ranking_activity_point 
+																				FROM reward WHERE user_id= #{userId}) ranking
+													WHERE r.chall_no = c.chall_no   AND r.user_id = #{userId}
+												ORDER BY variable_date DESC) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER} )
 		WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER} 	
 	 </select>
@@ -55,19 +57,34 @@
 	 <!-- Reward -->
 	<!-- SQL : INSERT -->
 	<insert 	id="increasePoint"		parameterType="reward" >
-	 	INSERT INTO reward(reward_no, 
+	 
+	  INSERT INTO reward(reward_no, 
 							user_id, 
-							purchase_no, 
-							chall_no, 
+							chall_no,
 							variable_point, 
 							variable_activity_point, 
+							total_point,
+							total_activity_point,
 							variable_date)
 					VALUES (seq_reward_reward_no.NEXTVAL,
 							#{userId},
-							#{purchaseItem.purchaseNo:NUMERIC},
 							(SELECT  chall_no FROM challenge WHERE chall_no = #{challenge.challNo:NUMERIC}),
 							(SELECT chall_reward FROM challenge WHERE chall_no = #{challenge.challNo:NUMERIC}),
-							(SELECT chall_reward FROM challenge WHERE chall_no = #{challenge.challNo:NUMERIC}),SYSDATE)
+							(SELECT chall_reward FROM challenge WHERE chall_no = #{challenge.challNo:NUMERIC}),
+							<if test="totalActivityPoint == 0">
+								#{challenge.challReward},
+								#{challenge.challReward},
+								
+							</if>
+							<if test="totalActivityPoint != 0">
+								(SELECT the_latest.total_point  FROM (SELECT total_point  FROM reward WHERE user_id = #{userId} ORDER BY reward_no DESC) the_latest
+								WHERE ROWNUM = 1) + #{challenge.challReward},
+								(SELECT the_latest.total_activity_point  FROM (SELECT total_activity_point  FROM reward WHERE user_id = #{userId} ORDER BY reward_no DESC) the_latest
+								WHERE ROWNUM = 1) + #{challenge.challReward},
+							</if>
+							
+							SYSDATE)
+	
 	 </insert>
 	 
 	 <!-- SQL : INSERT -->
@@ -77,7 +94,7 @@
 							purchase_no, 
 							variable_point, 
 							variable_date)
-		VALUES (seq_reward_reward_no.NEXTVAL,#{userId},seq_purchase_purchase_no.CURRVAL,#{price},SYSDATE)
+		VALUES (seq_reward_reward_no.NEXTVAL,#{userId},seq_purchase_purchase_no.CURRVAL,-#{price},SYSDATE)
 		<!-- VALUES (seq_reward_reward_no.NEXTVAL,#{userId},#{purchaseNo},#{price},SYSDATE) -->
 	 </insert>
 	 

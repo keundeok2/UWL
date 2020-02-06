@@ -1,18 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>»óÇ°µî·Ï</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ìƒí’ˆë“±ë¡</title>
 
-<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 
-<!-- ¹öÆ°º¯°æÀ» À§ÇØ ¾Æ·¡ 2°³ Ãß°¡ & jQuery ¸®ÆÑ¶§ Ãß°¡Çß´ø°Í-->
+<!-- ë²„íŠ¼ë³€ê²½ì„ ìœ„í•´ ì•„ë˜ 2ê°œ ì¶”ê°€ & jQuery ë¦¬íŒ©ë•Œ ì¶”ê°€í–ˆë˜ê²ƒ-->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 
@@ -30,7 +30,7 @@
 <!-- Bootstrap Dropdown Hover JS -->
 <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 
-<!-- ¹öÆ°º¯°æÀ» À§ÇØ ¾Æ·¡ 2°³ Ãß°¡ -->
+<!-- ë²„íŠ¼ë³€ê²½ì„ ìœ„í•´ ì•„ë˜ 2ê°œ ì¶”ê°€ -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -71,21 +71,21 @@
   } ); 
  
  $( function() {
-	//µé¾î¿ÀÀÚ¸¶ÀÚ Æ÷Ä¿½º¸¦ Ã¹¹øÂ° »óÇ°¸í Àû´Â°÷À¸·Î À§Ä¡
+	//ë“¤ì–´ì˜¤ìë§ˆì í¬ì»¤ìŠ¤ë¥¼ ì²«ë²ˆì§¸ ìƒí’ˆëª… ì ëŠ”ê³³ìœ¼ë¡œ ìœ„ì¹˜
 	$("input[name='challTitle']").focus();
  	
     $( ".widget button" ).button();
     
     $("a[href='#']").on('click', function(){
-   		/* on = bind¿Í °°Àº È¿°úÀÇ Æã¼Ç */
-   		//alert("Ãë¼Ò");
+   		/* on = bindì™€ ê°™ì€ íš¨ê³¼ì˜ í‘ì…˜ */
+   		//alert("ì·¨ì†Œ");
    			$("form")[0].reset();
     } );
   } ); 
 
 function fncAddChallenge(){
 
-	//Form À¯È¿¼º °ËÁõ
+	//Form ìœ íš¨ì„± ê²€ì¦
  	var challNo = $("input[name='challNo']").val();
 	var challTitle = $("#challTitle").val();
 	var challCategory = $("input[name='challCategory']").val();
@@ -96,17 +96,17 @@ function fncAddChallenge(){
 				+ "challTitle : " + challTitle +"challContent : " + challContent );
 
 	if(challTitle == null || challTitle.length<1){
-		alert("Á¦¸ñ ÀÔ·ÂÇÏ¼À (^¿À^)/ ");
+		alert("ì œëª© ì…ë ¥í•˜ì…ˆ (^ì˜¤^)/ ");
 		return;
 	}
 	
 	if(challContent == null || challContent.length<1){
-		alert("³»¿ë ÀÔ·ÂÇÏ¼À (^¿À^)/ ");
+		alert("ë‚´ìš© ì…ë ¥í•˜ì…ˆ (^ì˜¤^)/ ");
 		return;
 	}
 	
 	if(challReward == null || challReward.length<1 ){
-		alert("Á¡¼ö ÀÔ·ÂÇÏ¼À (^¿À^)/ ");
+		alert("ì ìˆ˜ ì…ë ¥í•˜ì…ˆ (^ì˜¤^)/ ");
 		return;
 	}
  
@@ -125,28 +125,28 @@ function fncAddChallenge(){
 
 	<div class="navbar  navbar-default">
         <div class="container">
-        	<a class="navbar-brand" href="/index.jsp">µî·Ïµé¾î°£´Ù</a>
+        	<a class="navbar-brand" href="/index.jsp">ë“±ë¡ë“¤ì–´ê°„ë‹¤</a>
    		</div>
    	</div>
 
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 	<div class="container">
 	
-		<h1 class="bg-primary text-center">ÁÖ°£ µµÀü°úÁ¦ µî·Ï</h1>
+		<h1 class="bg-primary text-center">ì£¼ê°„ ë„ì „ê³¼ì œ ë“±ë¡</h1>
 		<br/><br/>
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
 		  <div class="form-group">
 		   
-		    <label for="challTitle" class="col-sm-offset-1 col-sm-3 control-label">Á¦ ¸ñ</label>
+		    <label for="challTitle" class="col-sm-offset-1 col-sm-3 control-label">ì œ ëª©</label>
 		    <div class="col-sm-4">
 		       <input type="text" class="form-control" id="challTitle" name="challTitle" value="${challenge.challTitle}">
 		  	</div>
 		  	
-		    <label for="challReward" class="col-sm-offset-1 col-sm-3 control-label">º¸ »ó Á¡ ¼ö</label>
+		    <label for="challReward" class="col-sm-offset-1 col-sm-3 control-label">ë³´ ìƒ ì  ìˆ˜</label>
 		    <div class="col-sm-4">
-		       <input type="text" class="form-control" id="challReward" name="challReward" placeholder="º¸»óÆ÷ÀÎÆ®¸¦ Àû¾îÁÖ¼¼¿ä">
+		       <input type="text" class="form-control" id="challReward" name="challReward" placeholder="ë³´ìƒí¬ì¸íŠ¸ë¥¼ ì ì–´ì£¼ì„¸ìš”">
 		  	</div>
 		  	
 		  	<br>
@@ -157,35 +157,35 @@ function fncAddChallenge(){
 				 
 				  <option value="2" ${!empty searchCondition && searchCondition == "2" ? "selected" : ""}>Vision</option>
 				 
-				  <option value="3" ${!empty searchCondition && searchCondition == "3" ? "selected" : ""}>°Ô½ÃÆÇÈ°µ¿</option>
+				  <option value="3" ${!empty searchCondition && searchCondition == "3" ? "selected" : ""}>ê²Œì‹œíŒí™œë™</option>
 				
 				</select>
 			</div>
 			
 	    </div>
 		   <div class="mb-3">
-		    <label for="challContent">³»¿ë</label>
-		    <textarea class="form-control is-invalid" id="challContent" name="challContent" placeholder="³»¿ëÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä" required></textarea>
+		    <label for="challContent">ë‚´ìš©</label>
+		    <textarea class="form-control is-invalid" id="challContent" name="challContent" placeholder="ë‚´ìš©ì„ ì…ë ¥í•´ì£¼ì„¸ìš”" required></textarea>
 		  </div>
 		  
 		  <div class="form-group">
-		    <label for="fileImage" class="col-sm-offset-1 col-sm-3 control-label">»óÇ°ÀÌ¹ÌÁö&emsp;&emsp;&emsp;</label>
+		    <label for="fileImage" class="col-sm-offset-1 col-sm-3 control-label">ìƒí’ˆì´ë¯¸ì§€&emsp;&emsp;&emsp;</label>
 		   	 <input multiple="multiple" type="file" id="fileImage" name="fileImage" />
-		    <p class="help-block">5MB ÀÌÇÏ¸¸ ¾÷·Îµå °¡´ÉÇÕ´Ï´Ù.</p>
+		    <p class="help-block">5MB ì´í•˜ë§Œ ì—…ë¡œë“œ ê°€ëŠ¥í•©ë‹ˆë‹¤.</p>
 		  </div>
 
 		  
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >µî &nbsp;·Ï</button>
-			  <a class="btn btn-primary btn" href="#" role="button">Ãë&nbsp;¼Ò</a>
+		      <button type="button" class="btn btn-primary"  >ë“± &nbsp;ë¡</button>
+			  <a class="btn btn-primary btn" href="#" role="button">ì·¨&nbsp;ì†Œ</a>
 		    </div>
 		  </div>
 		</form>
 		<!-- form Start /////////////////////////////////////-->
 		
  	</div>
-	<!--  È­¸é±¸¼º div end /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div end /////////////////////////////////////-->
 	
 </body>
 </html>
