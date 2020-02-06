@@ -1,5 +1,5 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8"%>
 
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -7,12 +7,12 @@
 
 <!DOCTYPE html>
 
-<html lang="ko">
+<html>
 	
 <head>
-	<meta charset="EUC-KR">
+	<meta charset="UTF-8">
 		
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -26,8 +26,8 @@
     <!-- Bootstrap Dropdown Hover JS -->
    
    
-   <!-- jQuery UI toolTip »ç¿ë CSS-->
-  <!-- jQuery UI toolTip »ç¿ë JS-->
+   <!-- jQuery UI toolTip ì‚¬ìš© CSS-->
+  <!-- jQuery UI toolTip ì‚¬ìš© JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
@@ -40,16 +40,16 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
-		//=============    °Ë»ö / page µÎ°¡Áö °æ¿ì ¸ğµÎ  Event  Ã³¸® =============	
+		//=============    ê²€ìƒ‰ / page ë‘ê°€ì§€ ê²½ìš° ëª¨ë‘  Event  ì²˜ë¦¬ =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
 			$("form").attr("method","POST").attr("action","/challenge/getAdminChallengeList").submit();
 		}
 		
 		
-		//============= "°Ë»ö"  Event  Ã³¸® =============	
+		//============= "ê²€ìƒ‰"  Event  ì²˜ë¦¬ =============	
 		 $(function() {
-			 //==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 //==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 
 			 $("input[name=searchKeyword]").focus();
 			 	
@@ -58,9 +58,9 @@
 		    			fncGetList(1);
 			    	}
 			    } );
-			 $( ".btn-default:contains('°Ë»ö')" ).on("click" , function() {
+			 $( ".btn-default:contains('ê²€ìƒ‰')" ).on("click" , function() {
 					//Debug..
-					//alert(  $( "td.ct_btn01:contains('°Ë»ö')" ).html() );
+					//alert(  $( "td.ct_btn01:contains('ê²€ìƒ‰')" ).html() );
 					fncGetList(1);
 				});
 			 
@@ -68,10 +68,10 @@
 		 });
 		
 		
-		//============= userId ¿¡ È¸¿øÁ¤º¸º¸±â  Event  Ã³¸®(Click) =============	
+		//============= userId ì— íšŒì›ì •ë³´ë³´ê¸°  Event  ì²˜ë¦¬(Click) =============	
 		 $(function() {
 		
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
 				var challNo = $(this).children("input:hidden").val();
 				console.log("challNo : "+ challNo); 
@@ -82,10 +82,10 @@
 		});	
 		
 		
-		//============= userId ¿¡ È¸¿øÁ¤º¸º¸±â  Event  Ã³¸® (double Click)=============
+		//============= userId ì— íšŒì›ì •ë³´ë³´ê¸°  Event  ì²˜ë¦¬ (double Click)=============
 		 $(function() {
 			 
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(  "td:nth-child(5) > i" ).on("click" , function() {
 
 				var prodNo = $(this).parent().children("input:hidden").val();
@@ -107,13 +107,13 @@
 								//alert("JSONData : \n"+JSONData);
 								
 								var displayValue = "<h6>"
-															+"»óÇ°¹øÈ£ : "+JSONData.prodNo+"<br/>"
-															+"»óÇ°¸í : "+JSONData.prodName+"<br/>"
-															+"»óÇ°ÀÌ¹ÌÁö : "+JSONData.fileName+"<br/>"
-															+"»óÇ°»ó¼¼Á¤º¸ : "+JSONData.prodDetail+"<br/>"
-															+"Á¦Á¶ÀÏÀÚ : "+JSONData.manuDate+"<br/>"
-															+"°¡°İ : "+JSONData.price+"<br/>"
-															+"°¡ÀÔÀÏÀÚ : "+JSONData.regDate+"<br/>"
+															+"ìƒí’ˆë²ˆí˜¸ : "+JSONData.prodNo+"<br/>"
+															+"ìƒí’ˆëª… : "+JSONData.prodName+"<br/>"
+															+"ìƒí’ˆì´ë¯¸ì§€ : "+JSONData.fileName+"<br/>"
+															+"ìƒí’ˆìƒì„¸ì •ë³´ : "+JSONData.prodDetail+"<br/>"
+															+"ì œì¡°ì¼ì : "+JSONData.manuDate+"<br/>"
+															+"ê°€ê²© : "+JSONData.price+"<br/>"
+															+"ê°€ì…ì¼ì : "+JSONData.regDate+"<br/>"
 															+"</h3>";
 								//Debug...									
 								//alert(displayValue);
@@ -126,11 +126,11 @@
 					 console.log("prodNo : "+ prodNo); 
 			});
 			
-			//==> userId LINK Event End User ¿¡°Ô º¸ÀÏ¼ö ÀÖµµ·Ï 
+			//==> userId LINK Event End User ì—ê²Œ ë³´ì¼ìˆ˜ ìˆë„ë¡ 
 			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "blue");
 			$("h7").css("color" , "red");
 			
-			//==> ¾Æ·¡¿Í °°ÀÌ Á¤ÀÇÇÑ ÀÌÀ¯´Â ??
+			//==> ì•„ë˜ì™€ ê°™ì´ ì •ì˜í•œ ì´ìœ ëŠ” ??
 			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		});	
 	
@@ -141,23 +141,23 @@
 <body>
 	
 	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 	<div class="container">
 	
 		<div class="page-header text-info">
-		<!-- role¿¡ µû¸¥ admin user ºĞ·ù ÇÒ°Í -->
-			<h2>µµÀü°úÁ¦ ¸®½ºÆ®</h2>
+		<!-- roleì— ë”°ë¥¸ admin user ë¶„ë¥˜ í• ê²ƒ -->
+			<h2>ë„ì „ê³¼ì œ ë¦¬ìŠ¤íŠ¸</h2>
 		<%-- <c:if test="${param.menu == 'manage'}">
-	       <h3>»óÇ° °ü¸®</h3>
+	       <h3>ìƒí’ˆ ê´€ë¦¬</h3>
        </c:if> --%>
 	    </div>
 	    
-	    <!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+	    <!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 	    <div class="row">
 	    
 		    <div class="col-md-6 text-left">
 		    	<p class="text-primary">
-		    		ÀüÃ¼  ${resultPage.totalCount } °Ç¼ö, ÇöÀç ${resultPage.currentPage}  ÆäÀÌÁö
+		    		ì „ì²´  ${resultPage.totalCount } ê±´ìˆ˜, í˜„ì¬ ${resultPage.currentPage}  í˜ì´ì§€
 		    	</p>
 		    	
 		    	
@@ -168,32 +168,32 @@
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="1" ${!empty searchCondition && searchCondition == "1" ? "selected" : ""} >Á¦¸ñ</option>
+						<option value="1" ${!empty searchCondition && searchCondition == "1" ? "selected" : ""} >ì œëª©</option>
 						
-						<option value="2" ${!empty searchCondition && searchCondition == "2" ? "selected" : ""} >³»¿ë</option>
+						<option value="2" ${!empty searchCondition && searchCondition == "2" ? "selected" : ""} >ë‚´ìš©</option>
 					
 					</select>
 				  </div>
 				  
 				  <div class="form-group">
-				    <label class="sr-only" for="searchKeyword">°Ë»ö¾î</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="°Ë»ö¾î"
+				    <label class="sr-only" for="searchKeyword">ê²€ìƒ‰ì–´</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="ê²€ìƒ‰ì–´"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
 				  </div>
 				  
-				  <button type="button" class="btn btn-default">°Ë»ö</button>
+				  <button type="button" class="btn btn-default">ê²€ìƒ‰</button>
 				  <br/>
 				  <br/>
 				  <br/>
 				  
-				  <!-- PageNavigation ¼±ÅÃ ÆäÀÌÁö °ªÀ» º¸³»´Â ºÎºĞ -->
+				  <!-- PageNavigation ì„ íƒ í˜ì´ì§€ ê°’ì„ ë³´ë‚´ëŠ” ë¶€ë¶„ -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
 				</form>
 	    	</div>
 	    	
 		</div>
-		<!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+		<!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 		
 		
       <!--  table Start /////////////////////////////////////-->
@@ -205,18 +205,18 @@
 		<div class="container">
 		<div class="row">
 			<tr class="ct_list_pop">
-						<td align="center">¹øÈ£</td>
+						<td align="center">ë²ˆí˜¸</td>
 						<td></td>
 	
-						<td align="left">Á¦¸ñ</td>
+						<td align="left">ì œëª©</td>
 						<td></td>
-						<td align="left">Ä«Å×°í¸®</td>
+						<td align="left">ì¹´í…Œê³ ë¦¬</td>
 						<td></td>
-						<td align="left">³»¿ë</td>
+						<td align="left">ë‚´ìš©</td>
 						<td></td>
-						<td align="left">º¸»óÁ¡¼ö</td>
+						<td align="left">ë³´ìƒì ìˆ˜</td>
 						<td></td>
-						<td align="left">³¯Â¥</td>
+						<td align="left">ë‚ ì§œ</td>
 						<td align="left">
 							</td>
 					</tr>
@@ -241,7 +241,7 @@
 							<td align="left">Vision</td>
 						</c:if>
 						<c:if test="${challenge.challCategory == '3'}">
-							<td align="left">°Ô½ÃÆÇÈ°µ¿</td>
+							<td align="left">ê²Œì‹œíŒí™œë™</td>
 						</c:if>
 						<td></td>
 						<td align="left">${challenge.challContent}</td>
@@ -265,7 +265,7 @@
 	  <!--  table End /////////////////////////////////////-->
 	  
  	</div>
- 	<!--  È­¸é±¸¼º div End /////////////////////////////////////-->
+ 	<!--  í™”ë©´êµ¬ì„± div End /////////////////////////////////////-->
  	
  	
  	<!-- PageNavigation Start... -->
