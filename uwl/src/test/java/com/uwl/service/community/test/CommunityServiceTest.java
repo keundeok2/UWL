@@ -46,11 +46,11 @@ public class CommunityServiceTest {
 	}
 	
 //	@Test
-	public void getComment() throws Exception{
-		int commentNo = 10000;
-		
-		System.out.println(communityService.getComment(commentNo));
-	}
+//	public void getComment() throws Exception{
+//		int commentNo = 10000;
+//		
+//		System.out.println(communityService.getComment(commentNo));
+//	}
 	
 //	@Test
 	public void updateComment() throws Exception{
