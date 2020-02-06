@@ -78,9 +78,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getQuestions(Post post) throws Exception {
+	public Post getQuestions(int postNo) throws Exception {
 		System.out.println("UserServiceImpl : getQuestions() 호출");
-		return userDAO.getQuestions(post);
+		return userDAO.getQuestions(postNo);
 	}
 	
 	
@@ -263,6 +263,7 @@ public class UserServiceImpl implements UserService {
 		System.out.println("UserServiceImpl : checkDuplicationMail() 호출");
 		boolean result = true;
 		User user = userDAO.getUserByMail(mail);
+		System.out.println(mail + "userService");
 		if (user != null) {
 			result = false;
 		}

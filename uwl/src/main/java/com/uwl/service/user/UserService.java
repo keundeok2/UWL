@@ -24,7 +24,7 @@ public interface UserService {
 
 	public User getProfile(String userId) throws Exception; // 프로필 조회
 
-	public User getQuestions(Post post) throws Exception; // 문의사항 내용
+	public Post getQuestions(int postNo) throws Exception; // 문의사항 내용
 
 	public Map<String, Object> getUserQuestions(Search search, String userId) throws Exception;; // 나의 문의사항 내역
 

@@ -1,19 +1,19 @@
-<%@ page contentType="text/html; charset=EUC-KR"%>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 
 <html lang="ko">
 
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 <script type="text/javascript">
 
 $(function() {
-		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$("button").on("click", function() {
 // 			self.location = "/user/getUser?userId=${user.userId}"
 			$("form").attr("method" , "POST").attr("action" , "/user/updateQuestions").submit();
@@ -29,16 +29,21 @@ $(function() {
 	<hr>
 	
 	<form>
-<%-- 	¾ÆÀÌµğ  : <input type="text"	name="userId"		 value="${user.userId}"		readonly> --%>
-	¾ÆÀÌµğ  :${user.userId}
+<%-- 	ì•„ì´ë””  : <input type="text"	name="userId"		 value="${user.userId}"		readonly> --%>
+	ì•„ì´ë””  :${user.userId} <input type="hidden" 	name="postDate"	 value="${user.userId}">
 	<hr>
-	Á¦¸ñ  : <input type="text"		name="postTitle"	 value="${post.postTitle}">
+	ì œëª©  : <input type="text"		name="postTitle"	 value="${post.postTitle}">
 	<hr>
-	³»¿ë  : <input type="text" 	name="postContent"	 value="${post.postContent}">
+	ë‚´ìš©  : <input type="text" 	name="postContent"	 value="${post.postContent}">
 	<hr>
+		<input type="hidden" 	name="postDate"	 value="${post.postDate}">
+		<input type="hidden" 	name="postNo"	 value="${post.postNo}">
+		<input type="hidden" 	name="hitCount"	 value="${post.hitCount}">
+		<input type="hidden" 	name="likeCount"	 value="${post.likeCount}">
+		<input type="hidden" 	name="commentCount"	 value="${post.commentCount}">
 	
-	  °ø°³¼³Á¤ :    <input type= "radio" id="viewStatus"	name="viewStatus"	value="1"	checked/> °ø°³
-    <input type= "radio" id="viewStatus"	name="viewStatus"	value="2"/> ºñ°ø°³
+	  ê³µê°œì„¤ì • :    <input type= "radio" id="viewStatus"	name="viewStatus"	value="1"	checked/> ê³µê°œ
+    <input type= "radio" id="viewStatus"	name="viewStatus"	value="2"/> ë¹„ê³µê°œ
   
   
     <br> 
@@ -48,7 +53,7 @@ $(function() {
 	
 	
 </form>
-	<button type="button" id="updateQuestions">¿Ï·á</button>
+	<button type="button" id="updateQuestions">ì™„ë£Œ</button>
 
 </body>
 

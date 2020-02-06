@@ -45,15 +45,15 @@ public class PostController {
 	int pageSize;
 	
 	
-	@RequestMapping(value="getBoard", method=RequestMethod.GET)	//------------------------------------------------테스트 종료(무슨글이든 댓글 다가져오는거 수정해야함)
+	@RequestMapping(value="getBoard", method=RequestMethod.GET)	//------------------------------------------------테스트 종료
 	public String getBoard(@RequestParam("postNo") int postNo, Model model) throws Exception{
 		System.out.println("getBoard.GET");
 		Post post = postService.getBoard(postNo);
 		
 		Search search = new Search();
-		search.setCurrentPage(1);
+		search.setCurrentPage(1);	//1인 이유는 무조건 getBoard할때는 현재 댓글은 1페이지라서임 ㅋㅋ
 		search.setPageSize(pageSize);
-		search.setSearchCondition("1");
+		search.setSearchCondition("1");	//1 = 게시글의 댓글보기, 2 = 자신이 작성한 댓글 보기
 		Map<String, Object> map = communityService.getCommentList(search, postNo, "user01");		//user는 세션처리 할꺼
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		

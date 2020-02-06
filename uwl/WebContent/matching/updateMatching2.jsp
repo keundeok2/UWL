@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+   <h3>커플 됨</h3>
+    커플 회원이 되었습니다.
 </body>
 </html>

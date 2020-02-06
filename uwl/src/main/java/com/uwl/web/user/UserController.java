@@ -66,9 +66,21 @@ public class UserController {
 	public String addUser(@ModelAttribute("user") User user) throws Exception {
 		System.out.println("UserController : addUser() 호출");
 
+		System.out.println(user);
 		System.out.println("/user/addUser : POST");
 		// Business Logic
 		userService.addUser(user);
+
+		// ======================================= 채 팅
+		// ===========================================
+		// 있으면 update , 없으면 insert 이거 방법뭐임? 이 메서드 돌릴때 다른 패키지에 있는 .java 파일 실행시키고싶음
+
+//				OracleToMongo oracleToMongo = new OracleToMongo();
+//				oracleToMongo.startOracleToMongo();
+		// ======================================= 채 팅
+		// ===========================================
+
+		System.out.println(user);
 
 		// SchoolRank 추가하기!!!!!!!!!!!!!!!
 
@@ -181,43 +193,71 @@ public class UserController {
 	public String addQuestions(@ModelAttribute("post") Post post) throws Exception {
 		System.out.println("UserController : addQuestions() 호출");
 
-		System.out.println("/user/addQuestions : POST"+post);
+		System.out.println("/user/addQuestions : POST" + post);
 		// Business Logic
 		userService.addQuestions(post);
 		return "forward:/user/getQuestions.jsp";
 	}
-
+	
+	
+	// 문의사항 수정
+	@RequestMapping(value = "updateQuestions", method = RequestMethod.GET)
+	public String updateQuestions(@ModelAttribute("postNo") int postNo, Model model)throws Exception {
+		System.out.println("UserController : updateQuestions() 호출");
+		System.out.println("/user/updateQuestions : GET");
+		
+		// Business Logic
+		Post post = userService.getQuestions(postNo);
+		model.addAttribute("post", post);
+		
+		return "forward:/user/updateQuestions.jsp";
+//		return "forward:/user/updateQuestions?postNo=" + post.getPostNo();
+	}
+	
 	// 문의사항 수정
 	@RequestMapping(value = "updateQuestions", method = RequestMethod.POST)
-	public String updateQuestions(@ModelAttribute("post") Post post, Model model, HttpSession session)
+	public String updateQuestions(@ModelAttribute("post") Post post, HttpSession session)
 			throws Exception {
 		System.out.println("UserController : updateQuestions() 호출");
-
 		System.out.println("/user/updateQuestions : POST");
+		
 		// Business Logic
 		userService.updateQuestions(post);
 
-		String sessionId = ((User) session.getAttribute("user")).getUserId();
+		String sessionId = ((Post) session.getAttribute("post")).getUserId();
 		if (sessionId.equals(post.getUserId())) {
 			session.setAttribute("post", post);
 		}
 
 		return "forward:/user/getUserQuestions?userId=" + post.getUserId();
 	}
-
 	
+
 	// 문의사항 내용
-		@RequestMapping(value = "getQuestions", method = RequestMethod.GET)
-		public String getQuestions(@RequestParam("post") Post post, Model model) throws Exception {
-			System.out.println("UserController : getQuestions() GET 호출");
+	@RequestMapping(value = "getQuestions", method = RequestMethod.GET)
+	public String getQuestions(@RequestParam("postNo") int postNo, Model model) throws Exception {
+		System.out.println("UserController : getQuestions() GET 호출");
 
-			System.out.println("/user/getQuestions : GET");
-			// Business Logic
-			User user = userService.getQuestions(post);
-			// Model 과 View 연결
-			model.addAttribute("post", user);
+		System.out.println("/user/getQuestions : GET");
+		// Business Logic
+		Post post = userService.getQuestions(postNo);
+		// Model 과 View 연결
+		model.addAttribute("post", post);
 
-			return "forward:/user/getUserQuestions.jsp";
+		return "forward:/user/getQuestions.jsp";
+//			return "forward:/user/getQuestions?postNo"+post.getPostNo();
+	}
+
+	// 문의사항 내용
+	@RequestMapping(value = "getQuestions", method = RequestMethod.POST)
+	public String getQuestions(@RequestParam("post") Post post) throws Exception {
+		System.out.println("UserController : getQuestions() POST 호출");
+
+		System.out.println("/user/getQuestions : POST");
+		// Business Logic
+//				userService.getQuestions(post);
+
+		return "forward:/user/getQuestions?postNo" + post.getPostNo();
 	}
 
 	// 나의 문의사항 내역
@@ -228,15 +268,15 @@ public class UserController {
 
 		System.out.println("/user/getUserQuestions : GET");
 
-		User user = (User)httpSession.getAttribute("user");
+		User user = (User) httpSession.getAttribute("user");
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		
+
 		// Business logic 수행
 		Map<String, Object> map = userService.getUserQuestions(search, user.getUserId());
-		
+
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
 		System.out.println(resultPage);
@@ -409,6 +449,7 @@ public class UserController {
 
 		System.out.println("/user/checkDuplicationMail : POST");
 		// Business Logic
+
 		boolean result = userService.checkDuplicationMail(mail);
 		// Model 과 View 연결
 		model.addAttribute("result", new Boolean(result));

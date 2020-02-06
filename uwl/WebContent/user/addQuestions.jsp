@@ -1,12 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=euc-kr"
-    pageEncoding="euc-kr"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
     
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="euc-kr">
-		<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+	<meta charset="UTF-8">
+		<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
@@ -19,7 +19,7 @@
 	<script type="text/javascript">
 
 		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$( "button.btn.btn-primary" ).on("click" , function() {
 				fncAddQuestions();
 			});
@@ -32,11 +32,11 @@
 			var postContent = $("input[name='postContent']").val();
 
 			if(postTitle == null || postTitle.length <1){
-				alert("Á¦¸ñÀ» ÀÔ·ÂÇÏ¼¼¿ä.");
+				alert("ì œëª©ì„ ì…ë ¥í•˜ì„¸ìš”.");
 				return;
 			}
 			if(postContent == null || postContent.length <1){
-				alert("³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä.");
+				alert("ë‚´ìš©ì„ ì…ë ¥í•˜ì„¸ìš”.");
 				return;
 			}
 
@@ -48,24 +48,24 @@
 
 
 <body>
-<h1>¹®ÀÇ»çÇ× µî·Ï</h1>
+<h1>ë¬¸ì˜ì‚¬í•­ ë“±ë¡</h1>
     <hr>
     <form>
-¾Æ ÀÌ µğ 
+ì•„ ì´ ë”” 
  <div>
 ${user.userId}
 <input type="hidden" id="userId" name="userId" value="${user.userId}"/></div>
  <br>
     <br>
-    Á¦¸ñ : <input type="text" id="postTitle"		name="postTitle"/>
+    ì œëª© : <input type="text" id="postTitle"		name="postTitle"/>
     <br>
     <br>
-   ³»¿ë :    <input type= "text" id="postContent"	name="postContent"/>
+   ë‚´ìš© :    <input type= "text" id="postContent"	name="postContent"/>
     <br>
      <br>
-<!--   °ø°³¼³Á¤ :    <input type= "text" id="viewStatus"	name="viewStatus"/> -->
-  °ø°³¼³Á¤ :    <input type= "radio" id="viewStatus"	name="viewStatus"	value="1"	checked/> °ø°³
-    <input type= "radio" id="viewStatus"	name="viewStatus"	value="2"/> ºñ°ø°³
+<!--   ê³µê°œì„¤ì • :    <input type= "text" id="viewStatus"	name="viewStatus"/> -->
+  ê³µê°œì„¤ì • :    <input type= "radio" id="viewStatus"	name="viewStatus"	value="1"	checked/> ê³µê°œ
+    <input type= "radio" id="viewStatus"	name="viewStatus"	value="2"/> ë¹„ê³µê°œ
   
   
   
@@ -92,10 +92,10 @@ ${user.userId}
     
     
     </form>
-      <button type="button" class="btn btn-primary"  >µî &nbsp;·Ï</button>
+      <button type="button" class="btn btn-primary"  >ë“± &nbsp;ë¡</button>
     
-<!--     <button onclick="parent.location.href='/user/addQuestions.jsp'">µî·Ï</button><br> -->
-    <a href="javascript:history.go(-1)">µÚ·Î</a>
+<!--     <button onclick="parent.location.href='/user/addQuestions.jsp'">ë“±ë¡</button><br> -->
+    <a href="javascript:history.go(-1)">ë’¤ë¡œ</a>
     
 </body>
 </html>

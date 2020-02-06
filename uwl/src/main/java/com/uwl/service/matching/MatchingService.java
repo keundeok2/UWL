@@ -28,7 +28,7 @@ public interface MatchingService {
 	
 	
 	
-	
+	public void addItem(Item item) throws Exception;
 	
 	public Item getItem(String userId, String itemCategory) throws Exception;
 	

@@ -59,7 +59,7 @@
 			var schoolNo=$("input[name='schoolNo']").val();
 			var mail=$("input[name='mail']").val();
 			// 메일 인증 유무를 판단하기 위한 Flag 
-			var mailValue = $("input[name='mailValue']").val();
+// 			var mailValue = $("input[name='mailValue']").val();
 		
 // 			// 1일 때 메일 인증 완료이므로 그 외 혹은 메일 인증을 진행하지 않은 경우 바로 종료
 // 			if ( mailValue == "" || mailValue != "1" ) { 
@@ -128,7 +128,7 @@
 		}
 		
 
-		//==>"이메일" 유효성Check  Event 처리 및 연결
+		//==>"이메일" 유효성Check  Event 처리 및 연결=============================안됨!!!!!!!!!!!!!!!!!!!!!!!!!!
 		 $(function() {
 			 
 			 $("input[name='mail']").on("change" , function() {
@@ -139,7 +139,6 @@
 			    	alert("이메일 형식이 아닙니다.");
 			     }
 			});
-			 
 		});	
 		
 		 
@@ -203,7 +202,7 @@
 			});
 		});	
 		
-		//==>"mail 본인인증" Event 처리 및 연결 =====???
+		//==>"mail 본인인증" Event 처리 및 연결 =====
 		$(function() {
 		// 이메일 입력 시 인증번호확인 버튼이 보이지 않도록 hide 
 		$( "button.btn.btn-primary:contains('인증번호확인')" ).hide();
@@ -294,7 +293,7 @@
 			$("form")[0].reset();
 		});
 	});	
-				
+	//==>"mail 본인인증" Event 처리 및 연결 =====				
 				
 				
 		
@@ -425,8 +424,8 @@
 		  <div class="form-group">
 		    <label for="gender" class="col-sm-offset-1 col-sm-3 control-label">* 성별</label>
 		    <div class="col-sm-4">
-		    <input type="radio" name="gender" > 여자 &nbsp;
-		    <input type="radio" name="gender" > 남자
+		    <input type="radio" name="gender" value="1"> 여자 &nbsp;
+		    <input type="radio" name="gender" value="2"> 남자
 		    </div>
 		  </div>
 		  
@@ -439,15 +438,18 @@
 		    <div class="col-sm-3">
 		      <button type="button" class="btn btn-info" id="checkMail">중복확인</button>
 		    </div>
+
 		    
+			<!-- 		    메일로 인증번호 전송 -->
 		    <div class="col-sm-3">
 		    	<button type="button" class="btn btn-info" id="sendMail">메일전송</button>
 		    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		    	<button type="button" class="btn btn-info">인증번호확인</button>
 		    	<input type="hidden" name="mailValue" value="">
 		    	<input type="hidden" name="mailCheck" value="">
-		    	<input type="hidden" name="mail" value="">
+		    	<input type="hidden" name="mail1" value="">
 		    </div>
+		    <!-- 		    메일로 인증번호 전송 -->
 		    
 		  </div>
 		  

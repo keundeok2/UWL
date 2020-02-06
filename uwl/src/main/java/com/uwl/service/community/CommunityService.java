@@ -12,7 +12,7 @@ public interface CommunityService {
 	///댓글
 	public void addComment(Commentt comment) throws Exception;
 	
-	public Commentt getComment(int commentNo) throws Exception;	//누구였더라 ㅋㅋ
+	public Commentt getComment(String userId, int postNo) throws Exception;	//누구였더라 ㅋㅋ
 	
 	public void updateComment(Commentt comment) throws Exception;
 	
