@@ -1,15 +1,15 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 
-<html lang="ko">
+<html>
 	
 <head>
-	<meta charset="EUC-KR">
+	<meta charset="UTF-8">
 	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -35,22 +35,22 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 		
-		//============= È¸¿øÁ¤º¸¼öÁ¤ Event  Ã³¸® =============	
+		//============= íšŒì›ì •ë³´ìˆ˜ì • Event  ì²˜ë¦¬ =============	
 		 /* $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( "button" ).on("click" , function() {
 					self.location = "/user/updateUser?userId=${user.userId}"
 				});
 		}); */
 		
 		 $(function(){
-				$("button:contains('Ãß°¡µî·Ï')").on('click',function(){
+				$("button:contains('ì¶”ê°€ë“±ë¡')").on('click',function(){
 					self.location = "../product/addProductView.jsp";
 				});
 			});
 		
 		$(function(){
-			$("button:contains('È®ÀÎ')").on('click',function(){
+			$("button:contains('í™•ì¸')").on('click',function(){
 				self.location = "/product/listProduct?menu=manage";
 			});
 		});
@@ -62,25 +62,25 @@
 <body>
 
 	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 	<div class="container">
 	
 		<div class="page-header">
-	       <h3 class=" text-info">ÁÖ°£µµÀü°úÁ¦ µî·Ï</h3>
-	       <h5 class="text-muted">µî·ÏµÈ  <strong class="text-danger">Á¤º¸¸¦ </strong>È®ÀÎÇØ ÁÖ¼¼¿ä.</h5>
+	       <h3 class=" text-info">ì£¼ê°„ë„ì „ê³¼ì œ ë“±ë¡</h3>
+	       <h5 class="text-muted">ë“±ë¡ëœ  <strong class="text-danger">ì •ë³´ë¥¼ </strong>í™•ì¸í•´ ì£¼ì„¸ìš”.</h5>
 	    </div>
 	
 		<hr/>
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>Á¦¸ñ</strong></div>
+	  		<div class="col-xs-4 col-md-2 "><strong>ì œëª©</strong></div>
 			<div class="col-xs-8 col-md-4">${challenge.challTitle}</div>
 		</div>
 		
 		<hr/>
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>Ä«Å×°í¸®</strong></div>
+	  		<div class="col-xs-4 col-md-2 "><strong>ì¹´í…Œê³ ë¦¬</strong></div>
 			<div class="col-xs-8 col-md-4">${challenge.challCategory}</div>
 		</div>
 		
@@ -101,9 +101,9 @@
 		<hr/>
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>»óÇ°ÀÌ¹ÌÁö</strong></div>
+	  		<div class="col-xs-4 col-md-2"><strong>ìƒí’ˆì´ë¯¸ì§€</strong></div>
 			<div class="col-xs-8 col-md-4">
-			<!-- ¾ÈµÇ¸é È®ÀÎÇØº¼°Í -->
+			<!-- ì•ˆë˜ë©´ í™•ì¸í•´ë³¼ê²ƒ -->
 			<c:forEach items="${product.fileNameList}" var="fileName">
 				<img src="../images/uploadFiles/${fileName}" onerror="this.src='http://placehold.it/250X250'" />
 			</c:forEach>
@@ -115,15 +115,15 @@
 		
 		<div class="row">
 	  		<div class="col-md-12 text-center ">
-	  			<button type="button" class="btn btn-primary">Ãß°¡µî·Ï&nbsp;&nbsp;	  		
-	  			<button type="button" class="btn btn-primary">È®ÀÎ	  		</div>
+	  			<button type="button" class="btn btn-primary">ì¶”ê°€ë“±ë¡&nbsp;&nbsp;	  		
+	  			<button type="button" class="btn btn-primary">í™•ì¸	  		</div>
 		</div>
 		
 		
 		<br/>
 		
  	</div>
- 	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+ 	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 
 </body>
 

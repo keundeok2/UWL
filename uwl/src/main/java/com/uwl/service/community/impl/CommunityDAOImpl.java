@@ -41,8 +41,11 @@ public class CommunityDAOImpl implements CommunityDAO {
 	}
 
 	@Override
-	public Commentt getComment(int commentNo) throws Exception {
-		return sqlSession.selectOne("CommunityMapper.getComment", commentNo);
+	public Commentt getComment(String userId, int postNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("postNo", postNo);
+		return sqlSession.selectOne("CommunityMapper.getComment", map);
 	}
 
 	@Override

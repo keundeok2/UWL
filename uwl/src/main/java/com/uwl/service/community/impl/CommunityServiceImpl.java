@@ -32,8 +32,8 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public Commentt getComment(int commentNo) throws Exception {
-		return communityDAO.getComment(commentNo);
+	public Commentt getComment(String userId, int postNo) throws Exception {
+		return communityDAO.getComment(userId, postNo);
 	}
 
 	@Override
