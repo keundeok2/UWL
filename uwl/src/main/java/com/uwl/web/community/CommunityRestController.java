@@ -1,13 +1,10 @@
 package com.uwl.web.community;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -95,13 +92,17 @@ public class CommunityRestController {
 		System.out.println("rest/addComment.POST");
 		comment.setUserId("user01"); //session 처리해야해
 		communityService.addComment(comment);
+		
+		//get해서 다시 붙여주는 용도
+		comment = communityService.getComment(comment.getUserId(), comment.getPostNo());
+		System.out.println(comment);
 		return comment;
 	}
 	
 	@RequestMapping(value="rest/listComment")		//페이지 넘기기 용?
-	public Map<String, Object> getCommentList(@ModelAttribute("search") Search search,
+	public Map<String, Object> getCommentList(@RequestBody Search search,
 			@RequestParam("postNo") int postNo, @RequestParam("userId") String userId) throws Exception{
-		System.out.println("getCommentList.POST or GET");
+		System.out.println("rest/getCommentList.POST or GET");
 		if(search.getCurrentPage() == 0) {
 		search.setCurrentPage(1);
 		}
@@ -116,7 +117,12 @@ public class CommunityRestController {
 		return map;
 	}
 	
-	
+	@RequestMapping(value="rest/deleteComment", method=RequestMethod.POST)
+	public void deleteComment(@RequestBody Commentt comment) throws Exception{
+		//postNo랑 commentNo 받아야 함
+		System.out.println("rest/deleteComment.POST");
+		communityService.deleteComment(comment);
+	}
 //------------------------댓글-----------------------------------------------------------------------------------------------------------
 	
 }

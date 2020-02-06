@@ -9,8 +9,8 @@
 <body>
     <form action="">
        <h3>Ã¢ »ç¿ë °á°ú : ²É º¸³¿</h3>
-        <input type="text" name="userId">
-        <input type="text" name="secondUserId"><br><br>
+        <input type="text" name="userId" value="${userId }">
+        <input type="text" name="secondUserId" value="${secondUserId }"><br><br>
         <input type="text" name="secondUserId" value="${secondUserId}">´ÔÀÌ ²ÉÀ» º¸³Â½À´Ï´Ù.
     </form>
 </body>

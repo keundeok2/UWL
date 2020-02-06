@@ -5,8 +5,13 @@
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
+
 </head>
 <body>
-
+    <form action="/matching/getMatching" method="post">
+        <h3>로그인</h3>
+        <input type="text" name="userId">
+        <button type="submit">로그인</button>
+    </form>
 </body>
 </html>

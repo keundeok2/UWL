@@ -9,8 +9,8 @@
 <body>
     <form action="">
        <h3>창 사용 결과 : 방패 씀</h3>
-        <input type="text" name="userId">
-        <input type="text" name="secondUserId"><br><br>
+        <input type="text" name="userId" value="${userId }">
+        <input type="text" name="secondUserId" value="${secondUserId }"><br><br>
         방패가 자동 사용되었습니다.
     </form>
 </body>

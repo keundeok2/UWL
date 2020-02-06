@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+    <h3>수락 대기</h3>
+    수락 대기 중 입니다.
 </body>
 </html>

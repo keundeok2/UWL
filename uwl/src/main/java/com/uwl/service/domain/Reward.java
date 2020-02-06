@@ -21,6 +21,10 @@ public class Reward {
 	private int totalPoint;
 	private int totalActivityPoint;
 	
+	//랭크에 쏴줄 토탈포인트 변수
+	private int rankTotalPoint;
+	
+	
 	//Constructor
 	public Reward() {
 		// TODO Auto-generated constructor stub
@@ -132,13 +136,25 @@ public class Reward {
 	}
 
 
+	public int getRankTotalPoint() {
+		return rankTotalPoint;
+	}
+
+
+	public void setRankTotalPoint(int rankTotalPoint) {
+		this.rankTotalPoint = rankTotalPoint;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Reward [userId=" + userId + ", rewardNo=" + rewardNo + ", purchaseItem=" + purchaseItem + ", challenge="
 				+ challenge + ", variablePoint=" + variablePoint + ", variableActivityPoint=" + variableActivityPoint
-				+ ", variableDate=" + variableDate + "]";
+				+ ", variableDate=" + variableDate + ", totalPoint=" + totalPoint + ", totalActivityPoint="
+				+ totalActivityPoint + ", rankTotalPoint=" + rankTotalPoint + "]";
 	}
 
+	
 
 
 
