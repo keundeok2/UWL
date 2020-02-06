@@ -83,6 +83,12 @@ public class MatchingServiceImpl implements MatchingService{
 		// TODO Auto-generated method stub
 		return matchingDAO.getTotalMatching(search, userId);
 	}
+	
+	@Override
+	public void addItem(Item item) throws Exception {
+		// TODO Auto-generated method stub
+		matchingDAO.addItem(item);
+	}
 
 	@Override
 	public Item getItem(String userId, String itemCategory) throws Exception {
@@ -127,6 +133,8 @@ public class MatchingServiceImpl implements MatchingService{
 		// TODO Auto-generated method stub
 		return matchingDAO.getTotalItem(search, userId, itemCategory);
 	}
+
+	
 
 	
 
