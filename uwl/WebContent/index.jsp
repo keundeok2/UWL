@@ -3,7 +3,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!--  jQuery CDN -->	
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<!-- jQuery Redirect CDN     https://github.com/mgalante/jquery.redirect  -->
+<script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
+
 <meta charset="UTF-8">
+
+<script type="text/javascript">
+
+
+$(function() {
+	$("button").on("click", function() {
+		$.redirect("/user/addQuestions", {userId : "user01"});
+	})
+})
+
+</script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -11,6 +27,15 @@
 	<br>
 	<br>
 	<br>
+	
+	<a href="/user/login" role="button">로그인</a>
+	<br/><br/>
+	<a href="/user/getUser?userId=${user.userId}" role="button">회원정보</a>
+	<br/>
+	<br/>
+	<button>문의사항</button>
+	<br/>
+	<br/>
 	<ul>
 			<h2>도전과제</h2>
 			<a href="/challenge/addChallenge" role="button">도전과제 등록</a>
@@ -57,6 +82,56 @@
 	
 	
 	</ul>
+	<br><hr><br>
+	<ul>
+		<h2>친구모듈</h2>
+		<br>
+		<br>
+			
+		<a href="/friend/friendIndex.jsp"  role="button">친구모듈</a>
 	
+	
+	</ul>
+	<ul>
+		<h2>LEFT</h2>
+		<br>
+		<br>
+			
+		<a href="/post/left.jsp"  role="button">LEFT</a>
+	
+	
+	</ul>
+	<ul>
+		<h2>구매</h2>
+		<br>
+		<br>
+			
+		<a href="/purchase/addPurchase.jsp"  role="button">addPurchase</a><br/>
+		<a href="/purchase/listPurchase"  role="button">listPurchase</a><br/>
+		
+	
+	
+	</ul>
+	
+	
+	<ul>
+		<h2>채팅</h2>
+		<br>
+		<br>
+			
+		<a href="http://192.168.0.19:7777"  role="button">채팅1</a>
+	
+	
+	</ul>
+	
+	<ul>
+		
+		<br>
+		<br>
+			
+		<a href="http://192.168.0.19:5000"  role="button">채팅2</a>
+	
+	
+	</ul>
 </body>
 </html>
