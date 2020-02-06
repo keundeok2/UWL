@@ -35,7 +35,7 @@ public class MatchingController {
 	int pageSize;
 
 	@RequestMapping(value = "addMatching", method = RequestMethod.GET)
-	public String addMatchingView(HttpServletRequest request, @RequestParam("secondUserId") String secondUserId) throws Exception {
+	public String addMatching(HttpServletRequest request, @RequestParam("secondUserId") String secondUserId) throws Exception {
 		System.out.println("/matching/addMatching : GET");
 		
 		HttpSession session = request.getSession();
@@ -59,11 +59,15 @@ public class MatchingController {
 				matchingService.updateMatching(matching);
 				matchingService.updateMatching(matching2);
 			}
+			
+			
 		}
 		
 		
 		return "";
 	}
+	
+	
 	
 	
 
