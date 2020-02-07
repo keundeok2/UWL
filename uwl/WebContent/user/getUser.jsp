@@ -15,7 +15,7 @@
 	//============= 회원정보수정 Event  처리 =============	
 	$(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		$("button").on("click", function() {
+		$("button#updateUser").on("click", function() {
 			self.location = "/user/updateUser?userId=${user.userId}";
 		});
 	});
@@ -51,8 +51,13 @@
 <br>
 	메      일  <div>${user.mail}</div>
 <br>
+	사      진 : <div>${user.profileName}</div>	
+<br>
+<br>
 
 	<button type="button" id="updateUser">정보수정</button>
+	<br><br>
+	<button onclick="location.href='/index.jsp'">확인</button><br>
 	<br><br>
 	<a href="javascript:history.go(-1)">뒤로</a>
 

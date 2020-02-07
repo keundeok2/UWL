@@ -24,26 +24,31 @@ $(function() {
 
 
 <body>
-	
+	<h1>문의사항 수정</h1>
 	updateQuestions.jsp
 	<hr>
+	<br>
+	
 	
 	<form>
 <%-- 	아이디  : <input type="text"	name="userId"		 value="${user.userId}"		readonly> --%>
-	아이디  :${user.userId} <input type="hidden" 	name="postDate"	 value="${user.userId}">
-	<hr>
-	제목  : <input type="text"		name="postTitle"	 value="${post.postTitle}">
-	<hr>
-	내용  : <input type="text" 	name="postContent"	 value="${post.postContent}">
-	<hr>
-		<input type="hidden" 	name="postDate"	 value="${post.postDate}">
-		<input type="hidden" 	name="postNo"	 value="${post.postNo}">
-		<input type="hidden" 	name="hitCount"	 value="${post.hitCount}">
+	아이디  : <div>${user.userId}</div> <input type="hidden" 	name="postDate"	 value="${user.userId}">
+	<br>
+	제목  : <div>${post.postTitle}</div><input type="text"		name="postTitle"	 value="${post.postTitle}">
+	<br>
+	<br>
+	내용  : <div>${post.postContent}</div> <input type="text" 	name="postContent"	 value="${post.postContent}">
+	<br>
+	<br>
+		<input type="hidden" 	name="postNo"	 	value="${post.postNo}">
+		<input type="hidden" 	name="postDate"	 	value="${post.postDate}">
+		<input type="hidden" 	name="hitCount"		 value="${post.hitCount}">
 		<input type="hidden" 	name="likeCount"	 value="${post.likeCount}">
 		<input type="hidden" 	name="commentCount"	 value="${post.commentCount}">
 	
-	  공개설정 :    <input type= "radio" id="viewStatus"	name="viewStatus"	value="1"	checked/> 공개
+	  공개설정 :  <div>  <input type= "radio" id="viewStatus"	name="viewStatus"	value="1"	checked/> 공개
     <input type= "radio" id="viewStatus"	name="viewStatus"	value="2"/> 비공개
+    </div>
   
   
     <br> 

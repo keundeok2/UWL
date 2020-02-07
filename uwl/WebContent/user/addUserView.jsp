@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 
-
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 수 정 중 !!!!!!!!!!!!! -->
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -140,6 +140,74 @@
 			     }
 			});
 		});	
+		
+		
+		
+// 		/////////test///////
+// 	var checkId = 0;
+//     var checkPw = 0;
+//     //아이디 체크하여 가입버튼 비활성화, 중복확인.
+//     function checkDuplicationUserId() {
+//         var inputed = $('#userId').val();
+//         $.ajax({
+//             data : {
+//                 id : inputed
+//             },
+//             url : "/user/checkDuplicationUserId",
+//             success : function(data) {
+//                 if(inputed=="" && data=='0') {
+//                     $(".signupbtn").prop("disabled", true);
+//                     $(".signupbtn").css("background-color", "#aaaaaa");
+//                     $("#userId").css("background-color", "#FFCECE");
+//                     checkId = 0;
+//                 } else if (data == '0') {
+//                     $("#userId").css("background-color", "#B0F6AC");
+//                     checkId = 1;
+//                     if(checkId==1 && checkPw == 1) {
+//                         $(".signupbtn").prop("disabled", false);
+//                         $(".signupbtn").css("background-color", "#4CAF50");
+//                         signupCheck();
+//                     } 
+//                 } else if (data == '1') {
+//                     $(".signupbtn").prop("disabled", true);
+//                     $(".signupbtn").css("background-color", "#aaaaaa");
+//                     $("#userId").css("background-color", "#FFCECE");
+//                     checkId = 0;
+//                 } 
+//             }
+//         });
+//     }
+
+		
+// 		 ////////test
+//     $(function() {
+
+//         $("button#checkId").on('click', function(){
+
+//             $.ajax({
+//                 type: 'POST',
+//                 url: '/user/checkDuplicationUserId',
+//                 data: {
+//                     "userId" : $('#userId').val()
+//                 },
+//                 success: function(data){
+//                     if($.trim(data) == 0){
+//                         $('#checkMsg').html('<p style="color:blue">사용가능</p>');
+//                     }
+//                     else{
+//                         $('#checkMsg').html('<p style="color:red">사용불가능</p>');
+//                     }
+//                 }
+//             });    //end ajax    
+//         });    //end on    
+//     });
+
+		///////////////
+		
+		
+		
+		
+		
 		
 		 
 		//==>"ID중복확인" Event 처리 및 연결
@@ -335,10 +403,10 @@
 		  <div class="form-group">
 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">* 아 이 디</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="userId" name="userId" placeholder="중복확인하세요"  readonly>
-<!-- 		       <span id="helpBlock" class="help-block"> -->
+		      <input type="text" class="form-control" id="userId" name="userId" oninput="checkDuplicationUserId()"	placeholder="중복확인하세요">
+		      <span id = "checkMsg"></span> 
+		      
 		      	<strong class="text-danger">입력전 중복확인 부터..</strong>
-<!-- 		      </span> -->
 		    </div>
 		    <div class="col-sm-3">
 		      <button type="button" class="btn btn-info" id="checkId">중복확인</button>
@@ -438,6 +506,13 @@
 		    <div class="col-sm-3">
 		      <button type="button" class="btn btn-info" id="checkMail">중복확인</button>
 		    </div>
+		    
+		    <div class="form-group">
+		    <label for="profileName" class="col-sm-offset-1 col-sm-3 control-label"> 사 진</label>
+		    <div class="col-sm-4">
+		      <input type="file" class="form-control" id="profileName" name="profileName" placeholder="사진">
+		    </div>
+		    </div>
 
 		    
 			<!-- 		    메일로 인증번호 전송 -->
@@ -456,8 +531,8 @@
 		  
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		    
-		      <button type="button" class="btn btn-primary"  >가 &nbsp;입</button>
+		     <button type="submit" class="signupbtn" disabled="disabled">Sign Up</button>
+<!-- 		      <button type="button" class="btn btn-primary"  >가 &nbsp;입</button> -->
 			  <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
 		    </div>
 		  </div>
