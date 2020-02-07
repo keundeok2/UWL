@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uwl.common.Page;
 import com.uwl.common.Search;
+import com.uwl.service.community.CommunityService;
+import com.uwl.service.domain.Commentt;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.Report;
 import com.uwl.service.post.PostService;
@@ -31,6 +33,9 @@ public class ReportController {
 	@Qualifier("postServiceImpl")
 	private PostService postService;
 	
+	@Autowired
+	@Qualifier("communityServiceImpl")
+	private CommunityService communityService;
 	
 	public ReportController() {
 		System.out.println(this.getClass());
@@ -50,23 +55,19 @@ public class ReportController {
 			Post post = postService.getBoard(report.getRefPostNo());
 			model.addAttribute("post", post);
 		}else {
-			//여기서 getComment 넣어야함--------------------------------------------------
+			Commentt comment = communityService.getCommentByCommentNo(report.getRefCommentNo());
+			model.addAttribute("comment", comment);
 		}
 		model.addAttribute("report", report);
 		return "forward:/report/getReport.jsp";
 	}
 	
-	@RequestMapping(value="addReport", method=RequestMethod.POST)	//modal창이여서 GET방식 존재 X, if문으로 게시글신고인지 댓글신고인지 판단 할 예정
+	@RequestMapping(value="addReport", method=RequestMethod.POST)	//게시글 신고
 	public String addReport(@ModelAttribute("report") Report report, Model model) throws Exception{		//----------------테스트 완료
 		System.out.println("addReport.POST");
 		report.setUserId01("user15");		//////----------Session 처리 할것임
-		if(report.getRefCommentNo() == 0) {	//코멘트 넘버가 비었다면? 즉 게시글 신고
-			report.setReportWhat("1");
-			reportService.addCommentReport(report);
-		}else {	//그게 아니라면? 즉 댓글 신고
-			report.setReportWhat("2");
-			reportService.addCommentReport(report);
-		}//게시글 번호는 비어있을 수 없음 그래서 getPost로 보낸다
+		report.setReportWhat("1");
+		reportService.addPostReport(report);
 		return "redirect:/post/getBoard?postNo="+report.getRefPostNo();
 	}
 	

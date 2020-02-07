@@ -35,6 +35,12 @@ public class CommunityServiceImpl implements CommunityService {
 	public Commentt getComment(String userId, int postNo) throws Exception {
 		return communityDAO.getComment(userId, postNo);
 	}
+	
+	
+	@Override
+	public Commentt getCommentByCommentNo(int commentNo) throws Exception {
+		return communityDAO.getCommentByCommentNo(commentNo);
+	}
 
 	@Override
 	public void updateComment(Commentt comment) throws Exception {
@@ -98,6 +104,8 @@ public class CommunityServiceImpl implements CommunityService {
 	public void addNotification(Notification notification) throws Exception {
 		communityDAO.addNotification(notification);
 	}
+
+
 
 
 
