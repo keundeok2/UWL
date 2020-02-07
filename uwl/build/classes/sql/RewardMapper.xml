@@ -47,9 +47,27 @@
 														ranking.ranking_activity_point
 												FROM challenge c,purchase p,reward r, (SELECT sum(variable_point) ranking_point, 
 																							sum(variable_activity_point) ranking_activity_point 
-																				FROM reward WHERE user_id= #{userId}) ranking
-													WHERE r.chall_no = c.chall_no   AND r.user_id = #{userId}
+																				FROM reward WHERE user_id= #{reward.userId}) ranking
+													WHERE r.chall_no = c.chall_no   AND r.user_id = #{reward.userId}
 												ORDER BY variable_date DESC) inner_table
+						WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER} )
+		WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER} 	
+	 </select>
+	 
+	 <select  id="getUserPurchaseList"  parameterType="map"	resultMap="rewardSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT r.reward_no,
+												r.user_id,
+												r.purchase_no ,
+												p.item_category,
+												r.variable_point,
+												r.total_point,
+												r.variable_date,
+												ranking.ranking_point
+											   FROM purchase p, reward r, (SELECT sum(variable_point) ranking_point
+																			FROM reward WHERE user_id=#{reward.userId}) ranking
+				WHERE p.purchase_no = r.purchase_no AND r.purchase_no IS NOT NULL ORDER BY variable_date DESC) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER} )
 		WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER} 	
 	 </select>
@@ -89,29 +107,57 @@
 	 
 	 <!-- SQL : INSERT -->
 	<insert 	id="decreasePoint"		parameterType="purchase" >
-	 	INSERT INTO reward(reward_no, 
+		INSERT INTO reward(reward_no, 
 							user_id, 
-							purchase_no, 
+							purchase_no,
 							variable_point, 
+							variable_activity_point, 
+							total_point,
+							total_activity_point,
 							variable_date)
-		VALUES (seq_reward_reward_no.NEXTVAL,#{userId},seq_purchase_purchase_no.CURRVAL,-#{price},SYSDATE)
-		<!-- VALUES (seq_reward_reward_no.NEXTVAL,#{userId},#{purchaseNo},#{price},SYSDATE) -->
-	 </insert>
+							VALUES (seq_reward_reward_no.NEXTVAL,
+											#{userId},
+											<!-- #{purchaseNo}, -->
+											seq_purchase_purchase_no.CURRVAL,
+											-#{price},
+											0,
+											(SELECT the_latest.total_point  
+												FROM (SELECT total_point  
+																FROM reward WHERE user_id =#{userId} 
+																ORDER BY reward_no DESC) the_latest
+												WHERE ROWNUM = 1) -#{price}, 
+												(SELECT the_latest.total_activity_point  
+												FROM (SELECT total_activity_point  
+																FROM reward WHERE user_id = #{userId} 
+																ORDER BY reward_no DESC) the_latest
+												WHERE ROWNUM = 1), SYSDATE)
+	 	
+ 	</insert>
 	 
 	 
 	 
 	 <!-- SQL : SELECT ROW Count -->
 	 <!-- 이거 어디에 쓰는지 알아볼것 -->	 
-	 <select  id="getTotalCountOne"  parameterType="String"	 resultType="int">
+	<!--  <select  id="getTotalCountOne"  parameterType="String"	 resultType="int"> -->
+	 <select  id="getTotalCountOne"  parameterType="reward"	 resultType="int">
 	  	SELECT COUNT(*)
-				  	FROM(	 SELECT reward_no,
+				  	FROM(	 SELECT  reward_no,
 									user_id,
 									purchase_no,
 									chall_no,
 									variable_point,
 									variable_activity_point,
+									total_point,
+									total_activity_point,
 									variable_date
-									FROM reward WHERE user_id = #{userId} ORDER BY variable_date DESC) countTable
+							FROM reward  
+							<where><!-- 포인트사용한 내역을 조회할 때 사용 -->
+								user_id = #{userId} 
+								<if test="purchaseItem.purchaseNo != 0">
+									AND purchase_no IS NOT NULL
+								</if>
+							</where>
+					ORDER BY variable_date DESC)countTable
 	 </select>
  	
  	

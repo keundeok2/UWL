@@ -39,7 +39,7 @@ public class ReportDAOImpl implements ReportDAO{
 	
 	@Override
 	public void addCommentReport(Report report) throws Exception {
-		sqlSession.insert("ReportMapper.addReport", report);
+		sqlSession.insert("ReportMapper.addReportComment", report);
 	}
 
 	@Override
