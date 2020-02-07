@@ -150,6 +150,23 @@
 </head>
 
 <body>
+
+<!-- 혹시나 주간 도전과제를 깻을떄 3개의 진행상황을 나타내주는 그래프, 3개 다 성공하면 추가 포인트 획득기회를 제공하는 로직을 만들어보는건 어떨까?  -->
+<div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">

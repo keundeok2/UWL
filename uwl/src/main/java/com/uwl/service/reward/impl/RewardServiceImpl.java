@@ -45,19 +45,38 @@ public class RewardServiceImpl implements RewardService{
 
 	//Method
 	@Override
-	public Map<String,Object> getUserBothPointList(Search search, String userId) throws Exception {
+	public Map<String,Object> getUserBothPointList(Search search, Reward reward) throws Exception {
 		
 		System.out.println("RewardServiceImple getUserBothPointList() 작동 중");
 		
-		int totalCount = rewardDAO.getTotalCountOne(userId);
+		int totalCount = rewardDAO.getTotalCountOne(reward);
 		
-		Map<String, Object> map = rewardDAO.getUserBothPointList(search, userId);
+		System.out.println("ServiceImpl getUserBothPointList() 넘어온 reward값 : " + reward);
+		
+		System.out.println("ServiceImpl getUserBothPointList() totalcount : " + totalCount);
+		
+		Map<String, Object> map = rewardDAO.getUserBothPointList(search, reward);
 		
 		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
 	}
 	
+	@Override
+	public Map<String, Object> getUserPurchaseList(Search search, Reward reward) throws Exception {
+		
+		System.out.println("RewardServiceImple getUserPurchaseList() 작동 중");
+		
+		int totalCount = rewardDAO.getTotalCountOne(reward);
+		
+		Map<String, Object> map = rewardDAO.getUserPurchaseList(search, reward);
+		
+		map.put("totalCount", new Integer(totalCount));
+		
+		
+		return map;
+		
+	}
 
 	@Override
 	public void increasePoint(Reward reward) throws Exception {
@@ -71,6 +90,8 @@ public class RewardServiceImpl implements RewardService{
 	public void decreasePoint(Purchase purchase) throws Exception {
 		rewardDAO.decreasePoint(purchase);
 	}
+
+
 
 
 
