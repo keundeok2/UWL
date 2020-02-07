@@ -49,6 +49,8 @@
         <div>신고당한 내용 : ${post.postContent }</div>
         <br>
         <br>
+        <div>신고당한 댓글 내용 : ${comment.commentContent }</div>
+        <br>
         
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
   			제재하기

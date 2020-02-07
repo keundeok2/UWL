@@ -183,7 +183,7 @@
 	                        <h4 class="modal-title" id="myModalLabel"></h4>
 	                    </div>
                     <div class="modal-body">
-                        	<h1>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;신고하기</h1>
+                        	<h1>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;게시글 신고하기</h1>
                     </div>
                     <div class="modal-footer">
                         <select class="form-control" name="reportCategoryNo">
@@ -195,7 +195,9 @@
 						<br>
 						<textarea cols="75" rows="10" placeholder="내용입력" name="reportContent"></textarea>
 						<br>
+						<span>
                         <button type="submit" class="btn btn-primary">신고하기</button>
+                        </span>
                     </div>
                 </div>
             </div>

@@ -8,9 +8,17 @@ import com.uwl.service.domain.Purchase;
 import com.uwl.service.domain.Reward;
 
 public interface RewardService {
-
-	//user의 포인트내역을 조회한다
-	public Map<String,Object> getUserBothPointList(Search search, String userId) throws Exception;
+	
+	//////////////////////2개의 메소드를 이용하여 이용내역과 차감내역을 만들거임//////////////////////
+	
+	//user의 포인트내역을 조회한다 = 포인트 획득내역만 조회가능
+	public Map<String,Object> getUserBothPointList(Search search, Reward reward) throws Exception;
+	
+	//user의 포인트내역을 조회한다 = 구매 시 차감내역만 조회가능
+	public Map<String, Object> getUserPurchaseList(Search search, Reward reward) throws Exception;
+	
+	////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	//획득 포인트, 활동점수 
 	public void increasePoint(Reward reward) throws Exception;

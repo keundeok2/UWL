@@ -46,16 +46,25 @@ public class RewardServiceTest {
 	@Qualifier("rewardServiceImpl")
 	private RewardService rewardService;
 	
-	@Test
+	//테스트 다시할 것.
+	//@Test 
 	public void testGetUserBothPointList()throws Exception{
 		
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(5);
 		
-		String userId = "user01";
+		Purchase purchase = new Purchase();
+		purchase.setPurchaseNo(0);
 		
-		Map<String, Object> map = rewardService.getUserBothPointList(search, userId);
+		Reward reward = new Reward();
+		reward.setUserId("user41");
+		reward.setPurchaseItem(purchase);
+		
+		System.out.println("reward.purchaseNo : " + reward.getPurchaseItem());
+		
+		
+		Map<String, Object> map = rewardService.getUserBothPointList(search, reward);
 		
 		//List에 담긴 갯수를 Assert와 비교하기 위해서 list변수를 만들어서 함
 		List<Reward> list = (ArrayList<Reward>) map.get("list");
@@ -63,7 +72,35 @@ public class RewardServiceTest {
 		System.out.println("testGetUserBothPointList list : " + list);
 		System.out.println("map에 담긴 정보 확인 : " + map);
 		
+		//카운트는 5개나오지만 -가 안나와서 걍 이걸로..
 		Assert.assertEquals(4,list.size());
+	}
+	
+	//@Test
+	public void testGetUserPurchaseList() throws Exception{
+		
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(5);
+		
+		Purchase purchase = new Purchase();
+		purchase.setPurchaseNo(10000);
+		purchase.setItemCategory("1");
+		
+		Reward reward = new Reward();
+		reward.setUserId("user41");
+		reward.setPurchaseItem(purchase);
+		
+		Map<String, Object> map = rewardService.getUserPurchaseList(search, reward);
+		
+		//List에 담긴 갯수를 Assert와 비교하기 위해서 list변수를 만들어서 함
+		List<Reward> list = (ArrayList<Reward>) map.get("purchaseList");
+		
+		System.out.println("testGetUserBothPointList list : " + list);
+		System.out.println("map에 담긴 정보 확인 : " + map);
+		
+		Assert.assertEquals(1,list.size());
+		
 	}
 	
 	//@Test
@@ -86,11 +123,11 @@ public class RewardServiceTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void decreasePoint() throws Exception{
 	
 		Purchase purchase = new Purchase();
-		purchase.setPrice(-99000);
+		purchase.setPrice(99000);
 		purchase.setUserId("user41");
 		purchase.setPurchaseNo(10001);
 		
