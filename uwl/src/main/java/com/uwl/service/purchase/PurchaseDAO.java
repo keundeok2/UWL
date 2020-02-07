@@ -15,5 +15,11 @@ public interface PurchaseDAO {
 	
 	public int getTotalCount(String userId, Search search) throws Exception;
 	
-	public void refundPurchase(int purchaseNo) throws Exception;
+	public void updateRefundOptionByPurchaseNo(int purchaseNo) throws Exception;
+	
+	public void updateRefundOptionByItemNo(int itemNo) throws Exception;
+	
+	public void deletePoint(int purchaseNo) throws Exception;
+	
+	public void deleteItem(int itemNo) throws Exception;
 }

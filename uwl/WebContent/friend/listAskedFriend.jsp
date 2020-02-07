@@ -28,7 +28,7 @@
 			console.log("userId", userId);
 			
 			$.ajax({
-				url : "/friend/json/acceptFriend",
+				url : "/friend/rest/acceptFriend",
 				method : "POST",
 				headers : {
 					"Accept" : "application/json",
@@ -53,7 +53,7 @@
 			console.log("userId", userId);
 			
 			$.ajax({
-				url : "/friend/json/deleteFriend",
+				url : "/friend/rest/deleteFriend",
 				method : "POST",
 				headers : {
 					"Accept" : "application/json",

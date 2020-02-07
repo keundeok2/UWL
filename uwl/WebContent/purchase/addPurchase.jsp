@@ -139,8 +139,9 @@
 				})
 			})
 	
-	
-
+	$(document).on("click", "#listPurchase", function() {
+		$.redirect("/purchase/getPurchaseList",{userId : sessionId});
+	})
 	
 	
 	</script>
@@ -158,6 +159,7 @@
 <input type=hidden class="itemCategory" value="2">
 방패 구매하기
 </button>
+<button type="button" id="listPurchase">구매내역</button>
 
 <!-- Modal -->
 <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -171,6 +173,9 @@
       </div>
       <div class="modal-body">
       <div class="row">
+      <div class="col-sm-12">
+      <h3>현재 포인트 : </h3>
+      </div>
       	<div class="col-sm-6">
         <button type="button" class="btn btn-primary btn-lg btn-block" id="cardBtn" value="1">현금 구매<br/>99,000원</button>
         </div>
