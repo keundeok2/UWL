@@ -43,6 +43,7 @@ public class OracleToMongo {
 			String fileName = "";
 			String email = "";
 			String password = "";
+			String selfIntroduction = "";
 			
 			try {
 				/* Register Driver though not required for Java 6.0
@@ -60,7 +61,7 @@ public class OracleToMongo {
 				
 				// 테이블에서 가져올거 쿼리날리기
 				Statement stmnt = conn.createStatement();
-				String sqlQuery = "SELECT USER_ID , NAME , NICKNAME ,GENDER , PROFILE_NAME, MAIL, PASSWORD FROM USERS";  
+				String sqlQuery = "SELECT USER_ID , NAME , NICKNAME ,GENDER , PROFILE_NAME, MAIL, PASSWORD,SELF_INTRODUCTION FROM USERS";  
 				ResultSet rs = stmnt.executeQuery(sqlQuery);
 		
 				// 잘나오는지 확인
@@ -75,6 +76,7 @@ public class OracleToMongo {
 					fileName = rs.getString("PROFILE_NAME");
 					email = rs.getString("MAIL");
 					password = rs.getString("PASSWORD");
+					selfIntroduction = rs.getString("SELF_INTRODUCTION");
 					
 					// 잘나오는지 확인2
 					System.out.println(gender+"|"+userId+"|"+name+"|"+nickName+"|"+fileName);
@@ -98,6 +100,7 @@ public class OracleToMongo {
 							.append("fileName", fileName)
 							.append("gender", gender)
 							.append("password", password)
+							.append("nickname", nickName)
 						//	.append("created_at", 오늘날짜? )
 							//	.append("friends", 어레이)
 							//	.append("channels", 이것도어레이 )

@@ -28,11 +28,18 @@
  	</select>
  	
  	
- 	<insert id="addReport" parameterType="report">
+ 	<insert id="addReport" parameterType="report">	<!-- 게시글 -->
+ 		INSERT
+ 		INTO report(
+ 			report_no, ref_post_no, user_id01, user_id02, report_what, report_status, report_category_no, report_date, proceed_date, report_content, stop_date)
+ 		VALUES(seq_report_report_no.NEXTVAL, #{refPostNo}, #{userId01}, #{userId02}, #{reportWhat}, '1', #{reportCategoryNo}, SYSDATE, null, #{reportContent}, null)
+ 	</insert>
+ 	
+ 	 <insert id="addReportComment" parameterType="report">	<!-- 댓글 -->
  		INSERT
  		INTO report(
  			report_no, ref_post_no, ref_comment_no, user_id01, user_id02, report_what, report_status, report_category_no, report_date, proceed_date, report_content, stop_date)
- 		VALUES(seq_report_report_no.NEXTVAL, #{refPostNo}, (NVL2(#{refCommentNo},null,#{refCommentNo})), #{userId01}, #{userId02}, #{reportWhat}, '1', #{reportCategoryNo}, SYSDATE, null, #{reportContent}, null)
+ 		VALUES(seq_report_report_no.NEXTVAL, #{refPostNo}, #{refCommentNo}, #{userId01}, #{userId02}, #{reportWhat}, '1', #{reportCategoryNo}, SYSDATE, null, #{reportContent}, null)
  	</insert>
  	
  	<update id="updateReport" parameterType="report"> <!-- 신고 처리 -->

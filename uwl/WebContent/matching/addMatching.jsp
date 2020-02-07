@@ -14,22 +14,31 @@
         <input type="text" name="secondUserId" value="${secondUserId }"><br><br>
         <input type="text" name="secondUserId" value="${secondUserId }">
         
-        <c:if test="${matching.secondUserId eq secondUserId}">
-	        <a href="/matching/deleteMatching?userId=${userId }&secondUserId=${secondUserId}">
-	        	꽃보내기취소
+        <c:if test="${userId ne secondUserId }">
+	        <c:if test="${matching.secondUserId eq secondUserId}">
+		        <a href="/matching/deleteMatching?userId=${userId }&secondUserId=${secondUserId}">
+		        	꽃보내기취소
+		        </a>
+	        </c:if>
+	        <c:if test="${matching.secondUserId ne secondUserId}">
+	        	<a href="/matching/addMatching2?userId=${userId}&secondUserId=${secondUserId}">
+	        		꽃보내기
+	        	</a>
+	        </c:if>
+	        
+	        
+	        <a href="/matching/updateItem?userId=${userId}&secondUserId=${secondUserId}">
+	        	찔러보기
 	        </a>
         </c:if>
-        <c:if test="${matching.secondUserId ne secondUserId}">
-        	<a href="/matching/addMatching2?userId=${userId}&secondUserId=${secondUserId}">
-        		꽃보내기
-        	</a>
+        <br>
+        받은 꽃 개수 : <input type="text" name="totalMatching" value="${totalMatching}"><br>
+        
+        <c:if test="${userId eq secondUserId }">
+        	창 개수 : <input type="text" name="totalItem1" value="${totalItem}"><br>
+        	방패 개수 : <input type="text" name="totalItem2" value="${totalItem2}">
         </c:if>
         
-        
-        <a href="/matching/updateItem?userId=${userId}&secondUserId=${secondUserId}">
-        	찔러보기
-        </a><br>
-        받은 꽃 개수 : <input type="text" name="totalMatching" value="${totalMatching}">
     </form>
 </body>
 </html>

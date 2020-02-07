@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,19 +36,31 @@
   <br>
 	 아이디 : <div>${user.userId}</div>
 	 <br>
-	 게시글 번호 : <div>${post.postNo}</div>
-	 <br>
+<%-- 	 게시글 번호 : <div>${post.postNo}</div> --%>
+<!-- 	 <br> -->
 	 제목 : <div>${post.postTitle}</div>
 	 <br>
 	 내용 : <div>${post.postContent}</div>
 	 <br>
-	 날짜 : <div>${post.postDate}</div>
-	 <br>
+<%-- 	 날짜 : <div>${post.postDate}</div> --%>
+<!-- 	 <br> -->
 	 조회수 : <div>${post.hitCount}</div>
 	 <br>
-	 공개여부 : <div>${post.viewStatus}</div>
+	 
+	 <c:if test="${post.viewStatus == '1' or post.viewStatus == null}">
+							공개여부 : 공개
+	</c:if>
+	<c:if test="${post.viewStatus == '2'}">
+							공개여부 : 비공개
+	</c:if>
 	 <br>
-	 답변여부 : <div>${post.questionStatus}</div>
+	 <br>
+	 <c:if test="${post.questionStatus == '1' or post.questionStatus == null}">
+							답변여부 : 미처리
+	</c:if>
+	<c:if test="${post.questionStatus == '2'}">
+							답변여부 : 처리
+	</c:if>
 	 <br>
 	 
 <%-- 	 <input type="hidden"	id="userId" name="userId" value="${user.userId}"/> --%>

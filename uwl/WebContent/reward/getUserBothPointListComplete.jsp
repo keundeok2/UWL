@@ -3,6 +3,8 @@
 
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 
 
 <!DOCTYPE html>
@@ -155,7 +157,7 @@
 	<div class="container">
 	
 		<div class="page-header text-info">
-	       <h3>완료된 도전과제 목록 </h3>
+	       <h3>포인트 사용내역조회  </h3>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -170,7 +172,23 @@
 		    <div class="col-md-6 text-right">
 			    <form class="form-inline" name="detailForm">
 			    
+				  <div class="form-group">
+				    <select class="form-control" name="searchCondition" >
+						<option value="0" ${!empty searchCondition && searchCondition == "0" ? "selected" : ""} >상품번호</option>
+						
+						<option value="1" ${!empty searchCondition && searchCondition == "1" ? "selected" : ""} >상품명</option>
+					
+						<option value="2" ${!empty searchCondition && searchCondition == "2" ? "selected" : ""} >상품가격</option>
+					</select>
+				  </div>
 				  
+				  <div class="form-group">
+				    <label class="sr-only" for="searchKeyword">검색어</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+				  </div>
+				  
+				  <button type="button" class="btn btn-default">검색</button>
 				  <br/>
 				  <br/>
 				  <br/>
@@ -193,31 +211,70 @@
 		
 		<div class="container">
 		<div class="row">
-		  <c:forEach var="challenge" items="${list}">
+		  <%-- <c:forEach var="reward" items="${list}"> --%>
+		  	
+		  	<c:forEach var="purchasePoint" items="${purchaseList}">
+		  		<%-- 카테고리 : ${purchasePoint.purchaseItem.itemCategory}
+		  		구매번호 : ${purchasePoint.purchaseItem.purchaseNo} 
+			 <c:if test="${purchasePoint.purchaseItem.itemCategory == '1'}">
+			  	창<br>
+			  </c:if>
+			  	아이템카테고리 : ${purchasePoint.purchaseItem.itemCategory} <br>
+			  	구매번호 : ${purchasePoint.purchaseItem.purchaseNo} <br>
+	       		<c:if test=" ${purchasePoint.purchaseItem.purchaseNo ne 0}"> --%>	
+			  	<div class="col-sm-6 col-md-4">
+				    <div class="thumbnail">
+				      <br/>
+				      <div class="caption">
+				    	<input type="hidden" value="${purchasePoint.rewardNo}">
+				        <h3>아이템 구매내역 </h3>
+	     			        <p>	
+	     			        	<c:if test=" ${purchasePoint.purchaseItem.itemCategory == '1'}">
+				        			구매아이템 : 창<br/>
+				        		</c:if>
+				        		<c:if test=" ${purchasePoint.purchaseItem.itemCategory == '2'}">
+				        			구매아이템 : 방패<br/>
+				        		</c:if>
+					        	사용포인트 : ${purchasePoint.variablePoint}<br/>
+					        	총포인트 : ${purchasePoint.totalPoint}<br/>
+					        	획득날짜 : ${purchasePoint.variableDate}<br/>
+				        	</p>
+				        	
+			        <p><a href="#" class="btn btn-primary" role="button">상세정보</a> 
+				      </div>
+				    </div>
+				  </div>
+	        	<%-- </c:if> --%> 
+		  	</c:forEach>
+		  	
+			  <c:forEach var="reward" items="${list}">
 			  <div class="col-sm-6 col-md-4">
 			    <div class="thumbnail">
 			      <br/>
 			      <div class="caption">
-			    	<input type="hidden" value="${challenge.challNo}">
-			        <h3>${challenge.challTitle} </h3><br>
-			        <p>
-			        	${challenge.challContent}<br/>
+			    	<input type="hidden" value="${reward.rewardNo}">
+			        <h3>${reward.challenge.challTitle} </h3>
 			        	
-			        	<c:if test="${challenge.challCategory == '1'}">
-							카테고리 : Map
-						</c:if>
-						<c:if test="${challenge.challCategory == '2'}">
-							카테고리 : Vision
-		
-						</c:if>
-						<c:if test="${challenge.challCategory == '3'}">
-							카테고리 : 게시판활동
-		
-						</c:if>
-						<br>
-			        	포인트 : ${challenge.challReward}<br/>
+			        	<c:if test=" ${reward.purchaseItem.purchaseNo == 0}">	
+     			        <p>	
+     			        	<c:if test=" ${reward.purchaseItem.itemCategory == '1'}">
+			        			구매아이템 : 창<br/>
+			        		</c:if>
+			        		<c:if test=" ${reward.purchaseItem.itemCategory == '2'}">
+			        			구매아이템 : 방패<br/>
+			        		</c:if>
+					        	사용포인트 : - ${reward.variablePoint}<br/>
+					        	총포인트 : ${reward.totalPoint}<br/>
+					        	획득날짜 : ${reward.variableDate}<br/>
 			        	</p>
-			        <p><a href="#" class="btn btn-primary" role="button">상세정보</a> 
+			        	</c:if>
+			        	
+			        	<p>	
+				        	획득포인트 : + ${reward.variablePoint}<br/>
+				        	총 포인트 : ${reward.totalPoint}<br/>
+				        	획득날짜 : ${reward.variableDate}<br/>
+			        	</p>
+		        <p><a href="#" class="btn btn-primary" role="button">상세정보</a> 
 			      </div>
 			    </div>
 			  </div>

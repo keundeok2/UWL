@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uwl.common.Search;
+import com.uwl.service.domain.Item;
 import com.uwl.service.domain.Matching;
 import com.uwl.service.domain.User;
 import com.uwl.service.matching.MatchingService;
@@ -88,6 +89,8 @@ public class MatchingController {
 			model.addAttribute("userId", userId);
 			model.addAttribute("secondUserId", secondUserId);
 			
+			
+			
 			//창 사용 확인으로 이동
 			return "forward:/matching/updateItem.jsp";
 		} else {
@@ -112,18 +115,24 @@ public class MatchingController {
 		matchingService.addMatching(matching);
 		
 		//서로에게 꽃을 보냈는지 확인
-		Matching matching2 = matchingService.getMatching(secondUserId);
 		
-		
-		//서로에게 꽃을 보냈다면
-		if(matching2.getSecondUserId() == userId) {
-			matching.setMatchingStatus("2");
-			matching2.setMatchingStatus("2");
+		if(matchingService.getMatching(secondUserId) != null) {
+			matching = matchingService.getMatching(userId);
+			Matching matching2 = matchingService.getMatching(secondUserId);
 			
-			//매칭 상태 업데이트
-			matchingService.updateMatching(matching);
-			matchingService.updateMatching(matching2);
+			
+			//서로에게 꽃을 보냈다면
+			if(matching2.getSecondUserId().equals(userId)) {
+				
+				matching.setMatchingStatus("2");
+				matching2.setMatchingStatus("2");
+				
+				//매칭 상태 업데이트
+				matchingService.updateMatching(matching);
+				matchingService.updateMatching(matching2);
+			}
 		}
+		
 		
 		//꽃 보냄으로 이동
 		return "forward:/matching/addMatching3.jsp";
@@ -210,7 +219,7 @@ public class MatchingController {
 			model.addAttribute("totalItem2", totalItem2);
 			
 			//내 프로필로 이동
-			return "forward:/matching/getMatching2.jsp";
+			
 		} else {
 			//나 말고 다른 사람 프로필로 간 경우
 			//내가 꽃 보낸 사람인지 확인
@@ -228,10 +237,10 @@ public class MatchingController {
 			
 			
 			//사람들 프로필로 이동
-			return "forward:/matching/addMatching.jsp";
+			
 		}
 		
-		
+		return "forward:/matching/addMatching.jsp";
 		
 		
 		
@@ -252,23 +261,39 @@ public class MatchingController {
 		model.addAttribute("userId", userId);
 		model.addAttribute("secondUserId", secondUserId);
 		
+		Item item = matchingService.getItem(userId, "1");
+		item.setSecondUserId(secondUserId);
+		
 		//회원이 방패를 가지고 있는지 확인
 		//방패가 없고
 		if(matchingService.getItem(secondUserId, "2") == null) {
 			
 			//꽃을 보냈으면
-			if(matching.getSecondUserId() == userId) {
+			if(matching.getSecondUserId().equals(userId)) {
 				
+				item.setUseResult("1");
+				matchingService.updateItem(item);
 				//창 사용 결과 : 꽃 보냄으로 이동
 				return "forward:/matching/updateItem3.jsp";
 			} else {
 				//꽃을 안 보냈으면
 				//창 사용 결과 : 꽃 안 보냄으로 이동
+				
+				item.setUseResult("2");
+				matchingService.updateItem(item);
 				return "forward:/matching/updateItem4.jsp";
 			}
 		} else {
 			//방패가 있다면
+			
 			//창 사용 결과 : 방패 씀으로 이동
+			
+			item.setUseResult("3");
+			matchingService.updateItem(item);
+			
+			Item item2 = matchingService.getItem(secondUserId, "2");
+			item2.setSecondUserId(userId);
+			matchingService.updateItem(item2);
 			return "forward:/matching/updateItem5.jsp";
 		}
 		
@@ -283,28 +308,33 @@ public class MatchingController {
 	public String updateMatching2(@RequestParam("userId") String userId) throws Exception {
 		System.out.println("/matching/updateMatching2");
 		
-		Matching matching = matchingService.getMatching(userId);
-		matching.setMatchingStatus("3");
 		
-		//매칭 상태를 업데이트
-		matchingService.updateMatching(matching);
 		
-		Matching matching2 = matchingService.getMatching(matching.getSecondUserId());
 		
-		//상대 회원의 매칭 상태가 수락이면
-		if(matching2.getMatchingStatus() == "3") {
-			//커플 됨으로 이동
-			return "forward:/matching/updateMatching2.jsp";
-		} else if(matching2.getMatchingStatus() == "2") {
-			//매칭 상태가 서로 꽃 보냄이면
-			//수락 대기로 이동
-			return "forward:/matching/updateMatching4.jsp";
+		if(matchingService.getMatching(userId) != null) {
+			Matching matching = matchingService.getMatching(userId);
+			String secondUserId = matching.getSecondUserId();
+			
+			
+			Matching matching2 = matchingService.getMatching(secondUserId);
+			
+			matching.setMatchingStatus("3");
+			matchingService.updateMatching(matching);
+			
+			if(matching2.getMatchingStatus().equals("2")) {
+				
+				return "forward:/matching/updateMatching4.jsp";
+			} else {
+				return "forward:/matching/updateMatching2.jsp";
+			}
+			
 		} else {
-			//꽃 보내기를 취소했거나 거절한 경우
-			//거절함으로 이동
-			matchingService.deleteMatching(matching);
+			
 			return "forward:/matching/updateMatching3.jsp";
 		}
+		
+		
+		
 		
 	}
 	
@@ -313,8 +343,14 @@ public class MatchingController {
 	public String updateMatching3(@RequestParam("userId") String userId) throws Exception {
 		System.out.println("/matching/updateMatching3");
 		
-		Matching matching = matchingService.getMatching(userId);
-		matchingService.deleteMatching(matching);
+		if(matchingService.getMatching(userId) != null) {
+			Matching matching = matchingService.getMatching(userId);
+			matchingService.deleteMatching(matching);
+			
+			Matching matching2 = matchingService.getMatching(matching.getSecondUserId());
+			matchingService.deleteMatching(matching2);
+		}
+		
 		return "forward:/matching/updateMatching3.jsp";
 	}
 	
@@ -327,5 +363,16 @@ public class MatchingController {
 		System.out.println("userId : " + userId);
 		
 		return "forward:/matching/getMatching.jsp";
+	}
+	
+	//로그인2에서 로그인
+	@RequestMapping(value = "updateMatching")
+	public String updateMatching(@RequestParam("userId") String userId, Model model) throws Exception {
+		System.out.println("/matching/updateMatching");
+		
+		model.addAttribute("userId", userId);
+		System.out.println("userId : " + userId);
+		
+		return "forward:/matching/updateMatching.jsp";
 	}
 }

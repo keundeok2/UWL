@@ -128,10 +128,10 @@ public class ChallengeController {
 
 	
 	//GET과 POST를 동시에
-	@RequestMapping(value = "getAdminChallengeList")
+	@RequestMapping(value = "listAdminChallenge")
 	public String getAdminChallengeList(@ModelAttribute("search") Search search, Model model, HttpServletRequest request) throws Exception{
 		
-		System.out.println("/challenge/getAdminChallengeList");
+		System.out.println("ChallengeController의 getAdminChallengeList()의 /challenge/listAdminChallenge");
 		
 		//가져온 현재페이지가 0이면 1페이지로 navagation
 		if (search.getCurrentPage() == 0) {
@@ -153,7 +153,7 @@ public class ChallengeController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		return "forward:/challenge/getAdminChallengeList.jsp";
+		return "forward:/challenge/listAdminChallenge.jsp";
 		
 	}
 	
@@ -188,7 +188,7 @@ public class ChallengeController {
 		search.setPageSize(pageSize);
 		
 		//실제로는 세션?을 사용해서 로그인정보를 가져올것. 나중에 수정해야될듯
-		userId = "user48";
+		userId = "user41";
 		
 		Map<String, Object> map = challService.getCompleteChallengeList(search, userId);
 		System.out.println("getCompleteChallengeList의 Map : " + map);
@@ -207,17 +207,17 @@ public class ChallengeController {
 	}
 	
 	//GET / POST 동시에
-	@RequestMapping("getChallengeList")
+	@RequestMapping("listChallenge")
 	public String getChallengeList(Model model) throws Exception{
 		
 		
-		System.out.println("/challenge/getChallengeList");
+		System.out.println("ChallengeController의 getChallengeList() /challenge/listChallenge : GET / POST");
 		
 		List<Challenge> list = challService.getChallengeList();
 		
 		model.addAttribute("list", list);
 		
-		return "forward:/challenge/getChallengeList.jsp";
+		return "forward:/challenge/listChallenge.jsp";
 	}
 		
 	
