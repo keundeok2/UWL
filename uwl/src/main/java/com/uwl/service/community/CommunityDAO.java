@@ -12,7 +12,9 @@ public interface CommunityDAO {
 	///댓글
 		public void addComment(Commentt comment) throws Exception;
 		
-		public Commentt getComment(String userId, int postNo) throws Exception;	//누구였더라 ㅋㅋ
+		public Commentt getComment(String userId, int postNo) throws Exception;	//댓글 작성용
+		
+		public Commentt getCommentByCommentNo(int commentNo) throws Exception; //진짜 댓글 가져오기
 		
 		public void updateComment(Commentt comment) throws Exception;
 		

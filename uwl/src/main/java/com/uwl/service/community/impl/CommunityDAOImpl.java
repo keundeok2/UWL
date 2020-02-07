@@ -49,6 +49,11 @@ public class CommunityDAOImpl implements CommunityDAO {
 	}
 
 	@Override
+	public Commentt getCommentByCommentNo(int commentNo) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getCommentByCommentNo", commentNo);
+	}
+	
+	@Override
 	public void updateComment(Commentt comment) throws Exception {
 		sqlSession.update("CommunityMapper.updateComment", comment);
 	}
@@ -137,6 +142,8 @@ public class CommunityDAOImpl implements CommunityDAO {
 	public int getLikeTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("CommunityMapper.getLikeTotalCount", search);
 	}
+
+	
 
 	
 }

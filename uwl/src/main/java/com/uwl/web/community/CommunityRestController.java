@@ -123,6 +123,14 @@ public class CommunityRestController {
 		System.out.println("rest/deleteComment.POST");
 		communityService.deleteComment(comment);
 	}
+	
+	@RequestMapping(value="rest/updateComment", method=RequestMethod.POST)
+	public Commentt updateComment(@RequestBody Commentt comment) throws Exception{
+		System.out.println(comment);
+		communityService.updateComment(comment);
+		communityService.getComment("user01", comment.getPostNo());
+		return comment;
+	}
 //------------------------댓글-----------------------------------------------------------------------------------------------------------
 	
 }
