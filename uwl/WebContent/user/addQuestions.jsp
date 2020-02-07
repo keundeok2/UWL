@@ -69,9 +69,11 @@ ${user.userId}
   
   
   
+
 <input type= "hidden" />${post.hitCount}
 <input type= "hidden" />${post.likeCount}
 <input type= "hidden" />${post.commentCount}
+<input type= "hidden" />${post.postDate}
     <br> 
     <br> 
     <br> 

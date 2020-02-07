@@ -40,7 +40,7 @@
 			pureAlert.on('ok.pure-alert', function(e) {
 				
 				$.ajax({
-					url : "/friend/json/deleteFriend",
+					url : "/friend/rest/deleteFriend",
 					method : "POST",
 					headers : {
 						"Accept" : "application/json",

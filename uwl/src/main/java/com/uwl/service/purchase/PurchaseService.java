@@ -1,6 +1,5 @@
 package com.uwl.service.purchase;
 
-import java.util.List;
 import java.util.Map;
 
 import com.uwl.common.Search;
@@ -14,5 +13,11 @@ public interface PurchaseService {
 	
 	public Map<String, Object> getPurchaseList(String userId, Search search) throws Exception;
 	
-	public void refundPurchase(int purchaseNo) throws Exception;
+	public void updateRefundOptionByPurchaseNo(int purchaseNo) throws Exception;
+	
+	public void updateRefundOptionByItemNo(int itemNo) throws Exception;
+	
+	public void deletePoint(int purchaseNo) throws Exception;
+	
+	public void deleteItem(int itemNo) throws Exception;
 }

@@ -51,10 +51,7 @@
 	<hr>
   </c:forEach>
   </div>
-  
-	 
-	 
-	 
+  	 
 <%-- 	 <input type="hidden"	id="userId" name="userId" value="${user.userId}"/> --%>
 <%-- 	 <input type="hidden"	id="postNo" name="postNo" value="${post.postNo}"/> --%>
 <%-- 	 <input type="hidden"	 value="${post.postTitle}"/>${post.postTitle} --%>

@@ -61,7 +61,7 @@ public class PurchaseServiceTest {
 	public void refundPurchase() throws Exception {
 		int purchaseNo = 10029;
 
-		purchaseService.refundPurchase(purchaseNo);
+		purchaseService.updateRefundOptionByPurchaseNo(purchaseNo);
 
 	}
 

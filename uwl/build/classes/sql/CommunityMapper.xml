@@ -52,6 +52,13 @@
 		AND ROWNUM = 1
 	</select>
 	
+	<select id="getCommentByCommentNo" parameterType="int" resultMap="commentSelectMap">
+		SELECT
+			comment_no, user_id, post_no, comment_content, comment_date, comment_status
+		FROM commentt
+		WHERE comment_no = #{value}
+	</select>
+	
 	<update id="updateComment" parameterType="commentt">
 		UPDATE commentt
 		SET

@@ -52,7 +52,22 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	}
 
 	@Override
-	public void refundPurchase(int purchaseNo) throws Exception {
-		sqlSession.update("PurchaseMapper.refundPurchase", purchaseNo);
+	public void updateRefundOptionByPurchaseNo(int purchaseNo) throws Exception {
+		sqlSession.update("PurchaseMapper.updateRefundOptionByPurchaseNo", purchaseNo);
+	}
+	
+	@Override
+	public void updateRefundOptionByItemNo(int itemNo) throws Exception {
+		sqlSession.update("PurchaseMapper.updateRefundOptionByItemNo", itemNo);
+	}
+	
+	@Override
+	public void deletePoint(int purchaseNo) throws Exception {
+		sqlSession.update("PurchaseMapper.deletePoint", purchaseNo);
+	}
+	
+	@Override
+	public void deleteItem(int itemNo) throws Exception {
+		sqlSession.update("PurchaseMapper.deleteItem", itemNo);
 	}
 }

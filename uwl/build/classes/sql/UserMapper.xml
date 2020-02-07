@@ -161,10 +161,12 @@
 	 
 	 <!-- 문의사항 등록 -->
 	 <insert 	id="addQuestions"		parameterType="post" >
-		INSERT
-		INTO post (post_category_no, post_no, user_id, post_title, post_content, post_date, hit_count, like_count, comment_count, view_status)
-        values ('5', SEQ_POST_POST_NO.NEXTVAL, #{userId},#{postTitle},#{postContent},SYSDATE,#{hitCount},#{likeCount},#{commentCount},#{viewStatus})
+	 INSERT
+		INTO post (post_category_no, post_no, user_id, post_title, post_content, post_date, hit_count, like_count, comment_count, view_status, question_status)
+        values ('5', SEQ_POST_POST_NO.NEXTVAL, #{userId},#{postTitle},#{postContent},SYSDATE,1,1,1,'1','1')
 	 </insert>
+	 
+	 
 	 
 	 
 	  <!-- 문의사항 수정 -->
@@ -183,7 +185,7 @@
 	 
 	 <!-- 문의사항 내용 -->
 	 <select 	id="getQuestions"	parameterType="int"	resultMap="postSelectMap">
-		SELECT post_no , post_title, post_content
+		SELECT *
         FROM post
 		WHERE post_no = #{postNo} AND post_category_no = '5'
 	 </select>
@@ -195,10 +197,11 @@
         FROM (  SELECT inner_table.* , ROWNUM AS row_seq
                   FROM ( SELECT post_no , post_title, post_content, post_date
                             FROM post
-							WHERE user_id = #{userId} AND post_category_no = '5') 
+							WHERE user_id = #{userId} AND post_category_no = '5'
+							ORDER BY post_date DESC) 
 				inner_table)
 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 
-		ORDER BY post_date DESC
+		
 	 </select>
 	 
 	 
@@ -206,7 +209,7 @@
 	<select  id="getUserQuestionsList"  parameterType="search"	resultMap="postSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT * FROM post ORDER BY user_id ) inner_table
+	  					FROM		(	SELECT * FROM post ORDER BY post_date DESC ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
@@ -288,6 +291,15 @@
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT user_id FROM users)
+	 </select>
+	 
+	 
+	 
+	  <!-- id 중복체크 test -->
+	 <select 	id="checkDuplicationUserId"	parameterType="string"	resultMap="userSelectMap">
+		SELECT COUNT(*)
+		FROM users
+		WHERE user_id = #{value}
 	 </select>
 	 
 	 

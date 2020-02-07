@@ -13,6 +13,7 @@ public class Purchase {
 	private String importId;
 	private Date purchaseDate;
 	private String refundOption; // 1 : 구매 2 : 환불
+	private int itemNo;
 
 	// 추가된 변수명
 	// itemCategory, importId
@@ -86,12 +87,20 @@ public class Purchase {
 	public void setRefundOption(String refundOption) {
 		this.refundOption = refundOption;
 	}
+	
+	public int getItemNo() {
+		return itemNo;
+	}
+	
+	public void setItemNo(int itemNo) {
+		this.itemNo = itemNo;
+	}
 
 	@Override
 	public String toString() {
 		return "Purchase [userId=" + userId + ", purchaseNo=" + purchaseNo + ", itemCategory=" + itemCategory
 				+ ", price=" + price + ", paymentOption=" + paymentOption + ", importId=" + importId + ", purchaseDate="
-				+ purchaseDate + ", refundOption=" + refundOption + "]";
+				+ purchaseDate + ", refundOption=" + refundOption + ", itemNo=" + itemNo + "]";
 	}
 
 	

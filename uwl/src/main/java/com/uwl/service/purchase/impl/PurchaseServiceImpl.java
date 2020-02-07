@@ -52,7 +52,22 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public void refundPurchase(int purchaseNo) throws Exception {
-		purchaseDAO.refundPurchase(purchaseNo);
+	public void updateRefundOptionByPurchaseNo(int purchaseNo) throws Exception {
+		purchaseDAO.updateRefundOptionByPurchaseNo(purchaseNo);
+	}
+	
+	@Override
+	public void updateRefundOptionByItemNo(int itemNo) throws Exception {
+		purchaseDAO.updateRefundOptionByItemNo(itemNo);
+	}
+	
+	@Override
+	public void deletePoint(int purchaseNo) throws Exception {
+		purchaseDAO.deletePoint(purchaseNo);
+	}
+	
+	@Override
+	public void deleteItem(int itemNo) throws Exception {
+		purchaseDAO.deleteItem(itemNo);
 	}
 }
