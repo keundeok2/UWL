@@ -81,7 +81,19 @@
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>카테고리</strong></div>
-			<div class="col-xs-8 col-md-4">${challenge.challCategory}</div>
+	  		
+			<c:if test="${challenge.challCategory == '1'}">
+				<div class="col-xs-8 col-md-4">Map</div>
+			</c:if>
+			
+			<c:if test="${challenge.challCategory == '2'}">
+				<div class="col-xs-8 col-md-4">Vision</div>
+			</c:if>
+			
+			<c:if test="${challenge.challCategory == '3'}">
+				<div class="col-xs-8 col-md-4">게시판활동</div>
+			</c:if>
+			
 		</div>
 		
 		<hr/>

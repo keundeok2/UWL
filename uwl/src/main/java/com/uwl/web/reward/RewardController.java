@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uwl.common.Page;
 import com.uwl.common.Search;
+import com.uwl.service.domain.Purchase;
+import com.uwl.service.domain.Reward;
 import com.uwl.service.purchase.PurchaseService;
 import com.uwl.service.reward.RewardService;
 
@@ -52,6 +54,7 @@ public class RewardController {
 	
 	
 	//GET / POST 둘 다
+	//@RequestMapping(value = "getUserBothPointList/{reward}")
 	@RequestMapping(value = "getUserBothPointList/{userId}")
 	public String getUserBothPointList(@ModelAttribute("search") Search search, @RequestParam(value = "userId", required = false)String userId, 
 														Model model, HttpServletRequest request ) throws Exception{
@@ -62,20 +65,33 @@ public class RewardController {
 		}
 		search.setPageSize(pageSize);
 		
-		userId = "user41";
+		Purchase purchaseItem = new Purchase();
+		
+		Reward reward = new Reward();
+		reward.setUserId("user41");
+		reward.setPurchaseItem(purchaseItem);
 		
 		
-		Map<String, Object> map = rewardService.getUserBothPointList(search, userId);
+		Map<String, Object> map = rewardService.getUserBothPointList(search, reward);
 		System.out.println("RewardController getUserBothPointList()의 Map : " + map);
-		
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("포인트목록보기 resultPage : " + resultPage);
+		
+		
+		Map<String, Object> purchaseMap = rewardService.getUserPurchaseList(search, reward);
+		System.out.println("RewardController getUserPurchaseList()의 Map : " + map);
+		Page purchaseResultPage = new Page(search.getCurrentPage(), ((Integer)purchaseMap.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println("포인트목록보기 purchaseResultPage : " + purchaseResultPage);
 		
 		model.addAttribute("list",map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-		//얘는 필요한가?
-		model.addAttribute("userId", userId);
+		model.addAttribute("reward", reward);
+		
+		
+		//포인트사용내역 model addAttribute
+		model.addAttribute("purchaseList",purchaseMap.get("list"));
+		model.addAttribute("purchaseResultPage", purchaseResultPage);
 		
 		System.out.println("price : " + price);
 		
