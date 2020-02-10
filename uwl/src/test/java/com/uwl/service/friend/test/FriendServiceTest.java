@@ -28,7 +28,7 @@ public class FriendServiceTest {
 	@Test
 	public void requestFriend() throws Exception{
 		Friend friend = new Friend();
-		friend.setFirstUserId("user25");
+		friend.setFirstUserId("user1");
 		friend.setSecondUserId("user01");
 		
 		friendService.requestFriend(friend);

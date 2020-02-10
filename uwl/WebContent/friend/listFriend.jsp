@@ -71,11 +71,66 @@
 		})
 	})
 	
+	
+	
+//	스크롤 페이징
+var page = 1;
+
+ $(function() {
+		$(window).data('ajaxready', true).scroll(function() {
+			var maxHeight = $(document).height();
+			var currentScroll = $(window).scrollTop() + $(window).height();
+			var searchCondition = $("select[name='searchCondition']").val();
+			var searchKeyword = $("input[name='searchKeyword']").val();
+			var listing = $("input[name='listing']").val();
+			
+			if($(window).data('ajaxready') == false) return;
+			if (maxHeight <= currentScroll) {
+			if (page <= ${map.resultPage.maxPage}) {
+				$(window).data('ajaxready', false);
+				page++;
+				console.log('page : ' + page);
+					
+				$.ajax({
+					url : "/friend/rest/getFriendList",
+					method : "POST",
+					dataType : "json",
+					data : JSON.stringify({
+						currentPage : page
+					}),
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success: function(data) {
+						for (var i = 0; i < data.list.length; i++) {
+							var html = "<div class='col-sm-6'>"
+									+"<div class='friendListDiv' id='"+data.list[i].userId+"'>"
+									+"<img src='../../images/"+data.list[i].profileName+"' id='profileName'/>"
+							 		+"&nbsp; <span class='text-monospace text-primary font-weight-bold spanUserId' id='userId'>"+data.list[i].userId+"</span> &nbsp; <span class='text-monospace text-primary font-weight-bold spanName' id='name'>"+data.list[i].name+"</span> &nbsp; <span class='text-monospace text-muted spanSchoolName'>"+data.list[i].schoolName+"</span> &nbsp;"
+							 		+"<button type='button' class='btn btn-danger "+data.list[i].userId+"' id='deleteButton'>친구끊기</button>"
+							 		+"<input type='hidden' value='"+data.list[i].userId+"'/></div></div>";
+							 		
+							$(html).appendTo(".addTargetDiv");
+						}
+						$(window).data('ajaxready', true);
+					}
+				});
+			}
+			}
+		})
+	})
+	
 	</script>
 	<style type="text/css">
 	
 	body {
 		margin-top: 100px;
+	}
+	
+	.friendListDiv {
+		margin : 10px -10px;
+		border: 1px solid gray;
 	}
 	
 	</style>
@@ -87,13 +142,15 @@
 		<div class="page-header text-info">
 			<h3>친구목록</h3>	
 		</div>
-		<div class="row">
+		<div class="row addTargetDiv">
 			<input type="hidden" name="sessionId" id="sessionId" value="${user.userId}">
 			<c:forEach var="u" items="${map.list}">
 		<div class="col-sm-6">
-			<div id="${u.userId}">
+			<div class='friendListDiv' id="${u.userId}">
 				<img src="../../images/${u.profileName}" id="profileName"/>
-				 &nbsp; <span id="userId">${u.userId}</span> &nbsp; <span id="name">${u.name}</span> &nbsp; <span>${u.schoolName}</span> &nbsp;
+				 &nbsp; <span class="text-monospace text-primary font-weight-bold spanUserId">${u.userId}</span>
+				 <span class="text-monospace text-primary font-weight-bold spanName" id="name">${u.name}</span> &nbsp;
+				 <span class="text-monospace text-muted spanSchoolName">${u.schoolName}</span> &nbsp;
 				 <button type="button" class="btn btn-danger ${u.userId}" id="deleteButton">친구끊기</button>
 				 <input type="hidden" value="${u.userId}"/>
 			</div>
