@@ -80,7 +80,6 @@ public class SocialServiceTest {
 		post.setPostContent("ASK테스트");
 		post.setUserId("user20");
 		
-		socialService.addQuestion(post);
 	}
 	
 //	@Test
@@ -92,7 +91,6 @@ public class SocialServiceTest {
 		
 		int questionPostNo = 10034;
 		
-		socialService.replyQuestion(post, questionPostNo);
 	}
 	
 //	@Test

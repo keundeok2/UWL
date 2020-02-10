@@ -5,7 +5,7 @@ import java.sql.Date;
 public class Ask {
 
 	private int questionPostNo;
-	private String userId;
+	private String userId;	//	ASK 주인 TargetUserId임. 등록한 사람의 userId가 아님
 	private String questionTitle;
 	private String questionContent;
 	private Date questionDate;
