@@ -12,7 +12,7 @@
         <input type="text" name="userId" value="${userId }">
         <input type="text" name="postNo" value="${postNo }"><br>
         스케줄을 삭제하시겠습니까?<br>
-        <a href="/couple/deleteSchedule2?userId=${userId }&postNo=${postNo}">삭제</a>
+        <a href="/couple/deleteSchedule2?postNo=${postNo}">삭제</a>
     </form>
 </body>
 </html>

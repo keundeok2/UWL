@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <form action="">
+    <form action="/couple/updateCoupleTimelinePost2" method="post">
         <h3>커플 타임라인 게시글 수정</h3>
         <input type="text" name="userId" value="${userId }">
         <input type="text" name="postNo" value="${post.postNo }"><br>
@@ -16,7 +16,7 @@
         place : <input type="text" name="place" value="${post.place }"><br>
         postTitle : <input type="text" name="postTitle" value="${post.postTitle }"><br>
         postContent : <input type="text" name="postContent" value="${post.postContent }"><br>
-        <a href="/couple/updateCoupleTimelinePost2?userId=${userId }&postNo=${post.postNo }">수정</a>
+        <button type="submit">수정</button>
         
     </form>
 </body>

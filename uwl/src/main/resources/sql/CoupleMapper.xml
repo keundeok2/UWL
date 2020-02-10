@@ -42,7 +42,7 @@
  		<result property="commentNo" column="comment_no" jdbcType="NUMERIC"/>
  		<result property="userId" column="user_id" jdbcType="VARCHAR"/>
  		<result property="postNo" column="post_no" jdbcType="NUMERIC"/>
- 		<result property="commentContent" column="commnet_content" jdbcType="VARCHAR"/>
+ 		<result property="commentContent" column="comment_content" jdbcType="VARCHAR"/>
  		<result property="commentDate" column="comment_date" jdbcType="DATE"/>
  		<result property="commentStatus" column="comment_status" jdbcType="VARCHAR"/>
  		
@@ -117,10 +117,10 @@
  					from couple
  					where delete_status = '1'
  				) couple
- 				where (post.user_id = couple.first_user_id
- 				and post.user_id = #{userId})
- 				or (post.user_id = couple.second_user_id
- 				and post.user_id = #{userId})
+ 				where (couple.first_user_id = #{userId}
+ 				OR couple.second_user_id = #{userId})
+ 				AND (post.user_id = couple.FIRST_USER_ID 
+ 				OR post.user_id = couple.SECOND_USER_ID )
  				and post.post_category_no = '6'
  				order by post_no desc
  			) inner_table
@@ -183,7 +183,7 @@
  	
  	<insert id="addCoupleTimelineComment" parameterType="commentt">
  		insert
- 		into commentt(comment_no, user_id, post_no, commnet_content, comment_date, comment_status)
+ 		into commentt(comment_no, user_id, post_no, comment_content, comment_date, comment_status)
  		values(seq_commentt_comment_no.nextval,
  		#{userId:VARCHAR},
  		#{postNo:NUMERIC},
@@ -285,6 +285,38 @@
  					from couple
  					where delete_status = '1'
  				) couple
+ 				where (couple.first_user_id = #{userId}
+ 				OR couple.second_user_id = #{userId})
+ 				AND (post.user_id = couple.FIRST_USER_ID 
+ 				OR post.user_id = couple.SECOND_USER_ID )
+ 				and post.post_category_no = '7'
+ 				order by post_no desc
+ 			) inner_table
+ 			where rownum &lt;= #{search.endRowNum}
+ 		)
+ 		where row_seq between #{search.startRowNum} and #{search.endRowNum}
+ 	</select>
+ 	
+ 	<select id="getScheduleList2" parameterType="map" resultMap="postSelectMap">
+ 		select
+ 		*
+ 		from (
+ 			select
+ 			inner_table.*, rownum as row_seq
+ 			from (
+ 				select
+ 				post.*, couple.first_user_id, couple.second_user_id
+ 				from (
+ 					select
+ 					*
+ 					from post
+ 					where view_status = '1'
+ 				) post, (
+ 					select
+ 					*
+ 					from couple
+ 					where delete_status = '1'
+ 				) couple
  				where (post.user_id = couple.first_user_id
  				or post.user_id = couple.second_user_id)
  				and (couple.first_user_id = #{userId}
@@ -296,6 +328,8 @@
  		)
  		where row_seq between #{search.startRowNum} and #{search.endRowNum}
  	</select>
+ 	
+ 	
  	
  	<update id="updateSchedule" parameterType="post">
  		update
@@ -342,6 +376,29 @@
  				
  	</sql>
  	
+ 	<sql id="scheduleList2">
+ 		select
+ 				post.*, couple.first_user_id, couple.second_user_id
+ 				from (
+ 					select
+ 					*
+ 					from post
+ 					where view_status = '1'
+ 				) post, (
+ 					select
+ 					*
+ 					from couple
+ 					where delete_status = '1'
+ 				) couple
+ 				where (post.user_id = couple.first_user_id
+ 				or post.user_id = couple.second_user_id)
+ 				and (couple.first_user_id = #{userId}
+ 				or couple.second_user_id = #{userId})
+ 				and post.post_category_no = '7'
+ 				
+ 				
+ 	</sql>
+ 	
  	<select id="getTotalSchedule" parameterType="map" resultType="int">
  		select
  		count(*)
@@ -349,6 +406,29 @@
  			<include refid="scheduleList"/>
  		)
  	</select>
+ 	
+ 	<select id="getTotalSchedule2" parameterType="map" resultType="int">
+ 		select
+ 		count(*)
+ 		from (
+ 			<include refid="scheduleList2"/>
+ 		)
+ 	</select>
+ 	
+ 	<update id="deleteCoupleTimeline" parameterType="map">
+ 		
+ 		
+ 	
+ 		update
+ 		post
+ 		<set>
+ 			view_status = '3'
+ 		</set>
+ 		where (user_id = #{firstUserId}
+ 		or user_id = #{secondUserId})
+ 		and (post_category_no = '6'
+ 		or post_category_no = '7')
+ 	</update>
  	
  	
 </mapper>
