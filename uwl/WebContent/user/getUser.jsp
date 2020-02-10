@@ -1,5 +1,30 @@
-<%@ page contentType="text/html; charset=EUC-KR"%>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!--  ///////////////////////// Bootstrap 4.4, jQuery 3.1.1 CDN ////////////////////////// -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+			rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+			crossorigin="anonymous">
+	
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	
+	
+	<!--  ///////////////////////// CSS, JS 4.4 CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
+integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	
+
 
 <!DOCTYPE html>
 
@@ -12,9 +37,9 @@
 
 <script type="text/javascript">
 
-	//============= È¸¿øÁ¤º¸¼öÁ¤ Event  Ã³¸® =============	
+	//============= íšŒì›ì •ë³´ìˆ˜ì • Event  ì²˜ë¦¬ =============	
 	$(function() {
-		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$("button#updateUser").on("click", function() {
 			self.location = "/user/updateUser?userId=${user.userId}";
 		});
@@ -30,36 +55,119 @@
 
 <body>
 	
-	getUser.jsp
+	<!-- ToolBar Start /////////////////////////////////////-->
+	<div class="navbar  navbar-default" id="top">
+        	<a class="navbar-brand" ><h2>íšŒì›ì •ë³´</h2></a>
+   	</div>	
+   	<!-- ToolBar End /////////////////////////////////////-->	
+	
+			
+ 	<div class="container">
+ 		<br/>
+ 		<hr style="background-color:black; height:4px;">
+ 		
+ 		<div class="row" style="text-align:center;">
+							<div class="col-md-1" style="text-align:center;">
+										ì•„ ì´ ë””
+							</div>
+							<div class="col-md-1" style="text-align:right;">
+										ë¹„ë°€ë²ˆí˜¸
+							</div>
+							<div class="col-md-1" style="text-align:right;">
+										ì´     ë¦„
+							</div>
+							<div class="col-md-1" style="text-align:center;">
+										ë‹‰ ë„¤ ì„
+							</div>
+							<div class="col-md-1" style="text-align:center;">
+										í•™     êµ
+							</div>
+							<div class="col-md-1" style="text-align:center;">
+										ì „í™”ë²ˆí˜¸
+							</div>
+							<div class="col-md-2" style="text-align:center;">
+										ìƒ     ì¼
+							</div>
+							<div class="col-md-1" style="text-align:center;">
+										ì„±     ë³„
+							</div>
+							<div class="col-md-1" style="text-align:center;">
+										ë©”     ì¼
+							</div>
+							<div class="col-md-1" style="text-align:center;">
+										ì‚¬     ì§„
+							</div>
+							
+							
+							
+							<br><hr>
+		</div>
+	
+		
+		
+		
+ 	</div>
+		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 <br>
-	¾Æ ÀÌ µğ  <div>${user.userId}</div>
+	ì•„ ì´ ë””  <div>${user.userId}</div>
 <br>
-	ºñ¹Ğ¹øÈ£  <div>${user.password}</div>
+	ë¹„ë°€ë²ˆí˜¸  <div>${user.password}</div>
 <br>
-	ÀÌ     ¸§  <div>${user.name}</div>
+	ì´     ë¦„  <div>${user.name}</div>
 <br>
-	´Ğ ³× ÀÓ  <div>${user.nickname}</div>
+	ë‹‰ ë„¤ ì„  <div>${user.nickname}</div>
 <br>
-	ÇĞ     ±³  <div>${user.schoolNo}</div>
+	í•™     êµ  <div>${user.schoolNo}</div>
 <br>
-	ÀüÈ­¹øÈ£  <div>${user.phone}</div>
+	ì „í™”ë²ˆí˜¸  <div>${user.phone}</div>
 <br>
-	»ı      ÀÏ  <div>${user.birth}</div>
+	ìƒ      ì¼  <div>${user.birth}</div>
 <br>
-	¼º      º°  <div>${user.gender}</div>
+<%-- 	ì„±      ë³„  <div>${user.gender}</div> --%>
+	<c:if test="${user.gender == '1' }">
+							ì„±      ë³„ <br>
+							ì—¬ì
+	</c:if>
+	<c:if test="${user.gender == '2'}">
+							ì„±      ë³„  <br>
+							ë‚¨ì
+	</c:if>
+	 <br>
+	
+	
+	
+	
+	
 <br>
-	¸Ş      ÀÏ  <div>${user.mail}</div>
+	ë©”      ì¼  <div>${user.mail}</div>
 <br>
-	»ç      Áø : <div>${user.profileName}</div>	
+	ì‚¬      ì§„ : <div>${user.profileName}</div>	
 <br>
 <br>
 
-	<button type="button" id="updateUser">Á¤º¸¼öÁ¤</button>
+	<button type="button" id="updateUser">ì •ë³´ìˆ˜ì •</button>
 	<br><br>
-	<button onclick="location.href='/index.jsp'">È®ÀÎ</button><br>
+	<button onclick="location.href='/index.jsp'">í™•ì¸</button><br>
 	<br><br>
-	<a href="javascript:history.go(-1)">µÚ·Î</a>
+	<a href="javascript:history.go(-1)">ë’¤ë¡œ</a>
 
 </body>
 
