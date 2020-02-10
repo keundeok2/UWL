@@ -20,15 +20,17 @@ public interface SocialDAO {
 	
 	public int getTimelineTotalCount(String userId, Search search) throws Exception;
 	
-	public void addQuestion(Post post) throws Exception;
+	public void addQuestion(Ask post) throws Exception;
 	
-	public void replyQuestion(Post post) throws Exception;
+	public void replyQuestion(Ask post) throws Exception;
 	
 	public void updateQuestionStatus(int postNo) throws Exception;
 	
-	public List<Ask> getAskList(String userId, Search search, String questionStatus) throws Exception;
+	public List<Ask> getAskQuestionList(String userId, Search search) throws Exception;
 	
-	public void rejectQuestion(int postNo) throws Exception;
+	public List<Ask> getAskList(String userId, Search search) throws Exception;
+	
+	public void rejectQuestion(int questionPostNo) throws Exception;
 	
 	public int getAskTotalCount(String userId, String questionStatus) throws Exception;
 }

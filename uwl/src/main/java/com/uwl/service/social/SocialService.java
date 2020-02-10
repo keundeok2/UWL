@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.uwl.common.Search;
+import com.uwl.service.domain.Ask;
 import com.uwl.service.domain.Post;
 
 public interface SocialService {
@@ -18,11 +19,13 @@ public interface SocialService {
 	
 	public void deleteTimeline(int postNo) throws Exception;
 	
-	public void addQuestion(Post post) throws Exception;
+	public void addQuestion(Ask ask) throws Exception;
 	
-	public void replyQuestion(Post post, int questionPostNo) throws Exception;
+	public void replyQuestion(Ask ask) throws Exception;
 	
 	public Map<String, Object> getAskList(String userId, Search search, String questionStatus) throws Exception;
 	
-	public void rejectQuestion(int postNo) throws Exception;
+	public Map<String, Object> getAskQuestionList(String userId, Search search, String questionStatus) throws Exception;
+	
+	public void rejectQuestion(int questionPostNo) throws Exception;
 }
