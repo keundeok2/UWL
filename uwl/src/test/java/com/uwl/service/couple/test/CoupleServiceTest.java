@@ -34,8 +34,8 @@ public class CoupleServiceTest {
 	//@Test
 	public void testAddCouple() throws Exception {
 		Couple couple = new Couple();
-		couple.setFirstUserId("user01");
-		couple.setSecondUserId("user06");
+		couple.setFirstUserId("user02");
+		couple.setSecondUserId("user03");
 		
 		coupleService.addCouple(couple);
 	}
@@ -221,16 +221,16 @@ public class CoupleServiceTest {
 	public void testAddSchedule() throws Exception {
 		
 		Post post = new Post();
-		post.setUserId("user06");
-		post.setPostTitle("7777");
-		post.setPostContent("7777");
-		String  day = "2020-01-29";
+		post.setUserId("user03");
+		post.setPostTitle("5555");
+		post.setPostContent("1111");
+		String  day = "2020-02-07";
 		Date d = Date.valueOf(day);
 
-
+		
 		
 		post.setPostDate(d);
-		post.setPlace("7777");
+		post.setPlace("1111");
 		
 		coupleService.addSchedule(post);
 	}
@@ -274,6 +274,24 @@ public class CoupleServiceTest {
 	}
 	
 	//@Test
+	public void testGetScheduleList2() throws Exception {
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(10);
+		String userId = "user02";
+		System.out.println("userId : " + userId);
+		Map<String, Object> map = coupleService.getScheduleList2(search, userId);
+		System.out.println("map : " + map);
+		
+		List<Object> list = (List<Object>)map.get("list");
+		Assert.assertEquals(2, list.size());
+		System.out.println("list : " + list);
+		
+		Integer totalSchedule = (Integer)map.get("totalSchedule");
+		System.out.println("totalSchedule : " + totalSchedule);
+	}
+	
+	//@Test
 	public void testUpdateSchedule() throws Exception {
 		Post post = new Post();
 		post = coupleService.getSchedule(10013);
@@ -290,7 +308,7 @@ public class CoupleServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testDeleteSchedule() throws Exception {
 		Post post = new Post();
 		post = coupleService.getSchedule(10013);
@@ -301,5 +319,13 @@ public class CoupleServiceTest {
 		coupleService.deleteSchedule(post);
 		
 		
+	}
+	
+	@Test
+	public void testDeleteCoupleTimeline() throws Exception {
+		String firstUserId = "user01";
+		String secondUserId = "user02";
+		
+		coupleService.deleteCoupleTimeline(firstUserId, secondUserId);
 	}
 }

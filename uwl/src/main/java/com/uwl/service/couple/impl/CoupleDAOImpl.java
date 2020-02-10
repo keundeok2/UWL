@@ -154,6 +154,17 @@ public class CoupleDAOImpl implements CoupleDAO{
 		map.put("postDate", postDate);
 		return sqlSession.selectList("CoupleMapper.getScheduleList", map);
 	}
+	
+	@Override
+	public List<Post> getScheduleList2(Search search, String userId) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("userId", userId);
+		
+		return sqlSession.selectList("CoupleMapper.getScheduleList2", map);
+	}
 
 	@Override
 	public void updateSchedule(Post post) throws Exception {
@@ -176,6 +187,31 @@ public class CoupleDAOImpl implements CoupleDAO{
 		map.put("userId", userId);
 		map.put("postDate", postDate);
 		return  sqlSession.selectOne("CoupleMapper.getTotalSchedule", map);
+	}
+
+	
+
+	@Override
+	public int getTotalSchedule2(Search search, String userId) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("userId", userId);
+		
+		return sqlSession.selectOne("CoupleMapper.getTotalSchedule2", map);
+	}
+
+	@Override
+	public void deleteCoupleTimeline(String firstUserId, String secondUserId) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("firstUserId", firstUserId);
+		map.put("secondUserId", secondUserId);
+		sqlSession.update("CoupleMapper.deleteCoupleTimeline", map);
+		
+		
 	}
 
 	

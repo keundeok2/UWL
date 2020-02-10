@@ -39,7 +39,7 @@
 	    				}
 	    			},
 	    			error : function(){
-	    				alert('실패 ㅋㅋ');
+	    				alert('실패 ㅋㅋ 1');
 	    			}
 	    		});
 	    	});
@@ -67,7 +67,7 @@
 	    				}
 	    			},
 	    			error : function(){
-	    				alert('실패 ㅋㅋ');
+	    				alert('실패 ㅋㅋ 2');
 	    			}
 	    		});
 			});
@@ -98,7 +98,7 @@
 	    				}
 	    			},
 	    			error : function(){
-	    				alert('실패 ㅋㅋ');
+	    				alert('실패 ㅋㅋ 3');
 	    			}
 	    		});
 			});

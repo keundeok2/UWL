@@ -2,6 +2,8 @@ package com.uwl.web.community;
 
 import java.util.Map;
 
+import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +42,7 @@ public class CommunityRestController {
 	public boolean addPostLike(@RequestBody Likey likey) throws Exception{
 		System.out.println("rest/addPostLike.POST");
 		likey.setUserId("user01");		//session 처리 해야해
+		likey.setLikeWhat("1");
 		communityService.addPostLike(likey);
 		likey = communityService.getLike(likey);
 		if(likey != null) {
@@ -50,16 +53,31 @@ public class CommunityRestController {
 	}
 	
 	@RequestMapping(value="rest/addCommentLike", method=RequestMethod.POST)
-	public Likey addCommentLike(@RequestBody Likey likey) throws Exception{
+	public boolean addCommentLike(@RequestBody Likey likey) throws Exception{
 		System.out.println("rest/addCommentLike.POST");
-		communityService.addCommentLike(likey);
-		likey = communityService.getLike(likey);
-		return likey;
+		likey.setUserId("user01");	//session 처리할것
+		likey.setLikeWhat("2");
+		Likey checkLike = communityService.getLike(likey);
+		try {
+			if(checkLike == null) {
+				communityService.addCommentLike(likey);
+				return true;
+			}else {
+				return false;
+			}
+		}catch(Exception e) {
+			return false;
+		}
 	}
 	
 	@RequestMapping(value="rest/deleteLike", method=RequestMethod.POST)	//----------------------------테스트 종료
 	public boolean deleteLike(@RequestBody Likey likey) throws Exception{
 		System.out.println("rest/deleteLike.GET");
+		if(likey.getRefCommentNo() == 0) {
+			likey.setLikeWhat("1");
+		}else {
+			likey.setLikeWhat("2");
+		}
 		likey.setUserId("user01");	//session 처리해야해
 		likey = communityService.getLike(likey);
 		communityService.deleteLike(likey);
@@ -72,9 +90,11 @@ public class CommunityRestController {
 	}
 	
 	@RequestMapping(value="rest/getLike", method=RequestMethod.POST)		//------------------------테스트 종료
+																			//-------------------게시글 좋아요 판단
 	public boolean getLikey(@RequestBody Likey likey) throws Exception{
 		System.out.println("rest/getLike.POST");
 		likey.setUserId("user01"); 		//session처리해야해
+		likey.setLikeWhat("1");
 		likey = communityService.getLike(likey);
 		if(likey != null) {
 			return true;

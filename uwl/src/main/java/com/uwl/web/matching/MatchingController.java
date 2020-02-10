@@ -240,7 +240,7 @@ public class MatchingController {
 			
 		}
 		
-		return "forward:/matching/addMatching.jsp";
+		return "forward:/matching/ajaxAddMatching.jsp";
 		
 		
 		

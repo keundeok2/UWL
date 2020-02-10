@@ -3,14 +3,56 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
- 
 <div class="container text-center">
+	
+	<nav aria-label="Page navigation example">
+	  <ul class="pagination">
+	  <!--  <<== ÁÂÃø nav -->
+	 
+    	<c:if test="${ resultPage.currentPage <= resultPage.pageUnit || resultPage.currentPage > resultPage.pageUnit}">
+	 		<li class="page-item">
+		</c:if>
+		 	<a class="page-link" href=javascript:fncGetList('${ resultPage.currentPage-1}')" aria-label="Previous">
+	        <span aria-hidden="true">&laquo;</span>
+	      </a>
+	    </li>
+	    
+	    <!--  Áß¾Ó  -->
+	    
+	    <c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">
+				
+				<c:if test="${ resultPage.currentPage == i }">
+					<!--  ÇöÀç page °¡¸£Å³°æ¿ì : active -->
+	   				 <li class="page-item">
+	   				 	<a class="page-link" href="javascript:fncGetList('${ i }');">${ i }</a>
+   				 	</li>
+				</c:if>	
+				
+				<c:if test="${ resultPage.currentPage != i}">	
+	   				<li class="page-item">
+						<a class="page-link" href="javascript:fncGetList('${ i }');">${ i }</a>
+					</li>
+				</c:if>
+			</c:forEach>
+	    <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
+	    <li class="page-item"><a class="page-link" href="#">2</a></li>
+	    <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+	    
+	    <!--  ¿ìÃø nav==>> -->
+	    <li class="page-item">
+	      <a class="page-link" href="#" aria-label="Next">
+	        <span aria-hidden="true">&raquo;</span>
+	      </a>
+	    </li>
+	  </ul>
+	</nav>
+	 
 		 
 		 <nav>
 		  <!-- Å©±âÁ¶Àý :  pagination-lg pagination-sm-->
 		  <ul class="pagination" >
-		    
-		    <!--  <<== ÁÂÃø nav -->
+		  
+		  <!--  <<== ÁÂÃø nav -->
 		  	<c:if test="${ resultPage.currentPage <= resultPage.pageUnit }">
 		 		<li class="disabled">
 			</c:if>
@@ -21,6 +63,7 @@
 		        <span aria-hidden="true">&laquo;</span>
 		      </a>
 		    </li>
+		    
 		    
 		    <!--  Áß¾Ó  -->
 			<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">

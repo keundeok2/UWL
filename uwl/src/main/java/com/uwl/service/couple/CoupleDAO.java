@@ -30,6 +30,8 @@ public interface CoupleDAO {
 	
 	public void deleteCoupleTimelinePost(Post post) throws Exception;
 	
+	
+	
 	public int getTotalCoupleTimelinePost(Search search, String userId) throws Exception;
 	
 	public void addCoupleTimelineComment(Commentt comment) throws Exception;
@@ -48,9 +50,15 @@ public interface CoupleDAO {
 	
 	public List<Post> getScheduleList(Search search, String userId, Date postDate) throws Exception;
 	
+	public List<Post> getScheduleList2(Search search, String userId) throws Exception;
+	
 	public void updateSchedule(Post post) throws Exception;
 	
 	public void deleteSchedule(Post post) throws Exception;
 	
 	public int getTotalSchedule(Search search, String userId, Date postDate) throws Exception;
+	
+	public int getTotalSchedule2(Search search, String userId) throws Exception;
+	
+	public void deleteCoupleTimeline(String firstUserId, String secondUserId) throws Exception;
 }
