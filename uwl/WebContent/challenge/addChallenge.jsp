@@ -74,7 +74,7 @@
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>제목</strong></div>
-			<div class="col-xs-8 col-md-4">${challenge.challTitle}</div>
+			<div class="col-xs-8 col-md-4"><input type="hidden" value="${challenge.challNo}">${challenge.challTitle}</div>
 		</div>
 		
 		<hr/>
@@ -135,8 +135,8 @@
 		<br/>
 		
  	</div>
- 	<!--  화면구성 div Start /////////////////////////////////////-->
-
+		
+	
 </body>
 
 </html>
