@@ -60,6 +60,26 @@ public class UserServiceTest {
 
 		System.out.println(user);
 	}
+	
+	
+	@Test
+	public void testAddQuestions() throws Exception {
+
+		Post post = new Post();
+		post.setPostCategoryNo("5");
+		post.setPostNo(1);
+		post.setPostTitle("제목");
+		post.setPostContent("내용");
+		post.setUserId("user01");
+		
+		
+		
+		userService.addQuestions(post);
+		
+
+	}
+	
+	
 
 //	@Test
 	public void testAddRealname() throws Exception {

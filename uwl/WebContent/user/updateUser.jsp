@@ -44,6 +44,10 @@
 	메      일  <input type="text" 	name="mail"	 value="${user.mail}">
 	<hr>
 	공개설정  <input type="text" 	name="publicStatus"	 value="${user.publicStatus}">
+	<hr>
+	사      진 <input type="file" 	name="profileName"	 value="${user.profileName}">
+	
+<!-- 	사진 수정 안됨 -->
 	
 </form>
 	<button type="button" id="updateUser">완료</button>

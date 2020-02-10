@@ -53,10 +53,10 @@
 							
 							<br>
 							<br>
-							<br>
-							
-						
-						
+						<!-- PageNavigation Start... -->
+						<jsp:include page="../common/pageNavigator_new.jsp"/>
+						<!-- PageNavigation End... -->
+										
 
 						
 						

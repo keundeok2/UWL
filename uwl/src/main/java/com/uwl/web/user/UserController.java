@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.uwl.common.OracleToMongo;
 import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.domain.Post;
@@ -75,8 +77,8 @@ public class UserController {
 		// ===========================================
 		// 있으면 update , 없으면 insert 이거 방법뭐임? 이 메서드 돌릴때 다른 패키지에 있는 .java 파일 실행시키고싶음
 
-//				OracleToMongo oracleToMongo = new OracleToMongo();
-//				oracleToMongo.startOracleToMongo();
+				OracleToMongo oracleToMongo = new OracleToMongo();
+				oracleToMongo.startOracleToMongo();
 		// ======================================= 채 팅
 		// ===========================================
 
@@ -99,6 +101,7 @@ public class UserController {
 		return "redirect:/user/loginView.jsp";
 	}
 
+	// 삭제예정
 	// 회원정보 보기
 	@RequestMapping(value = "getUser", method = RequestMethod.GET)
 	public String getUser(@RequestParam("userId") String userId, Model model) throws Exception {
@@ -150,6 +153,15 @@ public class UserController {
 		// Business Logic
 		userService.updateUser(user);
 
+		// ======================================= 채 팅
+		// ===========================================
+		// 있으면 update , 없으면 insert 이거 방법뭐임? 이 메서드 돌릴때 다른 패키지에 있는 .java 파일 실행시키고싶음
+
+			OracleToMongo oracleToMongo = new OracleToMongo();
+			oracleToMongo.startOracleToMongo();
+		// ======================================= 채 팅
+		// ===========================================
+		
 		String sessionId = ((User) session.getAttribute("user")).getUserId();
 		if (sessionId.equals(user.getUserId())) {
 			session.setAttribute("user", user);
@@ -189,9 +201,20 @@ public class UserController {
 	}
 
 	// 문의사항 등록
+	@RequestMapping(value = "addQuestions", method = RequestMethod.GET)
+	public String addQuestions() throws Exception{
+		System.out.println("UserController : addQuestions() GET 호출");
+		System.out.println("/user/addQuestion : GET");
+		System.out.println("/user/addQuestion : GET22");
+		
+		return "forward:/user/addQuestions.jsp";
+		
+	}
+	
+	// 문의사항 등록
 	@RequestMapping(value = "addQuestions", method = RequestMethod.POST)
 	public String addQuestions(@ModelAttribute("post") Post post) throws Exception {
-		System.out.println("UserController : addQuestions() 호출");
+		System.out.println("UserController : addQuestions() POST 호출");
 
 		System.out.println("/user/addQuestions : POST" + post);
 		// Business Logic
@@ -224,12 +247,12 @@ public class UserController {
 		// Business Logic
 		userService.updateQuestions(post);
 
-		String sessionId = ((Post) session.getAttribute("post")).getUserId();
-		if (sessionId.equals(post.getUserId())) {
+		int sessionId = ((Post) session.getAttribute("post")).getPostNo();
+		if (sessionId == (post.getPostNo())) {
 			session.setAttribute("post", post);
 		}
 
-		return "forward:/user/getUserQuestions?userId=" + post.getUserId();
+		return "forward:/user/getUserQuestions?postNo=" + post.getPostNo();
 	}
 	
 
@@ -241,6 +264,7 @@ public class UserController {
 		System.out.println("/user/getQuestions : GET");
 		// Business Logic
 		Post post = userService.getQuestions(postNo);
+		System.out.println("post : " + post);
 		// Model 과 View 연결
 		model.addAttribute("post", post);
 
@@ -397,7 +421,7 @@ public class UserController {
 			System.out.println("session scope 저장");
 		}
 
-		return "redirect:/index.jsp";
+		return "redirect:/test.jsp";
 	}
 
 	// 로그아웃
@@ -412,6 +436,22 @@ public class UserController {
 		return "redirect:/index.jsp";
 	}
 
+//	// 아이디 중복체크 test
+//		@RequestMapping(value = "checkDuplicationUserId", method = RequestMethod.POST)
+//		public String checkDuplicationUserId(@RequestParam("userId") String userId, Model model) throws Exception {
+//			System.out.println("UserController : checkDuplicationUserId() 호출");
+//
+//			return "userService.checkDuplicationUserId(userId)";
+//		}
+	
+//	// 아이디 중복체크 test
+//	@RequestMapping(value = "checkDuplicationUserId", method = { RequestMethod.GET, RequestMethod.POST})
+//    public @ResponseBody int checkDuplicationUserId (String userId, Model model) {
+//        return userService.checkDuplicationUserId(userId);
+//    }//
+
+	
+		
 	// 아이디 중복체크
 	@RequestMapping(value = "checkDuplicationUserId", method = RequestMethod.POST)
 	public String checkDuplicationUserId(@RequestParam("userId") String userId, Model model) throws Exception {
