@@ -14,6 +14,9 @@ public class Commentt {
 		//	1 : 공개
 		//	2 : 비공개
 	private int likeCount;	//댓글 좋아요 개수
+	
+	private int likeStatus;
+	
 	//Constructor
 	public Commentt() {
 		// TODO Auto-generated constructor stub
@@ -76,12 +79,26 @@ public class Commentt {
 		this.likeCount = likeCount;
 	}
 
+	
+	public int getLikeStatus() {
+		return likeStatus;
+	}
+
+	public void setLikeStatus(int likeStatus) {
+		this.likeStatus = likeStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Commentt [commentNo=" + commentNo + ", userId=" + userId + ", postNo=" + postNo + ", commentContent="
 				+ commentContent + ", commentDate=" + commentDate + ", commentStatus=" + commentStatus + ", likeCount="
-				+ likeCount + "]";
+				+ likeCount + ", likeStatus=" + likeStatus + "]";
 	}
+	
+	
+	
+
+
 	
 	
 
