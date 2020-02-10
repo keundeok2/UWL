@@ -30,6 +30,7 @@
 	$(function() {
 		//	IMP init
 		IMP.init('imp12736999');
+		
 		sessionId = "${user.userId}";
 		sessionMail = "${user.mail}";
 		sessionName = "${user.name}";

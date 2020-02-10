@@ -16,6 +16,7 @@
 <button id="2">친구신청목록</button>
 <button id="3">신청한 목록</button>
 <button id="5">생일친구목록</button>
+<button id="6">ASK INDEX</button>
 </body>
 
 <script type="text/javascript">
@@ -46,6 +47,11 @@
 			$.redirect("/friend/getBirthFriendList",{
 				userId : "user01"
 			})
+		})
+		
+		$("#6").on("click", function() {
+			$.redirect("/social/socialIndex.jsp",{
+			},"GET")
 		})
 		
 		

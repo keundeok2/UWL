@@ -61,27 +61,34 @@ public class SocialDAOImpl implements SocialDAO{
 	}
 	
 	@Override
-	public void addQuestion(Post post) throws Exception {
-		sqlSession.insert("SocialMapper.addQuestion", post);
+	public void addQuestion(Ask ask) throws Exception {
+		sqlSession.insert("SocialMapper.addQuestion", ask);
 	}
 	
 	@Override
-	public void replyQuestion(Post post) throws Exception {
-		sqlSession.insert("SocialMapper.replyQuestion", post);
+	public void replyQuestion(Ask ask) throws Exception {
+		sqlSession.insert("SocialMapper.replyQuestion", ask);
 	}
 	
 	@Override
-	public void updateQuestionStatus(int postNo) throws Exception {
-		sqlSession.update("SocialMapper.updateQuestionStatus", postNo);
+	public void updateQuestionStatus(int questionPostNo) throws Exception {
+		sqlSession.update("SocialMapper.updateQuestionStatus", questionPostNo);
 	}
 	
 	@Override
-	public List<Ask> getAskList(String userId, Search search, String questionStatus) throws Exception {
+	public List<Ask> getAskList(String userId, Search search) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userId", userId);
 		map.put("search", search);
-		map.put("questionStatus", questionStatus);
 		return sqlSession.selectList("SocialMapper.getAskList", map);
+	}
+	
+	@Override
+	public List<Ask> getAskQuestionList(String userId, Search search) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("search", search);
+		return sqlSession.selectList("SocialMapper.getAskQuestionList", map);
 	}
 	
 	@Override

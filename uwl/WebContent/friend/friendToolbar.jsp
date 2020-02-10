@@ -146,7 +146,7 @@
 </head>
 <body>
 <div class="container">
-<nav class="navbar fixed-bottom navbar-dark bg-dark">
+<nav class="navbar fixed-top navbar-dark bg-dark">
   <a class="navbar-brand" href="/friend/friendIndex.jsp">FriendIndex</a>
   <div class="dropdown mr-auto">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
