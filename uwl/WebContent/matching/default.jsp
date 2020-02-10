@@ -27,17 +27,15 @@
             overflow-y: scroll;
             height: calc(100vh - 70px);
         }
-        div.main {
-        	padding-top: 70px;
-        }
     </style>
 </head>
 <body>
-    <div class="wrap">
-        <div class="header">
-			<jsp:include page="/matching/top.jsp" />
-        </div>
-        <div class="main">
+
+    
+        
+			<jsp:include page="/matching/commonTop.jsp" />
+        
+        
             <div class="row">
                 <div class="col-2">
                     <div class="left">
@@ -56,7 +54,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        
+
 </body>
 </html>
