@@ -134,11 +134,8 @@
 		
 		<br/>
 		
-	<!-- PageNavigation Start... -->
-	<jsp:include page="../common/pageNavigator_new.jsp"/>
-	<!-- PageNavigation End... -->
  	</div>
- 	<!--  화면구성 div Start /////////////////////////////////////-->
+		
 	
 </body>
 
