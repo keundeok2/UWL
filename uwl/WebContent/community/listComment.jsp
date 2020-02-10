@@ -57,10 +57,11 @@
 	    						+		"<span>"+userId+"</span> / <span>"+commentDate+"</span>"
 	    						+		"<br>"
 	    						+		"<span id="+commentNo+">"+commentContent+"</span>"
-	    						+		"<button type='button' class='btn btn-primary'>좋아요</button>"
-	    						+		"<span>"+likeCount+"(좋아요 개수 출력)</span>"
 	    						+		"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"
 	    						+		"<span class='j'>"
+	    						+			"<span id='forCommentAppend'></span>"
+		    					+			"<button type='button' class='btn btn-primary'>좋아요</button>"
+		    					+			"<span>"+likeCount+"(좋아요 개수 출력)</span>"
 	    						+			"<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#updateCommentModal'>수정</button>"
     						   	+			"<input type='button' value='삭제'><!--본인 일때-->"
     						    +			"<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#myModalComment'>신고</button>"
@@ -79,100 +80,154 @@
 	    		});
 	    	});
 	    	
-	    	$(document).on("click", "button:nth-child(5)", function(){	//좋아요
-	    		alert("좋아요할꺼야?");
-	    	});
-	    	
-	    	
-	    	
-	    	$(document).on("click", ".j button:nth-child(1)", function(){	//수정
-	    		commentNo = $(this).parent().find(".commentNo").val();
-	    		$("textarea#updateCommentContent").html($("#"+commentNo+"").html());
-	    	});
+	    	$(document).ready(function(){
 	    		
-    		$(document).on("click", "#updateComment", function(){	//진짜 수정
-    			content = $("textarea#updateCommentContent").val();
-    			$.ajax({
-    				url : "/community/rest/updateComment",
-    				method : "POST",
-    				data : JSON.stringify({
-    					commentNo : commentNo,
-    					commentContent : content
-    				}),
-    				headers : {
-	    				"Accept" : "application/json",
-	    				"content-Type" : "application/json"
-	    			},
-	    			success : function(data){
-	    				$("#"+commentNo+"").html("");
-	    				var view = data.commentContent;
-	    				$("#"+commentNo+"").html(view);
-	    				$("textarea#updateCommentContent").html("");
-	    				console.log($("#"+commentNo+"").html())
-	    			},
-	    			error : function(){
-	    				
-	    			}
-    			});
-    		});
 	    	
-	    	
-	    	
-	    	
-	    	$(document).on("click", ".j input:nth-child(2)", function() {	//삭제
-	    		commentNo = $(this).parent().find(".commentNo").val();
-	    		postNo = ${post.postNo}
-	    		$.ajax({
-	    			url : "/community/rest/deleteComment",
-	    			method : "POST",
-	    			data : JSON.stringify({
-	    				commentNo : commentNo,
-	    				postNo : postNo
-	    			}),
-	    			headers : {
-	    				"Accept" : "application/json",
-	    				"content-Type" : "application/json"
-	    			},
-	    			success : function(){
-	    				$("."+commentNo+"").remove();
-	    			},
-	    			error : function(){
-	    				alert("실패");
-	    			}
+		    	$(document).on("click", ".j button:nth-child(2)", function(){	//좋아요
+		    		var buttonView = "<button type='button' class='btn btn-primary'>좋아요</button>";
+		    		commentNo = $(this).parent().find(".commentNo").val();
+		    		postNo = ${post.postNo}
+		    		
+		    		$.ajax({
+		    			url : "/community/rest/addCommentLike",
+		    			method : "POST",
+		    			dataType : 'json',
+		    			data : JSON.stringify({
+		    				refCommentNo : commentNo,
+		    				refPostNo : postNo
+		    			}),
+		    			headers : {
+		    				"Accept" : "application/json",
+		    				"content-Type" : "application/json"
+		    			},
+		    			success : function(data){
+		    				if(data == true){
+		    					$("#"+commentNo+"").parent().find("button:nth-child(2)").remove();
+		    					var view = "<button type='button' class='btn btn-danger'>좋아요 취소</button>";
+		    					$("#"+commentNo+"").parent().find("#forCommentAppend").after(view);
+		    				}else{
+		    					$.ajax({
+		    						url : "/community/rest/deleteLike",
+		    						method : "POST",
+		    						dataType : 'json',
+		    						data : JSON.stringify({
+		    							refCommentNo : commentNo,
+		    							refPostNo : postNo
+		    						}),
+		    						headers : {
+		    		    				"Accept" : "application/json",
+		    		    				"content-Type" : "application/json"
+		    		    			},
+		    		    			success : function(data){
+		    		    				$("#"+commentNo+"").parent().find("button:nth-child(2)").remove();
+		    		    				var view = "<button type='button' class='btn btn-primary'>좋아요</button>";
+		    		    				$("#"+commentNo+"").parent().find("#forCommentAppend").after(view);
+		    		    			},
+		    		    			error : function(){
+		    		    				alert('code='+request.status+' message='+request.responseText+' error='+error);
+		    		    			}
+		    					});
+		    				}
+		    			},
+		    			error : function(request, status, error){
+		    				alert('code='+request.status+' message='+request.responseText+' error='+error);
+		    			}
+		    		});
+		    	});
+		    	
+		    	
+		    	
+		    	$(document).on("click", ".j button:nth-child(4)", function(){	//수정
+		    		commentNo = $(this).parent().find(".commentNo").val();
+		    		content = $("#"+commentNo+"").text();
+		    		$("textarea#updateCommentContent").val("");
+		    		$("textarea#updateCommentContent").val(""+content);
+		    	});
+		   
+	    		$(document).on("click", "#updateComment", function(){	//진짜 수정
+	    			content = $("textarea#updateCommentContent").val();
+	    			$.ajax({
+	    				url : "/community/rest/updateComment",
+	    				method : "POST",
+	    				data : JSON.stringify({
+	    					commentNo : commentNo,
+	    					commentContent : content
+	    				}),
+	    				headers : {
+		    				"Accept" : "application/json",
+		    				"content-Type" : "application/json"
+		    			},
+		    			success : function(data){
+		    				$("#"+commentNo+"").html("");
+		    				var view = data.commentContent;
+		    				$("#"+commentNo+"").html(view);
+		    				$("textarea#updateCommentContent").val("");
+		    			},
+		    			error : function(){
+		    				
+		    			}
+	    			});
 	    		});
+		    	
+		    	
+		    	
+		    	
+		    	$(document).on("click", ".j input:nth-child(5)", function() {	//삭제
+		    		commentNo = $(this).parent().find(".commentNo").val();
+		    		postNo = ${post.postNo}
+		    		$.ajax({
+		    			url : "/community/rest/deleteComment",
+		    			method : "POST",
+		    			data : JSON.stringify({
+		    				commentNo : commentNo,
+		    				postNo : postNo
+		    			}),
+		    			headers : {
+		    				"Accept" : "application/json",
+		    				"content-Type" : "application/json"
+		    			},
+		    			success : function(){
+		    				$("."+commentNo+"").remove();
+		    			},
+		    			error : function(){
+		    				alert("실패");
+		    			}
+		    		});
+		    	});
+		    	
+		    	$(document).on("click", ".j button:nth-child(6)", function(){	//신고
+		    		commentNo = $(this).parent().find(".commentNo").val();
+		    		userId = $(this).parent().find(".userId").val();
+		    	});	
+		    	
+		    		
+	    		$(document).on("click", "#realReport", function(){	//진짜 신고하기 눌렀을 때
+		    		var postNo = ${post.postNo};
+		    		var reportCategoryNo = $("#reportCategoryNo").val();
+		    		var reportContent = $("#reportcontent").val();
+		    		$.ajax({
+		    			url : "/report/rest/addReportComment",
+		    			method : "POST",
+		    			data : JSON.stringify({
+		    				refPostNo : postNo,
+		    				refCommentNo : commentNo,
+		    				userId02 : userId,
+		    				reportCategoryNo : reportCategoryNo,
+		    				reportContent : reportContent
+		    			}),
+		    			headers : {
+		    				"Accept" : "application/json",
+		    				"content-Type" : "application/json"
+		    			},
+		    			success : function(){
+		    				$("textarea#reportcontent").val("");
+		    			},
+		    			error : function(){
+		    			}
+		    		});
+	    		});
+    		
 	    	});
-	    	
-	    	$(document).on("click", ".j button:nth-child(3)", function(){	//신고
-	    		commentNo = $(this).parent().find(".commentNo").val();
-	    		userId = $(this).parent().find(".userId").val();
-	    	});	
-	    	
-	    		
-    		$(document).on("click", "#realReport", function(){	//진짜 신고하기 눌렀을 때
-	    		var postNo = ${post.postNo};
-	    		var reportCategoryNo = $("#reportCategoryNo").val();
-	    		var reportContent = $("#reportcontent").val();
-	    		$.ajax({
-	    			url : "/report/rest/addReportComment",
-	    			method : "POST",
-	    			data : JSON.stringify({
-	    				refPostNo : postNo,
-	    				refCommentNo : commentNo,
-	    				userId02 : userId,
-	    				reportCategoryNo : reportCategoryNo,
-	    				reportContent : reportContent
-	    			}),
-	    			headers : {
-	    				"Accept" : "application/json",
-	    				"content-Type" : "application/json"
-	    			},
-	    			success : function(){
-	    				$("textarea#reportcontent").val("");
-	    			},
-	    			error : function(){
-	    			}
-	    		});
-    		});
 	    </script>
 	    
 	<title>Insert title here</title>
@@ -187,11 +242,16 @@
 			    <span>${comment.userId }</span> / <span>${comment.commentDate }</span>
 			    <br>
 			    <span id='${comment.commentNo }'>${comment.commentContent }</span>
-			    <!-- <input type="button" value="좋아요"> -->
-			    <button type='button' class='btn btn-primary'>좋아요</button> 
-			    <span>${comment.likeCount }(좋아요 개수 출력)</span>
 			    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 			    <span class="j">
+			    	<span id="forCommentAppend"></span>
+			    	<c:if test="${comment.likeStatus eq '0'}">
+					    <button type='button' class='btn btn-primary'>좋아요</button>
+			    	</c:if>
+				    <c:if test="${comment.likeStatus ne '0' }">
+				    	<button type='button' class='btn btn-danger'>좋아요 취소</button>
+				    </c:if>
+				    <span>${comment.likeCount }(좋아요 개수 출력)</span>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateCommentModal">수정</button>
 				    <input type="button" value="삭제"><!--본인 일때-->
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalComment">신고</button>
@@ -203,10 +263,9 @@
 			</div>
 	    </c:forEach>
 	    <div id="forAppend"></div>
-	    
-	    
 	    <textarea rows="3" cols="85" name="commentContent" id="commentContent"></textarea>
 	    <input type="button" id="addComment" value="등록">
+	    
     </form>
     
     <form>
@@ -244,6 +303,7 @@
 		
 	<!-- 수정 모달 -->
 	<form>
+      
       <div class="container">
 		 			<div class="modal fade" id="updateCommentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			            <div class="modal-dialog" role="document">
@@ -266,7 +326,9 @@
 		            </div>
 		        </div>
 		 	</div>
-		</form>
+      
+      
+	</form>
     
    
  	

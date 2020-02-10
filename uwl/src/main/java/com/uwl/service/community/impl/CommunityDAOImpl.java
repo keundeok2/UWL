@@ -33,7 +33,6 @@ public class CommunityDAOImpl implements CommunityDAO {
 	@Override
 	public void addComment(Commentt comment) throws Exception {
 		sqlSession.insert("CommunityMapper.addComment", comment);
-		System.out.println(comment);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("postNo", comment.getPostNo());
 		map.put("change", +1);
@@ -102,12 +101,12 @@ public class CommunityDAOImpl implements CommunityDAO {
 	public void deleteLike(Likey likey) throws Exception {
 		sqlSession.delete("CommunityMapper.deleteLike", likey.getLikeNo());
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(likey.getRefPostNo() >= 10000) {
+		if(likey.getRefCommentNo() == 0) {
 			map.put("postNo", likey.getRefPostNo());
 			map.put("change", -1);
 			sqlSession.update("CommunityMapper.updatePostLikeStatus", map);
 		}
-		if(likey.getRefCommentNo() >= 10000) {
+		if(likey.getRefCommentNo() != 0) {
 			map.put("commentNo", likey.getRefCommentNo());
 			map.put("change", -1);
 			sqlSession.update("CommunityMapper.updateCommentLikeStatus", map);

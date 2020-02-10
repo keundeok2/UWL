@@ -40,7 +40,11 @@ public interface CoupleService {
 	
 	public Map<String, Object> getScheduleList(Search search, String userId, Date postDate) throws Exception;
 	
+	public Map<String, Object> getScheduleList2(Search search, String userId) throws Exception;
+	
 	public void updateSchedule(Post post) throws Exception;
 	
 	public void deleteSchedule(Post post) throws Exception;
+	
+	public void deleteCoupleTimeline(String firstUserId, String secondUserId) throws Exception;
 }

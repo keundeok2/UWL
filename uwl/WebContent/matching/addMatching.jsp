@@ -39,6 +39,8 @@
         	방패 개수 : <input type="text" name="totalItem2" value="${totalItem2}">
         </c:if>
         
+        <h3 class="modal">모달</h3>
+        
     </form>
 </body>
 </html>

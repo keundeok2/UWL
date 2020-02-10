@@ -142,85 +142,52 @@
 		});	
 		
 		
-		
-// 		/////////test///////
-// 	var checkId = 0;
-//     var checkPw = 0;
-//     //아이디 체크하여 가입버튼 비활성화, 중복확인.
-//     function checkDuplicationUserId() {
-//         var inputed = $('#userId').val();
-//         $.ajax({
-//             data : {
-//                 id : inputed
-//             },
-//             url : "/user/checkDuplicationUserId",
-//             success : function(data) {
-//                 if(inputed=="" && data=='0') {
-//                     $(".signupbtn").prop("disabled", true);
-//                     $(".signupbtn").css("background-color", "#aaaaaa");
-//                     $("#userId").css("background-color", "#FFCECE");
-//                     checkId = 0;
-//                 } else if (data == '0') {
-//                     $("#userId").css("background-color", "#B0F6AC");
-//                     checkId = 1;
-//                     if(checkId==1 && checkPw == 1) {
-//                         $(".signupbtn").prop("disabled", false);
-//                         $(".signupbtn").css("background-color", "#4CAF50");
-//                         signupCheck();
-//                     } 
-//                 } else if (data == '1') {
-//                     $(".signupbtn").prop("disabled", true);
-//                     $(".signupbtn").css("background-color", "#aaaaaa");
-//                     $("#userId").css("background-color", "#FFCECE");
-//                     checkId = 0;
-//                 } 
-//             }
-//         });
-//     }
-
-		
-// 		 ////////test
-//     $(function() {
-
-//         $("button#checkId").on('click', function(){
-
-//             $.ajax({
-//                 type: 'POST',
-//                 url: '/user/checkDuplicationUserId',
-//                 data: {
-//                     "userId" : $('#userId').val()
-//                 },
-//                 success: function(data){
-//                     if($.trim(data) == 0){
-//                         $('#checkMsg').html('<p style="color:blue">사용가능</p>');
-//                     }
-//                     else{
-//                         $('#checkMsg').html('<p style="color:red">사용불가능</p>');
-//                     }
-//                 }
-//             });    //end ajax    
-//         });    //end on    
-//     });
-
-		///////////////
-		
-		
-		
-		
-		
+	 	//==>"ID중복확인" Event 처리 및 연결
+			var checkId = 0;
+// 		    var checkPw = 0;
+// 		    var checkNick = 0;
+		    //아이디 체크하여 가입버튼 비활성화, 중복확인.
+		    function checkDuplicationUserId() {
+		        var inputed = $('#userId').val();
+		        console.log(inputed);
+		        $.ajax({
+		            data : {
+		                userId : inputed
+		            },
+		            url : "/user/rest/checkDuplicationUserId",
+		            method : 'get',
+		            success : function(data) {
+		                if(data == true) {
+		                    $("#userId").css("background-color", "#B0F6AC"); //초록
+		                    $(".signupbtn").prop("disabled", true);
+	                         $(".signupbtn").css("background-color", "#4CAF50"); //초록
+		                    checkId = true;
+		                }else {
+		                    $("#userId").css("background-color", "#FFCECE"); //빨강
+		                    $(".signupbtn").prop("disabled", false);
+		                    $(".signupbtn").css("background-color", "#aaaaaa"); //회색
+		                    checkId = false;
+// 	                         signupCheck();
+		                }
+		            },
+		            error : function(){
+		            	alert("실패");
+		            }
+		        });
+		    }		
 		
 		 
-		//==>"ID중복확인" Event 처리 및 연결
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $("button#checkId").on("click" , function() {
-				popWin 
-				= window.open("/user/checkDuplicationUserId.jsp",
-											"popWin", 
-											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
-											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
-			});
-		});	
+// 		//==>"ID중복확인" Event 처리 및 연결
+// 		 $(function() {
+// 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+// 			 $("button#checkId").on("click" , function() {
+// 				popWin 
+// 				= window.open("/user/checkDuplicationUserId.jsp",
+// 											"popWin", 
+// 											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
+// 											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+// 			});
+// 		});	
 		
  		//==>"Nickname중복확인" Event 처리 및 연결
  		 $(function() {
@@ -406,11 +373,11 @@
 		      <input type="text" class="form-control" id="userId" name="userId" oninput="checkDuplicationUserId()"	placeholder="중복확인하세요">
 		      <span id = "checkMsg"></span> 
 		      
-		      	<strong class="text-danger">입력전 중복확인 부터..</strong>
+<!-- 		      	<strong class="text-danger">입력전 중복확인 부터..</strong> -->
 		    </div>
-		    <div class="col-sm-3">
-		      <button type="button" class="btn btn-info" id="checkId">중복확인</button>
-		    </div>
+<!-- 		    <div class="col-sm-3"> -->
+<!-- 		      <button type="button" class="btn btn-info" id="checkId">중복확인</button> -->
+<!-- 		    </div> -->
 		  </div>
 		  
 		  

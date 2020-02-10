@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uwl.common.MailUtils;
@@ -56,9 +57,8 @@ public class UserRestController {
 	private UserService userService;
 
 	// 메일 인증
-	private JavaMailSender mailSender;	
-	
-	
+	private JavaMailSender mailSender;
+
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
@@ -165,7 +165,7 @@ public class UserRestController {
 		}
 		search.setPageSize(pageSize);
 
-		Map<String , Object> map = userService.getUserList(search);
+		Map<String, Object> map = userService.getUserList(search);
 
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
@@ -194,8 +194,7 @@ public class UserRestController {
 		map.put("resultPage", resultPage);
 		return map;
 	}
-	
-	
+
 //	// 회원전체 목록
 //	@RequestMapping(value ="rest/listUser", method = RequestMethod.GET)
 //	public String listUser(@RequestParam("userId") String userId, Model model) throws Exception {
@@ -208,7 +207,18 @@ public class UserRestController {
 //
 //		return "forward:/user/listUser.jsp";
 //	}
-	
+
+	// id 중복체크
+	@RequestMapping(value = "rest/checkDuplicationUserId", method = RequestMethod.GET)
+	public boolean checkDuplicationUserId(@RequestParam String userId) throws Exception {
+		System.out.println("/user/rest/checkDuplicationUserId : GET");
+		boolean result = userService.checkDuplicationUserId(userId);
+
+//		Map map = new HashMap();
+//		map.put("result", new Boolean(result));
+//		return map;
+		return result;
+	}
 
 	// id 중복체크
 	@RequestMapping(value = "rest/checkDuplicationUserId", method = RequestMethod.POST)
@@ -234,23 +244,24 @@ public class UserRestController {
 
 	// 나의 문의사항 내역
 	@RequestMapping(value = "rest/getUserQuestions", method = RequestMethod.GET)
-	public Map getUserQuestions(@ModelAttribute Search search, HttpSession httpSession) throws Exception{
+	public Map getUserQuestions(@ModelAttribute Search search, HttpSession httpSession) throws Exception {
 //		Search search = new Search();
-		
+
 		System.out.println("/user/rest/getUserQuestions : GET ");
-		
-		User user = (User)httpSession.getAttribute("user");
-		
-		if(search.getCurrentPage() ==0 ){
+
+		User user = (User) httpSession.getAttribute("user");
+
+		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		
-		Map<String , Object> map=userService.getUserQuestions(search, user.getUserId());
-		
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+
+		Map<String, Object> map = userService.getUserQuestions(search, user.getUserId());
+
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+				pageSize);
 		System.out.println(resultPage);
-		
+
 		map.put("list", map.get("list"));
 		map.put("search", search);
 		map.put("resultPage", resultPage);
@@ -335,7 +346,6 @@ public class UserRestController {
 
 	}
 
-	
 	// pw 찾기
 	@RequestMapping(value = "rest/findPw", method = RequestMethod.POST)
 	public User findPw(@RequestBody User user) throws Exception {
@@ -351,7 +361,7 @@ public class UserRestController {
 	}
 
 	// 문자인증
-	@RequestMapping(value= "rest/sendSms")
+	@RequestMapping(value = "rest/sendSms")
 	public String sendSms(String receiver, HttpSession session) {
 
 		// 6자리 인증 코드 생성
@@ -408,7 +418,7 @@ public class UserRestController {
 		return "true";
 	}
 
-	@RequestMapping(value= "rest/smsCheck")
+	@RequestMapping(value = "rest/smsCheck")
 	public String smsCheck(String code, HttpSession session) {
 
 		String saveCode = "967698";
@@ -428,59 +438,56 @@ public class UserRestController {
 		public static final String sender = "01022269883";
 		public static final String receiver = "01022269883";
 	}
-	
-	
+
 //	 mail 인증
-	@RequestMapping( value = "rest/checkMail" )
-	public Map checkMailValue( @RequestBody Map jsonMap ) throws Exception {
+	@RequestMapping(value = "rest/checkMail")
+	public Map checkMailValue(@RequestBody Map jsonMap) throws Exception {
 		System.out.println("user/rest/checkMail");
-		
+
 		// 파싱
 		ObjectMapper objectMapper = new ObjectMapper();
 		String mapString = objectMapper.writeValueAsString(jsonMap);
-		JSONObject jsonObject = (JSONObject)JSONValue.parse(mapString);
-		
-		Map<String, String> mailMap = objectMapper.readValue(jsonObject.toString(), 
-											new TypeReference<Map<String, String>>(){});
-		
+		JSONObject jsonObject = (JSONObject) JSONValue.parse(mapString);
+
+		Map<String, String> mailMap = objectMapper.readValue(jsonObject.toString(),
+				new TypeReference<Map<String, String>>() {
+				});
+
 		String mail = mailMap.get("mail");
-		
-		// 메일 인증 시 입력할 값을 생성 
+
+		// 메일 인증 시 입력할 값을 생성
 		SecureRandom random = new SecureRandom();
 		String state = new BigInteger(130, random).toString(32);
-		
-		// Autowired된 JavaMailSender로 MailUtils 객체 생성 
+
+		// Autowired된 JavaMailSender로 MailUtils 객체 생성
 		MailUtils sendMail = new MailUtils(mailSender);
-		
-		// JavaMailSender.setSubject(title) :: 메일 제목 설정 
+
+		// JavaMailSender.setSubject(title) :: 메일 제목 설정
 		sendMail.setSubject("[어'울림] 본인 인증");
-		
-		// JavaMailSender.setText(text) :: 메일 내용 설정 
-		// StringBuffer로 작성 
-		sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>")
-				.append("<p>아래 글자를 입력하시면 이메일 인증이 완료됩니다.</p>")
+
+		// JavaMailSender.setText(text) :: 메일 내용 설정
+		// StringBuffer로 작성
+		sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>").append("<p>아래 글자를 입력하시면 이메일 인증이 완료됩니다.</p>")
 				.append("<p>입력 문자 :: </p><br/><br/><hr/>")
-				// 본인인증을 위한 state를 메일로 발송 
-				.append("<p>" + state +"</p>")
-				.toString());
-		
-		// JavaMailSender.setFrom(senderEmail, senderName) :: 메일 작성자 설정 
+				// 본인인증을 위한 state를 메일로 발송
+				.append("<p>" + state + "</p>").toString());
+
+		// JavaMailSender.setFrom(senderEmail, senderName) :: 메일 작성자 설정
 		sendMail.setFrom("a@uwl.com", "어'울림");
-		
-		// JavaMailSender.setTo(receiverEmail) :: 메일 수신자 설정 
+
+		// JavaMailSender.setTo(receiverEmail) :: 메일 수신자 설정
 		sendMail.setTo(mail);
-		
+
 		// JavaMailSender.send :: 설정한 내용을 바탕으로 메일 전송
 		sendMail.send();
-		
+
 		Map<String, String> returnMap = new HashMap<String, String>();
 		returnMap.put("result", "done");
-		
+
 		// 본인인증을 위한 state를 반환
 		returnMap.put("mailCheck", state);
 		System.out.println("end SendMail");
 		return returnMap;
 	}
-	
-	
+
 }

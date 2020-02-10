@@ -77,8 +77,8 @@ public class UserController {
 		// ===========================================
 		// 있으면 update , 없으면 insert 이거 방법뭐임? 이 메서드 돌릴때 다른 패키지에 있는 .java 파일 실행시키고싶음
 
-				OracleToMongo oracleToMongo = new OracleToMongo();
-				oracleToMongo.startOracleToMongo();
+		OracleToMongo oracleToMongo = new OracleToMongo();
+		oracleToMongo.startOracleToMongo();
 		// ======================================= 채 팅
 		// ===========================================
 
@@ -157,11 +157,11 @@ public class UserController {
 		// ===========================================
 		// 있으면 update , 없으면 insert 이거 방법뭐임? 이 메서드 돌릴때 다른 패키지에 있는 .java 파일 실행시키고싶음
 
-			OracleToMongo oracleToMongo = new OracleToMongo();
-			oracleToMongo.startOracleToMongo();
+		OracleToMongo oracleToMongo = new OracleToMongo();
+		oracleToMongo.startOracleToMongo();
 		// ======================================= 채 팅
 		// ===========================================
-		
+
 		String sessionId = ((User) session.getAttribute("user")).getUserId();
 		if (sessionId.equals(user.getUserId())) {
 			session.setAttribute("user", user);
@@ -202,15 +202,15 @@ public class UserController {
 
 	// 문의사항 등록
 	@RequestMapping(value = "addQuestions", method = RequestMethod.GET)
-	public String addQuestions() throws Exception{
+	public String addQuestions() throws Exception {
 		System.out.println("UserController : addQuestions() GET 호출");
 		System.out.println("/user/addQuestion : GET");
 		System.out.println("/user/addQuestion : GET22");
-		
+
 		return "forward:/user/addQuestions.jsp";
-		
+
 	}
-	
+
 	// 문의사항 등록
 	@RequestMapping(value = "addQuestions", method = RequestMethod.POST)
 	public String addQuestions(@ModelAttribute("post") Post post) throws Exception {
@@ -221,29 +221,27 @@ public class UserController {
 		userService.addQuestions(post);
 		return "forward:/user/getQuestions.jsp";
 	}
-	
-	
+
 	// 문의사항 수정
 	@RequestMapping(value = "updateQuestions", method = RequestMethod.GET)
-	public String updateQuestions(@ModelAttribute("postNo") int postNo, Model model)throws Exception {
+	public String updateQuestions(@ModelAttribute("postNo") int postNo, Model model) throws Exception {
 		System.out.println("UserController : updateQuestions() 호출");
 		System.out.println("/user/updateQuestions : GET");
-		
+
 		// Business Logic
 		Post post = userService.getQuestions(postNo);
 		model.addAttribute("post", post);
-		
+
 		return "forward:/user/updateQuestions.jsp";
 //		return "forward:/user/updateQuestions?postNo=" + post.getPostNo();
 	}
-	
+
 	// 문의사항 수정
 	@RequestMapping(value = "updateQuestions", method = RequestMethod.POST)
-	public String updateQuestions(@ModelAttribute("post") Post post, HttpSession session)
-			throws Exception {
+	public String updateQuestions(@ModelAttribute("post") Post post, HttpSession session) throws Exception {
 		System.out.println("UserController : updateQuestions() 호출");
 		System.out.println("/user/updateQuestions : POST");
-		
+
 		// Business Logic
 		userService.updateQuestions(post);
 
@@ -254,7 +252,6 @@ public class UserController {
 
 		return "forward:/user/getUserQuestions?postNo=" + post.getPostNo();
 	}
-	
 
 	// 문의사항 내용
 	@RequestMapping(value = "getQuestions", method = RequestMethod.GET)
@@ -443,15 +440,25 @@ public class UserController {
 //
 //			return "userService.checkDuplicationUserId(userId)";
 //		}
-	
+
 //	// 아이디 중복체크 test
 //	@RequestMapping(value = "checkDuplicationUserId", method = { RequestMethod.GET, RequestMethod.POST})
 //    public @ResponseBody int checkDuplicationUserId (String userId, Model model) {
 //        return userService.checkDuplicationUserId(userId);
 //    }//
 
-	
-		
+	// 아이디 중복체크
+	@RequestMapping(value = "checkDuplicationUserId", method = RequestMethod.GET)
+	public String checkDuplicationUserId(@RequestParam("userId") String userId) throws Exception {
+		System.out.println("UserController : checkDuplicationUserId() 호출");
+
+		System.out.println("/user/checkDuplicationUserId : GET");
+		// Business Logic
+		userService.checkDuplicationUserId(userId);
+
+		return "forward:/user/addUserView.jsp";
+	}
+
 	// 아이디 중복체크
 	@RequestMapping(value = "checkDuplicationUserId", method = RequestMethod.POST)
 	public String checkDuplicationUserId(@RequestParam("userId") String userId, Model model) throws Exception {
