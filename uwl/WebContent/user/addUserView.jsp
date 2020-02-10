@@ -1,14 +1,13 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 수 정 중 !!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! addUserView 수 정 중 !!!!!!!!!!!!! -->
 <!DOCTYPE html>
 
 <html lang="ko">
 	
 <head>
 	<meta charset="EUC-KR">
-	
 	
 <!-- 	<link rel="stylesheet" type="text/css" href="assets/css/main.css"> -->
 	
@@ -22,6 +21,30 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
+	<!--  ///////////////////////// Bootstrap 4.4, jQuery 3.1.1 CDN ////////////////////////// -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+			rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+			crossorigin="anonymous">
+	
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	
+	
+	<!--  ///////////////////////// CSS, JS 4.4 CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
+integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	
+	
+	
 	<!--  ///////////////////////// datePicker ////////////////////////// -->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <!--  	<link rel="stylesheet" href="/resources/demos/style.css"> -->
@@ -34,7 +57,7 @@
 		//============= "가입"  Event 연결 =============
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "button.btn.btn-primary" ).on("click" , function() {
+			$( '#signUp' ).on("click" , function() {
 				fncAddUser();
 			});
 		});	
@@ -144,8 +167,6 @@
 		
 	 	//==>"ID중복확인" Event 처리 및 연결
 			var checkId = 0;
-// 		    var checkPw = 0;
-// 		    var checkNick = 0;
 		    //아이디 체크하여 가입버튼 비활성화, 중복확인.
 		    function checkDuplicationUserId() {
 		        var inputed = $('#userId').val();
@@ -159,15 +180,15 @@
 		            success : function(data) {
 		                if(data == true) {
 		                    $("#userId").css("background-color", "#B0F6AC"); //초록
-		                    $(".signupbtn").prop("disabled", true);
-	                         $(".signupbtn").css("background-color", "#4CAF50"); //초록
+		                    $(".btn btn-outline-info btn-lg").prop("disabled", true);
+	                         $(".btn btn-outline-info btn-lg").css("background-color", "#4CAF50"); //초록
 		                    checkId = true;
 		                }else {
 		                    $("#userId").css("background-color", "#FFCECE"); //빨강
-		                    $(".signupbtn").prop("disabled", false);
-		                    $(".signupbtn").css("background-color", "#aaaaaa"); //회색
+		                    $(".btn btn-outline-info btn-lg").prop("disabled", false);
+		                    $(".btn btn-outline-info btn-lg").css("background-color", "#aaaaaa"); //회색
 		                    checkId = false;
-// 	                         signupCheck();
+	                         signupCheck();
 		                }
 		            },
 		            error : function(){
@@ -175,8 +196,75 @@
 		            }
 		        });
 		    }		
-		
-		 
+		    
+		    
+		    
+		  //==>"Nickname 중복확인" Event 처리 및 연결
+		    var checkNick = 0;
+		    // 체크하여 가입버튼 비활성화, 중복확인.
+		    function checkDuplicationNickname() {
+		        var inputed = $('#nickname').val();
+		        console.log(inputed);
+		        $.ajax({
+		            data : {
+		            	nickname : inputed
+		            },
+		            url : "/user/rest/checkDuplicationNickname",
+		            method : 'get',
+		            success : function(data) {
+		                if(data == true) {
+		                    $("#nickname").css("background-color", "#B0F6AC"); //초록
+		                    $(".btn btn-outline-info btn-lg").prop("disabled", true);
+	                         $(".btn btn-outline-info btn-lg").css("background-color", "#4CAF50"); //초록
+		                    checkId = true;
+		                }else {
+		                    $("#nickname").css("background-color", "#FFCECE"); //빨강
+		                    $(".btn btn-outline-info btn-lg").prop("disabled", false);
+		                    $(".btn btn-outline-info btn-lg").css("background-color", "#aaaaaa"); //회색
+		                    checkId = false;
+	                         signupCheck();
+		                }
+		            },
+		            error : function(){
+		            	alert("실패");
+		            }
+		        });
+		    }		
+		    
+		    
+		    
+		  //==>"mail 중복확인" Event 처리 및 연결
+		    var mail = 0;
+		    // 체크하여 가입버튼 비활성화, 중복확인.
+		    function checkDuplicationMail() {
+		        var inputed = $('#mail').val();
+		        console.log(inputed);
+		        $.ajax({
+		            data : {
+		            	mail : inputed
+		            },
+		            url : "/user/rest/checkDuplicationMail",
+		            method : 'get',
+		            success : function(data) {
+		                if(data == true) {
+		                    $("#mail").css("background-color", "#B0F6AC"); //초록
+		                    $(".btn btn-outline-info btn-lg").prop("disabled", true);
+	                         $(".btn btn-outline-info btn-lg").css("background-color", "#4CAF50"); //초록
+		                    checkId = true;
+		                }else {
+		                    $("#mail").css("background-color", "#FFCECE"); //빨강
+		                    $(".btn btn-outline-info btn-lg").prop("disabled", false);
+		                    $(".btn btn-outline-info btn-lg").css("background-color", "#aaaaaa"); //회색
+		                    checkId = false;
+	                         signupCheck();
+		                }
+		            },
+		            error : function(){
+		            	alert("실패");
+		            }
+		        });
+		    }		
+		    
 // 		//==>"ID중복확인" Event 처리 및 연결
 // 		 $(function() {
 // 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -189,17 +277,17 @@
 // 			});
 // 		});	
 		
- 		//==>"Nickname중복확인" Event 처리 및 연결
- 		 $(function() {
- 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
- 			 $("button#checkNick").on("click" , function() {
- 				popWin 
- 				= window.open("/user/checkDuplicationNickname.jsp",
- 											"popWin", 
- 											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
- 											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
- 			});
- 		});	
+//  		//==>"Nickname중복확인" Event 처리 및 연결
+//  		 $(function() {
+//  			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+//  			 $("button#checkNick").on("click" , function() {
+//  				popWin 
+//  				= window.open("/user/checkDuplicationNickname.jsp",
+//  											"popWin", 
+//  											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
+//  											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+//  			});
+//  		});	
 		
 		//==>"학교 주소찾기" Event 처리 및 연결
 		 $(function() {
@@ -225,17 +313,17 @@
 			});
 		});	
 		
-		//==>"mail 중복체크" Event 처리 및 연결
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $("button#checkMail").on("click" , function() {
-				popWin 
-				= window.open("/user/checkDuplicationMail.jsp",
-											"popWin", 
-											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
-											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
-			});
-		});	
+// 		//==>"mail 중복체크" Event 처리 및 연결
+// 		 $(function() {
+// 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+// 			 $("button#checkMail").on("click" , function() {
+// 				popWin 
+// 				= window.open("/user/checkDuplicationMail.jsp",
+// 											"popWin", 
+// 											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
+// 											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+// 			});
+// 		});	
 		
 		//==>"mail 본인인증" Event 처리 및 연결 =====
 		$(function() {
@@ -330,10 +418,6 @@
 	});	
 	//==>"mail 본인인증" Event 처리 및 연결 =====				
 				
-				
-		
-		
-
 	</script>		
     
     <!--  ///////////////////////// datePicer ////////////////////////// -->
@@ -346,31 +430,37 @@
     });
   } );
   </script>
-    
+     
+         
+     
 </head>
 
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<div class="navbar  navbar-default">
-        <div class="container">
-        	<a class="navbar-brand" href="/index.jsp">어'울림</a>
-   		</div>
-   	</div>
-   	<!-- ToolBar End /////////////////////////////////////-->
+	<div class="navbar  navbar-default" id="top">
+        	<a class="navbar-brand" href="/index.jsp" ><h3>어'울림</h3></a>
+<!--         	<img src="./images/twitter_header_photo_1.jpg"> -->
+<!-- 이미지 추가 -->
+
+   	</div>	
+   	<!-- ToolBar End /////////////////////////////////////-->	
+
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
-		<h1 class="bg-primary text-center">회 원 가 입</h1>
+<!-- 		<h1 class="bg-primary text-center">회 원 가 입</h1> -->
+		
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
 		
 		  <div class="form-group">
-		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">* 아 이 디</label>
+		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label" >* 아 이 디</label>
+<!-- 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* 아 이 디</label> -->
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="userId" name="userId" oninput="checkDuplicationUserId()"	placeholder="중복확인하세요">
+		      <input type="text" class="form-control" id="userId" name="userId" oninput="checkDuplicationUserId()">
 		      <span id = "checkMsg"></span> 
 		      
 <!-- 		      	<strong class="text-danger">입력전 중복확인 부터..</strong> -->
@@ -382,7 +472,8 @@
 		  
 		  
 		  <div class="form-group">
-		    <label for="password" class="col-sm-offset-1 col-sm-3 control-label">* 비밀번호</label>
+		    <label for="password" class="col-sm-offset-1 col-sm-3 control-label" >* 비밀번호</label>
+<!-- 		    <label for="password" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* 비밀번호</label> -->
 		    <div class="col-sm-4">
 		      <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호">
 		    </div>
@@ -391,6 +482,7 @@
 		  
 		  <div class="form-group">
 		    <label for="password2" class="col-sm-offset-1 col-sm-3 control-label">* 비밀번호 확인</label>
+<!-- 		    <label for="password2" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* 비밀번호 확인</label> -->
 		    <div class="col-sm-4">
 		      <input type="password" class="form-control" id="password2" name="password2" placeholder="비밀번호 확인">
 		    </div>
@@ -398,7 +490,8 @@
 		  
 		  
 		  <div class="form-group">
-		    <label for="name" class="col-sm-offset-1 col-sm-3 control-label">* 이름</label>
+		    <label for="name" class="col-sm-offset-1 col-sm-3 control-label" >* 이름</label>
+<!-- 		    <label for="name" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* 이름</label> -->
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="name" name="name" placeholder="회원이름">
 		    </div>
@@ -406,29 +499,33 @@
 		  
 		  
 		  <div class="form-group">
-		    <label for="nickname" class="col-sm-offset-1 col-sm-3 control-label">* 닉네임</label>
+		    <label for="nickname" class="col-sm-offset-1 col-sm-3 control-label" >* 닉네임</label>
+<!-- 		    <label for="nickname" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* 닉네임</label> -->
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="nickname" name="nickname" placeholder="중복확인하세요" readonly>
+		      <input type="text" class="form-control" id="nickname" name="nickname" oninput="checkDuplicationNickname()">
 		    </div>
-		    <div class="col-sm-3">
-		      <button type="button" class="btn btn-info" id="checkNick">중복확인</button>
-		    </div>
+<!-- 		    <div class="col-sm-3"> -->
+<!-- 		      <button type="button" class="btn btn-info" id="checkNick">중복확인</button> -->
+<!-- 		    </div> -->
 		  </div>
 		  
 		  
 		  <div class="form-group">
-		    <label for="schoolNo" class="col-sm-offset-1 col-sm-3 control-label">* 학교</label>
+		    <label for="schoolNo" class="col-sm-offset-1 col-sm-3 control-label" >* 학교</label>
+<!-- 		    <label for="schoolNo" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* 학교</label> -->
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="schoolNo" name="schoolNo" placeholder="학교">
 		    </div>
 		    <div class="col-sm-3">
-		      <button type="button" class="btn btn-info" id="checkSchool">주소찾기</button>
+		      <button type="button" class="btn btn-outline-warning" id="checkSchool">주소찾기</button>
+<!-- 		      <button type="button" class="btn btn-info" id="checkSchool">주소찾기</button> -->
 		    </div>
 		  </div>
 		  
 		  
 		  <div class="form-group">
-		    <label for="phone" class="col-sm-offset-1 col-sm-3 control-label">휴대전화번호</label>
+		    <label for="phone" class="col-md-offset-1 col-md-3 control-label" >휴대전화번호</label>
+<!-- 		    <label for="phone" class="col-md-offset-1 col-md-3 control-label" style="color:orange">휴대전화번호</label> -->
 		     <div class="col-sm-2">
 		      <select class="form-control" name="phone1" id="phone1">
 				  	<option value="010" >010</option>
@@ -443,13 +540,15 @@
 		    </div>
 		    <input type="hidden" name="phone"  />
 		    <div class="col-sm-3">
-		      <button type="button" class="btn btn-info" id="checkPhone">본인인증</button>
+		      <button type="button" class="btn btn-outline-warning" id="checkPhone">본인인증</button>
+<!-- 		      <button type="button" class="btn btn-info" id="checkPhone">본인인증</button> -->
 		    </div>
 		  </div>
 		  
 		  
 		  <div class="form-group">
-		    <label for="birth" class="col-sm-offset-1 col-sm-3 control-label">* 생일</label>
+		    <label for="birth" class="col-sm-offset-1 col-sm-3 control-label" >* 생일</label>
+<!-- 		    <label for="birth" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* 생일</label> -->
 		    <div class="col-sm-4">
 		      <input type="text"  class="form-control" id="birth" name="birth"  placeholder="생일을 달력에서 선택하세요.">
 		    </div>
@@ -457,7 +556,8 @@
 		  
 		  
 		  <div class="form-group">
-		    <label for="gender" class="col-sm-offset-1 col-sm-3 control-label">* 성별</label>
+		    <label for="gender" class="col-sm-offset-1 col-sm-3 control-label" >* 성별</label>
+<!-- 		    <label for="gender" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* 성별</label> -->
 		    <div class="col-sm-4">
 		    <input type="radio" name="gender" value="1"> 여자 &nbsp;
 		    <input type="radio" name="gender" value="2"> 남자
@@ -466,27 +566,31 @@
 		  
 		  
 		   <div class="form-group">
-		    <label for="mail" class="col-sm-offset-1 col-sm-3 control-label">이메일</label>
+		    <label for="mail" class="col-sm-offset-1 col-sm-3 control-label"> 이메일</label>
+<!-- 		    <label for="mail" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">이메일</label> -->
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="mail" name="mail"  placeholder="중복확인하세요" readonly >
+		      <input type="text" class="form-control" id="mail" name="mail"  oninput="checkDuplicationMail()" >
 		    </div>
-		    <div class="col-sm-3">
-		      <button type="button" class="btn btn-info" id="checkMail">중복확인</button>
-		    </div>
+<!-- 		    <div class="col-sm-3"> -->
+<!-- 		      <button type="button" class="btn btn-info" id="checkMail">중복확인</button> -->
+<!-- 		    </div> -->
 		    
-		    <div class="form-group">
-		    <label for="profileName" class="col-sm-offset-1 col-sm-3 control-label"> 사 진</label>
+		    <div class="form-group" >
+		    <div class="col-sm-offset-4  col-sm-4 text-center">
+		    <label for="profileName" class="col-sm-offset-1 col-sm-3 control-label" > 사 진</label>
+<!-- 		    <label for="profileName" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange"> 사 진</label> -->
 		    <div class="col-sm-4">
 		      <input type="file" class="form-control" id="profileName" name="profileName" placeholder="사진">
 		    </div>
-		    </div>
-
+		     </div>
 		    
 			<!-- 		    메일로 인증번호 전송 -->
 		    <div class="col-sm-3">
-		    	<button type="button" class="btn btn-info" id="sendMail">메일전송</button>
+		    	<button type="button" class="btn btn-outline-warning" id="sendMail">메일전송</button>
+<!-- 		    	<button type="button" class="btn btn-info" id="sendMail">메일전송</button> -->
 		    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		    	<button type="button" class="btn btn-info">인증번호확인</button>
+		    	<button type="button" class="btn btn-outline-warning">인증번호확인</button>
+<!-- 		    	<button type="button" class="btn btn-info">인증번호확인</button> -->
 		    	<input type="hidden" name="mailValue" value="">
 		    	<input type="hidden" name="mailCheck" value="">
 		    	<input type="hidden" name="mail1" value="">
@@ -494,22 +598,25 @@
 		    <!-- 		    메일로 인증번호 전송 -->
 		    
 		  </div>
+		  </div>
 		  
 		  
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		     <button type="submit" class="signupbtn" disabled="disabled">Sign Up</button>
+<!-- 		     <button type="submit" id="signUp"	class="btn btn-outline-info btn-lg" disabled="disabled">Sign Up</button> -->
+		     <button type="submit" id="signUp"	class="btn btn-outline-info btn-lg" >Sign Up</button>
 <!-- 		      <button type="button" class="btn btn-primary"  >가 &nbsp;입</button> -->
-			  <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+			  <a class="btn btn-outline-info btn-lg btn" href="#" role="button">취&nbsp;소</a>
 		    </div>
 		  </div>
 		</form>
+		  </div>
 		
 		<!-- form Start /////////////////////////////////////-->
 		
  	</div>
 	<!--  화면구성 div end /////////////////////////////////////-->
-	
+
 </body>
 
 </html>
