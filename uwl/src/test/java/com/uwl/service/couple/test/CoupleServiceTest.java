@@ -181,7 +181,7 @@ public class CoupleServiceTest {
 		Assert.assertEquals(10009, comment.getPostNo());
 		Assert.assertEquals("1111", comment.getCommentContent());
 		Assert.assertEquals("2020-01-30", comment.getCommentDate().toString());
-		Assert.assertEquals("1", comment.getCommenbtStatus());
+		Assert.assertEquals("1", comment.getCommentStatus());
 		
 		Assert.assertNotNull(coupleService.getCoupleTimelineComment(10006));
 	}
@@ -210,7 +210,7 @@ public class CoupleServiceTest {
 		comment = coupleService.getCoupleTimelineComment(10006);
 		Assert.assertNotNull(comment);
 		
-		comment.setCommenbtStatus("2");
+		comment.setCommentStatus("2");
 		
 		coupleService.deleteCoupleTimelineComment(comment);
 		
