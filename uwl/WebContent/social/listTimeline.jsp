@@ -21,12 +21,22 @@
 <script
 	src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
 <!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
+<!-- Font Awesome CDN -->
+<script src="https://kit.fontawesome.com/376450b3c6.js" crossorigin="anonymous"></script>
 <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
 <script type="text/javascript">
 	var postNo = null;
 	
 	
 	$(document).on("click", "button#addTimeline", function() {
+		var timelinePostContent =$(".timelinePostContent").val();
+		console.log("timelinePostContent", timelinePostContent);
+		
+		if (timelinePostContent.length < 1 || timelinePostContent == null) {
+			alert('내용을 입력하세요').
+			return;
+		}
+		
 		$("form#addTimelineForm")
 		.attr("method", "post")
 		.attr("action", "/social/addTimeline")
@@ -46,45 +56,63 @@
 			},
 			data : JSON.stringify({searchCondition : "1", userId : "", postNo : postNo}),
 			success : function(d) {
-				$(".addDiv").remove();
+				$(".addCommentDiv").remove();
 				
-				var html = "<div class='addDiv'>";
+				var html = "<div class='addCommentDiv'>";
 				if (d.list.length != 0) {
 					
 					for (var i = 0; i < d.list.length; i++) {
-						html += "<p>"+d.list[i].userId+" &nbsp; "+d.list[i].commentContent+"</p><hr/>";
+						html += "<i class='fas fa-times deleteCommentBtn'></i>" 
+							+"<hr/><p>"+d.list[i].userId+" &nbsp; "+d.list[i].commentContent+"</p>"
+							+"<input type='hidden' value='"+d.list[i].commentNo+"'>";
 					}
 					
-					html += "<textarea class='form-control commentText' name='commentContent' rows='1' placeholder='댓글을 입력하세요'></textarea>"
-								+"<button class='btn' id='regBtn'>등록</button></div>";
+					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글을 입력하세요'>";
 				} else {
-					html += "<textarea class='form-control commentText' name='commentContent' rows='1' placeholder='댓글을 입력하세요'></textarea>"
-						+"<button class='btn' id='regBtn'>등록</button></div>";
+					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글을 입력하세요'>";
 				}
 							
-				$("div."+postNo).append(html);
+				$("li."+postNo).append(html);
 			}
 		})
 	});
 	
-	$(document).on("click", "#regBtn", function() {
-		var content = $(this).prev().val();
-		console.log("content", content);
+	$(document).on("keypress", ".regCommentText", function(e) {
+		var content = $(this).val();
 		
-		$.ajax({
-			url : "/community/rest/addComment",
-			method : "POST",
-			headers : {
-				"Accept" : "application/json",
-				"Content-Type" : "application/json"
-			},
-			data : JSON.stringify({commentContent : content, userId : "", postNo : postNo}),
-			success : function(d) {
-				console.log("d", d);
+		if (e.which == 13) {
+			
+			if (content.length < 1 || content == "" || content == null) {
+				alert('내용을 입력하세요');
+				return;
+			} else {
+				
+			$.ajax({
+				url : "/community/rest/addComment",
+				method : "POST",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				data : JSON.stringify({commentContent : content, userId : "", postNo : postNo}),
+				success : function(d) {
+					console.log("d", d)
+					var html = "<i class='fas fa-times deleteCommentBtn'></i>"
+							+"<hr/><p>"+d.userId+" &nbsp; "+d.commentContent+"</p>"
+							+"<input type='hidden' value='"+d.commentNo+"'>"
+					
+					$(".addCommentDiv").prepend(html);
+					$("input.regCommentText").val("");
+				}
+			})
 			}
-		})
-	})
+		}
+	});
 		
+	$(document).on("click", ".deleteCommentBtn", function() {
+		var commentNo = $(this).next().next().next().val(); 
+		console.log("commentNo", commentNo);
+	});
 </script>
 
 <style type="text/css">
@@ -92,47 +120,96 @@
 body {
 	margin : 50px;
 }
+ul.timeline {
+    list-style-type: none;
+    position: relative;
+}
+ul.timeline:before {
+    content: ' ';
+    background: #d4d9df;
+    display: inline-block;
+    position: absolute;
+    left: 29px;
+    width: 2px;
+    height: 100%;
+    z-index: 400;
+}
 
+ul.timeline {
+	margin-top: 40px;
+}
 
+ul.timeline > li {
+    margin: 20px 0;
+    padding-left: 20px;
+}
+ul.timeline > li:before {
+    content: ' ';
+    background: white;
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #22c0e8;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    z-index: 400;
+}	
+
+.viewStatus {
+	width : 110px;
+	height : 40px;
+}
+
+.nononotext {
+	display: none;
+}
+
+.regCommentText {
+	margin-top: 5px; 
+}
+
+.deleteCommentBtn {
+	margin-top : 22px;
+	float: right;
+	cursor: url;
+	
+}
 </style>
 <title>어울림</title>
 </head>
 <body>
-	<div class="container">
-		<c:if test="${search.searchCondition eq 1 }">
-		<div class="col-md-6">
-			<form id="addTimelineForm">
-				<div class="input-group">
-					<textarea class="form-control" name="postContent" style="height:150px" placeholder="게시글을 등록하세요"></textarea>
-				</div>
-				<input type="hidden" name="userId" value="${user.userId}">
-		           	<select class="custom-select" name="viewStatus">
-		              <option value="1" selected="selected">전체공개</option>
-		              <option value="2">나만보기</option>
-		            </select>
-				<button class="btn btn-primary btn-rt" id="addTimeline">등록</button>
-			</form>
-		</div>
-		</c:if>
-		
-		<div class="col-md-6">
-		<p>${map.totalCount}개</p>
-		<c:forEach var="post" items="${map.list}">
-			<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-				<div class="col p-4 flex-column position-static" id="${post.postNo}">
-					<div class="mb-1 text-muted">${post.postDate}</div>
-					<strong class="d-inline-block mb-2 text-primary">${post.userId}</strong>
-					<p class="mb-0">${post.postContent}</p>
-					<input type="hidden" value="${post.postNo}">
-					<hr/>
-					<button class="btn btn-primary btn-sm">좋아요</button>
-					<button class="btn btn-primary btn-sm commentBtn" value="${post.postNo}">댓글</button>
-					<div class="${post.postNo}"></div>
-				</div>
+	<div class="container mt-5 mb-5">
+		<div class="row">
+			<div class="col-md-6 offset-md-3 addTargetDiv">
+				<h4>Timeline</h4>
+				<form id="addTimelineForm">
+					<div class="input-group">
+						<textarea class="form-control timelinePostContent" name="postContent" style="height:100px" placeholder="게시글을 등록하세요"></textarea>
+						<input type="text" class="nononotext">
+						<input type="text" class="nononotext">
+					</div>
+			            <div class="float-right" >
+							<button class="btn btn-primary btn-rt " id="addTimeline">등록</button>
+			            </div>
+					<input type="hidden" name="userId" value="${user.userId}">
+			           	<select class="custom-select float-right viewStatus" name="viewStatus">
+			              <option value="1" selected="selected">전체공개</option>
+			              <option value="2">나만보기</option>
+			            </select>
+				</form>
+				<ul class="timeline">
+				<c:forEach var="post" items="${map.list}">
+					<li class="${post.postNo}">
+						<a class="float-left text-monospace text-primary">${post.postDate}</a><br/> 
+						<p>${post.postContent}</p>
+						<button class="btn btn-primary btn-sm">좋아요</button>
+						<button class="btn btn-primary btn-sm commentBtn" value="${post.postNo}">댓글</button>
+					</li>
+				</c:forEach>
+				</ul>
 			</div>
-		</c:forEach>
 		</div>
-	</div>
-	
+	</div>	
 </body>
 </html>

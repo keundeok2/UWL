@@ -20,7 +20,7 @@
 					"Content-Type" : "application/json"
 				},
 				data : JSON.stringify({
-					userId : "user01",
+					
 				}),
 				success : function(d) {
 					$(".addData").remove();					
