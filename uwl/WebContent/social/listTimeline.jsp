@@ -21,12 +21,13 @@
 <script
 	src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
 <!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
+<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
 <!-- Font Awesome CDN -->
 <script src="https://kit.fontawesome.com/376450b3c6.js" crossorigin="anonymous"></script>
-<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
 <script type="text/javascript">
 	var postNo = null;
-	
+	var targetUserId = "${targetUserId}";
+	var sessionId = "${user.userId}";
 	
 	$(document).on("click", "button#addTimeline", function() {
 		var timelinePostContent =$(".timelinePostContent").val();
@@ -62,14 +63,16 @@
 				if (d.list.length != 0) {
 					
 					for (var i = 0; i < d.list.length; i++) {
-						html += "<i class='fas fa-times deleteCommentBtn'></i>" 
-							+"<hr/><p>"+d.list[i].userId+" &nbsp; "+d.list[i].commentContent+"</p>"
-							+"<input type='hidden' value='"+d.list[i].commentNo+"'>";
+						if (targetUserId == sessionId) {
+							html += "<div class='"+d.list[i].commentNo+"'><i class='fas fa-times deleteCommentBtn'><input type='hidden' value='"+d.list[i].postNo+"' id='postNoini'><input type='hidden' value='"+d.list[i].commentNo+"' id='commentNoini'></i></div>";
+						}
+						
+						html += "<hr/><p>"+d.list[i].userId+" &nbsp; "+d.list[i].commentContent+"</p>";
 					}
 					
-					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글을 입력하세요'>";
+					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글입력 후 Enter'></div>";
 				} else {
-					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글을 입력하세요'>";
+					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글입력 후 Enter'></div>";
 				}
 							
 				$("li."+postNo).append(html);
@@ -94,7 +97,7 @@
 					"Accept" : "application/json",
 					"Content-Type" : "application/json"
 				},
-				data : JSON.stringify({commentContent : content, userId : "", postNo : postNo}),
+				data : JSON.stringify({commentContent : content, userId : sessionId, postNo : postNo}),
 				success : function(d) {
 					console.log("d", d)
 					var html = "<i class='fas fa-times deleteCommentBtn'></i>"
@@ -110,8 +113,82 @@
 	});
 		
 	$(document).on("click", ".deleteCommentBtn", function() {
-		var commentNo = $(this).next().next().next().val(); 
+		//var commentNo = $(this).next().next().next().val();
+		var commentNo = $(this).children("#commentNoini").val();
 		console.log("commentNo", commentNo);
+		var postNo = $(this).children("#postNoini").val();
+		console.log("postNo", postNo)
+		
+		var pureAlert = $.pureAlert.confirm({
+			title : "알림",
+			content : "댓글을 삭제하시겠습니까?",
+			okBtn : "삭제",
+			cancelBtn : "취소",
+			autoShow : true,
+			closeButton : false
+		});
+		pureAlert.on('ok.pure-alert', function(e) {
+			
+		
+		$.ajax({
+			url : "/community/rest/deleteComment",
+			method : "POST",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			data : JSON.stringify({commentNo : commentNo, postNo : postNo}),
+			success : function() {
+				$("div."+commentNo+"").remove();
+			}
+			
+		});
+		});
+	});
+	
+	$(document).on("click", ".postUpdateBtn", function() {
+		var postContent = $(this).prev().prev().prev().text();
+		console.log("postContent", postContent);
+		var postNo = $(this).parent().val();
+		console.log("postNo", postNo);
+		
+		$(".textareaInModal").text(postContent);
+		
+		$(".confirmUpdateBtn").on("click", function() {
+			var viewStatus = $(this).prev().prev().val();
+			console.log("view", viewStatus);
+			var newContent = $(".textareaInModal").val();
+			console.log(newContent);
+			
+			$.ajax({
+				url : "/social/rest/updateTimeline",
+				method : "POST",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				data : JSON.stringify({
+					postTitle : "yes",
+					postContent : newContent,
+					viewStatus : viewStatus,
+					postNo : postNo
+					
+				}),
+				success : function() {
+					var veiw = null;
+					if (viewStatus == 1) {
+						view = "전체공개";
+					} else {
+						view = "나만보기";
+					}
+					
+					$("div."+postNo+"").html(newContent);
+					$("a.postViewStatus"+postNo+"").html(view);
+					$("#postUpdateModal").modal("hide");
+				}
+			});
+			
+		})
 	});
 </script>
 
@@ -134,11 +211,9 @@ ul.timeline:before {
     height: 100%;
     z-index: 400;
 }
-
 ul.timeline {
-	margin-top: 40px;
+	margin-top: 60px;
 }
-
 ul.timeline > li {
     margin: 20px 0;
     padding-left: 20px;
@@ -155,33 +230,41 @@ ul.timeline > li:before {
     height: 20px;
     z-index: 400;
 }	
-
 .viewStatus {
 	width : 110px;
 	height : 40px;
 }
-
 .nononotext {
 	display: none;
 }
-
 .regCommentText {
 	margin-top: 5px; 
 }
-
 .deleteCommentBtn {
 	margin-top : 22px;
 	float: right;
 	cursor: url;
 	
 }
+.postUpdateBtn {
+	float: right;
+}
+.viewStatusInModal {
+	float: left;
+	width : 110px;
+}
+.postContentDiv {
+	margin-bottom : 10px;
+}
+
 </style>
 <title>어울림</title>
 </head>
 <body>
 	<div class="container mt-5 mb-5">
 		<div class="row">
-			<div class="col-md-6 offset-md-3 addTargetDiv">
+			<div class="col-md-6 offset-md-3">
+				<div class="addFormDiv">
 				<h4>Timeline</h4>
 				<form id="addTimelineForm">
 					<div class="input-group">
@@ -190,7 +273,7 @@ ul.timeline > li:before {
 						<input type="text" class="nononotext">
 					</div>
 			            <div class="float-right" >
-							<button class="btn btn-primary btn-rt " id="addTimeline">등록</button>
+							<button class="btn btn-outline-primary btn-rt " id="addTimeline">등록</button>
 			            </div>
 					<input type="hidden" name="userId" value="${user.userId}">
 			           	<select class="custom-select float-right viewStatus" name="viewStatus">
@@ -198,18 +281,55 @@ ul.timeline > li:before {
 			              <option value="2">나만보기</option>
 			            </select>
 				</form>
+				</div>
 				<ul class="timeline">
 				<c:forEach var="post" items="${map.list}">
-					<li class="${post.postNo}">
-						<a class="float-left text-monospace text-primary">${post.postDate}</a><br/> 
-						<p>${post.postContent}</p>
-						<button class="btn btn-primary btn-sm">좋아요</button>
-						<button class="btn btn-primary btn-sm commentBtn" value="${post.postNo}">댓글</button>
+					<li class="${post.postNo}" value="${post.postNo}">
+						<a class="float-left text-monospace text-primary">${post.postDate}</a> 
+						
+						<c:if test="${post.viewStatus == 1 }">
+						<a class="float-right font-weight-bold text-secondary postViewStatus${post.postNo}">전체공개</a><br/> 
+						</c:if>
+						<c:if test="${post.viewStatus == 2 }">
+						<a class="float-right font-weight-bold text-secondary postViewStatus${post.postNo}">나만보기</a><br/> 
+						</c:if>
+						
+						<div class="postContentDiv ${post.postNo}">${post.postContent}</div>
+						<button class="btn btn-outline-primary btn-sm commentBtn" value="${post.postNo}">댓글</button>
+						<c:if test="${user.userId eq targetUserId }">
+						<button class="btn btn-outline-secondary btn-sm postUpdateBtn" value="${post.postNo}" data-toggle="modal" data-target="#postUpdateModal">수정</button>
+						</c:if>
 					</li>
 				</c:forEach>
 				</ul>
 			</div>
 		</div>
-	</div>	
+	</div>
+	
+<!-- Modal -->
+<div class="modal fade" id="postUpdateModal" tabindex="-1" role="dialog" aria-labelledby="postUpdateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="postUpdateModalLabel">수정</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <textarea class="form-control textareaInModal" rows="6"></textarea>
+      </div>
+      <div class="modal-footer">
+      	<select class="custom-select float-right viewStatusInModal" name="viewStatus">
+	        <option value="1" selected="selected">전체공개</option>
+	        <option value="2">나만보기</option>
+		</select>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-primary confirmUpdateBtn">수정</button>
+      </div>
+    </div>
+  </div>
+</div>
+	
 </body>
 </html>

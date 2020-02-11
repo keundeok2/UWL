@@ -17,6 +17,10 @@
 	<script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
 	<!-- IMP CDN  -->
 	<script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js" type="text/javascript"></script>
+	<!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
+	<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
+	<!-- Font CDN -->
+	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Sunflower:300&display=swap" rel="stylesheet">
 	<script type="text/javascript">
 	
 	var sessionId = null;
@@ -54,6 +58,18 @@
 			var paymentOption = $(this).val();
 			console.log("paymentOption", paymentOption);
 			console.log("itemName", itemName);
+			
+			var pureAlert = $.pureAlert.confirm({
+				title : "알림",
+				content : "포인트 구매를 진행하시겠습니까?",
+				okBtn : "구매",
+				cancelBtn : "취소",
+				autoShow : true,
+				closeButton : false
+			});
+			
+			pureAlert.on('ok.pure-alert', function(e) {
+				
 			IMP.request_pay({
 			    pg : 'html5_inicis', //ActiveX 결제창은 inicis를 사용
 			    pay_method : 'card', //card(신용카드), trans(실시간계좌이체), vbank(가상계좌), phone(휴대폰소액결제)
@@ -106,12 +122,30 @@
 			        
 			    }
 			});
+			})
+			
+			pureAlert.on('cancel.pure-alert', function(e) {
+				$("#purchaseModal").modal("hide");
+			})
+			
 		})
 		
 		$(document).on("click", "#pointBtn", function() {
 			var paymentOption = $(this).val();
 			console.log("itemName", itemName);
 			console.log("paymentOption", paymentOption);
+			
+			var pureAlert = $.pureAlert.confirm({
+				title : "알림",
+				content : "포인트 구매를 진행하시겠습니까?",
+				okBtn : "구매",
+				cancelBtn : "취소",
+				autoShow : true,
+				closeButton : false
+			});
+			
+			pureAlert.on('ok.pure-alert', function(e) {
+			
 			$.ajax({
 				url: "/purchase/rest/addPurchase", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
 	    		type: 'POST',
@@ -139,6 +173,12 @@
 					}
 				})
 			})
+			pureAlert.on('cancel.pure-alert', function(e) {
+				$("#purchaseModal").modal("hide");
+			})
+			
+			})
+			
 	
 	$(document).on("click", "#listPurchase", function() {
 		$.redirect("/purchase/getPurchaseList",{userId : sessionId});
@@ -147,7 +187,22 @@
 	
 	</script>
 	
+	<style type="text/css">
 	
+	#purchaseModal {
+	}
+	
+	.pointTextDiv {
+		text-align: center;
+		margin-bottom: 30px;
+	}
+	
+	* {
+		font-family: 'Nanum Gothic', sans-serif;
+		font-weight : 100;
+	}
+	
+	</style>
 <title>어울림</title>
 </head>
 <body>
@@ -167,21 +222,21 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">구매</h5>
+        <p class="modal-title" id="exampleModalLabel">아이템 구매</p>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
       <div class="row">
-      <div class="col-sm-12">
-      <h3>현재 포인트 : </h3>
+      <div class="col-sm-12 pointTextDiv">
+      <p>현재 포인트 : </p> <!-- //////////////////////////// 유저포인트로 수정하기 -->
       </div>
       	<div class="col-sm-6">
-        <button type="button" class="btn btn-primary btn-lg btn-block" id="cardBtn" value="1">현금 구매<br/>99,000원</button>
+        <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="cardBtn" value="1">현금 구매<br/>99,000원</button>
         </div>
       	<div class="col-sm-6">
-        <button type="button" class="btn btn-primary btn-lg btn-block" id="pointBtn" value="2">포인트 구매<br/>99,000포인트</button>
+        <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="pointBtn" value="2">포인트 구매<br/>99,000포인트</button>
       	</div>
       </div>
       </div>

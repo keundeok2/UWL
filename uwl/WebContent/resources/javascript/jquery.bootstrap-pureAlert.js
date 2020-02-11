@@ -60,7 +60,7 @@
 			.appendTo($(document.body));
 
 		var $modalDialogDiv = $('<div></div>')
-			.addClass('modal-dialog')
+			.addClass('modal-dialog pureAlertModal')
 			.appendTo($modalDiv);
 		
 		var $modalContentDiv = $('<div></div>')
