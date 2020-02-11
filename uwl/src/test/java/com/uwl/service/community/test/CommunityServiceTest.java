@@ -69,7 +69,7 @@ public class CommunityServiceTest {
 		communityService.deleteComment(comment);
 	}
 	
-//	@Test
+	@Test
 	public void getCommentList() throws Exception{
 		Search search = new Search();
 		search.setCurrentPage(1);
