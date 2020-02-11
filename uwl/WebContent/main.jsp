@@ -73,10 +73,23 @@
    	});
    	
    	
+   	$( function() {
+		$("a[href='#' ]:contains('인덱스')").on("click" , function() {
+			self.location = "/index.jsp"
+		});
+	});
+   	
    	
    	$( function() {
 		$("a[href='#' ]:contains('로그인')").on("click" , function() {
 			self.location = "/user/loginView.jsp"
+		});
+	});
+   	
+   	
+   	$( function() {
+		$("a[href='#' ]:contains('회원정보')").on("click" , function() {
+			self.location = "/user/getUser.jsp"
 		});
 	});
    	
@@ -113,7 +126,9 @@
 </head>
 	
 <body>
+<a class="btn btn-info btn-lg" href="#" role="button">인덱스</a>
 <a class="btn btn-info btn-lg" href="#" role="button">로그인</a>
+<a class="btn btn-info btn-lg" href="#" role="button">회원정보</a>
 <a class="btn btn-info btn-lg" href="#" role="button">문의사항</a>
 <a class="btn btn-info btn-lg" href="#" role="button">회원가입</a>
 <!-- <button type="button" id="findPw">PW찾기</button> -->

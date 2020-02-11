@@ -230,6 +230,21 @@ public class UserRestController {
 		map.put("result", new Boolean(result));
 		return map;
 	}
+	
+	
+	// nickname 중복체크
+	@RequestMapping(value = "rest/checkDuplicationNickname", method = RequestMethod.GET)
+	public boolean checkDuplicationNickname(@RequestParam String nickname) throws Exception {
+		System.out.println("/user/rest/checkDuplicationNickname : GET");
+		boolean result = userService.checkDuplicationNickname(nickname);
+
+//		Map map = new HashMap();
+//		map.put("result", new Boolean(result));
+//		return map;
+		return result;
+	}
+	
+	
 
 	// nickname 중복체크
 	@RequestMapping(value = "rest/checkDuplicationNickname", method = RequestMethod.POST)
@@ -241,6 +256,21 @@ public class UserRestController {
 		map.put("result", new Boolean(result));
 		return map;
 	}
+	
+	
+	// mail 중복체크
+	@RequestMapping(value = "rest/checkDuplicationMail", method = RequestMethod.GET)
+	public boolean checkDuplicationMail(@RequestParam String mail) throws Exception {
+		System.out.println("/user/rest/checkDuplicationMail : GET");
+		boolean result = userService.checkDuplicationMail(mail);
+
+//		Map map = new HashMap();
+//		map.put("result", new Boolean(result));
+//		return map;
+		return result;
+	}
+	
+	
 
 	// 나의 문의사항 내역
 	@RequestMapping(value = "rest/getUserQuestions", method = RequestMethod.GET)

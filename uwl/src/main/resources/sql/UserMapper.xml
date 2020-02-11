@@ -302,6 +302,20 @@
 		WHERE user_id = #{value}
 	 </select>
 	 
+	  <!-- nickname 중복체크 test -->
+	 <select 	id="checkDuplicationNickname"	parameterType="string"	resultMap="userSelectMap">
+		SELECT COUNT(*)
+		FROM users
+		WHERE nickname = #{value}
+	 </select>
+	 
+	  <!-- mail 중복체크 test -->
+	 <select 	id="checkDuplicationMail"	parameterType="string"	resultMap="userSelectMap">
+		SELECT COUNT(*)
+		FROM users
+		WHERE mail = #{value}
+	 </select>
+	 
 	 
 	 
 	 <!-- 문자 보내기 	 

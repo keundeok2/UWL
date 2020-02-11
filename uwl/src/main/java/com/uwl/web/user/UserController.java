@@ -475,6 +475,19 @@ public class UserController {
 	}
 
 	// 닉네임 중복체크
+		@RequestMapping(value = "checkDuplicationNickname", method = RequestMethod.GET)
+		public String checkDuplicationNickname(@RequestParam("nickname") String nickname) throws Exception {
+			System.out.println("UserController : checkDuplicationNickname() 호출");
+
+			System.out.println("/user/checkDuplicationNickname : GET");
+			// Business Logic
+			userService.checkDuplicationNickname(nickname);
+
+			return "forward:/user/addUserView.jsp";
+		}
+	
+	
+	// 닉네임 중복체크
 	@RequestMapping(value = "checkDuplicationNickname", method = RequestMethod.POST)
 	public String checkDuplicationNickname(@RequestParam("nickname") String nickname, Model model) throws Exception {
 		System.out.println("UserController : checkDuplicationNickname() 호출");

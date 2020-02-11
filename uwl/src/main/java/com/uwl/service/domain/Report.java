@@ -1,6 +1,6 @@
 package com.uwl.service.domain;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Report {
 	//field

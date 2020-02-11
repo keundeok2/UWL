@@ -86,11 +86,11 @@ public class PostController {
 			name = file.getOriginalFilename();
 			post.setUploadFileName(name);
 			postService.addBoard(post);
-			return "forward:/post/listBoard";
+			return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo();
 		}else { 	//썸네일을 안올렸을 때
 			post.setUploadFileName("empty.jpg");
 			postService.addBoard(post);
-			return "forward:/post/listBoard";
+			return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo();
 		}
 	}
 	
