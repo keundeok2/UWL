@@ -19,44 +19,48 @@
 </head>
 <body>
 	<div class="container-md">
+	
+				<div class="col-11">
                    <br>
                     <h2>주간 도전과제 목록
-                     <span class="badge badge-danger">New</span>
+                     	<span class="badge badge-danger">New</span>
                      </h2>
+						
                      <br>
                      <div class="alert alert-secondary" role="alert">
-					 	주간도전과제를 수행하고 포인트(활동점수)를 획득하세요! <br>
+					 	<b>주간도전과제를 수행하고 포인트(활동점수)를 획득하세요!</b> <br>
 					 	획득한 점수는 아이템을 구매하거나 학교랭킹에 반영됩니다.<br>
 					 	<small class="text-muted">주간도전과제는 매주 월요일 초기화됩니다.<br/></small>
-					 	
 					</div>
-                     
-                     	
+				</div>
+				
+                     <div class="col-11">
 						<div class="card-group">
-                     	<c:forEach var="challenge" items="${list}">
-						  <div class="card">
-						    <img src="http://placehold.it/300x250" class="card-img-top" alt="...">
-						    <div class="card-body">
-						      <h5 class="card-title">${challenge.challTitle}  
-							     <c:if test="${challenge.challCategory == '1'}">
-							     	 <span class="badge badge-success">Map</span></h5>
-								</c:if>
-								<c:if test="${challenge.challCategory == '2'}">
-									 <span class="badge badge-primary">Vision</span></h5>
-								</c:if>
-								<c:if test="${challenge.challCategory == '3'}">
-									<span class="badge badge-warning">게시판활동</span></h5>
-								</c:if>
-						      <p class="card-text">${challenge.challContent}</p>
-						    </div>
-						    <div class="card-footer">
-						  	  <h5><span class="badge badge-info">${challenge.challReward} 점 획득</span></h5>
-						      <div class="challDate">
-						     	 <small class="text-muted">(어차피 같으니 뺴서 하나로?)남은시간 - 03:00:28 고정값 수정되어야 합니다<br/></small>
-						      </div>
-						    </div>
-						  </div>
-                     	</c:forEach>
+		                     	<c:forEach var="challenge" items="${list}">
+								  <div class="card">
+								    <img src="http://placehold.it/300x250" class="card-img-top" alt="...">
+								    <div class="card-body">
+								      <h5 class="card-title">${challenge.challTitle}  
+									     <c:if test="${challenge.challCategory == '1'}">
+									     	 <span class="badge badge-success">Map</span></h5>
+										</c:if>
+										<c:if test="${challenge.challCategory == '2'}">
+											 <span class="badge badge-primary">Vision</span></h5>
+										</c:if>
+										<c:if test="${challenge.challCategory == '3'}">
+											<span class="badge badge-warning">게시판활동</span></h5>
+										</c:if>
+								      <p class="card-text">${challenge.challContent}</p>
+								    </div>
+								    <div class="card-footer">
+								  	  <h5><span class="badge badge-info">${challenge.challReward} 점 획득</span></h5>
+								      <div class="challDate">
+								     	 <small class="text-muted">(어차피 같으니 뺴서 하나로?)남은시간 - 03:00:28 고정값 수정되어야 합니다<br/></small>
+								      </div>
+								    </div>
+								  </div>
+		                     	</c:forEach>
+						</div>
 						</div>
 						
 						<br>
@@ -66,10 +70,10 @@
 						  <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">알아두세요!</a>
 						</p>
 						<div class="row">
-						  <div class="col">
+						    <div class="col-6 col-md-7">
 						    <div class="collapse multi-collapse" id="multiCollapseExample1">
 						      <div class="card card-body">
-						      	주간도전과제의 진행상황을 볼 수 있습니다.<br>
+						      	<b>하단의 상태바를 통해 주간도전과제의 진행상황을 볼 수 있습니다.</b>
 						        3개의 도전과제를 다 수행했을 시 추가 포인트를 적립할 수 있습니다.
 						      </div>
 						    </div>
@@ -77,6 +81,12 @@
 						</div>
 												
 						<br>
+						하나도 수행 안했을 때
+						<div class="progress">
+						  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 1%"></div>
+						</div>
+						<br>
+						
 						하나만 깻을때 
 						<div class="progress">
 						  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%"></div>
@@ -85,7 +95,7 @@
 						
 						두개만 깻을떄
 						<div class="progress">
-						  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+						  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 65%"></div>
 						</div>
 						<br>
 						
