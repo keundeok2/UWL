@@ -29,10 +29,16 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#searchReportButton').on("click",function(){
-			var searchCondition = $("#noProceed").val();
-			$(location).attr('href',"/report/listReport");
+			$('form').attr("method","POST").attr("action", "/report/listReport").submit();
+		});
+		
+		$("tr").on("click",function(){
+			var reportNo = $(this).find(".reportNo").val();
+			self.location = "/report/getReport?reportNo="+reportNo;
 		});
 	});
+	
+	
 </script>
 
 <style type="text/css">
@@ -56,12 +62,19 @@
 							<div class="text-center">
 								<h3 style="color: #2C3E50">신고목록 확인</h3>
 								<h4>
-									<label for="Choose Report" style="color: #E74C3C">Choose
-										Report</label>
+									<label for="Choose Report" style="color: #E74C3C">Choose Report</label>
 								</h4>
-									<input type="radio" name="searchCondition" value="1"/>아직 처리 안됐어요!
-									 &emsp;
-									<input type="radio" name="searchCondition" value="2"/>처리완료 됐어요!
+									<c:if test="${search.searchCondition eq 1 }">
+										<input type="radio" name="searchCondition" value="1" checked="checked"/>아직 처리가 안됐어요!
+										<input type="radio" name="searchCondition" value="2"/>처리완료 됐어요!
+									</c:if>
+									<c:if test="${search.searchCondition eq 2 }">
+										<input type="radio" name="searchCondition" value="1"/>아직 처리가 안됐어요!
+										<input type="radio" name="searchCondition" value="2" checked="checked"/>처리완료 됐어요!
+									</c:if>									
+										 &emsp;
+									<br>
+									<br>
 								<button type="button" class="btn btn-danger btn-lg btn3d" style="padding: 5px 30px" id="searchReportButton">
 									<i class="fas fa-search"></i>
 								</button>
@@ -77,9 +90,9 @@
 											<th class="text-center" width="115px">신고 당한 회원</th>
 											<th class="text-center" width="115px">신고 카테고리</th>
 											<th class="text-center" width="115px">신고날짜</th>
-											<c:if test="">
-											</c:if>
+											<c:if test="${search.searchCondition eq 2 }">
 												<th class="text-center" width="115px">정지 날짜</th>
+											</c:if>
 											<th class="text-center" width="115px">분류</th>
 										</tr>
 									</thead>
@@ -90,6 +103,7 @@
 										<c:forEach var="report" items="${list }">
 											<c:set var="i" value="${i+1 }" />
 											<tr>
+												<input type="hidden" class="reportNo" value="${report.reportNo }">
 												<td class="text-center" width="150px">${i }</td>
 												<td class="text-center" width="150px">${report.userId01 }</td>
 												<td class="text-center" width="150px">${report.userId02 }</td>
@@ -109,7 +123,7 @@
 													</c:if>
 												</td>
 												<td class="text-center" width="150px">${report.reportDate }</td>
-												<c:if test="${report.stopDate != '0' }">
+												<c:if test="${search.searchCondition eq 2 }">
 													<td class="text-center" width="150px">${report.stopDate }</td>
 												</c:if>
 												<td class="text-center" width="150px">
@@ -122,14 +136,12 @@
 												</td>
 											</tr>
 										</c:forEach>
-/report/getReport?reportNo=${reportNo }
-
 
 									</tbody>
 								</table>
 								<div class="text-center">
 									<h4>
-										<label style="color: #E74C3C" for="Total">Total :</label>7740
+										<label style="color: #E74C3C" for="Total">Total : </label> ${resultPage.totalCount }건
 									</h4>
 								</div>
 							</div>
@@ -138,7 +150,6 @@
 				</div>
 			</div>
 		</div>
-
 	</form>
 
 </body>
