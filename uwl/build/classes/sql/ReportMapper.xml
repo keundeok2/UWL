@@ -71,19 +71,16 @@
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT *
 						FROM report
-						<!-- <if test="searchCondition != null">
+						<if test="searchCondition != null">
 							<where>
 								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 			and prod_no = #{searchKeyword}
+						 			and report_status = '1'
 								</if>
 								<if test="searchCondition == 2 and searchKeyword !='' ">
-						 			and prod_name = #{searchKeyword}
-								</if>
-								<if test="searchCondition == 3 and searchKeyword !='' ">
-						 			and price = #{searchKeyword}
+						 			and report_status = '2'
 								</if>
 							</where>
-						</if> --> ) countTable						
+						</if>  ) countTable						
 	 </select>
  	
 </mapper>
