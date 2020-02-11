@@ -13,7 +13,13 @@ public class Challenge {
 	private String challTitle;
 	private String challContent;
 	private Date challDate;
-	//
+	private Date weeklyStart;
+	private Date weeklyEnd;
+	
+	//도전과제를 수행했을 경우 바인딩해주는 역할 
+	private Post post;
+	private Commentt commentt;
+	
 	//도전과제 flag (1: 수행, 2: 미수행)
 	private String challStatus;
 	
@@ -28,7 +34,8 @@ public class Challenge {
 	
 	//보상  , 플래그 (1: point 2: activityPoint) table에 컬럼으로 존재 X
 	private int challReward;
-	private String rewardCategory;
+	private int postCommentComplete;
+	//private String rewardCategory;
 	
 	//공개여부 flag
 	private String viewStatus;
@@ -196,20 +203,6 @@ public class Challenge {
 
 
 
-
-	public String getRewardCategory() {
-		return rewardCategory;
-	}
-
-
-
-
-	public void setRewardCategory(String rewardCategory) {
-		this.rewardCategory = rewardCategory;
-	}
-
-
-
 	public String getViewStatus() {
 		return viewStatus;
 	}
@@ -222,13 +215,77 @@ public class Challenge {
 
 
 
+	public Date getWeeklyStart() {
+		return weeklyStart;
+	}
+
+
+
+	public void setWeeklyStart(Date weeklyStart) {
+		this.weeklyStart = weeklyStart;
+	}
+
+
+
+	public Commentt getCommentt() {
+		return commentt;
+	}
+
+
+
+	public void setCommentt(Commentt commentt) {
+		this.commentt = commentt;
+	}
+
+
+
+	public Post getPost() {
+		return post;
+	}
+
+
+
+	public void setPost(Post post) {
+		this.post = post;
+	}
+
+
+
+	public int getPostCommentComplete() {
+		return postCommentComplete;
+	}
+
+
+
+	public void setPostCommentComplete(int postCommentComplete) {
+		this.postCommentComplete = postCommentComplete;
+	}
+
+
+
+
+
+
+	public Date getWeeklyEnd() {
+		return weeklyEnd;
+	}
+
+
+
+	public void setWeeklyEnd(Date weeklyEnd) {
+		this.weeklyEnd = weeklyEnd;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Challenge [challNo=" + challNo + ", challCategory=" + challCategory + ", challTitle=" + challTitle
-				+ ", challContent=" + challContent + ", challDate=" + challDate + ", challStatus=" + challStatus
-				+ ", firstUser=" + firstUser + ", firstUserLocation=" + firstUserLocation + ", secondUser=" + secondUser
-				+ ", secondUserLocation=" + secondUserLocation + ", challReward=" + challReward + ", rewardCategory="
-				+ rewardCategory + ", viewStatus=" + viewStatus + "]";
+				+ ", challContent=" + challContent + ", challDate=" + challDate + ", weeklyStart=" + weeklyStart
+				+ ", weeklyEnd=" + weeklyEnd + ", post=" + post + ", commentt=" + commentt + ", challStatus="
+				+ challStatus + ", firstUser=" + firstUser + ", firstUserLocation=" + firstUserLocation
+				+ ", secondUser=" + secondUser + ", secondUserLocation=" + secondUserLocation + ", challReward="
+				+ challReward + ", postCommentComplete=" + postCommentComplete + ", viewStatus=" + viewStatus + "]";
 	}
 	
 	

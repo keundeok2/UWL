@@ -51,6 +51,14 @@ public class Search {
 		return (getCurrentPage()-1)*getPageSize()+1;
 	}
 
+	public void setEndRowNum(int endRowNum) {
+		this.endRowNum = endRowNum;
+	}
+
+	public void setStartRowNum(int startRowNum) {
+		this.startRowNum = startRowNum;
+	}
+
 	@Override
 	public String toString() {
 		return "Search [currentPage=" + currentPage + ", searchCondition="
