@@ -7,8 +7,8 @@ public class Post {
 	//Field
 	//table과 매칭하기위해 많은 변수를 추가했음 나중에 보고 수정할 것 있으면 수정할것
 	private int postNo;	//게시글 번호
-	private String userId;	//게시자
-	private String nickName;	//게시자 닉네임
+	private String userId;
+	private User user;	//게시자
 	private String postTitle;	//게시글 제목
 	private String postContent;	//게시글 내용
 	private Date postDate;	//게시 날짜
@@ -57,9 +57,7 @@ public class Post {
 	public Post() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	//Method
+
 	public int getPostNo() {
 		return postNo;
 	}
@@ -67,13 +65,21 @@ public class Post {
 	public void setPostNo(int postNo) {
 		this.postNo = postNo;
 	}
-
+	
 	public String getUserId() {
 		return userId;
 	}
-
+	
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getPostTitle() {
@@ -152,8 +158,8 @@ public class Post {
 		return gatherCategoryNo;
 	}
 
-	public void setGatherCategoryNo(String getherCategoryNo) {
-		this.gatherCategoryNo = getherCategoryNo;
+	public void setGatherCategoryNo(String gatherCategoryNo) {
+		this.gatherCategoryNo = gatherCategoryNo;
 	}
 
 	public String getQuestionStatus() {
@@ -180,27 +186,16 @@ public class Post {
 		this.replyPostNo = replyPostNo;
 	}
 
-
-	public String getNickName() {
-		return nickName;
-	}
-
-
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-
-
 	@Override
 	public String toString() {
-		return "Post [postNo=" + postNo + ", userId=" + userId + ", nickName=" + nickName + ", postTitle=" + postTitle
+		return "Post [postNo=" + postNo + ", userId=" + userId + ", user=" + user + ", postTitle=" + postTitle
 				+ ", postContent=" + postContent + ", postDate=" + postDate + ", uploadFileName=" + uploadFileName
 				+ ", hitCount=" + hitCount + ", likeCount=" + likeCount + ", commentCount=" + commentCount
 				+ ", viewStatus=" + viewStatus + ", postCategoryNo=" + postCategoryNo + ", gatherCategoryNo="
 				+ gatherCategoryNo + ", questionStatus=" + questionStatus + ", place=" + place + ", replyPostNo="
 				+ replyPostNo + "]";
 	}
-	
-	
 
+
+	
 }

@@ -2,6 +2,8 @@ package com.uwl.web.report;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +20,7 @@ import com.uwl.service.community.CommunityService;
 import com.uwl.service.domain.Commentt;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.Report;
+import com.uwl.service.domain.User;
 import com.uwl.service.post.PostService;
 import com.uwl.service.report.ReportService;
 
@@ -63,11 +66,16 @@ public class ReportController {
 	}
 	
 	@RequestMapping(value="addReport", method=RequestMethod.POST)	//게시글 신고
-	public String addReport(@ModelAttribute("report") Report report, Model model) throws Exception{		//----------------테스트 완료
+	public String addReport(@ModelAttribute("report") Report report, Model model, HttpSession session) throws Exception{		//----------------테스트 완료
 		System.out.println("addReport.POST");
-		report.setUserId01("user15");		//////----------Session 처리 할것임
-		report.setReportWhat("1");
-		reportService.addPostReport(report);
+		User user = (User)session.getAttribute("user");
+		if(user == null) {
+			System.out.println("로그인 해주세요");
+		}else {
+			report.setUserId01(user.getUserId());		//////----------Session 처리 할것임
+			report.setReportWhat("1");
+			reportService.addPostReport(report);
+		}
 		return "redirect:/post/getBoard?postNo="+report.getRefPostNo();
 	}
 	

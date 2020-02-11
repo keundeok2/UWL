@@ -55,7 +55,7 @@ public class RewardController {
 	
 	//GET / POST 둘 다
 	//@RequestMapping(value = "getUserBothPointList/{reward}")
-	@RequestMapping(value = "getUserBothPointList/{userId}")
+	@RequestMapping(value = "listRewardCheck/{userId}")
 	public String getUserBothPointList(@ModelAttribute("search") Search search, @RequestParam(value = "userId", required = false)String userId, 
 														Model model, HttpServletRequest request ) throws Exception{
 		
@@ -68,7 +68,7 @@ public class RewardController {
 		Purchase purchaseItem = new Purchase();
 		
 		Reward reward = new Reward();
-		reward.setUserId("user41");
+		reward.setUserId("user01");
 		reward.setPurchaseItem(purchaseItem);
 		
 		
@@ -95,7 +95,7 @@ public class RewardController {
 		
 		System.out.println("price : " + price);
 		
-		return "forward:/reward/getUserBothPointList.jsp";
+		return "forward:/reward/listRewardCheck.jsp";
 		
 	}
 	

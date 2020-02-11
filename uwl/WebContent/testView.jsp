@@ -41,7 +41,7 @@
 		<br>
 		<br>
 			
-		<a href="/reward/getUserBothPointList/{userId}"  role="button"> 내 포인트 사용내역조회 </a>
+		<a href="/reward/listRewardCheck/{userId}"  role="button"> 내 포인트 사용내역조회 </a>
 	
 	
 	</ul>

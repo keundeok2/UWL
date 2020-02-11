@@ -1,9 +1,6 @@
 package com.uwl.service.domain;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.sun.org.apache.xml.internal.security.transforms.TransformationException;
+import java.sql.Date;
 
 public class Report {
 	//field
