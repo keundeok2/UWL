@@ -188,7 +188,7 @@ public class ChallengeController {
 		search.setPageSize(pageSize);
 		
 		//실제로는 세션?을 사용해서 로그인정보를 가져올것. 나중에 수정해야될듯
-		userId = "user41";
+		userId = "user01";
 		
 		Map<String, Object> map = challService.getCompleteChallengeList(search, userId);
 		System.out.println("getCompleteChallengeList의 Map : " + map);
@@ -211,9 +211,17 @@ public class ChallengeController {
 	public String getChallengeList(Model model) throws Exception{
 		
 		
+		
+		
 		System.out.println("ChallengeController의 getChallengeList() /challenge/listChallenge : GET / POST");
 		
-		List<Challenge> list = challService.getChallengeList();
+		Map<String, Object> map = challService.getChallengeList();
+		
+		//List<Challenge> list = challService.getChallengeList();
+		List<Challenge> list = (List<Challenge>)(map.get("list"));
+		//challService.addWeeklyStart(challenge);
+		
+		System.out.println("ChallengeController getChallengeList()의 map에 담긴 list : " + list);
 		
 		model.addAttribute("list", list);
 		

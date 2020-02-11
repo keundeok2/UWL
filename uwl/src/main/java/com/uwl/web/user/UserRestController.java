@@ -114,7 +114,6 @@ public class UserRestController {
 
 		System.out.println("/user/rest/updateUser : POST");
 		userService.updateUser(user);
-
 	}
 
 	// 로그인
@@ -134,11 +133,11 @@ public class UserRestController {
 	}
 
 	// 회원전체 목록
-	@RequestMapping(value = "rest/listUser", method = RequestMethod.GET)
+	@RequestMapping(value = "rest/getUserlist", method = RequestMethod.GET)
 	public Map listUser() throws Exception {
 		Search search = new Search();
 
-		System.out.println("/user/rest/listUser : GET ");
+		System.out.println("/user/rest/getUserList : GET ");
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
@@ -156,10 +155,10 @@ public class UserRestController {
 	}
 
 	// 회원전체 목록
-	@RequestMapping(value = "rest/listUser", method = RequestMethod.POST)
+	@RequestMapping(value = "rest/getUserList", method = RequestMethod.POST)
 	public Map listUser(@RequestBody Search search) throws Exception {
 
-		System.out.println("/user/rest/listUser : POST ");
+		System.out.println("/user/rest/getUserList : POST ");
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}

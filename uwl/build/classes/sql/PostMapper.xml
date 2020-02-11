@@ -9,6 +9,12 @@
  	<resultMap type="post" id="postSelectMap">
  		<result property="postNo" column="POST_NO" jdbcType="NUMERIC"/>
  		<result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
+ 		
+ 		<result property="user.userId" column="USER_ID" jdbcType="VARCHAR"/>
+ 		<result property="user.name" column="NAME" jdbcType="VARCHAR"/>
+ 		<result property="user.nickname" column="NICKNAME" jdbcType="VARCHAR"/>
+ 		<result property="user.profileName" column="PROFILE_NAME" jdbcType="VARCHAR"/>
+ 		
  		<result property="postTitle" column="POST_TITLE" jdbcType="VARCHAR"/>
  		<result property="postContent" column="POST_CONTENT" jdbcType="VARCHAR"/>
  		<result property="postDate" column="POST_DATE" jdbcType="DATE"/>
@@ -22,14 +28,14 @@
  		<result property="questionStatus" column="QUESTION_STATUS" jdbcType="VARCHAR"/>
  		<result property="place" column="PLACE" jdbcType="VARCHAR"/>
  		<result property="replyPostNo" column="REPLY_POST_NO" jdbcType="NUMERIC"/>
- 		<result property="nickName" column="NICKNAME" jdbcType="VARCHAR"/>	<!-- 가상 컬럼 바인딩 -->
  	</resultMap>
  	
  	<select id="getBoard" parameterType="int" resultMap = "postSelectMap">
  		SELECT
- 			post_no, user_id, post_title, post_content, post_date, hit_count, like_count, comment_count, view_status, post_category_no, gather_category_no, uploadfile_name
- 		FROM post
- 		WHERE post_no = #{value}
+ 			post_no, u.user_id, post_title, post_content, post_date, hit_count, like_count, comment_count, view_status, post_category_no, gather_category_no, uploadfile_name, u.name, u.nickname, u.profile_name
+ 		FROM post p, users u
+ 		WHERE p.user_id = u.user_id 
+ 		AND post_no = #{value}
  	</select>
  	
  	<insert id="addBoard" parameterType="post">
@@ -55,10 +61,10 @@
  	</update>
  	
  	<select id="getBoardList" parameterType="map" resultMap="postSelectMap">
- 		SELECT 
- 			post_no, user_id, post_title, post_content, post_date, hit_count, like_count, comment_count, view_status, post_category_no, gather_category_no, uploadfile_name
+ 		SELECT *
  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
- 			FROM ( SELECT * FROM post
+ 			FROM ( SELECT post_no, p.user_id, post_title, post_content, post_date, hit_count, like_count, comment_count, view_status, post_category_no, gather_category_no, uploadfile_name, u.name, u.nickname, u.profile_name
+ 						FROM post p, users u
  						WHERE post_category_no = '2'
  						AND view_status = '1'
  						AND gather_category_no = #{gatherCategoryNo}
@@ -74,6 +80,7 @@
 	 								<!--  AND 작성자-->
 	 							</if>
 	 						</if>
+	 					AND p.user_id = u.user_id
  						ORDER BY post_date DESC) inner_table
  			WHERE ROWNUM &lt;= #{search.endRowNum} )
  		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}

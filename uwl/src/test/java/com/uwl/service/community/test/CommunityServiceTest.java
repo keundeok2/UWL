@@ -46,11 +46,11 @@ public class CommunityServiceTest {
 	}
 	
 //	@Test
-//	public void getComment() throws Exception{
-//		int commentNo = 10000;
-//		
-//		System.out.println(communityService.getComment(commentNo));
-//	}
+	public void getComment() throws Exception{
+		
+		System.out.println(communityService.getComment("user01", 10025));
+		
+	}
 	
 //	@Test
 	public void updateComment() throws Exception{
@@ -74,8 +74,8 @@ public class CommunityServiceTest {
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(3);
-		search.setSearchCondition("2");
-		int postNo = 0;
+		search.setSearchCondition("1");
+		int postNo = 10026;
 		String userId = "user01";
 		communityService.getCommentList(search, postNo, userId);
 	}

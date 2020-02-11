@@ -79,6 +79,9 @@ public class SocialController {
 		System.out.println("userId : " + ((User)(session.getAttribute("user"))).getUserId());
 		search.setPageSize(pageSize);
 		Map<String, Object> map = socialService.getAskQuestionList(((User)(session.getAttribute("user"))).getUserId(), search, "1");
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+				pageSize);
+		map.put("resultPage", resultPage);
 		model.addAttribute("map", map);
 		return "forward:/social/listAskQuestion.jsp";
 		
@@ -91,7 +94,12 @@ public class SocialController {
 		}
 		search.setPageSize(pageSize);
 		
-		model.addAttribute("map", socialService.getAskList(targetUserId, search, "2"));
+		Map<String, Object> map = socialService.getAskList(targetUserId, search, "2");
+		
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+				pageSize);
+		map.put("resultPage", resultPage);
+		model.addAttribute("map", map);
 		return "forward:/social/listAsk.jsp";
 	}
 	
@@ -120,8 +128,6 @@ public class SocialController {
 		map.put("resultPage", resultPage);
 		
 		// TL 댓글 가져오기
-		
-		
 		
 		model.addAttribute("map", map);
 		

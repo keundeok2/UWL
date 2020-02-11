@@ -17,6 +17,9 @@ import com.uwl.common.Search;
 import com.uwl.service.challenge.ChallengeDAO;
 import com.uwl.service.challenge.ChallengeService;
 import com.uwl.service.domain.Challenge;
+import com.uwl.service.domain.Commentt;
+import com.uwl.service.domain.Post;
+import com.uwl.service.domain.Purchase;
 import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.User;
 import com.uwl.service.reward.RewardDAO;
@@ -58,8 +61,8 @@ public class ChallengeServiceTest {
 		Challenge challenge = new Challenge();
 		//challenge.setChallNo(10010);
 		challenge.setChallCategory("2");
-		challenge.setChallTitle("TEST 제목입니다");
-		challenge.setChallContent("TEST 내용입니다.");
+		challenge.setChallTitle("게시판활동 조건ㅇㄴㅇㄴㅇㄴ");
+		challenge.setChallContent("5회이상 작성하세요");
 		challenge.setChallReward(6000);
 		
 		challengeService.addChallenge(challenge);
@@ -68,26 +71,41 @@ public class ChallengeServiceTest {
 		
 //		challengeService.getChallengeAdmin(challNo);
 //		
-		Assert.assertEquals("2", challenge.getChallCategory());
-		Assert.assertEquals("TEST 제목입니다", challenge.getChallTitle());
-		Assert.assertEquals("TEST 내용입니다.", challenge.getChallContent());
+//		Assert.assertEquals("2", challenge.getChallCategory());
+//		Assert.assertEquals("TEST 제목입니다", challenge.getChallTitle());
+//		Assert.assertEquals("TEST 내용입니다.", challenge.getChallContent());
+	}
+	
+	//@Test
+	public void testAddWeeklyStart()throws Exception{
+		
+		Challenge challenge = new Challenge();
+		
+		challengeService.addWeeklyStart(challenge);
+		
+		
+		
 	}
 	
 	//@Test
 	public void testUpdateChallenge() throws Exception{
 		
-		Challenge challenge = challengeService.getChallengeAdmin(10011);
+		Challenge challenge = challengeService.getChallengeAdmin(10094);
 		
-		Assert.assertEquals("2", challenge.getChallCategory());
-		Assert.assertEquals("TEST 제목입니다", challenge.getChallTitle());
-		Assert.assertEquals("TEST 내용입니다.", challenge.getChallContent());
+//		Assert.assertEquals("2", challenge.getChallCategory());
+//		Assert.assertEquals("TEST 제목입니다", challenge.getChallTitle());
+//		Assert.assertEquals("TEST 내용입니다.", challenge.getChallContent());
 		
 		System.out.println("testupdateChallenge 전 : " + challenge);
 		
 		challenge.setChallCategory("3");
-		challenge.setChallTitle("TEST UPDATE제목입니다");
-		challenge.setChallContent("TEST UPDATE내용입니다.");
-		challenge.setChallReward(3000);
+		challenge.setChallTitle("진학상담 게시글작성 5회");
+		challenge.setChallContent("진학상담 게시글에서 5회글을 작성하세요");
+		challenge.setChallReward(4000);
+		challenge.setPostCommentComplete(5);
+		
+//		Post post = new Post();
+//		post.setGatherCategoryNo("201");
 		
 		challengeService.updateChallenge(challenge);
 		
@@ -155,15 +173,20 @@ public class ChallengeServiceTest {
 	}
 	
 	//@Test
+//	public void testWeeklyStart() throws Exception{
+//		challengeService.weeklyStart();	
+//	}
+	
+	//@Test
 	public void testGetChallengeList() throws Exception{
 		
-		List<Challenge> list = challengeService.getChallengeList();
+//		List<Challenge> list = challengeService.getChallengeList();
 		
-		System.out.println("담긴정보 확인 : " + list);
+//		System.out.println("담긴정보 확인 : " + list);
 		
 	}
 	
-	@Test
+	//@Test
 	public void testGetCompleteChallengeList() throws Exception{
 		
 		Search search = new Search();
@@ -187,18 +210,56 @@ public class ChallengeServiceTest {
 	//@Test
 	public void testCompleteChallenge() throws Exception{
 		
-		Challenge challenge = new Challenge();
-		challenge.setChallNo(10004);
 		
-		Reward reward = new Reward();
-		reward.setUserId("user55");
-		reward.setChallenge(challenge);
+		Map<String, Object> map = challengeService.getChallengeList();
 		
-		rewardService.increasePoint(reward);
+		List<Challenge> list = (List<Challenge>)(map.get("list"));
 		
-		Assert.assertEquals(10004, challenge.getChallNo());
-	
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(6);
+		search.setStartRowNum(1);
+		search.setEndRowNum(5);
+		
+		System.out.println("map.get() : " + map.get("list"));
+		System.out.println("list.size() : " + list.size());
+		
+		
+//		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < 1; i++) {
+			
+			Commentt commentt = new Commentt();
+			commentt.setUserId("user01");
+			Post post = new Post();
+			post.setGatherCategoryNo("203");
+			post.setUserId("user01");
+			
+			Challenge challenge = new Challenge();
+			challenge.setChallNo(list.get(i).getChallNo());
+			challenge.setChallCategory(list.get(i).getChallCategory());
+			challenge.setChallReward(list.get(i).getChallReward());
+			challenge.setPostCommentComplete(list.get(i).getPostCommentComplete());
+			challenge.setPost(post);
+			challenge.setCommentt(commentt);
+			System.out.println("chall : " + challenge.getPost());
+			
+			Purchase purchaseItem = new Purchase();
+			
+			Reward reward = new Reward();
+			reward.setUserId("user01");
+			reward.setChallenge(challenge);
+			reward.setPurchaseItem(purchaseItem);
+			reward.setVariablePoint(challenge.getChallReward());
+			reward.setVariableActivityPoint(challenge.getChallReward());
+			reward.setTotalActivityPoint(12000);
+			
+			System.out.println("JunitTest reward : " + reward + "ㅇㄴㅇㄴㅇchall : " + challenge + "map의 get : " + map.get("list"));
+			challengeService.completeChallenge(reward, challenge, map);
+			
+			}
+		}
+		
 		
 	}
 	
-}
+	
