@@ -38,7 +38,7 @@ public class PostServiceTest {
 	
 //	@Test
 	public void getBoard() throws Exception{
-		int postNo = 10011;
+		int postNo = 10025;
 		
 		System.out.println(postService.getBoard(postNo));
 	}
@@ -73,7 +73,7 @@ public class PostServiceTest {
 		postService.deleteBoard(postNo);
 	}
 	
-//	@Test
+	@Test
 	public void getBoardList() throws Exception{
 		Search search  = new Search();
 		search.setCurrentPage(1);

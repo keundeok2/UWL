@@ -7,6 +7,7 @@ public class Commentt {
 	//Field
 	private int commentNo;	//댓글 번호
 	private String userId;	//회원 아이디
+	private User user;
 	private int postNo;	//게시글 번호
 	private String commentContent;	//댓글 내용
 	private Date commentDate;	//댓글 등록 날짜
@@ -21,8 +22,7 @@ public class Commentt {
 	public Commentt() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	//Method
+
 	public int getCommentNo() {
 		return commentNo;
 	}
@@ -37,6 +37,14 @@ public class Commentt {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public int getPostNo() {
@@ -63,12 +71,12 @@ public class Commentt {
 		this.commentDate = commentDate;
 	}
 
-	public String getCommenbtStatus() {
+	public String getCommentStatus() {
 		return commentStatus;
 	}
 
-	public void setCommenbtStatus(String commenbtStatus) {
-		this.commentStatus = commenbtStatus;
+	public void setCommentStatus(String commentStatus) {
+		this.commentStatus = commentStatus;
 	}
 
 	public int getLikeCount() {
@@ -79,7 +87,6 @@ public class Commentt {
 		this.likeCount = likeCount;
 	}
 
-	
 	public int getLikeStatus() {
 		return likeStatus;
 	}
@@ -90,16 +97,10 @@ public class Commentt {
 
 	@Override
 	public String toString() {
-		return "Commentt [commentNo=" + commentNo + ", userId=" + userId + ", postNo=" + postNo + ", commentContent="
-				+ commentContent + ", commentDate=" + commentDate + ", commentStatus=" + commentStatus + ", likeCount="
-				+ likeCount + ", likeStatus=" + likeStatus + "]";
+		return "Commentt [commentNo=" + commentNo + ", userId=" + userId + ", user=" + user + ", postNo=" + postNo
+				+ ", commentContent=" + commentContent + ", commentDate=" + commentDate + ", commentStatus="
+				+ commentStatus + ", likeCount=" + likeCount + ", likeStatus=" + likeStatus + "]";
 	}
-	
-	
-	
-
-
-	
 	
 
 }
