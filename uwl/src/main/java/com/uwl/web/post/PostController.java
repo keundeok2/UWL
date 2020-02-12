@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,6 +21,7 @@ import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.community.CommunityService;
 import com.uwl.service.domain.Post;
+import com.uwl.service.domain.User;
 import com.uwl.service.post.PostService;
 
 @Controller
@@ -46,15 +48,16 @@ public class PostController {
 	
 	
 	@RequestMapping(value="getBoard", method=RequestMethod.GET)	//------------------------------------------------테스트 종료
-	public String getBoard(@RequestParam("postNo") int postNo, Model model) throws Exception{
+	public String getBoard(@RequestParam("postNo") int postNo, Model model, HttpSession session) throws Exception{
 		System.out.println("getBoard.GET");
+		User user = (User)session.getAttribute("user");
 		Post post = postService.getBoard(postNo);
 		
 		Search search = new Search();
 		search.setCurrentPage(1);	//1인 이유는 무조건 getBoard할때는 현재 댓글은 1페이지라서임 ㅋㅋ
 		search.setPageSize(pageSize);
 		search.setSearchCondition("1");	//1 = 게시글의 댓글보기, 2 = 자신이 작성한 댓글 보기
-		Map<String, Object> map = communityService.getCommentList(search, postNo, "user01");		//user는 세션처리 할꺼
+		Map<String, Object> map = communityService.getCommentList(search, postNo, user.getUserId());		//user는 세션처리 할꺼
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		
 		model.addAttribute("list", map.get("list"));
@@ -75,10 +78,12 @@ public class PostController {
 	}
 	
 	@RequestMapping(value="addBoard", method=RequestMethod.POST)	//------------------------------------------------테스트 종료(테스트 중)
-	public String addBoard(@ModelAttribute("post") Post post,
-					HttpServletRequest request, Model model, @RequestParam("fileName") MultipartFile file) throws Exception {
+	public String addBoard(@ModelAttribute("post") Post post, HttpSession session,
+					HttpServletRequest request, Model model, @RequestParam("file") MultipartFile file) throws Exception {
 		System.out.println("addBoard.POST");
-		String path = "C:\\Users\\User\\Desktop\\fileUploadTest\\"; //썸네일 저장할 경로
+		User user = (User)session.getAttribute("user");
+		post.setUserId(user.getUserId());
+		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\"; //썸네일 저장할 경로
 		String name="";
 //		userid hidden
 		if(!file.getOriginalFilename().isEmpty()) {	//썸네일을 올렸을 때
@@ -103,11 +108,22 @@ public class PostController {
 	}
 	
 	@RequestMapping(value="updateBoard", method=RequestMethod.POST)	//------------------------------------------------테스트 종료
-	public String updateBoard(@ModelAttribute("post") Post post, @RequestParam("fileName") MultipartFile file
-								, Model model) throws Exception {
+	public String updateBoard(@ModelAttribute("post") Post post, @RequestParam("file") MultipartFile file
+								, Model model, HttpSession session) throws Exception {
 		System.out.println("updateBoard.POST");
-		String path = "C:\\Users\\User\\Desktop\\fileUploadTest\\"; //썸네일 저장할 경로
+		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\"; //썸네일 저장할 경로
 		String name="";
+		User user = (User)session.getAttribute("user");
+		Search search = new Search();
+		search.setCurrentPage(1);	//1인 이유는 무조건 getBoard할때는 현재 댓글은 1페이지라서임 ㅋㅋ
+		search.setPageSize(pageSize);
+		search.setSearchCondition("1");	//1 = 게시글의 댓글보기, 2 = 자신이 작성한 댓글 보기
+		Map<String, Object> map = communityService.getCommentList(search, post.getPostNo(), user.getUserId());		//user는 세션처리 할꺼
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
 		if(!file.getOriginalFilename().isEmpty()) {	//썸네일을 올렸을 때
 			file.transferTo(new File(path, file.getOriginalFilename()));
 			name = file.getOriginalFilename();
