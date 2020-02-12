@@ -31,4 +31,7 @@ public interface FriendService {
 	
 	public Map<String, Object> getSearchFriendList(Search search, String userId);
 	
+	public int checkFriend(Friend friend);
+	
+	public Friend checkRequest(Friend friend);
 }
