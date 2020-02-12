@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.portlet.ModelAndView;
 
 import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.challenge.ChallengeService;
 import com.uwl.service.domain.Challenge;
+import com.uwl.service.domain.User;
 
 import sun.security.util.PropertyExpander.ExpandException;
 
@@ -33,29 +35,58 @@ public class ChallengeController {
 	@Qualifier("challengeServiceImpl")
 	private ChallengeService challService;
 	
-	//Constructor
-	public ChallengeController() {
-		System.out.println(this.getClass());
-	}
-	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	
+	//session 정보를 담아줄 user
+	private User user;
+	
+	//getter setter
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+	//Constructor
+	public ChallengeController() {
+		System.out.println(this.getClass());
+	}
+	
+	
 	@RequestMapping(value = "addChallenge", method = RequestMethod.GET)
-	public String addChallenge() throws Exception{
+	public String addChallenge(HttpSession session) throws Exception{
 		
-		System.out.println("/challenge/addChallenge : GET");
+		user = (User)session.getAttribute("user");
+		
+		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
+		if (user.getUserId() == null) {
+			System.out.println("ChallengeController addChallenge() : GET ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
+			return "forward:/user/login";
+			
+		//관리자가 아니라면 메인페이지로 이동하게끔 만든다.
+		}else if(!(user.getRole().equals("4"))) {
+			System.out.println("ChallengeController addChallenge() : GET role이 관리자(\"4\")가 아니면 main.jsp로 이동");
+			return "forward:/main.jsp";
+		}
+		
+		System.out.println("/challenge/addChallenge : GET 관리자일때만 간다.");
 		
 		return "redirect:/challenge/addChallengeView.jsp";
 		
 	}
 	
 	@RequestMapping(value = "addChallenge", method = RequestMethod.POST)
-	public String addChallenge(@ModelAttribute("challenge")Challenge challenge, Model model) throws Exception{
+	public String addChallenge(@ModelAttribute("challenge")Challenge challenge, 
+								Model model, HttpSession session) throws Exception{
 		
 		System.out.println("/challenge/addChallenge : POST");
+		
+		user = (User)session.getAttribute("user");
 		
 		//addChallenge Logic 실행
 		challService.addChallenge(challenge);
@@ -67,9 +98,22 @@ public class ChallengeController {
 	}
 	
 	@RequestMapping(value = "updateChallenge/{challNo}", method = RequestMethod.GET)
-	public String updateChallenge(@PathVariable int challNo, Model model) throws Exception{
+	public String updateChallenge(@PathVariable int challNo, Model model, HttpSession session) throws Exception{
 		
 		System.out.println("/challenge/updateChallenge : GET");
+		
+		user = (User)session.getAttribute("user");
+		
+		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
+		if (user.getUserId() == null) {
+			System.out.println("ChallengeController updateChallenge() : GET ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
+			return "forward:/user/login";
+			
+		//관리자가 아니라면 메인페이지로 이동하게끔 만든다.
+		}else if(!(user.getRole().equals("4"))) {
+			System.out.println("ChallengeController updateChallenge() : GET role이 관리자(\"4\")가 아니면 main.jsp로 이동");
+			return "forward:/main.jsp";
+		}
 		
 		Challenge challenge = challService.getChallengeAdmin(challNo);
 		
@@ -80,9 +124,12 @@ public class ChallengeController {
 	}
 	
 	@RequestMapping(value = "updateChallenge", method = RequestMethod.POST)
-	public String updateChallenge(@ModelAttribute("challenge") Challenge challenge, Model model) throws Exception{
+	public String updateChallenge(@ModelAttribute("challenge") Challenge challenge, 
+									Model model, HttpSession session) throws Exception{
 		
 		System.out.println("/challenge/updateChallenge : POST");
+		
+		user = (User)session.getAttribute("user");
 		
 		challService.updateChallenge(challenge);
 		
@@ -113,9 +160,11 @@ public class ChallengeController {
 	///////////////////////////////////////////////
 	
 	@RequestMapping(value = "deleteChallenge/{challNo}", method = RequestMethod.GET)
-	public String deleteChallenge(@PathVariable int challNo, Model model) throws Exception{
+	public String deleteChallenge(@PathVariable int challNo, Model model, HttpSession session) throws Exception{
 		
 		System.out.println("/challenge/deleteChallenge : GET");
+		
+		user = (User)session.getAttribute("user");
 		
 		Challenge challenge = challService.getChallengeAdmin(challNo);
 				
@@ -129,9 +178,23 @@ public class ChallengeController {
 	
 	//GET과 POST를 동시에
 	@RequestMapping(value = "listAdminChallenge")
-	public String getAdminChallengeList(@ModelAttribute("search") Search search, Model model, HttpServletRequest request) throws Exception{
+	public String getAdminChallengeList(@ModelAttribute("search") Search search, Model model, 
+										HttpServletRequest request, HttpSession session) throws Exception{
 		
-		System.out.println("ChallengeController의 getAdminChallengeList()의 /challenge/listAdminChallenge");
+		System.out.println("ChallengeController의 getAdminChallengeList()의 /challenge/listAdminChallenge : GET / POST");
+		
+		user = (User)session.getAttribute("user");
+		
+		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
+		if (user.getUserId() == null) {
+			System.out.println("ChallengeController getAdminChallengeList() : GET / POST ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
+			return "forward:/user/login";
+			
+		//관리자가 아니라면 메인페이지로 이동하게끔 만든다.
+		}else if(!(user.getRole().equals("4"))) {
+			System.out.println("ChallengeController getAdminChallengeList() : GET / POST role이 관리자(\"4\")가 아니면 main.jsp로 이동");
+			return "forward:/main.jsp";
+		}
 		
 		//가져온 현재페이지가 0이면 1페이지로 navagation
 		if (search.getCurrentPage() == 0) {
@@ -158,10 +221,25 @@ public class ChallengeController {
 	}
 	
 	@RequestMapping(value = "getChallengeAdmin", method = RequestMethod.GET)
-	public String getChallengeAdmin(@RequestParam("challNo") int challNo, Model model) throws Exception{
+	public String getChallengeAdmin(@RequestParam("challNo") int challNo, Model model, HttpSession session) throws Exception{
 		
+		user = (User)session.getAttribute("user");
+		
+		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
+		if (user.getUserId() == null) {
+			System.out.println("ChallengeController getChallengeAdmin() : GET ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
+			return "forward:/user/login";
+			
+		//관리자가 아니라면 메인페이지로 이동하게끔 만든다.
+		}else if(!(user.getRole().equals("4"))) {
+			System.out.println("ChallengeController getChallengeAdmin() : GET role이 관리자(\"4\")가 아니면 main.jsp로 이동");
+			return "forward:/main.jsp";
+		}
+		
+		System.out.println("=======================================");
 		System.out.println("getChallenge의 challNo : " + challNo);
 		System.out.println("/challenge/getChallenge : GET ");
+		System.out.println("=======================================");
 		
 		Challenge challenge = challService.getChallengeAdmin(challNo);
 		
@@ -173,12 +251,20 @@ public class ChallengeController {
 	//GET과 POST를 동시에
 	//후에 user랑 합쳐졌을때 if문을 구성해서 userId가 로그인한 userID가 아니면 볼 수 없게 구성해야됨 // userId를 암호화 할것?
 	//POST방식은 적어놓긴했는데 어떻게 가는거지?? 나중에 생각해 볼 것.
-	@RequestMapping(value = "getCompleteChallengeList/{userId}")
-	public String getCompleteChallengeList(@ModelAttribute("search")Search search, @RequestParam(value = "userId", required = false) String userId,
-											Model model, HttpServletRequest request) throws Exception{
+	@RequestMapping(value = "getCompleteChallengeList")
+	//public String getCompleteChallengeList(@ModelAttribute("search")Search search, @RequestParam(value = "userId", required = false) String userId,
+	public String getCompleteChallengeList(@ModelAttribute("search")Search search, @ModelAttribute("user") User user,
+											Model model, HttpServletRequest request, HttpSession session) throws Exception{
+		user = (User)session.getAttribute("user");
+		
+		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
+		if (user.getUserId() == null) {
+			System.out.println("ChallengeController getCompleteChallengeList() : GET / POST ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
+			return "forward:/user/login";
+		}
 		
 		System.out.println("/challenge/getCompleteChallengeList : GET / POST ");
-		System.out.println("getCompleteChallengeList의 userId : " + userId);
+		System.out.println("getCompleteChallengeList의 user.getUserId : " + user.getUserId());
 		
 		//나중에 무한스크롤로 바꿀 것.
 		if (search.getCurrentPage() == 0) {
@@ -188,9 +274,8 @@ public class ChallengeController {
 		search.setPageSize(pageSize);
 		
 		//실제로는 세션?을 사용해서 로그인정보를 가져올것. 나중에 수정해야될듯
-		userId = "user01";
 		
-		Map<String, Object> map = challService.getCompleteChallengeList(search, userId);
+		Map<String, Object> map = challService.getCompleteChallengeList(search, user.getUserId());
 		System.out.println("getCompleteChallengeList의 Map : " + map);
 		
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize );
@@ -200,18 +285,25 @@ public class ChallengeController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		//userId를 가져온다?? 필요한지 볼 것.
-		model.addAttribute("userId", userId);
+		model.addAttribute("user", user);
 		
 		return "forward:/challenge/getCompleteChallengeList.jsp";
 		
 	}
 	
+	
+	///======================================= 여기까지 user ssion넣음 검증작업전 (12일 12:01분) update같은 부분이 클릭이벤트가 없어 아직 X(add완료)==================
 	//GET / POST 동시에
 	@RequestMapping("listChallenge")
-	public String getChallengeList(Model model) throws Exception{
+	public String getChallengeList(Model model, HttpSession session) throws Exception{
 		
+		user = (User)session.getAttribute("user");
 		
-		
+		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
+		if (user.getUserId() == null) {
+			System.out.println("ChallengeController getCompleteChallengeList() : GET / POST ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
+			return "forward:/user/login";
+		}
 		
 		System.out.println("ChallengeController의 getChallengeList() /challenge/listChallenge : GET / POST");
 		
@@ -227,6 +319,28 @@ public class ChallengeController {
 		
 		return "forward:/challenge/listChallenge.jsp";
 	}
-		
+	
+	
+	
+	//내부에서 로그인 세션검증을 하는 method ==> ModelAndView 전략같은데..?
+//	private String loginCheck(User user, HttpSession session, String forward) throws Exception {
+//		
+//		user = (User)session.getAttribute("user");
+//		
+//		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
+//		if (user.getUserId() == null) {
+//			System.out.println("ChallengeController loginCheck() : GET ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
+//			return "forward:/user/login";
+//			
+//		//관리자가 아니라면 메인페이지로 이동하게끔 만든다.
+//		}else if(!(user.getRole().equals("4"))) {
+//			System.out.println("ChallengeController loginCheck() : GET role이 관리자(\"4\")가 아니면 main.jsp로 이동");
+//			return "forward:/main.jsp";
+//		}
+//		
+//		//forward에 각각 다른 위치를 지정함
+//		return null;
+//		
+//	}
 	
 }
