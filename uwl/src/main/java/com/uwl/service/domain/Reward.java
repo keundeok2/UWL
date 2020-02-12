@@ -22,7 +22,8 @@ public class Reward {
 	private int totalActivityPoint;
 	
 	//랭크에 쏴줄 토탈포인트 변수
-	private int rankTotalPoint;
+	private int recentlyTotalPoint;
+	private int recentlyTotalActivityPoint;
 	
 	
 	//Constructor
@@ -136,13 +137,29 @@ public class Reward {
 	}
 
 
-	public int getRankTotalPoint() {
-		return rankTotalPoint;
+
+	
+
+
+
+
+	public int getRecentlyTotalPoint() {
+		return recentlyTotalPoint;
 	}
 
 
-	public void setRankTotalPoint(int rankTotalPoint) {
-		this.rankTotalPoint = rankTotalPoint;
+	public void setRecentlyTotalPoint(int recentlyTotalPoint) {
+		this.recentlyTotalPoint = recentlyTotalPoint;
+	}
+
+
+	public int getRecentlyTotalActivityPoint() {
+		return recentlyTotalActivityPoint;
+	}
+
+
+	public void setRecentlyTotalActivityPoint(int recentlyTotalActivityPoint) {
+		this.recentlyTotalActivityPoint = recentlyTotalActivityPoint;
 	}
 
 
@@ -151,7 +168,8 @@ public class Reward {
 		return "Reward [userId=" + userId + ", rewardNo=" + rewardNo + ", purchaseItem=" + purchaseItem + ", challenge="
 				+ challenge + ", variablePoint=" + variablePoint + ", variableActivityPoint=" + variableActivityPoint
 				+ ", variableDate=" + variableDate + ", totalPoint=" + totalPoint + ", totalActivityPoint="
-				+ totalActivityPoint + ", rankTotalPoint=" + rankTotalPoint + "]";
+				+ totalActivityPoint + ", recentlyTotalPoint=" + recentlyTotalPoint + ", recentlyTotalActivityPoint="
+				+ recentlyTotalActivityPoint + "]";
 	}
 
 	

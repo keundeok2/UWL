@@ -116,12 +116,15 @@ public class ChallengeServiceImpl implements ChallengeService{
 	public Map<String, Object> getCompleteChallengeList(Search search, String userId) throws Exception {
 		
 		System.out.println("ChallengeService의 search : " + search);
+		System.out.println("ChallengeService의 userId : " + userId);
 		
 		int totalCount = challengeDAO.getTotalCountOne(userId);
 		
 		Map<String, Object> completeMap = challengeDAO.getCompleteChallengeList(search, userId);
 		
+		
 		completeMap.put("totalCount", new Integer(totalCount));
+		completeMap.put("list", completeMap.get("list"));
 		
 		return completeMap;
 	}

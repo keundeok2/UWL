@@ -35,9 +35,9 @@
         	background-color: blue;
         } */
         /* 포인트들의 내용 */
-        .tab-pane {
+        /* .tab-pane {
         	border: 1px solid grey;
-        }
+        } */
         
         /* 아이콘 색 지정*/
         .fa-coins {
@@ -48,6 +48,15 @@
         }
         .fa-credit-card {
         	color: #1e291b;
+        }
+        .fa-calendar-check {
+        	color: #a72644;
+        }
+        .fa-map-marked-alt {
+        	color: #168641;
+        }
+        .fa-piggy-bank {
+        	color: #ffb8c6;
         }
         
         
@@ -64,19 +73,32 @@
               <h2><i class="fas fa-coins"></i>  포인트 조회</h2>
 		</div>
 		<div class="row">
-		
-			<div class="col-3" style="background-color: yellow">빈공간
+			<div class="col-2" >
 			</div>
 			<div class="col-7">
 	             <br>
-	             <h3 class="total" align="right" style="background-color: gray;"><i class="fas fa-coins"></i>  5000</h3>
+	             <h3 class="total" align="right" ><i class="fas fa-coins"></i>  ${reward.recentlyTotalPoint}  </h3>
 			</div>
-			<div class="col-2">
+			<div class="col-3">
 	            <br>
-				<h3 class="total" align="right"><i class="fas fa-running"></i>  5000</h3>
+				<h3 class="total" align="right"><i class="fas fa-running"></i>  ${reward.recentlyTotalActivityPoint}</h3>
 			</div>
 		</div>
+		<br>
 		
+		<!-- 카테고리 분류  -->
+		<div class="row">
+			<div class="row">
+			
+			</div>
+   			<div class="col-3" ></div>
+   			
+   			<div class="col-2" style="text-align: center;"><h4>카테고리</h4></div>
+   			<div class="col-2" style="text-align: center;"><h4>획득포인트</h4></div>
+   			<div class="col-2" style="text-align: right;"><h4>총 점수</h4></div>
+   			<div class="col-3" style="text-align: center;"><h4>획득날짜</h4></div>
+   		</div>
+   		<br>
 		<div class="row">
 		  <div class="col-3">
 		    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -87,9 +109,38 @@
 		  </div>
 		  <div class="col-9">
 		    <div class="tab-content" id="v-pills-tabContent">
-		      <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">1</div>
-		      <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">2</div>
-		      <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">3</div>
+				<!-- 포인트적립내역 -->
+				<c:forEach var="reward" items="${list}">
+				<!-- 일단 UI부터 손볼것. -->
+					<input type="hidden" value="${reward.rewardNo}">
+			    	<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" >
+			    		<!-- 카테고리가 Map 일 때 -->
+			    		<c:if test="${reward.challenge.challCategory eq '1'}">
+			    			<i class="fas fa-map-marked-alt"></i> : ${reward.challenge.challTitle}
+			    		</c:if>
+			    		
+			    		<!-- 카테고리가 Vsion 일 때 -->
+			    		<c:if test="${reward.challenge.challCategory eq '2'}">
+			    			<i class="fas fa-camera"></i> : ${reward.challenge.challTitle}
+			    		</c:if>
+			    		
+			    		<!-- 카테고리가 게시판활동 일 때 -->
+			    		<c:if test="${reward.challenge.challCategory eq '3'}">
+			    			<i class="far fa-clipboard"></i> : ${reward.challenge.challTitle}
+			    		</c:if>
+			    		
+			    		<br>
+			    		<div class="row">
+				    		<i class="fas fa-map-marked-alt col-sm-2" style="font-size: 25px; text-align: center;"></i> 
+				    		<i class="fas fa-coins col-sm-3" style="font-size: 25px; text-align: center;" ><font size="4px" color="black"> + ${reward.variablePoint}  </font></i> 
+				    		<i class="fas fa-piggy-bank col-sm-3"  style="font-size: 25px; text-align: right;"><font size="4px"; color="black"; > ${reward.totalPoint}</font></i>  
+				    		<i class="far fa-calendar-check col-sm-3"  style="font-size: 25px; text-align: right;"><font size="4px"; color="black"; > ${reward.variableDate}</font></i>  
+			    		</div>
+		    		</div>
+			    </c:forEach>
+			    
+			    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">2</div>
+			    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">3</div>
 		    </div>
 		  </div>
 		</div>

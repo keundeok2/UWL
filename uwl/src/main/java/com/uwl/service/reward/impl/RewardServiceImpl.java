@@ -48,6 +48,9 @@ public class RewardServiceImpl implements RewardService{
 	public Map<String,Object> getUserBothPointList(Search search, Reward reward) throws Exception {
 		
 		System.out.println("RewardServiceImple getUserBothPointList() 작동 중");
+		Purchase purchaseItem = new Purchase();
+		
+		reward.setPurchaseItem(purchaseItem);
 		
 		int totalCount = rewardDAO.getTotalCountOne(reward);
 		
