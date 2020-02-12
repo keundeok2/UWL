@@ -99,7 +99,7 @@
 	 </update>
 		 
 		 
-	<!-- 전체회원목록 -->
+	<!-- 전체회원목록 test -->
 	<select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
 		SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
@@ -111,6 +111,8 @@
 				WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
+	 
+
 	 
 	 
 	 

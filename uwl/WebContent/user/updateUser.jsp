@@ -1,57 +1,227 @@
-<%@ page contentType="text/html; charset=EUC-KR"%>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 
 <html lang="ko">
 
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<!--  ///////////////////////// Bootstrap 4.4, jQuery 3.1.1 CDN ////////////////////////// -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<!--  ///////////////////////// CSS, JS 4.4 CDN ////////////////////////// -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+
+<style>
+body {
+	margin: 50px;
+	padding: 30px;
+}
+
+</style>
 
 <script type="text/javascript">
-	//============= È¸¿øÁ¤º¸¼öÁ¤ Event  Ã³¸® =============	
-	$(function() {
-		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		$("button").on("click", function() {
-// 			self.location = "/user/getUser?userId=${user.userId}"
-			$("form").attr("method" , "POST").attr("action" , "/user/updateUser").submit();
+
+// 	//============= íšŒì›ì •ë³´ìˆ˜ì • Event  ì²˜ë¦¬ =============	
+// 	$(function() {
+// 		//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+// 		$('#updateUserButton').on("click", function() {
+// 			console.log("5");
+// // 			self.location = "/user/getUser?userId=${user.userId}"
+// 			$('#table').attr("method" , "POST").attr("action" , "/user/updateUser").submit();
+// 			console.log("6");
+// 		});
+// 	});
+	
+	
+	//============= "ìˆ˜ì •"  Event ì—°ê²° =============
+	 $(function() {
+		//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		$( '#updateUserButton' ).on("click" , function() {
+			fncUpdateUser();
 		});
-	});
+	});	
+	
+	// ë¹„ë²ˆ í™•ì¸ ëª¨ë‹¬ì°½ test
+	
+// 	$('#contact').on('shown.bs.modal', function () {
+// 		 var i = $('#contact').trigger('focus')
+// 		 console.log(i);
+// 		})
+	
+// 	$(document).ready(function(){	
+// 		$("#contactForm").submit(function(event){
+// 			submitForm();
+// 			console.log(submit);
+// 			return false;
+// 		});
+// 	});
+	
+// 	$(document).ready(function(){
+// 		$("#submit").click(function(){
+// 			$("#contact-modal").modal();
+// 		});
+// 	});
+	
+// 	function submit(){
+// 		 $.ajax({
+// 			type: "POST",
+// 			url: "/user/updateUser",
+// 			cache:false,
+// 			data: $('form#contactForm').serialize(),
+// 			success: function(response){
+// 				$("#contact").html(response)
+// 				$("#contact-modal").modal('hide');
+// 			},
+// 			error: function(){
+// 				alert("Error");
+// 			}
+// 		});
+// 	}
+// 	<?php
+// 			if (isset($_POST['password'])) {
+// 				$userId = strip_tags($_POST['userId']);
+// 				$password = strip_tags($_POST['password']);
+// 			}
+// 			?>
+	// ë¹„ë²ˆ í™•ì¸ ëª¨ë‹¬ì°½ test
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////
+		function fncUpdateUser() {
+			console.log("3");
+			var name=$("input[name='name']").val();
+			console.log(name);
+			
+			if(name == null || name.length <1){
+				alert("ì´ë¦„ì€  ë°˜ë“œì‹œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.");
+				return;
+			}
+				
+// 			Debug...
+// 			alert("phone : "+value);
+			$("#user").attr("method" , "POST").attr("action" , "/user/updateUser").submit();
+			console.log("submit ë‹¤ìŒ")
+		}
+	
 </script>
+
+
 </head>
 
-
 <body>
-	
-	updateUser.jsp
-	<hr>
-	
-	<form>
-	ÀÌ     ¸§   <input type="text"	name="name"	 value="${user.name}">
-	<hr>
-	¾Æ ÀÌ µğ  <input type="hidden" 	name="userId" value="${user.userId}" readonly>${user.userId}
-	<hr>
-	ºñ¹Ğ¹øÈ£   <input type="text" 	name="password"	 value="${user.password}">
-	<hr>
-	´Ğ ³× ÀÓ   <input type="text" 	name="nickname"	 value="${user.nickname}">
-	<hr>
-	ÇĞ     ±³   <input type="text" 	name="schoolNo"	 value="${user.schoolNo}">
-	<hr>
-	ÀüÈ­¹øÈ£ <input type="text" 	name="phone"	 value="${user.phone}">
-	<hr>
-	¸Ş      ÀÏ  <input type="text" 	name="mail"	 value="${user.mail}">
-	<hr>
-	°ø°³¼³Á¤  <input type="text" 	name="publicStatus"	 value="${user.publicStatus}">
-	<hr>
-	»ç      Áø <input type="file" 	name="profileName"	 value="${user.profileName}">
-	
-<!-- 	»çÁø ¼öÁ¤ ¾ÈµÊ -->
-	
-</form>
-	<button type="button" id="updateUser">¿Ï·á</button>
+<!-- ë¹„ë²ˆ í™•ì¸ ëª¨ë‹¬ì°½ test -->
+<div id="contact"><button type="button" class="btn btn-info btn" data-toggle="modal" data-target="#contact-modal">Show Contact Form</button></div>
+<div id="contact-modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">Ã—</a>
+				<h3>Contact Form</h3>
+			</div>
+			<form id="contactForm" name="contact" role="form">
+				<div class="modal-body">	
+					<div class="form-group">
+						<label for="userId">ID</label>
+						<input type="text" name="userId" class="form-control">
+					</div>					
+					<div class="form-group">
+						<label for="password">PW</label>
+						<input type="text" name="password" class="form-control">
+					</div>					
+				</div>
+				<div class="modal-footer">					
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<input type="submit" class="btn btn-success" id="submit">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 
+<!-- ë¹„ë²ˆ í™•ì¸ ëª¨ë‹¬ì°½ test -->
+
+
+	<!-- ToolBar Start /////////////////////////////////////-->
+	<div class="navbar  navbar-default" id="top">
+		<a class="navbar-brand"><h2>íšŒì›ì •ë³´ìˆ˜ì •</h2></a>
+	</div>
+	<!-- ToolBar End /////////////////////////////////////-->
+	<form id="user">
+	<table class="table table-hover text-center" id="table">
+			<tr>
+				<td> ì´     ë¦„ </td>
+				<td>  <input type="hidden"	name="name"	 value="${user.name}" readonly>${user.name} </td>
+			</tr>
+			<tr>
+				<td> ì•„ ì´ ë”” </td>
+				<td> <input type="hidden" 	name="userId" value="${user.userId}" readonly>${user.userId} </td>
+			</tr>
+			<tr>
+				<td> ë¹„ë°€ë²ˆí˜¸ </td>
+				<td> <input type="text" 	name="password"	 value="${user.password}"> </td>
+			</tr>
+			<tr>
+				<td> ë‹‰ ë„¤ ì„ </td>
+				<td> <input type="text" 	name="nickname"	 value="${user.nickname}"> </td>
+			</tr>
+			<tr>
+				<td> í•™     êµ </td>
+				<td> <input type="text" 	name="schoolNo"	 value="${user.schoolNo}"> </td>
+			</tr>
+			<tr>
+				<td> ì „í™”ë²ˆí˜¸ </td>
+				<td> <input type="text" 	name="phone"	 value="${user.phone}"> </td>
+			</tr>
+			<tr>
+				<td> ìƒ      ì¼ </td>
+				<td> ${user.birth} </td>
+			</tr>
+			<tr>
+				<td> ì„±      ë³„  </td>
+				<td> <c:if test="${user.gender == '1' }">
+								ì—¬ì
+					</c:if>
+					<c:if test="${user.gender == '2'}">
+											ë‚¨ì
+					</c:if> 
+				</td>
+			</tr>
+			<tr>
+				<td> ë©”      ì¼ </td>
+				<td> <input type="text" 	name="mail"	 value="${user.mail}"> </td>
+			</tr>
+			<tr>
+				<td> ì‚¬      ì§„ </td>
+				<td> <input type="file" 	name="profileName"	 value="${user.profileName}"> </td>
+			</tr>
+			<tr>
+				<td> ê³µê°œì„¤ì • </td>
+				<td> <input type="radio" name="publicStatus" value="1" checked> ê³µê°œ &nbsp;
+		    <input type="radio" name="publicStatus" value="2"> ë¹„ê³µê°œ
+								
+<%-- 				<input type="text" name="publicStatus" value="${user.publicStatus}"> --%>
+<%-- 						<c:if test="${user.publicStatus == '1' }">ê³µê°œ</c:if> --%>
+<%-- 						<c:if test="${user.publicStatus == '2'}">ë¹„ê³µê°œ</c:if>  --%>
+				</td>
+			</tr>
+		</table>
+<br><br>
+	
+<!-- 	ì‚¬ì§„ ìˆ˜ì • ì•ˆë¨ -->
+
+	<div class="text-center">
+	<button type="button" id="updateUserButton" class="btn btn-outline-info btn-lg">ì™„ë£Œ</button>
+	</div>
+	</form>
 </body>
 
 

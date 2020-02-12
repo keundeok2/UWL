@@ -63,8 +63,7 @@
 	
 	<update id="updateTimeline" parameterType="post">
 		UPDATE post
-		SET post_title = #{postTitle},
-		    post_content = #{postContent},
+		SET post_content = #{postContent},
 		    uploadfile_name = #{uploadFileName:VARCHAR},
 		    view_status = #{viewStatus}
 		WHERE post_no = #{postNo}

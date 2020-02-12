@@ -26,6 +26,8 @@
 	src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
 <!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
 <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
+<!-- Font CDN -->
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Sunflower:300&display=swap" rel="stylesheet">
 <script type="text/javascript">
 	var sessionId = "${user.userId}";
 
@@ -50,7 +52,6 @@
 			console.log("sessionId", sessionId);
 			console.log("paymentOption", paymentOption);
 			console.log("itemNo", itemNo);
-			
 			
 			$.ajax({
 					url : "/purchase/rest/cancelPurchase",
@@ -79,12 +80,45 @@
 				})
 		})
 	})
+	
 </script>
 
-
 <style type="text/css">
+* {
+	font-family: 'Nanum Gothic', sans-serif;
+	font-size:14px;
+	text-align: center;
+}
+
 body {
 	margin-top: 50px;
+}
+
+body{font-family:lato,sans-serif}
+.container{max-width:1000px;margin-left:auto;margin-right:auto;padding-left:10px;padding-right:10px}
+h2{font-size:26px;margin:20px 0;text-align:center}
+small{font-size:.5em}
+li{border-radius:3px;padding:25px 30px;display:flex;justify-content:space-between;margin-bottom:25px}
+.table-header{background-color:#95A5A6;font-size:14px;text-transform:uppercase;letter-spacing:.03em}
+.table-row{background-color:#fff;box-shadow:0 0 9px 0 rgba(0,0,0,.1)}
+.col-1{flex-basis:17%}
+.col-2{flex-basis:17%}
+.col-3,.col-4{flex-basis:17%}
+.col-5,.col-6{flex-basis:17%}
+@media all and (max-width:200px){
+.table-header{display:none}
+li{display:block}
+.col{flex-basis:100%;display:flex;padding:10px 0}
+.col:before{color:#6C7A89;padding-right:10px;content:attr(data-label);flex-basis:50%;text-align:right}
+}
+
+.itemImg {
+	width : 30px;
+	height: 30px;
+}
+
+tbody {
+	line-height: 55px;
 }
 </style>
 
@@ -93,17 +127,16 @@ body {
 <body>
 	<div class="container">
 		<div class="page-header text-info">
-			<h3>구매내역</h3>
+			<h2>아이템 구매내역</h2>
 		</div>
-		<br /> <br /> <br />
 		<table class="table table-hover">
 
 			<thead>
-				<tr>
+				<tr class="table-header">
 					<th align="center">주문번호</th>
-					<th align="center">상품명</th>
-					<th align="center">상품가격</th>
-					<th align="center">구매방법</th>
+					<th align="center">아이템</th>
+					<th align="center">가격</th>
+					<th align="center">결제</th>
 					<th align="center">구매일</th>
 					<th align="center">환불</th>
 				</tr>
@@ -114,8 +147,13 @@ body {
 
 					<tr class="ct_list_pop">
 						<td align="left">${p.purchaseNo}</td>
-						<td align="left"><c:if test="${p.itemCategory == 1}">창</c:if>
-							<c:if test="${p.itemCategory == 2}">방패</c:if></td>
+						<td align="left">
+							<c:if test="${p.itemCategory == 1}">
+								<img src="/images/spear.png" class="itemImg"/>
+							</c:if>
+							<c:if test="${p.itemCategory == 2}">
+								<img src="/images/shield.png" class="itemImg"/>
+							</c:if></td>
 						<td align="left">${p.price}</td>
 						<td align="left"><c:if test="${p.paymentOption == 1}">카드</c:if>
 							<c:if test="${p.paymentOption == 2}">포인트</c:if></td>
@@ -127,11 +165,11 @@ body {
 						<td align="left" id="${p.purchaseNo}">
 							<c:if test="${p.refundOption == 1}">
 								<c:if test="${today_N-purchaseDate_N<8}">
-								<button class="btn btn-primary ${p.purchaseNo}" id="refundBtn" value="${p.importId}">환불하기</button>
+								<button class="btn btn-outline-primary ${p.purchaseNo}" id="refundBtn" value="${p.importId}">환불하기</button>
 								</c:if>
 							</c:if> 
 							<c:if test="${p.refundOption == 2 }">
-								<button class="btn btn-secondary">환불완료</button>
+								<button class="btn btn-outline-secondary">환불완료</button>
 							</c:if> 
 								<input type="hidden" value="${p.purchaseNo}"/>
 								<input type="hidden" value="${p.paymentOption}">
@@ -141,38 +179,5 @@ body {
 				</c:forEach>
 			</tbody>
 		</table>
-		
-	<!-- Modal -->
-	<div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">구매</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	      <div class="row">
-	      <div class="col-sm-12">
-	      <h3>현재 포인트 : </h3>
-	      </div>
-	      	<div class="col-sm-6">
-	        <button type="button" class="btn btn-primary btn-lg btn-block" id="cardBtn" value="1">현금 구매<br/>99,000원</button>
-	        </div>
-	      	<div class="col-sm-6">
-	        <button type="button" class="btn btn-primary btn-lg btn-block" id="pointBtn" value="2">포인트 구매<br/>99,000포인트</button>
-	      	</div>
-	      </div>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>		
-		
-	</div>
-
 </body>
 </html>

@@ -448,14 +448,14 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
+<!-- 	<div class="container"> -->
 	
 <!-- 		<h1 class="bg-primary text-center">회 원 가 입</h1> -->
 		
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
-		
+		<div class="form-group">
 		  <div class="form-group">
 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label" >* 아 이 디</label>
 <!-- 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* 아 이 디</label> -->
@@ -599,7 +599,7 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 		    
 		  </div>
 		  </div>
-		  
+<!-- 		  </div> -->
 		  
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
@@ -609,12 +609,11 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 			  <a class="btn btn-outline-info btn-lg btn" href="#" role="button">취&nbsp;소</a>
 		    </div>
 		  </div>
-		</form>
 		  </div>
+		</form>
 		
 		<!-- form Start /////////////////////////////////////-->
 		
- 	</div>
 	<!--  화면구성 div end /////////////////////////////////////-->
 
 </body>
