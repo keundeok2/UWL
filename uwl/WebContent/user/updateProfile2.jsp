@@ -29,15 +29,45 @@
 	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript">
     	$(document).on("click", "button#updateProfileBtn", function() {
-    		console.log("hello");
-    		alert("click");
-			$("form#updateProfileForm").attr("method", "POST").attr("action", "/userr/updateProfile").submit();	
+			$("form#updateProfileForm").attr("method", "POST").attr("action", "/userrr/updateProfile").submit();	
 		})
 		
 		$(document).on("click", "button#updatePasswordBtn", function() {
-			alert("click");
-			$("form#updatePasswordForm").attr("method", "POST").attr("action", "/userr/updatePassword").submit();
-		})
+			console.log("hello");
+			var prePassword = $("input#prePassword").val();
+			var password = $("input#password").val();
+			var password2 = $("input#password2").val();
+			
+			if (password != password2) {
+				alert("두 비밀번호가 일치하는지 확인하세요");
+				return;
+			}
+			
+			$.ajax({
+				url : "/userrr/rest/updatePassword",
+				method : "POST",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				dataType : "json",
+				data : JSON.stringify({
+					prePassword : prePassword,
+					password : password
+				}),
+				success : function(data) {
+					var result = data.result;
+					if (data.result) {
+						alert("수정이 완료되었습니다.");
+						$("input.updatePW").val("");
+					} else {
+						alert("이전 비밀번호가 일치하지 않습니다.");
+						$("input.updatePW").val("");
+					}
+				}
+			});
+		
+		});
 		
 		$( function() {
 	    	$("input[name='birth']").datepicker({
@@ -164,8 +194,7 @@
         section {
             clear: both;
         }
-        
- 		
+		
 	</style>
 
 
@@ -227,9 +256,9 @@
                                 </div>
                               </div>
                               <div class="form-group row">
-                                <label for="email" class="col-4 col-form-label">E-mail</label> 
+                                <label for="mail" class="col-4 col-form-label">E-mail</label> 
                                 <div class="col-8">
-                                  <input id="email" name="email" placeholder="E-mail" class="form-control here" required="required" type="text" value="${user.mail}">
+                                  <input id="mail" name="mail" placeholder="E-mail" class="form-control here" required="required" type="text" value="${user.mail}">
                                 </div>
                               </div>
                               <div class="form-group row">
@@ -256,7 +285,6 @@
 		        </div>
 		    </div>
 		</div>
-
 		<div class="list2">
 		    <div class="card">
 		        <div class="card-body">
@@ -269,81 +297,36 @@
 		            </div>
 		            <div class="row">
 		                <div class="col-md-12">
-		                    <form id="updatePasswordForm">
 		                      <input type="hidden" name="userId" value="${user.userId}">
                               <div class="form-group row">
                                 <label for="prePassword" class="col-4 col-form-label">이전 비밀번호</label> 
                                 <div class="col-8">
-                                  <input id="prePassword" name="prePassword" placeholder="이전 비밀번호" class="form-control here" required="required" type="password">
+                                  <input id="prePassword" class='updatePW' name="prePassword" placeholder="이전 비밀번호" class="form-control here" required="required" type="password">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="password" class="col-4 col-form-label">새 비밀번호</label> 
                                 <div class="col-8">
-                                  <input id="password" name="password" placeholder="새 비밀번호" class="form-control here" required="required" type="password">
+                                  <input id="password" class='updatePW' name="password" placeholder="새 비밀번호" class="form-control here" required="required" type="password">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="password2" class="col-4 col-form-label">새 비밀번호 확인</label> 
                                 <div class="col-8">
-                                  <input id="password2" name="password2" placeholder="새 비밀번호 확인" class="form-control here" required="required" type="password">
+                                  <input id="password2" class='updatePW' name="password2" placeholder="새 비밀번호 확인" class="form-control here" required="required" type="password">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <div class="offset-4 col-8">
-                                  <button id="updatePasswordBtn" type="submit" class="btn btn-primary">비밀번호 변경</button>
+                                  <button id="updatePasswordBtn" class="btn btn-primary">비밀번호 변경</button>
                                 </div>
                               </div>
-                            </form>
 		                </div>
 		            </div>
 		        </div>
 		    </div>
 		</div>
 
-		<div class="list3">
-		    <div class="card">
-		        <div class="card-body">
-		            <div class="row">
-		                <div class="col-md-12 userId" >
-		                	<a href="#" class="profileName"><img src="/images/${user.profileName}" class="profileName"></a>
-		                    <h5>${user.userId}</h5>
-		                    <hr>
-		                </div>
-		            </div>
-		            <div class="row">
-		                <div class="col-md-12">
-		                    <form id="updatePasswordForm">
-		                      <input type="hidden" name="userId" value="${user.userId}">
-                              <div class="form-group row">
-                                <label for="prePassword" class="col-4 col-form-label">이전 비밀번호</label> 
-                                <div class="col-8">
-                                  <input id="prePassword" name="prePassword" placeholder="이전 비밀번호" class="form-control here" required="required" type="password">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="password" class="col-4 col-form-label">새 비밀번호</label> 
-                                <div class="col-8">
-                                  <input id="password" name="password" placeholder="새 비밀번호" class="form-control here" required="required" type="password">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="password2" class="col-4 col-form-label">새 비밀번호 확인</label> 
-                                <div class="col-8">
-                                  <input id="password2" name="password2" placeholder="새 비밀번호 확인" class="form-control here" required="required" type="password">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <div class="offset-4 col-8">
-                                  <button id="updatePasswordBtn" type="submit" class="btn btn-primary">비밀번호 변경</button>
-                                </div>
-                              </div>
-                            </form>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-		</div>
 		</section>
 	</div>
 </div>	

@@ -122,6 +122,37 @@ public class SocialRestController {
 		map.put("resultPage", resultPage);
 		return map;
 	}
+	
+	@RequestMapping(value = "rest/getTimelineList", method = RequestMethod.POST)
+	public Map getTimelineList(@RequestBody HashMap<String, Object> hashmap, HttpSession session) throws Exception{
+		String targetUserId = (String)hashmap.get("targetUserId");
+		
+		Search search = new Search();
+		search.setCurrentPage((Integer)hashmap.get("currentPage"));
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		String sessionId = ((User)session.getAttribute("user")).getUserId();
+		
+		if (sessionId.equals(targetUserId)) {
+			search.setSearchCondition("1");
+		} else {
+			search.setSearchCondition("0");
+		}
+		
+		Map<String, Object> map = socialService.getTimelineList((String)hashmap.get("targetUserId"), search);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		map.put("resultPage", resultPage);
+		return map;
+	}
 
-
+	@RequestMapping(value = "rest/deleteTimeline", method = RequestMethod.POST)
+	public void deleteTimeline(@RequestBody Post post) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		socialService.deleteTimeline(post.getPostNo());
+		
+	}
+	
 }

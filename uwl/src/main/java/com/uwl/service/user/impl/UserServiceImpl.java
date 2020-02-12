@@ -270,5 +270,9 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 	
+	@Override
+	public void updatePassword(User user) throws Exception {
+		userDAO.updatePassword(user);
+	}
 	
 }
