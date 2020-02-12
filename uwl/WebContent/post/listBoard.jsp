@@ -516,7 +516,7 @@
                             <div class="postTop">
                                 <div class="postTitle">
                                     <p>${post.postTitle }</p>
-                                    <p>${post.userId }</p>
+                                    <p>${post.user.nickname }</p>
                                 </div>
                                 <div class="postCategory">
                                      <c:if test="${gatherCategoryNo eq '201' }">
