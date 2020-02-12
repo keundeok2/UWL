@@ -402,6 +402,10 @@
             height: 3.6em;
             /* line-height 가 1.2em 이고 3라인을 자르기 때문에 height는 1.2em * 3 = 3.6em */
             margin-bottom: 10px;
+            
+        }
+        div.postContent img {
+        	display: none;
         }
         
         div.post>a>div:nth-child(2) > div:nth-child(3) p {
@@ -512,7 +516,7 @@
                             <div class="postTop">
                                 <div class="postTitle">
                                     <p>${post.postTitle }</p>
-                                    <p>${post.userId }</p>
+                                    <p>${post.user.nickname }</p>
                                 </div>
                                 <div class="postCategory">
                                      <c:if test="${gatherCategoryNo eq '201' }">
