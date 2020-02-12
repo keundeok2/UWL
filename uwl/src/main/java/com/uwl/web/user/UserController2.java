@@ -27,6 +27,7 @@ import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.couple.CoupleService;
 import com.uwl.service.domain.Friend;
+import com.uwl.service.domain.Matching;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.User;
@@ -245,6 +246,11 @@ public class UserController2 {
 		friend.setSecondUserId(sessionUser.getUserId());
 		Friend checkFriend2 = friendService.checkRequest(friend);
 		model.addAttribute("checkFriend2",checkFriend2); // return 1 => 친구신청버튼(로직은 수락) 만들기
+		
+		
+		
+		Matching matching = matchingService.getMatching(sessionUser.getUserId());
+		model.addAttribute("matching", matching);
 		
 		return "forward:/user/profile.jsp";
 	}

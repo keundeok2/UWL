@@ -37,8 +37,8 @@ public class FriendServiceTest {
 //	@Test
 	public void acceptFriend() throws Exception{
 		Friend friend = new Friend();
-		friend.setFirstUserId("use01");
-		friend.setSecondUserId("user20");
+		friend.setFirstUserId("user05");
+		friend.setSecondUserId("user01");
 		friend.setFriendStatus("2");
 		
 		friendService.acceptFriend(friend);
@@ -47,8 +47,8 @@ public class FriendServiceTest {
 //	@Test
 	public void updateFriendStatus() throws Exception{
 		Friend friend = new Friend();
-		friend.setFirstUserId("user21");
-		friend.setSecondUserId("user20");
+		friend.setFirstUserId("user05");
+		friend.setSecondUserId("user01");
 		friend.setFriendStatus("2");
 		
 		friendService.updateFriendStatus(friend);

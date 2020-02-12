@@ -13,6 +13,7 @@
 		<result property="purchaseItem.purchaseNo" 			column="purchase_no" 			jdbcType="NUMERIC"/>
 		<result property="purchaseItem.itemCategory" 			column="item_category" 			jdbcType="VARCHAR"/>
 		<result property="challenge.challTitle" 			column="chall_title" 			jdbcType="VARCHAR"/>
+		<result property="challenge.challCategory" 			column="chall_category" 			jdbcType="VARCHAR"/>
 		
 		<result property="challenge.challNo" 			column="chall_no" 			jdbcType="NUMERIC"/>
 		<result property="challenge.challReward" 			column="chall_reward" 			jdbcType="NUMERIC"/>

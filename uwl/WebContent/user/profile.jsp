@@ -12,6 +12,7 @@
 	<link
 		href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 		rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<script
@@ -22,7 +23,7 @@
 	<!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
 	<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
     
-    <link rel="stylesheet" href="/css/jaeiCommon.css">
+    
     
 	<script type="text/javascript">
 		var sessionUserId = "${user.userId}";
@@ -58,7 +59,7 @@
 				}),
 				success : function() {
 					var html = "<div class='deleteFriend'><a href='#'>친구신청취소</a></div>"
-					$("div.sendFlower").before(html);
+					$("div.user").after(html);
 					$("div.addFriend").remove();
 				}
 			});
@@ -129,12 +130,258 @@
 		})
 		
 		
+		
+
+
+		
+		
+		
+		
+		
+		
+		
+		$(function() {
+			 $('.addMatching').on('click', function() {
+                alert('클릭ㅋㅋ');
+                
+                alert('userId : ' + sessionUserId);
+                alert('secondUserId : ' + targetUserId);
+                $.ajax({
+                    url: '/matching/rest/addMatching2/' + sessionUserId + '/' + targetUserId,
+                    method: 'GET',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                    	userId: sessionUserId,
+                    	secondUserId: targetUserId
+                    }),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(data) {
+                        alert('성공ㅋㅋ');
+                        var secondUserId2 = data.secondUserId;
+                        alert('secondUserId2 : ' + secondUserId2);
+                        var displayValue = '';
+                        if(targetUserId == secondUserId2) {
+                            
+						    displayValue = '<form action="">'
+						        + ' <h3>꽃 보내는거 확인</h3>'
+						         + ' <input type="text" name="userId" value="' + sessionUserId + '">'
+						         + ' <input type="text" name="secondUserId" value="' + targetUserId + '"><br><br>'
+						         + ' <input type="text" name="secondUserId" value="' + targetUserId + '">님에게 꽃을 보내시겠습니까? 30일 후 취소가 가능합니다.<br>'
+						         + ' <a href="#" class="check">확인</a>'
+						     + ' </form>';
+                            alert(displayValue);
+                        } else {
+                        	displayValue = '<form action="">'
+                        	       + ' <h3>꽃 보내기 취소 확인</h3>'
+                        	        + ' <input type="text" name="userId" value="' + sessionUserId + '">'
+                        	        + ' <input type="text" name="secondUserId"value="' + secondUserId2 + '"><br><br>'
+                        	        + ' <input type="text" name="secondUserId" value="' + secondUserId2 + '">님에게 보낸 꽃을 취소하시겠습니까?<br>'
+                        	        + ' <a href="#" class="check2">확인</a>'
+                        	    + ' </form>';
+                            alert(displayValue);
+                        }
+                        $('div.modal-body').html(displayValue);
+                    },
+                    error: function(request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            }); 
+			
+			
+			
+			
+			
+			$('#myModal').on('shown.bs.modal', function() {
+                $('#myInput').trigger('focus');
+            });
+			
+			
+			
+			
+			
+			$(document).on('click', '.check', function() {
+                alert('클릭ㅋㅋ');
+                
+                alert('userId : ' + sessionUserId);
+                alert('secondUserId : ' + targetUserId);
+                $.ajax({
+                    url: '/matching/rest/addMatching3/' + sessionUserId + '/' + targetUserId,
+                    method: 'GET',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        userId: sessionUserId,
+                        secondUserId: targetUserId
+                    }),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(data) {
+                        alert('성공ㅋㅋ');
+                        var displayValue = '<h3>꽃 보냄</h3>'
+    + '꽃을 보냈습니다.';
+                        
+                        $('div.modal-body').html(displayValue);
+                        $('div.totalFlower span').text(data);
+                        alert($('div.totalFlower span').text());
+                        $('.addMatching').text('꽃보내기취소');
+                        $('.addMatching').removeClass('addMatching').addClass('deleteMatching');
+                    },
+                    error: function(request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            });
+			
+			
+			
+			
+			
+			
+			$('.deleteMatching').on('click', function() {
+                alert('클릭ㅋㅋ');
+                
+                alert('userId : ' + sessionUserId);
+                alert('secondUserId : ' + targetUserId);
+                $.ajax({
+                    url: '/matching/rest/deleteMatching/' + sessionUserId + '/' + targetUserId,
+                    method: 'GET',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        userId: sessionUserId,
+                        secondUserId: targetUserId
+                    }),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(data) {
+                        alert('성공ㅋㅋ');
+                        var displayValue = '<form action="">'
+       + '<h3>꽃 보내기 취소 확인</h3>'
+        + '<input type="text" name="userId" value="' + sessionUserId + '">'
+        + '<input type="text" name="secondUserId"value="' + targetUserId + '"><br><br>'
+        + '<input type="text" name="secondUserId" value="' + targetUserId + '">님에게 보낸 꽃을 취소하시겠습니까?<br>'
+        + '<a href="#" class="check2">확인</a>'
+    + '</form>';
+                        $('div.modal-body').html(displayValue);
+                    },
+                    error: function(request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            });
+			
+			
+			
+			$(document).on('click', '.check2', function() {
+                alert('클릭ㅋㅋ');
+                
+                alert('userId : ' + sessionUserId);
+                alert('secondUserId : ' + targetUserId);
+                $.ajax({
+                    url: '/matching/rest/deleteMatching2/' + sessionUserId + '/' + targetUserId,
+                    method: 'GET',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        userId: sessionUserId,
+                        secondUserId: targetUserId
+                    }),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(data) {
+                        alert('성공ㅋㅋ');
+                        var displayValue = '';
+                        alert('data.result : ' + data.result);
+                        if(data.result == false) {
+                            displayValue = '<h3>꽃 보내고 30일 안 지남</h3>'
+    + '꽃 보내기 30일 후 취소가 가능합니다.';
+                            
+                            
+                            
+                        } else {
+                            displayValue = '<h3>꽃 보내기 취소함</h3>'
+    + '보낸 꽃을 취소했습니다.';
+                            
+                            
+                            
+                            
+                            
+                            var totalMatching = data.totalMatching;
+                            alert('totalMatching : ' + totalMatching);
+                            $('div.totalFlower span').text(totalMatching);
+                            $('.deleteMatching').text('꽃보내기');
+                            $('.deleteMatching').removeClass('deleteMatching').addClass('addMatching');
+                            
+                        }
+                        
+                        $('div.modal-body').html(displayValue);
+                        
+                        
+                    },
+                    error: function(request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            });
+			
+			
+			
+			
+			
+		});
+		
+		
+		
 	
 	</script>
 	
 	    
     <title>어울림</title>
     <style>
+    	* {
+		    margin: 0;
+		    padding: 0;
+		    box-sizing: border-box;
+		}
+		
+		li {
+		    list-style: none;
+		}
+		
+		a {
+		    text-decoration: none;
+		    color: inherit;
+		}
+		
+		a:hover,
+		a:focus {
+		    text-decoration: none;
+		    color: inherit;
+		}
+		
+		input,
+		i,
+		img {
+		    vertical-align: middle;
+		}
+		
+		input:focus {
+		    outline: none;
+		}
+		
+		body {
+		    color: #333;
+		    font-size: 15px;
+		    font-family: 'Roboto', sans-serif;
+		    font-family: 'Nanum Gothic', sans-serif;
+		}
         body {
             background-color: rgb(250, 250, 250);
         }
@@ -175,8 +422,9 @@
             
             font-size: 26px;
             display: inline-block;
-            vertical-align: bottom;
+            vertical-align: middle;
             margin-right: 10px;
+            
         }
         div.profileUpdate,
         div.addFriend,
@@ -374,15 +622,65 @@
 </head>
 
 <body>
+
+
+
+
+
+
+
+
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
     <div class="wrap">	
         <div class="profileHeader">
             <div class="profileImage">
-                <a href="#"><img src="/images/${user.profileName}" width="100px" alt=""></a>
+                <a href="#">
+	                <c:if test="${empty user.profileName}">
+	                	
+	                	<img src="/images/82910903_472735640087912_4282852221812207623_n(1).jpg" width="100px" alt="">
+	                </c:if>
+	                <c:if test="${!empty user.profileName}">
+	                	<img src="/images/${user.profileName}" width="100px" alt="">
+	                </c:if>
+                	
+                </a>
             </div>
             <div class="profile">
                 <div class="userId">
                     <div class="user">${targetUser.userId}</div>
-                    ${checkFriend1.friendStatus} ${checkFriend2.friendStatus}
+                    <%-- ${checkFriend1.friendStatus} ${checkFriend2.friendStatus} --%>
                     <c:if test="${user.userId eq targetUserId }">
                     <div class="profileUpdate"><a href="#">프로필 편집</a></div>
                     <div class="setting"><a href="#"><i class="fas fa-cog"></i></a></div>
@@ -403,8 +701,38 @@
 	                    </c:if>
 	                    
 	                    <!--////////////////// 매칭여부 / 꽃보냈는지 여부 추가바람/////////////////////////// -->
-	                    <div class="sendFlower"><a href="#">꽃보내기</a></div>
+	                    <c:if test="${checkFriend1.friendStatus == 2 }">
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    <!-- <div class="sendFlower"><a href="#">꽃보내기</a></div> -->
+	                    
+	                    
+	                    
+	                    <c:if test="${matching.secondUserId ne targetUserId}">
+	                    
+	        	<div class="sendFlower"><a href="#" class="addMatching" data-toggle="modal" data-target="#exampleModal">
+	        		꽃보내기
+	        	</a></div>
+	        </c:if>
+	        
+	        <c:if test="${matching.secondUserId eq targetUserId}">
+                <div class="sendFlower"><a href="#" class="deleteMatching" data-toggle="modal" data-target="#exampleModal">
+                    꽃보내기취소
+                </a></div>
+            </c:if>
+	                    
+	                    
+	                    
+	                    
+	                    
 	                    <div class="useSpear"><a href="#">찔러보기</a></div>
+	                    </c:if>
                     </c:if>
                 </div>
                 <div class="post">
