@@ -71,6 +71,21 @@
 // }
 
 
+//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
+		function fncGetList(currentPage) {
+			$("#currentPage").val(currentPage)
+			var i = $(".container").attr("method" , "POST").attr("action" , "/user/getUserList").submit();
+		}
+		
+//============= "검색"  Event  처리 =============	
+		 $(function() {
+			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 $( "button.btn.btn-default" ).on("click" , function() {
+				fncGetList(1);
+			 });
+		 });
+		 
+
 function CheckAll(chkUserId){
 				
 				if( document.detailForm.chkAll.checked == true ) {
@@ -130,6 +145,8 @@ function CheckAll(chkUserId){
 							<br><hr>
 		</div>
 		
+		
+		<form>
 		<c:set var="i" value="0"/>
 <!--  		<div>  -->
  		<c:forEach var="user" items="${ list }">
@@ -170,12 +187,18 @@ function CheckAll(chkUserId){
 		</div>
   		<hr>
  		 </c:forEach>
+  		</form>
   		</div>
 		<br>
     <br>
 
 <!--     <button onclick="location.href='/user/addQuestions.jsp'">등록가기</button><br> -->
     <a href="javascript:history.go(-1)">뒤로</a>
+    
+    
+    <!-- PageNavigation Start... -->
+	<jsp:include page="../common/pageNavigator_new.jsp"/>
+	<!-- PageNavigation End... -->
     
 </body>
 </html>

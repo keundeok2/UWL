@@ -28,6 +28,28 @@
 	    <!-- 모달용 -->
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 	    
+	    <style type="text/css">
+	    	a:hover {
+	    		text-decoration: none;
+	    	}
+	    	a {
+	    		color: black;
+	    	}
+	    	
+	    	.nickname{
+	    		color: #D98844;
+	    	}
+	    	
+	    	textarea{
+	    		resize: none;
+	    	}
+	    	
+	    	.commentButton{
+	    		display: inline-block;
+	    		float: right;
+	    	}
+	    </style>
+	    
 	    <script type="text/javascript">
 	    	
 	    	var postNo = null;
@@ -55,32 +77,48 @@
 		    				"content-Type" : "application/json"
 		    			},
 	    				success : function(data){
-	    					var userId = data.userId;
+	    					var nickname = data.user.nickname;
+	    					var userId = data.userId
 	    					var commentDate = data.commentDate;
 	    					var commentContent = data.commentContent;
 	    					var likeCount = data.likeCount;
 	    					var commentNo = data.commentNo;
+	    					var sessionUserId = "${user.userId}"
 	    					$('#commentContent').val("");
-	    					view =
-	    							"<div class="+commentNo+">"
-	    						+		"<span>"+userId+"</span> / <span>"+commentDate+"</span>"
-	    						+		"<br>"
-	    						+		"<span id="+commentNo+">"+commentContent+"</span>"
-	    						+		"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"
-	    						+		"<span class='j'>"
-	    						+			"<span id='forCommentAppend'></span>"
-		    					+			"<button type='button' class='btn btn-primary'>좋아요</button>"
-		    					+			"<span>"+likeCount+"(좋아요 개수 출력)</span>"
-	    						+			"<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#updateCommentModal'>수정</button>"
-    						   	+			"<input type='button' value='삭제'><!--본인 일때-->"
-    						    +			"<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#myModalComment'>신고</button>"
-    					    	+			"<input type='hidden' value='"+commentNo+"' class='commentNo'>"
-    					    	+			"<input type='hidden' value='"+userId+"' class='userId'>"
-    					    	+			"<input type='hidden' value='"+commentContent+"' class='commentContent'>"
-	    						+		"</span>"
-	    						+		"<hr>"
-	    						+	"</div>";
-	    					$('#forAppend').append(view);
+	    					var view1 =
+	    						"<tr class='j'>"
+			    		            +"<th class='success'>"
+			    		            	+"<div class='sl-right'>"
+			    							+"<div>"
+			    								+"<span class='nickname''>"+nickname+"</span> ｜ "
+			    								+"<span class='sl-date'>"
+			    									+commentDate
+			    								+"</span>"
+			    								+"<span style='display:inline-block;float:right;' class='commentButton'>";
+			    			var view3 = 						
+			    								"</span>"
+			    								+"<p class='m-t-10'>"
+			    									+commentContent
+			    								+"</p>"
+			    							+"</div>"
+			    							+"<div class='like-comm m-t-20'>"
+			    								+"<a href='javascript:void(0)' class='link m-r-10'><i class='fa fa-heart text-danger'></i> "+likeCount+" Love</a>"
+			    							+"</div>"
+			    						+"</div>"
+			    		            +"</th>"
+	    		       			+"</tr>";
+			    			if(sessionUserId == userId){
+	    						var view2 = "<span class='updateDelete'>"
+	    										+"<a data-toggle='modal' data-target='#updateCommentModal' href='#'>수정 ｜</a>" 
+												+"<a href='#'> 삭제</a>"
+											+"</span>"
+	    					}else{
+	    						var view2 =	"<span class='onlyReport'>" 
+	    									+"<a data-toggle='modal' data-target='#myModalComment' href='#'> 신고</a>"
+	    									+"</span>";
+	    					}
+			    			var lastView = view1+view2+view3;
+	    					$('#forAppend').after(lastView);
 	    				},
 	    				error : function(){
 	    					alert('에러 ㅋㅋ');
@@ -146,7 +184,7 @@
 		    	
 		    	
 		    	
-		    	$(document).on("click", ".j button:nth-child(4)", function(){	//수정
+		    	$(document).on("click", ".updateDelete a:nth-child(1)", function(){	//수정
 		    		commentNo = $(this).parent().find(".commentNo").val();
 		    		content = $("#"+commentNo+"").text();
 		    		$("textarea#updateCommentContent").val("");
@@ -181,9 +219,10 @@
 		    	
 		    	
 		    	
-		    	$(document).on("click", ".j input:nth-child(5)", function() {	//삭제
+		    	$(document).on("click", ".updateDelete a:nth-child(2)", function() {	//삭제
 		    		commentNo = $(this).parent().find(".commentNo").val();
 		    		postNo = ${post.postNo}
+		    		console.log(commentNo, postNo);
 		    		$.ajax({
 		    			url : "/community/rest/deleteComment",
 		    			method : "POST",
@@ -245,62 +284,76 @@
 <body>
     <form method="POST" action="community/rest/addComment">
 	    <!--for문 돌릴것-->
-	    <h3>${resultPage.totalCount }(댓글 수 출력)</h3>
-	    <c:forEach var="comment" items="${list }">
-			<div class='${comment.commentNo }'>
-			    <span>${comment.userId }</span> / <span>${comment.commentDate }</span>
-			    <br>
-			    <span id='${comment.commentNo }'>${comment.commentContent }</span>
-			    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-			    <span class="j">
-			    	<span id="forCommentAppend"></span>
-			    	<c:if test="${comment.likeStatus eq '0'}">
-					    <button type='button' class='btn btn-primary'>좋아요</button>
-			    	</c:if>
-				    <c:if test="${comment.likeStatus ne '0' }">
-				    	<button type='button' class='btn btn-danger'>좋아요 취소</button>
-				    </c:if>
-				    <span>${comment.likeCount }(좋아요 개수 출력)</span>
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateCommentModal">수정</button>
-				    <input type="button" value="삭제"><!--본인 일때-->
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalComment">신고</button>
-					<input type="hidden" value="${comment.commentContent }" class="commentContent">
-			    	<input type="hidden" value="${comment.commentNo }" class="commentNo">
-			    	<input type="hidden" value="${comment.userId }" class="userId">
-			    </span>
-			    <hr>
-			</div>
-	    </c:forEach>
-	    <div id="forAppend"></div>
-	    <textarea rows="3" cols="85" name="commentContent" id="commentContent"></textarea>
-	    <input type="button" id="addComment" value="등록">
-
-		<div class="tab-content">
-			<div class="tab-pane active" id="home" role="tabpanel">
-				<div class="card-block">
-					<div class="profiletimeline">
-						<div class="sl-item">
-							<div class="sl-right">
-								<div>
-									<a href="#" class="link">John Doe</a> <span class="sl-date">5
-										minutes ago</span>
-									<p class="m-t-10">Lorem ipsum dolor sit amet, consectetur
-										adipiscing elit. Integer nec odio. Praesent libero. Sed cursus
-										ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum
-										imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec
-										tellus sed augue semper</p>
-								</div>
-								<div class="like-comm m-t-20">
-									<a href="javascript:void(0)" class="link m-r-10">2 comment</a>
-									<a href="javascript:void(0)" class="link m-r-10"><i
-										class="fa fa-heart text-danger"></i> 5 Love</a>
-								</div>
+	    
+		
+		
+		
+<div class="row">
+    <div class="col-xs-2 col-md-2"></div>
+    <div class="col-xs-8 col-md-8">
+    <br>
+	    <div class="table table-responsive">
+	        <table class="table">
+	        
+	        <h3><i class="fas fa-comment-alt"></i> ${resultPage.totalCount }</h3>
+	        <c:forEach var="comment" items="${list }">
+	        
+		        <tr class="${comment.commentNo }">
+		            <th class="success">
+		            	<div class="sl-right">
+							<div>
+								<span class="nickname">${comment.user.nickname }</span> ｜
+								<span class="sl-date">
+									${comment.commentDate }
+								</span>
+								<span style="display:inline-block;float:right;" class='commentButton'>
+									<c:if test="${user.userId eq comment.userId }">
+									<span class="updateDelete">
+										<a data-toggle="modal" data-target="#updateCommentModal" href="#">수정 ｜</a> 
+										<a href="#"> 삭제</a>
+										<input type="hidden" class="commentNo" value="${comment.commentNo }">
+									</span> 
+									</c:if>
+									<c:if test="${user.userId ne comment.userId }">
+									<span class="onlyReport">
+										<a data-toggle="modal" data-target="#myModalComment" href="#"> 신고</a>
+									</span>	
+									</c:if>
+								</span>
+								
+								<p class="m-t-10">
+									${comment.commentContent }
+								</p>
+							</div>
+							<div class="like-comm m-t-20">
+								<a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> ${comment.likeCount } Love</a>
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		            </th>
+		        </tr>
+		    </c:forEach>
+			    <div id="forAppend"></div>
+	        </table>
+	        
+	        
+			    <textarea rows="3" cols="90" name="commentContent" id="commentContent"></textarea>
+			    <input type="button" id="addComment" value="등록">
+	    	</div>
+    </div>
+</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 
 
@@ -316,7 +369,7 @@
 			                        <h4 class="modal-title" id="myModalLabel"></h4>
 			                    </div>
 		                    <div class="modal-body">
-		                        	<h1>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;댓글 신고하기</h1>
+		                        	<h1>&emsp;&emsp;&emsp;&emsp;댓글 신고</h1>
 		                    </div>
 		                    <div class="modal-footer">
 		                        <select class="form-control" name="reportCategoryNo" id="reportCategoryNo">
@@ -326,7 +379,7 @@
 									  <option value=4>기타</option>
 								</select>
 								<br>
-								<textarea cols="75" rows="10" placeholder="내용입력" name="reportContent" id="reportcontent"></textarea>
+								<textarea cols="75" rows="10" placeholder="허위 신고는 처벌의 대상이 됩니다" name="reportContent" id="reportcontent"></textarea>
 								<br>
 								<span>
 		                        
@@ -351,7 +404,7 @@
 			                        <h4 class="modal-title" id="myModalLabel"></h4>
 			                    </div>
 		                    <div class="modal-body">
-		                        	<h1>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;댓글 수정</h1>
+		                        	<h1>&nbsp;&nbsp;&emsp;&emsp;&emsp;댓글 수정</h1>
 		                    </div>
 		                    <div class="modal-footer">
 								<textarea cols="75" rows="10" name="updateCommentContent" id="updateCommentContent"></textarea>

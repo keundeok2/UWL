@@ -139,7 +139,7 @@ $(document).ready(function(){
 </head>
 <body>
     <form method="POST" action="/report/updateReport">
-        <div class="row">
+    <div class="row">
     <div class="col-xs-2 col-md-2"></div>
     <div class="col-xs-8 col-md-8">
     <br>
@@ -233,7 +233,7 @@ $(document).ready(function(){
 							  <option value=4>기타</option>
 						</select>
 						<br>
-						<textarea cols="75" rows="10" placeholder="허위 신고는 처벌의 대상이 됩니다." name="reportContent"></textarea>
+						<textarea cols="75" rows="10" placeholder="허위 신고는 처벌의 대상이 됩니다" name="reportContent"></textarea>
 						<div style="text-align:center;width:100%">
                         	<button type="submit" class="btn btn-danger"><i class="far fa-frown"></i> 신고</button>
                         </div>

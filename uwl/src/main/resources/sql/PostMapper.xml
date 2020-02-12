@@ -197,7 +197,18 @@
  		SET hit_count = hit_count + #{change}
  		WHERE post_no = #{postNo}
  	</insert>
- 	
+ 	<!-- 이전글 이후글보기 추가 -->
+ 	<select id="getNextOrPrePost" parameterType="int" resultMap = "postSelectMap">
+ 	SELECT
+    POST_NO ,
+    POST_TITLE  ,
+    LAG(POST_NO,1,0) OVER (ORDER BY POST_NO) AS PRE_POST_NO,
+    LAG(POST_TITLE,1,'(이전 글 없음)') OVER (ORDER BY POST_NO) AS PRE_POST_TITLE,
+    LEAD(POST_NO,1,0) OVER (ORDER BY POST_NO) AS NEXT_POST_NO,
+    LEAD(POST_TITLE,1,'(이후 글 없음)') OVER (ORDER BY POST_NO) AS NEXT_POST_TITLE
+	FROM POST
+	ORDER BY POST_NO;
+ 	</select>
  	
  	
  	

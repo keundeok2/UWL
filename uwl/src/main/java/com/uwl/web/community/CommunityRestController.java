@@ -2,7 +2,7 @@ package com.uwl.web.community;
 
 import java.util.Map;
 
-import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +18,7 @@ import com.uwl.common.Search;
 import com.uwl.service.community.CommunityService;
 import com.uwl.service.domain.Commentt;
 import com.uwl.service.domain.Likey;
+import com.uwl.service.domain.User;
 
 @RestController
 @RequestMapping("/community/*")
@@ -39,9 +40,10 @@ public class CommunityRestController {
 	
 //------------------------좋아요----------------------------------------------------------------------------------------------------------
 	@RequestMapping(value="rest/addPostLike", method=RequestMethod.POST)	//---------------------------테스트 종료
-	public boolean addPostLike(@RequestBody Likey likey) throws Exception{
+	public boolean addPostLike(@RequestBody Likey likey, HttpSession session) throws Exception{
 		System.out.println("rest/addPostLike.POST");
-		likey.setUserId("user01");		//session 처리 해야해
+		User user = (User)session.getAttribute("user");
+		likey.setUserId(user.getUserId());		//session 처리 해야해
 		likey.setLikeWhat("1");
 		communityService.addPostLike(likey);
 		likey = communityService.getLike(likey);
@@ -53,9 +55,10 @@ public class CommunityRestController {
 	}
 	
 	@RequestMapping(value="rest/addCommentLike", method=RequestMethod.POST)
-	public boolean addCommentLike(@RequestBody Likey likey) throws Exception{
+	public boolean addCommentLike(@RequestBody Likey likey, HttpSession session) throws Exception{
 		System.out.println("rest/addCommentLike.POST");
-		likey.setUserId("user01");	//session 처리할것
+		User user = (User)session.getAttribute("user");
+		likey.setUserId(user.getUserId());	//session 처리할것
 		likey.setLikeWhat("2");
 		Likey checkLike = communityService.getLike(likey);
 		try {
@@ -71,14 +74,15 @@ public class CommunityRestController {
 	}
 	
 	@RequestMapping(value="rest/deleteLike", method=RequestMethod.POST)	//----------------------------테스트 종료
-	public boolean deleteLike(@RequestBody Likey likey) throws Exception{
+	public boolean deleteLike(@RequestBody Likey likey, HttpSession session) throws Exception{
 		System.out.println("rest/deleteLike.GET");
+		User user = (User)session.getAttribute("user");
 		if(likey.getRefCommentNo() == 0) {
 			likey.setLikeWhat("1");
 		}else {
 			likey.setLikeWhat("2");
 		}
-		likey.setUserId("user01");	//session 처리해야해
+		likey.setUserId(user.getUserId());	//session 처리해야해
 		likey = communityService.getLike(likey);
 		communityService.deleteLike(likey);
 		likey = communityService.getLike(likey);	//좀 이상한데...?			
@@ -91,9 +95,10 @@ public class CommunityRestController {
 	
 	@RequestMapping(value="rest/getLike", method=RequestMethod.POST)		//------------------------테스트 종료
 																			//-------------------게시글 좋아요 판단
-	public boolean getLikey(@RequestBody Likey likey) throws Exception{
+	public boolean getLikey(@RequestBody Likey likey, HttpSession session) throws Exception{
 		System.out.println("rest/getLike.POST");
-		likey.setUserId("user01"); 		//session처리해야해
+		User user = (User)session.getAttribute("user");
+		likey.setUserId(user.getUserId()); 		//session처리해야해
 		likey.setLikeWhat("1");
 		likey = communityService.getLike(likey);
 		if(likey != null) {
@@ -108,9 +113,10 @@ public class CommunityRestController {
 	
 //------------------------댓글-----------------------------------------------------------------------------------------------------------
 	@RequestMapping(value="rest/addComment", method=RequestMethod.POST)
-	public Commentt addComment(@RequestBody Commentt comment) throws Exception{
+	public Commentt addComment(@RequestBody Commentt comment, HttpSession session) throws Exception{
 		System.out.println("rest/addComment.POST");
-		comment.setUserId("user01"); //session 처리해야해
+		User user = (User)session.getAttribute("user");
+		comment.setUserId(user.getUserId()); //session 처리해야해
 		communityService.addComment(comment);
 		
 		//get해서 다시 붙여주는 용도
@@ -145,10 +151,12 @@ public class CommunityRestController {
 	}
 	
 	@RequestMapping(value="rest/updateComment", method=RequestMethod.POST)
-	public Commentt updateComment(@RequestBody Commentt comment) throws Exception{
+	public Commentt updateComment(@RequestBody Commentt comment, HttpSession session) throws Exception{
 		System.out.println(comment);
+		User user = (User)session.getAttribute("user");
 		communityService.updateComment(comment);
-		communityService.getComment("user01", comment.getPostNo());
+		
+		communityService.getComment(user.getUserId(), comment.getPostNo());
 		return comment;
 	}
 //------------------------댓글-----------------------------------------------------------------------------------------------------------
