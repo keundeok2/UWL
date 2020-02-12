@@ -67,7 +67,7 @@
 							html += "<div class='"+d.list[i].commentNo+"'><i class='fas fa-times deleteCommentBtn'><input type='hidden' value='"+d.list[i].postNo+"' id='postNoini'><input type='hidden' value='"+d.list[i].commentNo+"' id='commentNoini'></i></div>";
 						}
 						
-						html += "<hr/><p>"+d.list[i].userId+" &nbsp; "+d.list[i].commentContent+"</p>";
+						html += "<hr/><img src='/images/"+d.list[i].user.profileName+"'><p>"+d.list[i].user.name+" &nbsp; "+d.list[i].commentContent+"</p>";
 					}
 					
 					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글입력 후 Enter'></div>";
@@ -101,7 +101,8 @@
 				success : function(d) {
 					console.log("d", d)
 					var html = "<i class='fas fa-times deleteCommentBtn'></i>"
-							+"<hr/><p>"+d.userId+" &nbsp; "+d.commentContent+"</p>"
+							+"<hr/><img src='/images/"+d.user.profileName+"' class='commentImg'>"
+							+"<p>"+d.user.name+" &nbsp; "+d.commentContent+"</p>"
 							+"<input type='hidden' value='"+d.commentNo+"'>"
 					
 					$(".addCommentDiv").prepend(html);
@@ -256,7 +257,10 @@ ul.timeline > li:before {
 .postContentDiv {
 	margin-bottom : 10px;
 }
-
+.commentImg {
+	width : 10px;
+	height : 10px;
+}
 </style>
 <title>어울림</title>
 </head>

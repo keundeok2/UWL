@@ -21,6 +21,7 @@ import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.challenge.ChallengeService;
 import com.uwl.service.domain.Challenge;
+import com.uwl.service.domain.User;
 import com.uwl.service.schoolRank.SchoolRankService;
 
 import sun.security.util.PropertyExpander.ExpandException;
@@ -34,19 +35,37 @@ public class schoolRankController {
 	@Qualifier("schoolRankServiceImpl")
 	private SchoolRankService schoolRankService;
 	
-	//Constructor
-	public schoolRankController() {
-		System.out.println(this.getClass());
-	}
-	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	
+	private User user;
+	
+	//getter, setter
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	//Constructor
+	public schoolRankController() {
+		System.out.println(this.getClass());
+	}
 	@RequestMapping( value = "getSchoolRankingList")
 	public String getSchoolRankingList(@ModelAttribute("search")Search search, 
-										Model model, HttpServletRequest request) throws Exception{
+										Model model, HttpServletRequest request, HttpSession session) throws Exception{
+		
+		
+		user = (User)session.getAttribute("user");
+		
+		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
+		if (user.getUserId() == null) {
+			System.out.println("ChallengeController getCompleteChallengeList() : GET / POST ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
+			return "forward:/user/login";
+		}
 		
 		System.out.println("/schoolRank/getSchoolRankingList : GET / POST");
 		

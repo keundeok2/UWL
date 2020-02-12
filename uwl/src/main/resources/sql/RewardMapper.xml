@@ -13,6 +13,7 @@
 		<result property="purchaseItem.purchaseNo" 			column="purchase_no" 			jdbcType="NUMERIC"/>
 		<result property="purchaseItem.itemCategory" 			column="item_category" 			jdbcType="VARCHAR"/>
 		<result property="challenge.challTitle" 			column="chall_title" 			jdbcType="VARCHAR"/>
+		<result property="challenge.challCategory" 			column="chall_category" 			jdbcType="VARCHAR"/>
 		
 		<result property="challenge.challNo" 			column="chall_no" 			jdbcType="NUMERIC"/>
 		<result property="challenge.challReward" 			column="chall_reward" 			jdbcType="NUMERIC"/>
@@ -22,8 +23,11 @@
 		<result property="variableDate" 	column="variable_date" 		jdbcType="DATE" />
 		<result property="totalPoint" 	column="total_point" 		jdbcType="NUMERIC" />
 		<result property="totalActivityPoint" 	column="total_activity_point" 		jdbcType="NUMERIC" />
-	
 		
+		<!-- 가상컬럼 -->
+		<result property="recentlyTotalPoint" 	column="recently_total__point" 		jdbcType="NUMERIC" />
+		<result property="recentlyTotalActivityPoint" 	column="recently_total_activity_point" 		jdbcType="NUMERIC" />
+	
 		
 	</resultMap>
 	
@@ -36,6 +40,7 @@
 														r.user_id,
 														r.purchase_no,
 														r.chall_no,
+														c.chall_category,
 														c.chall_title,
 														r.variable_point,
 														r.variable_activity_point,
@@ -43,8 +48,8 @@
 														r.total_point,
 														r.total_activity_point,
 														p.item_category,
-														ranking.ranking_point,
-														ranking.ranking_activity_point
+														ranking.ranking_point AS recently_total__point,
+														ranking.ranking_activity_point AS recently_total_activity_point
 												FROM challenge c,purchase p,reward r, (SELECT sum(variable_point) ranking_point, 
 																							sum(variable_activity_point) ranking_activity_point 
 																				FROM reward WHERE user_id= #{reward.userId}) ranking
@@ -151,12 +156,11 @@
 									total_activity_point,
 									variable_date
 							FROM reward  
-							<where><!-- 포인트사용한 내역을 조회할 때 사용 -->
-								user_id = #{userId} 
-								<if test="purchaseItem.purchaseNo != 0 || purchaseItem.purchaseNo != null">
+							WHERE user_id = #{userId:VARCHAR} 
+								<!-- 포인트사용한 내역을 조회할 때 사용 -->
+								<if test="purchaseItem.purchaseNo != 0">
 									AND purchase_no IS NOT NULL
 								</if>
-							</where>
 					ORDER BY variable_date DESC)countTable
 	 </select>
  	

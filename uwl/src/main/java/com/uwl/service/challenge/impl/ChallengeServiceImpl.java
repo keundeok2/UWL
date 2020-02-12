@@ -116,12 +116,15 @@ public class ChallengeServiceImpl implements ChallengeService{
 	public Map<String, Object> getCompleteChallengeList(Search search, String userId) throws Exception {
 		
 		System.out.println("ChallengeService의 search : " + search);
+		System.out.println("ChallengeService의 userId : " + userId);
 		
 		int totalCount = challengeDAO.getTotalCountOne(userId);
 		
 		Map<String, Object> completeMap = challengeDAO.getCompleteChallengeList(search, userId);
 		
+		
 		completeMap.put("totalCount", new Integer(totalCount));
+		completeMap.put("list", completeMap.get("list"));
 		
 		return completeMap;
 	}
@@ -129,6 +132,9 @@ public class ChallengeServiceImpl implements ChallengeService{
 
 	@Override
 	public void completeChallenge(Reward reward, Challenge challenge, Map<String, Object> map) throws Exception {
+		
+		//조건을 충족시켜주면 true
+		boolean flag;
 		
 		List<Challenge> list = (List<Challenge>)(map.get("list"));
 		Post challpost = challenge.getPost();
@@ -149,12 +155,18 @@ public class ChallengeServiceImpl implements ChallengeService{
 					rewardDAO.increasePoint(reward);
 					System.out.println("게시글작성 도전과제 조건이 충족되었음.");
 					
+					//조건이 충족되면 트루
+					flag = true;
+					
 					//코멘트 조건이 충족했을 경우
 				}else if(challengeDAO.getChallCommentCompleteCount(list.get(i)) == list.get(i).getPostCommentComplete()) {
 					System.out.println("challengeDAO.getChallCommentCompleteCount(challenge) : " + challengeDAO.getChallPostCompleteCount(challenge) );
 					reward.setChallenge(list.get(i)); 
 					rewardDAO.increasePoint(reward);
 					System.out.println("코멘트작성 도전과제 조건이 충족되었음.");
+					
+					//조건이 충족되면 트루
+					flag = true;
 				}
 				
 			}//end of if

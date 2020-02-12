@@ -69,6 +69,7 @@
 			c.comment_no, c.user_id, c.post_no, c.comment_content, c.comment_date, c.comment_status, u.name, u.nickname, u.profile_name
 		FROM commentt c, users u
 		WHERE comment_no = #{value}
+			AND u.user_id = c.user_id
 	</select>
 	
 	<update id="updateComment" parameterType="commentt">

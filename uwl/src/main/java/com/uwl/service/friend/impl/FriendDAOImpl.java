@@ -93,5 +93,15 @@ public class FriendDAOImpl implements FriendDAO {
 		map.put("userId", userId);
 		return sqlSession.selectOne("FriendMapper.getSearchTotalCount", map);
 	}
+	
+	@Override
+	public int checkFriend(Friend friend) {
+		return sqlSession.selectOne("FriendMapper.checkFriend", friend);
+	}
+	
+	@Override
+	public Friend checkRequest(Friend friend) {
+		return sqlSession.selectOne("FriendMapper.checkRequest", friend);
+	}
 
 }
