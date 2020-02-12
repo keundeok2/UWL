@@ -8,7 +8,6 @@
 
 <head>
 <meta charset="UTF-8">
-
 	<!--  ///////////////////////// Bootstrap 4.4, jQuery 3.1.1 CDN ////////////////////////// -->
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
@@ -23,23 +22,29 @@
 body {
 	margin: 50px;
 	padding: 30px;
+	background-color:#eee;
+}
+
+.toggle {
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+ 	transform: translate(-50%,-50%);
+/*  	overflow: hidden;  */
+/*  	data-backdrop: static;  */
+/*  	data-keyboard: false;  */
+}
+
+.toggle.on {
+	display: block;
 }
 
 </style>
 
+
 <script type="text/javascript">
 
-// 	//============= 회원정보수정 Event  처리 =============	
-// 	$(function() {
-// 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-// 		$('#updateUserButton').on("click", function() {
-// 			console.log("5");
-// // 			self.location = "/user/getUser?userId=${user.userId}"
-// 			$('#table').attr("method" , "POST").attr("action" , "/user/updateUser").submit();
-// 			console.log("6");
-// 		});
-// 	});
-	
 	
 	//============= "수정"  Event 연결 =============
 	 $(function() {
@@ -49,57 +54,27 @@ body {
 		});
 	});	
 	
+	
 	// 비번 확인 모달창 test
+	$(function() {
+            $(document).ready(function() {
+//                 alert();
+                $('.toggle').addClass('on');
+// 				$('#contact').modal({backdrop: 'static', keyboard: false}) ;
+                
+                $('.toggle button').on('click', function() {
+                    $('.toggle').removeClass('on');
+                });
+            });
+        });
 	
-// 	$('#contact').on('shown.bs.modal', function () {
-// 		 var i = $('#contact').trigger('focus')
-// 		 console.log(i);
-// 		})
-	
-// 	$(document).ready(function(){	
-// 		$("#contactForm").submit(function(event){
-// 			submitForm();
-// 			console.log(submit);
-// 			return false;
-// 		});
-// 	});
-	
-// 	$(document).ready(function(){
-// 		$("#submit").click(function(){
-// 			$("#contact-modal").modal();
-// 		});
-// 	});
-	
-// 	function submit(){
-// 		 $.ajax({
-// 			type: "POST",
-// 			url: "/user/updateUser",
-// 			cache:false,
-// 			data: $('form#contactForm').serialize(),
-// 			success: function(response){
-// 				$("#contact").html(response)
-// 				$("#contact-modal").modal('hide');
-// 			},
-// 			error: function(){
-// 				alert("Error");
-// 			}
-// 		});
-// 	}
-// 	<?php
-// 			if (isset($_POST['password'])) {
-// 				$userId = strip_tags($_POST['userId']);
-// 				$password = strip_tags($_POST['password']);
-// 			}
-// 			?>
 	// 비번 확인 모달창 test
 	
 	
 	
 	///////////////////////////////////////////////////////////////////////
 		function fncUpdateUser() {
-			console.log("3");
 			var name=$("input[name='name']").val();
-			console.log(name);
 			
 			if(name == null || name.length <1){
 				alert("이름은  반드시 입력하셔야 합니다.");
@@ -109,22 +84,25 @@ body {
 // 			Debug...
 // 			alert("phone : "+value);
 			$("#user").attr("method" , "POST").attr("action" , "/user/updateUser").submit();
-			console.log("submit 다음")
 		}
 	
 </script>
-
-
 </head>
 
 <body>
+
 <!-- 비번 확인 모달창 test -->
-<div id="contact"><button type="button" class="btn btn-info btn" data-toggle="modal" data-target="#contact-modal">Show Contact Form</button></div>
-<div id="contact-modal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
+
+<!-- <div id="contact"	> -->
+<!--  	<button type="button" class="btn btn-info btn" data-toggle="modal" data-target="#contact-modal">Show Contact Form</button> -->
+<!-- </div>  -->
+
+<!-- <div id="contact-modal" class="toggle" data-backdrop="static" tabindex="-1" role="dialog"> -->
+<div id="contact-modal" class="toggle"  role="dialog" >
+	<div class="modal-dialog" data-backdrop="static">
 		<div class="modal-content">
 			<div class="modal-header">
-				<a class="close" data-dismiss="modal">×</a>
+<!-- 				<a class="close" data-dismiss="modal">×</a> -->
 				<h3>Contact Form</h3>
 			</div>
 			<form id="contactForm" name="contact" role="form">
@@ -155,15 +133,16 @@ body {
 		<a class="navbar-brand"><h2>회원정보수정</h2></a>
 	</div>
 	<!-- ToolBar End /////////////////////////////////////-->
+	
 	<form id="user">
 	<table class="table table-hover text-center" id="table">
 			<tr>
-				<td> 이     름 </td>
-				<td>  <input type="hidden"	name="name"	 value="${user.name}" readonly>${user.name} </td>
-			</tr>
-			<tr>
 				<td> 아 이 디 </td>
 				<td> <input type="hidden" 	name="userId" value="${user.userId}" readonly>${user.userId} </td>
+			</tr>
+			<tr>
+				<td> 이     름 </td>
+				<td>  <input type="hidden"	name="name"	 value="${user.name}" readonly>${user.name} </td>
 			</tr>
 			<tr>
 				<td> 비밀번호 </td>

@@ -2,33 +2,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-
-
 <!DOCTYPE html>
 
 <html lang="ko">
 
 <head>
 <meta charset="UTF-8">
-
-
 <!--  ///////////////////////// Bootstrap 4.4, jQuery 3.1.1 CDN ////////////////////////// -->
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	rel="stylesheet">
-
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 <!--  ///////////////////////// CSS, JS 4.4 CDN ////////////////////////// -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+
+<style>
+body {
+	margin: 50px;
+	padding: 30px;
+}
+
+</style>
 
 <script type="text/javascript">
 
@@ -41,13 +37,6 @@
 	});
 </script>
 
-<style>
-body {
-	margin: 50px;
-	padding: 30px;
-}
-
-</style>
 </head>
 
 
@@ -58,7 +47,6 @@ body {
 		<a class="navbar-brand"><h2>회원정보</h2></a>
 	</div>
 	<!-- ToolBar End /////////////////////////////////////-->
-
 
 		<table class="table table-hover text-center">
 
@@ -104,10 +92,11 @@ body {
 				<td> 메      일 </td>
 				<td> ${user.mail} </td>
 			</tr>
-			<tr>
-				<td> 사      진 </td>
-				<td> ${user.profileName} </td>
-			</tr>
+<!-- 			<tr> -->
+<!-- 				<td> 사      진 </td> -->
+<%-- 				<td> ${user.profileName} </td> --%>
+<!-- 					//프로필에서 수정? -->
+<!-- 			</tr> -->
 
 		</table>
 <br><br>
@@ -139,16 +128,21 @@ body {
 
 
 
-
 		<div class="text-center">
-			<button type="button" id="updateUser"
+			<button type="button" id="updateUser" 
 				class="btn btn-outline-info btn-lg">정보수정</button>
 				
 			<button onclick="location.href='/index.jsp'"
 				class="btn btn-outline-info btn-lg">확인</button>
-			<br> <br>
-			<!-- 	<a href="javascript:history.go(-1)" class="btn btn-outline-info btn-lg">뒤로</a> -->
 		</div>
+		<div class="text-right">
+			<button onclick="location.href='/user/logout'"
+				class="btn btn-outline-info btn-lg">로그아웃</button>
+		</div>	
+		
+			<!-- 	<a href="javascript:history.go(-1)" class="btn btn-outline-info btn-lg">뒤로</a> -->
+		
+		
 </body>
 
 </html>

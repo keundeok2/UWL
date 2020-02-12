@@ -427,7 +427,7 @@ public class UserController {
 	public String logout(HttpSession session) throws Exception {
 		System.out.println("UserController : logout() 호출");
 
-		System.out.println("/user/logout : POST");
+		System.out.println("/user/logout : GET");
 
 		session.invalidate();
 
@@ -547,7 +547,8 @@ public class UserController {
 //	}
 
 	// 전체 회원목록
-	@RequestMapping(value = "getUserList", method = RequestMethod.GET)
+//	@RequestMapping(value = "getUserList", method = RequestMethod.GET)
+	@RequestMapping(value = "getUserList")
 	public String listUser(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)
 			throws Exception {
 		System.out.println("UserController : getUserList() 호출");
@@ -622,7 +623,7 @@ public class UserController {
 
 	// 회원탈퇴
 	@RequestMapping(value = "deleteUser", method = RequestMethod.POST)
-	public String deleteUser(@ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
+	public String deleteUser(@ModelAttribute("user") User user, HttpSession session) throws Exception {
 		System.out.println("UserController : deleteUser() 호출");
 
 		System.out.println("/user/deleteUser : POST");
@@ -634,7 +635,8 @@ public class UserController {
 			session.setAttribute("user", user);
 		}
 
-		return "redirect:/user/getUser?userId=" + user.getUserId();
+		return "forward:/index.jsp";
+//		return "redirect:/user/getUser?userId=" + user.getUserId();
 	}
 
 }
