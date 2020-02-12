@@ -9,6 +9,10 @@
  	<resultMap id="postSelectMap" type="post">
  		<result property="postNo" column="post_no" jdbcType="NUMERIC"/>
  		<result property="userId" column="user_id" jdbcType="VARCHAR"/>
+ 		<result property="user.userId" column="user_id" jdbcType="VARCHAR"/>
+	 	<result property="user.name" column="name" jdbcType="VARCHAR"/>
+	 	<result property="user.nickname" column="nickname" jdbcType="VARCHAR"/>
+	 	<result property="user.profileName" column="profile_name" jdbcType="VARCHAR"/>
  		<result property="uploadFileName" column="uploadfile_name" jdbcType="VARCHAR"/>
  		<result property="postTitle" column="post_title" jdbcType="VARCHAR"/>
  		<result property="postContent" column="post_content" jdbcType="VARCHAR"/>
@@ -22,6 +26,12 @@
  	<resultMap id="askSelectMap" type="ask">
  	<result property="questionPostNo" column="question_post_no" jdbcType="NUMERIC"/>
  	<result property="userId" column="user_id" jdbcType="VARCHAR"/>
+ 	<result property="user.userId" column="user_id" jdbcType="VARCHAR"/>
+ 	<result property="user.name" column="name" jdbcType="VARCHAR"/>
+ 	<result property="user.nickname" column="nickname" jdbcType="VARCHAR"/>
+ 	<result property="user.profileName" column="profile_name" jdbcType="VARCHAR"/>
+ 	
+ 	
  	<result property="questionTitle" column="question_title" jdbcType="VARCHAR"/>
  	<result property="questionContent" column="question_content" jdbcType="VARCHAR"/>
  	<result property="questionDate" column="question_date" jdbcType="DATE"/>
@@ -39,23 +49,27 @@
  	</insert>
  	
  	<select id="getTimeline" parameterType="int" resultMap="postSelectMap">
- 		SELECT * FROM post
+ 		SELECT p.post_no, p.user_id, p.uploadfile_name, p.post_title, p.post_content, p.post_date, p.view_status, p.post_category_no, u.name, u.nickname, u.profile_name
+ 		FROM post p, users u
 		WHERE post_no = #{value}
+		AND p.user_id = u.user_id
  	</select>
  	
  	<!-- searchCondition => 0 : 공개된 것만  1 : 나만보기포함 -->
 	<select id="getTimelineList" parameterType="map" resultMap="postSelectMap">
 		SELECT * 
 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
-				FROM (  SELECT * FROM post
+				FROM (  SELECT p.post_no, p.user_id, p.uploadfile_name, p.post_title, p.post_content, p.post_date, p.view_status, p.post_category_no, u.name, u.nickname, u.profile_name 
+							FROM post p, users u
 		                    WHERE post_category_no = '4'
-		                    AND user_id = #{userId}
+		                    AND p.user_id = #{userId}
 		                    <if test="search.searchCondition == 0">
 		                    AND view_status = '1'
 		                    </if>
 		                    <if test="search.searchCondition == 1">
 		                    AND view_status != '3'
 		                    </if>
+		                    AND p.user_id = u.user_id
 		                    ORDER BY post_no desc) inner_table 
 				WHERE ROWNUM &lt; = #{search.endRowNum} ) 
 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
@@ -145,12 +159,16 @@
 		        p2.post_no AS answer_post_no,
 		        p2.post_title AS answer_post_title,
 		        p2.post_content AS answer_post_content,
-		        p2.post_date AS answer_date
-		FROM post p1, post p2
+		        p2.post_date AS answer_date,
+		        u.name,
+                u.nickname,
+                u.profile_name
+		FROM post p1, post p2, users u
 		WHERE p1.reply_post_no = p2.post_no
 		AND p1.post_category_no = '3'
 		AND p1.question_status = '2'
 		AND p1.user_id = #{userId}
+		AND p1.user_id = u.user_id
 		ORDER BY p1.post_no desc) inner_table 
 				WHERE ROWNUM &lt; = #{search.endRowNum} ) 
 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}

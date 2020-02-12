@@ -85,5 +85,17 @@ public class FriendServiceImpl implements FriendService{
 		
 		return map;
 	}
+	
+	// firstUserId, secondUserId 넣어주면 됨  => return 1 : 친구   0 : 친구 아님
+	@Override
+	public int checkFriend(Friend friend) {
+		return friendDAO.checkFriend(friend);
+	}
 
+	// firstUserId, secondUserId 넣어주면 됨
+	@Override
+	public Friend checkRequest(Friend friend) {
+		return friendDAO.checkRequest(friend);
+	}
+	
 }

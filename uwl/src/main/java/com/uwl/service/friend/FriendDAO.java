@@ -31,4 +31,8 @@ public interface FriendDAO {
 	public List<User> getSearchFriendList(Search search, String userId);
 	
 	public int getSearchTotalCount(Search search, String userId);
+	
+	public int checkFriend(Friend friend);
+	
+	public Friend checkRequest(Friend friend);
 }

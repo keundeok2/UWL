@@ -46,6 +46,9 @@ public class RewardDAOImpl implements RewardDAO{
 		System.out.println("RewardDAOImpl search : " + search);
 		System.out.println("RewardDAOImpl reward : " + reward);
 		
+		//session전 임시 로그인 아이디
+		//reward.setUserId("user01");
+		
 		map.put("search", search);
 		map.put("reward", reward);
 		
@@ -68,6 +71,9 @@ public class RewardDAOImpl implements RewardDAO{
 		System.out.println("RewardDAOImpl getUserPurchaseList() 작동 중");
 		System.out.println("RewardDAOImpl search : " + search);
 		System.out.println("RewardDAOImpl userId : " + reward);
+		
+		//session전 임시 로그인 아이디
+		//reward.setUserId("user01");
 		
 		map.put("search", search);
 		map.put("reward", reward);
