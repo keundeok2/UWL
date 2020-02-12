@@ -64,7 +64,7 @@
 					
 					for (var i = 0; i < d.list.length; i++) {
 						if (targetUserId == sessionId) {
-							html += "<div class='"+d.list[i].commentNo+"'><i class='fas fa-times deleteCommentBtn'><input type='hidden' value='"+d.list[i].postNo+"' id='postNoini'><input type='hidden' value='"+d.list[i].commentNo+"' id='commentNoini'></i></div>";
+							html += "<div class='c"+d.list[i].commentNo+"'><i class='fas fa-times deleteCommentBtn'><input type='hidden' value='"+d.list[i].postNo+"' id='postNoini'><input type='hidden' value='"+d.list[i].commentNo+"' id='commentNoini'></i></div>";
 						}
 						
 						html += "<hr/><img src='/images/"+d.list[i].user.profileName+"' class='commentProfileName'><p class='commentPtag'>"+d.list[i].user.name+" &nbsp; "+d.list[i].commentContent+"</p>";
@@ -100,7 +100,8 @@
 				data : JSON.stringify({commentContent : content, userId : sessionId, postNo : postNo}),
 				success : function(d) {
 					console.log("d", d)
-					var html = "<i class='fas fa-times deleteCommentBtn'></i>"
+					var html ="<div class='c"+d.commentNo+"'>"
+							+"<i class='fas fa-times deleteCommentBtn'></i></div>"
 							+"<hr/><img src='/images/"+d.user.profileName+"' class='commentProfileName'>"
 							+"<p class='commentPtag'>"+d.user.name+" &nbsp; "+d.commentContent+"</p>"
 							+"<input type='hidden' value='"+d.commentNo+"'>"
@@ -140,7 +141,7 @@
 			},
 			data : JSON.stringify({commentNo : commentNo, postNo : postNo}),
 			success : function() {
-				$("div."+commentNo+"").remove();
+				$("div.c"+commentNo+"").remove();
 			}
 			
 		});
@@ -377,7 +378,7 @@ body {word-break:break-all;}
 	<div class="container mt-5 mb-5">
 		<div class="row">
 			<div class="col-md-6 offset-md-3">
-				<h4>Timeline</h4>
+				<h4>${user.name}님의 Timeline</h4>
 			<c:if test="${targetUserId eq user.userId }">
 				<div class="addFormDiv">
 				<form id="addTimelineForm">
