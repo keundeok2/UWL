@@ -79,6 +79,7 @@ public class RewardController {
 	public String getUserBothPointList(@ModelAttribute("search") Search search, @ModelAttribute("user") User user, 
 										Model model, HttpServletRequest request, HttpSession session ) throws Exception{
 		
+		
 		user = (User)session.getAttribute("user");
 		
 		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
@@ -138,6 +139,7 @@ public class RewardController {
 		System.out.println("rewardController map.get(\"list\") : " + map.get("list"));
 		System.out.println("rewardController Reward : " + reward);
 		
+		System.out.println("rewardController purchaseMap.get(\"list\") : " + purchaseMap.get("list"));
 		
 		//포인트사용내역 model addAttribute
 		model.addAttribute("purchaseList",purchaseMap.get("list"));
