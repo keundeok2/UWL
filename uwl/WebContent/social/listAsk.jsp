@@ -276,7 +276,7 @@ var page = 1;
                 <p>${ask.questionContent}</p>
                 <p><span>익명</span> ｜ <span>${ask.questionDate}</span></p>
                 <p>${ask.answerContent}</p>
-                <p><span>${ask.userId}</span> ｜ <span>${ask.answerDate}</span></p>
+                <p><span>${ask.user.name}</span> ｜ <span>${ask.answerDate}</span></p>
             </div>
             </c:forEach>
         </div>

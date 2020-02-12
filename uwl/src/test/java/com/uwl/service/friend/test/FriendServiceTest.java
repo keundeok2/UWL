@@ -25,7 +25,7 @@ public class FriendServiceTest {
 	@Qualifier("friendServiceImpl")
 	private FriendService friendService;
 	
-	@Test
+//	@Test
 	public void requestFriend() throws Exception{
 		Friend friend = new Friend();
 		friend.setFirstUserId("user1");
@@ -111,6 +111,24 @@ public class FriendServiceTest {
 		String userId = "user01";
 		Map<String, Object> map = friendService.getSearchFriendList(search,userId);
 		System.out.println(map);
+	}
+	
+//	@Test
+	public void checkFriend() throws Exception{
+		Friend friend = new Friend();
+		friend.setFirstUserId("user01");
+		friend.setSecondUserId("user37");
+		
+		System.out.println(friendService.checkFriend(friend));
+	}
+	
+	@Test
+	public void checkRequest() throws Exception{
+		Friend friend = new Friend();
+		friend.setFirstUserId("user01");
+		friend.setSecondUserId("user40");
+		
+		friendService.checkRequest(friend);
 	}
 	
 }
