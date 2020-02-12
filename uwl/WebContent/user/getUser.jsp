@@ -1,69 +1,154 @@
-<%@ page contentType="text/html; charset=EUC-KR"%>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+
 
 <!DOCTYPE html>
 
 <html lang="ko">
 
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<!--  ///////////////////////// Bootstrap 4.4, jQuery 3.1.1 CDN ////////////////////////// -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<!--  ///////////////////////// CSS, JS 4.4 CDN ////////////////////////// -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 
 <script type="text/javascript">
 
-	//============= È¸¿øÁ¤º¸¼öÁ¤ Event  Ã³¸® =============	
+	//============= íšŒì›ì •ë³´ìˆ˜ì • Event  ì²˜ë¦¬ =============	
 	$(function() {
-		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$("button#updateUser").on("click", function() {
 			self.location = "/user/updateUser?userId=${user.userId}";
 		});
 	});
-	
-	
-	
 </script>
+
+<style>
+body {
+	margin: 50px;
+	padding: 30px;
+}
+
+</style>
 </head>
 
 
-
-
 <body>
-	
-	getUser.jsp
-			
-<br>
-	¾Æ ÀÌ µğ  <div>${user.userId}</div>
-<br>
-	ºñ¹Ğ¹øÈ£  <div>${user.password}</div>
-<br>
-	ÀÌ     ¸§  <div>${user.name}</div>
-<br>
-	´Ğ ³× ÀÓ  <div>${user.nickname}</div>
-<br>
-	ÇĞ     ±³  <div>${user.schoolNo}</div>
-<br>
-	ÀüÈ­¹øÈ£  <div>${user.phone}</div>
-<br>
-	»ı      ÀÏ  <div>${user.birth}</div>
-<br>
-	¼º      º°  <div>${user.gender}</div>
-<br>
-	¸Ş      ÀÏ  <div>${user.mail}</div>
-<br>
-	»ç      Áø : <div>${user.profileName}</div>	
-<br>
-<br>
 
-	<button type="button" id="updateUser">Á¤º¸¼öÁ¤</button>
-	<br><br>
-	<button onclick="location.href='/index.jsp'">È®ÀÎ</button><br>
-	<br><br>
-	<a href="javascript:history.go(-1)">µÚ·Î</a>
+	<!-- ToolBar Start /////////////////////////////////////-->
+	<div class="navbar  navbar-default" id="top">
+		<a class="navbar-brand"><h2>íšŒì›ì •ë³´</h2></a>
+	</div>
+	<!-- ToolBar End /////////////////////////////////////-->
 
+
+		<table class="table table-hover text-center">
+
+			<tr>
+				<td> ì•„ ì´ ë”” </td>
+				<td> ${user.userId} </td>
+			</tr>
+			<tr>
+				<td> ë¹„ë°€ë²ˆí˜¸ </td>
+				<td> ${user.password} </td>
+			</tr>
+			<tr>
+				<td> ì´     ë¦„ </td>
+				<td> ${user.name} </td>
+			</tr>
+			<tr>
+				<td> ë‹‰ ë„¤ ì„ </td>
+				<td> ${user.nickname} </td>
+			</tr>
+			<tr>
+				<td> í•™     êµ </td>
+				<td> ${user.schoolNo} </td>
+			</tr>
+			<tr>
+				<td> ì „í™”ë²ˆí˜¸ </td>
+				<td> ${user.phone} </td>
+			</tr>
+			<tr>
+				<td> ìƒ      ì¼ </td>
+				<td> ${user.birth} </td>
+			</tr>
+			<tr>
+				<td> ì„±      ë³„  </td>
+				<td> <c:if test="${user.gender == '1' }">
+								ì—¬ì
+					</c:if>
+					<c:if test="${user.gender == '2'}">
+											ë‚¨ì
+					</c:if> 
+					</td>
+			</tr>
+			<tr>
+				<td> ë©”      ì¼ </td>
+				<td> ${user.mail} </td>
+			</tr>
+			<tr>
+				<td> ì‚¬      ì§„ </td>
+				<td> ${user.profileName} </td>
+			</tr>
+
+		</table>
+<br><br>
+
+
+
+
+
+<!-- 	<div class="container" style="display: inline-block;text-align: center;">> -->
+<%-- 		<br> <a class = "text-left">ì•„ ì´ ë””</a>	 <a class="text-center">${user.userId}</a>  --%>
+<%-- 		<br> ë¹„ë°€ë²ˆí˜¸	 <div>${user.password}</div> --%>
+<%-- 		<br> ì´ ë¦„	 <a>${user.name}</a>  --%>
+<%-- 		<br> ë‹‰ ë„¤ ì„ 	<a>${user.nickname}</a> --%>
+<%-- 		<br> í•™ êµ	 <a>${user.schoolNo}</a>  --%>
+<%-- 		<br> ì „í™”ë²ˆí˜¸	 <a>${user.phone}</a> --%>
+<%-- 		<br> ìƒ ì¼ 	<a>${user.birth}</a>  --%>
+<!-- 		<br> -->
+<%-- 		<c:if test="${user.gender == '1' }"> --%>
+<!-- 							ì„±      ë³„ <br> -->
+<!-- 							ì—¬ì -->
+<%-- 	</c:if> --%>
+<%-- 		<c:if test="${user.gender == '2'}"> --%>
+<!-- 							ì„±      ë³„  <br> -->
+<!-- 							ë‚¨ì -->
+<%-- 	</c:if> --%>
+<%-- 		<br> ë©” ì¼ <a>${user.mail}</a>  --%>
+<%-- 		<br> ì‚¬ ì§„ <a>${user.profileName}</a> --%>
+<!-- 		<br> <br> -->
+
+
+
+
+		<div class="text-center">
+			<button type="button" id="updateUser"
+				class="btn btn-outline-info btn-lg">ì •ë³´ìˆ˜ì •</button>
+				
+			<button onclick="location.href='/index.jsp'"
+				class="btn btn-outline-info btn-lg">í™•ì¸</button>
+			<br> <br>
+			<!-- 	<a href="javascript:history.go(-1)" class="btn btn-outline-info btn-lg">ë’¤ë¡œ</a> -->
+		</div>
 </body>
-
-
-
 
 </html>

@@ -16,7 +16,6 @@
 	    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 	    
 	  
-	    
 <title>Insert title here</title>
 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

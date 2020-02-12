@@ -99,7 +99,7 @@
 	 </update>
 		 
 		 
-	<!-- 전체회원목록 -->
+	<!-- 전체회원목록 test -->
 	<select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
 		SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
@@ -111,6 +111,8 @@
 				WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
+	 
+
 	 
 	 
 	 
@@ -300,6 +302,20 @@
 		SELECT COUNT(*)
 		FROM users
 		WHERE user_id = #{value}
+	 </select>
+	 
+	  <!-- nickname 중복체크 test -->
+	 <select 	id="checkDuplicationNickname"	parameterType="string"	resultMap="userSelectMap">
+		SELECT COUNT(*)
+		FROM users
+		WHERE nickname = #{value}
+	 </select>
+	 
+	  <!-- mail 중복체크 test -->
+	 <select 	id="checkDuplicationMail"	parameterType="string"	resultMap="userSelectMap">
+		SELECT COUNT(*)
+		FROM users
+		WHERE mail = #{value}
 	 </select>
 	 
 	 

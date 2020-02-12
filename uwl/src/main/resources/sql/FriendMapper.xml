@@ -183,4 +183,22 @@
  	
  	</select>
  	
+ 	<select id="checkFriend" parameterType="friend" resultType="int">
+ 		select count(*)
+ 		from (
+ 			select *
+ 			from friend
+ 			where first_user_id = #{firstUserId}
+ 			and second_user_id = #{secondUserId}
+ 			and friend_status = '2'
+ 		)
+ 	</select>
+ 	
+ 	<select id="checkRequest" parameterType="friend" resultMap="friendSelectMap">
+ 		select *
+ 		from friend
+ 		where first_user_id = #{firstUserId}
+		and second_user_id = #{secondUserId}
+ 	</select>
+ 	
 </mapper>

@@ -145,7 +145,7 @@ public class UserController {
 
 	// 회원정보 수정
 	@RequestMapping(value = "updateUser", method = RequestMethod.POST)
-	public String updateUser(@ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
+	public String updateUser(@ModelAttribute("user") User user, HttpSession session) throws Exception {
 		System.out.println("UserController : updateUser() POST 호출");
 
 		System.out.println("/user/updateUser : POST");
@@ -157,8 +157,8 @@ public class UserController {
 		// ===========================================
 		// 있으면 update , 없으면 insert 이거 방법뭐임? 이 메서드 돌릴때 다른 패키지에 있는 .java 파일 실행시키고싶음
 
-		OracleToMongo oracleToMongo = new OracleToMongo();
-		oracleToMongo.startOracleToMongo();
+//		OracleToMongo oracleToMongo = new OracleToMongo();
+//		oracleToMongo.startOracleToMongo();
 		// ======================================= 채 팅
 		// ===========================================
 
@@ -167,6 +167,7 @@ public class UserController {
 			session.setAttribute("user", user);
 		}
 		return "redirect:/user/getUser?userId=" + user.getUserId();
+//		return "redirect:/index.jsp";
 	}
 
 	// 프로필 보기
@@ -418,7 +419,7 @@ public class UserController {
 			System.out.println("session scope 저장");
 		}
 
-		return "redirect:/test.jsp";
+		return "redirect:/main.jsp";
 	}
 
 	// 로그아웃
@@ -474,6 +475,19 @@ public class UserController {
 		return "forward:/user/checkDuplicationUserId.jsp";
 	}
 
+	// 닉네임 중복체크
+		@RequestMapping(value = "checkDuplicationNickname", method = RequestMethod.GET)
+		public String checkDuplicationNickname(@RequestParam("nickname") String nickname) throws Exception {
+			System.out.println("UserController : checkDuplicationNickname() 호출");
+
+			System.out.println("/user/checkDuplicationNickname : GET");
+			// Business Logic
+			userService.checkDuplicationNickname(nickname);
+
+			return "forward:/user/addUserView.jsp";
+		}
+	
+	
 	// 닉네임 중복체크
 	@RequestMapping(value = "checkDuplicationNickname", method = RequestMethod.POST)
 	public String checkDuplicationNickname(@RequestParam("nickname") String nickname, Model model) throws Exception {
@@ -560,6 +574,10 @@ public class UserController {
 		return "forward:/user/getUserList.jsp";
 	}
 
+	
+
+	
+	
 	// 전체 문의사항 목록
 	@RequestMapping(value = "getUserQuestionsList")
 	public String listQuestions(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)

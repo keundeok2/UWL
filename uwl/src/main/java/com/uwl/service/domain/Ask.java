@@ -6,6 +6,7 @@ public class Ask {
 
 	private int questionPostNo;
 	private String userId;	//	ASK 주인 TargetUserId임. 등록한 사람의 userId가 아님
+	private User user;
 	private String questionTitle;
 	private String questionContent;
 	private Date questionDate;
@@ -32,6 +33,14 @@ public class Ask {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getQuestionTitle() {
@@ -100,12 +109,12 @@ public class Ask {
 
 	@Override
 	public String toString() {
-		return "Ask [questionPostNo=" + questionPostNo + ", userId=" + userId + ", questionTitle=" + questionTitle
-				+ ", questionContent=" + questionContent + ", questionDate=" + questionDate + ", questionStatus="
-				+ questionStatus + ", answerPostNo=" + answerPostNo + ", answerTitle=" + answerTitle
-				+ ", answerContent=" + answerContent + ", answerDate=" + answerDate + "]";
+		return "Ask [questionPostNo=" + questionPostNo + ", userId=" + userId + ", user=" + user + ", questionTitle="
+				+ questionTitle + ", questionContent=" + questionContent + ", questionDate=" + questionDate
+				+ ", questionStatus=" + questionStatus + ", answerPostNo=" + answerPostNo + ", answerTitle="
+				+ answerTitle + ", answerContent=" + answerContent + ", answerDate=" + answerDate + "]";
 	}
 
-
+	
 	
 }

@@ -1,5 +1,6 @@
 package com.uwl.service.challenge;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,9 @@ public interface ChallengeDAO {
 	
 	//도전과제를 추가하는 method
 	public void addChallenge(Challenge challenge) throws Exception;
+	
+	//주간도전과제 시작시간을 알리는 method
+	public void addWeeklyStart(Challenge challenge) throws Exception;
 	
 	//등록된 도전과제를 수정하는 method
 	public void updateChallenge(Challenge challenge) throws Exception;
@@ -27,6 +31,9 @@ public interface ChallengeDAO {
 	//user들이 보는 도전과제 list (주간 도전과제 수행 전)
 	public List<Challenge> getChallengeList() throws Exception;
 	
+	//주간도전과제 시작시간을 설정
+//	public Challenge weeklyStart(Challenge challenge) throws Exception;
+	
 	//User가 자신들이 깬 도전과제를 볼 수 있는 method
 	public Map<String, Object> getCompleteChallengeList(Search search, String userId) throws Exception;
 	
@@ -38,5 +45,9 @@ public interface ChallengeDAO {
 	public int getTotalCount(Search search) throws Exception ;
 	
 	public int getTotalCountOne(String userId) throws Exception;
+	
+	public int getChallPostCompleteCount(Challenge challenge) throws Exception;
+	
+	public int getChallCommentCompleteCount(Challenge challenge) throws Exception;
 
 } 

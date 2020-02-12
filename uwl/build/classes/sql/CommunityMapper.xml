@@ -9,6 +9,12 @@
 	<resultMap type="commentt" id="commentSelectMap">
 		<result property="commentNo" column="COMMENT_NO" jdbcType="NUMERIC"/>
 		<result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
+		
+ 		<result property="user.userId" column="USER_ID" jdbcType="VARCHAR"/>
+ 		<result property="user.name" column="NAME" jdbcType="VARCHAR"/>
+ 		<result property="user.nickname" column="NICKNAME" jdbcType="VARCHAR"/>
+ 		<result property="user.profileName" column="PROFILE_NAME" jdbcType="VARCHAR"/>
+		
 		<result property="postNo" column="POST_NO" jdbcType="NUMERIC"/>
 		<result property="commentContent" column="COMMENT_CONTENT" jdbcType="VARCHAR"/>
 		<result property="commentDate" column="COMMENT_DATE" jdbcType="DATE"/>
@@ -46,8 +52,11 @@
 	
 	<select id="getComment" parameterType="map" resultMap="commentSelectMap">
 	SELECT
-		comment_no, user_id, post_no, comment_content, comment_date, comment_status
-	FROM (SELECT comment_no, user_id, post_no, comment_content, comment_date, comment_status FROM commentt ORDER BY comment_no DESC)
+		*
+	FROM (SELECT c.comment_no, c.user_id, c.post_no, c.comment_content, c.comment_date, c.comment_status, u.name, u.nickname, u.profile_name 
+	FROM commentt c, users u
+	WHERE c.user_id = u.user_id
+	 ORDER BY c.comment_no DESC)
 	WHERE 
 		user_id = #{userId}
 		AND post_no = #{postNo}
@@ -57,8 +66,8 @@
 	
 	<select id="getCommentByCommentNo" parameterType="int" resultMap="commentSelectMap">
 		SELECT
-			comment_no, user_id, post_no, comment_content, comment_date, comment_status
-		FROM commentt
+			c.comment_no, c.user_id, c.post_no, c.comment_content, c.comment_date, c.comment_status, u.name, u.nickname, u.profile_name
+		FROM commentt c, users u
 		WHERE comment_no = #{value}
 	</select>
 	
@@ -78,13 +87,13 @@
 	
 	<!-- 게시물의 댓글(1), 본인의 댓글(2) -->
 	<select id="getCommentList" parameterType="map" resultMap="commentSelectMap">
- 		SELECT 
- 			comment_no, user_id, post_no, comment_content, comment_date, comment_status, like_count, (
- 							SELECT like_no 
- 							FROM 
- 								likey WHERE ref_comment_no = comment_no and user_id = #{userId} AND like_what = '2') AS like_status
+ 		SELECT *
  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
- 			FROM ( SELECT * FROM commentt
+ 			FROM ( SELECT comment_no, c.user_id, post_no, comment_content, comment_date, comment_status, name, nickname, profile_name, (
+ 							SELECT like_no 
+ 							FROM likey
+ 							WHERE ref_comment_no = comment_no and user_id = #{userId} AND like_what = '2') AS like_status
+ 					FROM commentt c, users u
  						WHERE comment_status = '1'
  						<if test="search.searchCondition == 1"> 
  							AND post_no = #{postNo}
@@ -92,6 +101,7 @@
  						<if test="search.searchCondition == '2'">
  							AND user_id = #{userId}
  						</if>
+ 							AND c.user_id = u.user_id
  						ORDER BY comment_no) inner_table
  			WHERE ROWNUM &lt;= #{search.endRowNum} )
  		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}

@@ -35,7 +35,7 @@
 					"Content-Type" : "application/json"
 				},
 				data : JSON.stringify({
-					firstUserId : "user01",
+					firstUserId : sessionId,
 					secondUserId : userId
 				}),
 				success : function() {

@@ -114,7 +114,6 @@ public class UserRestController {
 
 		System.out.println("/user/rest/updateUser : POST");
 		userService.updateUser(user);
-
 	}
 
 	// 로그인
@@ -134,11 +133,11 @@ public class UserRestController {
 	}
 
 	// 회원전체 목록
-	@RequestMapping(value = "rest/listUser", method = RequestMethod.GET)
+	@RequestMapping(value = "rest/getUserlist", method = RequestMethod.GET)
 	public Map listUser() throws Exception {
 		Search search = new Search();
 
-		System.out.println("/user/rest/listUser : GET ");
+		System.out.println("/user/rest/getUserList : GET ");
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
@@ -156,10 +155,10 @@ public class UserRestController {
 	}
 
 	// 회원전체 목록
-	@RequestMapping(value = "rest/listUser", method = RequestMethod.POST)
+	@RequestMapping(value = "rest/getUserList", method = RequestMethod.POST)
 	public Map listUser(@RequestBody Search search) throws Exception {
 
-		System.out.println("/user/rest/listUser : POST ");
+		System.out.println("/user/rest/getUserList : POST ");
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
@@ -230,6 +229,21 @@ public class UserRestController {
 		map.put("result", new Boolean(result));
 		return map;
 	}
+	
+	
+	// nickname 중복체크
+	@RequestMapping(value = "rest/checkDuplicationNickname", method = RequestMethod.GET)
+	public boolean checkDuplicationNickname(@RequestParam String nickname) throws Exception {
+		System.out.println("/user/rest/checkDuplicationNickname : GET");
+		boolean result = userService.checkDuplicationNickname(nickname);
+
+//		Map map = new HashMap();
+//		map.put("result", new Boolean(result));
+//		return map;
+		return result;
+	}
+	
+	
 
 	// nickname 중복체크
 	@RequestMapping(value = "rest/checkDuplicationNickname", method = RequestMethod.POST)
@@ -241,6 +255,21 @@ public class UserRestController {
 		map.put("result", new Boolean(result));
 		return map;
 	}
+	
+	
+	// mail 중복체크
+	@RequestMapping(value = "rest/checkDuplicationMail", method = RequestMethod.GET)
+	public boolean checkDuplicationMail(@RequestParam String mail) throws Exception {
+		System.out.println("/user/rest/checkDuplicationMail : GET");
+		boolean result = userService.checkDuplicationMail(mail);
+
+//		Map map = new HashMap();
+//		map.put("result", new Boolean(result));
+//		return map;
+		return result;
+	}
+	
+	
 
 	// 나의 문의사항 내역
 	@RequestMapping(value = "rest/getUserQuestions", method = RequestMethod.GET)

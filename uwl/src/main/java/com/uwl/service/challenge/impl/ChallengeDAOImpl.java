@@ -40,6 +40,12 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 	}
 	
 	@Override
+	public void addWeeklyStart(Challenge challenge) throws Exception {
+		sqlSession.insert("ChallengeMapper.addWeeklyStart", challenge);
+		
+	}
+
+	@Override
 	public void updateChallenge(Challenge challenge) throws Exception {
 		sqlSession.update("ChallengeMapper.updateChallenge", challenge);
 	}
@@ -63,6 +69,13 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 	public List<Challenge> getChallengeList() throws Exception {
 		return sqlSession.selectList("ChallengeMapper.getChallengeList");
 	}
+	
+//	@Override
+//	public Challenge weeklyStart(Challenge challenge) throws Exception {
+//		
+//		
+//		return sqlSession.selectOne("ChallengeMapper.weeklyStart",challenge);
+//	}
 
 	@Override
 	public Map<String, Object> getCompleteChallengeList(Search search, String userId) throws Exception {
@@ -92,6 +105,19 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 	@Override
 	public int getTotalCountOne(String userId) throws Exception {
 		return sqlSession.selectOne("ChallengeMapper.getTotalCountOne",userId);
+	}
+
+	@Override
+	public int getChallPostCompleteCount(Challenge challenge) throws Exception {
+		return sqlSession.selectOne("ChallengeMapper.getChallPostCompleteCount",challenge);
+	}
+
+	@Override
+	public int getChallCommentCompleteCount(Challenge challenge) throws Exception {
+		
+		System.out.println("ChallengeDAOImpl의  getChallCommentCompleteCount() 작동 중 getCommentt.getUserId : " + challenge.getCommentt().getUserId() );
+		
+		return sqlSession.selectOne("ChallengeMapper.getChallCommentCompleteCount",challenge);
 	}
 	
 	

@@ -43,7 +43,7 @@ public class SocialServiceTest {
 
 	@Test
 	public void getTimelineList() throws Exception {
-		String userId = "user30";
+		String userId = "user01";
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(5);

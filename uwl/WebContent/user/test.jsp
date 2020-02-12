@@ -1,200 +1,165 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
-<!--  ///////////////////////// JSTL  ////////////////////////// -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!--  ///////////////////////// Bootstrap 4.4, jQuery 3.1.1 CDN ////////////////////////// -->
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+
+<!--  ///////////////////////// CSS, JS 4.4 CDN ////////////////////////// -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+
 
 
 <!DOCTYPE html>
 
 <html lang="ko">
-	
+
 <head>
-	<meta charset="EUC-KR">
-	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+<meta charset="UTF-8">
+
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
-   
-   <!-- jQuery UI toolTip »ç¿ë CSS-->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip »ç¿ë JS-->
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
-	  body {
-            padding-top : 50px;
-        }
-    </style>
-    
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	<script type="text/javascript">
-	
-		
-		//============= userId ¿¡ È¸¿øÁ¤º¸º¸±â  Event  Ã³¸®(Click) =============	
-		 $(function() {
-		
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/user/getUser?userId="+$(this).text().trim();
-			});
-						
-			//==> userId LINK Event End User ¿¡°Ô º¸ÀÏ¼ö ÀÖµµ·Ï 
-			$( "td:nth-child(2)" ).css("color" , "red");
-			
-		});	
-		
-		
-		//============= userId ¿¡ È¸¿øÁ¤º¸º¸±â  Event  Ã³¸® (double Click)=============
-		 $(function() {
-			 
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(  "td:nth-child(5) > i" ).on("click" , function() {
 
-					var userId = $(this).next().val();
-				
-					$.ajax( 
-							{
-								url : "/user/json/getUser/"+userId ,
-								method : "GET" ,
-								dataType : "json" ,
-								headers : {
-									"Accept" : "application/json",
-									"Content-Type" : "application/json"
-								},
-								success : function(JSONData , status) {
+<script type="text/javascript">
+	//============= íšŒì›ì •ë³´ìˆ˜ì • Event  ì²˜ë¦¬ =============	
+	$(function() {
+		//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		$("button").on("click", function() {
+// 			self.location = "/user/getUser?userId=${user.userId}"
+			$("table").attr("method" , "POST").attr("action" , "/user/updateUser").submit();
+		});
+	});
+</script>
 
-									var displayValue = "<h6>"
-																+"¾ÆÀÌµğ : "+JSONData.userId+"<br/>"
-																+"ÀÌ  ¸§ : "+JSONData.name+"<br/>"
-																+"ÀÌ¸ŞÀÏ : "+JSONData.mail+"<br/>"
-																+"ROLE : "+JSONData.role+"<br/>"
-																+"</h6>";
-									$("h6").remove();
-									$( "#"+userId+"" ).html(displayValue);
-								}
-						});
-						////////////////////////////////////////////////////////////////////////////////////////////
-					
-			});
-			
-			//==> userId LINK Event End User ¿¡°Ô º¸ÀÏ¼ö ÀÖµµ·Ï 
-			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
-			$("h7").css("color" , "red");
-			
-			//==> ¾Æ·¡¿Í °°ÀÌ Á¤ÀÇÇÑ ÀÌÀ¯´Â ??
-			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
-		});	
-	
-	</script>
-	
+<style>
+body {
+	margin: 50px;
+	padding: 30px;
+}
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
 </head>
 
 <body>
+
+
+
+
+
+
+
 	
 	<!-- ToolBar Start /////////////////////////////////////-->
-   	<!-- ToolBar End /////////////////////////////////////-->
+	<div class="navbar  navbar-default" id="top">
+		<a class="navbar-brand"><h2>íšŒì›ì •ë³´ìˆ˜ì •</h2></a>
+	</div>
+	<!-- ToolBar End /////////////////////////////////////-->
 	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
-	<div class="container">
-	
-		<div class="page-header text-info">
-	       <h3>È¸¿ø¸ñ·ÏÁ¶È¸</h3>
-	    </div>
-	    
-	    <!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
-	    <div class="row">
-	    
-		    <div class="col-md-6 text-left">
-		    	<p class="text-primary">
-		    		ÀüÃ¼  ${resultPage.totalCount } °Ç¼ö, ÇöÀç ${resultPage.currentPage}  ÆäÀÌÁö
-		    	</p>
-		    </div>
-		    
-		    <div class="col-md-6 text-right">
-			    <form class="form-inline" name="detailForm">
-			    
-				  <div class="form-group">
-				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>È¸¿øID</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>È¸¿ø¸í</option>
-					</select>
-				  </div>
-				  
-				  <div class="form-group">
-				    <label class="sr-only" for="searchKeyword">°Ë»ö¾î</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="°Ë»ö¾î"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-				  </div>
-				  
-				  <button type="button" class="btn btn-default">°Ë»ö</button>
-				  
-				  <!-- PageNavigation ¼±ÅÃ ÆäÀÌÁö °ªÀ» º¸³»´Â ºÎºĞ -->
-				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-				  
-				</form>
-	    	</div>
-	    	
-		</div>
-		<!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
-		
-		
-      <!--  table Start /////////////////////////////////////-->
-      <table class="table table-hover table-striped" >
-      
-        <thead>
-          <tr>
-            <th align="center">No</th>
-            <th align="left" >È¸¿ø ID</th>
-            <th align="left">È¸¿ø¸í</th>
-            <th align="left">ÀÌ¸ŞÀÏ</th>
-          </tr>
-        </thead>
-       
-		<tbody>
-		
-		  <c:set var="i" value="0" />
-		  <c:forEach var="user" items="${list}">
-			<c:set var="i" value="${ i+1 }" />
+	<table class="table table-hover text-center">
+
 			<tr>
-			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : È¸¿øÁ¤º¸ È®ÀÎ">${user.userId}</td>
-			  <td align="left">${user.name}</td>
-			  <td align="left">${user.mail}</td>
-			  <td align="left">
-			  	<i class="glyphicon glyphicon-ok" id= "${user.userId}"></i>
-			  	<input type="hidden" value="${user.userId}">
-			  </td>
+				<td> ì´     ë¦„ </td>
+				<td>  <input type="hidden"	name="name"	 value="${user.name}" readonly>${user.name} </td>
 			</tr>
-          </c:forEach>
-        
-        </tbody>
-      
-      </table>
-	  <!--  table End /////////////////////////////////////-->
-	  
- 	</div>
- 	<!--  È­¸é±¸¼º div End /////////////////////////////////////-->
- 	
- 	
- 	<!-- PageNavigation Start... -->
-	<jsp:include page="../common/pageNavigator_new.jsp"/>
-	<!-- PageNavigation End... -->
+			<tr>
+				<td> ì•„ ì´ ë”” </td>
+				<td> <input type="hidden" 	name="userId" value="${user.userId}" readonly>${user.userId} </td>
+			</tr>
+			<tr>
+				<td> ë¹„ë°€ë²ˆí˜¸ </td>
+				<td> <input type="text" 	name="password"	 value="${user.password}"> </td>
+			</tr>
+			<tr>
+				<td> ë‹‰ ë„¤ ì„ </td>
+				<td> <input type="text" 	name="nickname"	 value="${user.nickname}"> </td>
+			</tr>
+			<tr>
+				<td> í•™     êµ </td>
+				<td> <input type="text" 	name="schoolNo"	 value="${user.schoolNo}"> </td>
+			</tr>
+			<tr>
+				<td> ì „í™”ë²ˆí˜¸ </td>
+				<td> <input type="text" 	name="phone"	 value="${user.phone}"> </td>
+			</tr>
+			<tr>
+				<td> ìƒ      ì¼ </td>
+				<td> ${user.birth} </td>
+			</tr>
+			<tr>
+				<td> ì„±      ë³„  </td>
+				<td> <c:if test="${user.gender == '1' }">
+								ì—¬ì
+					</c:if>
+					<c:if test="${user.gender == '2'}">
+											ë‚¨ì
+					</c:if> 
+				</td>
+			</tr>
+			<tr>
+				<td> ë©”      ì¼ </td>
+				<td> <input type="text" 	name="mail"	 value="${user.mail}"> </td>
+			</tr>
+			<tr>
+				<td> ì‚¬      ì§„ </td>
+				<td> <input type="file" 	name="profileName"	 value="${user.profileName}"> </td>
+			</tr>
+			<tr>
+				<td> ê³µê°œì„¤ì • </td>
+				<td> <input type="radio" name="publicStatus" value="1" checked> ê³µê°œ &nbsp;
+		    <input type="radio" name="publicStatus" value="2"> ë¹„ê³µê°œ
+								
+<%-- 				<input type="text" name="publicStatus" value="${user.publicStatus}"> --%>
+<%-- 						<c:if test="${user.publicStatus == '1' }">ê³µê°œ</c:if> --%>
+<%-- 						<c:if test="${user.publicStatus == '2'}">ë¹„ê³µê°œ</c:if>  --%>
+				</td>
+			</tr>
+		</table>
+<br><br>
 	
+	
+<!-- 	ì‚¬ì§„ ìˆ˜ì • ì•ˆë¨ -->
+	<div class="text-center">
+	<button type="button" id="updateUser" class="btn btn-outline-info btn-lg">ì™„ë£Œ</button>
+	</div>
 </body>
+
 
 </html>

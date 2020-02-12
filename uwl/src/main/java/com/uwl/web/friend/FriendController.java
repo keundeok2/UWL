@@ -55,6 +55,10 @@ public class FriendController {
 		search.setPageSize(pageSize);
 
 		Map<String, Object> map = friendService.getFriendList(userId, search);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+				pageSize);
+		map.put("resultPage", resultPage);
+		map.put("search", search);
 		model.addAttribute("map", map);
 
 		return "forward:/friend/listFriend.jsp";
