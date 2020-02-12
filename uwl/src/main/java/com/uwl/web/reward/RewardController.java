@@ -138,6 +138,7 @@ public class RewardController {
 		System.out.println("rewardController map.get(\"list\") : " + map.get("list"));
 		System.out.println("rewardController Reward : " + reward);
 		
+		System.out.println("rewardController purchaseMap.get(\"list\") : " + purchaseMap.get("list"));
 		
 		//포인트사용내역 model addAttribute
 		model.addAttribute("purchaseList",purchaseMap.get("list"));
