@@ -1,176 +1,216 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-		<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
-	    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
-	    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-	    
-	    <script type="text/javascript">
-	    	$(document).ready(function(){
-	    		var refPostNo = ${post.postNo}
-	    		$.ajax({
-	    			url : "/community/rest/getLike",
-	    			method : "POST",
-	    			dataType : 'json',
-	    			data : JSON.stringify({
-	    				refPostNo : refPostNo
-	    			}),
-	    			headers : {
-	    				"Accept" : "application/json",
-	    				"content-Type" : "application/json"
-	    			},
-	    			success : function(data){
-	    				if(data != true){	//좋아요를 안누른 게시글일때
-	    					var view = "<button type='button' class='btn btn-primary' id='like'>좋아요</button>";
-	    					$('.buttonAppend').append(view);
-	    				}else{	//좋아요를 누른 게시글일때
-	    					var view = "<button type='button' class='btn btn-danger' id='likeCancel'>좋아요 취소</button>";
-	    					$('.buttonAppend').append(view);
-	    				}
-	    			},
-	    			error : function(){
-	    				alert('실패 ㅋㅋ 1');
-	    			}
-	    		});
-	    	});
-	    	
-	    	$(document).on("click", "#like", function() {
-	    		var refPostNo = ${post.postNo}
-	    		$.ajax({
-	    			url : "/community/rest/addPostLike",
-	    			method : "POST",
-	    			dataType : 'json',
-	    			data : JSON.stringify({
-	    				refPostNo : refPostNo
-	    			}),
-	    			headers : {
-	    				"Accept" : "application/json",
-	    				"content-Type" : "application/json"
-	    			},
-	    			success : function(data){
-	    				if(data != true){	//좋아요를 안누른 게시글일때
-	    					var view = "<button type='button' class='btn btn-primary' id='like'>좋아요</button>";
-	    				}else{	//좋아요를 누른 게시글일때
-	    					var view = "<button type='button' class='btn btn-danger' id='likeCancel'>좋아요 취소</button>";
-	    					$('#like').remove();
-	    					$('.buttonAppend').append(view);
-	    				}
-	    			},
-	    			error : function(){
-	    				alert('실패 ㅋㅋ 2');
-	    			}
-	    		});
-			});
-			
-	    	
-	    	$(document).on("click", "#likeCancel", function() {
-	    		var refPostNo = ${post.postNo}
-	    		$.ajax({
-	    			url : "/community/rest/deleteLike",
-	    			method : "POST",
-	    			dataType : 'json',
-	    			data : JSON.stringify({
-	    				refPostNo : refPostNo
-	    			}),
-	    			headers : {
-	    				"Accept" : "application/json",
-	    				"content-Type" : "application/json"
-	    			},
-	    			success : function(data){
-	    				if(data != true){	//좋아요를 안누른 게시글일때
-	    					var view = "<button type='button' class='btn btn-primary' id='like'>좋아요</button>";
-	    					$('#likeCancel').remove();
-	    					$('.buttonAppend').append(view);
-	    				}else{	//좋아요를 누른 게시글일때
-	    					var view = "<button type='button' class='btn btn-danger' id='likeCancel'>좋아요 취소</button>";
-	    					$('#like').remove();
-	    					$('.buttonAppend').append(view);
-	    				}
-	    			},
-	    			error : function(){
-	    				alert('실패 ㅋㅋ 3');
-	    			}
-	    		});
-			});
-	    	
-	    </script>
-	    
-		<title>Insert title here</title>
-</head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script src="https://kit.fontawesome.com/4b823cf630.js"
+	crossorigin="anonymous"></script>
+<title>Insert title here</title>
+<style type="text/css">
+	body {
+		overflow-x: hidden; 
+	}
+	.table {
+		overflow-x: hidden; 
+	}
 
-<body>
-	<form>
-		<h1>카테고리 이름</h1>
-			<c:if test="${post.gatherCategoryNo eq '201' }">
-				진학상담
-			</c:if>
-			<c:if test="${post.gatherCategoryNo eq '202' }">
-				사랑과이별
-			</c:if>
-			<c:if test="${post.gatherCategoryNo eq '203' }">
-				남자끼리
-			</c:if>
-			<c:if test="${post.gatherCategoryNo eq '204' }">
-				여자끼리
-			</c:if>
-			<c:if test="${post.gatherCategoryNo eq '205' }">
-				데이트자랑
-			</c:if>
-			<c:if test="${post.gatherCategoryNo eq '206' }">
-				대나무 숲
-			</c:if>
-			
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('getlike 돌아감')
+	var refPostNo = ${post.postNo}
+	$.ajax({
+		url : "/community/rest/getLike",
+		method : "POST",
+		dataType : 'json',
+		data : JSON.stringify({
+			refPostNo : refPostNo
+		}),
+		headers : {
+			"Accept" : "application/json",
+			"content-Type" : "application/json"
+		},
+		success : function(data){
+			if(data == true){	//좋아요를 누른 게시글일때
+				var view = "<h1><a href='#'><i class='fas fa-heart' style='color:red' id='likeCancel'></i></a></h1>";
+				$('#forHeartAppend').after(view);
+			}else{	//좋아요를 안누른 게시글일때
+				var view = "<h1><a href='#'><i class='far fa-heart' style='color:black' id='like'></i></a></h1>";
+				$('#forHeartAppend').after(view);
+			}
+		},
+		error : function(){
+			alert('실패 ㅋㅋ 1');
+		}
+	});
+});
+
+$(document).on("click", "#like", function() {
+	var refPostNo = ${post.postNo}
+	$.ajax({
+		url : "/community/rest/addPostLike",
+		method : "POST",
+		dataType : 'json',
+		data : JSON.stringify({
+			refPostNo : refPostNo
+		}),
+		headers : {
+			"Accept" : "application/json",
+			"content-Type" : "application/json"
+		},
+		success : function(data){
+			if(data != true){	//좋아요를 안누른 게시글일때
+				var view = "<h1><a href='#'><i class='far fa-heart' style='color:black' id='like'></i></a></h1>";
+			}else{	//좋아요를 누른 게시글일때
+				var view = "<h1><a href='#'><i class='fas fa-heart' style='color:red' id='likeCancel'></i></a></h1>";
+				$('#like').remove();
+				$('#forHeartAppend').after(view);
+			}
+		},
+		error : function(){
+			alert('실패 ㅋㅋ 2');
+		}
+	});
+});
+
+
+$(document).on("click", "#likeCancel", function() {
+	var refPostNo = ${post.postNo}
+	$.ajax({
+		url : "/community/rest/deleteLike",
+		method : "POST",
+		dataType : 'json',
+		data : JSON.stringify({
+			refPostNo : refPostNo
+		}),
+		headers : {
+			"Accept" : "application/json",
+			"content-Type" : "application/json"
+		},
+		success : function(data){
+			if(data != true){	//좋아요를 안누른 게시글일때
+				var view = "<h1><a href='#'><i class='far fa-heart' style='color:black' id='like'></i></a></h1>";
+				$('#likeCancel').remove();
+				$('#forHeartAppend').after(view);
+			}else{	//좋아요를 누른 게시글일때
+				var view = "<h1><a href='#'><i class='fas fa-heart' style='color:red' id='likeCancel'></i></a></h1>";
+				$('#like').remove();
+				$('#forHeartAppend').after(view);
+			}
+		},
+		error : function(){
+			alert('실패 ㅋㅋ 3');
+		}
+	});
+});
+
+$(document).ready(function(){
+	$('#deletePost').on("click", function(){
+		var gatherCategoryNo = ${post.gatherCategoryNo};
+		var postNo = ${post.postNo};
+		self.location = "/post/deleteBoard?gatherCategoryNo="+gatherCategoryNo+"&postNo="+postNo;
+	});
 	
-		<br>
-		<div>
-			제목
-			${post.postTitle}
-		</div>
-        	<div>작성날짜 : ${post.postDate }</div>
-		<br>
-		<br>
-		<div>
-			${post.userId}
-		</div>
-		<br> 좋아요수${post.likeCount}&emsp;조회수${post.hitCount }&emsp;댓글수${post.commentCount} <br> <br>
-		 
-		<a href="/post/updateBoard?postNo=${post.postNo }">수정</a> 
-		
-		<input type="hidden" name="gatherCategoryNo" value="${post.gatherCategoryNo }">
-		<a href="/post/deleteBoard?gatherCategoryNo=${post.gatherCategoryNo }&postNo=${post.postNo }">삭제</a>
-		<!--if 문으로 본인 게시판일 때만 출력되도록 설정-->
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-  			신고하기
-		</button>
-		<!--신고 버튼 누르면 모달창 출력해야됨-->
-		<br>
-		<br>
-		<hr>
-		<div>
-			내용
-			${post.postContent }
-		</div>
-		
-		<div class="buttonAppend"></div>
-		<br> <br>
-		<hr>
-		<jsp:include page="../community/listComment.jsp"/>
-		
-		<br><br>
-		<h1><a href="javascript:history.go(-1)">뒤로</a></h1>
-		</form>
-		
-		<form method="POST" action="/report/addReport">
+	$('#updatePost').on("click", function(){
+		var postNo = ${post.postNo};
+		self.location = "/post/updateBoard?postNo="+postNo;
+	});
+});
+
+</script>
+
+</head>
+<body>
+    <form method="POST" action="/report/updateReport">
+        <div class="row">
+    <div class="col-xs-2 col-md-2"></div>
+    <div class="col-xs-8 col-md-8">
+    <br>
+    	<h5>
+			<c:if test="${post.gatherCategoryNo eq '201' }">
+				<i class="fas fa-graduation-cap"></i> 진학상담
+			</c:if>
+		    <c:if test="${post.gatherCategoryNo eq '202' }">
+		    	<i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i>
+		    </c:if>
+		    <c:if test="${post.gatherCategoryNo eq '203' }">
+		    	<i class="fas fa-male"></i> 남자끼리
+		    </c:if>
+		    <c:if test="${post.gatherCategoryNo eq '204' }">
+		    	<i class="fas fa-female"></i> 여자끼리
+		    </c:if>
+		    <c:if test="${post.gatherCategoryNo eq '205' }">
+		    	<i class="far fa-kiss-wink-heart"></i>데이트 자랑
+		    </c:if>
+		    <c:if test="${post.gatherCategoryNo eq '206' }">
+		    	<i class="fas fa-bullhorn"></i> 대나무 숲
+		    </c:if>
+		</h5>
+		<h3>${post.postTitle }</h3>
+	    <div class="table table-responsive">
+	        <table class="table">
+	        <tr>
+	            <th class="success">
+	            	${post.user.nickname }
+	            	｜
+	            	<span><i class="fas fa-heart" style="color:red"></i> ${post.likeCount }</span>
+	            	&nbsp;&nbsp;
+	            	<span><i class="far fa-eye"></i> ${post.hitCount }</span>
+	            	&nbsp;&nbsp;
+	            	<span><i class="fas fa-comment-alt"></i> ${post.commentCount }</span>
+	            </th>
+	            <td colspan="3">
+	            	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+	            	<c:if test="${user.userId eq post.userId}">
+		            	<span><button type="button" class="btn btn-primary" id="updatePost"><i class="fas fa-pencil-alt"></i> 수정</button></span>
+		            	<span><button type="button" class="btn btn-danger" id="deletePost"><i class="fas fa-trash"></i> 삭제</button></span>
+		            </c:if>
+		            <c:if test="${user.userId ne post.userId }">
+		            	<span>
+		            		<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">신고</button>
+		            	</span>
+		            </c:if>
+	            </td>
+	        </tr>
+	           
+	         
+	        <tr>
+	            <td colspan="3">${post.postContent }</td>
+	        </tr>
+	         
+	        <tr>
+	        	<td colspan="3">
+		        	<div style="text-align:center;width:100%">
+		        		<div id="forHeartAppend"></div>
+        	        </div>
+	        	</td> 
+	        </tr>
+	        </table>
+	    </div>
+    </div>
+</div>
+ </form>
+ 
+ <jsp:include page="../community/listComment.jsp"></jsp:include>
+ 
+ <form method="POST" action="/report/addReport">
 		<input type="hidden" name="refPostNo" value="${post.postNo }">
 		<input type="hidden" name="userId02" value="${post.userId }">
 		
@@ -183,7 +223,7 @@
 	                        <h4 class="modal-title" id="myModalLabel"></h4>
 	                    </div>
                     <div class="modal-body">
-                        	<h1>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;게시글 신고하기</h1>
+                        	<h1>&emsp;&emsp;&emsp;게시글 신고</h1>
                     </div>
                     <div class="modal-footer">
                         <select class="form-control" name="reportCategoryNo">
@@ -193,11 +233,10 @@
 							  <option value=4>기타</option>
 						</select>
 						<br>
-						<textarea cols="75" rows="10" placeholder="내용입력" name="reportContent"></textarea>
-						<br>
-						<span>
-                        <button type="submit" class="btn btn-primary">신고하기</button>
-                        </span>
+						<textarea cols="75" rows="10" placeholder="허위 신고는 처벌의 대상이 됩니다." name="reportContent"></textarea>
+						<div style="text-align:center;width:100%">
+                        	<button type="submit" class="btn btn-danger"><i class="far fa-frown"></i> 신고</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -206,6 +245,5 @@
  	
  	
  	</form>
- 	
 </body>
 </html>
