@@ -59,10 +59,10 @@
 					var result = data.result;
 					if (data.result) {
 						alert("수정이 완료되었습니다.");
-						$("input.updatePW").val("");
+						$("input[type='password']").val("");
 					} else {
 						alert("이전 비밀번호가 일치하지 않습니다.");
-						$("input.updatePW").val("");
+						$("input[type='password']").val("");
 					}
 				}
 			});
@@ -301,19 +301,19 @@
                               <div class="form-group row">
                                 <label for="prePassword" class="col-4 col-form-label">이전 비밀번호</label> 
                                 <div class="col-8">
-                                  <input id="prePassword" class='updatePW' name="prePassword" placeholder="이전 비밀번호" class="form-control here" required="required" type="password">
+                                  <input id="prePassword"  name="prePassword" placeholder="이전 비밀번호" class="form-control here" required="required" type="password">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="password" class="col-4 col-form-label">새 비밀번호</label> 
                                 <div class="col-8">
-                                  <input id="password" class='updatePW' name="password" placeholder="새 비밀번호" class="form-control here" required="required" type="password">
+                                  <input id="password" name="password" placeholder="새 비밀번호" class="form-control here" required="required" type="password">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="password2" class="col-4 col-form-label">새 비밀번호 확인</label> 
                                 <div class="col-8">
-                                  <input id="password2" class='updatePW' name="password2" placeholder="새 비밀번호 확인" class="form-control here" required="required" type="password">
+                                  <input id="password2"  name="password2" placeholder="새 비밀번호 확인" class="form-control here" required="required" type="password">
                                 </div>
                               </div>
                               <div class="form-group row">
