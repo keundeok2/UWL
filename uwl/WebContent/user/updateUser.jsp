@@ -9,14 +9,22 @@
 <head>
 <meta charset="UTF-8">
 	<!--  ///////////////////////// Bootstrap 4.4, jQuery 3.1.1 CDN ////////////////////////// -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
-<!--  ///////////////////////// CSS, JS 4.4 CDN ////////////////////////// -->
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script src="https://kit.fontawesome.com/4b823cf630.js"	
+	crossorigin="anonymous"></script>
 
 <style>
 body {
@@ -49,6 +57,31 @@ body {
 
 <script type="text/javascript">
 
+$(document).ready(function(){
+
+	 $("#fileInput").on('change', function(){  // 값이 변경되면
+
+	 if(window.FileReader){  // modern browser
+
+	 var filename = $(this)[0].files[0].name;
+
+	 } else {  // old IE
+
+	 var filename = $(this).val().split('/').pop().split('\\').pop();  // 파일명만 추출
+
+	 }
+
+	 
+
+	 // 추출한 파일명 삽입
+
+	 $("#userfile").val(filename);
+	 });
+	
+});
+
+
+
 	
 	//============= "수정"  Event 연결 =============
 	 $(function() {
@@ -72,135 +105,17 @@ body {
 		}
 ///////////////////////////////////////////////////////////////////////
 	
-	
-	
-	// 비번 확인 모달창 
-		
-		$(function(){
-			$('button[type=hidden]').click();
-			console.log("1");
-		});
-	// 비번 확인 모달창 
-	
-	
-	// 비번 확인 모달창 test
-	
-		$( function() {
-			console.log("2");
-			$("#userId").focus();
-			console.log("3");
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("#submit").on("click" , function() {
-// 				var userId=$("input:text").val();
-// 				var password=$("input:text").val();
-				
-// 				if(userId == null || userId.length <1) {
-// 					alert('ID 를 입력하지 않으셨습니다.');
-// 					$("#userId").focus();
-// 					return;
-// 				}
-// // 				else{
-// // 					alert('패스워드를 입력하지 않으셨습니다.');
-// // 				}
-// 				console.log("4");
-				
-// 				if(password == null || password.length <1) {
-// 					alert('패스워드를 입력하지 않으셨습니다.');
-// 					$("#password").focus();
-// 					return;
-// 				}
-				console.log("5");
-// 				$("#user").attr("method","GET").attr("action","/user/updateUser?userId=${user.userId}").submit();
-				$("#user").attr("method","GET").attr("action","/user/updateUser").attr("target","_parent").submit();
-			});
-		});	
-	
-	
-	
-	
-	
-// 	$(function() {
-// 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-// 		$("#submit").on("click", function() {
-// 			console.log("2");
-// 			self.location = "/user/updateUser?userId=${user.userId}";
-// 			console.log("3");
-// 		});
-// 	});
-	
-	
-// 	function submit(){
-// 		console.log("2");
-// 		 $.ajax({
-// 			type: "POST",
-// 			url: "/user/updateUser",
-// 			cache:false,
-// 			data: $('.modal-body').serialize(),
-// 			success: function(response){
-// 				$(".modal fade").html(response)
-// 				$(".modal fade").modal('hide');
-// 				console.log("3");
-// 			},
-// 			error: function(){
-// 				alert("Error");
-// 			}
-// 		});
-// 	}
-	
-	// 비번 확인 모달창 test
-	
-	
-	
-	
 </script>
 </head>
 
 <body>
-
-<!-- 비번 확인 모달창 test -->
-
-<!-- Button trigger modal -->
-<button type="hidden" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" style="display: none">
-  Launch static backdrop modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel"> 보안 </h5>
-<!--         <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
-<!--           <span aria-hidden="true">&times;</span> -->
-<!--         </button> -->
-      </div>
-      <div class="modal-body">
-       <div class="form-group">
-			<label for="userId">ID</label>
-				<input type="text" name="userId" id="userId" class="form-control">
-		</div>					
-		<div class="form-group">
-			<label for="password">PW</label>
-				<input type="text" name="password" id="password" class="form-control">
-		</div>					
-	</div>
-      <div class="modal-footer">
-<!--         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-        <button type="button" class="btn btn-primary" id="submit">확인</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- 비번 확인 모달창 test -->
-
-
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<div class="navbar  navbar-default" id="top">
 		<a class="navbar-brand"><h2>회원정보수정</h2></a>
 	</div>
 	<!-- ToolBar End /////////////////////////////////////-->
 	
-	<form id="user">
+	<form id="user" enctype="multipart/form-data">
 	<table class="table table-hover text-center" id="table">
 			<tr>
 				<td> 아 이 디 </td>
@@ -246,7 +161,29 @@ body {
 			</tr>
 			<tr>
 				<td> 사      진 </td>
-				<td> <input type="file" 	name="profileName"	 value="${user.profileName}"> </td>
+				
+<td> <div class="form-group">
+
+<input name="file" id="fileInput"  type="file" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);">
+
+<div class="bootstrap-filestyle input-group">
+
+<input type="text" id="userfile" class="form-control" name="userfile" readonly="readonly" placeholder="${user.profileName}">
+
+<span class="group-span-filestyle input-group-btn" tabindex="0">
+
+<label for="fileInput" class="btn btn-default ">
+
+<span class="glyphicon fa fa-upload"></span>
+
+</label>
+
+</span>
+
+</div>
+
+</div>
+ </td>
 			</tr>
 			<tr>
 				<td> 공개설정 </td>
