@@ -1,5 +1,8 @@
 package com.uwl.web.user;
 
+import static org.hamcrest.CoreMatchers.is;
+
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -13,6 +16,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,14 +25,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.uwl.common.OracleToMongo;
 import com.uwl.common.Page;
 import com.uwl.common.Search;
+import com.uwl.service.couple.CoupleService;
+import com.uwl.service.domain.Friend;
 import com.uwl.service.domain.Post;
+import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.User;
+import com.uwl.service.friend.FriendService;
+import com.uwl.service.matching.MatchingService;
+import com.uwl.service.purchase.PurchaseService;
+import com.uwl.service.reward.RewardService;
 import com.uwl.service.schoolRank.SchoolRankService;
+import com.uwl.service.social.SocialService;
 import com.uwl.service.user.UserService;
 
 @Controller
-@RequestMapping("/user/*")
-public class UserController {
+@RequestMapping("/userrr/*")
+public class UserController3 {
 
 	/// Field
 	@Autowired
@@ -38,12 +50,31 @@ public class UserController {
 	@Autowired
 	@Qualifier("schoolRankServiceImpl")
 	private SchoolRankService schoolRankService;
-
+	
+	@Autowired
+	private SocialService socialService;
+	
+	@Autowired
+	private CoupleService coupleService;
+	
+	@Autowired
+	private MatchingService matchingService;
+	
+	
+	@Autowired
+	private FriendService friendService;
+	
+	@Autowired
+	private RewardService rewardService;
+	
+	@Autowired
+	private PurchaseService purchaseService;
+	
 //	메일 인증
 //	@Resource(name="mailSender")
 //	private JavaMailSender mailSender;	
 
-	public UserController() {
+	public UserController3() {
 		System.out.println(this.getClass());
 		System.out.println("UserController() 객체 생성");
 	}
@@ -171,35 +202,87 @@ public class UserController {
 	}
 
 	// 프로필 보기
-	@RequestMapping(value = "getProfile", method = RequestMethod.GET)
-	public String getProfile(@RequestParam("userId") String userId, Model model) throws Exception {
+	@RequestMapping(value = "getProfile/{targetUserId}", method = RequestMethod.GET)
+	public String getProfile(@PathVariable String targetUserId, HttpSession session ,Model model) throws Exception {
 		System.out.println("UserController : getProfile() 호출");
-
-		System.out.println("/user/getProfile : GET");
-		// Business Logic
-		User user = userService.getProfile(userId);
-		// Model 과 View 연결
-		model.addAttribute("user", user);
-
-		return "forward:/user/getProfile.jsp";
+		User sessionUser = (User)session.getAttribute("user");
+		
+		System.out.println("sessionUserId : " + sessionUser.getUserId() + "\t\t targetUserId : " + targetUserId);
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(pageSize);
+		
+		//////////////////////// 활동점수, 포인트 추가바람/////////////////////////////////////
+		
+		//targetUserId : 프로필 주인
+		User user = userService.getUser(targetUserId);
+		model.addAttribute("targetUser", user);
+		// getItemList에 search 아무렇게 넣어도 됨
+		Map<String, Object> mapOfSpear = matchingService.getItemList(search, targetUserId, "1");
+		Map<String, Object> mapOfShield = matchingService.getItemList(search, targetUserId, "2");
+		
+		// 창 개수, 방패 개수
+		int totalSpear = (Integer)mapOfSpear.get("totalItem");
+		int totalShield = (Integer)mapOfShield.get("totalItem");
+		model.addAttribute("totalSpear", totalSpear);
+		model.addAttribute("totalShield", totalShield);
+		
+		//	session의 유저와 프로필의 유저가 친구인지 확인
+		// Friend에 fristUserId, secondUserId만 넣어주면 됨
+		//	checkFriend() => return 1: 친구 0: 친구아님
+		Friend friend = new Friend();
+		friend.setFirstUserId(sessionUser.getUserId());
+		friend.setSecondUserId(targetUserId);
+		int isFriend =friendService.checkFriend(friend);
+		model.addAttribute("isFriend", isFriend);
+		
+		// 친구신청관계 확인
+		//	1 : 친구신청, 2 : 친구, null : 신청안함
+		Friend checkFriend1 = friendService.checkRequest(friend);
+		model.addAttribute("checkFriend1", checkFriend1); // return 1 => 신청취소 버튼 만들기 2 => 친구끊기 버튼 만들기
+		//	반대확인
+		friend.setFirstUserId(targetUserId);
+		friend.setSecondUserId(sessionUser.getUserId());
+		Friend checkFriend2 = friendService.checkRequest(friend);
+		model.addAttribute("checkFriend2",checkFriend2); // return 1 => 친구신청버튼(로직은 수락) 만들기
+		
+		return "forward:/user/profile.jsp";
 	}
 
+	// 프로필 수정
+	@RequestMapping(value = "updateProfileView", method = RequestMethod.POST)
+	public String updateProfileView(@RequestParam String userId ,Model model) throws Exception {
+		System.out.println("UserController : updateProfileView() 호출");
+		
+		User user = userService.getUser(userId);
+		model.addAttribute("user", user);
+		
+		return "forward:/user/updateProfile2.jsp";
+	}
 	// 프로필 수정
 	@RequestMapping(value = "updateProfile", method = RequestMethod.POST)
 	public String updateProfile(@ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
 		System.out.println("UserController : updateProfile() 호출");
-
+		
 		System.out.println("/user/updateProfile : POST");
 		// Business Logic
 		userService.updateProfile(user);
-
+		
 		String sessionId = ((User) session.getAttribute("user")).getUserId();
 		if (sessionId.equals(user.getUserId())) {
 			session.setAttribute("user", user);
 		}
-
-		return "redirect:/user/getProfile?userId=" + user.getUserId();
+		
+		return "redirect:/userrr/getProfile/"+user.getUserId();
 	}
+	
+	//	비밀번호 변경
+	public String updatePassword(@RequestParam String password, Model model) throws Exception{
+			
+		return null;
+	}
+	
+	
 
 	// 문의사항 등록
 	@RequestMapping(value = "addQuestions", method = RequestMethod.GET)
@@ -427,7 +510,7 @@ public class UserController {
 	public String logout(HttpSession session) throws Exception {
 		System.out.println("UserController : logout() 호출");
 
-		System.out.println("/user/logout : GET");
+		System.out.println("/user/logout : POST");
 
 		session.invalidate();
 
@@ -547,8 +630,7 @@ public class UserController {
 //	}
 
 	// 전체 회원목록
-//	@RequestMapping(value = "getUserList", method = RequestMethod.GET)
-	@RequestMapping(value = "getUserList")
+	@RequestMapping(value = "getUserList", method = RequestMethod.GET)
 	public String listUser(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)
 			throws Exception {
 		System.out.println("UserController : getUserList() 호출");
@@ -623,7 +705,7 @@ public class UserController {
 
 	// 회원탈퇴
 	@RequestMapping(value = "deleteUser", method = RequestMethod.POST)
-	public String deleteUser(@ModelAttribute("user") User user, HttpSession session) throws Exception {
+	public String deleteUser(@ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
 		System.out.println("UserController : deleteUser() 호출");
 
 		System.out.println("/user/deleteUser : POST");
@@ -635,8 +717,7 @@ public class UserController {
 			session.setAttribute("user", user);
 		}
 
-		return "forward:/index.jsp";
-//		return "redirect:/user/getUser?userId=" + user.getUserId();
+		return "redirect:/user/getUser?userId=" + user.getUserId();
 	}
 
 }

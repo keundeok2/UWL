@@ -90,14 +90,7 @@ var page = 1;
 					},
 					success: function(data) {
 						for (var i = 0; i < data.list.length; i++) {
-							var html = "<div class='ask'>"
-							                +"<p>"+data.list[i].questionContent+"</p>"
-							                +"<p><span>익명</span> ｜ <span>"+data.list[i].questionDate+"</span></p>"
-							                +"<p>"+data.list[i].answerContent+"</p>"
-							                +"<p><span>"+data.list[i].userId+"</span> ｜ <span>"+data.list[i].answerDate+"</span></p>"
-							            +"</div>"
-							            
-							$("div.askList").append(html);
+							console.log("hello");
 						}
 						$(window).data('ajaxready', true);
 					}
@@ -106,7 +99,6 @@ var page = 1;
 			}
 		})
 	})
-
 
 </script>
 
@@ -220,9 +212,6 @@ var page = 1;
             border-radius: 40px;
             padding: 20px 20px 10px;
         }
-
-        
-
         div.ask p:nth-child(2),
         div.ask p:nth-child(4) {
             
@@ -246,6 +235,7 @@ var page = 1;
             text-align: center;
             margin-top: 10px;
         }
+        
     </style>
 <title>어울림</title>
 </head>
@@ -255,7 +245,7 @@ var page = 1;
         <form>
             <p>ASK - 질문&amp;답변</p>
             <p>답변완료 : ${map.totalCount}개</p>
-            <p>${targetUserId}님에게 질문합니다.</p>
+            <p>${targetUser.name}님에게 질문합니다.</p>
             <p>
                 <textarea name="questionContent" cols="30" rows="10" placeholder="성희롱 및 욕설은 처벌대상입니다."></textarea>
                 <input type="hidden" name="userId" value="${targetUserId}">

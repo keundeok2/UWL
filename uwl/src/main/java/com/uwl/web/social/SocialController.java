@@ -23,6 +23,7 @@ import com.uwl.service.domain.Ask;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.User;
 import com.uwl.service.social.SocialService;
+import com.uwl.service.user.UserService;
 
 @Controller
 @RequestMapping("/social/*")
@@ -37,6 +38,9 @@ public class SocialController {
 	
 	@Autowired
 	private CommunityService communityService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -93,11 +97,14 @@ public class SocialController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		
 		Map<String, Object> map = socialService.getAskList(targetUserId, search, "2");
 		
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
+		
+		User targetUser = userService.getUser(targetUserId);
+		
+		model.addAttribute("targetUser", targetUser);
 		map.put("resultPage", resultPage);
 		model.addAttribute("map", map);
 		return "forward:/social/listAsk.jsp";

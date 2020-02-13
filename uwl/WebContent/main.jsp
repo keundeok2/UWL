@@ -19,12 +19,12 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-   
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+ 	<!-- Bootstrap Dropdown Hover CSS -->
+<!--    <link href="/css/animate.min.css" rel="stylesheet"> -->
+<!--    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet"> -->
+   	
+<!--     Bootstrap Dropdown Hover JS -->
+<!--    <script src="/javascript/bootstrap-dropdownhover.min.js"></script> -->
 	
 	<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
 	<style>
@@ -113,6 +113,19 @@
 		});
 	});
 	
+	$( function() {
+		$("a[href='#' ]:contains('전체회원목록')").on("click" , function() {
+			self.location = "/user/getUserList"
+		});
+	});
+	
+	$( function() {
+		$("a[href='#' ]:contains('회원탈퇴')").on("click" , function() {
+// 			self.location = "/user/deleteUser"
+			$("form").attr("method" , "POST").attr("action" , "/user/deleteUser").submit();
+		});
+	});
+	
 	
 // 	$(function() {
 // 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -131,6 +144,9 @@
 <a class="btn btn-info btn-lg" href="#" role="button">회원정보</a>
 <a class="btn btn-info btn-lg" href="#" role="button">문의사항</a>
 <a class="btn btn-info btn-lg" href="#" role="button">회원가입</a>
+<a class="btn btn-info btn-lg" href="#" role="button">PW찾기</a>
+<a class="btn btn-info btn-lg" href="#" role="button">전체회원목록</a>
+<form><a class="btn btn-info btn-lg" href="#" role="button">회원탈퇴</a></form>
 <!-- <button type="button" id="findPw">PW찾기</button> -->
 
 </body>

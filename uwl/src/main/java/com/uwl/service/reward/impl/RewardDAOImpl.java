@@ -90,6 +90,11 @@ public class RewardDAOImpl implements RewardDAO{
 	}
 	
 	@Override
+	public Reward getTotalPoint(String userId) throws Exception {
+		return sqlSession.selectOne("RewardMapper.getTotalPoint", userId);
+	}
+	
+	@Override
 	public void increasePoint(Reward reward) throws Exception {
 		sqlSession.insert("RewardMapper.increasePoint", reward);
 	}
@@ -106,6 +111,8 @@ public class RewardDAOImpl implements RewardDAO{
 	public int getTotalCountOne(Reward reward) throws Exception {
 		return sqlSession.selectOne("RewardMapper.getTotalCountOne", reward);
 	}
+
+	
 
 
 	

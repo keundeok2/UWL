@@ -153,7 +153,13 @@
 	 <update	id="updateProfile"	parameterType="user" >
 	   	UPDATE users
 	   	<set>
-	   		self_introduction	= #{selfIntroduction},
+	   		name = #{name},
+	   		nickname = #{nickname},
+	   		school_no = #{schoolNo},
+	   		birth = #{birth},
+	   		mail = #{mail},
+	   		phone = #{phone},
+	   		self_introduction	= #{selfIntroduction:VARCHAR},
 			profile_name 		= #{profileName},
 			public_status		= #{publicStatus}
 		</set>
@@ -329,4 +335,9 @@
 	 -->
  	
  	
+ 	<update id="updatePassword" parameterType="user">
+ 		UPDATE users
+ 		SET password = #{password}
+ 		WHERE user_id = #{userId}
+ 	</update>
 </mapper>

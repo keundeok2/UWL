@@ -183,4 +183,8 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
 	}
 
+	@Override
+	public void updatePassword(User user) throws Exception {
+		sqlSession.update("UserMapper.updatePassword", user);
+	}
 }

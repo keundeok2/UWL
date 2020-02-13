@@ -64,10 +64,10 @@
 					
 					for (var i = 0; i < d.list.length; i++) {
 						if (targetUserId == sessionId) {
-							html += "<div class='"+d.list[i].commentNo+"'><i class='fas fa-times deleteCommentBtn'><input type='hidden' value='"+d.list[i].postNo+"' id='postNoini'><input type='hidden' value='"+d.list[i].commentNo+"' id='commentNoini'></i></div>";
+							html += "<div class='c"+d.list[i].commentNo+"'><i class='fas fa-times deleteCommentBtn'><input type='hidden' value='"+d.list[i].postNo+"' id='postNoini'><input type='hidden' value='"+d.list[i].commentNo+"' id='commentNoini'></i></div>";
 						}
 						
-						html += "<hr/><img src='/images/"+d.list[i].user.profileName+"'><p>"+d.list[i].user.name+" &nbsp; "+d.list[i].commentContent+"</p>";
+						html += "<hr/><img src='/images/"+d.list[i].user.profileName+"' class='commentProfileName'><p class='commentPtag'>"+d.list[i].user.name+" &nbsp; "+d.list[i].commentContent+"</p>";
 					}
 					
 					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글입력 후 Enter'></div>";
@@ -100,9 +100,10 @@
 				data : JSON.stringify({commentContent : content, userId : sessionId, postNo : postNo}),
 				success : function(d) {
 					console.log("d", d)
-					var html = "<i class='fas fa-times deleteCommentBtn'></i>"
-							+"<hr/><img src='/images/"+d.user.profileName+"' class='commentImg'>"
-							+"<p>"+d.user.name+" &nbsp; "+d.commentContent+"</p>"
+					var html ="<div class='c"+d.commentNo+"'>"
+							+"<i class='fas fa-times deleteCommentBtn'></i></div>"
+							+"<hr/><img src='/images/"+d.user.profileName+"' class='commentProfileName'>"
+							+"<p class='commentPtag'>"+d.user.name+" &nbsp; "+d.commentContent+"</p>"
 							+"<input type='hidden' value='"+d.commentNo+"'>"
 					
 					$(".addCommentDiv").prepend(html);
@@ -140,7 +141,7 @@
 			},
 			data : JSON.stringify({commentNo : commentNo, postNo : postNo}),
 			success : function() {
-				$("div."+commentNo+"").remove();
+				$("div.c"+commentNo+"").remove();
 			}
 			
 		});
@@ -148,18 +149,20 @@
 	});
 	
 	$(document).on("click", ".postUpdateBtn", function() {
-		var postContent = $(this).prev().prev().prev().text();
+		var postContent = $(this).prev().prev().text();
 		console.log("postContent", postContent);
-		var postNo = $(this).parent().val();
+		postNo = $(this).parent().val();
 		console.log("postNo", postNo);
 		
 		$(".textareaInModal").text(postContent);
-		
-		$(".confirmUpdateBtn").on("click", function() {
+	});
+	
+		$(document).on("click", ".confirmUpdateBtn", function() {
 			var viewStatus = $(this).prev().prev().val();
 			console.log("view", viewStatus);
 			var newContent = $(".textareaInModal").val();
 			console.log(newContent);
+			console.log("postNo", postNo);
 			
 			$.ajax({
 				url : "/social/rest/updateTimeline",
@@ -185,12 +188,105 @@
 					
 					$("div."+postNo+"").html(newContent);
 					$("a.postViewStatus"+postNo+"").html(view);
+					$(".textareaInModal").text("");
 					$("#postUpdateModal").modal("hide");
 				}
 			});
 			
+		});
+	
+	//게시글 삭제
+	$(document).on("click", "button.postDeleteBtn", function() {
+		var postNo = $(this).val();
+		
+		var pureAlert = $.pureAlert.confirm({
+			title : "알림",
+			content : "게시글을 삭제하시겠습니까?",
+			okBtn : "삭제",
+			cancelBtn : "취소",
+			autoShow : true,
+			closeButton : false
+		});
+		pureAlert.on('ok.pure-alert', function(e) {
+		
+		$.ajax({
+			url : "/social/rest/deleteTimeline",
+			method : "POST",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			data : JSON.stringify({
+				postNo : postNo
+			}),
+			success : function() {
+				$("li."+postNo).remove();
+			}
 		})
+	}) 
 	});
+		
+		
+		
+	//스크롤 페이징
+	var page = 1;
+
+	 $(function() {
+			$(window).data('ajaxready', true).scroll(function() {
+				var maxHeight = $(document).height();
+				var currentScroll = $(window).scrollTop() + $(window).height();
+				var searchCondition = $("select[name='searchCondition']").val();
+				var searchKeyword = $("input[name='searchKeyword']").val();
+				var listing = $("input[name='listing']").val();
+				
+				if($(window).data('ajaxready') == false) return;
+				if (maxHeight <= currentScroll) {
+				if (page <= ${map.resultPage.maxPage}) {
+					$(window).data('ajaxready', false);
+					page++;
+					console.log('page : ' + page);
+						
+					$.ajax({
+						url : "/social/rest/getTimelineList/",
+						method : "POST",
+						dataType : "json",
+						data : JSON.stringify({
+							currentPage : page,
+							targetUserId : targetUserId
+						}),
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success: function(data) {
+							for (var i = 0; i < data.list.length; i++) {
+								var html = "<li class='"+data.list[i].postNo+"' value='"+data.list[i].postNo+"'>"
+											+"<a class='float-left text-monospace text-primary'>"+data.list[i].postDate+"</a>";
+												if (data.list[i].viewStatus == '1') {
+													html += "<a class='float-right font-weight-bold text-secondary postViewStatus"+data.list[i].postNo+"'>전체공개</a><br/>"; 
+												}
+												if (data.list[i].viewStatus == '2') {
+													html += "<a class='float-right font-weight-bold text-secondary postViewStatus"+data.list[i].postNo+"'>나만보기</a><br/>";
+												}
+												html += "<div class='postContentDiv "+data.list[i].postNo+"'>"+data.list[i].postContent+"</div>";
+												html += "<button class='btn btn-outline-primary btn-sm commentBtn' value='"+data.list[i].postNo+"'>댓글</button>";
+												
+												if (sessionId == targetUserId) {
+													html += "<button class='btn btn-outline-secondary btn-sm postUpdateBtn' value='"+data.list[i].postNo+"' data-toggle='modal' data-target='#postUpdateModal'>수정</button>";
+													html += "<button class='btn btn-outline-secondary btn-sm postDeleteBtn' value='"+data.list[i].postNo+"'>삭제</button>";
+												}
+												html += "</li>";
+								$("ul.timeline").append(html);
+							}
+							$(window).data('ajaxready', true);
+						}
+					});
+				}
+				}
+			})
+		})
+	
+	
 </script>
 
 <style type="text/css">
@@ -250,6 +346,9 @@ ul.timeline > li:before {
 .postUpdateBtn {
 	float: right;
 }
+.postDeleteBtn {
+	float: right;
+}
 .viewStatusInModal {
 	float: left;
 	width : 110px;
@@ -261,6 +360,17 @@ ul.timeline > li:before {
 	width : 10px;
 	height : 10px;
 }
+
+.commentProfileName {
+	width : 30px;
+	height : 30px;
+}
+
+p.commentPtag {
+	display: inline-block;
+}
+
+body {word-break:break-all;}
 </style>
 <title>어울림</title>
 </head>
@@ -268,8 +378,9 @@ ul.timeline > li:before {
 	<div class="container mt-5 mb-5">
 		<div class="row">
 			<div class="col-md-6 offset-md-3">
+				<h4>${user.name}님의 Timeline</h4>
+			<c:if test="${targetUserId eq user.userId }">
 				<div class="addFormDiv">
-				<h4>Timeline</h4>
 				<form id="addTimelineForm">
 					<div class="input-group">
 						<textarea class="form-control timelinePostContent" name="postContent" style="height:100px" placeholder="게시글을 등록하세요"></textarea>
@@ -286,6 +397,7 @@ ul.timeline > li:before {
 			            </select>
 				</form>
 				</div>
+			</c:if>
 				<ul class="timeline">
 				<c:forEach var="post" items="${map.list}">
 					<li class="${post.postNo}" value="${post.postNo}">
@@ -302,10 +414,14 @@ ul.timeline > li:before {
 						<button class="btn btn-outline-primary btn-sm commentBtn" value="${post.postNo}">댓글</button>
 						<c:if test="${user.userId eq targetUserId }">
 						<button class="btn btn-outline-secondary btn-sm postUpdateBtn" value="${post.postNo}" data-toggle="modal" data-target="#postUpdateModal">수정</button>
+						<button class="btn btn-outline-secondary btn-sm postDeleteBtn" value="${post.postNo}">삭제</button>
 						</c:if>
 					</li>
 				</c:forEach>
 				</ul>
+				<c:if test="${empty map.list}">
+					<h3>표시할 타임라인이 없습니다.</h3>
+				</c:if>
 			</div>
 		</div>
 	</div>

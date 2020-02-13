@@ -58,5 +58,7 @@ public interface UserService {
 	public boolean checkDuplicationNickname(String nickname) throws Exception; // nickname 중복체크
 
 	public boolean checkDuplicationMail(String mail) throws Exception; // mail 중복체크
+	
+	public void updatePassword(User user) throws Exception;
 
 }

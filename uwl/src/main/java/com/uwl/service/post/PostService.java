@@ -30,5 +30,6 @@ public interface PostService {
 	
 	public Map<String, Object> getNoticeList(Search search) throws Exception;
 	
+	public Post getNextOrPrePost(int postNo) throws Exception;// 추가
 	
 }

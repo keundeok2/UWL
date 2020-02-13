@@ -1,142 +1,374 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE html>
-
 <html>
-	
 <head>
-	<meta charset="UTF-8">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script src="https://kit.fontawesome.com/4b823cf630.js"	
+	crossorigin="anonymous"></script>
 	
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!--썸머노트 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+<!--썸머노트 -->
+
+
+
+<title>Insert title here</title>
+
+	<style type="text/css">
 	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-   
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+		#inputPostTitle	{
+			border: none;
+			border-bottom: none solid;
+			background: none;
+			outline: none;
+		}
+		
+		
+		
+		@import url(https://fonts.googleapis.com/css?family=Quicksand:300,400);
+		
+		*, *:before, *:after {
+		    padding: 0;
+		    margin: 0;
+		    border: none;
+		    outline: none;
+		    -moz-box-sizing: border-box;
+		    box-sizing: border-box
+		    }
+		
+		body {
+		  font-size: 100%;
+		  font-family: 'Quicksand', sans-serif; 
+		}
+		
+		p.heading {
+		  line-height: 1.2;
+		  font-size: 2em;
+		  text-align: left;
+		}
+		
+		.wrapper {
+		  margin: 15px auto;
+		  max-width:700px;
+		}
+		.dropdownbox {
+		  margin: 0 auto;
+		  width: 200px;
+		  margin-top: 40px;
+		  background: #FFFFFF;
+		  color: #000000;
+		  cursor: pointer;
+		}
+		
+		.dropdownbox > p {
+		  padding: 5px 10px;
+		  font-size: 1.25em;
+		  line-height: 1.4em;
+		  user-select: none;
+		  -moz-user-select:none;
+		  /* Safari */
+		  -khtml-user-select: none;
+		}
+		
+		ul.menu {
+		  position: relative;
+		  margin: 0 -20px;
+		  width: 200px;
+		  overflow: hidden;
+		  height: 0;
+		  margin-top: 10px;
+		     -webkit-transition: all 0.3s ease-in; 
+		   -moz-transition: all 0.3s ease-in;
+		     -o-transition: all 0.3s ease-in;
+		        transition: all 0.3s ease-in;
+		  /*-moz-transform:scale(0); */
+		  background: #FFFFFF;
+		  color: #000000;
+		  cursor: pointer;
+		  user-select: none;
+		  -moz-user-select:none;
+		  /* Safari */
+		  -khtml-user-select: none;
+		}
+		
+		ul.menu li {
+		  padding: 2px 10px;
+		    font-size: 1.25em;
+		  line-height: 1.4em;
+		       -webkit-transition: all 0.3s ease-in; 
+		   -moz-transition: all 0.3s ease-in;
+		     -o-transition: all 0.3s ease-in;
+		        transition: all 0.3s ease-in;
+		  border-bottom: 1px dotted #000000;
+		}
+		ul.menu li:hover {
+		  padding-left: 20px;
+		  color: #000000;
+		  background: #FFFFFF;
+		}
+		
+		.menu.showMenu {
+		  /*-moz-transform:scale(1);*/
+		  height: 200px;
+		}
+		
+		body {
+			overflow-y: scroll; 
+		}
+
+		.wrapper {
+			text-align: left;
+		}
+		.dropdownbox {
+			text-align: left;
+			width: 100%;
+			margin: -20px;
+		}
+		
+	</style>
 	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
- 		body {
-            padding-top : 50px;
-        }
-    </style>
-    
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
+	
 	<script type="text/javascript">
+	
 		
-		//============= 회원정보수정 Event  처리 =============	
-		 /* $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button" ).on("click" , function() {
-					self.location = "/user/updateUser?userId=${user.userId}"
-				});
-		}); */
+	function fncAddChallenge(){
+
+		//Form 유효성 검증
+		var challTitle = $("#challTitle").val();
+		var challCategory = $("input[name='challCategory']").val();
+		var challContent = $("input[name='challContent']").val();
+		var challReward = $("#challReward").val();
+		console.log("challNo : " + challNo + "challCategory : " + challCategory 
+					+ "challTitle : " + challTitle +"challContent : " + challContent );
+
+		if(challTitle == null || challTitle.length<1){
+			alert("제목 입력하셈 (^오^)/ ");
+			return;
+		}
 		
-		 $(function(){
-				$("button:contains('추가등록')").on('click',function(){
-					self.location = "../product/addProductView.jsp";
-				});
-			});
+		if(challContent == null || challContent.length<1){
+			alert("내용 입력하셈 (^오^)/ ");
+			return;
+		}
 		
-		$(function(){
-			$("button:contains('확인')").on('click',function(){
-				self.location = "/product/listProduct?menu=manage";
+		if(challReward == null || challReward.length<1 ){
+			alert("점수 입력하셈 (^오^)/ ");
+			return;
+		}else if(challReward.length >= 5 ){
+			alert("점수가 너무커요! 최대 천단위까지 가능합니다. (^오^)/ ");
+			return;
+		}
+	 
+	    
+	 	 $("form").attr("method","POST").attr("action","/challenge/addChallenge").submit(); 
+	}
+	
+	
+	var gatherCategoryNo = null;
+	
+	$(document).ready(function(){
+		  $(".dropdownbox").click(function(){
+			  $('#choiceCategory').removeClass();
+		    $(".menu").toggleClass("showMenu");
+		      $(".menu > li").click(function(){
+		        $(".dropdownbox > p").html($(this).html());
+		        $(".menu").removeClass("showMenu");
+		      });
+		  });
+		});
+	
+	
+	//썸머노트--------------------------------------------------------------------------------
+	$(document).ready(function() {
+			$('#summernote').summernote({
+				height : 300,
+				minHeight : 370,
+				maxHeight : null,
+				focus : true,
+				toolbar: [
+				    // [groupName, [list of button]]
+				    ['toolbar', ['picture','video','bold']],	
+				    ['size',['fontsize']],
+				    ['color',['color']],
+				    ['remove',['clear']]
+				  ],
+				placeholder : '내용을 입력하세요',
+				lang : 'ko-KR',
+				callbacks : {
+					onImageUpload : function(files, editor, welEditable) {
+						sendFile(files[0], editor, welEditable);
+						//editor가 누군지 welEditable이 누군지 알아보자 ㅅㅂㅋㅋ
+					}
+				}
 			});
 		});
-		
-	</script>
+	function sendFile(file, editor, welEditable) {
+				data = new FormData();
+				data.append("file", file);
+				$.ajax({
+					data : data,
+					url : '/challenge/rest/addSummerNoteFile',	//리턴을 url로 해줘야함 ㅋㅋ
+					type : "POST",
+					cache : false,
+					contentType : false,
+					enctype : 'multipart/form-data',
+					processData : false,
+					success : function(data) {
+						var file = "/images/"+data;
+						$('#summernote').summernote('insertImage',file);
+					},
+					error : function(){
+						alert("에러냐 ㅋㅋ");
+					}
+				});
+			}
+	//썸머노트--------------------------------------------------------------------
 	
+	$(document).ready(function(){
+		$('#complete').on('click',function(){
+		 	$('form').attr('method','POST').attr('action','/challenge/addChallenge').submit(); 
+		});
+		
+		
+		// 직접 index 값을 주어 selected 속성 주기
+		/* $("#셀렉트ID option:eq(1)").attr("selected", "selected"); */
+
+		/* if ( $( "#challCategory option: eq (3)" )) { }*/
+			
+			/* alert($("#challCategory option:selected").val());
+			if ($("#challCategory option:selected").val() == "게시판활동") {
+				
+			alert($("#challCategory option:selected").val());
+			}
+			
+		 $( test ).appendTo("#reward");  */
+		 
+		  $('#challCategory').on("change",function(){
+			 console.log($(this).val())
+			 var complete = null;
+			 
+			 
+			  if($(this).val() == 3){
+				 complete = "<div class='input-group col-3' id='postCommentComplete'>" 
+							 + "<div class='input-group-prepend'>" 
+							 +  "<span class='input-group-text' style='width: 35px;'><i class='fas fa-trophy'></i></span>"
+							 + "</div>"
+							 + "<input type='text' class='form-control' name='postCommentComplete' placeholder='완성조건'>"
+							 + "<div class='input-group-append'>"
+							 + "<span class='input-group-text' style='width: 35px'>회</span>"
+							 + "</div>"
+							 +"</div>"
+				 console.log("if문에 들어왔습니다.");
+				 
+		 		$( "#reward" ).append(complete);  
+			 }else {
+				 console.log("else if문에 들어왔습니다.");
+				$("#postCommentComplete").remove(); 
+			 } 
+		  }); 
+			
+			
+		/*  $( "#challCategory option:eq(3)" ).append("33433");  */
+
+		
+/* 		$( "#challCategory option:eq(3)" ).on('click',function(){
+			var selectValue = $(this).val();
+			console.log("selectValue",selectValue);
+			if (selectValue == 3) {
+				console.log("hello world!");
+			}
+		}); */
+		
+		 
+	});
+	
+	
+	</script>
 </head>
 
+
 <body>
+    <form enctype="multipart/form-data">
+        <div class="row">
+    <div class="col-xs-2 col-md-2"></div>
+    <div class="col-xs-8 col-md-8">
+    
+           <br>
+           <br>
+            <h2>도전과제 작성
+             	<span class="badge badge-danger">New</span>
+             </h2>
 
-	
-	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
-	
-		<div class="page-header">
-	       <h3 class=" text-info">주간도전과제 등록</h3>
-	       <h5 class="text-muted">등록된  <strong class="text-danger">정보를 </strong>확인해 주세요.</h5>
-	    </div>
-	
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>제목</strong></div>
-			<div class="col-xs-8 col-md-4"><input type="hidden" value="${challenge.challNo}">${challenge.challTitle}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>카테고리</strong></div>
-	  		
-			<c:if test="${challenge.challCategory == '1'}">
-				<div class="col-xs-8 col-md-4">Map</div>
-			</c:if>
+             <br>
+             
+          <!-- 카테고리 -->
+          <div class="row" id="reward">
+         &emsp;<select class="custom-select col-3" name="challCategory" id="challCategory"> 
+			  <option selected>카테고리</option>
+			  <option value="1" id="map">Map</option>
+			  <option value="2" id="vison">Vision</option>
+			  <option value="3" id="post">게시판활동</option>
+			</select>
 			
-			<c:if test="${challenge.challCategory == '2'}">
-				<div class="col-xs-8 col-md-4">Vision</div>
-			</c:if>
-			
-			<c:if test="${challenge.challCategory == '3'}">
-				<div class="col-xs-8 col-md-4">게시판활동</div>
-			</c:if>
-			
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>challContent</strong></div>
-			<div class="col-xs-8 col-md-4">${challenge.challContent}	</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>challReward</strong></div>
-			<div class="col-xs-8 col-md-4">${challenge.challReward}	</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>상품이미지</strong></div>
-			<div class="col-xs-8 col-md-4">
-			<!-- 안되면 확인해볼것 -->
-			<c:forEach items="${product.fileNameList}" var="fileName">
-				<img src="../images/uploadFiles/${fileName}" onerror="this.src='http://placehold.it/250X250'" />
-			</c:forEach>
+			<!-- 보상점수 -->
+			<div class="input-group col-3" >
+			  <div class="input-group-prepend">
+			    <span class="input-group-text" style="width: 35px;"><i class="fas fa-coins"></i></span>
+			  </div>
+			  <input type="text" class="form-control" name="challReward" placeholder="점수를 입력하세요";>
+			  <div class="input-group-append">
+			    <span class="input-group-text" style="width: 35px;">점</span>
+			  </div>
 			</div>
-		</div>
-		
-		<hr/>
-		
-		
-		<div class="row">
-	  		<div class="col-md-12 text-center ">
-	  			<button type="button" class="btn btn-primary">추가등록&nbsp;&nbsp;	  		
-	  			<button type="button" class="btn btn-primary">확인	  		</div>
-		</div>
-		
-		
-		<br/>
-		
- 	</div>
-		
-	
+          </div> 
+          <br>
+			
+	    <div class="table table-responsive">
+	        <table class="table">	
+	        <tr>
+	            <th class="success">
+	            <input type="text" name="challTitle" id="challTitle" placeholder="제목을 입력하세요" style="width:570px"/>
+	            </th>
+	        </tr>
+	        <tr>
+	            <td colspan="3"></td>
+	        </tr>
+	        </table>
+	        <textarea id="summernote" name="challContent"></textarea>
+	        <br>
+	        
+	        
+	     </div>
+	        
+	        
+	        
+	        <div style="text-align:right;width:100%">
+	        <div class="form-group">
+	       		<button type="button" class="btn btn-outline-secondary" id="complete" style="width:150px">등록</button>
+	       	</div>
+	    </div>
+    </div>
+</div>
+ </form>
 </body>
-
 </html>
