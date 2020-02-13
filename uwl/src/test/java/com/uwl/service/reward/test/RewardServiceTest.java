@@ -123,19 +123,29 @@ public class RewardServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void decreasePoint() throws Exception{
 	
 		Purchase purchase = new Purchase();
 		purchase.setPrice(99000);
 		purchase.setUserId("user41");
-		purchase.setPurchaseNo(10001);
+		purchase.setPurchaseNo(10020);
 		
 		
 		rewardService.decreasePoint(purchase);
 		
 //			Assert.assertEquals(10002, challenge.getChallNo());
 	
+		
+	}
+	
+	@Test
+	public void testGetTotalcount() throws Exception{
+		
+		String userId = "user01";
+		
+		rewardService.getTotalPoint(userId);
+		
 		
 	}
 	
