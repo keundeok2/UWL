@@ -44,8 +44,8 @@ public class MatchingRestController {
 		} else {
 			map.put("userId", userId);
 			Matching matching = matchingService.getMatching(userId);
-			secondUserId = matching.getSecondUserId();
-			map.put("secondUserId", secondUserId);
+			String secondUserId2 = matching.getSecondUserId();
+			map.put("secondUserId", secondUserId2);
 		}
 		System.out.println("rest/addMatching2/{userId}/{secondUserId} 끝");
 		return map;
@@ -68,6 +68,9 @@ public class MatchingRestController {
 		if(matchingService.getItem(userId, "1") != null) {
 			map.put("userId", userId);
 			map.put("secondUserId", secondUserId);
+			map.put("result", true);
+		} else {
+			map.put("result", false);
 		}
 		System.out.println("rest/updateItem/{userId}/{secondUserId} 끝");
 		return map;
@@ -161,27 +164,56 @@ public class MatchingRestController {
 	@RequestMapping(value = "rest/updateItem3/{userId}/{secondUserId}")
 	public Map updateItem3(@PathVariable String userId, @PathVariable String secondUserId) throws Exception {
 		System.out.println("rest/updateItem3/{userId}/{secondUserId} 시작");
+		
+		
+		
 		Matching matching = matchingService.getMatching(secondUserId);
 		Map<String, Object> map = new HashMap();
-		map.put("userId", userId);
-		map.put("secondUserId", secondUserId);
+		
 		Item item = matchingService.getItem(userId, "1");
 		item.setSecondUserId(secondUserId);
+		
 		if(matchingService.getItem(secondUserId, "2") == null) {
-			if(matching.getSecondUserId().equals(userId)) {
-				item.setUseResult("1");
-				matchingService.updateItem(item);
+			System.out.println("0000");
+			if(matching != null) {
+				if(matching.getSecondUserId() != null) {
+					System.out.println("1111");
+					if(matching.getSecondUserId().equals(userId)) {
+						System.out.println("2222");
+						item.setUseResult("1");
+						matchingService.updateItem(item);
+						map.put("useResult", "1");
+					} else {
+						System.out.println("3333");
+						item.setUseResult("2");
+						matchingService.updateItem(item);
+						map.put("useResult", "2");
+					}
+					
+				} else {
+					System.out.println("4444");
+					item.setUseResult("2");
+					matchingService.updateItem(item);
+					map.put("useResult", "2");
+				}
 			} else {
+				System.out.println("6666");
 				item.setUseResult("2");
 				matchingService.updateItem(item);
+				map.put("useResult", "2");
 			}
+			
+			
 		} else {
+			System.out.println("5555");
 			item.setUseResult("3");
 			matchingService.updateItem(item);
 			Item item2 = matchingService.getItem(secondUserId, "2");
 			item2.setSecondUserId(userId);
 			matchingService.updateItem(item2);
+			map.put("useResult", "3");
 		}
+		
 		System.out.println("rest/updateItem3/{userId}/{secondUserId} 끝");
 		return map;
 	}

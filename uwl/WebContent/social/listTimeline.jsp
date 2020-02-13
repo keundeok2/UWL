@@ -356,14 +356,11 @@ ul.timeline > li:before {
 .postContentDiv {
 	margin-bottom : 10px;
 }
-.commentImg {
-	width : 10px;
-	height : 10px;
-}
 
 .commentProfileName {
 	width : 30px;
 	height : 30px;
+	border-radius: 30px;
 }
 
 p.commentPtag {

@@ -87,5 +87,12 @@ public class FriendController {
 
 		return "forward:/friend/listSearchFriend.jsp";
 	}
+	
+	//////////// main test
+	@RequestMapping(value = "ducmain", method = RequestMethod.GET)
+	public String duckmain() throws Exception{
+		
+		return "forward:/duckmain.jsp";
+	}
 
 }

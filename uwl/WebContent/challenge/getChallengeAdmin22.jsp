@@ -1,23 +1,28 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-		<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
-	    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
-	    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-<title>Insert title here</title>
-
- <style>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+     
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/fb8ae6e812.js" crossorigin="anonymous"></script>
+	<!-- 나눔고딕 -->
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Noto+Sans+KR&display=swap" rel="stylesheet">
+    
+    
+    <!-- 재이가 사용하던 폰트 -->
+   <!--  <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet"> -->
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -102,18 +107,8 @@ font-family: 'Nanum Gothic', sans-serif;
         div.notice div.list a {
             background-color: #EBAD7A;
             display: inline-block;
-            line-height: 25px;
-            padding: 0 40px;
-            color: #fff;
-            font-weight: bold;
-            margin: 20px 0;
-            
-        }
-        div.notice div.list input {
-            background-color: #EBAD7A;
-            display: inline-block;
-            line-height: 25px;
-            padding: 0 40px;
+            line-height: 40px;
+            padding: 0 65px;
             color: #fff;
             font-weight: bold;
             margin: 20px 0;
@@ -146,24 +141,16 @@ font-family: 'Nanum Gothic', sans-serif;
         
         
     </style>
-    
-    
 </head>
 <body>
-
- <!-- 썸네일 등록-->
-  <form method="post" action="/post/addNotice">   <!--if문 넣어서 selected 지정해주기-->
-  
-  <input type="hidden" name="userId" value="user13">
-  
-  <div class="wrap">
+    <div class="wrap">
        <div class="navigation">
            <span>홈 > 고객행복센터 ></span>
-           <span>공지사항 등록</span>
+           <span>공지사항</span>
        </div>
         <div class="noticeTop">
-            <span>공지사항 등록</span>
-            <span>공지사항을 등록해 보아요 </span>
+            <span>공지사항</span>
+            <span>어울림의 새로운 소식들과 유용한 정보들을 한곳에서 확인하세요.</span>
         </div>
         <div class="notice">
             <table>
@@ -175,58 +162,40 @@ font-family: 'Nanum Gothic', sans-serif;
                </colgroup>
                 <tr>
                     <td>제목</td>
-                    <td><input type="text" name="postTitle" placeholder="제목 입력"style="line-height : 1" ></td>
-                    <td>카테고리</td>
-                    <td><select name="gatherCategoryNo">
-					        <option value="101">매칭</option>
-					        <option value="102">아이템</option>
-					        <option value="103">도전과제</option>
-					        <option value="104">결제</option>
-					        <option value="105">친구</option>
-					        <option value="106">타임라인</option>        
-					        <option value="107">ASK</option>        
-					        <option value="108">계정</option>        
-					        <option value="109">알림</option>        
-					        <option value="110">위치</option>        
-					        <option value="111">기타</option>        
-   						 </select></td>
+                    <td colspan="3">[어울림]구적립금 전환 사전 안내</td>
                 </tr>
-                
-               <%--  <tr>
+                <tr>
+                    <td>작성자</td>
+                    <td colspan="3">admin재이</td>
+                </tr>
+                <tr>
                     <td>작성일</td>
-                    <td>${post.postDate }</td>
-                    
-                </tr> --%>
-                <td colspan="4">
-        		 <br>
-        <!--  내용  -->
-        
-        <div><textarea cols="50" rows="10" placeholder="내용입력" name="postContent" style="resize:none ; width:100% ">${post.postContent }</textarea></div>
-        <br>
-         </td>
-                <tr>
-                    
-                 </tr>
-               </table>
-            
-            
-        </div>
-        <div class="notice">
-            <table>
-                <tr>
-                    
+                    <td>2020-02-10</td>
+                    <td>조회수</td>
+                    <td>147</td>
                 </tr>
-                
+                <tr>
+                    <td colspan="4">
+                        <img src="img/e7b99206a6a2d1e0.webp" alt="">
+                    </td>
+                </tr>
             </table>
             <div class="list">
-                <a href="/post/listNotice">목록</a>
-        <a href="javascript:history.go(-1)">뒤로</a>
-        <input type="submit" value="등록">
-    	</div>
-            
+                <a href="#">목록</a>
+            </div>
         </div>
-        
+        <div>
+            <table>
+                <tr>
+                    <td>이전글</td>
+                    <td><a href="#">[어울림]이용약관 및 개인정보처리방침 개정 내용 사전안내</a></td>
+                </tr>
+                <tr>
+                    <td>다음글</td>
+                    <td><a href="#">[가격인상공지] [홍반장] 토종 순대국 (2020 2. 14 ~)</a></td>
+                </tr>
+            </table>
+        </div>
     </div>
-    </form>
 </body>
 </html>
