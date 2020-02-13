@@ -330,7 +330,7 @@
                 ' <i class="fas fa-angle-right"></i>' +
                 '</td>' +
                 '<td colspan="2" class="answer" style="text-align: left">' +
-                '뭐나  널인가? ${post.postTitle }:: '+ ${post.postTitle }+
+                '답변이 나오도록 ? 클릭하면 다시 들어가게 ${post.postTitle }:: '+ ${post.postTitle }+
                 '</td>' +
                 '</tr>';
                 $(this).parent().after(displayValue);
@@ -339,6 +339,8 @@
                 
             });
         });
+        
+        
     </script>
     
     
@@ -352,8 +354,7 @@
        
         <div class="main">
             <div class="mainHeader">
-                <span>문의사항 목록</span>
-                <span>고객들께서 가장 자주하시는 질문을 모두 모았습니다.</span>
+                <span>전체 회원의 문의사항 목록</span>
             </div>
             <div class="select">
                 <select name="gatherCategoryNo">
@@ -373,18 +374,20 @@
     				</select>
             </div>
            	 <div class="questionList">
-				<input type="hidden"	id="postContent" name="postContent" value="${post.postContent}"/> 
+				<input type="hidden"	id="postContent" name="postContent" value="${post.postContent}"/> <!--  이거 써먹고싶음  -->
 					<table>
                     <colgroup>
                         <col width="10%">
                         <col width="15%">
-                        <col width="75%">
+                        <col width="65%">
+                        <col width="10%">
 
                     </colgroup>
                     <tr>
                         <td>번호</td>
                         <td>카테고리</td>
                         <td>제목</td>
+                        <td>처리여부</td>
 
                     </tr>
                     
@@ -431,8 +434,16 @@
                     </c:if>
                     
 					<td>	<c:out value="${post.postTitle}"></c:out>	</td>
+					
+					 <c:if test="${post.questionStatus eq '1' or post.questionStatus == null}">
+					<td>	처리중	</td>
+					</c:if>
+					
+					<c:if test="${post.questionStatus eq '2'}">
+					<td>	처리 완료	</td>
+					</c:if>
 						</tr>
-								</c:if>
+						</c:if>
 					  	</c:forEach>
                    
                 </table>

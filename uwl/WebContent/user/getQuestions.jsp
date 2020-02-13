@@ -13,6 +13,129 @@
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 	    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        li {
+            list-style: none;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        body {
+            font-size: 12px;
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+font-family: 'Nanum Gothic', sans-serif;
+        }
+        div.wrap {
+            
+            margin: 50px auto;
+            width: 1050px;
+        }
+        div.navigation {
+            
+            margin-bottom: 5px;
+            text-align: right;
+            margin-right: 30px;
+        }
+        
+        div.navigation span:nth-child(2) {
+            
+            font-weight: bold;
+        }
+        div.noticeTop {
+            
+            margin-bottom: 50px;
+        }
+        div.noticeTop span:nth-child(1) {
+            
+            font-size: 23px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        
+        div.notice table {
+            
+            border-top: 2px solid #EBAD7A;
+            border-bottom: 2px solid #EBAD7A;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        div.notice table tr {
+            
+            line-height: 45px;
+            border-bottom: 1px solid #eee;
+        }
+        div.notice table tr:nth-child(1) td:nth-child(1),
+        div.notice table tr:nth-child(2) td:nth-child(1),
+        div.notice table tr:nth-child(3) td:nth-child(1),
+        div.notice table tr:nth-child(3) td:nth-child(3) {
+            background-color: #fdfdfd;
+            
+            font-weight: bold;
+        }
+        div.notice table tr td {
+            
+            padding-left: 15px;
+        }
+        div.notice table tr:nth-child(4) td {
+            padding: 0;
+            padding: 10px;
+        }
+        div.notice table tr td img {
+            vertical-align: middle;
+            
+        }
+        div.notice div.list {
+            text-align: right;
+        }
+        div.notice div.list a {
+            background-color: #EBAD7A;
+            display: inline-block;
+            line-height: 25px;
+            padding: 0 40px;
+            color: #fff;
+            font-weight: bold;
+            margin: 20px 0;
+            
+        }
+        
+        div.wrap > div:nth-child(4) table {
+            
+            border-top: 2px solid #EBAD7A;
+            border-bottom: 2px solid #EBAD7A;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        div.wrap > div:nth-child(4) table tr {
+            
+            line-height: 35px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        
+        div.wrap > div:nth-child(4) table tr td:nth-child(1) {
+            width: 70px;
+            text-align: center;
+            border-right: 1px solid #eee;
+            background-color: #fdfdfd;
+        }
+        div.wrap > div:nth-child(4) table tr td:nth-child(2) {
+            padding-left: 30px;
+        }
+        
+        
+    </style>
+    
+    
+
+
 <title>Insert title here</title>
 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -31,49 +154,114 @@
 
 
 <body>
-<h1>문의사항 내용</h1>
-    <hr>
-  <br>
-	 아이디 : <div>${user.userId}</div>
-	 <br>
-<%-- 	 게시글 번호 : <div>${post.postNo}</div> --%>
-<!-- 	 <br> -->
-	 제목 : <div>${post.postTitle}</div>
-	 <br>
-	 내용 : <div>${post.postContent}</div>
-	 <br>
-<%-- 	 날짜 : <div>${post.postDate}</div> --%>
-<!-- 	 <br> -->
-	 조회수 : <div>${post.hitCount}</div>
-	 <br>
-	 카테고리 : <div>${post.gatherCategoryNo}</div>
-	 <br>
-	 
-	 <c:if test="${post.viewStatus == '1' or post.viewStatus == null}">
-							공개여부 : 공개
+
+
+
+<div class="wrap">
+       <div class="navigation">
+           <span>홈 > 고객행복센터 ></span>
+           <span>내 문의사항 보기</span>
+       </div>
+        <div class="noticeTop">
+            <span>내 문의사항 보기</span>
+            <span>내 문의사항 보기 ${user.userId } 의 ${post.postNo }꺼</span>
+        </div>
+        <div class="notice">
+            <table>
+               <colgroup>
+                   <col width="10%">
+                   <col width="40%">
+                   <col width="10%">
+                   <col width="40%">
+               </colgroup>
+                <tr>
+                    <td>제목</td>
+                    <td>${post.postTitle }</td>
+                    <td>카테고리</td>
+                    <!--  카테고리 번호에 따라서 나옴 -->
+                    <c:if test="${post.gatherCategoryNo == '101'}">
+                    <td>매칭</td>
+                    </c:if>
+                    <c:if test="${post.gatherCategoryNo == '102'}">
+                    <td>아이템</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '103'}">
+                    <td>도전과제</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '104'}">
+                    <td>결제</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '105'}">
+                    <td>친구</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '106'}">
+                    <td>타임라인</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '107'}">
+                    <td>ASK</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '108'}">
+                    <td>계정</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '109'}">
+                    <td>알림</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '110'}">
+                    <td>위치</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '111'}">
+                    <td>기타</td>
+                    </c:if>
+                </tr>
+                <tr>
+                    <td>작성자</td>
+                    <td>${post.userId }</td>
+                    <td>공개여부</td>
+                    <td><c:if test="${post.viewStatus == '1' or post.viewStatus == null}">
+							공개
 	</c:if>
 	<c:if test="${post.viewStatus == '2'}">
-							공개여부 : 비공개
-	</c:if>
-	 <br>
-	 <br>
-	 <c:if test="${post.questionStatus == '1' or post.questionStatus == null}">
-							답변여부 : 미처리
+							비공개
+	</c:if></td>
+                    
+                </tr>
+                <tr>
+                    <td>작성일</td>
+                    <td>${post.postDate }</td>
+                    <td>처리결과</td>
+                    <td><c:if test="${post.questionStatus == '1' or post.questionStatus == null}">
+							처리중
 	</c:if>
 	<c:if test="${post.questionStatus == '2'}">
-							답변여부 : 처리
-	</c:if>
-	 <br>
-	 
-<%-- 	 <input type="hidden"	id="userId" name="userId" value="${user.userId}"/> --%>
-<%-- 	 <input type="hidden"	id="postNo" name="postNo" value="${post.postNo}"/> --%>
-<%-- 	 <input type="hidden"	 value="${post.postTitle}"/>${post.postTitle} --%>
-<br>
-
-<!-- 	<button type="button" id="updateUser">정보수정</button> -->
-    <button onclick="location.href='/index.jsp'">확인</button><br>
-    <button onclick="location.href='/user/updateQuestions.jsp'">수정</button><br>
-    <button onclick="location.href='/user/getUserQuestions'">나의 문의사항</button><br>
-    <a href="javascript:history.go(-1)">뒤로</a>
+							처리 완료
+	</c:if></td>
+                </tr>
+                <td colspan="4">
+        		 <br>
+        <!--  내용  -->
+        <div>${post.postContent }</div>
+        <br>
+         </td>
+                <tr>
+                    <td colspan="4">
+                        <img src="img/e7b99206a6a2d1e0.webp" alt="">
+                    </td>
+                 </tr>
+               </table>
+            
+            
+        </div>
+        <div class="notice">
+            
+            <div class="list">
+                <a href="/user/getUserQuestions">목록</a>
+                <a href="/user/updateQuestions?postNo=${post.postNo }">수정</a>
+        <a href="/post/deleteNotice?postNo=${post.postNo }">삭제</a>
+        <a href="javascript:history.go(-1)">뒤로</a>
+            </div>
+            
+        </div>
+        
+    </div>
 </body>
 </html>
