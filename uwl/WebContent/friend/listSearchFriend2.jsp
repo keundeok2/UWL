@@ -176,10 +176,6 @@ function requestBtn() {
 </script>
 <style type="text/css">
 
-body {
-	margin-top: 50px;
-}
-
 img#searchProfileName {
 	width : 100px;
 	height: 100px;
