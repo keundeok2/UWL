@@ -88,4 +88,10 @@ public class PostServiceImpl implements PostService{
 		return map;
 	}
 
+	@Override // 추가
+	public Post getNextOrPrePost(int postNo) throws Exception {
+		
+		return postDAO.getNextOrPrePost(postNo);
+	}
+
 }

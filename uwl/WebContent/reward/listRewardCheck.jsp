@@ -58,11 +58,12 @@
         .fa-piggy-bank {
         	color: #ffb8c6;
         }
-        
-        
-        
-        
-        
+        .fa-camera {
+        	color: rgb(12, 98, 183);
+        }
+        .fa-clipboard {
+        	color: rgb(4, 4, 5);
+        }
     </style>
     
 </head>

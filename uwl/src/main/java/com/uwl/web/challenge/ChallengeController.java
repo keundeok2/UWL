@@ -76,7 +76,7 @@ public class ChallengeController {
 		
 		System.out.println("/challenge/addChallenge : GET 관리자일때만 간다.");
 		
-		return "redirect:/challenge/addChallengeView.jsp";
+		return "redirect:/challenge/addChallenge.jsp";
 		
 	}
 	
@@ -94,7 +94,7 @@ public class ChallengeController {
 		
 		System.out.println("challenege : " + challenge);
 		
-		return "forward:/challenge/addChallenge.jsp";
+		return "redirect:/challenge/listAdminChallenge";
 	}
 	
 	@RequestMapping(value = "updateChallenge/{challNo}", method = RequestMethod.GET)

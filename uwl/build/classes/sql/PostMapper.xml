@@ -9,12 +9,10 @@
  	<resultMap type="post" id="postSelectMap">
  		<result property="postNo" column="POST_NO" jdbcType="NUMERIC"/>
  		<result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
- 		
  		<result property="user.userId" column="USER_ID" jdbcType="VARCHAR"/>
  		<result property="user.name" column="NAME" jdbcType="VARCHAR"/>
  		<result property="user.nickname" column="NICKNAME" jdbcType="VARCHAR"/>
  		<result property="user.profileName" column="PROFILE_NAME" jdbcType="VARCHAR"/>
- 		
  		<result property="postTitle" column="POST_TITLE" jdbcType="VARCHAR"/>
  		<result property="postContent" column="POST_CONTENT" jdbcType="VARCHAR"/>
  		<result property="postDate" column="POST_DATE" jdbcType="DATE"/>
@@ -28,6 +26,12 @@
  		<result property="questionStatus" column="QUESTION_STATUS" jdbcType="VARCHAR"/>
  		<result property="place" column="PLACE" jdbcType="VARCHAR"/>
  		<result property="replyPostNo" column="REPLY_POST_NO" jdbcType="NUMERIC"/>
+ 		
+ 		<!--  이전글 다음글쉨 때매 추가함 -->
+ 		<result property="prePostNo" column="PRE_POST_NO" jdbcType="NUMERIC"/>
+ 		<result property="prePostTitle" column="PRE_POST_TITLE" jdbcType="VARCHAR"/>
+ 		<result property="nextPostNo" column="NEXT_POST_NO" jdbcType="NUMERIC"/>
+ 		<result property="nextPostTitle" column="NEXT_POST_TITLE" jdbcType="VARCHAR"/>
  	</resultMap>
  	
  	<select id="getBoard" parameterType="int" resultMap = "postSelectMap">
@@ -196,18 +200,21 @@
  		UPDATE post
  		SET hit_count = hit_count + #{change}
  		WHERE post_no = #{postNo}
- 	</insert>
+ 	</insert>	
+ 	
+ 	
  	<!-- 이전글 이후글보기 추가 -->
  	<select id="getNextOrPrePost" parameterType="int" resultMap = "postSelectMap">
- 	SELECT
-    POST_NO ,
-    POST_TITLE  ,
-    LAG(POST_NO,1,0) OVER (ORDER BY POST_NO) AS PRE_POST_NO,
-    LAG(POST_TITLE,1,'(이전 글 없음)') OVER (ORDER BY POST_NO) AS PRE_POST_TITLE,
-    LEAD(POST_NO,1,0) OVER (ORDER BY POST_NO) AS NEXT_POST_NO,
-    LEAD(POST_TITLE,1,'(이후 글 없음)') OVER (ORDER BY POST_NO) AS NEXT_POST_TITLE
-	FROM POST
-	ORDER BY POST_NO;
+ 	SELECT T.*
+	FROM (SELECT
+    POST_NO , POST_TITLE 
+    ,LAG(POST_NO,1,0) OVER (ORDER BY POST_NO) AS PRE_POST_NO
+    ,LAG(POST_TITLE,1,'(이전 글 없음)') OVER (ORDER BY POST_NO) AS PRE_POST_TITLE
+    ,LEAD(POST_NO,1,0) OVER (ORDER BY POST_NO) AS NEXT_POST_NO
+    ,LEAD(POST_TITLE,1,'(이후 글 없음)') OVER (ORDER BY POST_NO) AS NEXT_POST_TITLE
+    FROM POST
+    ORDER BY POST_NO) T
+	WHERE POST_NO = #{postNo}
  	</select>
  	
  	
