@@ -24,17 +24,20 @@
     <script src="/javascript/common.js"></script>
     <script src="/javascript/mainLeft.js"></script>
     <script src="/javascript/mainRight.js"></script>
+    
+    
 </head>
 
 <body>
-    <div class="wrap">
-        <div class="left">
+    <div id="wrap">
+        <div id="left">
             <jsp:include page="/mainTest/mainLeft.jsp" />
         </div>
-        <div class="main">
+        <div id="main">
             <!--여기에 작업-->
+            
         </div>
-        <div class="right">
+        <div id="right">
             <jsp:include page="/mainTest/mainRight.jsp" />
         </div>
     </div>
