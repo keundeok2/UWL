@@ -34,8 +34,7 @@
             <jsp:include page="/mainTest/mainLeft.jsp" />
         </div>
         <div id="main">
-            <!--여기에 작업-->
-            
+			          
         </div>
         <div id="right">
             <jsp:include page="/mainTest/mainRight.jsp" />
