@@ -34,6 +34,7 @@
     	
     	//	우측툴바 load 
     	function rightLoad() {
+    		var sessionUserId = $('input#sessionUserId').val();
     		$.ajax({
     			url : "/friend/rest/getFriendListForSearch",
     			method : "POST",
