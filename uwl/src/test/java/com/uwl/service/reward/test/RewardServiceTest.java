@@ -103,7 +103,7 @@ public class RewardServiceTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void testIncreasePoint() throws Exception{
 		
 		Challenge challenge = new Challenge();
@@ -112,7 +112,7 @@ public class RewardServiceTest {
 		
 		
 		Reward reward = new Reward();
-		reward.setUserId("user60");
+		reward.setUserId("user01");
 		reward.setChallenge(challenge);
 		reward.setTotalActivityPoint(5000);
 		rewardService.increasePoint(reward);
