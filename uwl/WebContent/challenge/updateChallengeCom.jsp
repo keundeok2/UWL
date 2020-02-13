@@ -58,13 +58,13 @@
 		    
 	
     $( ".widget button" ).button();
-    $("button.btn-primary").on('click', function(){
-    	fncAddChallenge();
+    $("button:contains('수정')").on('click', function(){
+    	fncUpdateChallenge();
     } );
     
     $("input[name=challContent]").keydown(function(key){
     	if(key.keyCode == 13){
-    		fncAddChallenge();
+    		fncUpdateChallenge();
     	}
     } );
     	
@@ -83,7 +83,7 @@
     } );
   } ); 
 
-function fncAddChallenge(){
+function fncUpdateChallenge(){
 
 	//Form 유효성 검증
  	var challNo = $("input[name='challNo']").val();
@@ -111,7 +111,7 @@ function fncAddChallenge(){
 	}
  
     
- 	 $("form").attr("method","POST").attr("action","/challenge/addChallenge").submit(); 
+ 	  $("form").attr("method","POST").attr("action","/challenge/updateChallenge").submit();  
 }
 
 
@@ -121,24 +121,24 @@ function fncAddChallenge(){
 
 <body>
 
-	<input type="hidden" name="challNo" value="${challenge.challNo}"/>
+	
 
 	<div class="navbar  navbar-default">
         <div class="container">
-        	<a class="navbar-brand" href="/index.jsp">등록들어간다</a>
+        	<a class="navbar-brand" href="/index.jsp">업데이트들어간다</a>
    		</div>
    	</div>
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
-		<h1 class="bg-primary text-center">주간 도전과제 등록</h1>
+		<h1 class="bg-primary text-center">주간 도전과제 업데이트</h1>
 		<br/><br/>
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
 		  <div class="form-group">
-		   
+		   <input type="hidden" name="challNo" value="${challenge.challNo}" />
 		    <label for="challTitle" class="col-sm-offset-1 col-sm-3 control-label">제 목</label>
 		    <div class="col-sm-4">
 		       <input type="text" class="form-control" id="challTitle" name="challTitle" value="${challenge.challTitle}">
@@ -146,18 +146,19 @@ function fncAddChallenge(){
 		  	
 		    <label for="challReward" class="col-sm-offset-1 col-sm-3 control-label">보 상 점 수</label>
 		    <div class="col-sm-4">
-		       <input type="text" class="form-control" id="challReward" name="challReward" placeholder="보상포인트를 적어주세요">
+		       <input type="text" class="form-control" id="challReward" name="challReward" value="${challenge.challReward}">
 		  	</div>
 		  	
 		  	<br>
 		  	<div class="col-sm-2">
-			  	<select class="custom-select" name="challCategory" >
-
-				  <option value="1" ${!empty searchCondition && searchCondition == "1" ? "selected" : ""} >Map</option>
+			  	<select class="custom-select" name="challCategory">
+			  		
+				 <%--  <option value="1" ${!empty searchCondition && searchCondition == "1" ? "selected" : ""} >Map</option> --%>
+				  <option value="1" ${!empty challenge.challCategory && challenge.challCategory  == "1" ? "selected" : ""} >Map</option>
 				 
-				  <option value="2" ${!empty searchCondition && searchCondition == "2" ? "selected" : ""}>Vision</option>
+				  <option value="2" ${!empty challenge.challCategory && challenge.challCategory  == "2" ? "selected" : ""}>Vision</option>
 				 
-				  <option value="3" ${!empty searchCondition && searchCondition == "3" ? "selected" : ""}>게시판활동</option>
+				  <option value="3" ${!empty challenge.challCategory && challenge.challCategory  == "3" ? "selected" : ""}>게시판활동</option>
 				
 				</select>
 			</div>
@@ -165,7 +166,7 @@ function fncAddChallenge(){
 	    </div>
 		   <div class="mb-3">
 		    <label for="challContent">내용</label>
-		    <textarea class="form-control is-invalid" id="challContent" name="challContent" placeholder="내용을 입력해주세요" required></textarea>
+		    <textarea class="form-control is-invalid" id="challContent" name="challContent" >${challenge.challContent}</textarea>
 		  </div>
 		  
 		  <div class="form-group">
@@ -177,7 +178,7 @@ function fncAddChallenge(){
 		  
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >등 &nbsp;록</button>
+		      <button type="button" class="btn btn-primary"  >수정</button>
 			  <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
 		    </div>
 		  </div>
