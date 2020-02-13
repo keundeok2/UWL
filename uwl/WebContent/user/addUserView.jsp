@@ -175,7 +175,7 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 				 var mail=$("input[name='mail']").val();
 				 if(mail != "" && (mail.indexOf('@') < 1 || mail.indexOf('.') == -1) ){
 					 $('#not').remove();
-					 var view = "<span id='not' style='color:red'> 이메일 형식이 아닙니다.</span>";
+					 var view = "<span id='not' class='mailNot' style='color:red'> 이메일 형식이 아닙니다.</span>";
 					 $('#mail').after(view);
 					 $('#mail').focus();
 			     }
@@ -296,36 +296,76 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 		});	
 		
 		//==>"phone 본인인증" Event 처리 및 연결  ================================ Error Error Error Error Error Error Error Error Error
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+				 $(function() {
 			 $("button#checkPhone").on("click" , function() {
-				popWin 
-				= window.open("/user/checkDuplicationUserId.jsp",
-											"popWin", 
-											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
-											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+				 var phone = $('#phone').val();
+				 if(isNaN(phone) || phone==''){
+					 console.log('번호를 제대로 입력해줘!');
+				 }else{
+					 $('#phoneNumberCheckBox').remove();
+					var view=
+							"<div class='form-group' id='phoneNumberCheckBox'>"
+							+ "<label for='phone' class='col-md-offset-1 col-md-3 control-label'>인증번호 입력</label>"
+							+ "<div class='col-sm-4'>"
+							+ "<input type='text' class='form-control' id='code' name='code' placeholder='인증번호를 입력해주세요.'>"
+							+ "</div>"
+							+ "<div class='col-sm-3'>"
+							+ "<button type='button' class='btn btn-outline-warning' id='codeNumberCheck'>인증완료</button>"
+							+ "</div>"
+							+ "</div>";
+						$('#phoneCheckAppend').after(view);
+						$.ajax({
+							url : "/user/rest/sendSms",
+							dataType : 'json',
+							data : {receiver : phone},
+							success : function(data){
+								$('#phone').attr('readonly' ,true);
+							},
+							error : function(){
+								console.log('error');
+							}
+						});
+				 }
 			});
-		});	
-		
+		});
+			 $(document).on("click",'#codeNumberCheck', function(){
+				 var code = $('#code').val();
+				 $.ajax({
+						url : "/user/rest/smsCheck",
+						data : {code : code},
+						success : function(data){
+							if(data == true){
+								//인증완료 시
+								var view = "<h1><span>인증이 완료되었습니다</span></h1>"
+								$('body').after(view);
+							}else{
+								//인증 틀릴시 누님이 이쁘게 틀렸다고 알려주세요! 
+								var view = "<span>인증번호를 다시 확인해주세요.</span>"
+							}
+						},
+						error : function(){
+							console.log('error');
+						}
+					});
+			 });
+
 		
 		//==>"mail 본인인증" Event 처리 및 연결  ================================ Error Error Error Error Error Error Error Error Error
 		$(function() {
-		// 이메일 입력 시 인증번호확인 버튼이 보이지 않도록 hide 
-		$( "button.btn.btn-primary:contains('인증번호확인')" ).hide();
+			// 이메일 입력 시 인증번호확인 버튼이 보이지 않도록 hide 
+			$("button:contains('인증번호확인')").hide();
+			$("button:contains('인증완료')").hide();
+		})
 		
-// 		$( "button.btn.btn-primary:contains('가입')" ).on("click" , function() {
-// 			fncAddUser();
-// 		});
 		
-// 		$( "button.btn.btn-primary:contains('메일전송')" ).on("click" , function() {
-		$( "button#sendMail").on("click" , function() {
+		$(document).on("click" ,"button#sendMail", function() {
 			var mail = $("input[name='mail']").val();
 			console.log(mail);
 			
 			$.ajax(
 					{
 						url : "/user/rest/checkMail" , 
-						method : "POST" , 
+						method : "post" , 
 						dataType : "JSON" , 
 						headers : {
 							"Accept" : "application/json" , 
@@ -342,7 +382,7 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 							// 메일을 성공적으로 보냈을 시 returnMap.put("result", "done");
 							if ( JSONData.result == "done" ) {
 								// 이메일 입력 칸을 인증번호입력칸으로 바꾸므로 입력한 이메일을 백업하는 input type hidden 설정 구간 
-								$("input[name='mail']").val($("input[name='mail']").val());
+								$("input[name='userMail']").val($("input[name='mail']").val());
 								 
 								$("input[name='mail']").val("");
 								$("#mail").text("인증번호입력");
@@ -351,21 +391,22 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 								$("input[name='mailCheck']").val(JSONData.mailCheck);
 								
 								// 없는 이메일로 메일 발송 자체는 가능하므로 이에 대한 추가적인 Business Logic이 필요함 
-								$("h6").text("메일 발송이 완료되었습니다. 메일을 확인해 주세요. 메일이 없을 시 다시 발송 버튼을 입력해주세요.");
+								$("h6").text("메일 발송이 완료되었습니다.");
 								
 								$("button#sendMail").remove();
-								$("button.btn.btn-primary:contains('인증번호확인')").show(); 
+								$("button:contains('인증번호확인')").show();
 								$("input[name='mail']").attr("placeholder", "인증번호 입력");
+								$("input[name='mail']").removeAttr("name");
+								
 							} 
 						}
 					}
 			)
 		});
 		
-		$( "button.btn.btn-primary:contains('인증번호확인')" ).on("click" , function() {
-			var mailValue = $("input[name='mail']").val();
+		$(document).on("click" ,"button:contains('인증번호확인')", function() {
+			var mailValue = $("input#mail").val();
 			var mailCheck = $("input[name='mailCheck']").val();
-			
 			console.log("비교대상 값 : " + mailCheck);
 			console.log("입력 값 : " + mailValue);
 			
@@ -377,12 +418,14 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 				$("h6").text("메일이 발송되지 않았습니다.");
 			}
 			
-			
 			if ( mailCheck != "" ) {
 				if ( mailCheck == mailValue ) {
+					$("span.mailNot").remove();
 					$("input[name='mailValue']").val("1");
 					$("h6").text("인증되었습니다.");
 					$("input[name='mail']").attr("readonly", true);
+					$("button:contains('인증번호확인')").remove();
+					$("button:contains('인증완료')").show();
 				}
 				
 				if ( mailCheck != mailValue ) {
@@ -390,7 +433,12 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 				}
 			}
 		});
-	});	
+
+		
+		
+	
+	
+	
 	
 	$(function() {
 		 $( "a[href='#']" ).on("click" , function() {
@@ -498,25 +546,16 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 		    </div>
 		  </div>
 		  
-		  <div class="form-group">
-		    <label for="phone" class="col-md-offset-1 col-md-3 control-label" >휴대전화번호</label>
-		     <div class="col-sm-2">
-		      <select class="form-control" name="phone1" id="phone1">
-				  	<option value="010" >010</option>
-					<option value="012" >012</option>
-				</select>
+		  <div class="form-group" id="phoneCheckAppend">
+		    <label for="phone" class="col-md-offset-1 col-md-3 control-label">휴대전화번호</label>
+		     <div class="col-sm-4">
+		      	<input type="text" class="form-control" id="phone" name="phone" placeholder="- 는 제외하고 입력해주세요.">
 		    </div>
-		    <div class="col-sm-1">
-		      <input type="text" class="form-control" id="phone2" name="phone2" placeholder="번호">
-		    </div>
-		    <div class="col-sm-1">
-		      <input type="text" class="form-control" id="phone3" name="phone3" placeholder="번호">
-		    </div>
-		    <input type="hidden" name="phone"  />
 		    <div class="col-sm-3">
 		      <button type="button" class="btn btn-outline-warning" id="checkPhone">본인인증</button>
 		    </div>
 		  </div>
+		  
 		  
 		  
 		  <div class="form-group">
@@ -539,6 +578,17 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 		    <label for="mail" class="col-sm-offset-1 col-sm-3 control-label">* 이메일</label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="mail" name="mail"  oninput="checkDuplicationMail()" >
+		      <h6></h6>
+		    </div>
+		    
+		    <div class="col-sm-3">
+		    	<button type="button" class="btn btn-outline-warning" id="sendMail">메일전송</button>
+		    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    	<button type="button" class="btn btn-outline-warning">인증번호확인</button>
+		    	<button type="button" class="btn btn-warning">인증완료</button>
+		    	<input type="hidden" name="mailValue" value="">
+		    	<input type="hidden" name="mailCheck" value="">
+		    	<input type="hidden" name="mail1" value="">
 		    </div>
 		    
 		    <div class="form-group" >
@@ -557,16 +607,6 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 		    	</div>
 		     </div>
 		    
-			<!-- 		    메일로 인증번호 전송 ========================================== Error  -->
-		    <div class="col-sm-3">
-		    	<button type="button" class="btn btn-outline-warning" id="sendMail">메일전송</button>
-		    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		    	<button type="button" class="btn btn-outline-warning">인증번호확인</button>
-		    	<input type="hidden" name="mailValue" value="">
-		    	<input type="hidden" name="mailCheck" value="">
-		    	<input type="hidden" name="mail1" value="">
-		    </div>
-		    <!-- 		    메일로 인증번호 전송 ========================================== Error  -->
 
 		  </div>
 		  </div>

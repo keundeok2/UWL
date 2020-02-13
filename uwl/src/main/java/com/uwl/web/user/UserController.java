@@ -1,12 +1,28 @@
 package com.uwl.web.user;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.AuthCache;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.BasicAuthCache;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +30,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,9 +40,18 @@ import org.springframework.web.multipart.MultipartFile;
 import com.uwl.common.OracleToMongo;
 import com.uwl.common.Page;
 import com.uwl.common.Search;
+import com.uwl.service.couple.CoupleService;
+import com.uwl.service.domain.Friend;
+import com.uwl.service.domain.Matching;
 import com.uwl.service.domain.Post;
+import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.User;
+import com.uwl.service.friend.FriendService;
+import com.uwl.service.matching.MatchingService;
+import com.uwl.service.purchase.PurchaseService;
+import com.uwl.service.reward.RewardService;
 import com.uwl.service.schoolRank.SchoolRankService;
+import com.uwl.service.social.SocialService;
 import com.uwl.service.user.UserService;
 
 @Controller
@@ -40,10 +66,25 @@ public class UserController {
 	@Autowired
 	@Qualifier("schoolRankServiceImpl")
 	private SchoolRankService schoolRankService;
-
-//	메일 인증
-//	@Resource(name="mailSender")
-//	private JavaMailSender mailSender;	
+	
+	@Autowired
+	private SocialService socialService;
+	
+	@Autowired
+	private CoupleService coupleService;
+	
+	@Autowired
+	private MatchingService matchingService;
+	
+	
+	@Autowired
+	private FriendService friendService;
+	
+	@Autowired
+	private RewardService rewardService;
+	
+	@Autowired
+	private PurchaseService purchaseService;
 
 	public UserController() {
 		System.out.println(this.getClass());
@@ -54,7 +95,6 @@ public class UserController {
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
-
 	// 회원가입
 	@RequestMapping(value = "addUser", method = RequestMethod.GET)
 	public String addUser() throws Exception {
@@ -62,7 +102,7 @@ public class UserController {
 
 		System.out.println("/user/addUser : GET");
 
-		return "redirect:/user/addUserView.jsp";
+		return "forward:/user/addUserView.jsp";
 	}
 
 	// 회원가입
@@ -81,11 +121,11 @@ public class UserController {
 			name = file.getOriginalFilename();
 			user.setProfileName(name);
 			userService.addUser(user);
-			return "redirect:/user/loginView.jsp";
+			return "forward:/user/loginView.jsp";
 		}else {
 			user.setProfileName("empty.jpg");
 			userService.addUser(user);
-			return "redirect:/user/loginView.jsp";
+			return "forward:/user/loginView.jsp";
 		}
 
 		// ======================================= 채 팅
@@ -110,7 +150,7 @@ public class UserController {
 		// Business Logic
 		userService.addRealname(user);
 
-		return "redirect:/user/loginView.jsp";
+		return "forward:/user/loginView.jsp";
 	}
 
 
@@ -123,7 +163,7 @@ public class UserController {
 		// Business Logic
 //			userService.getUser(userId);
 
-		return "redirect:/user/getUser?userId=" + user.getUserId();
+		return "forward:/user/getUser?userId=" + user.getUserId();
 	}
 
 	// 회원정보 수정
@@ -154,45 +194,101 @@ public class UserController {
 			user.setProfileName(name);
 			userService.updateUser(user);
 			session.setAttribute("user", user);
-			return "redirect:/user/getUser.jsp";
+			return "forward:/user/getUser.jsp";
 		}else {
 			User originalUser = (User)session.getAttribute("user");
 			user.setProfileName(originalUser.getProfileName());
 			userService.updateUser(user);
 			session.setAttribute("user", user);
-			return "redirect:/user/getUser.jsp";
+			return "forward:/user/getUser.jsp";
 		}
 	}
 
 	// 프로필 보기
-	@RequestMapping(value = "getProfile", method = RequestMethod.GET)
-	public String getProfile(@RequestParam("userId") String userId, Model model) throws Exception {
+	@RequestMapping(value = "getProfile/{targetUserId}", method = RequestMethod.GET)
+	public String getProfile(@PathVariable String targetUserId, HttpSession session ,Model model) throws Exception {
 		System.out.println("UserController : getProfile() 호출");
-
-		System.out.println("/user/getProfile : GET");
-		// Business Logic
-		User user = userService.getProfile(userId);
-		// Model 과 View 연결
-		model.addAttribute("user", user);
-
-		return "forward:/user/getProfile.jsp";
+		User sessionUser = (User)session.getAttribute("user");
+		
+		System.out.println("sessionUserId : " + sessionUser.getUserId() + "\t\t targetUserId : " + targetUserId);
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(pageSize);
+		
+		//  활동점수, 포인트 
+		Reward reward = rewardService.getTotalPoint(targetUserId);
+		model.addAttribute("reward", reward);
+		
+		
+		//targetUserId : 프로필 주인
+		User user = userService.getUser(targetUserId);
+		model.addAttribute("targetUser", user);
+		// getItemList에 search 아무렇게 넣어도 됨
+		Map<String, Object> mapOfSpear = matchingService.getItemList(search, targetUserId, "1");
+		Map<String, Object> mapOfShield = matchingService.getItemList(search, targetUserId, "2");
+		
+		// 창 개수, 방패 개수
+		int totalSpear = (Integer)mapOfSpear.get("totalItem");
+		int totalShield = (Integer)mapOfShield.get("totalItem");
+		model.addAttribute("totalSpear", totalSpear);
+		model.addAttribute("totalShield", totalShield);
+		
+		//	session의 유저와 프로필의 유저가 친구인지 확인
+		// Friend에 fristUserId, secondUserId만 넣어주면 됨
+		//	checkFriend() => return 1: 친구 0: 친구아님
+		Friend friend = new Friend();
+		friend.setFirstUserId(sessionUser.getUserId());
+		friend.setSecondUserId(targetUserId);
+		int isFriend =friendService.checkFriend(friend);
+		model.addAttribute("isFriend", isFriend);
+		
+		// 친구신청관계 확인
+		//	1 : 친구신청, 2 : 친구, null : 신청안함
+		Friend checkFriend1 = friendService.checkRequest(friend);
+		model.addAttribute("checkFriend1", checkFriend1); // return 1 => 신청취소 버튼 만들기 2 => 친구끊기 버튼 만들기
+		//	반대확인
+		friend.setFirstUserId(targetUserId);
+		friend.setSecondUserId(sessionUser.getUserId());
+		Friend checkFriend2 = friendService.checkRequest(friend);
+		model.addAttribute("checkFriend2",checkFriend2); // return 1 => 친구신청버튼(로직은 수락) 만들기
+		
+		
+		
+		Matching matching = matchingService.getMatching(sessionUser.getUserId());
+		model.addAttribute("matching", matching);
+		int totalMatching = matchingService.getTotalMatching(search, targetUserId);
+		model.addAttribute("totalMatching", totalMatching);
+		
+		return "forward:/user/profile2.jsp";
 	}
 
+	
+	
+	// 프로필 수정
+	@RequestMapping(value = "updateProfileView", method = RequestMethod.POST)
+	public String updateProfileView(@RequestParam String userId ,Model model) throws Exception {
+		System.out.println("UserController : updateProfileView() 호출");
+		
+		User user = userService.getUser(userId);
+		model.addAttribute("user", user);
+		
+		return "forward:/user/updateProfile2.jsp";
+	}
 	// 프로필 수정
 	@RequestMapping(value = "updateProfile", method = RequestMethod.POST)
 	public String updateProfile(@ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
 		System.out.println("UserController : updateProfile() 호출");
-
+		
 		System.out.println("/user/updateProfile : POST");
 		// Business Logic
 		userService.updateProfile(user);
-
+		
 		String sessionId = ((User) session.getAttribute("user")).getUserId();
 		if (sessionId.equals(user.getUserId())) {
 			session.setAttribute("user", user);
 		}
-
-		return "redirect:/user/getProfile?userId=" + user.getUserId();
+		
+		return "redirect:/user/getProfile/"+user.getUserId();
 	}
 
 	// 문의사항 등록
@@ -233,19 +329,15 @@ public class UserController {
 
 	// 문의사항 수정
 	@RequestMapping(value = "updateQuestions", method = RequestMethod.POST)
-	public String updateQuestions(@ModelAttribute("post") Post post, HttpSession session) throws Exception {
+	public String updateQuestions(@ModelAttribute("post") Post post,HttpSession session) throws Exception {
 		System.out.println("UserController : updateQuestions() 호출");
 		System.out.println("/user/updateQuestions : POST");
 
 		// Business Logic
 		userService.updateQuestions(post);
+		
 
-		int sessionId = ((Post) session.getAttribute("post")).getPostNo();
-		if (sessionId == (post.getPostNo())) {
-			session.setAttribute("post", post);
-		}
-
-		return "forward:/user/getUserQuestions?postNo=" + post.getPostNo();
+		return "redirect:/user/getQuestions?postNo=" + post.getPostNo();
 	}
 
 	// 문의사항 내용
@@ -312,7 +404,7 @@ public class UserController {
 
 		System.out.println("/user/logon : GET");
 
-		return "redirect:/user/loginView.jsp";
+		return "forward:/user/loginView.jsp";
 	}
 
 	// 로그인
@@ -490,5 +582,6 @@ public class UserController {
 
 		return "forward:/index.jsp";
 	}
+	
 
 }
