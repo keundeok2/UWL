@@ -1,26 +1,42 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ïñ¥Ïö∏Î¶º</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/profile.css">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/mainMain.css">
+    <!-- <link rel="stylesheet" href="/css/mainLeft.css"> -->
+    <link rel="stylesheet" href="/css/mainRight.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
-    <script src="/javascript/profile.js"></script>
+    <script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
+    <!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
     
+    <script src="/javascript/common.js"></script>
+    <script src="/javascript/mainLeft.js"></script>
+    <script src="/javascript/mainRight.js"></script>
+    
+    <link rel="stylesheet" href="/css/profile.css">
+    <script src="/javascript/profile.js"></script>
 </head>
 
 <body>
-
-	<input type="hidden" id="sessionUserId" value="${user.userId}">
+    <div id="wrap">
+        <div id="left">
+            <jsp:include page="/mainTest/mainLeft.jsp" />
+        </div>
+        <div id="main">
+            <!--ø©±‚ø° ¿€æ˜-->
+            <input type="hidden" id="sessionUserId" value="${user.userId}">
 	<input type="hidden" id="targetUserId" value="${targetUserId}">
 
 
@@ -80,25 +96,25 @@
                     <div class="user">${targetUser.userId}</div>
                     <%-- ${checkFriend1.friendStatus} ${checkFriend2.friendStatus} --%>
                     <c:if test="${user.userId eq targetUserId }">
-                        <div class="profileUpdate"><a href="#">ÌîÑÎ°úÌïÑ Ìé∏Ïßë</a></div>
+                        <div class="profileUpdate"><a href="#">«¡∑Œ«  ∆Ì¡˝</a></div>
                         <div class="setting"><a href="#"><i class="fas fa-cog"></i></a></div>
                     </c:if>
                     <c:if test="${user.userId ne targetUserId }">
                         <c:if test="${checkFriend1.friendStatus == 2 }">
-                            <!-- ÏπúÍµ¨ÎÅäÍ∏∞/ÏπúÍµ¨Ïã†Ï≤≠Ï∑®ÏÜå, ÏπúÍµ¨Ïã†Ï≤≠(ÏàòÎùΩ) div Ï∂îÍ∞ÄÌñàÏùå -->
-                            <div class="deleteFriend"><a href="#">ÏπúÍµ¨ÎÅäÍ∏∞</a></div>
+                            <!-- ƒ£±∏≤˜±‚/ƒ£±∏Ω≈√ª√Îº“, ƒ£±∏Ω≈√ª(ºˆ∂Ù) div √ﬂ∞°«ﬂ¿Ω -->
+                            <div class="deleteFriend"><a href="#">ƒ£±∏≤˜±‚</a></div>
                         </c:if>
                         <c:if test="${checkFriend1.friendStatus == 1 }">
-                            <div class="deleteFriend"><a href="#">ÏπúÍµ¨Ïã†Ï≤≠Ï∑®ÏÜå</a></div>
+                            <div class="deleteFriend"><a href="#">ƒ£±∏Ω≈√ª√Îº“</a></div>
                         </c:if>
                         <c:if test="${checkFriend2.friendStatus == 1 }">
-                            <div class="acceptFriend"><a href="#">ÏπúÍµ¨Ïã†Ï≤≠</a></div>
+                            <div class="acceptFriend"><a href="#">ƒ£±∏Ω≈√ª</a></div>
                         </c:if>
                         <c:if test="${empty checkFriend1.friendStatus and empty checkFriend2.friendStatus}">
-                            <div class="addFriend"><a href="#">ÏπúÍµ¨Ïã†Ï≤≠</a></div>
+                            <div class="addFriend"><a href="#">ƒ£±∏Ω≈√ª</a></div>
                         </c:if>
 
-                        <!--////////////////// Îß§Ïπ≠Ïó¨Î∂Ä / ÍΩÉÎ≥¥ÎÉàÎäîÏßÄ Ïó¨Î∂Ä Ï∂îÍ∞ÄÎ∞îÎûå/////////////////////////// -->
+                        <!--////////////////// ∏≈ƒ™ø©∫Œ / ≤…∫∏≥¬¥¬¡ˆ ø©∫Œ √ﬂ∞°πŸ∂˜/////////////////////////// -->
                         <c:if test="${checkFriend1.friendStatus == 2 }">
 
 
@@ -108,20 +124,20 @@
 
 
 
-                            <!-- <div class="sendFlower"><a href="#">ÍΩÉÎ≥¥ÎÇ¥Í∏∞</a></div> -->
+                            <!-- <div class="sendFlower"><a href="#">≤…∫∏≥ª±‚</a></div> -->
 
 
 
                             <c:if test="${matching.secondUserId ne targetUserId}">
 
                                 <div class="sendFlower"><a href="#" class="addMatching" data-toggle="modal" data-target="#exampleModal">
-                                        ÍΩÉÎ≥¥ÎÇ¥Í∏∞
+                                        ≤…∫∏≥ª±‚
                                     </a></div>
                             </c:if>
 
                             <c:if test="${matching.secondUserId eq targetUserId}">
                                 <div class="sendFlower"><a href="#" class="deleteMatching" data-toggle="modal" data-target="#exampleModal">
-                                        ÍΩÉÎ≥¥ÎÇ¥Í∏∞Ï∑®ÏÜå
+                                        ≤…∫∏≥ª±‚√Îº“
                                     </a></div>
                             </c:if>
 
@@ -129,21 +145,21 @@
 
 
 
-                            <div class="useSpear"><a href="#" data-toggle="modal" data-target="#exampleModal">Ï∞îÎü¨Î≥¥Í∏∞</a></div>
+                            <div class="useSpear"><a href="#" data-toggle="modal" data-target="#exampleModal">¬Ò∑Ø∫∏±‚</a></div>
                         </c:if>
                     </c:if>
                 </div>
                 <div class="post">
                     <div class="totalFlower">
-                        <!-- /////////////// totalFlower Ï∂îÍ∞ÄÎ∞îÎûå/////////////// -->
+                        <!-- /////////////// totalFlower √ﬂ∞°πŸ∂˜/////////////// -->
                         <img src="/images/love-and-romance.png" width="30px" alt=""> <span>${totalMatching }</span>
                     </div>
-                    <!-- /////////////// ÌôúÎèôÏ†êÏàò, Ìè¨Ïù∏Ìä∏ Ï∂îÍ∞ÄÎ∞îÎûå/////////////// -->
-                    <div class="activityPoint"> ÌôúÎèôÏ†êÏàò <span>170</span>
+                    <!-- /////////////// »∞µø¡°ºˆ, ∆˜¿Œ∆Æ √ﬂ∞°πŸ∂˜/////////////// -->
+                    <div class="activityPoint"> »∞µø¡°ºˆ <span>170</span>
                     </div>
                     <c:if test="${targetUserId eq user.userId }">
-                        <!-- point div Ï∂îÍ∞ÄÌñàÏùå -->
-                        <div class="point"> Ìè¨Ïù∏Ìä∏ <span>170</span>
+                        <!-- point div √ﬂ∞°«ﬂ¿Ω -->
+                        <div class="point"> ∆˜¿Œ∆Æ <span>170</span>
                         </div>
 
                         <div class="totalItem">
@@ -167,26 +183,33 @@
         <div class="section">
             <div class="innerSection">
                 <ul>
-                    <li class="on"><a href="#"><i class="fas fa-th"></i> ÌÉÄÏûÑÎùºÏù∏</a></li>
+                    <li class="on"><a href="#"><i class="fas fa-th"></i> ≈∏¿”∂Û¿Œ</a></li>
                     <li><a href="#"><i class="fas fa-tv"></i> ASK</a></li>
-                    <li><a href="#"><i class="far fa-bookmark"></i> Ïª§ÌîåÌÉÄÏûÑÎùºÏù∏</a></li>
-                    <li><a href="#"><i class="fas fa-user-tag"></i> Ïª§ÌîåÏ∫òÎ¶∞Îçî</a></li>
+                    <li><a href="#"><i class="far fa-bookmark"></i> ƒø«√≈∏¿”∂Û¿Œ</a></li>
+                    <li><a href="#"><i class="fas fa-user-tag"></i> ƒø«√ƒ∂∏∞¥ı</a></li>
                 </ul>
             </div>
             <section>
                 <div class="list1 on">
-                    Í≤åÏãúÎ¨º„Öã„Öã
+                    ∞‘Ω√π∞§ª§ª
                 </div>
                 <div class="list2">
-                    IGTV„Öã„Öã
+                    IGTV§ª§ª
                 </div>
                 <div class="list3">
-                    Ï†ÄÏû•Îê®„Öã„Öã
+                    ¿˙¿Âµ §ª§ª
                 </div>
                 <div class="list4">
-                    ÌÉúÍ∑∏Îê®„Öã„Öã
+                    ≈¬±◊µ §ª§ª
                 </div>
             </section>
         </div>
     </div>
-</body></html>
+        </div>
+        <div id="right">
+            <jsp:include page="/mainTest/mainRight.jsp" />
+        </div>
+    </div>
+</body>
+
+</html>

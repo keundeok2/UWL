@@ -519,6 +519,7 @@ public class UserRestController3 {
 		return returnMap;
 	}
 
+	//	유저컨트롤러 본체에 추가 해야함
 	@RequestMapping(value = "rest/updatePassword", method = RequestMethod.POST)
 	public Map updatePassword(@RequestBody HashMap<String, Object> reqMap, HttpSession session) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();

@@ -1,5 +1,6 @@
 package com.uwl.web.user;
 
+import java.io.File;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.uwl.common.OracleToMongo;
 import com.uwl.common.Page;
@@ -65,28 +67,38 @@ public class UserController {
 
 	// 회원가입
 	@RequestMapping(value = "addUser", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute("user") User user) throws Exception {
+	public String addUser(@ModelAttribute("user") User user, @RequestParam("file") MultipartFile file) throws Exception {
 		System.out.println("UserController : addUser() 호출");
-
 		System.out.println(user);
 		System.out.println("/user/addUser : POST");
+		
 		// Business Logic
-		userService.addUser(user);
+		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
+		String name = "";
+		
+		if(!file.getOriginalFilename().isEmpty()) {
+			file.transferTo(new File(path, file.getOriginalFilename()));
+			name = file.getOriginalFilename();
+			user.setProfileName(name);
+			userService.addUser(user);
+			return "redirect:/user/loginView.jsp";
+		}else {
+			user.setProfileName("empty.jpg");
+			userService.addUser(user);
+			return "redirect:/user/loginView.jsp";
+		}
 
 		// ======================================= 채 팅
 		// ===========================================
 		// 있으면 update , 없으면 insert 이거 방법뭐임? 이 메서드 돌릴때 다른 패키지에 있는 .java 파일 실행시키고싶음
 
-		OracleToMongo oracleToMongo = new OracleToMongo();
-		oracleToMongo.startOracleToMongo();
+//		OracleToMongo oracleToMongo = new OracleToMongo();
+//		oracleToMongo.startOracleToMongo();
 		// ======================================= 채 팅
 		// ===========================================
 
-		System.out.println(user);
-
 		// SchoolRank 추가하기!!!!!!!!!!!!!!!
 
-		return "redirect:/user/loginView.jsp";
 	}
 
 	// 실명인증여부
@@ -145,29 +157,26 @@ public class UserController {
 
 	// 회원정보 수정
 	@RequestMapping(value = "updateUser", method = RequestMethod.POST)
-	public String updateUser(@ModelAttribute("user") User user, HttpSession session) throws Exception {
+	public String updateUser(@ModelAttribute("user") User user, HttpSession session, @RequestParam("file") MultipartFile file) throws Exception {
 		System.out.println("UserController : updateUser() POST 호출");
-
-		System.out.println("/user/updateUser : POST");
-
-		// Business Logic
-		userService.updateUser(user);
-
-		// ======================================= 채 팅
-		// ===========================================
-		// 있으면 update , 없으면 insert 이거 방법뭐임? 이 메서드 돌릴때 다른 패키지에 있는 .java 파일 실행시키고싶음
-
-//		OracleToMongo oracleToMongo = new OracleToMongo();
-//		oracleToMongo.startOracleToMongo();
-		// ======================================= 채 팅
-		// ===========================================
-
-		String sessionId = ((User) session.getAttribute("user")).getUserId();
-		if (sessionId.equals(user.getUserId())) {
+		
+		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
+		String name = "";
+		
+		if(!file.getOriginalFilename().isEmpty()) {
+			file.transferTo(new File(path, file.getOriginalFilename()));
+			name = file.getOriginalFilename();
+			user.setProfileName(name);
+			userService.updateUser(user);
 			session.setAttribute("user", user);
+			return "redirect:/user/getUser.jsp";
+		}else {
+			User originalUser = (User)session.getAttribute("user");
+			user.setProfileName(originalUser.getProfileName());
+			userService.updateUser(user);
+			session.setAttribute("user", user);
+			return "redirect:/user/getUser.jsp";
 		}
-		return "redirect:/user/getUser?userId=" + user.getUserId();
-//		return "redirect:/index.jsp";
 	}
 
 	// 프로필 보기
