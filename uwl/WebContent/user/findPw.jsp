@@ -1,16 +1,16 @@
-<%@ page contentType="text/html; charset=EUC-KR"%>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 
 <html lang="ko">
 
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 	// $(function() {
-	// 		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	// 		//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 	// 		$("button").on("click", function() {
 	// 			self.location = "/user/findId?userId=${user.userId}"
 	// 		});
@@ -21,7 +21,7 @@
 
 		// 	$("#userId").focus();
 
-		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$("button#findPw").on(
 				"click",
 				function() {
@@ -42,10 +42,10 @@
 	<form>
 		<div id=findPw>
 			<hr>
-			¾Æ ÀÌ µğ <input type="text" id="userId" name="userId" placeholder="ID">
+			ì•„ ì´ ë”” <input type="text" id="userId" name="userId" placeholder="ID">
 			<hr>
-			ÀÌ ¸§ <input type="text" id="name" name="name" placeholder="ÀÌ¸§">
-			<button type="button" id="findPw">ºñ¹Ğ¹øÈ£ Ã£±â</button>
+			ì´ ë¦„ <input type="text" id="name" name="name" placeholder="ì´ë¦„">
+			<button type="button" id="findPw">ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°</button>
 		</div>
 	</form>
 

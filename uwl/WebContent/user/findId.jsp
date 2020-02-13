@@ -1,16 +1,16 @@
-<%@ page contentType="text/html; charset=EUC-KR"%>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 
 <html lang="ko">
 
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 	// $(function() {
-	// 		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	// 		//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 	// 		$("button").on("click", function() {
 	// 			self.location = "/user/findId?userId=${user.userId}"
 	// 		});
@@ -20,7 +20,7 @@
 
 		// 	$("#userId").focus();
 
-		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$("button#findId").on(
 				"click",
 				function() {
@@ -31,9 +31,9 @@
 	});
 
 
-	// //==>"ÀÎÁõ¹øÈ£ ¹Ş±â" Event Ã³¸® ¹× ¿¬°á
+	// //==>"ì¸ì¦ë²ˆí˜¸ ë°›ê¸°" Event ì²˜ë¦¬ ë° ì—°ê²°
 	// $(function() {
-	// 	//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	// 	//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 	// 	 $("button#checkMail").on("click" , function() {
 	// 		popWin 
 	// 		= window.open("/user/checkDuplicationMail.jsp",
@@ -52,15 +52,15 @@
 	<form>
 		<div id=findId>
 			<hr>
-			ÀÌ ¸§ <input type="text" id="name" name="name" placeholder="ÀÌ¸§">
+			ì´ ë¦„ <input type="text" id="name" name="name" placeholder="ì´ë¦„">
 
 			<hr>
-			<!-- 	ÀüÈ­¹øÈ£   -->
-			<!-- 	<input type="text" id="phone" name="phone" placeholder="ÀüÈ­¹øÈ£"> -->
-			<!-- 	  <div><button type="button" class="btn btn-info" id="checkNick">ÀÎÁõ¹øÈ£</button></div> -->
+			<!-- 	ì „í™”ë²ˆí˜¸   -->
+			<!-- 	<input type="text" id="phone" name="phone" placeholder="ì „í™”ë²ˆí˜¸"> -->
+			<!-- 	  <div><button type="button" class="btn btn-info" id="checkNick">ì¸ì¦ë²ˆí˜¸</button></div> -->
 			<!-- 	<hr> -->
-			¸Ş ÀÏ <input type="text" id="mail" name="mail" placeholder="¸ŞÀÏ">
-			<button type="button" id="findId">¾ÆÀÌµğ Ã£±â</button>
+			ë©” ì¼ <input type="text" id="mail" name="mail" placeholder="ë©”ì¼">
+			<button type="button" id="findId">ì•„ì´ë”” ì°¾ê¸°</button>
 		</div>
 	</form>
 

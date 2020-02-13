@@ -57,12 +57,19 @@ public class UserRestController {
 	private UserService userService;
 
 	// 메일 인증
+	@Autowired
 	private JavaMailSender mailSender;
 
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
+	@Value("#{apiProperties['blueApiid']}")
+	String apiId;
+	@Value("#{apiProperties['blueApiKey']}")
+	String apiKey;
+	@Value("#{apiProperties['blueSender']}")
+	String sender;
 
 	public UserRestController() {
 		System.out.println(this.getClass());
@@ -229,8 +236,7 @@ public class UserRestController {
 		map.put("result", new Boolean(result));
 		return map;
 	}
-	
-	
+
 	// nickname 중복체크
 	@RequestMapping(value = "rest/checkDuplicationNickname", method = RequestMethod.GET)
 	public boolean checkDuplicationNickname(@RequestParam String nickname) throws Exception {
@@ -242,8 +248,6 @@ public class UserRestController {
 //		return map;
 		return result;
 	}
-	
-	
 
 	// nickname 중복체크
 	@RequestMapping(value = "rest/checkDuplicationNickname", method = RequestMethod.POST)
@@ -255,8 +259,7 @@ public class UserRestController {
 		map.put("result", new Boolean(result));
 		return map;
 	}
-	
-	
+
 	// mail 중복체크
 	@RequestMapping(value = "rest/checkDuplicationMail", method = RequestMethod.GET)
 	public boolean checkDuplicationMail(@RequestParam String mail) throws Exception {
@@ -268,8 +271,6 @@ public class UserRestController {
 //		return map;
 		return result;
 	}
-	
-	
 
 	// 나의 문의사항 내역
 	@RequestMapping(value = "rest/getUserQuestions", method = RequestMethod.GET)
@@ -389,10 +390,9 @@ public class UserRestController {
 		return userService.getUser(user.getPassword());
 	}
 
-	// 문자인증
-	@RequestMapping(value = "rest/sendSms")
+	@RequestMapping(value = "/rest/sendSms")
 	public String sendSms(String receiver, HttpSession session) {
-
+		System.out.println(receiver);
 		// 6자리 인증 코드 생성
 		int rand = (int) (Math.random() * 899999) + 100000;
 		System.out.println("인증 코드 : " + rand);
@@ -407,7 +407,7 @@ public class UserRestController {
 
 		CredentialsProvider credsProvider = new BasicCredentialsProvider();
 		credsProvider.setCredentials(new AuthScope(hostname, 443, AuthScope.ANY_REALM),
-				new UsernamePasswordCredentials(Config.appid, Config.apikey));
+				new UsernamePasswordCredentials(apiId, apiKey));
 
 		// Create AuthCache instance
 		AuthCache authCache = new BasicAuthCache();
@@ -424,8 +424,8 @@ public class UserRestController {
 			HttpPost httpPost = new HttpPost(url);
 			httpPost.setHeader("Content-type", "application/json; charset=utf-8");
 
-			String json = "{\"sender\":\"" + Config.sender + "\",\"receivers\":[\"" + receiver + "\"],\"content\":\""
-					+ rand + "\"}";
+			String json = "{\"sender\":\"" + sender + "\",\"receivers\":[\"" + receiver + "\"],\"content\":\"" + rand
+					+ "\"}";
 
 			StringEntity se = new StringEntity(json, "UTF-8");
 			httpPost.setEntity(se);
@@ -447,43 +447,28 @@ public class UserRestController {
 		return "true";
 	}
 
-	@RequestMapping(value = "rest/smsCheck")
-	public String smsCheck(String code, HttpSession session) {
-
-		String saveCode = "967698";
+	@RequestMapping(value = "/rest/smsCheck")
+	public boolean smsCheck(@RequestParam(value = "code") String code, HttpSession session) {
+		String saveCode = (session.getAttribute("rand").toString());
+		System.out.println(saveCode);
+		System.out.println(code);
 		System.out.println("발행한 인증 코드 :" + saveCode);
-
 		if (code.equals(saveCode)) {
-			return "ok";
+			return true;
 		} else {
-			return "no";
+			return false;
 		}
-	}
 
-	final class Config {
-		public static final String appid = "keundeok2";
-		public static final String apikey = "e7dc07dc1ff111ea98850cc47a1fcfae";
-		public static final String content = "나는 유리를 먹을 수 있어요. 그래도 아프지 않아요";
-		public static final String sender = "01022269883";
-		public static final String receiver = "01022269883";
 	}
 
 //	 mail 인증
+
 	@RequestMapping(value = "rest/checkMail")
 	public Map checkMailValue(@RequestBody Map jsonMap) throws Exception {
 		System.out.println("user/rest/checkMail");
 
-		// 파싱
-		ObjectMapper objectMapper = new ObjectMapper();
-		String mapString = objectMapper.writeValueAsString(jsonMap);
-		JSONObject jsonObject = (JSONObject) JSONValue.parse(mapString);
-
-		Map<String, String> mailMap = objectMapper.readValue(jsonObject.toString(),
-				new TypeReference<Map<String, String>>() {
-				});
-
-		String mail = mailMap.get("mail");
-
+		String mail = (String) jsonMap.get("mail");
+		System.out.println("mail : " + mail);
 		// 메일 인증 시 입력할 값을 생성
 		SecureRandom random = new SecureRandom();
 		String state = new BigInteger(130, random).toString(32);
@@ -496,13 +481,18 @@ public class UserRestController {
 
 		// JavaMailSender.setText(text) :: 메일 내용 설정
 		// StringBuffer로 작성
-		sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>").append("<p>아래 글자를 입력하시면 이메일 인증이 완료됩니다.</p>")
-				.append("<p>입력 문자 :: </p><br/><br/><hr/>")
+		sendMail.setText(new StringBuffer().append(
+				"<img src='http://optimal.inven.co.kr/upload/2020/02/13/bbs/i13419547136.png' style='width : 250px; height : 100px'>")
+				.append("<h1>어'울림 이메일 인증</h1>").append("<p>소셜 데이팅 서비스 어울림입니다.</p>")
+				.append("<p>인증번호를 입력하시면 이메일 인증이 완료됩니다.</p>").append(" <p>인증번호  :: ")
 				// 본인인증을 위한 state를 메일로 발송
-				.append("<p>" + state + "</p>").toString());
+				.append(state + "</p>").toString());
+
+		// 파일 첨부
+//		sendMail.addInline("img", new FileDataSource("c:\\bonobono.jpg"));
 
 		// JavaMailSender.setFrom(senderEmail, senderName) :: 메일 작성자 설정
-		sendMail.setFrom("a@uwl.com", "어'울림");
+		sendMail.setFrom("admin@uwl.com", "어'울림");
 
 		// JavaMailSender.setTo(receiverEmail) :: 메일 수신자 설정
 		sendMail.setTo(mail);
@@ -517,6 +507,31 @@ public class UserRestController {
 		returnMap.put("mailCheck", state);
 		System.out.println("end SendMail");
 		return returnMap;
+	}
+
+	// 유저컨트롤러 본체에 추가 해야함
+	@RequestMapping(value = "rest/updatePassword", method = RequestMethod.POST)
+	public Map updatePassword(@RequestBody HashMap<String, Object> reqMap, HttpSession session) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		User sessionUser = (User) session.getAttribute("user");
+		String prePassword = (String) reqMap.get("prePassword");
+		String password = (String) reqMap.get("password");
+		String sessionPassword = sessionUser.getPassword();
+
+		System.out.println("pre : " + prePassword + "\t session : " + sessionPassword);
+		System.out.println(sessionPassword.equals(prePassword));
+
+		if (sessionPassword.equals(prePassword)) {
+			sessionUser.setPassword(password);
+			userService.updatePassword(sessionUser);
+			session.setAttribute("user", sessionUser);
+			map.put("result", true);
+		} else {
+			map.put("result", false);
+		}
+		System.out.println(map);
+		return map;
 	}
 
 }

@@ -15,7 +15,7 @@
 		  <c:if test="${ resultPage.currentPage > resultPage.pageUnit }">
 	   		 <li class="page-item">
 		  </c:if>
-	      <a class="page-link" href="javascript:fncGetList('${ resultPage.currentPage-1}')" aria-label="Previous">
+	      <a class="page-link" href="javascript:fncGetPurchaseList('${ resultPage.currentPage-1}')" aria-label="Previous">
 	        <span aria-hidden="true">&laquo;</span>
 	      </a>
 	    </li>
@@ -25,13 +25,13 @@
 	    
 	    	<c:if test="${ resultPage.currentPage == i }">
 		   	 <li class="page-item">
-		   	 	<a class="page-link" href="javascript:fncGetList('${ i }');">${ i }<span class="sr-only">(current)</span></a>
+		   	 	<a class="page-link" href="javascript:fncGetPurchaseList('${ i }');">${ i }<span class="sr-only">(current)</span></a>
 		   	 </li>
 	    	</c:if>
 	    	
 	    	<c:if test="${ resultPage.currentPage != i}">
 			    <li class="page-item">
-			    	<a class="page-link" href="javascript:fncGetList('${ i }');">${ i }</a>
+			    	<a class="page-link" href="javascript:fncGetPurchaseList('${ i }');">${ i }</a>
 			    </li>
 	    	</c:if>
 	    	
@@ -44,7 +44,7 @@
 	    <c:if test="${ resultPage.endUnitPage < resultPage.maxPage }">
 		    <li class="page-item">
 	    </c:if>
-	      <a class="page-link" href="javascript:fncGetList('${resultPage.endUnitPage+1}')" aria-label="Next">
+	      <a class="page-link" href="javascript:fncGetPurchaseList('${resultPage.endUnitPage+1}')" aria-label="Next">
 	        <span aria-hidden="true">&raquo;</span>
 	      </a>
 	    </li>

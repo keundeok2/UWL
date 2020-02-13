@@ -64,6 +64,9 @@
         .fa-clipboard {
         	color: rgb(4, 4, 5);
         }
+        .fa-medal {
+        	color: #ffc811;
+        }
         
          /* 등록 하기위해 내가 추가한 것 */
         div.addChallenge div.list {
@@ -91,10 +94,6 @@
 				self.location ="/challenge/getChallengeAdmin?challNo="+challNo;  
 			});
 			
-			 $( ".list a:contains('등록')" ).on("click" , function() {
-				 	/* alert("등록되는거임 ㅋㅋ") */
-					self.location ="/challenge/addChallenge"
-				});
 			
 						
 		});	
@@ -112,15 +111,10 @@
 	 <form class="form-inline">
 	<div class="container-md">
                    <br>
-                    <h2>주간 도전과제 목록 (관리자용) </h2>
+                    <h2><i class="fas fa-medal"></i> 완료한 도전과제 목록</h2>
                      <br>
                      <div class="alert alert-secondary" role="alert">
-					 	<font style="font-size: 20px">관리자라면 등록자 상관없이 내용을 수정할 수 있습니다.</font>
-					 	<div class="addChallenge">
-					        <div class="list" >
-					             <a href="#">등록</a>
-					        </div>
-				        </div>
+					 	<font style="font-size: 20px">내가 완료된 도전과제를 볼 수 있습니다.</font>
 					</div>
                      
                      	

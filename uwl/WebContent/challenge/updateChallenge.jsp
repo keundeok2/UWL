@@ -342,6 +342,17 @@
 			    <span class="input-group-text" style="width: 35px;">점</span>
 			  </div>
 			</div>
+			
+			<c:if test="${challenge.challCategory == '3'}">
+				<div class="input-group col-3" id="postCommentComplete">
+					<div class="input-group-prepend">
+					<span class="input-group-text" style="width: 35px;"><i class="fas fa-trophy" aria-hidden="true"></i></span>
+					</div><input type="text" class="form-control" name="postCommentComplete" value="${challenge.postCommentComplete}">
+					<div class="input-group-append"><span class="input-group-text" style="width: 35px">회</span>
+					</div>
+				</div>
+			</c:if>
+			
           </div> 
           <br>
 			
@@ -366,7 +377,7 @@
 	        
 	        <div style="text-align:right;width:100%">
 	        <div class="form-group">
-	       		<button type="button" class="btn btn-outline-secondary" id="complete" style="width:150px">등록</button>
+	       		<button type="button" class="btn btn-outline-secondary" id="complete" style="width:150px">수정</button>
 	       	</div>
 	    </div>
     </div>

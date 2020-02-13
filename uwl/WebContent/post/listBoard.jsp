@@ -10,9 +10,7 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
@@ -25,7 +23,7 @@
 <script src="https://kit.fontawesome.com/4b823cf630.js"
 	crossorigin="anonymous"></script>
 <title>Insert title here</title>
-    <style>
+ <style>
         * {
             margin: 0;
             padding: 0;
@@ -441,9 +439,8 @@
         	line-height: 50px
         }
         
-    </style>
-    
-    <script type="text/javascript">
+    </style></style>
+<script type="text/javascript">
 	    $(document).ready(function(){
 	    	
 	    	$('.a').on("click", function(){
@@ -457,11 +454,10 @@
 	    	});
 	    });
     </script>
+
 </head>
 <body>
-    <form>
-    <div class="main">
-            <div class="mainHeader">
+	<div class="mainHeader">
                 <div class="left2">
                     <c:if test="${gatherCategoryNo eq '201' }">
     					<h1><i class="fas fa-graduation-cap"></i> 진학상담</h1>
@@ -564,7 +560,5 @@
             
             
     </form>
-    
-     
 </body>
 </html>

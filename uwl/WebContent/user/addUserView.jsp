@@ -1,49 +1,32 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8"%>
 
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! addUserView ¼ö Á¤ Áß !!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! addUserView / ë©”ì¼ ì¸ì¦, í•™êµì£¼ì†Œ ì°¾ê¸°, í•¸ë“œí° ì¸ì¦  !!!!!!!!!!!!! -->
 <!DOCTYPE html>
 
 <html lang="ko">
 	
 <head>
-	<meta charset="EUC-KR">
+	<meta charset="UTF-8">
 	
 <!-- 	<link rel="stylesheet" type="text/css" href="assets/css/main.css"> -->
-	
-	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
 	<!--  ///////////////////////// Bootstrap 4.4, jQuery 3.1.1 CDN ////////////////////////// -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
 			rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
 			crossorigin="anonymous">
-	
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	
-	
 	<!--  ///////////////////////// CSS, JS 4.4 CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
 	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
 integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
-integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	
-	
 	
 	<!--  ///////////////////////// datePicker ////////////////////////// -->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -54,18 +37,18 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
-		//============= "°¡ÀÔ"  Event ¿¬°á =============
+		//============= "ê°€ì…"  Event ì—°ê²° =============
 		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$( '#signUp' ).on("click" , function() {
 				fncAddUser();
 			});
 		});	
 		
-		//============= "Ãë¼Ò"  Event Ã³¸® ¹×  ¿¬°á =============
+		//============= "ì·¨ì†Œ"  Event ì²˜ë¦¬ ë°  ì—°ê²° =============
 		$(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a[href='#' ]").on("click" , function() {
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$("button[href='#' ]").on("click" , function() {
 				$("form")[0].reset();
 			});
 		});	
@@ -81,61 +64,96 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 			var birth=$("input[name='birth']").val();
 			var schoolNo=$("input[name='schoolNo']").val();
 			var mail=$("input[name='mail']").val();
-			// ¸ŞÀÏ ÀÎÁõ À¯¹«¸¦ ÆÇ´ÜÇÏ±â À§ÇÑ Flag 
+			
+			// ë©”ì¼ ì¸ì¦ ìœ ë¬´ë¥¼ íŒë‹¨í•˜ê¸° ìœ„í•œ Flag 
 // 			var mailValue = $("input[name='mailValue']").val();
 		
-// 			// 1ÀÏ ¶§ ¸ŞÀÏ ÀÎÁõ ¿Ï·áÀÌ¹Ç·Î ±× ¿Ü È¤Àº ¸ŞÀÏ ÀÎÁõÀ» ÁøÇàÇÏÁö ¾ÊÀº °æ¿ì ¹Ù·Î Á¾·á
+// 			// 1ì¼ ë•Œ ë©”ì¼ ì¸ì¦ ì™„ë£Œì´ë¯€ë¡œ ê·¸ ì™¸ í˜¹ì€ ë©”ì¼ ì¸ì¦ì„ ì§„í–‰í•˜ì§€ ì•Šì€ ê²½ìš° ë°”ë¡œ ì¢…ë£Œ
 // 			if ( mailValue == "" || mailValue != "1" ) { 
-// 				$("h6").text("¸ŞÀÏ ÀÎÁõÀ» ÁøÇàÇØÁÖ¼¼¿ä.");
+// 				$("h6").text("ë©”ì¼ ì¸ì¦ì„ ì§„í–‰í•´ì£¼ì„¸ìš”.");
 // 				return;
 // 			}
 			
+				
 			if(id == null || id.length <1){
-				alert("¾ÆÀÌµğ´Â ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-				return;
+				$('#not').remove();
+				var view = "<span id='not' style='color:red'> ì•„ì´ë””ëŠ” ë°˜ë“œì‹œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.</span>";
+				$('#userId').after(view);
+				$('#userId').focus();
+				return 0;
 			}
+			
 			if(pw == null || pw.length <1){
-				alert("ÆĞ½º¿öµå´Â  ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-				return;
+				$('#not').remove();
+				var view = "<span id='not' style='color:red'> íŒ¨ìŠ¤ì›Œë“œëŠ” ë°˜ë“œì‹œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.</span>";
+				$('#password').after(view);
+				$('#password').focus();
+				return 0;
 			}
+			
 			if(pw_confirm == null || pw_confirm.length <1){
-				alert("ÆĞ½º¿öµå È®ÀÎÀº  ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-				return;
+				$('#not').remove();
+				var view = "<span id='not' style='color:red'> íŒ¨ìŠ¤ì›Œë“œ í™•ì¸ì€  ë°˜ë“œì‹œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.</span>";
+				$('#password2').after(view);
+				$('#password2').focus();
+				return 0;
 			}
+			
 			if(name == null || name.length <1){
-				alert("ÀÌ¸§Àº  ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-				return;
+				$('#not').remove();
+				var view = "<span id='not' style='color:red'> ì´ë¦„ì€ ë°˜ë“œì‹œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.</span>";
+				$('#name').after(view);
+				$('#name').focus();
+				return 0;
 			}
 			
 			if(nickname == null || nickname.length <1){
-				alert("´Ğ³×ÀÓÀº  ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-				return;
+				$('#not').remove();
+				var view = "<span id='not' style='color:red'> ë‹‰ë„¤ì„ì€ ë°˜ë“œì‹œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.</span>";
+				$('#nickname').after(view);
+				$('#nickname').focus();
+				return 0;
 			}
 			
 			if(gender == null || gender.length <1){
-				alert("¼ºº°Àº  ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-				return;
+				$('#not').remove();
+				var view = "<span id='not' style='color:red'> ì„±ë³„ì€ ë°˜ë“œì‹œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.</span>";
+				$('#gender').after(view);
+				$('#gender').focus();
+				return 0;
 			}
 			
 			if(birth == null || birth.length <1){
-				alert("»ıÀÏÀº  ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-				return;
+				$('#not').remove();
+				var view = "<span id='not' style='color:red'> ìƒì¼ì€ ë°˜ë“œì‹œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤. </span>";
+				$('#birth').after(view);
+				$('#birth').focus();
+				return 0;
 			}
 			
 			if(schoolNo == null || schoolNo.length <1){
-				alert("ÇĞ±³´Â  ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-				return;
+				$('#not').remove();
+				var view = "<span id='not' style='color:red'> í•™êµëŠ” ë°˜ë“œì‹œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.</span>";
+				$('#schoolNo').after(view);
+				$('#schoolNo').focus();
+				return 0;
 			}
 			
 			if(mail == null || mail.length <1){
-				alert("¸ŞÀÏÀº  ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-				return;
+				$('#not').remove();
+				var view = "<span id='not' style='color:red'> ë©”ì¼ì€ ë°˜ë“œì‹œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.</span>";
+				$('#mail').after(view);
+				$('#mail').focus();
+				return 0;
 			}
 			
-			if( pw != pw_confirm ) {				
-				alert("ºñ¹Ğ¹øÈ£ È®ÀÎÀÌ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+			if( pw != pw_confirm ) {	
+				$('#not').remove();
+				var view = "<span id='not' style='color:red'> ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.</span>";
+				$('#password2').after(view);
+				$('#password2').focus();
 				$("input:text[name='password2']").focus();
-				return;
+				return 0;
 			}
 				
 			var value = "";	
@@ -146,28 +164,28 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 			}
 
 			$("input:hidden[name='phone']").val( value );
-
+			
 			$("form").attr("method" , "POST").attr("action" , "/user/addUser").submit();
 		}
 		
 
-		//==>"ÀÌ¸ŞÀÏ" À¯È¿¼ºCheck  Event Ã³¸® ¹× ¿¬°á=============================¾ÈµÊ!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//==>"ì´ë©”ì¼" ìœ íš¨ì„±Check  Event ì²˜ë¦¬ ë° ì—°ê²°============================= 
 		 $(function() {
-			 
 			 $("input[name='mail']").on("change" , function() {
-				
 				 var mail=$("input[name='mail']").val();
-			    
 				 if(mail != "" && (mail.indexOf('@') < 1 || mail.indexOf('.') == -1) ){
-			    	alert("ÀÌ¸ŞÀÏ Çü½ÄÀÌ ¾Æ´Õ´Ï´Ù.");
+					 $('#not').remove();
+					 var view = "<span id='not' class='mailNot' style='color:red'> ì´ë©”ì¼ í˜•ì‹ì´ ì•„ë‹™ë‹ˆë‹¤.</span>";
+					 $('#mail').after(view);
+					 $('#mail').focus();
 			     }
 			});
 		});	
 		
 		
-	 	//==>"IDÁßº¹È®ÀÎ" Event Ã³¸® ¹× ¿¬°á
+	 	//==>"IDì¤‘ë³µí™•ì¸" Event ì²˜ë¦¬ ë° ì—°ê²°
 			var checkId = 0;
-		    //¾ÆÀÌµğ Ã¼Å©ÇÏ¿© °¡ÀÔ¹öÆ° ºñÈ°¼ºÈ­, Áßº¹È®ÀÎ.
+		    //ì•„ì´ë”” ì²´í¬í•˜ì—¬ ê°€ì…ë²„íŠ¼ ë¹„í™œì„±í™”, ì¤‘ë³µí™•ì¸.
 		    function checkDuplicationUserId() {
 		        var inputed = $('#userId').val();
 		        console.log(inputed);
@@ -179,29 +197,29 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 		            method : 'GET',
 		            success : function(data) {
 		                if(data == true) {
-		                    $("#userId").css("background-color", "#B0F6AC"); //ÃÊ·Ï
+		                    $("#userId").css("background-color", "#B0F6AC"); //ì´ˆë¡
 		                    $(".btn btn-outline-info btn-lg").prop("disabled", true);
-	                         $(".btn btn-outline-info btn-lg").css("background-color", "#4CAF50"); //ÃÊ·Ï
+	                         $(".btn btn-outline-info btn-lg").css("background-color", "#4CAF50"); //ì´ˆë¡
 		                    checkId = true;
 		                }else {
-		                    $("#userId").css("background-color", "#FFCECE"); //»¡°­
+		                    $("#userId").css("background-color", "#FFCECE"); //ë¹¨ê°•
 		                    $(".btn btn-outline-info btn-lg").prop("disabled", false);
-		                    $(".btn btn-outline-info btn-lg").css("background-color", "#aaaaaa"); //È¸»ö
+		                    $(".btn btn-outline-info btn-lg").css("background-color", "#aaaaaa"); //íšŒìƒ‰
 		                    checkId = false;
 	                         signupCheck();
 		                }
 		            },
 		            error : function(){
-		            	alert("½ÇÆĞ");
+		            	alert("ì‹¤íŒ¨");
 		            }
 		        });
 		    }		
 		    
 		    
 		    
-		  //==>"Nickname Áßº¹È®ÀÎ" Event Ã³¸® ¹× ¿¬°á
+		  //==>"Nickname ì¤‘ë³µí™•ì¸" Event ì²˜ë¦¬ ë° ì—°ê²°
 		    var checkNick = 0;
-		    // Ã¼Å©ÇÏ¿© °¡ÀÔ¹öÆ° ºñÈ°¼ºÈ­, Áßº¹È®ÀÎ.
+		    // ì²´í¬í•˜ì—¬ ê°€ì…ë²„íŠ¼ ë¹„í™œì„±í™”, ì¤‘ë³µí™•ì¸.
 		    function checkDuplicationNickname() {
 		        var inputed = $('#nickname').val();
 		        console.log(inputed);
@@ -213,29 +231,28 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 		            method : 'GET',
 		            success : function(data) {
 		                if(data == true) {
-		                    $("#nickname").css("background-color", "#B0F6AC"); //ÃÊ·Ï
+		                    $("#nickname").css("background-color", "#B0F6AC"); //ì´ˆë¡
 		                    $(".btn btn-outline-info btn-lg").prop("disabled", true);
-	                         $(".btn btn-outline-info btn-lg").css("background-color", "#4CAF50"); //ÃÊ·Ï
+	                         $(".btn btn-outline-info btn-lg").css("background-color", "#4CAF50"); //ì´ˆë¡
 		                    checkId = true;
 		                }else {
-		                    $("#nickname").css("background-color", "#FFCECE"); //»¡°­
+		                    $("#nickname").css("background-color", "#FFCECE"); //ë¹¨ê°•
 		                    $(".btn btn-outline-info btn-lg").prop("disabled", false);
-		                    $(".btn btn-outline-info btn-lg").css("background-color", "#aaaaaa"); //È¸»ö
+		                    $(".btn btn-outline-info btn-lg").css("background-color", "#aaaaaa"); //íšŒìƒ‰
 		                    checkId = false;
 	                         signupCheck();
 		                }
 		            },
 		            error : function(){
-		            	alert("½ÇÆĞ");
+		            	alert("ì‹¤íŒ¨");
 		            }
 		        });
 		    }		
 		    
 		    
-		    
-		  //==>"mail Áßº¹È®ÀÎ" Event Ã³¸® ¹× ¿¬°á
+		  //==>"mail ì¤‘ë³µí™•ì¸" Event ì²˜ë¦¬ ë° ì—°ê²°
 		    var mail = 0;
-		    // Ã¼Å©ÇÏ¿© °¡ÀÔ¹öÆ° ºñÈ°¼ºÈ­, Áßº¹È®ÀÎ.
+		    // ì²´í¬í•˜ì—¬ ê°€ì…ë²„íŠ¼ ë¹„í™œì„±í™”, ì¤‘ë³µí™•ì¸.
 		    function checkDuplicationMail() {
 		        var inputed = $('#mail').val();
 		        console.log(inputed);
@@ -244,54 +261,31 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 		            	mail : inputed
 		            },
 		            url : "/user/rest/checkDuplicationMail",
-		            method : 'get',
+		            method : 'GET',
 		            success : function(data) {
 		                if(data == true) {
-		                    $("#mail").css("background-color", "#B0F6AC"); //ÃÊ·Ï
+		                    $("#mail").css("background-color", "#B0F6AC"); //ì´ˆë¡
 		                    $(".btn btn-outline-info btn-lg").prop("disabled", true);
-	                         $(".btn btn-outline-info btn-lg").css("background-color", "#4CAF50"); //ÃÊ·Ï
+	                         $(".btn btn-outline-info btn-lg").css("background-color", "#4CAF50"); //ì´ˆë¡
 		                    checkId = true;
 		                }else {
-		                    $("#mail").css("background-color", "#FFCECE"); //»¡°­
+		                    $("#mail").css("background-color", "#FFCECE"); //ë¹¨ê°•
 		                    $(".btn btn-outline-info btn-lg").prop("disabled", false);
-		                    $(".btn btn-outline-info btn-lg").css("background-color", "#aaaaaa"); //È¸»ö
+		                    $(".btn btn-outline-info btn-lg").css("background-color", "#aaaaaa"); //íšŒìƒ‰
 		                    checkId = false;
 	                         signupCheck();
 		                }
 		            },
 		            error : function(){
-		            	alert("½ÇÆĞ");
+		            	alert("ì‹¤íŒ¨");
 		            }
 		        });
 		    }		
 		    
-// 		//==>"IDÁßº¹È®ÀÎ" Event Ã³¸® ¹× ¿¬°á
-// 		 $(function() {
-// 			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-// 			 $("button#checkId").on("click" , function() {
-// 				popWin 
-// 				= window.open("/user/checkDuplicationUserId.jsp",
-// 											"popWin", 
-// 											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
-// 											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
-// 			});
-// 		});	
 		
-//  		//==>"NicknameÁßº¹È®ÀÎ" Event Ã³¸® ¹× ¿¬°á
-//  		 $(function() {
-//  			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-//  			 $("button#checkNick").on("click" , function() {
-//  				popWin 
-//  				= window.open("/user/checkDuplicationNickname.jsp",
-//  											"popWin", 
-//  											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
-//  											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
-//  			});
-//  		});	
-		
-		//==>"ÇĞ±³ ÁÖ¼ÒÃ£±â" Event Ã³¸® ¹× ¿¬°á
+		//==>"í•™êµ ì£¼ì†Œì°¾ê¸°" Event ì²˜ë¦¬ ë° ì—°ê²° ================================ Error Error Error Error Error Error Error Error Error
 		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $("button#checkSchool").on("click" , function() {
 				popWin 
 				= window.open("/user/checkDuplicationUserId.jsp",
@@ -301,45 +295,72 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 			});
 		});	
 		
-		//==>"phone º»ÀÎÀÎÁõ" Event Ã³¸® ¹× ¿¬°á
-		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		//==>"phone ë³¸ì¸ì¸ì¦" Event ì²˜ë¦¬ ë° ì—°ê²°  ================================ Error Error Error Error Error Error Error Error Error
+				 $(function() {
 			 $("button#checkPhone").on("click" , function() {
-				popWin 
-				= window.open("/user/checkDuplicationUserId.jsp",
-											"popWin", 
-											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
-											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+				 var phone = $('#phone').val();
+				 if(isNaN(phone) || phone==''){
+					 console.log('ë²ˆí˜¸ë¥¼ ì œëŒ€ë¡œ ì…ë ¥í•´ì¤˜!');
+				 }else{
+					 $('#phoneNumberCheckBox').remove();
+					var view=
+							"<div class='form-group' id='phoneNumberCheckBox'>"
+							+ "<label for='phone' class='col-md-offset-1 col-md-3 control-label'>ì¸ì¦ë²ˆí˜¸ ì…ë ¥</label>"
+							+ "<div class='col-sm-4'>"
+							+ "<input type='text' class='form-control' id='code' name='code' placeholder='ì¸ì¦ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.'>"
+							+ "</div>"
+							+ "<div class='col-sm-3'>"
+							+ "<button type='button' class='btn btn-outline-warning' id='codeNumberCheck'>ì¸ì¦ì™„ë£Œ</button>"
+							+ "</div>"
+							+ "</div>";
+						$('#phoneCheckAppend').after(view);
+						$.ajax({
+							url : "/user/rest/sendSms",
+							dataType : 'json',
+							data : {receiver : phone},
+							success : function(data){
+								$('#phone').attr('readonly' ,true);
+							},
+							error : function(){
+								console.log('error');
+							}
+						});
+				 }
 			});
-		});	
+		});
+			 $(document).on("click",'#codeNumberCheck', function(){
+				 var code = $('#code').val();
+				 $.ajax({
+						url : "/user/rest/smsCheck",
+						data : {code : code},
+						success : function(data){
+							if(data == true){
+								//ì¸ì¦ì™„ë£Œ ì‹œ
+								var view = "<h1><span>ì¸ì¦ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤</span></h1>"
+								$('body').after(view);
+							}else{
+								//ì¸ì¦ í‹€ë¦´ì‹œ ëˆ„ë‹˜ì´ ì´ì˜ê²Œ í‹€ë ¸ë‹¤ê³  ì•Œë ¤ì£¼ì„¸ìš”! 
+								var view = "<span>ì¸ì¦ë²ˆí˜¸ë¥¼ ë‹¤ì‹œ í™•ì¸í•´ì£¼ì„¸ìš”.</span>"
+							}
+						},
+						error : function(){
+							console.log('error');
+						}
+					});
+			 });
+
 		
-// 		//==>"mail Áßº¹Ã¼Å©" Event Ã³¸® ¹× ¿¬°á
-// 		 $(function() {
-// 			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-// 			 $("button#checkMail").on("click" , function() {
-// 				popWin 
-// 				= window.open("/user/checkDuplicationMail.jsp",
-// 											"popWin", 
-// 											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
-// 											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
-// 			});
-// 		});	
-		
-		//==>"mail º»ÀÎÀÎÁõ" Event Ã³¸® ¹× ¿¬°á =====
+		//==>"mail ë³¸ì¸ì¸ì¦" Event ì²˜ë¦¬ ë° ì—°ê²°  ================================ Error Error Error Error Error Error Error Error Error
 		$(function() {
-		// ÀÌ¸ŞÀÏ ÀÔ·Â ½Ã ÀÎÁõ¹øÈ£È®ÀÎ ¹öÆ°ÀÌ º¸ÀÌÁö ¾Êµµ·Ï hide 
-		$( "button.btn.btn-primary:contains('ÀÎÁõ¹øÈ£È®ÀÎ')" ).hide();
-		
-// 		$( "button.btn.btn-primary:contains('°¡ÀÔ')" ).on("click" , function() {
-// 			fncAddUser();
-// 		});
+			// ì´ë©”ì¼ ì…ë ¥ ì‹œ ì¸ì¦ë²ˆí˜¸í™•ì¸ ë²„íŠ¼ì´ ë³´ì´ì§€ ì•Šë„ë¡ hide 
+			$("button:contains('ì¸ì¦ë²ˆí˜¸í™•ì¸')").hide();
+			$("button:contains('ì¸ì¦ì™„ë£Œ')").hide();
+		})
 		
 		
-// 		$( "button.btn.btn-primary:contains('¸ŞÀÏÀü¼Û')" ).on("click" , function() {
-		$( "button#sendMail").on("click" , function() {
+		$(document).on("click" ,"button#sendMail", function() {
 			var mail = $("input[name='mail']").val();
 			console.log(mail);
-			
 			
 			$.ajax(
 					{
@@ -353,70 +374,78 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 						data : JSON.stringify({
 							mail : mail
 						}) , 
-						// beforeSend :: request ½ÇÇà Àü¿¡ µ¿ÀÛÇÏ´Â call back function 
+						// beforeSend :: request ì‹¤í–‰ ì „ì— ë™ì‘í•˜ëŠ” call back function 
 						beforeSend : function() {
-							$("h6").text("¸ŞÀÏ ¹ß¼Û ÁßÀÔ´Ï´Ù... Àá½Ã¸¸ ±â´Ù·Á ÁÖ¼¼¿ä.");
+							$("h6").text("ë©”ì¼ ë°œì†¡ ì¤‘ì…ë‹ˆë‹¤... ì ì‹œë§Œ ê¸°ë‹¤ë ¤ ì£¼ì„¸ìš”.");
 						} , 
 						success : function( JSONData, Status ) {
-							// ¸ŞÀÏÀ» ¼º°øÀûÀ¸·Î º¸³ÂÀ» ½Ã returnMap.put("result", "done");
+							// ë©”ì¼ì„ ì„±ê³µì ìœ¼ë¡œ ë³´ëƒˆì„ ì‹œ returnMap.put("result", "done");
 							if ( JSONData.result == "done" ) {
-								// ÀÌ¸ŞÀÏ ÀÔ·Â Ä­À» ÀÎÁõ¹øÈ£ÀÔ·ÂÄ­À¸·Î ¹Ù²Ù¹Ç·Î ÀÔ·ÂÇÑ ÀÌ¸ŞÀÏÀ» ¹é¾÷ÇÏ´Â input type hidden ¼³Á¤ ±¸°£ 
-								$("input[name='mail']").val($("input[name='mail']").val());
+								// ì´ë©”ì¼ ì…ë ¥ ì¹¸ì„ ì¸ì¦ë²ˆí˜¸ì…ë ¥ì¹¸ìœ¼ë¡œ ë°”ê¾¸ë¯€ë¡œ ì…ë ¥í•œ ì´ë©”ì¼ì„ ë°±ì—…í•˜ëŠ” input type hidden ì„¤ì • êµ¬ê°„ 
+								$("input[name='userMail']").val($("input[name='mail']").val());
 								 
 								$("input[name='mail']").val("");
-								$("#mail").text("ÀÎÁõ¹øÈ£ÀÔ·Â");
+								$("#mail").text("ì¸ì¦ë²ˆí˜¸ì…ë ¥");
 								
-								// º»ÀÎÀÎÁõÇÒ state¸¦ returnMap.put("mailCheck", state);·Î ¹İÈ¯ÇßÀ¸¹Ç·Î ÇØ´ç °ªÀ» input type hidden¿¡ ¹é¾÷
+								// ë³¸ì¸ì¸ì¦í•  stateë¥¼ returnMap.put("mailCheck", state);ë¡œ ë°˜í™˜í–ˆìœ¼ë¯€ë¡œ í•´ë‹¹ ê°’ì„ input type hiddenì— ë°±ì—…
 								$("input[name='mailCheck']").val(JSONData.mailCheck);
 								
-								// ¾ø´Â ÀÌ¸ŞÀÏ·Î ¸ŞÀÏ ¹ß¼Û ÀÚÃ¼´Â °¡´ÉÇÏ¹Ç·Î ÀÌ¿¡ ´ëÇÑ Ãß°¡ÀûÀÎ Business LogicÀÌ ÇÊ¿äÇÔ 
-								$("h6").text("¸ŞÀÏ ¹ß¼ÛÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù. ¸ŞÀÏÀ» È®ÀÎÇØ ÁÖ¼¼¿ä. ¸ŞÀÏÀÌ ¾øÀ» ½Ã ´Ù½Ã ¹ß¼Û ¹öÆ°À» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+								// ì—†ëŠ” ì´ë©”ì¼ë¡œ ë©”ì¼ ë°œì†¡ ìì²´ëŠ” ê°€ëŠ¥í•˜ë¯€ë¡œ ì´ì— ëŒ€í•œ ì¶”ê°€ì ì¸ Business Logicì´ í•„ìš”í•¨ 
+								$("h6").text("ë©”ì¼ ë°œì†¡ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 								
 								$("button#sendMail").remove();
-								$("button.btn.btn-primary:contains('ÀÎÁõ¹øÈ£È®ÀÎ')").show(); 
-								$("input[name='mail']").attr("placeholder", "ÀÎÁõ¹øÈ£ ÀÔ·Â");
+								$("button:contains('ì¸ì¦ë²ˆí˜¸í™•ì¸')").show();
+								$("input[name='mail']").attr("placeholder", "ì¸ì¦ë²ˆí˜¸ ì…ë ¥");
+								$("input[name='mail']").removeAttr("name");
+								
 							} 
 						}
 					}
 			)
 		});
 		
-		$( "button.btn.btn-primary:contains('ÀÎÁõ¹øÈ£È®ÀÎ')" ).on("click" , function() {
-			var mailValue = $("input[name='mail']").val();
+		$(document).on("click" ,"button:contains('ì¸ì¦ë²ˆí˜¸í™•ì¸')", function() {
+			var mailValue = $("input#mail").val();
 			var mailCheck = $("input[name='mailCheck']").val();
+			console.log("ë¹„êµëŒ€ìƒ ê°’ : " + mailCheck);
+			console.log("ì…ë ¥ ê°’ : " + mailValue);
 			
-			console.log("ºñ±³´ë»ó °ª : " + mailCheck);
-			console.log("ÀÔ·Â °ª : " + mailValue);
+			// mailCheckëŠ” ì´ë©”ì¼ ì¸ì¦ ë¬¸ìì—´ stateì´ë©° 
+			// mailValueëŠ” ì´ë©”ì¼ ì¸ì¦ ìœ ë¬´ë¥¼ íŒë‹¨í•˜ëŠ” Flagì´ë‹¤ 
 			
-			// mailCheck´Â ÀÌ¸ŞÀÏ ÀÎÁõ ¹®ÀÚ¿­ stateÀÌ¸ç 
-			// mailValue´Â ÀÌ¸ŞÀÏ ÀÎÁõ À¯¹«¸¦ ÆÇ´ÜÇÏ´Â FlagÀÌ´Ù 
-			
-			// mailCheckÀÇ default´Â null StringÀÌ¹Ç·Î 
+			// mailCheckì˜ defaultëŠ” null Stringì´ë¯€ë¡œ 
 			if ( mailCheck == "" ) {
-				$("h6").text("¸ŞÀÏÀÌ ¹ß¼ÛµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+				$("h6").text("ë©”ì¼ì´ ë°œì†¡ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 			}
-			
 			
 			if ( mailCheck != "" ) {
 				if ( mailCheck == mailValue ) {
+					$("span.mailNot").remove();
 					$("input[name='mailValue']").val("1");
-					$("h6").text("ÀÎÁõµÇ¾ú½À´Ï´Ù.");
+					$("h6").text("ì¸ì¦ë˜ì—ˆìŠµë‹ˆë‹¤.");
 					$("input[name='mail']").attr("readonly", true);
+					$("button:contains('ì¸ì¦ë²ˆí˜¸í™•ì¸')").remove();
+					$("button:contains('ì¸ì¦ì™„ë£Œ')").show();
 				}
 				
 				if ( mailCheck != mailValue ) {
-					$("h6").text("ÀÎÁõ ¹®ÀÚ°¡ Æ²·È½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØÁÖ¼¼¿ä.");
+					$("h6").text("ì¸ì¦ ë¬¸ìê°€ í‹€ë ¸ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ì£¼ì„¸ìš”.");
 				}
 			}
 		});
-	});	
+
+		
+		
+	
+	
+	
 	
 	$(function() {
 		 $( "a[href='#']" ).on("click" , function() {
 			$("form")[0].reset();
 		});
 	});	
-	//==>"mail º»ÀÎÀÎÁõ" Event Ã³¸® ¹× ¿¬°á =====				
+	//==>"mail ë³¸ì¸ì¸ì¦" Event ì²˜ë¦¬ ë° ì—°ê²°  ================================				
 				
 	</script>		
     
@@ -426,185 +455,145 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
     $( "#birth" ).datepicker({
       changeMonth: true,
       changeYear: true,
-      yearRange: "2000:2020"
+      yearRange: "2000:2020",
+      dateFormat: "yy-mm-dd"
     });
-  } );
+  });
   </script>
   
   <script>
-  $(document).ready(function(){
+ 	$(document).ready(function(){
+		 $("#fileInput").on('change', function(){  // ê°’ì´ ë³€ê²½ë˜ë©´
+			 if(window.FileReader){  // modern browser
+				var profileName = $(this)[0].files[0].name;
+			 }else {  // old IE
+		 		var profileName = $(this).val().split('/').pop().split('\\').pop();  // íŒŒì¼ëª…ë§Œ ì¶”ì¶œ
+			 }
 
-		 $("#fileInput").on('change', function(){  // °ªÀÌ º¯°æµÇ¸é
-
-		 if(window.FileReader){  // modern browser
-
-		 var profileName = $(this)[0].files[0].name;
-
-		 } else {  // old IE
-
-		 var profileName = $(this).val().split('/').pop().split('\\').pop();  // ÆÄÀÏ¸í¸¸ ÃßÃâ
-
-		 }
-
-		 
-
-		 // ÃßÃâÇÑ ÆÄÀÏ¸í »ğÀÔ
-
-		 $("#userfile").val(profileName);
+		 // ì¶”ì¶œí•œ íŒŒì¼ëª… ì‚½ì…
+			 $("#userfile").val(profileName);
 		 });
-		
 	});
   </script>
-  
-  
-  
-     
 </head>
 
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<div class="navbar  navbar-default" id="top">
-        	<a class="navbar-brand" href="/index.jsp" ><h3>¾î'¿ï¸²</h3></a>
+        	<a class="navbar-brand" href="/index.jsp" ><h3>ì–´'ìš¸ë¦¼</h3></a>
 <!--         	<img src="./images/twitter_header_photo_1.jpg"> -->
-<!-- ÀÌ¹ÌÁö Ãß°¡ -->
-
+<!-- ì´ë¯¸ì§€ ì¶”ê°€ -->
    	</div>	
    	<!-- ToolBar End /////////////////////////////////////-->	
 
 
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 <!-- 	<div class="container"> -->
-	
-<!-- 		<h1 class="bg-primary text-center">È¸ ¿ø °¡ ÀÔ</h1> -->
-		
+<!-- 		<h1 class="bg-primary text-center">íšŒ ì› ê°€ ì…</h1> -->
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal" enctype="multipart/form-data">
 		<div class="form-group">
 		  <div class="form-group">
-		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label" >* ¾Æ ÀÌ µğ</label>
-<!-- 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* ¾Æ ÀÌ µğ</label> -->
+		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label" >* ì•„ ì´ ë””</label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="userId" name="userId" oninput="checkDuplicationUserId()">
 		      <span id = "checkMsg"></span> 
-		      
-<!-- 		      	<strong class="text-danger">ÀÔ·ÂÀü Áßº¹È®ÀÎ ºÎÅÍ..</strong> -->
 		    </div>
-<!-- 		    <div class="col-sm-3"> -->
-<!-- 		      <button type="button" class="btn btn-info" id="checkId">Áßº¹È®ÀÎ</button> -->
-<!-- 		    </div> -->
 		  </div>
 		  
 		  
 		  <div class="form-group">
-		    <label for="password" class="col-sm-offset-1 col-sm-3 control-label" >* ºñ¹Ğ¹øÈ£</label>
-<!-- 		    <label for="password" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* ºñ¹Ğ¹øÈ£</label> -->
+		    <label for="password" class="col-sm-offset-1 col-sm-3 control-label" >* ë¹„ë°€ë²ˆí˜¸</label>
 		    <div class="col-sm-4">
-		      <input type="password" class="form-control" id="password" name="password" placeholder="ºñ¹Ğ¹øÈ£">
+		      <input type="password" class="form-control" id="password" name="password" placeholder="ë¹„ë°€ë²ˆí˜¸">
 		    </div>
 		  </div>
 		  
 		  
 		  <div class="form-group">
-		    <label for="password2" class="col-sm-offset-1 col-sm-3 control-label">* ºñ¹Ğ¹øÈ£ È®ÀÎ</label>
-<!-- 		    <label for="password2" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* ºñ¹Ğ¹øÈ£ È®ÀÎ</label> -->
+		    <label for="password2" class="col-sm-offset-1 col-sm-3 control-label">* ë¹„ë°€ë²ˆí˜¸ í™•ì¸</label>
 		    <div class="col-sm-4">
-		      <input type="password" class="form-control" id="password2" name="password2" placeholder="ºñ¹Ğ¹øÈ£ È®ÀÎ">
+		      <input type="password" class="form-control" id="password2" name="password2" placeholder="ë¹„ë°€ë²ˆí˜¸ í™•ì¸">
 		    </div>
 		  </div>
 		  
 		  
 		  <div class="form-group">
-		    <label for="name" class="col-sm-offset-1 col-sm-3 control-label" >* ÀÌ¸§</label>
-<!-- 		    <label for="name" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* ÀÌ¸§</label> -->
+		    <label for="name" class="col-sm-offset-1 col-sm-3 control-label" >* ì´ë¦„</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="name" name="name" placeholder="È¸¿øÀÌ¸§">
+		      <input type="text" class="form-control" id="name" name="name" placeholder="íšŒì›ì´ë¦„">
 		    </div>
 		  </div>
 		  
 		  
 		  <div class="form-group">
-		    <label for="nickname" class="col-sm-offset-1 col-sm-3 control-label" >* ´Ğ³×ÀÓ</label>
-<!-- 		    <label for="nickname" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* ´Ğ³×ÀÓ</label> -->
+		    <label for="nickname" class="col-sm-offset-1 col-sm-3 control-label" >* ë‹‰ë„¤ì„</label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="nickname" name="nickname" oninput="checkDuplicationNickname()">
 		    </div>
-<!-- 		    <div class="col-sm-3"> -->
-<!-- 		      <button type="button" class="btn btn-info" id="checkNick">Áßº¹È®ÀÎ</button> -->
-<!-- 		    </div> -->
 		  </div>
 		  
 		  
 		  <div class="form-group">
-		    <label for="schoolNo" class="col-sm-offset-1 col-sm-3 control-label" >* ÇĞ±³</label>
-<!-- 		    <label for="schoolNo" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* ÇĞ±³</label> -->
+		    <label for="schoolNo" class="col-sm-offset-1 col-sm-3 control-label" >* í•™êµ</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="schoolNo" name="schoolNo" placeholder="ÇĞ±³">
+		      <input type="text" class="form-control" id="schoolNo" name="schoolNo" placeholder="í•™êµ">
 		    </div>
 		    <div class="col-sm-3">
-		      <button type="button" class="btn btn-outline-warning" id="checkSchool">ÁÖ¼ÒÃ£±â</button>
-<!-- 		      <button type="button" class="btn btn-info" id="checkSchool">ÁÖ¼ÒÃ£±â</button> -->
+		      <button type="button" class="btn btn-outline-warning" id="checkSchool">ì£¼ì†Œì°¾ê¸°</button>
 		    </div>
 		  </div>
 		  
-		  
-		  <div class="form-group">
-		    <label for="phone" class="col-md-offset-1 col-md-3 control-label" >ÈŞ´ëÀüÈ­¹øÈ£</label>
-<!-- 		    <label for="phone" class="col-md-offset-1 col-md-3 control-label" style="color:orange">ÈŞ´ëÀüÈ­¹øÈ£</label> -->
-		     <div class="col-sm-2">
-		      <select class="form-control" name="phone1" id="phone1">
-				  	<option value="010" >010</option>
-					<option value="012" >012</option>
-				</select>
+		  <div class="form-group" id="phoneCheckAppend">
+		    <label for="phone" class="col-md-offset-1 col-md-3 control-label">íœ´ëŒ€ì „í™”ë²ˆí˜¸</label>
+		     <div class="col-sm-4">
+		      	<input type="text" class="form-control" id="phone" name="phone" placeholder="- ëŠ” ì œì™¸í•˜ê³  ì…ë ¥í•´ì£¼ì„¸ìš”.">
 		    </div>
-		    <div class="col-sm-1">
-		      <input type="text" class="form-control" id="phone2" name="phone2" placeholder="¹øÈ£">
-		    </div>
-		    <div class="col-sm-1">
-		      <input type="text" class="form-control" id="phone3" name="phone3" placeholder="¹øÈ£">
-		    </div>
-		    <input type="hidden" name="phone"  />
 		    <div class="col-sm-3">
-		      <button type="button" class="btn btn-outline-warning" id="checkPhone">º»ÀÎÀÎÁõ</button>
-<!-- 		      <button type="button" class="btn btn-info" id="checkPhone">º»ÀÎÀÎÁõ</button> -->
+		      <button type="button" class="btn btn-outline-warning" id="checkPhone">ë³¸ì¸ì¸ì¦</button>
+		    </div>
+		  </div>
+		  
+		  
+		  
+		  <div class="form-group">
+		    <label for="birth" class="col-sm-offset-1 col-sm-3 control-label" >* ìƒì¼</label>
+		    <div class="col-sm-4">
+		      <input type="text"  class="form-control" id="birth" name="birth"  placeholder="ìƒì¼ì„ ë‹¬ë ¥ì—ì„œ ì„ íƒí•˜ì„¸ìš”.">
 		    </div>
 		  </div>
 		  
 		  
 		  <div class="form-group">
-		    <label for="birth" class="col-sm-offset-1 col-sm-3 control-label" >* »ıÀÏ</label>
-<!-- 		    <label for="birth" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* »ıÀÏ</label> -->
+		    <label for="gender" class="col-sm-offset-1 col-sm-3 control-label" >* ì„±ë³„</label>
 		    <div class="col-sm-4">
-		      <input type="text"  class="form-control" id="birth" name="birth"  placeholder="»ıÀÏÀ» ´Ş·Â¿¡¼­ ¼±ÅÃÇÏ¼¼¿ä.">
+		    <input type="radio" name="gender" value="1"> ì—¬ì &nbsp;
+		    <input type="radio" name="gender" value="2"> ë‚¨ì
 		    </div>
 		  </div>
-		  
-		  
-		  <div class="form-group">
-		    <label for="gender" class="col-sm-offset-1 col-sm-3 control-label" >* ¼ºº°</label>
-<!-- 		    <label for="gender" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">* ¼ºº°</label> -->
-		    <div class="col-sm-4">
-		    <input type="radio" name="gender" value="1"> ¿©ÀÚ &nbsp;
-		    <input type="radio" name="gender" value="2"> ³²ÀÚ
-		    </div>
-		  </div>
-		  
 		  
 		   <div class="form-group">
-		    <label for="mail" class="col-sm-offset-1 col-sm-3 control-label"> ÀÌ¸ŞÀÏ</label>
-<!-- 		    <label for="mail" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange">ÀÌ¸ŞÀÏ</label> -->
+		    <label for="mail" class="col-sm-offset-1 col-sm-3 control-label">* ì´ë©”ì¼</label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="mail" name="mail"  oninput="checkDuplicationMail()" >
+		      <h6></h6>
 		    </div>
-<!-- 		    <div class="col-sm-3"> -->
-<!-- 		      <button type="button" class="btn btn-info" id="checkMail">Áßº¹È®ÀÎ</button> -->
-<!-- 		    </div> -->
+		    
+		    <div class="col-sm-3">
+		    	<button type="button" class="btn btn-outline-warning" id="sendMail">ë©”ì¼ì „ì†¡</button>
+		    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    	<button type="button" class="btn btn-outline-warning">ì¸ì¦ë²ˆí˜¸í™•ì¸</button>
+		    	<button type="button" class="btn btn-warning">ì¸ì¦ì™„ë£Œ</button>
+		    	<input type="hidden" name="mailValue" value="">
+		    	<input type="hidden" name="mailCheck" value="">
+		    	<input type="hidden" name="mail1" value="">
+		    </div>
 		    
 		    <div class="form-group" >
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		    <label for="profileName" class="col-sm-offset-1 col-sm-3 control-label" > »ç Áø</label>
-<!-- 		    <label for="profileName" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange"> »ç Áø</label> -->
+		    <label for="profileName" class="col-sm-offset-1 col-sm-3 control-label" > ì‚¬ ì§„</label>
 		    <div class="col-sm-4">
 		     	<input name="file" id="fileInput"  type="file" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);">
 					<div class="bootstrap-filestyle input-group">
@@ -618,37 +607,21 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 		    	</div>
 		     </div>
 		    
-			<!-- 		    ¸ŞÀÏ·Î ÀÎÁõ¹øÈ£ Àü¼Û -->
-		    <div class="col-sm-3">
-		    	<button type="button" class="btn btn-outline-warning" id="sendMail">¸ŞÀÏÀü¼Û</button>
-<!-- 		    	<button type="button" class="btn btn-info" id="sendMail">¸ŞÀÏÀü¼Û</button> -->
-		    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		    	<button type="button" class="btn btn-outline-warning">ÀÎÁõ¹øÈ£È®ÀÎ</button>
-<!-- 		    	<button type="button" class="btn btn-info">ÀÎÁõ¹øÈ£È®ÀÎ</button> -->
-		    	<input type="hidden" name="mailValue" value="">
-		    	<input type="hidden" name="mailCheck" value="">
-		    	<input type="hidden" name="mail1" value="">
-		    </div>
-		    <!-- 		    ¸ŞÀÏ·Î ÀÎÁõ¹øÈ£ Àü¼Û -->
-		    
+
 		  </div>
 		  </div>
-<!-- 		  </div> -->
 		  
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-<!-- 		     <button type="submit" id="signUp"	class="btn btn-outline-info btn-lg" disabled="disabled">Sign Up</button> -->
-		     <button type="submit" id="signUp"	class="btn btn-outline-info btn-lg" >Sign Up</button>
-<!-- 		      <button type="button" class="btn btn-primary"  >°¡ &nbsp;ÀÔ</button> -->
-			  <a class="btn btn-outline-info btn-lg btn" href="#" role="button">Ãë&nbsp;¼Ò</a>
+		     <button type="button" id="signUp"	class="btn btn-outline-info btn-lg" >ê°€&nbsp;ì…</button>
+			  <button type="button" class="btn btn-outline-info btn-lg btn" href="#">ì·¨&nbsp;ì†Œ</button>
 		    </div>
 		  </div>
 		  </div>
 		</form>
 		
 		<!-- form Start /////////////////////////////////////-->
-		
-	<!--  È­¸é±¸¼º div end /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div end /////////////////////////////////////-->
 
 </body>
 
