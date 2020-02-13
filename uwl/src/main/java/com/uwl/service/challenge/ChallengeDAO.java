@@ -28,6 +28,9 @@ public interface ChallengeDAO {
 	//특정 도전과제를 가져오는 method
 	public Challenge getChallengeAdmin(int challNo) throws Exception;
 	
+	//특정 도전과제를 볼때 전 글 , 이후 글
+	public Challenge getNextOrPrePost(int challNo) throws Exception;
+	
 	//user들이 보는 도전과제 list (주간 도전과제 수행 전)
 	public List<Challenge> getChallengeList() throws Exception;
 	

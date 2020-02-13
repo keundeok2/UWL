@@ -64,6 +64,11 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 	public Challenge getChallengeAdmin(int challNo) throws Exception {
 		return sqlSession.selectOne("ChallengeMapper.getChallengeAdmin", challNo);
 	}
+	
+	@Override
+	public Challenge getNextOrPrePost(int challNo) throws Exception {
+		return sqlSession.selectOne("ChallengeMapper.getNextOrPrePost",challNo);
+	}
 
 	@Override
 	public List<Challenge> getChallengeList() throws Exception {
@@ -119,6 +124,8 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 		
 		return sqlSession.selectOne("ChallengeMapper.getChallCommentCompleteCount",challenge);
 	}
+
+	
 	
 	
 	

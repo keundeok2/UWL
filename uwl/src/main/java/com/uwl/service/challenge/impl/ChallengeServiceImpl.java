@@ -89,6 +89,11 @@ public class ChallengeServiceImpl implements ChallengeService{
 	public Challenge getChallengeAdmin(int challNo) throws Exception {
 		return challengeDAO.getChallengeAdmin(challNo);
 	}
+	
+	@Override
+	public Challenge getNextOrPrePost(int challNo) throws Exception {
+		return challengeDAO.getNextOrPrePost(challNo);
+	}
 
 
 	@Override
@@ -176,5 +181,7 @@ public class ChallengeServiceImpl implements ChallengeService{
 		
 		
 	}
+
+	
 
 }

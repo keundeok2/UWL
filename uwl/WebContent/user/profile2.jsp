@@ -128,7 +128,7 @@
 		
 		//프로필수정 Btn Event
 		$(document).on("click", "div.profileUpdate", function() {
-			$.redirect("/userr/updateProfileView", {userId : sessionUserId});
+			$.redirect("/userrr/updateProfileView", {userId : sessionUserId});
 		})
 		
 		
@@ -922,19 +922,34 @@
                         <img src="/images/love-and-romance.png" width="30px" alt=""> <span>37</span>
                     </div>
                     	<!-- /////////////// 활동점수, 포인트 추가바람/////////////// -->
-                    <div class="activityPoint"> 활동점수 <span>170</span>
+                    <div class="activityPoint"> 활동점수 <span>
+                    <c:if test="${empty reward.recentlyTotalActivityPoint}">
+                    0
+                    </c:if>
+                    <c:if test="${!empty reward.recentlyTotalActivityPoint}">
+                    ${reward.recentlyTotalActivityPoint}
+                    </c:if>
+                    
+                    </span>
                     </div>
                     <c:if test="${targetUserId eq user.userId }">
                     <!-- point div 추가했음 -->
-                    <div class="point"> 포인트 <span>170</span>
+                    <div class="point"> 포인트 <span>
+                    <c:if test="${empty reward.recentlyTotalPoint}">
+                    0
+                    </c:if>
+                    <c:if test="${!empty reward.recentlyTotalPoint}">
+                    ${reward.recentlyTotalPoint}
+                    </c:if>
+                    </span>
                     </div>
                     
                     <div class="totalItem purchaseBtn">
-                        <img src="/images/spear.png" width="30px" alt=""> <span>${totalSpear }</span>
+                        <img src="/images/spear.png" width="30px" alt=""> <span>${totalSpear}</span>
                         <input type=hidden class="itemCategory" value="1">
                     </div>
                     <div class="totalItem2 purchaseBtn">
-                        <img src="/images/shield.png" width="30px" alt=""> <span>${totalShield }</span>
+                        <img src="/images/shield.png" width="30px" alt=""> <span>${totalShield}</span>
                         <input type=hidden class="itemCategory" value="2">
                     </div>
                     </c:if>

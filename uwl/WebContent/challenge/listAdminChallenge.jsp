@@ -64,6 +64,20 @@
         .fa-clipboard {
         	color: rgb(4, 4, 5);
         }
+        
+         /* 등록 하기위해 내가 추가한 것 */
+        div.addChallenge div.list {
+            text-align: right;
+        }
+        div.addChallenge div.list a {
+            background-color: #EBAD7A;
+            display: inline-block;
+            line-height: 40px;
+            padding: 0 65px;
+            color: #fff;
+            font-weight: bold;
+            margin: 20px 0;
+        }
     </style>
     
     <script type="text/javascript">
@@ -77,18 +91,36 @@
 				self.location ="/challenge/getChallengeAdmin?challNo="+challNo;  
 			});
 			
+			 $( ".list a:contains('등록')" ).on("click" , function() {
+				 	/* alert("등록되는거임 ㅋㅋ") */
+					self.location ="/challenge/addChallenge"
+				});
+			
 						
 		});	
+	    
+	   	/* 페이지네비게이션 */
+	    function fncGetList(currentPage) {
+			$("#currentPage").val(currentPage)
+			/* alert("currPage"+currentPage); */
+			$("form").attr("method","POST").attr("action","/challenge/listAdminChallenge").submit();
+		}
     
     </script>
 </head>
 <body>
+	 <form class="form-inline">
 	<div class="container-md">
                    <br>
                     <h2>주간 도전과제 목록 (관리자용) </h2>
                      <br>
                      <div class="alert alert-secondary" role="alert">
-					 	관리자라면 등록자 상관없이 내용을 수정할 수 있습니다. <br>
+					 	<font style="font-size: 20px">관리자라면 등록자 상관없이 내용을 수정할 수 있습니다.</font>
+					 	<div class="addChallenge">
+					        <div class="list" >
+					             <a href="#">등록</a>
+					        </div>
+				        </div>
 					</div>
                      
                      	
@@ -104,7 +136,7 @@
 							    <small class="text-muted">
 							    	<c:if test="${challenge.challCategory == '1'}">
 										<i class="fas fa-map-marked-alt" style="font-size: 25px; "></i>&nbsp;&nbsp;Map&nbsp;&nbsp;
-										<i class="fas fa-coins" style="font-size: 25px; text-align: right;" ></i>&nbsp;&nbsp; + ${challenge.challReward} 
+										
 									</c:if>
 									<c:if test="${challenge.challCategory == '2'}">
 										<i class="fas fa-camera" style="font-size: 25px; "></i>&nbsp;&nbsp;Vision&nbsp;&nbsp;
@@ -119,13 +151,16 @@
 							  <br>
                      	</c:forEach>
 							</div>
+							 <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+							 <input type="hidden" id="currentPage" name="currentPage" value=""/>
+					</form>
 							
 							<br>
 							<br>
+						
 						<!-- PageNavigation Start... -->
 						<jsp:include page="../common/pageNavigator_new.jsp"/>
 						<!-- PageNavigation End... -->
-										
 
 						
 						

@@ -109,7 +109,7 @@
 			    								+"<span id='likeButton'>"
 			    								+"<span id='forCommentAppend"+commentNo+"'></span>"
 			    								+"<span id='likeButtonClick"+commentNo+"'>"
-			    								+"<a href='javascript:void(0)' class='link m-r-10' id='addLiike'"+commentNo+"><i class='far fa-heart' style='color:black' id='like'></i> "+likeCount+"</a>"
+			    								+"<a href='javascript:void(0)' class='link m-r-10' id='addLiike'"+commentNo+"><i class='far fa-heart' style='color:black'></i> "+likeCount+"</a>"
 			    								+"</span>"
 			    								+"</span>"
 			    								+"<input type='hidden' class='commentNo' value="+commentNo+">"
@@ -159,9 +159,9 @@
 		    			},
 		    			success : function(data){
 		    				if(data == true){
-		    					likeCount = Number(($('#addLike'+commentNo).text()).trim());
+		    					//likeCount = Number($('#likeButtonClick'+commentNo).parent().find('a').text()).trim());
+		    					likeCount = Number($('#likeButtonClick'+commentNo).parent().find('a').text().trim());
 			    				result = likeCount + 1;
-		    					console.log(likeCount)
 		    					$('#likeButtonClick'+commentNo).remove();
 		    					
 		    					var view = "<span id='likeButtonClick"+commentNo+"'>"
@@ -169,7 +169,6 @@
 		    								+"</span>"
 		    				$("#forCommentAppend"+commentNo).after(view);
 		    				}else{
-		    					console.log(likeCount)
 		    					$.ajax({
 		    						url : "/community/rest/deleteLike",
 		    						method : "POST",
@@ -183,9 +182,11 @@
 		    		    				"content-Type" : "application/json"
 		    		    			},
 		    		    			success : function(data){
+		    		    				likeCount = Number($('#likeButtonClick'+commentNo).parent().find('a').text().trim());
+		    		    				likeCount = likeCount - 1;
 		    		    				$('#likeButtonClick'+commentNo).remove();
 		    		    				var view = "<span id='likeButtonClick"+commentNo+"'>"
-		    		    							+"<a href='javascript:void(0)' class='link m-r-10' id'addLike"+commentNo+"'><i class='far fa-heart' style='color:black' id='like'></i> "+likeCount+"</a>"
+		    		    							+"<a href='javascript:void(0)' class='link m-r-10' id'addLike"+commentNo+"'><i class='far fa-heart' style='color:black'></i> "+likeCount+"</a>"
 		    		    							+"<span/>"
 		    		    			$("#forCommentAppend"+commentNo).after(view);
 		    		    			},
@@ -355,7 +356,7 @@
 								<span id="forCommentAppend${comment.commentNo }"></span>
 								<span id="likeButtonClick${comment.commentNo }">
 								<c:if test="${comment.likeStatus eq '0' }">
-									<a href="javascript:void(0)" class="link m-r-10" id="addLike${comment.commentNo }"><i class='far fa-heart' style='color:black' id='like'></i> ${comment.likeCount }</a>
+									<a href="javascript:void(0)" class="link m-r-10" id="addLike${comment.commentNo }"><i class='far fa-heart' style='color:black'></i> ${comment.likeCount }</a>
 								</c:if>
 								<c:if test="${comment.likeStatus ne '0'}">
 									<a href="javascript:void(0)" class="link m-r-10" id="deleteLike${comment.commentNo }"><i class="fa fa-heart text-danger"></i> ${comment.likeCount }</a>

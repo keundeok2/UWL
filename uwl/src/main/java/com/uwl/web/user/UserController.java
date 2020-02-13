@@ -113,22 +113,7 @@ public class UserController {
 		return "redirect:/user/loginView.jsp";
 	}
 
-	// 삭제예정
-	// 회원정보 보기
-	@RequestMapping(value = "getUser", method = RequestMethod.GET)
-	public String getUser(@RequestParam("userId") String userId, Model model) throws Exception {
-		System.out.println("UserController : getUser() GET 호출");
 
-		System.out.println("/user/getUser : GET");
-		// Business Logic
-		User user = userService.getUser(userId);
-		// Model 과 View 연결
-		model.addAttribute("user", user);
-
-		return "forward:/user/getUser.jsp";
-	}
-
-	// 수정!!!!!!!!!!!!!!!!!!!!!!!!!!
 	// 회원정보 보기
 	@RequestMapping(value = "getUser", method = RequestMethod.POST)
 	public String getUser(@ModelAttribute("user") User user) throws Exception {
@@ -312,92 +297,9 @@ public class UserController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-		System.out.println("오나요");
 		return "forward:/user/getUserQuestions.jsp";
 	}
 
-//	// 내가 쓴 게시글
-//	@RequestMapping(value = "getUserPostList", method = RequestMethod.GET)
-//	public String getUserPostList(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)
-//			throws Exception {
-//		System.out.println("UserController : getUserPostList() 호출");
-//
-//		System.out.println("/user/getUserPostList : GET");
-//
-//		if (search.getCurrentPage() == 0) {
-//			search.setCurrentPage(1);
-//		}
-//		search.setPageSize(pageSize);
-//
-//		// Business logic 수행
-//		Map<String, Object> map = userService.getUserPostList(search);
-//
-//		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
-//				pageSize);
-//		System.out.println(resultPage);
-//
-//		// Model 과 View 연결
-//		model.addAttribute("list", map.get("list"));
-//		model.addAttribute("resultPage", resultPage);
-//		model.addAttribute("search", search);
-//
-//		return "forward:/user/getProfile.jsp";
-//	}
-
-//	// 내가 쓴 댓글
-//	@RequestMapping(value = "getUserCommentList", method = RequestMethod.GET)
-//	public String getUserCommentList(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)
-//			throws Exception {
-//		System.out.println("UserController : getUserCommentList() 호출");
-//
-//		System.out.println("/user/getUserPosgetUserCommentListtList : GET");
-//		
-//		if (search.getCurrentPage() == 0) {
-//			search.setCurrentPage(1);
-//		}
-//		search.setPageSize(pageSize);
-//
-//		// Business logic 수행
-//		Map<String, Object> map = userService.getUserCommentList(search);
-//
-//		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
-//				pageSize);
-//		System.out.println(resultPage);
-//
-//		// Model 과 View 연결
-//		model.addAttribute("list", map.get("list"));
-//		model.addAttribute("resultPage", resultPage);
-//		model.addAttribute("search", search);
-//
-//		return "forward:/user/getProfile.jsp";
-//	}
-
-//	// 내가 좋아요한 글
-//	@RequestMapping(value = "getUserLikePostList", method = RequestMethod.GET)
-//	public String getUserLikePostList(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)
-//			throws Exception {
-//		System.out.println("UserController : getUserLikePostList() 호출");
-//
-//		System.out.println("/user/getUserLikePostList : GET");
-//		if (search.getCurrentPage() == 0) {
-//			search.setCurrentPage(1);
-//		}
-//		search.setPageSize(pageSize);
-//
-//		// Business logic 수행
-//		Map<String, Object> map = userService.getUserLikePostList(search);
-//
-//		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
-//				pageSize);
-//		System.out.println(resultPage);
-//
-//		// Model 과 View 연결
-//		model.addAttribute("list", map.get("list"));
-//		model.addAttribute("resultPage", resultPage);
-//		model.addAttribute("search", search);
-//
-//		return "forward:/user/getProfile.jsp";
-//	}
 
 	// 로그인
 	@RequestMapping(value = "login", method = RequestMethod.GET)
@@ -438,20 +340,6 @@ public class UserController {
 
 		return "redirect:/index.jsp";
 	}
-
-//	// 아이디 중복체크 test
-//		@RequestMapping(value = "checkDuplicationUserId", method = RequestMethod.POST)
-//		public String checkDuplicationUserId(@RequestParam("userId") String userId, Model model) throws Exception {
-//			System.out.println("UserController : checkDuplicationUserId() 호출");
-//
-//			return "userService.checkDuplicationUserId(userId)";
-//		}
-
-//	// 아이디 중복체크 test
-//	@RequestMapping(value = "checkDuplicationUserId", method = { RequestMethod.GET, RequestMethod.POST})
-//    public @ResponseBody int checkDuplicationUserId (String userId, Model model) {
-//        return userService.checkDuplicationUserId(userId);
-//    }//
 
 	// 아이디 중복체크
 	@RequestMapping(value = "checkDuplicationUserId", method = RequestMethod.GET)
@@ -524,35 +412,8 @@ public class UserController {
 		return "forward:/user/checkDuplicationMail.jsp";
 	}
 
-//	// 전체 회원목록
-//	@RequestMapping(value = "listUser")
-//	public String listUser(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)
-//			throws Exception {
-//
-//		System.out.println("/user/listUser : GET / POST");
-//
-//		if (search.getCurrentPage() == 0) {
-//			search.setCurrentPage(1);
-//		}
-//		search.setPageSize(pageSize);
-//
-//		// Business logic 수행
-//		Map<String, Object> map = userService.getUserList(search);
-//
-//		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
-//				pageSize);
-//		System.out.println(resultPage);
-//
-//		// Model 과 View 연결
-//		model.addAttribute("list", map.get("list"));
-//		model.addAttribute("resultPage", resultPage);
-//		model.addAttribute("search", search);
-//
-//		return "forward:/user/listUser.jsp";
-//	}
 
 	// 전체 회원목록
-//	@RequestMapping(value = "getUserList", method = RequestMethod.GET)
 	@RequestMapping(value = "getUserList")
 	public String listUser(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)
 			throws Exception {
@@ -580,9 +441,6 @@ public class UserController {
 		return "forward:/user/getUserList.jsp";
 	}
 
-	
-
-	
 	
 	// 전체 문의사항 목록
 	@RequestMapping(value = "getUserQuestionsList")
@@ -612,19 +470,6 @@ public class UserController {
 		return "forward:/user/getUserQuestionsList.jsp";
 	}
 
-//	// 전체 문의사항 목록
-//	@RequestMapping(value = "listQuestions", method = RequestMethod.GET)
-//	public String listQuestions(@RequestParam("userId") String userId, Model model) throws Exception {
-//		System.out.println("UserController : listQuestions() 호출");
-//
-//		System.out.println("/user/listQuestions : GET");
-//		// Business Logic
-//		List<User> user = userService.getUserQuestionsList(userId);
-//		// Model 과 View 연결
-//		model.addAttribute("user", user);
-//
-//		return "forward:/user/listQuestions.jsp";
-//	}
 
 	// 회원탈퇴
 	@RequestMapping(value = "deleteUser", method = RequestMethod.POST)
@@ -634,14 +479,12 @@ public class UserController {
 		System.out.println("/user/deleteUser : POST");
 		// Business Logic
 		userService.deleteUser(user);
-
 		String sessionId = ((User) session.getAttribute("user")).getUserId();
 		if (sessionId.equals(user.getUserId())) {
 			session.setAttribute("user", user);
 		}
 
 		return "forward:/index.jsp";
-//		return "redirect:/user/getUser?userId=" + user.getUserId();
 	}
 
 }

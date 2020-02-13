@@ -15,6 +15,7 @@
     <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
     <script src="/javascript/profile.js"></script>
+    
 </head>
 
 <body>

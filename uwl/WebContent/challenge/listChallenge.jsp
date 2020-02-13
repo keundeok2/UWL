@@ -41,10 +41,9 @@
 				</div>
 				
                      <div class="col-11">
-						<div class="card-group">
 		                     	<c:forEach var="challenge" items="${list}">
+						<div class="card-group">
 								  <div class="card">
-								    <img src="http://placehold.it/300x250" class="card-img-top" alt="...">
 								    <div class="card-body">
 								      <h5 class="card-title">${challenge.challTitle}  
 									     <c:if test="${challenge.challCategory == '1'}">
@@ -65,13 +64,13 @@
 								      </div>
 								    </div>
 								  </div>
-		                     	</c:forEach>
 						</div>
+		                     	</c:forEach>
 						</div>
 						
 						<br>
 						<!-- progress 3단계로 나눠서 진행상황에 따라 상태가 표시되게만들기 -->
-						
+						<!-- 
 						<p>
 						  <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">알아두세요!</a>
 						</p>
@@ -111,7 +110,7 @@
 						</div>
 						<br>
 						<br>
-						<br>
+						<br> -->
 						
 
 						
