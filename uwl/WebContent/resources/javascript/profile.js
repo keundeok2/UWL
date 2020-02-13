@@ -2,8 +2,10 @@ $(document).ready(function () {
     $(document).on('click', 'a[href="#"]', function (e) {
         e.preventDefault();
     });
-    var sessionUserId = "${user.userId}";
-    var targetUserId = "${targetUserId}";
+    
+    
+    var sessionUserId = $("input#sessionUserId").val();
+    var targetUserId = $("input#targetUserId").val();
 
     /* pureAlert confirm 주석풀지마셈 
     var pureAlert = $.pureAlert.confirm({
