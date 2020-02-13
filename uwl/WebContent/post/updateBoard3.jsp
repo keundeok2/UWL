@@ -1,31 +1,39 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="ko">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/mainMain.css">
-    <!-- <link rel="stylesheet" href="/css/mainLeft.css"> -->
-    <link rel="stylesheet" href="/css/mainRight.css">
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
-    <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
-    <!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
-    
-    <script src="/javascript/common.js"></script>
-    <script src="/javascript/mainLeft.js"></script>
-    <script src="/javascript/mainRight.js"></script>
-    
-    <style type="text/css">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script src="https://kit.fontawesome.com/4b823cf630.js"	
+	crossorigin="anonymous"></script>
+	
+
+<!--썸머노트 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+<!--썸머노트 -->
+
+
+
+<title>Insert title here</title>
+
+	<style type="text/css">
 	
 	
 		#inputPostTitle	{
@@ -136,7 +144,9 @@
 			width: 100%;
 			margin: -20px;
 		}
+		
 	</style>
+	
 	
 	<script type="text/javascript">
 	
@@ -155,7 +165,12 @@
 	
 	
 	//썸머노트--------------------------------------------------------------------------------
+	
 	$(document).ready(function() {
+	
+		
+		
+			$('#summernote').summernote('code','${post.postContent}');
 			$('#summernote').summernote({
 				height : 300,
 				minHeight : 370,
@@ -168,7 +183,6 @@
 				    ['color',['color']],
 				    ['remove',['clear']]
 				  ],
-				placeholder : '내용을 입력하세요',
 				lang : 'ko-KR',
 				callbacks : {
 					onImageUpload : function(files, editor, welEditable) {
@@ -202,7 +216,7 @@
 	
 	$(document).ready(function(){
 		$('#complete').on('click',function(){
-			$('form').attr('method','POST').attr('action','/post/addBoard').submit();
+			$('form').attr('method','POST').attr('action','/post/updateBoard').submit();
 		});
 		
 		 
@@ -235,19 +249,46 @@
 		 $("#userfile").val(filename);
 		 });
 		
+		 
+		 
+		 
+		 
+		 
+		 if("${post.gatherCategoryNo}" == '201'){
+			 $('.gatherCategoryName').html('진학상담');
+		 }
+		 if("${post.gatherCategoryNo}" == '202'){
+			 $('.gatherCategoryName').html('사랑과 이별');
+		 }
+		 if("${post.gatherCategoryNo}" == '203'){
+			 $('.gatherCategoryName').html('남자끼리');
+		 }
+		 if("${post.gatherCategoryNo}" == '204'){
+			 $('.gatherCategoryName').html('여자끼리');
+		 }
+		 if("${post.gatherCategoryNo}" == '205'){
+			 $('.gatherCategoryName').html('데이트 자랑');
+		 }
+		 if("${post.gatherCategoryNo}" == '206'){
+			 $('.gatherCategoryName').html('대나무 숲');
+		 }
 	});
 	
+	
+
+
+
+	
+	
+	
+	
+	
+	
 	</script>
-    
 </head>
 
+
 <body>
-    <div class="wrap">
-        <div class="left">
-            <jsp:include page="/mainTest/mainLeft.jsp" />
-        </div>
-        <div class="main">
-           <body>
     <form enctype="multipart/form-data">
         <div class="row">
     <div class="col-xs-2 col-md-2"></div>
@@ -255,7 +296,7 @@
     <br><br><br>
 		<div class="wrapper">
 			<div class="dropdownbox">
-			  <p>어디에 글 쓸래? <i class="fas fa-sort-down" id="choiceCategory"></i></p>
+			  <p class="gatherCategoryName">어디에 글 쓸래? <i class="fas fa-sort-down" id="choiceCategory"></i></p>
 			</div> 
 			<ul class="menu">
 			    <li value="201"><i class="fas fa-graduation-cap"></i> 진학상담</li>
@@ -265,13 +306,14 @@
 			    <li value="205"><i class="far fa-kiss-wink-heart"></i> 데이트 자랑</li> 
 			    <li value="206"><i class="fas fa-bullhorn"></i> 대나무 숲</li> 
 			</ul>
-			    <input type="hidden" name="gatherCategoryNo" value="" id="gatherCategoryNo">
+			    <input type="hidden" name="gatherCategoryNo" value="${post.gatherCategoryNo }" id="gatherCategoryNo">
+	            <input type="hidden" name="postNo" value="${post.postNo }">
 		</div>
 	    <div class="table table-responsive">
 	        <table class="table">	
 	        <tr>
 	            <th class="success">
-	            <input type="text" name="postTitle" id="inputPostTitle" placeholder="제목을 입력하세요" style="width:570px"/>
+	            <input type="text" name="postTitle" id="inputPostTitle" placeholder="제목을 입력하세요" style="width:570px" value="${post.postTitle }"/>
 	            </th>
 	        </tr>
 	        <tr>
@@ -307,20 +349,21 @@
 </div>
 
 </div>
+
+
+
+	        
+	        
+	        
+	        
+	        
 	        <div style="text-align:right;width:100%">
 	        <div class="form-group">
-	       		<button type="button" class="btn btn-outline-secondary" id="complete" style="width:150px">등록</button>
+	       		<button type="button" class="btn btn-outline-secondary" id="complete" style="width:150px">수정</button>
 	       	</div>
 	    </div>
     </div>
 </div>
  </form>
 </body>
-        </div>
-        <div class="right">
-            <jsp:include page="/mainTest/mainRight.jsp" />
-        </div>
-    </div>
-</body>
-
 </html>
