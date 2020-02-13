@@ -26,6 +26,12 @@ public class Challenge {
 	//reward가 필요하면 가져올려고 만들었지만 일단은 필요없어서 대기중
 	//private Reward reward;
 	
+	//이전글 이후글로 
+	private int preChallNo;
+	private int nextChallNo;
+	private String preChallTitle;
+	private String nextChallTitle;
+	
 	//Map을 이용한 도전과제 수행 시 위치
 	private String firstUser;
 	private int firstUserLocation;  //위도, 경도
@@ -41,7 +47,33 @@ public class Challenge {
 	private String viewStatus;
 	
 	
-	
+
+
+
+	public int getPreChallNo() {
+		return preChallNo;
+	}
+
+
+
+	public void setPreChallNo(int preChallNo) {
+		this.preChallNo = preChallNo;
+	}
+
+
+
+	public int getNextChallNo() {
+		return nextChallNo;
+	}
+
+
+
+	public void setNextChallNo(int nextChallNo) {
+		this.nextChallNo = nextChallNo;
+	}
+
+
+
 	//Constructor
 	public Challenge() {
 		// TODO Auto-generated constructor stub
@@ -278,14 +310,40 @@ public class Challenge {
 
 
 
+	public String getPreChallTitle() {
+		return preChallTitle;
+	}
+
+
+
+	public void setPreChallTitle(String preChallTitle) {
+		this.preChallTitle = preChallTitle;
+	}
+
+
+
+	public String getNextChallTitle() {
+		return nextChallTitle;
+	}
+
+
+
+	public void setNextChallTitle(String nextChallTitle) {
+		this.nextChallTitle = nextChallTitle;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Challenge [challNo=" + challNo + ", challCategory=" + challCategory + ", challTitle=" + challTitle
 				+ ", challContent=" + challContent + ", challDate=" + challDate + ", weeklyStart=" + weeklyStart
 				+ ", weeklyEnd=" + weeklyEnd + ", post=" + post + ", commentt=" + commentt + ", challStatus="
-				+ challStatus + ", firstUser=" + firstUser + ", firstUserLocation=" + firstUserLocation
-				+ ", secondUser=" + secondUser + ", secondUserLocation=" + secondUserLocation + ", challReward="
-				+ challReward + ", postCommentComplete=" + postCommentComplete + ", viewStatus=" + viewStatus + "]";
+				+ challStatus + ", preChallNo=" + preChallNo + ", nextChallNo=" + nextChallNo + ", preChallTitle="
+				+ preChallTitle + ", nextChallTitle=" + nextChallTitle + ", firstUser=" + firstUser
+				+ ", firstUserLocation=" + firstUserLocation + ", secondUser=" + secondUser + ", secondUserLocation="
+				+ secondUserLocation + ", challReward=" + challReward + ", postCommentComplete=" + postCommentComplete
+				+ ", viewStatus=" + viewStatus + "]";
 	}
 	
 	

@@ -101,6 +101,11 @@ public class FriendRestController {
 		return friendService.getFriendList(user.getUserId(), search);
 	}
 	
+	public Map getSearchFriendList() throws Exception{
+		
+		return null;
+	}
+	
 	
 	
 	

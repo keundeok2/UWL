@@ -33,7 +33,7 @@
 		<br>
 		<br>
 		
-		<a href="/challenge/getCompleteChallengeList"  role="button">완료된 도전과제리스트 (유저용)</a>
+		<a href="/challenge/listUserCompleteChallenge"  role="button">완료된 도전과제리스트 (유저용)</a>
 		
 		<br>
 		<br>
@@ -58,7 +58,7 @@
 		<br>
 		<br>
 			
-		<a href="/schoolRank/getSchoolRankingList/"  role="button"> 학교랭킹</a>
+		<a href="/schoolRank/listSchoolRanking/"  role="button"> 학교랭킹</a>
 	
 	
 	</ul>

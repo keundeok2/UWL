@@ -115,7 +115,7 @@
 				}
 			}
 		})
-	}	
+	}		
 		
 	function askedBtn() {
 			var sessionId = $("input#sessionId").val();
@@ -172,13 +172,18 @@
 	<style type="text/css">
 	
 	body {
-		margin-top: 100px;
+		margin-top: 50px;
+	}
+	
+	img#searchProfileName {
+		width : 100px;
+		height: 100px;
+		border-radius: 100px;
 	}
 	
 	</style>
 </head>
 <body>
-	<jsp:include page="/friend/friendToolbar.jsp"></jsp:include>
 	<div class="container">
 		<input type="hidden" name="sessionId" id="sessionId" value="${user.userId}">
 		<div class="page-header text-info">
@@ -188,7 +193,7 @@
 			<c:forEach var="friendUser" items="${map.list}">
 		<div class="col-sm-12">
 			<div id="${friendUser.userId}">
-				<img src="../../images/${friendUser.profileName}" id="profileName"/>&nbsp; 
+				<img src="../../images/${friendUser.profileName}" id="searchProfileName"/>&nbsp; 
 				<span id="userId">${friendUser.userId}</span> &nbsp; 
 				<span id="name">${friendUser.name}</span> &nbsp; 
 				<span>${friendUser.schoolName}</span> &nbsp;
