@@ -50,7 +50,7 @@ public class NodeToTomcat {
         return "/";
     }
 
-    @RequestMapping(value = "/doA", method = RequestMethod.GET)
+    @RequestMapping(value = "/doA", method = RequestMethod.GET)		//얘를 유저 컨트롤러 안에 넣으면 로그인할때 마다 정보 가져오기??? 그런식???
     public String doA(Locale locale, Model model){
         JSONObject cred = new JSONObject();
         JSONObject auth=new JSONObject();

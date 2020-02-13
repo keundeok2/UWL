@@ -31,6 +31,11 @@ public class ReportDAOImpl implements ReportDAO{
 	public Report getReport(int reportNo) throws Exception {
 		return sqlSession.selectOne("ReportMapper.getReport", reportNo);
 	}
+	
+	@Override
+	public List<Report> getReportById(String userId) throws Exception {
+		return sqlSession.selectList("ReportMapper.getReportByUserId", userId);
+	}
 
 	@Override
 	public void addPostReport(Report report) throws Exception {
@@ -61,5 +66,7 @@ public class ReportDAOImpl implements ReportDAO{
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("ReportMapper.getTotalCount",search);
 	}
+
+	
 	
 }
