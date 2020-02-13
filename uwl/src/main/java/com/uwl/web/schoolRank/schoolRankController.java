@@ -54,7 +54,7 @@ public class schoolRankController {
 	public schoolRankController() {
 		System.out.println(this.getClass());
 	}
-	@RequestMapping( value = "getSchoolRankingList")
+	@RequestMapping( value = "listSchoolRanking")
 	public String getSchoolRankingList(@ModelAttribute("search")Search search, 
 										Model model, HttpServletRequest request, HttpSession session) throws Exception{
 		
@@ -89,7 +89,7 @@ public class schoolRankController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		return "forward:/schoolRank/getSchoolRankingList.jsp";
+		return "forward:/schoolRank/listSchoolRanking.jsp";
 	}
 	
 	@RequestMapping(value = "getSearchRank")
