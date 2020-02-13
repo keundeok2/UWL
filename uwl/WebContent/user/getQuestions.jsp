@@ -164,7 +164,7 @@ font-family: 'Nanum Gothic', sans-serif;
        </div>
         <div class="noticeTop">
             <span>내 문의사항 보기</span>
-            <span>내 문의사항 보기 ${user.userId } 의 ${post.postNo }꺼</span>
+            <span></span>
         </div>
         <div class="notice">
             <table>
@@ -256,7 +256,7 @@ font-family: 'Nanum Gothic', sans-serif;
             <div class="list">
                 <a href="/user/getUserQuestions">목록</a>
                 <a href="/user/updateQuestions?postNo=${post.postNo }">수정</a>
-        <a href="/post/deleteNotice?postNo=${post.postNo }">삭제</a>
+        <a href="/user/deleteQuestions?postNo=${post.postNo }">삭제( 미구현 ) </a>
         <a href="javascript:history.go(-1)">뒤로</a>
             </div>
             

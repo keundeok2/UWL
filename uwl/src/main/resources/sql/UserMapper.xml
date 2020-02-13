@@ -177,12 +177,15 @@
 	 
 	 
 	 
-	  <!-- 문의사항 수정 -->
+	 <!-- 문의사항 수정 -->
 	 <update	id="updateQuestions"	parameterType="post">
 	   	UPDATE post
+	   	<set>
 	   		post_title 			= #{postTitle} ,
-	   		post_content		= #{postContent:VARCHAR},
+	   		post_content		= #{postContent} ,
+	   		view_status 		= #{viewStatus}	,   
 	   		GATHER_CATEGORY_NO  = #{gatherCategoryNo}
+	    	</set>
 	   	WHERE post_no = #{postNo}
 	 </update>
 	 

@@ -272,6 +272,7 @@ font-family: 'Nanum Gothic', sans-serif;
 <input type= "hidden" />${post.likeCount}
 <input type= "hidden" />${post.commentCount}
 <input type= "hidden" />${post.postDate}
+<input type= "hidden" />${post.postNo}
     <br> 
     <br> 
     <br> 

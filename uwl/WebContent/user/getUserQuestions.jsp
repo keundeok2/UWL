@@ -170,6 +170,16 @@
             margin: 20px 0;
             
         }
+        div.noticeList div.addNotice button {
+            background-color: #EBAD7A;
+            display: inline-block;
+            line-height: 25px;
+            padding: 0 40px;
+            color: #fff;
+            font-weight: bold;
+            margin: 20px 0;
+            
+        }
 
 
 
@@ -224,16 +234,16 @@
         <div class="main">
             <div class="mainHeader">
                 <span>내가올린 문의사항</span>
-                <span>${user.userId } 꺼임</span>
+                <span></span>
             </div>
             <div class="noticeList">
                 <table>
                 
                 <div class="addNotice">
-                <button onclick="location.href='/user/getUserQuestionsList'">전체목록</button><br>
+                <button onclick="location.href='/user/getUserQuestionsList'">전체목록 ( 없어질 버튼 )</button><br>
                 <a href="/user/addQuestions">문의사항 등록</a>
                 <!--  뒤로는 나중에 빼야될듯 ?  -->
-                  <a href="javascript:history.go(-1)">뒤로 ( 임시임 )</a>
+                  <a href="javascript:history.go(-1)">뒤로 (없어질 버튼 )</a>
                 </div>
                     <colgroup>
                         <col width="15%">

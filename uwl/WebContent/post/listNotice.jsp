@@ -238,7 +238,7 @@
                     <tr>
                         <td>${notice.postNo }</td>
                         <td><a href="/post/getNotice?postNo=${notice.postNo }">${notice.postTitle }</a></td>
-                        <td>${notice.userId }</td>
+                        <td>${user.userId }</td>
                         <td>${notice.postDate }</td>
                         <td>${notice.hitCount }</td>
                     </tr>

@@ -160,7 +160,7 @@ font-family: 'Nanum Gothic', sans-serif;
        </div>
         <div class="noticeTop">
             <span>공지사항 수정</span>
-            <span>어울림의 새로운 소식들과 유용한 정보들을 오지게 수정하세요 ㅋㅋ;;.</span>
+            <span>어울림의 새로운 소식들과 유용한 정보들을 수정하세요.</span>
         </div>
         <div class="notice">
             <table>
