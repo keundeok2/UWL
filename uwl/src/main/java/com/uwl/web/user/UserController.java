@@ -427,7 +427,7 @@ public class UserController {
 			System.out.println("session scope 저장");
 		}
 
-		return "redirect:/matching/default.jsp";
+		return "redirect:/layout/default.jsp";
 	}
 
 	// 로그아웃
