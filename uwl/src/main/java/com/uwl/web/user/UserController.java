@@ -329,19 +329,15 @@ public class UserController {
 
 	// 문의사항 수정
 	@RequestMapping(value = "updateQuestions", method = RequestMethod.POST)
-	public String updateQuestions(@ModelAttribute("post") Post post, HttpSession session) throws Exception {
+	public String updateQuestions(@ModelAttribute("post") Post post,HttpSession session) throws Exception {
 		System.out.println("UserController : updateQuestions() 호출");
 		System.out.println("/user/updateQuestions : POST");
 
 		// Business Logic
 		userService.updateQuestions(post);
+		
 
-		int sessionId = ((Post) session.getAttribute("post")).getPostNo();
-		if (sessionId == (post.getPostNo())) {
-			session.setAttribute("post", post);
-		}
-
-		return "forward:/user/getUserQuestions?postNo=" + post.getPostNo();
+		return "redirect:/user/getQuestions?postNo=" + post.getPostNo();
 	}
 
 	// 문의사항 내용
