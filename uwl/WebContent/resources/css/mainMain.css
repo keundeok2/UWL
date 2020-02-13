@@ -38,27 +38,28 @@ body {
     color: #333;
     font-family: 'Roboto', sans-serif;
     font-family: 'Nanum Gothic', sans-serif;
-    overflow: hidden;
+    overflow-y: scroll;
 }
 
-div.wrap {
+div#wrap {
     background-color: lavender;
-    height: 100vh;
+    min-height: 100vh;
     width: 1500px;
     margin: 0 auto;
-    overflow: hidden;
+    
 }
 
-div.left {
+div#left {
     background-color: lavenderblush;
     width: 220px;
-    height: 100vh;
+    min-height: 100vh;
     float: left;
+    overflow-y: scroll;
 }
 
-div.main {
+div#main {
     width: 1060px;
-    height: 100vh;
+    min-height: 100vh;
 
     background-color: lightblue;
     float: left;
@@ -67,9 +68,10 @@ div.main {
 
 }
 
-div.right {
+div#right {
     background-color: lemonchiffon;
     width: 220px;
-    height: 100vh;
-    float: left;
+    min-height: 100vh;
+    float: right;
+    overflow-y: scroll;
 }
