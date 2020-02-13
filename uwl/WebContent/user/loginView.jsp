@@ -76,7 +76,7 @@
 		//============= 회원가입화면이동 =============
 		$( function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a[href='#' ]").on("click" , function() {
+			$("button#addButton").on("click" , function() {
 				self.location = "/user/addUser"
 			});
 		});
