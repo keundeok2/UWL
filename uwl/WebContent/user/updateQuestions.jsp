@@ -215,7 +215,7 @@ font-family: 'Nanum Gothic', sans-serif;
 						<td colspan="4">
         		 		<br>
         <!--  내용  -->
-        <div><input type="text" 	name="postContent"	 value="${post.postContent}"></div>
+        <div><textarea cols="50" rows="10" name="postContent" style="resize:none ; width:100% ">${post.postContent }</textarea></div>
         <br>
          </td>
                 <tr>
@@ -231,8 +231,6 @@ font-family: 'Nanum Gothic', sans-serif;
             
             <div class="list">
                 <a href="/user/getUserQuestions">목록</a>
-                <a href="/user/updateQuestions?postNo=${post.postNo }">수정</a>
-        <a href="/post/deleteNotice?postNo=${post.postNo }">삭제</a>
         <a href="javascript:history.go(-1)">뒤로</a>
         <button type="button" id="updateQuestions">완료</button>
             </div>

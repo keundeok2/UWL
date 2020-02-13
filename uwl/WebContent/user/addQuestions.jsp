@@ -229,7 +229,8 @@ font-family: 'Nanum Gothic', sans-serif;
                     
                 </tr>
                 <td colspan="4">
-        		 <div><input type= "text" id="postContent"	name="postContent"  placeholder="내용입력 ( 이거 좀더 키우고싶음 ;; )" name="postContent" style="resize:none ; width:100% "/></div>
+        		 <div><input type= "text" id="postContent"	name="postContent"  placeholder="내용입력" name="postContent" style="resize:none ; width:100% ; height: 350px"/></div>
+         		 
          		 <br>
          		</td>
                 

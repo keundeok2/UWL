@@ -145,8 +145,8 @@
 
         div.main {
 
-            width: 830px;
-            float: right;
+            width: 1000px;
+            float: center;
         }
 
         div.mainHeader {
@@ -354,7 +354,7 @@
        
         <div class="main">
             <div class="mainHeader">
-                <span>전체 회원의 문의사항 목록</span>
+                <span>회원의 문의사항 목록</span>
             </div>
             <div class="select">
                 <select name="gatherCategoryNo">
@@ -451,7 +451,7 @@
 		<div class="notice">
             <div class="list">
         <a href="javascript:history.go(-1)">뒤로( 임시 )</a>
-        <a href="http://localhost:8080/user/addQuestions">등록 ( 임시 )</a>
+        <a href="http://localhost:8080/user/addQuestions">등록</a>
     	</div>
             
         </div>

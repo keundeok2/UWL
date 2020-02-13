@@ -139,8 +139,8 @@
 
         div.main {
 
-            width: 830px;
-            float: right;
+            width: 1000px;
+            float: center;
         }
 
         div.mainHeader {
