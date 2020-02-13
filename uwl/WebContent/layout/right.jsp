@@ -244,7 +244,7 @@
             var targetUserId = $(this).next().val();
             console.log("targetUserId", targetUserId);
 
-            $.redirect("/userrr/getProfile/" + targetUserId + "", {}, "GET");
+            $.redirect("/user/getProfile/" + targetUserId + "", {}, "GET");
         });
 
         //	우측툴바 검색 event
