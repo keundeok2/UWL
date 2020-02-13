@@ -150,41 +150,83 @@ font-family: 'Nanum Gothic', sans-serif;
     
 </head>
 <body>
+
  <!-- 썸네일 등록-->
   <form method="post" action="/post/addNotice">   <!--if문 넣어서 selected 지정해주기-->
-  <h1>공지사항 등록</h1>
-   <!--	//	101 : 매칭
-		//	102 : 아이템
-		//	103 : 도전과제
-		//	104 : 결제
-		//	105 : 친구
-		//	106 : 타임라인
-		//	107 : ASK
-		//	108 : 계정
-		//	109 : 알림
-		//	110 : 위치
-		//	111 : 기타-->
-    <select name="gatherCategoryNo">
-        <option value="101">매칭</option>
-        <option value="102">아이템</option>
-        <option value="103">도전과제</option>
-        <option value="104">결제</option>
-        <option value="105">친구</option>
-        <option value="106">타임라인</option>        
-        <option value="107">ASK</option>        
-        <option value="108">계정</option>        
-        <option value="109">알림</option>        
-        <option value="110">위치</option>        
-        <option value="111">기타</option>        
-    </select>
-    <hr>
-    <input type="hidden" name="userId" value="user13">
-    제목 : <input type="text" name="postTitle"/>
-    <br>
-    <br>
-    <textarea cols="50" rows="10" placeholder="내용입력" name="postContent"></textarea>
-    <br>
-    <button>등록</button>
+  
+  <input type="hidden" name="userId" value="user13">
+  
+  <div class="wrap">
+       <div class="navigation">
+           <span>홈 > 고객행복센터 ></span>
+           <span>공지사항 등록</span>
+       </div>
+        <div class="noticeTop">
+            <span>공지사항 등록</span>
+            <span>공지사항을 등록해 보아요 </span>
+        </div>
+        <div class="notice">
+            <table>
+               <colgroup>
+                   <col width="10%">
+                   <col width="40%">
+                   <col width="10%">
+                   <col width="40%">
+               </colgroup>
+                <tr>
+                    <td>제목</td>
+                    <td><input type="text" name="postTitle" placeholder="제목 입력"style="line-height : 1" ></td>
+                    <td>카테고리</td>
+                    <td><select name="gatherCategoryNo">
+					        <option value="101">매칭</option>
+					        <option value="102">아이템</option>
+					        <option value="103">도전과제</option>
+					        <option value="104">결제</option>
+					        <option value="105">친구</option>
+					        <option value="106">타임라인</option>        
+					        <option value="107">ASK</option>        
+					        <option value="108">계정</option>        
+					        <option value="109">알림</option>        
+					        <option value="110">위치</option>        
+					        <option value="111">기타</option>        
+   						 </select></td>
+                </tr>
+                
+               <%--  <tr>
+                    <td>작성일</td>
+                    <td>${post.postDate }</td>
+                    
+                </tr> --%>
+                <td colspan="4">
+        		 <br>
+        <!--  내용  -->
+        
+        <div><textarea cols="50" rows="10" placeholder="내용입력" name="postContent" style="resize:none ; width:100% ">${post.postContent }</textarea></div>
+        <br>
+         </td>
+                <tr>
+                    
+                 </tr>
+               </table>
+            
+            
+        </div>
+        <div class="notice">
+            <table>
+                <tr>
+                    
+                </tr>
+                
+            </table>
+            <div class="list">
+                <a href="/post/listNotice">목록</a>
+        <a href="javascript:history.go(-1)">뒤로</a>
+        <input type="submit" value="등록">
+    	</div>
+            
+        </div>
+        
+    </div>
     </form>
 </body>
 </html>
