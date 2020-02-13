@@ -177,7 +177,9 @@ public class PostController {
 	public String getNotice(@RequestParam("postNo") int postNo, Model model) throws Exception {
 		System.out.println("getNotice.GET");
 		Post post = postService.getNotice(postNo);
+		Post post2 = postService.getNextOrPrePost(postNo);
 		model.addAttribute("post", post);
+		model.addAttribute("post2", post2);
 		return "forward:/post/getNotice.jsp";
 	}
 	
@@ -199,15 +201,19 @@ public class PostController {
 	public String updateNotice(@RequestParam("postNo") int postNo, Model model) throws Exception{
 		System.out.println("updateNotice.GET");
 		Post post = postService.getNotice(postNo);
+		Post post2 = postService.getNextOrPrePost(postNo);
 		model.addAttribute("post", post);
+		model.addAttribute("post2", post2);
 		return "forward:/post/updateNotice.jsp";
 	}
 	
 	@RequestMapping(value="updateNotice", method=RequestMethod.POST)	//-----------------------테스트 종료
-	public String updateNotice(@ModelAttribute("post") Post post, Model model) throws Exception{
+	public String updateNotice(@ModelAttribute("post") Post post, Post post2, int postNo ,Model model) throws Exception{
 		postService.updateNotice(post);
 		post = postService.getNotice(post.getPostNo());
+		post2 = postService.getNextOrPrePost(postNo);
 		model.addAttribute("post", post);
+		model.addAttribute("post2", post2);
 		return "forward:/post/getNotice.jsp";
 	}
 	
@@ -234,9 +240,6 @@ public class PostController {
 		model.addAttribute("search", search);
 		return "forward:/post/listNotice.jsp";
 	}
-	
-	
-	
 	
 	
 	

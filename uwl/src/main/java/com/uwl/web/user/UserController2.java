@@ -251,6 +251,8 @@ public class UserController2 {
 		
 		Matching matching = matchingService.getMatching(sessionUser.getUserId());
 		model.addAttribute("matching", matching);
+		int totalMatching = matchingService.getTotalMatching(search, targetUserId);
+		model.addAttribute("totalMatching", totalMatching);
 		
 		return "forward:/user/profile.jsp";
 	}

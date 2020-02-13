@@ -59,6 +59,8 @@
 	    	var userId = null;
 	    	var reportCategoryNo = null;
 	    	var reportContent = null;
+	    	var likeCount = null;	//좋아요 취소시 ajax로 뿌린 값은 못가져와서 그대로 준다
+	    	var result = null;	//첫 댓글수 값은 가져올 수 있어서 좋아요 누를 시 여기서 +1
 	    
 	    	$(document).ready(function(){
 	    		$('#addComment').on("click", function(){
@@ -86,7 +88,7 @@
 	    					var sessionUserId = "${user.userId}"
 	    					$('#commentContent').val("");
 	    					var view1 =
-	    						"<tr class='j'>"
+	    						"<tr class="+commentNo+">"
 			    		            +"<th class='success'>"
 			    		            	+"<div class='sl-right'>"
 			    							+"<div>"
@@ -98,11 +100,19 @@
 			    			var view3 = 						
 			    								"</span>"
 			    								+"<p class='m-t-10'>"
-			    									+commentContent
+			    									+"<span id="+commentNo+">"
+			    										+commentContent
+			    									+"</span>"
 			    								+"</p>"
 			    							+"</div>"
-			    							+"<div class='like-comm m-t-20'>"
-			    								+"<a href='javascript:void(0)' class='link m-r-10'><i class='fa fa-heart text-danger'></i> "+likeCount+" Love</a>"
+			    							+"<div class='like-comm m-t-20'"
+			    								+"<span id='likeButton'>"
+			    								+"<span id='forCommentAppend"+commentNo+"'></span>"
+			    								+"<span id='likeButtonClick"+commentNo+"'>"
+			    								+"<a href='javascript:void(0)' class='link m-r-10' id='addLiike'"+commentNo+"><i class='far fa-heart' style='color:black' id='like'></i> "+likeCount+"</a>"
+			    								+"</span>"
+			    								+"</span>"
+			    								+"<input type='hidden' class='commentNo' value="+commentNo+">"
 			    							+"</div>"
 			    						+"</div>"
 			    		            +"</th>"
@@ -111,14 +121,17 @@
 	    						var view2 = "<span class='updateDelete'>"
 	    										+"<a data-toggle='modal' data-target='#updateCommentModal' href='#'>수정 ｜</a>" 
 												+"<a href='#'> 삭제</a>"
+												+"<input type='hidden' class='commentNo' value="+commentNo+">"
 											+"</span>"
 	    					}else{
 	    						var view2 =	"<span class='onlyReport'>" 
-	    									+"<a data-toggle='modal' data-target='#myModalComment' href='#'> 신고</a>"
+		    									+"<a data-toggle='modal' data-target='#myModalComment' href='#'> 신고</a>"
+		    									+"<input type='hidden' class='commentNo' value="+commentNo+">"
+												+"<input type='hidden' class='userId' value="+userId+">"
 	    									+"</span>";
 	    					}
 			    			var lastView = view1+view2+view3;
-	    					$('#forAppend').after(lastView);
+	    					$('#forAppend').append(lastView);
 	    				},
 	    				error : function(){
 	    					alert('에러 ㅋㅋ');
@@ -128,10 +141,7 @@
 	    	});
 	    	
 	    	$(document).ready(function(){
-	    		
-	    	
-		    	$(document).on("click", ".j button:nth-child(2)", function(){	//좋아요
-		    		var buttonView = "<button type='button' class='btn btn-primary'>좋아요</button>";
+		   		$(document).on("click", "#likeButton", function(){	//좋아요
 		    		commentNo = $(this).parent().find(".commentNo").val();
 		    		postNo = ${post.postNo}
 		    		
@@ -142,17 +152,24 @@
 		    			data : JSON.stringify({
 		    				refCommentNo : commentNo,
 		    				refPostNo : postNo
-		    			}),
+		    			}),	
 		    			headers : {
 		    				"Accept" : "application/json",
 		    				"content-Type" : "application/json"
 		    			},
 		    			success : function(data){
 		    				if(data == true){
-		    					$("#"+commentNo+"").parent().find("button:nth-child(2)").remove();
-		    					var view = "<button type='button' class='btn btn-danger'>좋아요 취소</button>";
-		    					$("#"+commentNo+"").parent().find("#forCommentAppend").after(view);
+		    					likeCount = Number(($('#addLike'+commentNo).text()).trim());
+			    				result = likeCount + 1;
+		    					console.log(likeCount)
+		    					$('#likeButtonClick'+commentNo).remove();
+		    					
+		    					var view = "<span id='likeButtonClick"+commentNo+"'>"
+		    								+"<a href='javascript:void(0)' class='link m-r-10' id='deleteLike"+commentNo+"'><i class='fa fa-heart text-danger'></i> "+result+"</a>"
+		    								+"</span>"
+		    				$("#forCommentAppend"+commentNo).after(view);
 		    				}else{
+		    					console.log(likeCount)
 		    					$.ajax({
 		    						url : "/community/rest/deleteLike",
 		    						method : "POST",
@@ -166,9 +183,11 @@
 		    		    				"content-Type" : "application/json"
 		    		    			},
 		    		    			success : function(data){
-		    		    				$("#"+commentNo+"").parent().find("button:nth-child(2)").remove();
-		    		    				var view = "<button type='button' class='btn btn-primary'>좋아요</button>";
-		    		    				$("#"+commentNo+"").parent().find("#forCommentAppend").after(view);
+		    		    				$('#likeButtonClick'+commentNo).remove();
+		    		    				var view = "<span id='likeButtonClick"+commentNo+"'>"
+		    		    							+"<a href='javascript:void(0)' class='link m-r-10' id'addLike"+commentNo+"'><i class='far fa-heart' style='color:black' id='like'></i> "+likeCount+"</a>"
+		    		    							+"<span/>"
+		    		    			$("#forCommentAppend"+commentNo).after(view);
 		    		    			},
 		    		    			error : function(){
 		    		    				alert('code='+request.status+' message='+request.responseText+' error='+error);
@@ -180,7 +199,7 @@
 		    				alert('code='+request.status+' message='+request.responseText+' error='+error);
 		    			}
 		    		});
-		    	});
+		    	}); 
 		    	
 		    	
 		    	
@@ -188,7 +207,7 @@
 		    		commentNo = $(this).parent().find(".commentNo").val();
 		    		content = $("#"+commentNo+"").text();
 		    		$("textarea#updateCommentContent").val("");
-		    		$("textarea#updateCommentContent").val(""+content);
+		    		$("textarea#updateCommentContent").val(content);
 		    	});
 		   
 	    		$(document).on("click", "#updateComment", function(){	//진짜 수정
@@ -243,9 +262,11 @@
 		    		});
 		    	});
 		    	
-		    	$(document).on("click", ".j button:nth-child(6)", function(){	//신고
+		    	$(document).on("click", ".onlyReport a:nth-child(1)", function(){	//신고
 		    		commentNo = $(this).parent().find(".commentNo").val();
 		    		userId = $(this).parent().find(".userId").val();
+		    		console.log(commentNo)
+		    		console.log(userId)
 		    	});	
 		    	
 		    		
@@ -317,16 +338,31 @@
 									<c:if test="${user.userId ne comment.userId }">
 									<span class="onlyReport">
 										<a data-toggle="modal" data-target="#myModalComment" href="#"> 신고</a>
+										<input type="hidden" class="commentNo" value="${comment.commentNo }">
+										<input type="hidden" class="userId" value="${comment.userId }">
 									</span>	
 									</c:if>
 								</span>
 								
 								<p class="m-t-10">
-									${comment.commentContent }
+									<span id="${comment.commentNo }">
+										${comment.commentContent }
+									</span>
 								</p>
 							</div>
 							<div class="like-comm m-t-20">
-								<a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> ${comment.likeCount } Love</a>
+								<span id="likeButton">
+								<span id="forCommentAppend${comment.commentNo }"></span>
+								<span id="likeButtonClick${comment.commentNo }">
+								<c:if test="${comment.likeStatus eq '0' }">
+									<a href="javascript:void(0)" class="link m-r-10" id="addLike${comment.commentNo }"><i class='far fa-heart' style='color:black' id='like'></i> ${comment.likeCount }</a>
+								</c:if>
+								<c:if test="${comment.likeStatus ne '0'}">
+									<a href="javascript:void(0)" class="link m-r-10" id="deleteLike${comment.commentNo }"><i class="fa fa-heart text-danger"></i> ${comment.likeCount }</a>
+								</c:if>
+								</span>
+								</span>
+								<input type="hidden" class="commentNo" value="${comment.commentNo }">
 							</div>
 						</div>
 		            </th>

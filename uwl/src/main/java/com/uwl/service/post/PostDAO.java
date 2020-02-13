@@ -30,6 +30,7 @@ public interface PostDAO {
 		
 		public List<Post> getNoticeList(Search search) throws Exception;
 	
+		public Post getNextOrPrePost(int postNo) throws Exception;// 추가
 		
 		//getTotalCount
 		public int getTotalCount(Search search) throws Exception;

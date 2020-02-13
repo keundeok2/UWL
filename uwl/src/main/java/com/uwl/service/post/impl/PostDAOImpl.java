@@ -118,6 +118,12 @@ public class PostDAOImpl implements PostDAO{
 		return sqlSession.selectOne("PostMapper.getTotalCount",search);
 	}
 
+
+	@Override // 추가
+	public Post getNextOrPrePost(int postNo) throws Exception {
+		return sqlSession.selectOne("PostMapper.getNextOrPrePost", postNo);
+	}
+
 	
 	
 	

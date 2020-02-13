@@ -25,7 +25,7 @@
 		<result property="totalActivityPoint" 	column="total_activity_point" 		jdbcType="NUMERIC" />
 		
 		<!-- 가상컬럼 -->
-		<result property="recentlyTotalPoint" 	column="recently_total__point" 		jdbcType="NUMERIC" />
+		<result property="recentlyTotalPoint" 	column="recently_total_point" 		jdbcType="NUMERIC" />
 		<result property="recentlyTotalActivityPoint" 	column="recently_total_activity_point" 		jdbcType="NUMERIC" />
 	
 		
@@ -48,7 +48,7 @@
 														r.total_point,
 														r.total_activity_point,
 														p.item_category,
-														ranking.ranking_point AS recently_total__point,
+														ranking.ranking_point AS recently_total_point,
 														ranking.ranking_activity_point AS recently_total_activity_point
 												FROM challenge c,purchase p,reward r, (SELECT sum(variable_point) ranking_point, 
 																							sum(variable_activity_point) ranking_activity_point 
@@ -75,6 +75,14 @@
 				WHERE p.purchase_no = r.purchase_no AND r.purchase_no IS NOT NULL ORDER BY variable_date DESC) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER} )
 		WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER} 	
+	 </select>
+	 
+	 
+	 <!-- 프로필에 쓸 토탈포인트 조회 -->
+	 <select  id="getTotalPoint"  parameterType="String"	resultMap="rewardSelectMap">
+	  	SELECT sum(variable_point) AS recently_total_point, 
+				sum(variable_activity_point) AS recently_total_activity_point 
+		FROM reward WHERE user_id= #{value}
 	 </select>
 	 
 	 <!-- Reward -->

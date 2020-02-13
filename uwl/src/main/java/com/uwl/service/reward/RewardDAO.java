@@ -19,6 +19,9 @@ public interface RewardDAO {
 	
 	////////////////////////////////////////////////////////////////////////////////////////
 	
+	//토탈 포인트를 조회하는 method
+	public Reward getTotalPoint(String userId) throws Exception;
+	
 	//획득 포인트, 활동점수 
 	public void increasePoint(Reward reward) throws Exception;
 	
