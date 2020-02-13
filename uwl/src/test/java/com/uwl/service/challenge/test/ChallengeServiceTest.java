@@ -258,6 +258,16 @@ public class ChallengeServiceTest {
 			
 			}
 		}
+	
+	@Test
+	public void testGetNextOrPrePost() throws Exception{
+		Challenge challenge = new Challenge();
+		challenge.setChallNo(10121);
+		
+		challenge = challengeService.getNextOrPrePost(challenge.getChallNo());
+		
+		
+	}
 		
 		
 	}

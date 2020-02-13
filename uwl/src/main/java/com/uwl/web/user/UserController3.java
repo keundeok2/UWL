@@ -214,6 +214,10 @@ public class UserController3 {
 		
 		//////////////////////// 활동점수, 포인트 추가바람/////////////////////////////////////
 		
+		Reward reward = rewardService.getTotalPoint(targetUserId);
+		model.addAttribute("reward", reward);
+		
+		
 		//targetUserId : 프로필 주인
 		User user = userService.getUser(targetUserId);
 		model.addAttribute("targetUser", user);
@@ -276,14 +280,6 @@ public class UserController3 {
 		return "redirect:/userrr/getProfile/"+user.getUserId();
 	}
 	
-	//	비밀번호 변경
-	public String updatePassword(@RequestParam String password, Model model) throws Exception{
-			
-		return null;
-	}
-	
-	
-
 	// 문의사항 등록
 	@RequestMapping(value = "addQuestions", method = RequestMethod.GET)
 	public String addQuestions() throws Exception {

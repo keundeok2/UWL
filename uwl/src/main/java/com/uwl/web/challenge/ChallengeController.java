@@ -172,7 +172,7 @@ public class ChallengeController {
 		
 		System.out.println("deleteChallenge의 challNo의 값 :  " + challenge.getChallNo());
 		
-		return "forward:/challenge/getAdminChallengeList";
+		return "forward:/challenge/listAdminChallenge";
 	}
 
 	
@@ -185,6 +185,7 @@ public class ChallengeController {
 		
 		user = (User)session.getAttribute("user");
 		
+		System.out.println("ChallengeController의 getAdminChallengeList()의 /challenge/listAdminChallenge : " + search);
 		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
 		if (user.getUserId() == null) {
 			System.out.println("ChallengeController getAdminChallengeList() : GET / POST ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
@@ -212,7 +213,7 @@ public class ChallengeController {
 		System.out.println(resultPage);
 		
 		model.addAttribute("list", map.get("list"));
-		System.out.println("list : " + map.get("list"));
+		System.out.println("getAdminChallengeList() list : " + map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
@@ -229,11 +230,6 @@ public class ChallengeController {
 		if (user.getUserId() == null) {
 			System.out.println("ChallengeController getChallengeAdmin() : GET ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
 			return "forward:/user/login";
-			
-		//관리자가 아니라면 메인페이지로 이동하게끔 만든다.
-		}else if(!(user.getRole().equals("4"))) {
-			System.out.println("ChallengeController getChallengeAdmin() : GET role이 관리자(\"4\")가 아니면 main.jsp로 이동");
-			return "forward:/main.jsp";
 		}
 		
 		System.out.println("=======================================");
@@ -241,9 +237,13 @@ public class ChallengeController {
 		System.out.println("/challenge/getChallenge : GET ");
 		System.out.println("=======================================");
 		
+		// 특정정보를 가져오는 method
 		Challenge challenge = challService.getChallengeAdmin(challNo);
 		
+		Challenge preNextPost = challService.getNextOrPrePost(challNo);
+		
 		model.addAttribute("challenge", challenge);
+		model.addAttribute("preNextPost", preNextPost);
 		
 		return "forward:/challenge/getChallengeAdmin.jsp";
 	}
@@ -251,7 +251,7 @@ public class ChallengeController {
 	//GET과 POST를 동시에
 	//후에 user랑 합쳐졌을때 if문을 구성해서 userId가 로그인한 userID가 아니면 볼 수 없게 구성해야됨 // userId를 암호화 할것?
 	//POST방식은 적어놓긴했는데 어떻게 가는거지?? 나중에 생각해 볼 것.
-	@RequestMapping(value = "getCompleteChallengeList")
+	@RequestMapping(value = "listUserCompleteChallenge")
 	//public String getCompleteChallengeList(@ModelAttribute("search")Search search, @RequestParam(value = "userId", required = false) String userId,
 	public String getCompleteChallengeList(@ModelAttribute("search")Search search, @ModelAttribute("user") User user,
 											Model model, HttpServletRequest request, HttpSession session) throws Exception{
@@ -289,7 +289,7 @@ public class ChallengeController {
 		//userId를 가져온다?? 필요한지 볼 것.
 		model.addAttribute("user", user);
 		
-		return "forward:/challenge/getCompleteChallengeList.jsp";
+		return "forward:/challenge/listUserCompleteChallenge.jsp";
 		
 	}
 	

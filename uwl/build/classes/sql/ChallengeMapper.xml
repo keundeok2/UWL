@@ -21,6 +21,11 @@
 		<result property="weeklyStart" 	column="weekly_start" 		jdbcType="DATE" />
 		<result property="weeklyEnd" 	column="weekly_end" 		jdbcType="DATE" />
 		
+		<!-- 이전글 이후글 가상 컬럼과 바인딩 -->
+		<result property="preChallNo" 			column="pre_chall_no" 			jdbcType="NUMERIC"/>
+		<result property="nextChallNo" 			column="next_chall_no" 			jdbcType="NUMERIC"/>
+		<result property="preChallTitle" 			column="pre_chall_title" 			jdbcType="VARCHAR"/>
+		<result property="nextChallTitle" 			column="next_chall_title" 			jdbcType="VARCHAR"/>
 		
 		<association property="post" javaType="post">
 			
@@ -95,9 +100,9 @@
 			chall_category = #{challCategory},
 			chall_title = #{challTitle},
 			chall_content = #{challContent},
-			chall_reward = #{challReward},
+			chall_reward = #{challReward}
 			<if test="challCategory == 3">
-				post_comment_complete = #{postCommentComplete:NUMERIC}
+				, post_comment_complete = #{postCommentComplete:NUMERIC}
 			</if>
 		</set>
 		WHERE chall_no = #{challNo}
@@ -123,8 +128,9 @@
 									chall_date,
 									chall_reward,
 									view_status,
-									weekly_start FROM challenge
-									WHERE weekly_start IS NULL
+									post_comment_complete
+						 	FROM challenge
+							WHERE view_status = '1'
 							<if test="searchCondition != null">
 								<where>
 									<if test="searchCondition == 1 and searchKeyword !='' ">
@@ -149,7 +155,8 @@
 			chall_content,
 			chall_date,
 			chall_reward,
-			view_status
+			view_status,
+			post_comment_complete
 		FROM challenge 
 		WHERE chall_no = #{value}
 	 </select>
@@ -327,6 +334,20 @@
 								</if> 
 								) countTable
 	 </select>
+	 
+	 <!-- 이전글 이후글보기 추가 -->
+ 	<select id="getNextOrPrePost" parameterType="int" resultMap="challengSelectMap">
+	 	SELECT T.*
+		FROM (SELECT
+	    chall_no , chall_title 
+	    ,LAG(chall_no,1,0) OVER (ORDER BY chall_no) AS pre_chall_no
+	    ,LAG(chall_title,1,'(이전 글 없음)') OVER (ORDER BY chall_no) AS pre_chall_title
+	    ,LEAD(chall_no,1,0) OVER (ORDER BY chall_no) AS next_chall_no
+	    ,LEAD(chall_title,1,'(이후 글 없음)') OVER (ORDER BY chall_no) AS next_chall_title
+	    FROM challenge WHERE view_status = '1'
+	    ORDER BY chall_date DESC) T
+		WHERE chall_no = #{challNo}
+ 	</select>
 	 
  	
 </mapper>
