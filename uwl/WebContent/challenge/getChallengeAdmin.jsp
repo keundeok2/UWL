@@ -1,153 +1,325 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-
-<html>
-	
+<html lang="en">
 <head>
-	
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-   
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
- 		body {
-            padding-top : 50px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>Document</title>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+     
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/fb8ae6e812.js" crossorigin="anonymous"></script>
+	<!-- 나눔고딕 -->
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Noto+Sans+KR&display=swap" rel="stylesheet">
     
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	<script type="text/javascript">
+    
+    <!-- 재이가 사용하던 폰트 -->
+   <!--  <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet"> -->
+   
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        li {
+            list-style: none;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        body {
+            font-size: 12px;
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+			font-family: 'Nanum Gothic', sans-serif;
+        }
+        div.wrap {
+            
+            margin: 50px auto;
+            width: 1050px;
+        }
+        div.navigation {
+            
+           /*  margin-bottom: 5px; */
+            margin-bottom: 30px;
+            text-align: right;
+            margin-right: 30px;
+        }
+        
+        div.navigation span:nth-child(2) {
+            
+            font-weight: bold;
+        }
+         div.challengeTop {
+            
+            /* margin-bottom: 50px; */
+            margin-bottom: 5px;
+        } 
+        div.challengeTop span:nth-child(1) {
+            
+            font-size: 23px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        
+        div.challenge table {
+            
+            border-top: 2px solid #EBAD7A;
+            border-bottom: 2px solid #EBAD7A;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        div.challenge table tr {
+            
+            line-height: 45px;
+            border-bottom: 1px solid #eee;
+        }
+        div.challenge table tr:nth-child(1) td:nth-child(1),
+        div.challenge table tr:nth-child(2) td:nth-child(1),
+        div.challenge table tr:nth-child(2) td:nth-child(3),
+        div.challenge table tr:nth-child(3) td:nth-child(1),
+        div.challenge table tr:nth-child(3) td:nth-child(3) {
+            background-color: #fdfdfd;
+            
+            font-weight: bold;
+        }
+        div.challenge table tr td {
+            
+            padding-left: 15px;
+        }
+        div.challenge table tr:nth-child(4) td {
+            padding: 0;
+            padding: 10px;
+        }
+        div.challenge table tr td img {
+            vertical-align: middle;
+            
+        }
+        div.navigation div.list {
+            text-align: right;
+        }
+        div.navigation div.list a {
+            background-color: #EBAD7A;
+            display: inline-block;
+            line-height: 40px;
+            padding: 0 65px;
+            color: #fff;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        /* 수정삭제를 하기위해 내가 추가한 것 */
+        div.bottom div.list {
+            text-align: right;
+        }
+        div.bottom div.list a {
+            background-color: #EBAD7A;
+            display: inline-block;
+            line-height: 40px;
+            padding: 0 65px;
+            color: #fff;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+         /* 수정삭제를 하기위해 내가 추가한 것 */
+        
+        div.wrap > div:nth-child(5) table {
+            
+            border-top: 2px solid #EBAD7A;
+            border-bottom: 2px solid #EBAD7A;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        div.wrap > div:nth-child(5) table tr {
+            
+            line-height: 35px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        
+        div.wrap > div:nth-child(5) table tr td:nth-child(1) {
+            width: 70px;
+            text-align: center;
+            border-right: 1px solid #eee;
+            background-color: #fdfdfd;
+        }
+        div.wrap > div:nth-child(5) table tr td:nth-child(2) {
+            padding-left: 30px;
+        }
+        
+        /* 아이콘 색 지정*/
+        .fa-coins {
+        	color: #ffc811;
+        }
+        .fa-running {
+        	color: #28aa10;
+        }
+        .fa-credit-card {
+        	color: #1e291b;
+        }
+        .fa-calendar-check {
+        	color: #a72644;
+        }
+        .fa-map-marked-alt {
+        	color: #168641;
+        }
+        .fa-piggy-bank {
+        	color: #ffb8c6;
+        }
+        .fa-camera {
+        	color: rgb(12, 98, 183);
+        }
+        .fa-clipboard {
+        	color: rgb(4, 4, 5);
+        }
+        .fa-users {
+        	color: #3750d8;
+        }
+        
+    </style>
+    <script type="text/javascript">
+    $(function() {
+    	////////////////////////////////////////////
+		//수정할것 삭제를 해서 챌린지넘버가 중간에 비면 오류가남
+		///////////////////////////////////////////
 		
-		//============= 회원정보수정 Event  처리 =============	
-		 /* $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button" ).on("click" , function() {
-					self.location = "/user/updateUser?userId=${user.userId}"
-				});
-		}); */
-		
-		 $(function(){
-				$("button:contains('추가등록')").on('click',function(){
-					self.location = "../challenge/addChallengeView.jsp";
-				});
-			});
-		
-		$(function(){
-			$("button:contains('확인')").on('click',function(){
-				self.location = "/challenge/getAdminChallengeList";
-			});
-			
-			$("button:contains('수정')").on('click',function(){
-				var challNo = ${challenge.challNo}
-				console.log("challNo : " + challNo);
-				self.location = "/challenge/updateChallenge/" + challNo;
-			});
-			
-			$("button:contains('삭제')").on('click',function(){
-				var challNo = ${challenge.challNo}
-				console.log("challNo : " + challNo);
-				self.location = "/challenge/deleteChallenge/" + challNo;
-			});
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		 $( "#prePost" ).on("click" , function() {
+			var preChallNo = ${preNextPost.preChallNo};
+			console.log("preChallNo : "+ preChallNo); 
+			alert("preChallNo : "+ preChallNo); 
+			self.location ="/challenge/getChallengeAdmin?challNo="+ preChallNo;  
+		});
+		 
+		$( "#nextPost" ).on("click" , function() {
+			var nextChallNo = ${preNextPost.nextChallNo}
+			console.log("nextChallNo" + nextChallNo); 
+			alert("nextChallNo" + nextChallNo); 
+			self.location ="/challenge/getChallengeAdmin?challNo="+nextChallNo;  
 		});
 		
-	</script>
-	
+		/* update event */
+		$( "div.wrap > div:nth-child(4) a:contains('수정')" ).on("click" , function() {
+			var challNo = ${challenge.challNo};
+			console.log("challNo : " + challNo);
+			self.location ="/challenge/updateChallenge/" + challNo;   
+		});
+		
+		/* delete event */
+		$( "div.wrap > div:nth-child(4) a:contains('삭제')" ).on("click" , function() {
+			var challNo = ${challenge.challNo};
+			console.log("challNo : " + challNo);
+		 	self.location ="/challenge/deleteChallenge/" + challNo;
+		});
+		
+	});	
+    
+    
+    </script>
 </head>
-
 <body>
-
-	
-	
-	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
-	
-		<div class="page-header">
-	       <h3 class=" text-info">도전과제 상세보기</h3>
-	       <h5 class="text-muted">등록된  <strong class="text-danger">정보를 </strong>확인해 주세요.</h5>
-	    </div>
-	
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>번호</strong></div>
-			<div class="col-xs-8 col-md-4">${challenge.challNo}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>제목</strong></div>
-			<div class="col-xs-8 col-md-4">${challenge.challTitle}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>카테고리</strong></div>
-	  			<c:if test="${challenge.challCategory == '1'}">
-					<div class="col-xs-8 col-md-4">Map</div>
-				</c:if>
-				<c:if test="${challenge.challCategory == '2'}">
-					<div class="col-xs-8 col-md-4">Vision</div>
-
-				</c:if>
-				<c:if test="${challenge.challCategory == '3'}">
-					<div class="col-xs-8 col-md-4">게시판활동</div>
-
-				</c:if>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>challContent</strong></div>
-			<div class="col-xs-8 col-md-4">${challenge.challContent}	</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>challReward</strong></div>
-			<div class="col-xs-8 col-md-4">${challenge.challReward}	</div>
-		</div>
-		
-		<hr/>
-		
-		
-		<hr/>
-		
-		
-		<div class="row">
-	  		<div class="col-md-20 text-center ">
-	  			<!-- 작성자 상관없이 role이 admin일때만 보이게 -->
-	  			<button type="button" class="btn btn-primary">추가등록&nbsp;&nbsp;	  		
-				<button type="button" class="btn btn-primary">확인</div>
-	  			<button type="button" class="btn btn-primary">수정</div>
-	  			<button type="button" class="btn btn-primary">삭제</div>
-		</div>
-		
-		
-		<br/>
-		
- 	</div>
- 	<!--  화면구성 div Start /////////////////////////////////////-->
-
+    <div class="wrap">
+       
+        <div class="challengeTop">
+           <span>도전과제 상세보기  <i class="fas fa-users"></i></span>
+            <br>
+            <br>
+            <c:if test="${user.role == '4'}">
+            	<span>등록된 정보를 확인해 주세요.</span>
+            </c:if>
+            <c:if test="${user.role != '4'}">
+            	<span>완료한 도전과제의 정보입니다.</span>
+            </c:if>
+        </div>
+        
+         <c:if test="${user.role == '4'}">
+	        <div class="navigation">
+	      	 <div class="list" >
+	             <a href="/challenge/listAdminChallenge">목록</a>
+	         </div>
+	       </div>
+         </c:if>
+         
+         <c:if test="${user.role != '4'}">
+	        <div class="navigation">
+	      	 <div class="list" >
+	             <a href="/challenge/listUserCompleteChallenge">목록</a>
+	         </div>
+	       </div>
+         </c:if>
+        
+        <div class="challenge">
+            <table>
+               <colgroup>
+                   <col width="10%">
+                   <col width="40%">
+                   <col width="10%">
+                   <col width="40%">
+               </colgroup>
+                <tr>
+                    <td>제목</td>
+                    <td colspan="3" style="font-size: 25px">${challenge.challTitle}</td>
+                </tr>
+                <tr>
+                    <td>카테고리</td>
+                    
+                    <td>
+                    	<c:if test="${challenge.challCategory == '1'}">
+							<i class="fas fa-map-marked-alt" style="font-size: 25px; "></i>&nbsp;&nbsp;Map&nbsp;&nbsp;
+						</c:if>
+						<c:if test="${challenge.challCategory == '2'}">
+							<i class="fas fa-camera" style="font-size: 25px; "></i>&nbsp;&nbsp;Vision&nbsp;&nbsp;
+						</c:if>
+						<c:if test="${challenge.challCategory == '3'}">
+							<i class="far fa-clipboard" style="font-size: 25px; "></i>&nbsp;&nbsp;게시판활동&nbsp;&nbsp;
+						</c:if>
+                    </td>
+                    <td>작성일</td>
+                    <td>${challenge.challDate}</td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-coins" style="font-size: 25px; text-align: right;" ></i>포인트</td>
+                    <td>&nbsp; + ${challenge.challReward} </td>
+                    <c:if test="${challenge.challCategory == '3'}">
+	                    <td>달성조건</td>
+	                    <td>${challenge.postCommentComplete}</td>
+                    </c:if>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                    	${challenge.challContent}
+                    </td>
+                </tr>
+            </table>
+            
+        <c:if test="${user.role == '4'}">
+        </div>
+        <div class="bottom">
+	        <div class="list" >
+	             <a href="#">수정</a>
+	             <a href="#">삭제</a>
+	        </div>
+        </div>
+         
+        <div>
+            <table>
+                <tr>
+                    <td>이전글</td>
+                    <td><a id="prePost" href="#">${preNextPost.preChallTitle}</a></td>
+                </tr>
+                <tr>
+                    <td>다음글</td>
+                    <td><a id="nextPost" href="#">${preNextPost.nextChallTitle}</a></td>
+                </tr>
+            </table>
+        </div>
+         </c:if>
+    </div>
 </body>
-
 </html>

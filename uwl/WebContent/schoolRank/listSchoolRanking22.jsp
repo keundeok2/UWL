@@ -64,6 +64,9 @@
         .fa-clipboard {
         	color: rgb(4, 4, 5);
         }
+        .fa-medal {
+        	color: #ffc811;
+        }
         
          /* 등록 하기위해 내가 추가한 것 */
         div.addChallenge div.list {
@@ -91,10 +94,6 @@
 				self.location ="/challenge/getChallengeAdmin?challNo="+challNo;  
 			});
 			
-			 $( ".list a:contains('등록')" ).on("click" , function() {
-				 	/* alert("등록되는거임 ㅋㅋ") */
-					self.location ="/challenge/addChallenge"
-				});
 			
 						
 		});	
@@ -112,51 +111,43 @@
 	 <form class="form-inline">
 	<div class="container-md">
                    <br>
-                    <h2>주간 도전과제 목록 (관리자용) </h2>
+                    <h2><i class="fas fa-medal"></i> 학교랭킹 리스트</h2>
                      <br>
                      <div class="alert alert-secondary" role="alert">
-					 	<font style="font-size: 20px">관리자라면 등록자 상관없이 내용을 수정할 수 있습니다.</font>
-					 	<div class="addChallenge">
-					        <div class="list" >
-					             <a href="#">등록</a>
-					        </div>
-				        </div>
+					 	<font style="font-size: 20px">
+					 		학교의 랭킹을 확인할 수 있습니다.<br>
+					 		랭킹은 활동점수를 합산한 결과로 이루어집니다.
+					 	</font>
 					</div>
-                     
-                     	
-						  <div class="list-group">
-                     	<c:forEach var="challenge" items="${list}">
-							  <a href="#" class="list-group-item list-group-item-action">
-							    <div class="d-flex w-100 justify-content-between">
-							  	  <input type="hidden" value="${challenge.challNo}">
-							      <h5 class="mb-1">${challenge.challTitle}</h5>
-							      <small class="text-muted">${challenge.challDate}</small>
-							    </div>
-							    <p class="mb-1">${challenge.challContent}</p>
-							    <small class="text-muted">
-							    	<c:if test="${challenge.challCategory == '1'}">
-										<i class="fas fa-map-marked-alt" style="font-size: 25px; "></i>&nbsp;&nbsp;Map&nbsp;&nbsp;
-										
-									</c:if>
-									<c:if test="${challenge.challCategory == '2'}">
-										<i class="fas fa-camera" style="font-size: 25px; "></i>&nbsp;&nbsp;Vision&nbsp;&nbsp;
-										<i class="fas fa-coins" style="font-size: 25px; text-align: right;" ></i>&nbsp;&nbsp; + ${challenge.challReward} 
-									</c:if>
-									<c:if test="${challenge.challCategory == '3'}">
-										<i class="far fa-clipboard" style="font-size: 25px; "></i>&nbsp;&nbsp;게시판활동&nbsp;&nbsp;
-										<i class="fas fa-coins" style="font-size: 25px; text-align: right;" ></i>&nbsp;&nbsp; + ${challenge.challReward} 
-									</c:if>
-							    </small>
-							  </a>
-							  <br>
-                     	</c:forEach>
+                    		<div class="alert alert-info" role="alert" style="text-align: center;">
+	                    		<span class="col-5" style="background-color: red">
+	                    			aaaa
+	                    		</span>
+	                    		<span class="col-5">
+	                    			bbbb
+	                    		</span>
+	                    		<span class="col-5" style="background-color: red">
+	                    			cccc
+	                    		</span>
+	                    		<span class="col-5" >
+	                    			dddd
+	                    		</span>
 							</div>
+						<c:set var="i" value="0" />
+							<c:forEach var="schoolRank" items="${list}">
+							<div>
+							 	<div class="alert alert-secondary" role="alert">
+								 	<span>${schoolRank.ranking}</span>
+								 	<span>${schoolRank.schoolName}</span>
+								 	<span>${schoolRank.schoolAddress}</span>
+								 	<span>${schoolRank.totalActivityPoint}</span>
+								</div>
+							</div>
+						</c:forEach>
+						
 							 <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 							 <input type="hidden" id="currentPage" name="currentPage" value=""/>
-					</form>
-							
-							<br>
-							<br>
+						</form>
 						
 						<!-- PageNavigation Start... -->
 						<jsp:include page="../common/pageNavigator_new.jsp"/>

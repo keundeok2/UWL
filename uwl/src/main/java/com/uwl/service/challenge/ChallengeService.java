@@ -17,6 +17,9 @@ public interface ChallengeService {
 	//특정 도전과제를 가져오는 method
 	public Challenge getChallengeAdmin(int challNo) throws Exception;
 	
+	//특정 도전과제를 볼때 전 글 , 이후 글
+	public Challenge getNextOrPrePost(int challNo) throws Exception;
+	
 	//도전과제를 추가하는 method
 	public void addChallenge(Challenge challenge) throws Exception;
 	
