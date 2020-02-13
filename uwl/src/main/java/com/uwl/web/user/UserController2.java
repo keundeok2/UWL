@@ -254,7 +254,7 @@ public class UserController2 {
 		int totalMatching = matchingService.getTotalMatching(search, targetUserId);
 		model.addAttribute("totalMatching", totalMatching);
 		
-		return "forward:/user/profile.jsp";
+		return "forward:/user/profile3.jsp";
 	}
 
 	// 프로필 수정
@@ -718,6 +718,12 @@ public class UserController2 {
 		}
 
 		return "redirect:/user/getUser?userId=" + user.getUserId();
+	}
+	
+	@RequestMapping(value = "main2222", method = RequestMethod.GET)
+	public String main(Model model) throws Exception{
+		
+		return "forward:/main2222.jsp";
 	}
 
 }

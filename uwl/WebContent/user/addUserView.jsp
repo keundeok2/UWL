@@ -176,7 +176,7 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 		                userId : inputed
 		            },
 		            url : "/user/rest/checkDuplicationUserId",
-		            method : 'get',
+		            method : 'GET',
 		            success : function(data) {
 		                if(data == true) {
 		                    $("#userId").css("background-color", "#B0F6AC"); //초록
@@ -210,7 +210,7 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 		            	nickname : inputed
 		            },
 		            url : "/user/rest/checkDuplicationNickname",
-		            method : 'get',
+		            method : 'GET',
 		            success : function(data) {
 		                if(data == true) {
 		                    $("#nickname").css("background-color", "#B0F6AC"); //초록
@@ -345,10 +345,10 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 					{
 						url : "/user/rest/checkMail" , 
 						method : "post" , 
-						dataType : "rest" , 
+						dataType : "JSON" , 
 						headers : {
-							"Accept" : "application/rest" , 
-							"Content-Type" : "application/rest" 
+							"Accept" : "application/json" , 
+							"Content-Type" : "application/json" 
 						} , 
 						data : JSON.stringify({
 							mail : mail
@@ -430,8 +430,34 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
     });
   } );
   </script>
-     
-         
+  
+  <script>
+  $(document).ready(function(){
+
+		 $("#fileInput").on('change', function(){  // 값이 변경되면
+
+		 if(window.FileReader){  // modern browser
+
+		 var profileName = $(this)[0].files[0].name;
+
+		 } else {  // old IE
+
+		 var profileName = $(this).val().split('/').pop().split('\\').pop();  // 파일명만 추출
+
+		 }
+
+		 
+
+		 // 추출한 파일명 삽입
+
+		 $("#userfile").val(profileName);
+		 });
+		
+	});
+  </script>
+  
+  
+  
      
 </head>
 
@@ -454,7 +480,7 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 		
 		
 		<!-- form Start /////////////////////////////////////-->
-		<form class="form-horizontal">
+		<form class="form-horizontal" enctype="multipart/form-data">
 		<div class="form-group">
 		  <div class="form-group">
 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label" >* 아 이 디</label>
@@ -580,8 +606,16 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 		    <label for="profileName" class="col-sm-offset-1 col-sm-3 control-label" > 사 진</label>
 <!-- 		    <label for="profileName" class="col-sm-offset-1 col-sm-3 control-label" style="color:orange"> 사 진</label> -->
 		    <div class="col-sm-4">
-		      <input type="file" class="form-control" id="profileName" name="profileName" placeholder="사진">
-		    </div>
+		     	<input name="file" id="fileInput"  type="file" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);">
+					<div class="bootstrap-filestyle input-group">
+						<input type="text" id="userfile" class="form-control" name="userfile" disabled="">
+						<span class="group-span-filestyle input-group-btn" tabindex="0">
+							<label for="fileInput" class="btn btn-default ">
+								<span class="glyphicon fa fa-upload"></span>
+							</label>
+						</span>
+					</div>
+		    	</div>
 		     </div>
 		    
 			<!-- 		    메일로 인증번호 전송 -->
