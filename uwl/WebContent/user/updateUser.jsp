@@ -20,9 +20,13 @@
 
 <style>
 body {
-	margin: 50px;
-	padding: 30px;
+ 	margin: 50px; 
+ 	padding: 30px; 
 	background-color:#eee;
+/* 	position: fixed; */
+/*   	overflow: hidden;   */
+/*    	data-backdrop: static;   */
+/*   	data-keyboard: false;   */
 }
 
 .toggle {
@@ -54,25 +58,6 @@ body {
 		});
 	});	
 	
-	
-	// 비번 확인 모달창 test
-	$(function() {
-            $(document).ready(function() {
-//                 alert();
-                $('.toggle').addClass('on');
-// 				$('#contact').modal({backdrop: 'static', keyboard: false}) ;
-                
-                $('.toggle button').on('click', function() {
-                    $('.toggle').removeClass('on');
-                });
-            });
-        });
-	
-	// 비번 확인 모달창 test
-	
-	
-	
-	///////////////////////////////////////////////////////////////////////
 		function fncUpdateUser() {
 			var name=$("input[name='name']").val();
 			
@@ -81,10 +66,91 @@ body {
 				return;
 			}
 				
-// 			Debug...
-// 			alert("phone : "+value);
+//			Debug...
+//			alert("phone : "+value);
 			$("#user").attr("method" , "POST").attr("action" , "/user/updateUser").submit();
 		}
+///////////////////////////////////////////////////////////////////////
+	
+	
+	
+	// 비번 확인 모달창 
+		
+		$(function(){
+			$('button[type=hidden]').click();
+			console.log("1");
+		});
+	// 비번 확인 모달창 
+	
+	
+	// 비번 확인 모달창 test
+	
+		$( function() {
+			console.log("2");
+			$("#userId").focus();
+			console.log("3");
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$("#submit").on("click" , function() {
+// 				var userId=$("input:text").val();
+// 				var password=$("input:text").val();
+				
+// 				if(userId == null || userId.length <1) {
+// 					alert('ID 를 입력하지 않으셨습니다.');
+// 					$("#userId").focus();
+// 					return;
+// 				}
+// // 				else{
+// // 					alert('패스워드를 입력하지 않으셨습니다.');
+// // 				}
+// 				console.log("4");
+				
+// 				if(password == null || password.length <1) {
+// 					alert('패스워드를 입력하지 않으셨습니다.');
+// 					$("#password").focus();
+// 					return;
+// 				}
+				console.log("5");
+// 				$("#user").attr("method","GET").attr("action","/user/updateUser?userId=${user.userId}").submit();
+				$("#user").attr("method","GET").attr("action","/user/updateUser").attr("target","_parent").submit();
+			});
+		});	
+	
+	
+	
+	
+	
+// 	$(function() {
+// 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+// 		$("#submit").on("click", function() {
+// 			console.log("2");
+// 			self.location = "/user/updateUser?userId=${user.userId}";
+// 			console.log("3");
+// 		});
+// 	});
+	
+	
+// 	function submit(){
+// 		console.log("2");
+// 		 $.ajax({
+// 			type: "POST",
+// 			url: "/user/updateUser",
+// 			cache:false,
+// 			data: $('.modal-body').serialize(),
+// 			success: function(response){
+// 				$(".modal fade").html(response)
+// 				$(".modal fade").modal('hide');
+// 				console.log("3");
+// 			},
+// 			error: function(){
+// 				alert("Error");
+// 			}
+// 		});
+// 	}
+	
+	// 비번 확인 모달창 test
+	
+	
+	
 	
 </script>
 </head>
@@ -93,38 +159,38 @@ body {
 
 <!-- 비번 확인 모달창 test -->
 
-<!-- <div id="contact"	> -->
-<!--  	<button type="button" class="btn btn-info btn" data-toggle="modal" data-target="#contact-modal">Show Contact Form</button> -->
-<!-- </div>  -->
+<!-- Button trigger modal -->
+<button type="hidden" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" style="display: none">
+  Launch static backdrop modal
+</button>
 
-<!-- <div id="contact-modal" class="toggle" data-backdrop="static" tabindex="-1" role="dialog"> -->
-<div id="contact-modal" class="toggle"  role="dialog" >
-	<div class="modal-dialog" data-backdrop="static">
-		<div class="modal-content">
-			<div class="modal-header">
-<!-- 				<a class="close" data-dismiss="modal">×</a> -->
-				<h3>Contact Form</h3>
-			</div>
-			<form id="contactForm" name="contact" role="form">
-				<div class="modal-body">	
-					<div class="form-group">
-						<label for="userId">ID</label>
-						<input type="text" name="userId" class="form-control">
-					</div>					
-					<div class="form-group">
-						<label for="password">PW</label>
-						<input type="text" name="password" class="form-control">
-					</div>					
-				</div>
-				<div class="modal-footer">					
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<input type="submit" class="btn btn-success" id="submit">
-				</div>
-			</form>
-		</div>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel"> 보안 </h5>
+<!--         <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+<!--           <span aria-hidden="true">&times;</span> -->
+<!--         </button> -->
+      </div>
+      <div class="modal-body">
+       <div class="form-group">
+			<label for="userId">ID</label>
+				<input type="text" name="userId" id="userId" class="form-control">
+		</div>					
+		<div class="form-group">
+			<label for="password">PW</label>
+				<input type="text" name="password" id="password" class="form-control">
+		</div>					
 	</div>
+      <div class="modal-footer">
+<!--         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+        <button type="button" class="btn btn-primary" id="submit">확인</button>
+      </div>
+    </div>
+  </div>
 </div>
-
 <!-- 비번 확인 모달창 test -->
 
 

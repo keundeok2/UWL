@@ -218,7 +218,7 @@
                 <div class="addNotice">
                 <a href="/post/addNotice">공지사항 등록</a>
                 <!--  뒤로는 나중에 빼야될듯 ?  -->
-                  <a href="javascript:history.go(-1)">뒤로</a>
+                  <a href="javascript:history.go(-1)">뒤로 ( 임시임 )</a>
                 </div>
                     <colgroup>
                         <col width="10%">

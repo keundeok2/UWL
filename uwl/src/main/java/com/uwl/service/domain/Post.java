@@ -52,139 +52,217 @@ public class Post {
 		//	2 : 답변 처리
 	private String place; 	//위치
 	private int replyPostNo;	//답변 게시글 번호
+	private int prePostNo;
+	private String prePostTitle;
+	private int nextPostNo;
+	private String nextPostTitle;
+	
 	
 	//Constructor
 	public Post() {
 		// TODO Auto-generated constructor stub
 	}
 
+
 	public int getPostNo() {
 		return postNo;
 	}
 
+
 	public void setPostNo(int postNo) {
 		this.postNo = postNo;
 	}
-	
+
+
 	public String getUserId() {
 		return userId;
 	}
-	
+
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 
 	public User getUser() {
 		return user;
 	}
 
+
 	public void setUser(User user) {
 		this.user = user;
 	}
+
 
 	public String getPostTitle() {
 		return postTitle;
 	}
 
+
 	public void setPostTitle(String postTitle) {
 		this.postTitle = postTitle;
 	}
+
 
 	public String getPostContent() {
 		return postContent;
 	}
 
+
 	public void setPostContent(String postContent) {
 		this.postContent = postContent;
 	}
+
 
 	public Date getPostDate() {
 		return postDate;
 	}
 
+
 	public void setPostDate(Date postDate) {
 		this.postDate = postDate;
 	}
+
 
 	public String getUploadFileName() {
 		return uploadFileName;
 	}
 
+
 	public void setUploadFileName(String uploadFileName) {
 		this.uploadFileName = uploadFileName;
 	}
+
 
 	public int getHitCount() {
 		return hitCount;
 	}
 
+
 	public void setHitCount(int hitCount) {
 		this.hitCount = hitCount;
 	}
+
 
 	public int getLikeCount() {
 		return likeCount;
 	}
 
+
 	public void setLikeCount(int likeCount) {
 		this.likeCount = likeCount;
 	}
+
 
 	public int getCommentCount() {
 		return commentCount;
 	}
 
+
 	public void setCommentCount(int commentCount) {
 		this.commentCount = commentCount;
 	}
+
 
 	public String getViewStatus() {
 		return viewStatus;
 	}
 
+
 	public void setViewStatus(String viewStatus) {
 		this.viewStatus = viewStatus;
 	}
+
 
 	public String getPostCategoryNo() {
 		return postCategoryNo;
 	}
 
+
 	public void setPostCategoryNo(String postCategoryNo) {
 		this.postCategoryNo = postCategoryNo;
 	}
+
 
 	public String getGatherCategoryNo() {
 		return gatherCategoryNo;
 	}
 
+
 	public void setGatherCategoryNo(String gatherCategoryNo) {
 		this.gatherCategoryNo = gatherCategoryNo;
 	}
+
 
 	public String getQuestionStatus() {
 		return questionStatus;
 	}
 
+
 	public void setQuestionStatus(String questionStatus) {
 		this.questionStatus = questionStatus;
 	}
+
 
 	public String getPlace() {
 		return place;
 	}
 
+
 	public void setPlace(String place) {
 		this.place = place;
 	}
+
 
 	public int getReplyPostNo() {
 		return replyPostNo;
 	}
 
+
 	public void setReplyPostNo(int replyPostNo) {
 		this.replyPostNo = replyPostNo;
 	}
+
+
+	public int getPrePostNo() {
+		return prePostNo;
+	}
+
+
+	public void setPrePostNo(int prePostNo) {
+		this.prePostNo = prePostNo;
+	}
+
+
+	public String getPrePostTitle() {
+		return prePostTitle;
+	}
+
+
+	public void setPrePostTitle(String prePostTitle) {
+		this.prePostTitle = prePostTitle;
+	}
+
+
+	public int getNextPostNo() {
+		return nextPostNo;
+	}
+
+
+	public void setNextPostNo(int nextPostNo) {
+		this.nextPostNo = nextPostNo;
+	}
+
+
+	public String getNextPostTitle() {
+		return nextPostTitle;
+	}
+
+
+	public void setNextPostTitle(String nextPostTitle) {
+		this.nextPostTitle = nextPostTitle;
+	}
+
 
 	@Override
 	public String toString() {
@@ -193,9 +271,11 @@ public class Post {
 				+ ", hitCount=" + hitCount + ", likeCount=" + likeCount + ", commentCount=" + commentCount
 				+ ", viewStatus=" + viewStatus + ", postCategoryNo=" + postCategoryNo + ", gatherCategoryNo="
 				+ gatherCategoryNo + ", questionStatus=" + questionStatus + ", place=" + place + ", replyPostNo="
-				+ replyPostNo + "]";
+				+ replyPostNo + ", prePostNo=" + prePostNo + ", prePostTitle=" + prePostTitle + ", nextPostNo="
+				+ nextPostNo + ", nextPostTitle=" + nextPostTitle + "]";
 	}
 
+	
 
 	
 }
