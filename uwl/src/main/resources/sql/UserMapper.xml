@@ -87,13 +87,13 @@
 	 <update	id="updateUser"	parameterType="user" >
 	   	UPDATE users
 	   	<set>
-	   		name 			= #{name} ,
 	   		password		=  #{password} ,
 	   		nickname 		= #{nickname} ,
 	   		school_no		= #{schoolNo} ,
 			phone			= #{phone},
 			mail			= #{mail},
-			public_status 	= '1'
+			public_status 	= #{publicStatus},
+			profile_name	= #{profileName}
 		</set>
 	   	WHERE user_id = #{userId}
 	 </update>
@@ -170,8 +170,8 @@
 	 <!-- 문의사항 등록 -->
 	 <insert 	id="addQuestions"		parameterType="post" >
 	 INSERT
-		INTO post (post_category_no, post_no, user_id, post_title, post_content, post_date, hit_count, like_count, comment_count, view_status, question_status)
-        values ('5', SEQ_POST_POST_NO.NEXTVAL, #{userId},#{postTitle},#{postContent},SYSDATE,1,1,1,'1','1')
+		INTO post (post_category_no, post_no, user_id, post_title, post_content, post_date, hit_count, like_count, comment_count, view_status, question_status, gather_category_no)
+        values ('5', SEQ_POST_POST_NO.NEXTVAL, #{userId},#{postTitle},#{postContent},SYSDATE,1,1,1,'1','1', #{gatherCategoryNo})
 	 </insert>
 	 
 	 
