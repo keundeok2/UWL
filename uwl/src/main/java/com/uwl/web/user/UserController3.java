@@ -246,7 +246,7 @@ public class UserController3 {
 		Friend checkFriend2 = friendService.checkRequest(friend);
 		model.addAttribute("checkFriend2",checkFriend2); // return 1 => 친구신청버튼(로직은 수락) 만들기
 		
-		return "forward:/user/profile.jsp";
+		return "forward:/user/profile2.jsp";
 	}
 
 	// 프로필 수정

@@ -39,7 +39,7 @@
 				"Content-Type" : "application/json"
 			},
 			data : JSON.stringify({
-				userId : sessionId,
+				userId : sessionId
 			}),
 			success : function(d) {
 				for (var i = 0; i < d.list.length; i++) {
