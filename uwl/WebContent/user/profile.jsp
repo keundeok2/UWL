@@ -368,6 +368,19 @@
         </div>
     </div>
     
+    <script type="text/javascript">
+    	$(document).on("click", "div.list1", function() {
+    		console.log("click");
+			$.redirect("/social/getTimelineList/"+sessionId,{}, "GET");
+		});
+    
+    	$(document).on("click", "div.list2", function() {
+    		console.log("click");
+			$.redirect("/social/getAskList/"+sessionId,{}, "GET");
+		});
+    </script>
+    
+    
     <!-- Purchase Modal -->
 <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
