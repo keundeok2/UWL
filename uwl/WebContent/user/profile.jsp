@@ -93,8 +93,10 @@
 					}),
 					success : function() {
 						$("div.deleteFriend").remove();
+						$("div.sendFlower").remove();
+						$("div.useSpear").remove();
 						var html = "<div class='addFriend'><a href='#'>친구신청</a></div>"
-						$("div.sendFlower").before(html);
+						$("div.user").after(html);
 					}
 				});
 			}) 
@@ -119,7 +121,9 @@
 				success : function() {
 					$("div.acceptFriend").remove();
 					var html = "<div class='deleteFriend'><a href='#'>친구끊기</a></div>"
-					$("div.sendFlower").before(html);
+							+"<div class='sendFlower'><a href=''#' class='addMatching' data-toggle='modal' data-target='#exampleModal'>꽃보내기</a></div>"
+							+"<div class='useSpear'><a href='#'>찔러보기</a></div>";
+					$("div.user").after(html);
 				}
 			});
 		})
@@ -141,7 +145,8 @@
 		
 		
 		$(function() {
-			 $('.addMatching').on('click', function() {
+			$(document).on('click', '.addMatching', function() {
+			 
                 alert('클릭ㅋㅋ');
                 
                 alert('userId : ' + sessionUserId);
@@ -160,6 +165,7 @@
                     },
                     success: function(data) {
                         alert('성공ㅋㅋ');
+                        
                         var secondUserId2 = data.secondUserId;
                         alert('secondUserId2 : ' + secondUserId2);
                         var displayValue = '';
@@ -241,8 +247,8 @@
 			
 			
 			
+			$(document).on('click', '.deleteMatching', function() {
 			
-			$('.deleteMatching').on('click', function() {
                 alert('클릭ㅋㅋ');
                 
                 alert('userId : ' + sessionUserId);
@@ -335,6 +341,122 @@
 			
 			
 			
+			$(document).on('click', 'div.useSpear a', function() {
+                
+	            
+                alert('클릭ㅋㅋ');
+                
+                alert('userId : ' + sessionUserId);
+                alert('secondUserId : ' + targetUserId);
+                $.ajax({
+                    url: '/matching/rest/updateItem/' + sessionUserId + '/' + targetUserId,
+                    method: 'GET',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        userId: sessionUserId,
+                        secondUserId: targetUserId
+                    }),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(data) {
+                        alert('성공ㅋㅋ');
+                        var displayValue = '';
+                        if(data.result == true) {
+                            displayValue = '<form action="">'
+       + '<h3>창 사용 확인</h3>'
+        + '<input type="text" name="userId" value="' + sessionUserId + '">'
+        + '<input type="text" name="secondUserId" value="' + targetUserId + '"><br><br>'
+        + '<input type="text" name="secondUserId" value="' + targetUserId + '">님에게 창을 사용하시겠습니까?<br>'
+        + '<a href="#" class="check3">확인</a>'
+    + '</form>';
+                        } else {
+                            displayValue = '<h3>창 없음</h3>'
+    + '창이 없습니다.';
+                        }
+                        
+                        
+                        $('div.modal-body').html(displayValue);
+                    },
+                    error: function(request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            });
+			
+			
+			
+			
+			$(document).on('click', 'a.check3', function() {
+                
+	            
+                alert('클릭ㅋㅋ');
+                
+                alert('userId : ' + sessionUserId);
+                alert('secondUserId : ' + targetUserId);
+                $.ajax({
+                    url: '/matching/rest/updateItem3/' + sessionUserId + '/' + targetUserId,
+                    method: 'GET',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        userId: sessionUserId,
+                        secondUserId: targetUserId
+                    }),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(data) {
+                        alert('성공ㅋㅋ');
+                        var displayValue = '';
+                        alert('data.useResult : ' + data.useResult);
+                         if(data.useResult == '1') {
+                            displayValue = '<form action="">'
+       + '<h3>창 사용 결과 : 꽃 보냄</h3>'
+        + '<input type="text" name="userId" value="' + sessionUserId + '">'
+        + '<input type="text" name="secondUserId" value="' + targetUserId + '"><br><br>'
+        + '<input type="text" name="secondUserId" value="' + targetUserId + '">님이 꽃을 보냈습니다.'
+    + '</form>';
+                        } else if(data.useResult == '2') {
+                            displayValue = '<form action="">'
+       + '<h3>창 사용 결과 : 꽃 안 보냄</h3>'
+        + '<input type="text" name="userId" value="' + sessionUserId + '">'
+        + '<input type="text" name="secondUserId" value="' + targetUserId + '"><br><br>'
+        + '<input type="text" name="secondUserId" value="' + targetUserId + '">님이 꽃을 보내지 않았습니다.'
+    + '</form>';
+                        } else {
+                            displayValue = '<form action="">'
+       + '<h3>창 사용 결과 : 방패 씀</h3>'
+        + '<input type="text" name="userId" value="' + sessionUserId + '">'
+        + '<input type="text" name="secondUserId" value="' + targetUserId + '"><br><br>'
+        + '방패가 자동 사용되었습니다.'
+    + '</form>'; 
+                        }
+                        
+                        
+                        $('div.modal-body').html(displayValue);
+                    },
+                    error: function(request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            });
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		});
 		
 		
@@ -408,9 +530,14 @@
             height: 150px;
             border-radius: 50%;
             overflow: hidden;
+            position: relative;
         }
         div.profileImage a img {
-            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
         }
         div.profile {
             
@@ -669,7 +796,7 @@
                 <a href="#">
 	                <c:if test="${empty user.profileName}">
 	                	
-	                	<img src="/images/82910903_472735640087912_4282852221812207623_n(1).jpg" width="100px" alt="">
+	                	<img src="/images/bonobono.jpg" alt="">
 	                </c:if>
 	                <c:if test="${!empty user.profileName}">
 	                	<img src="/images/${user.profileName}" width="100px" alt="">
@@ -731,14 +858,14 @@
 	                    
 	                    
 	                    
-	                    <div class="useSpear"><a href="#">찔러보기</a></div>
+	                    <div class="useSpear"><a href="#" data-toggle="modal" data-target="#exampleModal">찔러보기</a></div>
 	                    </c:if>
                     </c:if>
                 </div>
                 <div class="post">
                     <div class="totalFlower">
                     	<!-- /////////////// totalFlower 추가바람/////////////// -->
-                        <img src="/images/love-and-romance.png" width="30px" alt=""> <span>37</span>
+                        <img src="/images/love-and-romance.png" width="30px" alt=""> <span>${totalMatching }</span>
                     </div>
                     	<!-- /////////////// 활동점수, 포인트 추가바람/////////////// -->
                     <div class="activityPoint"> 활동점수 <span>170</span>
@@ -792,3 +919,4 @@
         </div>
     </div>
 </body>
+</html>
