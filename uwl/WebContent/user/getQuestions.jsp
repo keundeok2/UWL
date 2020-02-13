@@ -46,6 +46,8 @@
 <!-- 	 <br> -->
 	 조회수 : <div>${post.hitCount}</div>
 	 <br>
+	 카테고리 : <div>${post.gatherCategoryNo}</div>
+	 <br>
 	 
 	 <c:if test="${post.viewStatus == '1' or post.viewStatus == null}">
 							공개여부 : 공개

@@ -60,6 +60,22 @@ ${user.userId}
     제목 : <input type="text" id="postTitle"		name="postTitle"/>
     <br>
     <br>
+    <td>카테고리 : </td>
+                    <td><select name="gatherCategoryNo">
+					        <option value="101">매칭</option>
+					        <option value="102">아이템</option>
+					        <option value="103">도전과제</option>
+					        <option value="104">결제</option>
+					        <option value="105">친구</option>
+					        <option value="106">타임라인</option>        
+					        <option value="107">ASK</option>        
+					        <option value="108">계정</option>        
+					        <option value="109">알림</option>        
+					        <option value="110">위치</option>        
+					        <option value="111">기타</option>        
+   						 </select></td>
+    <br>
+    <br>
    내용 :    <input type= "text" id="postContent"	name="postContent"/>
     <br>
      <br>
@@ -93,8 +109,8 @@ ${user.userId}
     
     
     
-    </form>
       <button type="button" class="btn btn-primary"  >등 &nbsp;록</button>
+    </form>
     
 <!--     <button onclick="parent.location.href='/user/addQuestions.jsp'">등록</button><br> -->
     <a href="javascript:history.go(-1)">뒤로</a>
