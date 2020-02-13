@@ -259,7 +259,7 @@ public class UserController {
 		int totalMatching = matchingService.getTotalMatching(search, targetUserId);
 		model.addAttribute("totalMatching", totalMatching);
 		
-		return "forward:/user/profile3.jsp";
+		return "forward:/user/profile2.jsp";
 	}
 
 	
