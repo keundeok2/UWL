@@ -34,7 +34,6 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
-	console.log('getlike 돌아감')
 	var refPostNo = ${post.postNo}
 	$.ajax({
 		url : "/community/rest/getLike",

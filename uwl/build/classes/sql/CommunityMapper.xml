@@ -93,7 +93,7 @@
  			FROM ( SELECT comment_no, c.user_id, post_no, comment_content, comment_date, comment_status, name, nickname, profile_name, (
  							SELECT like_no 
  							FROM likey
- 							WHERE ref_comment_no = comment_no and user_id = #{userId} AND like_what = '2') AS like_status
+ 							WHERE ref_comment_no = comment_no and user_id = #{userId} AND like_what = '2') AS like_status, like_count
  					FROM commentt c, users u
  						WHERE comment_status = '1'
  						<if test="search.searchCondition == 1"> 
