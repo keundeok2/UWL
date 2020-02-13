@@ -42,7 +42,7 @@ font-family: 'Nanum Gothic', sans-serif;
         div.leftLayout {
             
             margin-top: 20px;
-            margin-left: 20px
+            margin-left: 20px;
         }
         div.leftLayout h4 {
             

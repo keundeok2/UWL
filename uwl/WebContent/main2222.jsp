@@ -43,7 +43,7 @@
             
             <!--jinLeft include-->
             
-            <jsp:include page="/layout/jinLeft.jsp" />
+            <jsp:include page="/layout/left.jsp" />
             
             
         </div>
@@ -215,7 +215,7 @@
         <div class="right">
             
             <!--duckRight include-->
-            <jsp:include page="/layout/duckRight.jsp" />
+            <jsp:include page="/layout/right.jsp" />
             
         </div>
     </div>
