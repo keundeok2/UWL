@@ -719,5 +719,11 @@ public class UserController2 {
 
 		return "redirect:/user/getUser?userId=" + user.getUserId();
 	}
+	
+	@RequestMapping(value = "main2222", method = RequestMethod.GET)
+	public String main(Model model) throws Exception{
+		
+		return "forward:/main2222.jsp";
+	}
 
 }

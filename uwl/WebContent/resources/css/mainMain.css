@@ -23,6 +23,7 @@ a:focus {
 }
 
 input,
+select,
 i,
 img {
     vertical-align: middle;
@@ -33,8 +34,42 @@ input:focus {
 }
 
 body {
+    font-size: 16px;
     color: #333;
-    font-size: 15px;
     font-family: 'Roboto', sans-serif;
     font-family: 'Nanum Gothic', sans-serif;
+    overflow: hidden;
+}
+
+div.wrap {
+    background-color: lavender;
+    height: 100vh;
+    width: 1500px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+div.left {
+    background-color: lavenderblush;
+    width: 220px;
+    height: 100vh;
+    float: left;
+}
+
+div.main {
+    width: 1060px;
+    height: 100vh;
+
+    background-color: lightblue;
+    float: left;
+
+    overflow-y: scroll;
+
+}
+
+div.right {
+    background-color: lemonchiffon;
+    width: 220px;
+    height: 100vh;
+    float: left;
 }
