@@ -16,6 +16,138 @@
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 	    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 <title>Insert title here</title>
+
+ <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        li {
+            list-style: none;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        body {
+            font-size: 12px;
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+font-family: 'Nanum Gothic', sans-serif;
+        }
+        div.wrap {
+            
+            margin: 50px auto;
+            width: 1050px;
+        }
+        div.navigation {
+            
+            margin-bottom: 5px;
+            text-align: right;
+            margin-right: 30px;
+        }
+        
+        div.navigation span:nth-child(2) {
+            
+            font-weight: bold;
+        }
+        div.noticeTop {
+            
+            margin-bottom: 50px;
+        }
+        div.noticeTop span:nth-child(1) {
+            
+            font-size: 23px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        
+        div.notice table {
+            
+            border-top: 2px solid #EBAD7A;
+            border-bottom: 2px solid #EBAD7A;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        div.notice table tr {
+            
+            line-height: 45px;
+            border-bottom: 1px solid #eee;
+        }
+        div.notice table tr:nth-child(1) td:nth-child(1),
+        div.notice table tr:nth-child(2) td:nth-child(1),
+        div.notice table tr:nth-child(3) td:nth-child(1),
+        div.notice table tr:nth-child(3) td:nth-child(3) {
+            background-color: #fdfdfd;
+            
+            font-weight: bold;
+        }
+        div.notice table tr td {
+            
+            padding-left: 15px;
+        }
+        div.notice table tr:nth-child(4) td {
+            padding: 0;
+            padding: 10px;
+        }
+        div.notice table tr td img {
+            vertical-align: middle;
+            
+        }
+        div.notice div.list {
+            text-align: right;
+        }
+        div.notice div.list a {
+            background-color: #EBAD7A;
+            display: inline-block;
+            line-height: 25px;
+            padding: 0 40px;
+            color: #fff;
+            font-weight: bold;
+            margin: 20px 0;
+            
+        }
+        div.notice div.list input {
+            background-color: #EBAD7A;
+            display: inline-block;
+            line-height: 25px;
+            padding: 0 40px;
+            color: #fff;
+            font-weight: bold;
+            margin: 20px 0;
+            
+        }
+        
+        div.wrap > div:nth-child(4) table {
+            
+            border-top: 2px solid #EBAD7A;
+            border-bottom: 2px solid #EBAD7A;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        div.wrap > div:nth-child(4) table tr {
+            
+            line-height: 35px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        
+        div.wrap > div:nth-child(4) table tr td:nth-child(1) {
+            width: 70px;
+            text-align: center;
+            border-right: 1px solid #eee;
+            background-color: #fdfdfd;
+        }
+        div.wrap > div:nth-child(4) table tr td:nth-child(2) {
+            padding-left: 30px;
+        }
+        
+        
+    </style>
+    
+    
 </head>
 <body>
  <!-- 썸네일 등록-->
