@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,6 +82,27 @@
             font-weight: bold;
             margin: 20px 0;
         }
+        
+        #challengeBox {
+            border-color: #ebad7a;
+        }
+        div.notice {
+            border-color: #ebad7a;
+            background-color: #ebad7a;
+        }
+        
+        div.alert {
+            border-color: #f4cdad;
+            background-color: #f4cdad;
+        }
+        
+        div.totalComplete {
+        	font-size: 30px;
+        }
+        
+        img {
+        	display: none;
+        }
     </style>
     
     <script type="text/javascript">
@@ -91,7 +113,7 @@
 			 $( ".list-group-item" ).on("click" , function() {
 				var challNo = $(this).children('div').children("input[type='hidden']").val();
 				console.log("challNo : "+ challNo); 
-				self.location ="/challenge/getChallengeAdmin?challNo="+challNo;  
+				self.location ="/challenge/getChallenge?challNo="+challNo;  
 			});
 			
 			
@@ -102,7 +124,7 @@
 	    function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
 			/* alert("currPage"+currentPage); */
-			$("form").attr("method","POST").attr("action","/challenge/listAdminChallenge").submit();
+			$("form").attr("method","POST").attr("action","/challenge/listUserCompleteChallenge").submit();
 		}
     
     </script>
@@ -114,13 +136,20 @@
                     <h2><i class="fas fa-medal"></i> 완료한 도전과제 목록</h2>
                      <br>
                      <div class="alert alert-secondary" role="alert">
-					 	<font style="font-size: 20px">내가 완료된 도전과제를 볼 수 있습니다.</font>
+						<span style="font-size: 20px"> 내가 완료된 도전과제를 볼 수 있습니다.</span>
 					</div>
-                     
-                     	
+                     <!-- <div class="notice">
+						<span style="font-size: 20px"> 내가 완료된 도전과제를 볼 수 있습니다.</span>
+					</div> -->
+					<div class="totalComplete" style="float:right;">
+						총  <i class="fas fa-medal"></i>  ${resultPage.totalCount} 개
+					</div>
+                     	<br>
+                     	<br>
+                     	<br>
 						  <div class="list-group">
                      	<c:forEach var="challenge" items="${list}">
-							  <a href="#" class="list-group-item list-group-item-action">
+							  <a href="#" class="list-group-item list-group-item-action" id="challengeBox">
 							    <div class="d-flex w-100 justify-content-between">
 							  	  <input type="hidden" value="${challenge.challNo}">
 							      <h5 class="mb-1">${challenge.challTitle}</h5>

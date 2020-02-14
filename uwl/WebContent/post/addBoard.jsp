@@ -22,6 +22,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <script src="https://kit.fontawesome.com/4b823cf630.js"	
 	crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
 	
 
 <!--썸머노트 -->
@@ -164,6 +165,9 @@
 		});
 	
 	
+	
+	
+	
 	//썸머노트--------------------------------------------------------------------------------
 	$(document).ready(function() {
 			$('#summernote').summernote({
@@ -200,8 +204,35 @@
 					enctype : 'multipart/form-data',
 					processData : false,
 					success : function(data) {
-						var file = "/images/"+data;
-						$('#summernote').summernote('insertImage',file);
+						let timerInterval
+						Swal.fire({
+						  title: '잠시만 기다려주세요!!',
+						  html: '<b></b>',
+						  timer: 3000,
+						  timerProgressBar: true,
+						  onBeforeOpen: () => {
+						    Swal.showLoading()
+						    timerInterval = setInterval(() => {
+						      const content = Swal.getContent()
+						      if (content) {
+						        const b = content.querySelector('b')
+						        if (b) {
+						          b.textContent = Swal.getTimerLeft()
+						        }
+						      }
+						    }, 100)
+						  },
+						  onClose: () => {
+						    clearInterval(timerInterval)
+						  }
+						}).then((result) => {
+						  /* Read more about handling dismissals below */
+						  if (result.dismiss === Swal.DismissReason.timer) {
+							var file = "/images/"+data;
+							$('#summernote').summernote('insertImage',file);
+						  }
+						})
+						
 					},
 					error : function(){
 						alert("에러냐 ㅋㅋ");
@@ -212,8 +243,73 @@
 	
 	$(document).ready(function(){
 		$('#complete').on('click',function(){
-			$('form').attr('method','POST').attr('action','/post/addBoard').submit();
-		});
+			var gatherCategoryNo = $('#gatherCategoryNo').val();
+			var postTitle = $('#inputPostTitle').val();
+			var postContent = $('#summernote').val();
+			var thumbNail = $('#fileInput').val();
+			
+			
+			console.log(gatherCategoryNo, postTitle, postContent, thumbNail)
+			if(gatherCategoryNo == '' || gatherCategoryNo == null){
+				Swal.fire({
+					  icon: 'error',
+					  title: '카테고리를 정해주시죠?',
+					  showConfirmButton: false,
+					  timer: 800
+					});
+				return 0;
+			}
+			else if(postTitle == '' || postTitle == null){
+				Swal.fire({
+					  icon: 'error',
+					  title: '제목을 적어주시죠?',
+					  showConfirmButton: false,
+					  timer: 800
+					});
+				return 0;
+			}
+			else if(postContent == '' || postContent == null){
+				Swal.fire({
+					  icon: 'error',
+					  title: '내용을 적어주시죠??',
+					  showConfirmButton: false,
+					  timer: 800
+					});
+				return 0;
+			}
+			else if(thumbNail == '' || thumbNail == null){
+				Swal.fire({
+					  title: '정말?',
+					  text: "썸네일을 등록 안하셨는데.. 등록하실래요?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#cb4414',
+					  cancelButtonColor: '#3c3c3c',
+					  cancelButtonText : '아 맞다!',
+					  confirmButtonText: '그냥 올릴래!',
+					}).then((result) => {
+					  if (result.value) {
+						  Swal.fire({
+							  icon: 'success',
+							  title: '등록완료!',
+							  showConfirmButton: false,
+							  timer: 800
+							}).then((result) => {
+								$('form').attr('method','POST').attr('action','/post/addBoard').submit();
+							});
+					  }
+					});
+				return 0;
+				}
+			  Swal.fire({
+				  icon: 'success',
+				  title: '등록완료!',
+				  showConfirmButton: false,
+				  timer: 800
+				}).then((result) => {
+					$('form').attr('method','POST').attr('action','/post/addBoard').submit();
+				})
+			})
 		
 		 
 		$('li').on('click',function(){
@@ -274,8 +370,13 @@
 			<ul class="menu">
 			    <li value="201"><i class="fas fa-graduation-cap"></i> 진학상담</li>
 			    <li value="202"><i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i></li>
-			    <li value="203"><i class="fas fa-male"></i> 남자끼리</li>
-			    <li value="204"><i class="fas fa-female"></i> 여자끼리</li>
+			    <c:if test="${user.gender == '2' }">
+				    <li value="203"><i class="fas fa-male"></i> 남자끼리</li>
+			    </c:if>
+			    <c:if test="${user.gender == '1' }">
+				    <li value="204"><i class="fas fa-female"></i> 여자끼리</li>
+			    </c:if>
+			    
 			    <li value="205"><i class="far fa-kiss-wink-heart"></i> 데이트 자랑</li> 
 			    <li value="206"><i class="fas fa-bullhorn"></i> 대나무 숲</li> 
 			</ul>
@@ -300,7 +401,7 @@
 	        
 <div class="form-group">
 
-<label for="InputSubject1">썸네일</label>
+<label for="InputSubject1" style="color: #d75e0f; font-weight: bold;">썸네일 등록</label>
 
 <input name="file" id="fileInput"  type="file" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);">
 
