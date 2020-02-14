@@ -139,7 +139,7 @@ public class ChallengeController {
 		//role이 어드민일때만 가게끔 로직을 구성해야된다. 나중에 할 떄 참고
 		//redirect인 이유는 여기 입력됐던 정보들이 초기화되어야 하니까 redirect이다.
 
-		return "redirect:/challenge/getChallengeAdmin?challNo=" + challenge.getChallNo();
+		return "redirect:/challenge/getChallenge?challNo=" + challenge.getChallNo();
 	}
 	
 	//이 method가 필요한가??
@@ -221,14 +221,15 @@ public class ChallengeController {
 		
 	}
 	
-	@RequestMapping(value = "getChallengeAdmin", method = RequestMethod.GET)
+	//Admin만 보던걸 user로 볼 수 있게 바꿔서 Mapping만 바꿧음
+	@RequestMapping(value = "getChallenge", method = RequestMethod.GET)
 	public String getChallengeAdmin(@RequestParam("challNo") int challNo, Model model, HttpSession session) throws Exception{
 		
 		user = (User)session.getAttribute("user");
 		
 		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
 		if (user.getUserId() == null) {
-			System.out.println("ChallengeController getChallengeAdmin() : GET ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
+			System.out.println("ChallengeController getChallenge() : GET ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
 			return "forward:/user/login";
 		}
 		
@@ -245,7 +246,7 @@ public class ChallengeController {
 		model.addAttribute("challenge", challenge);
 		model.addAttribute("preNextPost", preNextPost);
 		
-		return "forward:/challenge/getChallengeAdmin.jsp";
+		return "forward:/challenge/getChallenge.jsp";
 	}
 	
 	//GET과 POST를 동시에

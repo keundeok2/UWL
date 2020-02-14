@@ -11,6 +11,9 @@
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<!-- sweetalert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
+
 <script
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
@@ -174,8 +177,8 @@
 		if(challReward == null || challReward.length<1 ){
 			alert("점수 입력하셈 (^오^)/ ");
 			return;
-		}else if(challReward.length >= 5 ){
-			alert("점수가 너무커요! 최대 천단위까지 가능합니다. (^오^)/ ");
+		}else if(challReward.length > 4 ){
+			alert("점수가 너무커요! 최대 천단위까지 가능합니다.");
 			return;
 		}
 	 
@@ -245,9 +248,105 @@
 	//썸머노트--------------------------------------------------------------------
 	
 	$(document).ready(function(){
+		
+		
 		$('#complete').on('click',function(){
-		 	$('form').attr('method','POST').attr('action','/challenge/addChallenge').submit(); 
+			
+			//Form 유효성 검증
+			var challTitle = $("#challTitle").val();
+			var challCategory = $("select[name='challCategory']").val();
+			var challContent = $("#summernote").val();
+			var challReward = $("input[name='challReward']").val();
+			var postCommentComplete = $("input[name='postCommentComplete']").val();
+			
+			console.log("challCategory : " + challCategory 
+						+ "challTitle : " + challTitle +"challContent : " + challContent + 
+						"challReward : " + challReward + "challReward 타입오브 : " + typeof(challReward) + "postCommentComplete : " + postCommentComplete );
+
+			if(challTitle == null || challTitle.length<1){
+				Swal.fire({
+					  icon: 'error',
+					  title: '제목을 입력해주세요!'
+					})
+				return;
+			}
+			if (challCategory == '3') {
+				if(postCommentComplete == null || postCommentComplete.length < 1 || postCommentComplete.length >=3 || isNaN(postCommentComplete) || (postCommentComplete <= 0 || postCommentComplete > 99) ){
+					Swal.fire({
+						  icon: 'error',
+						  text: '	달성조건은 1~99 사이의 값만 입력이 가능합니다.'
+						})
+					return;
+				}
+			}
+			
+			 if(challCategory == '카테고리'){
+				 Swal.fire({
+					  icon: 'error',
+					  title: '카테고리를 선택해주세요!'
+					})
+				return;
+			} 
+			
+			if(challContent == null || challContent.length<1){
+				Swal.fire({
+					  icon: 'error',
+					  title: '내용을 입력해주세요'
+					})
+				return;
+			}
+			
+			if(challReward == null || challReward.length<1 || isNaN(challReward) || (challReward <= 0 || challReward > 9999) ){
+				Swal.fire({
+					  icon: 'error',
+					  title: '점수를 입력해주세요!',
+					  text: '점수는 천단위(1 ~ 9,999)까지 가능합니다.'
+					})
+				return;
+			}else if(challReward.length > 4 ){
+				Swal.fire({
+					  icon: 'error',
+					  title: '점수를 입력해주세요!',
+					  text: '점수는 천단위(1 ~ 9,999)까지 가능합니다.'
+					})
+				return;
+			}
+			
+			Swal.fire({
+				  icon: 'success',
+				  title: '등록이 완료 되었습니다.',
+				  showConfirmButton: false,
+				  timer: 700
+				}).then((result) => {
+					$('form').attr('method','POST').attr('action','/challenge/addChallenge').submit();
+				})		 	 
 		});
+		
+		
+		$('#cancle').on('click',function(){
+			
+			Swal.fire({
+				  title: '작성을 중단하시겠습니까?',
+				  text: "작성중인 글은 초기화 됩니다.",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#cb4414',
+				  cancelButtonColor: '#3c3c3c',
+				  confirmButtonText: '나가기',
+				}).then((result) => {
+				  if (result.value) {
+					  Swal.fire({
+						  icon: 'success',
+						  title: '목록으로 돌아갑니다.',
+						  showConfirmButton: false,
+						  timer: 800
+						}).then((result) => {
+							history.back()
+						})	
+				  }
+				})
+			
+		}); //end of cancle
 		
 		
 		// 직접 index 값을 주어 selected 속성 주기
@@ -365,6 +464,7 @@
 	        <div style="text-align:right;width:100%">
 	        <div class="form-group">
 	       		<button type="button" class="btn btn-outline-secondary" id="complete" style="width:150px">등록</button>
+	       		<button type="button" class="btn btn-outline-secondary" id="cancle" style="width:150px">취소</button>
 	       	</div>
 	    </div>
     </div>

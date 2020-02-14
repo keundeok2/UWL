@@ -21,6 +21,23 @@
         div.challDate{
         	text-align: right;
         }
+        
+        div.alert {
+            background-color: #f4cdad;
+            border-color: #f4cdad;
+        }
+        
+        div.card-body {
+            border-color: #ebad7a;
+            border: medium;
+        }
+        
+        div.card-footer {
+            background-color: #ebad7a;
+            border-color: #ebad7a;
+        }
+        
+        
     </style>
 </head>
 <body>

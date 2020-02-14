@@ -33,6 +33,10 @@
 
 </style>
 <script type="text/javascript">
+
+	
+	
+
 $(document).ready(function(){
 	var refPostNo = ${post.postNo}
 	$.ajax({
@@ -48,10 +52,10 @@ $(document).ready(function(){
 		},
 		success : function(data){
 			if(data == true){	//좋아요를 누른 게시글일때
-				var view = "<h1><a href='#'><i class='fas fa-heart' style='color:red' id='likeCancel'></i></a></h1>";
+				var view = "<h1><a href='javascript:;'><i class='fas fa-heart' style='color:red' id='likeCancel'></i></a></h1>";
 				$('#forHeartAppend').after(view);
 			}else{	//좋아요를 안누른 게시글일때
-				var view = "<h1><a href='#'><i class='far fa-heart' style='color:black' id='like'></i></a></h1>";
+				var view = "<h1><a href='javascript:;'><i class='far fa-heart' style='color:black' id='like'></i></a></h1>";
 				$('#forHeartAppend').after(view);
 			}
 		},
@@ -76,9 +80,9 @@ $(document).on("click", "#like", function() {
 		},
 		success : function(data){
 			if(data != true){	//좋아요를 안누른 게시글일때
-				var view = "<h1><a href='#'><i class='far fa-heart' style='color:black' id='like'></i></a></h1>";
+				var view = "<h1><a href='javascript:;'><i class='far fa-heart' style='color:black' id='like'></i></a></h1>";
 			}else{	//좋아요를 누른 게시글일때
-				var view = "<h1><a href='#'><i class='fas fa-heart' style='color:red' id='likeCancel'></i></a></h1>";
+				var view = "<h1><a href='javascript:;'><i class='fas fa-heart' style='color:red' id='likeCancel'></i></a></h1>";
 				$('#like').remove();
 				$('#forHeartAppend').after(view);
 			}
@@ -105,11 +109,11 @@ $(document).on("click", "#likeCancel", function() {
 		},
 		success : function(data){
 			if(data != true){	//좋아요를 안누른 게시글일때
-				var view = "<h1><a href='#'><i class='far fa-heart' style='color:black' id='like'></i></a></h1>";
+				var view = "<h1><a href='javascript:;'><i class='far fa-heart' style='color:black' id='like'></i></a></h1>";
 				$('#likeCancel').remove();
 				$('#forHeartAppend').after(view);
 			}else{	//좋아요를 누른 게시글일때
-				var view = "<h1><a href='#'><i class='fas fa-heart' style='color:red' id='likeCancel'></i></a></h1>";
+				var view = "<h1><a href='javascript:;'><i class='fas fa-heart' style='color:red' id='likeCancel'></i></a></h1>";
 				$('#like').remove();
 				$('#forHeartAppend').after(view);
 			}
@@ -124,7 +128,29 @@ $(document).ready(function(){
 	$('#deletePost').on("click", function(){
 		var gatherCategoryNo = ${post.gatherCategoryNo};
 		var postNo = ${post.postNo};
-		self.location = "/post/deleteBoard?gatherCategoryNo="+gatherCategoryNo+"&postNo="+postNo;
+		
+		Swal.fire({
+			  title: '정말?',
+			  text: "진짜로 삭제하세요??",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#cb4414',
+			  cancelButtonColor: '#3c3c3c',
+			  cancelButtonText : '아니요!',
+			  confirmButtonText: '네!!',
+			}).then((result) => {
+			  if (result.value) {
+				  Swal.fire({
+					  icon: 'success',
+					  title: '삭제 완료!',
+					  showConfirmButton: false,
+					  timer: 500
+					}).then((result) => {
+						self.location = "/post/deleteBoard?gatherCategoryNo="+gatherCategoryNo+"&postNo="+postNo;
+					});
+			  }
+			});
+		
 	});
 	
 	$('#updatePost').on("click", function(){
@@ -177,11 +203,11 @@ $(document).ready(function(){
 	            </th>
 	            <td colspan="3">
 	            	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-	            	<c:if test="${user.userId eq post.userId}">
+	            	<c:if test="${user.userId eq post.userId or user.role eq '4'}">
 		            	<span><button type="button" class="btn btn-primary" id="updatePost"><i class="fas fa-pencil-alt"></i> 수정</button></span>
 		            	<span><button type="button" class="btn btn-danger" id="deletePost"><i class="fas fa-trash"></i> 삭제</button></span>
 		            </c:if>
-		            <c:if test="${user.userId ne post.userId }">
+		            <c:if test="${user.userId ne post.userId or user.role eq '4'}">
 		            	<span>
 		            		<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">신고</button>
 		            	</span>
