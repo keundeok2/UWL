@@ -451,7 +451,8 @@
 		<div class="notice">
             <div class="list">
         <a href="javascript:history.go(-1)">뒤로( 임시 )</a>
-        <a href="http://localhost:8080/user/addQuestions">등록</a>
+        <a href="/user/addQuestions">등록</a>
+        
     	</div>
             
         </div>

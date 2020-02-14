@@ -240,7 +240,9 @@
                 <table>
                 
                 <div class="addNotice">
+                <c:if test="${user.role eq '4' }">
                 <button onclick="location.href='/user/getUserQuestionsList'">전체목록 ( 없어질 버튼 )</button><br>
+                </c:if>
                 <a href="/user/addQuestions">문의사항 등록</a>
                 <!--  뒤로는 나중에 빼야될듯 ?  -->
                   <a href="javascript:history.go(-1)">뒤로 (없어질 버튼 )</a>

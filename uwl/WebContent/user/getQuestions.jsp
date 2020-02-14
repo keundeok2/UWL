@@ -105,6 +105,16 @@ font-family: 'Nanum Gothic', sans-serif;
             margin: 20px 0;
             
         }
+        div.notice div.list button {
+            background-color: #EBAD7A;
+            display: inline-block;
+            line-height: 25px;
+            padding: 0 40px;
+            color: #fff;
+            font-weight: bold;
+            margin: 20px 0;
+            
+        }
         
         div.wrap > div:nth-child(4) table {
             
@@ -255,6 +265,9 @@ font-family: 'Nanum Gothic', sans-serif;
             
             <div class="list">
                 <a href="/user/getUserQuestions">목록</a>
+                <c:if test="${user.role eq '4' }">
+                <button onclick="location.href='/user/getUserQuestionsList'">전체목록 ( 없어질 버튼 )</button><br>
+                </c:if>
                 <a href="/user/updateQuestions?postNo=${post.postNo }">수정</a>
         <a href="/user/deleteQuestions?postNo=${post.postNo }">삭제( 미구현 ) </a>
         <a href="javascript:history.go(-1)">뒤로</a>
