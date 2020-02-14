@@ -25,7 +25,12 @@ import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.challenge.ChallengeService;
 import com.uwl.service.domain.Challenge;
+import com.uwl.service.domain.Commentt;
+import com.uwl.service.domain.Post;
+import com.uwl.service.domain.Purchase;
+import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.User;
+import com.uwl.service.reward.RewardService;
 
 import sun.security.util.PropertyExpander.ExpandException;
 
@@ -36,7 +41,12 @@ public class ChallengeRestController {
 	//Field ==> 더 필요하면 추가시킬것.
 	@Autowired
 	@Qualifier("challengeServiceImpl")
-	private ChallengeService challService;
+	private ChallengeService challengeService;
+	
+	//Field
+	@Autowired
+	@Qualifier("rewardServiceImpl")
+	private RewardService rewardService;
 	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -59,6 +69,65 @@ public class ChallengeRestController {
 		return name;
 	}
 	
+	@RequestMapping(value = "/rest/completeChallenge", method = RequestMethod.POST)
+	public boolean completeChallenge(HttpSession session) throws Exception{
+		
+		Map<String, Object> map = challengeService.getChallengeList();
+		
+		List<Challenge> list = (List<Challenge>)(map.get("list"));
+		
+		boolean completeCheck = false;
+		
+		System.out.println("/rest/completeChallenge completeChallenge() : POST");
+		
+		User user = (User) session.getAttribute("user");
+		
+		for (int i = 0; i < 1; i++) {
+		
+		Commentt commentt = new Commentt();
+		commentt.setUserId(user.getUserId());
+		Post post = new Post();
+		post.setUserId(user.getUserId());
+		post.setGatherCategoryNo(list.get(i).getPost().getGatherCategoryNo());
+		
+		
+		Challenge challenge = new Challenge();
+		challenge.setChallNo(list.get(i).getChallNo());
+		challenge.setChallCategory(list.get(i).getChallCategory());
+		challenge.setChallReward(list.get(i).getChallReward());
+		challenge.setPostCommentComplete(list.get(i).getPostCommentComplete());
+		challenge.setPost(post);
+		challenge.setCommentt(commentt);
+		System.out.println("/rest/completeChallenge challenge : " + challenge);
+		System.out.println("/rest/completeChallenge challenge.getPost() : " + challenge.getPost());
+		
+		//null제약으로 인한 빈껍데기 넣어주기
+		Purchase purchaseItem = new Purchase();
+		
+		Reward reward = new Reward();
+		reward.setUserId(user.getUserId());
+		
+		//깡통만들어 넣어줌
+		Search search = new Search();
+		//토탈포인트의 정보를 가져오기 위한 긁어옴..
+		Map<String, Object> rewardMap = rewardService.getUserBothPointList(search, reward);
+		
+		List<Reward> totalList = (List<Reward>)(map.get("list"));
+		
+		reward.setChallenge(challenge);
+		reward.setPurchaseItem(purchaseItem);
+		reward.setVariablePoint(challenge.getChallReward());
+		reward.setVariableActivityPoint(challenge.getChallReward());
+		reward.setTotalActivityPoint(totalList.get(0).getTotalActivityPoint());
+		
+		System.out.println("/rest/completeChallenge completeChallenge() reward : " + reward + "chall : " + challenge);
+		challengeService.completeChallenge(reward, challenge, map, completeCheck);
+		
+		}
+		
+		
+		return completeCheck;
+	}
 	
 	
 }

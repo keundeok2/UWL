@@ -295,7 +295,7 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 			});
 		});	
 		
-		//==>"phone 본인인증" Event 처리 및 연결  ================================ Error Error Error Error Error Error Error Error Error
+		//==>"phone 본인인증" Event 처리 및 연결  ================================
 				 $(function() {
 			 $("button#checkPhone").on("click" , function() {
 				 var phone = $('#phone').val();
@@ -350,7 +350,7 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 			 });
 
 		
-		//==>"mail 본인인증" Event 처리 및 연결  ================================ Error Error Error Error Error Error Error Error Error
+		//==>"mail 본인인증" Event 처리 및 연결  ================================
 		$(function() {
 			// 이메일 입력 시 인증번호확인 버튼이 보이지 않도록 hide 
 			$("button:contains('인증번호확인')").hide();
@@ -433,18 +433,13 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 				}
 			}
 		});
-
-		
-		
-	
-	
-	
 	
 	$(function() {
 		 $( "a[href='#']" ).on("click" , function() {
 			$("form")[0].reset();
 		});
 	});	
+	
 	//==>"mail 본인인증" Event 처리 및 연결  ================================				
 				
 	</script>		
