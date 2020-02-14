@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,10 +66,15 @@
         .fa-clipboard {
         	color: rgb(4, 4, 5);
         }
+         .fa-medal {
+        	color: #ffc811;
+        }
+        
         
          /* 등록 하기위해 내가 추가한 것 */
         div.addChallenge div.list {
             text-align: right;
+            border-color: #c33214;
         }
         div.addChallenge div.list a {
             background-color: #EBAD7A;
@@ -77,6 +84,25 @@
             color: #fff;
             font-weight: bold;
             margin: 20px 0;
+            border-color: #c33214;
+            border: medium;
+        }
+        
+        #challengeBox {
+            border-color: #ebad7a;
+        }
+        
+        div.alert {
+            background-color: #f4cdad;
+            border-color: #f4cdad;
+        }
+        
+        img {
+        	display: none;
+        }
+        
+        div.totalChallenge {
+        	font-size: 30px;
         }
     </style>
     
@@ -88,7 +114,7 @@
 			 $( ".list-group-item" ).on("click" , function() {
 				var challNo = $(this).children('div').children("input[type='hidden']").val();
 				console.log("challNo : "+ challNo); 
-				self.location ="/challenge/getChallengeAdmin?challNo="+challNo;  
+				self.location ="/challenge/getChallenge?challNo="+challNo;  
 			});
 			
 			 $( ".list a:contains('등록')" ).on("click" , function() {
@@ -115,24 +141,32 @@
                     <h2>주간 도전과제 목록 (관리자용) </h2>
                      <br>
                      <div class="alert alert-secondary" role="alert">
-					 	<font style="font-size: 20px">관리자라면 등록자 상관없이 내용을 수정할 수 있습니다.</font>
+					 	<font style="font-size: 20px">관리자라면 등록자 상관없이 내용을 수정할 수 있습니다. </font>
 					 	<div class="addChallenge">
 					        <div class="list" >
 					             <a href="#">등록</a>
 					        </div>
 				        </div>
 					</div>
+				 	<div class="totalChallenge" style="float:left;">
+						총 <i class="fas fa-medal"></i>  ${resultPage.totalCount} 등록
+					</div>
+					<br>
+					<br>
+					<br>
                      
                      	
 						  <div class="list-group">
                      	<c:forEach var="challenge" items="${list}">
-							  <a href="#" class="list-group-item list-group-item-action">
+							  <a href="#" class="list-group-item list-group-item-action" id="challengeBox">
 							    <div class="d-flex w-100 justify-content-between">
 							  	  <input type="hidden" value="${challenge.challNo}">
 							      <h5 class="mb-1">${challenge.challTitle}</h5>
 							      <small class="text-muted">${challenge.challDate}</small>
 							    </div>
-							    <p class="mb-1">${challenge.challContent}</p>
+							    		${challenge.challContent}
+							    <p class="mb-1">
+							    </p>
 							    <small class="text-muted">
 							    	<c:if test="${challenge.challCategory == '1'}">
 										<i class="fas fa-map-marked-alt" style="font-size: 25px; "></i>&nbsp;&nbsp;Map&nbsp;&nbsp;

@@ -101,6 +101,9 @@
 			chall_title = #{challTitle},
 			chall_content = #{challContent},
 			chall_reward = #{challReward}
+			<if test="challCategory != 3">
+				, post_comment_complete = 0
+			</if>
 			<if test="challCategory == 3">
 				, post_comment_complete = #{postCommentComplete:NUMERIC}
 			</if>
@@ -196,7 +199,7 @@
 											c.chall_reward,
 											r.user_id
 										FROM reward r, challenge c  
-										WHERE r.chall_no = c.chall_no AND r.user_id = #{userId} ORDER BY c.chall_date) inner_table
+										WHERE r.chall_no = c.chall_no AND r.user_id = #{userId} ORDER BY  r.variable_date DESC) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER} )
 						WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER} 	
 	 </select>
@@ -238,7 +241,7 @@
 									c.chall_reward,
 									r.user_id
 								FROM reward r, challenge c  
-								WHERE r.chall_no = c.chall_no AND r.user_id = #{userId:VARCHAR} ORDER BY c.chall_date) countTable
+								WHERE r.chall_no = c.chall_no AND r.user_id = #{userId:VARCHAR} ORDER BY r.variable_date desc) countTable
 	 </select>
 	 
 	 <!-- SQL : SELECT ROW Count -->	<!-- 파라미터를 map으로 가져올것. --> 
