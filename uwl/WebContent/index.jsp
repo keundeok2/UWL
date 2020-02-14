@@ -230,6 +230,9 @@
             margin-top: 15px;
             color: #EBAD7A;
         }
+        p {
+        	margin-bottom: 0;
+        }
     </style>
     <script type="text/javascript">
     	$(document).ready(function(){
@@ -277,14 +280,14 @@
             </div>
             <div>
                 <div class="logo">
-                    <img src="img/twitter_header_photo_1-removebg-preview.png" width="100px" alt="">
+                    <img src="/images/twitter_header_photo_1-removebg-preview.png" width="100px" alt="">
                 </div>
                 <div>지금 전 세계에서 무슨 일이 일어나고 있는지 알아보세요</div>
                 <div>
                     오늘 어울림에 가입하세요.
                 </div>
                 <div>
-                    <a href="" id="addUser">가입하기</a>
+                    <a href="http://192.168.0.23:8080/user/addUserView.jsp" id="addUser">가입하기</a>
                     <a href="login.jsp" id="login2">로그인</a>
                 </div>
             </div>

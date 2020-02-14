@@ -66,6 +66,21 @@
 </head>
 
 <body>
+<!--  여기서부터 챗봇  -->
+<div id="frogue-container" class="position-right-bottom" data-chatbot="4626e9e6-320e-4c99-afe8-c196f85db573" data-user="akxorb1234" data-init-key="value"></div>
+
+
+<script>
+(function(d, s, id){
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) {return;}
+js = d.createElement(s); js.id = id;
+js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'frogue-embed'));
+</script> 
+<!--   여기까지 ㅋㅋ  -->
+
     <main>
         <section id="left">
 			<jsp:include page="left.jsp" />

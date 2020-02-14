@@ -140,6 +140,9 @@
         div.wrap > div:nth-child(4) a {
             color: #EBAD7A;
         }
+        p {
+        	margin-bottom: 0;
+        }
     </style>
     <script type="text/javascript">
     	$(document).ready(function(){
@@ -155,7 +158,7 @@
 <form>
     <div class="wrap">
         <div class="logo">
-            <img src="../img/twitter_header_photo_1-removebg-preview.png" alt="">
+            <img src="/images/twitter_header_photo_1-removebg-preview.png" alt="">
         </div>
         <div>어울림 로그인</div>
         <div class="loginForm">
