@@ -57,6 +57,7 @@ public class PostController {
 		search.setCurrentPage(1);	//1인 이유는 무조건 getBoard할때는 현재 댓글은 1페이지라서임 ㅋㅋ
 		search.setPageSize(pageSize);
 		search.setSearchCondition("1");	//1 = 게시글의 댓글보기, 2 = 자신이 작성한 댓글 보기
+		search.setSearchKeyword(postNo+"");
 		Map<String, Object> map = communityService.getCommentList(search, postNo, user.getUserId());		//user는 세션처리 할꺼
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		
@@ -118,6 +119,7 @@ public class PostController {
 		search.setCurrentPage(1);	//1인 이유는 무조건 getBoard할때는 현재 댓글은 1페이지라서임 ㅋㅋ
 		search.setPageSize(pageSize);
 		search.setSearchCondition("1");	//1 = 게시글의 댓글보기, 2 = 자신이 작성한 댓글 보기
+		search.setSearchKeyword(post.getPostNo()+"");
 		Map<String, Object> map = communityService.getCommentList(search, post.getPostNo(), user.getUserId());		//user는 세션처리 할꺼
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		

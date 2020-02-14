@@ -24,6 +24,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <script src="https://kit.fontawesome.com/4b823cf630.js"
 	crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
 	    
 	    <!-- 모달용 -->
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
@@ -62,10 +63,20 @@
 	    	var likeCount = null;	//좋아요 취소시 ajax로 뿌린 값은 못가져와서 그대로 준다
 	    	var result = null;	//첫 댓글수 값은 가져올 수 있어서 좋아요 누를 시 여기서 +1
 	    
-	    	$(document).ready(function(){
+	    	$(document).ready(function(){	//댓글 등록
+	    		
 	    		$('#addComment').on("click", function(){
 	    			postNo = ${post.postNo}
 	    			commentContent = $('#commentContent').val();
+	    			if(commentContent == '' || commentContent == null){
+		    			Swal.fire({
+		  				  icon: 'error',
+		  				  title: '댓글 내용을 작성해주세요!!!',
+		  				  showConfirmButton: false,
+		  				  timer: 800
+		  				});
+		    			return 0;
+	    			}
 	    			$.ajax({
 	    				url : "/community/rest/addComment",
 	    				method : "POST",
@@ -159,7 +170,6 @@
 		    			},
 		    			success : function(data){
 		    				if(data == true){
-		    					//likeCount = Number($('#likeButtonClick'+commentNo).parent().find('a').text()).trim());
 		    					likeCount = Number($('#likeButtonClick'+commentNo).parent().find('a').text().trim());
 			    				result = likeCount + 1;
 		    					$('#likeButtonClick'+commentNo).remove();
@@ -329,14 +339,14 @@
 									${comment.commentDate }
 								</span>
 								<span style="display:inline-block;float:right;" class='commentButton'>
-									<c:if test="${user.userId eq comment.userId }">
+									<c:if test="${user.userId eq comment.userId or user.role eq '4'}">
 									<span class="updateDelete">
 										<a data-toggle="modal" data-target="#updateCommentModal" href="#">수정 ｜</a> 
 										<a href="#"> 삭제</a>
 										<input type="hidden" class="commentNo" value="${comment.commentNo }">
 									</span> 
 									</c:if>
-									<c:if test="${user.userId ne comment.userId }">
+									<c:if test="${user.userId ne comment.userId or user.role eq '4'}">
 									<span class="onlyReport">
 										<a data-toggle="modal" data-target="#myModalComment" href="#"> 신고</a>
 										<input type="hidden" class="commentNo" value="${comment.commentNo }">
@@ -373,8 +383,9 @@
 	        </table>
 	        
 	        
-			    <textarea rows="3" cols="90" name="commentContent" id="commentContent"></textarea>
-			    <input type="button" id="addComment" value="등록">
+			    &nbsp;&nbsp;<input type="text" style="width: 700px; height: 50px" name="commentContent" id="commentContent"></textarea>
+			    <button type="button" class="btn btn-primary" id="addComment" style="background-color: #ebad7a; color: #3c3c3c;"><i class="fas fa-pencil-alt"></i> 등록</button>
+			    <br><br><br><br>
 	    	</div>
     </div>
 </div>
