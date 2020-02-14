@@ -7,7 +7,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
-    
 
     <style>
         * {
@@ -301,32 +300,34 @@ font-family: 'Nanum Gothic', sans-serif;
            <img src="/images/twitter_header_photo_1-removebg-preview.png" width="100px" alt="">
            </a>
        </div>
-        <h4>
-            <a id="master" href="#">
-                <i class="fas fa-crown"></i>
-                <span>관리자</span>
-                <i class="fas fa-caret-down"></i>
-            </a>
-        </h4>
-        <div id="goMaster">
-            <ul>
-                <li>
-                    <h6>
-                        <a href="#" id="userList">전체회원 목록</a>
-                    </h6>
-                </li>
-                <li>
-                    <h6>
-                        <a href="#" id="challengeControl">도전과제 관리</a>
-                    </h6>
-                </li>
-                <li>
-                    <h6>
-                        <a href="#" id="reportList">신고목록 확인</a>
-                    </h6>
-                </li>
-            </ul>
-        </div>
+       <c:if test="${user.role eq '4'}">
+	        <h4>
+	            <a id="master" href="#">
+	                <i class="fas fa-crown"></i>
+	                <span>관리자</span>
+	                <i class="fas fa-caret-down"></i>
+	            </a>
+	        </h4>
+	        <div id="goMaster">
+	            <ul>
+	                <li>
+	                    <h6>
+	                        <a href="#" id="userList">전체회원 목록</a>
+	                    </h6>
+	                </li>
+	                <li>
+	                    <h6>
+	                        <a href="#" id="challengeControl">도전과제 관리</a>
+	                    </h6>
+	                </li>
+	                <li>
+	                    <h6>
+	                        <a href="#" id="reportList">신고목록 확인</a>
+	                    </h6>
+	                </li>
+	            </ul>
+	        </div>
+       </c:if>
         
         
         
@@ -372,16 +373,21 @@ font-family: 'Nanum Gothic', sans-serif;
                         <a href="#" id="202">사랑과 이별</a>
                     </h6>
                 </li>
-                <li>
-                    <h6>
-                        <a href="#" id="203">남자끼리</a>
-                    </h6>
-                </li>
-                <li>
-                    <h6>
-                        <a href="#" id="204">여자끼리</a>
-                    </h6>
-                </li>
+                <c:if test="${user.gender eq '2' or user.role eq '4'}">
+	                <li>
+	                
+	                    <h6>
+	                        <a href="#" id="203">남자끼리</a>
+	                    </h6>
+	                </li>
+                </c:if>
+                <c:if test="${user.gender eq '1' or user.role eq '4'}">
+	                <li>
+	                    <h6>
+	                        <a href="#" id="204">여자끼리</a>
+	                    </h6>
+	                </li>
+                </c:if>
                 <li>
                     <h6>
                         <a href="#" id="205">데이트자랑</a>
