@@ -101,12 +101,23 @@ public class FriendRestController {
 		return friendService.getFriendList(user.getUserId(), search);
 	}
 	
-	public Map getSearchFriendList() throws Exception{
+	
+	@RequestMapping(value = "rest/getSearchFriendList", method = RequestMethod.POST)
+	public Map getSearchFriendList(@RequestBody Search search, HttpSession session) throws Exception{
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
 		
+		User user = (User)session.getAttribute("user");
+		
+		
+		Map<String, Object> map = friendService.getSearchFriendList(search, user.getUserId());
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+				pageSize);
+		map.put("resultPage", resultPage);
+		map.put("search", search);
 		return null;
 	}
-	
-	
-	
 	
 }

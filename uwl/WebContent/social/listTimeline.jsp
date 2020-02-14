@@ -10,18 +10,21 @@
 <!--  jQuery CDN -->
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <!-- bootstrap 4.4 CDN -->
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <link
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	rel="stylesheet">
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <!-- jQuery Redirect CDN     https://github.com/mgalante/jquery.redirect  -->
 <script
 	src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
 <!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
 <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
+<!-- 썸머노트 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
 <!-- Font Awesome CDN -->
 <script src="https://kit.fontawesome.com/376450b3c6.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -34,7 +37,13 @@
 		console.log("timelinePostContent", timelinePostContent);
 		
 		if (timelinePostContent.length < 1 || timelinePostContent == null) {
-			alert('내용을 입력하세요').
+			var pureAlert = $.pureAlert({
+				title : "알림",
+				content : "내용을 입력하세요."
+			})
+			
+			pureAlert.pureAlert('show');
+			
 			return;
 		}
 		
@@ -64,15 +73,15 @@
 					
 					for (var i = 0; i < d.list.length; i++) {
 						if (targetUserId == sessionId) {
-							html += "<div class='c"+d.list[i].commentNo+"'><i class='fas fa-times deleteCommentBtn'><input type='hidden' value='"+d.list[i].postNo+"' id='postNoini'><input type='hidden' value='"+d.list[i].commentNo+"' id='commentNoini'></i></div>";
+							html += "<div class='c"+d.list[i].commentNo+"'><i class='fas fa-times deleteCommentBtn'><input type='hidden' value='"+d.list[i].postNo+"' id='postNoini'><input type='hidden' value='"+d.list[i].commentNo+"' id='commentNoini'></i>";
 						}
 						
-						html += "<hr/><img src='/images/"+d.list[i].user.profileName+"' class='commentProfileName'><p class='commentPtag'>"+d.list[i].user.name+" &nbsp; "+d.list[i].commentContent+"</p>";
+						html += "<hr/><img src='/images/"+d.list[i].user.profileName+"' class='commentProfileName'><p class='commentPtag'>"+d.list[i].user.name+" &nbsp; "+d.list[i].commentContent+"</p></div>";
 					}
 					
-					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글입력 후 Enter'></div>";
+					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글입력 후 Enter'>";
 				} else {
-					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글입력 후 Enter'></div>";
+					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글입력 후 Enter'>";
 				}
 							
 				$("li."+postNo).append(html);
@@ -99,12 +108,10 @@
 				},
 				data : JSON.stringify({commentContent : content, userId : sessionId, postNo : postNo}),
 				success : function(d) {
-					console.log("d", d)
-					var html ="<div class='c"+d.commentNo+"'>"
-							+"<i class='fas fa-times deleteCommentBtn'></i></div>"
+					var html ="<div class='c"+d.commentNo+"'><i class='fas fa-times deleteCommentBtn'><input type='hidden' value='"+d.postNo+"' id='postNoini'><input type='hidden' value='"+d.commentNo+"' id='commentNoini'></i>"
 							+"<hr/><img src='/images/"+d.user.profileName+"' class='commentProfileName'>"
 							+"<p class='commentPtag'>"+d.user.name+" &nbsp; "+d.commentContent+"</p>"
-							+"<input type='hidden' value='"+d.commentNo+"'>"
+							+"<input type='hidden' value='"+d.commentNo+"'></div>"
 					
 					$(".addCommentDiv").prepend(html);
 					$("input.regCommentText").val("");
@@ -284,8 +291,51 @@
 				}
 				}
 			})
-		})
+		});
 	
+		//썸머노트--------------------------------------------------------------------------------
+	$(document).ready(function() {
+			$('#summernote').summernote({
+				width : 550,
+				height : 180,
+				minHeight : 180,
+				maxHeight : null,
+				focus : true,
+				toolbar: [
+				    // [groupName, [list of button]]
+				    ['toolbar', ['picture','bold']],	
+				    ['remove',['clear']]
+				  ],
+				placeholder : '내용을 입력하세요',
+				lang : 'ko-KR',
+				callbacks : {
+					onImageUpload : function(files, editor, welEditable) {
+						sendFile(files[0], editor, welEditable);
+						//editor가 누군지 welEditable이 누군지 알아보자 ㅅㅂㅋㅋ
+					}
+				}
+			});
+		});
+	function sendFile(file, editor, welEditable) {
+				data = new FormData();
+				data.append("file", file);
+				$.ajax({
+					data : data,
+					url : '/post/rest/addSummerNoteFile',	//리턴을 url로 해줘야함 ㅋㅋ
+					type : "POST",
+					cache : false,
+					contentType : false,
+					enctype : 'multipart/form-data',
+					processData : false,
+					success : function(data) {
+						var file = "/images/"+data;
+						$('#summernote').summernote('insertImage',file);
+					},
+					error : function(){
+						alert("에러냐 ㅋㅋ");
+					}
+				});
+			}
 	
 </script>
 
@@ -378,9 +428,9 @@ body {word-break:break-all;}
 				<h4>${user.name}님의 Timeline</h4>
 			<c:if test="${targetUserId eq user.userId }">
 				<div class="addFormDiv">
-				<form id="addTimelineForm">
+				<form id="addTimelineForm" enctype="multipart/form-data">
 					<div class="input-group">
-						<textarea class="form-control timelinePostContent" name="postContent" style="height:100px" placeholder="게시글을 등록하세요"></textarea>
+						<textarea class="form-control timelinePostContent" id="summernote" name="postContent"></textarea>
 						<input type="text" class="nononotext">
 						<input type="text" class="nononotext">
 					</div>

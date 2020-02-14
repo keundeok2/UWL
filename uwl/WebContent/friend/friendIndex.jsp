@@ -17,9 +17,12 @@
 <button id="3">신청한 목록</button>
 <button id="5">생일친구목록</button>
 <button id="6">ASK INDEX</button>
+<button id="7">listPurchase</button>
 </body>
 
 <script type="text/javascript">
+	var sessionUserId = "${user.userId}";
+	
 	$(function() {
 		$("#1").on("click", function() {
 			$.redirect("/friend/getFriendList",{
@@ -52,6 +55,12 @@
 		$("#6").on("click", function() {
 			$.redirect("/social/socialIndex.jsp",{
 			},"GET")
+		})
+		
+		$("#7").on("click", function() {
+			$.redirect("/purchase/getPurchaseList",{
+				userId : sessionUserId
+			},"POST")
 		})
 		
 		

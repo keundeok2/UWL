@@ -6,11 +6,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
-    <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
-    <script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
     <style type="text/css">
         /* 일단 여기에 박았음 */
         div.addAskedFriendData img {
@@ -216,12 +211,9 @@
                 }),
                 success: function(d) {
                     for (var i = 0; i < d.list.length; i++) {
-                        var html = "<li><a href='#'><img src='/images/" + d.list[i].profileName + "'>" + d.list[i].name + "<span></span></a>" +
-                            "<input type='hidden' value='" + d.list[i].userId + "'></li>";
-                        
                         /*재이가 고침!!*/
-                        html = '<li>'
-                    + '<a href="#">'
+                       var html = '<li>'
+                    + '<a href="#" class="rightProfileName">'
                         + '<span><img src="/images/' + d.list[i].profileName + '" alt=""></span>'
                         + '<span>' + d.list[i].name + '</span>'
                         + '<span></span>'
@@ -240,7 +232,7 @@
 
 
         //	우측툴바 프로필 이동 event
-        $(document).on("click", "div.friendList ul li a", function() {
+        $(document).on("click", "div.friendList ul li a.rightProfileName", function() {
             var targetUserId = $(this).next().val();
             console.log("targetUserId", targetUserId);
 
@@ -320,7 +312,7 @@
                     $(".btn" + userId + "").remove();
                     $("div.friendList ul").html("");
 
-                    var li = "<li>친구 목록<i class='fas fa-cog'></i></li>";
+                    var li = "<li>친구 목록<a href='#'><i class='fas fa-cog'></i></a></li>";
                     $(li).appendTo("div.friendList ul");
                     rightLoad();
 

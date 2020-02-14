@@ -66,7 +66,6 @@
 					}
 				}
 			});
-		
 		});
 		
 		$( function() {
@@ -88,6 +87,11 @@
                 
             });
         });
+    	
+    	$(document).on("click", "a.profileName", function() {
+			console.log("hello");
+			$("input[name='profileName']").click();
+		})
     </script>
 	
 	<style type="text/css">
@@ -227,8 +231,9 @@
 		            <div class="row">
 		                <div class="col-md-12">
 		                    <form id="updateProfileForm">
+							  <input type="file" class="form-control" name="profileName" value="${user.profileName}" style="display : none;">		                    
 		                      <input type="hidden" name="userId" value="${user.userId}">
-		                      <input type="hidden" name="profileName" value="${user.profileName}">
+		                      <%-- <input type="hidden" name="profileName" value="${user.profileName}"> --%>
 		                      <input type="hidden" name="publicStatus" value="${user.publicStatus}">
                               <div class="form-group row">
                                 <label for="name" class="col-4 col-form-label">이름</label>
@@ -326,7 +331,48 @@
 		        </div>
 		    </div>
 		</div>
-
+		<div class="list3">
+		    <div class="card">
+		        <div class="card-body">
+		            <div class="row">
+		                <div class="col-md-12 userId" >
+		                	<a href="#" class="profileName"><img src="/images/${user.profileName}" class="profileName"></a>
+		                    <h5>${user.userId}</h5>
+		                    <hr>
+		                </div>
+		            </div>
+		            <div class="row">
+		                <div class="col-md-12">
+		                      <input type="hidden" name="userId" value="${user.userId}">
+                              <div class="form-group row">
+                                <label for="prePassword" class="col-4 col-form-label">이전 비밀번호</label> 
+                                <div class="col-8">
+                                  <input id="prePassword"  name="prePassword" placeholder="이전 비밀번호" class="form-control here" required="required" type="text">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="password" class="col-4 col-form-label">새 비밀번호</label> 
+                                <div class="col-8">
+                                  <input id="password" name="password" placeholder="새 비밀번호" class="form-control here" required="required" type="text">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="password2" class="col-4 col-form-label">새 비밀번호 확인</label> 
+                                <div class="col-8">
+                                  <input id="password2"  name="password2" placeholder="새 비밀번호 확인" class="form-control here" required="required" type="text">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <div class="offset-4 col-8">
+                                  <button id="updatePasswordBtn" class="btn btn-primary">비밀번호 변경</button>
+                                </div>
+                              </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		
 		</section>
 	</div>
 </div>	

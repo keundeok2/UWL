@@ -33,6 +33,18 @@ $(document).on("click", ".addQuestionBtn", function() {
 	var content = $("textarea").val();
 	console.log(content);
 	
+	if (content.length < 1 || content == null || content == "") {
+		var pureAlert = $.pureAlert.alert({
+			title : "알림",
+			content : "내용을 입력하세요.",
+			okBtn : "확인",
+			autoShow : true,
+			closeButton : false
+		});
+		
+		return;
+	}
+	
 	$.ajax({
 		url : "/social/rest/addQuestion",
 		method : "POST",
@@ -91,14 +103,21 @@ var page = 1;
 					success: function(data) {
 						for (var i = 0; i < data.list.length; i++) {
 							console.log("hello");
+							var html = "<div class='ask'>"
+							                +"<p>"+data.list[i].questionContent+"</p>"
+							                +"<p><span>익명</span> ｜ <span>"+data.list[i].questionDate+"</span></p>"
+							                +"<p>"+data.list[i].answerContent+"</p>"
+							                +"<p><span>"+data.list[i].user.name+"</span> ｜ <span>"+data.list[i].answerDate+"</span></p>"
+							            +"</div>";
+							$(html).appendTo("div.askList");
 						}
 						$(window).data('ajaxready', true);
 					}
 				});
 			}
 			}
-		})
-	})
+		});
+	});
 
 </script>
 
