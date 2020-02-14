@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -144,6 +145,22 @@
         	margin-bottom: 0;
         }
     </style>
+    
+    <script type="text/javascript">
+	
+		$( function() {
+			// 네이버 아이디로 로그인 이미지 클릭 시 
+			$("div[name='naverLogin']").on("click", function(){
+				// 새로 팝업창에서 네이버 로그인을 진행하기 위해 아무 의미없는 jsp로 연결
+				window.open("/naver/openWindow.jsp",
+						"popWin",
+						"left=700, top=90, width=537, height=750, marginwidth=0, marginheight=0, fullscreen=no, scrollbars=yes, scrolling=yes, menubar=no, resizable=no");
+			})
+		})
+
+	</script>
+	
+	
     <script type="text/javascript">
     	$(document).ready(function(){
     		$('#login').on("click",function(){
@@ -174,9 +191,15 @@
                 <a href="#" id="login">로그인</a>
             </div>
         </div>
+        
         <div>
             <a href="#">비밀번호를 잊으셨나요?</a> · <a href="#">어울림 가입</a>
         </div>
     </div>
+   						 <div name="naverLogin" class="text-center">
+							<!-- 네이버 아이디로 로그인 이미지 -->
+							<img src="/images/naverImage.png" width="180" height="40" /> 
+							<br/>
+						</div>
   </form>
 </body></html>
