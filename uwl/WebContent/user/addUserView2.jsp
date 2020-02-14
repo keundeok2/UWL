@@ -333,13 +333,6 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 		$("button:contains('인증완료')").hide();
 		})
 		
-// 		$( "button.btn.btn-primary:contains('가입')" ).on("click" , function() {
-// 			fncAddUser();
-// 		});
-		
-		
-// 		$( "button.btn.btn-primary:contains('메일전송')" ).on("click" , function() {
-		
 		$(document).on("click" ,"button#sendMail", function() {
 			var mail = $("input[name='mail']").val();
 			console.log(mail);

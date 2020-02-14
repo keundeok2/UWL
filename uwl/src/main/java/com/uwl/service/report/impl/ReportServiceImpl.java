@@ -28,6 +28,11 @@ public class ReportServiceImpl implements ReportService{
 	public Report getReport(int reportNo) throws Exception {
 		return reportDAO.getReport(reportNo);
 	}
+	
+	@Override
+	public List<Report> getReportById(String userId) throws Exception {
+		return reportDAO.getReportById(userId);
+	}
 
 	@Override
 	public void addPostReport(Report report) throws Exception {
@@ -55,6 +60,8 @@ public class ReportServiceImpl implements ReportService{
 		map.put("totalCount", new Integer(totalCount));
 		return map;
 	}
+
+
 
 	
 }

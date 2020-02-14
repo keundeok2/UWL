@@ -1,5 +1,6 @@
 package com.uwl.service.report;
 
+import java.util.List;
 import java.util.Map;
 
 import com.uwl.common.Search;
@@ -10,6 +11,8 @@ public interface ReportService {
 	///ReportService
 
 	public Report getReport(int reportNo) throws Exception;
+	
+	public List<Report> getReportById(String userId) throws Exception;
 	
 	public void addPostReport(Report report) throws Exception;
 	

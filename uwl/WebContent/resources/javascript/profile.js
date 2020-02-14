@@ -1,3 +1,13 @@
+	var sessionId = null;
+	var sessionName = null;
+	var sessionMail = null;
+	var sessionPhone = null;
+	var itemCategory = null;
+	var itemName = null;
+	var price = null;
+	var itemCount = null;
+
+
 $(document).ready(function () {
     $(document).on('click', 'a[href="#"]', function (e) {
         e.preventDefault();
@@ -78,7 +88,7 @@ $(document).ready(function () {
                 }
             });
         })
-    })
+    });
 
     // 친구신청(수락) div.acceptFriend Btn Event
     $(document).on("click", "div.acceptFriend", function () {
@@ -104,14 +114,14 @@ $(document).ready(function () {
                 $("div.user").after(html);
             }
         });
-    })
+    });
 
     //프로필수정 Btn Event
     $(document).on("click", "div.profileUpdate", function () {
-        $.redirect("/userr/updateProfileView", {
+        $.redirect("/user/updateProfileView", {
             userId: sessionUserId
         });
-    })
+    });
 
 
 
@@ -182,7 +192,7 @@ $(document).ready(function () {
             $('#myInput').trigger('focus');
         });
 
-
+    });
 
 
 
@@ -420,16 +430,8 @@ $(document).ready(function () {
             });
         });
 
-
-
-
-
-
-
-
-
-    });
-
+        
+        
     $(function () {
         $('div.section ul li a').on('click', function () {
 
