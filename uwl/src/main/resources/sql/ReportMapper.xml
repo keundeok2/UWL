@@ -27,6 +27,13 @@
 		WHERE report_no = #{value}
  	</select>
  	
+ 	<select id="getReportByUserId" parameterType="string" resultMap="reportSelectMap">
+ 		SELECT
+ 			report_no, ref_post_no, ref_comment_no, user_id01, user_id02, report_what, report_status, report_category_no, report_date, proceed_date, report_content, stop_date
+ 		FROM report
+ 		WHERE user_id02 = #{value}
+ 	</select>
+ 	
  	
  	<insert id="addReport" parameterType="report">	<!-- 게시글 -->
  		INSERT

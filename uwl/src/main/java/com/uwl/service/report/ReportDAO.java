@@ -10,6 +10,8 @@ public interface ReportDAO {
 
 		public Report getReport(int reportNo) throws Exception;
 		
+		public List<Report> getReportById(String userId) throws Exception;
+		
 		public void addPostReport(Report report) throws Exception;
 		
 		public void addCommentReport(Report report) throws Exception;

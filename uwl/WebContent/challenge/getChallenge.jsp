@@ -16,9 +16,9 @@
 	<!-- 나눔고딕 -->
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Noto+Sans+KR&display=swap" rel="stylesheet">
     
+    <!-- sweetalert -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
     
-    <!-- 재이가 사용하던 폰트 -->
-   <!--  <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet"> -->
    
     <style>
         * {
@@ -182,6 +182,11 @@
         	color: #3750d8;
         }
         
+        /*삭제 알럿창 sweet alert2 */
+        body {
+		  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif; 
+		}
+	        
     </style>
     <script type="text/javascript">
     $(function() {
@@ -211,14 +216,42 @@
 			self.location ="/challenge/updateChallenge/" + challNo;   
 		});
 		
-		/* delete event */
-		$( "div.wrap > div:nth-child(4) a:contains('삭제')" ).on("click" , function() {
+		/* delete event 
+		 $( "div.wrap > div:nth-child(4) a:contains('삭제')" ).on("click" , function() {
 			var challNo = ${challenge.challNo};
 			console.log("challNo : " + challNo);
 		 	self.location ="/challenge/deleteChallenge/" + challNo;
-		});
+		}); */
 		
-	});	
+	/* delete event */
+	 $( "div.wrap > div:nth-child(4) a:contains('삭제')" ).on("click" , function() {
+	 	
+		Swal.fire({
+			  title: '삭제하시겠습니까?',
+			  text: "삭제된 글은 복구되지 않습니다!",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#cb4414',
+			  cancelButtonColor: '#3c3c3c',
+			  confirmButtonText: '삭제',
+			}).then((result) => {
+			  if (result.value) {
+				  var challNo = ${challenge.challNo};
+				  console.log("challNo : " + challNo);
+				  Swal.fire({
+					  icon: 'success',
+					  title: '삭제가 완료 되었습니다.',
+					  showConfirmButton: false,
+					  timer: 1200
+					}).then((result) => {
+			 		   self.location ="/challenge/deleteChallenge/" + challNo;
+					})	
+			  }
+			})
+	}); 
+		
+	});	//end of function
+	
     
     
     </script>

@@ -1,32 +1,17 @@
 package com.uwl.web.user;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.AuthCache;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.BasicAuthCache;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,21 +19,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.uwl.common.OracleToMongo;
 import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.couple.CoupleService;
 import com.uwl.service.domain.Friend;
 import com.uwl.service.domain.Matching;
 import com.uwl.service.domain.Post;
+import com.uwl.service.domain.Report;
 import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.User;
 import com.uwl.service.friend.FriendService;
 import com.uwl.service.matching.MatchingService;
 import com.uwl.service.purchase.PurchaseService;
+import com.uwl.service.report.ReportService;
 import com.uwl.service.reward.RewardService;
 import com.uwl.service.schoolRank.SchoolRankService;
 import com.uwl.service.social.SocialService;
@@ -86,6 +71,9 @@ public class UserController {
 	@Autowired
 	private PurchaseService purchaseService;
 
+	@Autowired
+	private ReportService reportService;
+	
 	public UserController() {
 		System.out.println(this.getClass());
 		System.out.println("UserController() 객체 생성");
@@ -259,7 +247,7 @@ public class UserController {
 		int totalMatching = matchingService.getTotalMatching(search, targetUserId);
 		model.addAttribute("totalMatching", totalMatching);
 		
-		return "forward:/user/profile2.jsp";
+		return "forward:/user/profile.jsp";
 	}
 
 	
@@ -272,7 +260,7 @@ public class UserController {
 		User user = userService.getUser(userId);
 		model.addAttribute("user", user);
 		
-		return "forward:/user/updateProfile2.jsp";
+		return "forward:/user/updateProfile3.jsp";
 	}
 	// 프로필 수정
 	@RequestMapping(value = "updateProfile", method = RequestMethod.POST)
@@ -416,6 +404,23 @@ public class UserController {
 		// Business Logic
 		User dbUser = userService.getUser(user.getUserId());
 
+		List reportList = new ArrayList<Report>();
+		reportList = reportService.getReportById(user.getUserId());
+		if(reportList != null) {
+			for(int i=0; i<reportList.size(); i++) {
+				Report reportUser = (Report)reportList.get(i);
+				if(reportUser.getUserId02().equals(user.getUserId())){
+					Date stopDate = reportUser.getStopDate();
+					Date today = new Date();
+					int result = stopDate.compareTo(today);
+					if(result >= 1) {
+						return "forward:/index.jsp";
+					}
+				}
+			}
+		}
+		
+		
 		if (user.getPassword().equals(dbUser.getPassword())) {
 			session.setAttribute("user", dbUser);
 			System.out.println(dbUser);

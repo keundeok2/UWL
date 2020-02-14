@@ -26,7 +26,7 @@ pageEncoding="UTF-8"%>
 
     <script type="text/javascript">
     	$(document).on("click", "button#updateProfileBtn", function() {
-			$("form#updateProfileForm").attr("method", "POST").attr("action", "/userrr/updateProfile").submit();	
+			$("form#updateProfileForm").attr("method", "POST").attr("action", "/user/updateProfile").submit();	
 		})
 		
 		$(document).on("click", "button#updatePasswordBtn", function() {
@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
 			}
 			
 			$.ajax({
-				url : "/userrr/rest/updatePassword",
+				url : "/user/rest/updatePassword",
 				method : "POST",
 				headers : {
 					"Accept" : "application/json",

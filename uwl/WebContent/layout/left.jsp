@@ -242,7 +242,7 @@ font-family: 'Nanum Gothic', sans-serif;
 
             //실제로 들어갈 수 있는 경로
             $("#userList").on("click", function() { //전체 회원 목록
-                $(location).attr('href', "#");
+                $(location).attr('href', "/user/getUserList");
             });
 
             $("#challengeControl").on("click", function() { //도전과제 관리
@@ -254,11 +254,11 @@ font-family: 'Nanum Gothic', sans-serif;
             });
 
             $("#home").on("click", function() { // 홈
-                $(location).attr('href', "#");
+                $(location).attr('href', "");
             });
 
             $("#myProfile").on("click", function() { //내 프로필
-                $(location).attr('href', "#");
+                $(location).attr('href', "");
             });
 
             $("#201").on("click", function() { //진학상담
@@ -292,7 +292,7 @@ font-family: 'Nanum Gothic', sans-serif;
                 $(location).attr('href', "/post/listNotice");
             });
             $("#question").on("click", function() { //문의사항
-                $(location).attr('href', "#");
+                $(location).attr('href', "/user/getUserQuestionsList");
             });
         });
 

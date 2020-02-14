@@ -85,7 +85,7 @@ public class FriendController {
 		map.put("search", search);
 		model.addAttribute("map", map);
 
-		return "forward:/friend/listSearchFriend.jsp";
+		return "forward:/friend/listSearchFriend2.jsp";
 	}
 	
 	//////////// main test

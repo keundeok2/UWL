@@ -207,13 +207,15 @@ public class ChallengeServiceTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void testCompleteChallenge() throws Exception{
 		
 		
 		Map<String, Object> map = challengeService.getChallengeList();
 		
 		List<Challenge> list = (List<Challenge>)(map.get("list"));
+		
+		boolean completeCheck = false;
 		
 		Search search = new Search();
 		search.setCurrentPage(1);
@@ -231,7 +233,7 @@ public class ChallengeServiceTest {
 			Commentt commentt = new Commentt();
 			commentt.setUserId("user01");
 			Post post = new Post();
-			post.setGatherCategoryNo("203");
+			post.setGatherCategoryNo("201");
 			post.setUserId("user01");
 			
 			Challenge challenge = new Challenge();
@@ -254,12 +256,12 @@ public class ChallengeServiceTest {
 			reward.setTotalActivityPoint(12000);
 			
 			System.out.println("JunitTest reward : " + reward + "ㅇㄴㅇㄴㅇchall : " + challenge + "map의 get : " + map.get("list"));
-			challengeService.completeChallenge(reward, challenge, map);
+			challengeService.completeChallenge(reward, challenge, map, completeCheck);
 			
 			}
 		}
 	
-	@Test
+	//@Test
 	public void testGetNextOrPrePost() throws Exception{
 		Challenge challenge = new Challenge();
 		challenge.setChallNo(10121);
