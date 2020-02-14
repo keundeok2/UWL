@@ -128,7 +128,7 @@
 		
 		//프로필수정 Btn Event
 		$(document).on("click", "div.profileUpdate", function() {
-			$.redirect("/userr/updateProfileView", {userId : sessionUserId});
+			$.redirect("/userrr/updateProfileView", {userId : sessionUserId});
 		})
 		
 		
@@ -934,7 +934,14 @@
                     </div>
                     <c:if test="${targetUserId eq user.userId }">
                     <!-- point div 추가했음 -->
-                    <div class="point"> 포인트 <span>${reward.recentlyTotalPoint}</span>
+                    <div class="point"> 포인트 <span>
+                    <c:if test="${empty reward.recentlyTotalPoint}">
+                    0
+                    </c:if>
+                    <c:if test="${!empty reward.recentlyTotalPoint}">
+                    ${reward.recentlyTotalPoint}
+                    </c:if>
+                    </span>
                     </div>
                     
                     <div class="totalItem purchaseBtn">

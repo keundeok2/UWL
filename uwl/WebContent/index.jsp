@@ -1,152 +1,297 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-<!--  jQuery CDN -->	
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<!-- jQuery Redirect CDN     https://github.com/mgalante/jquery.redirect  -->
-<script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!--  jQuery CDN -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<!-- bootstrap 4.4 CDN -->
+	<link
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		rel="stylesheet">
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+	<!-- jQuery Redirect CDN     https://github.com/mgalante/jquery.redirect  -->
+	<script
+		src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
+	<!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
+	<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
+    
+    <link rel="stylesheet" href="/css/jaeiCommon.css">
+        <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
+    
+    <script type="text/javascript">
+    
+    </script>
+    
+    
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<script type="text/javascript">
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        input:focus {
+            outline: none;
+        }
+        body {
+            color: #333;
+            font-size: 16px;
+            font-family: 'Roboto', sans-serif;
+            font-family: 'Nanum Gothic', sans-serif;
+        }
+
+        div.left {
+            background-color: #EBAD7A;
+            width: 50%;
+            height: 100vh;
+            position: relative;
+            float: left;
+        }
+
+        div.intro {
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            line-height: 1.5;
+        }
+
+        div.intro div+div {
+
+            margin-top: 30px;
+        }
+
+        div.intro div span:nth-child(1) {
+
+            display: inline-block;
+            font-size: 23px;
+            width: 30px;
+            text-align: center;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        div.intro div:nth-child(2) span:nth-child(1) {
+            vertical-align: top;
+        }
+
+        div.intro div span:nth-child(2) {
+
+            font-size: 19px;
+            font-weight: bold;
+            width: 310px;
+            display: inline-block;
+        }
+
+        div.right {
+
+            width: 50%;
+            height: 100vh;
+            float: right;
+            position: relative;
+        }
+
+        div.rightTop {
+            text-align: center;
+        }
+
+        div.loginForm {
 
 
-$(function() {
-	$("button").on("click", function() {
-		$.redirect("/user/addQuestions", {userId : "user01"});
-	})
-})
+            display: inline-block;
+            text-align: left;
+            padding-top: 15px;
+        }
 
-</script>
-<title>Insert title here</title>
+        div.id {
+
+            width: 210px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        div.password {
+
+            width: 210px;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 10px;
+        }
+
+        div.loginForm div p:nth-child(1) {
+            background-color: #f0f0f0;
+            padding: 2px 8px 0;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            color: #656565;
+        }
+
+        div.loginForm div p:nth-child(2) input {
+            width: 100%;
+            line-height: 30px;
+            border: none;
+            border-bottom: 2px solid;
+            padding: 0 10px 2px;
+            font-size: 19px;
+            background-color: #f0f0f0;
+        }
+
+        div.password p:nth-child(3) a {
+
+            color: #EBAD7A;
+            font-size: 14px;
+            display: block;
+            margin-top: 5px;
+            
+            margin-left: 8px;
+        }
+
+        div.loginForm div:nth-child(3) {
+
+            display: inline-block;
+            vertical-align: top;
+            padding: 7px 0;
+        }
+
+        div.loginForm div:nth-child(3) a {
+
+            line-height: 37px;
+            display: inline-block;
+            padding: 0 17px;
+            border-radius: 20px;
+            border: 1px solid;
+            color: #EBAD7A;
+            font-size: 15px;
+        }
+
+        div.right>div:nth-child(2) {
+
+            width: 380px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        div.logo {
+
+            margin-bottom: 10px;
+        }
+
+        div.right>div:nth-child(2) div:nth-child(2) {
+
+            font-size: 28px;
+            font-weight: bold;
+            line-height: 1.5;
+            margin-bottom: 65px;
+        }
+
+        div.right>div:nth-child(2) div:nth-child(3) {
+
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        div.right div:nth-child(2) div:nth-child(4) a {
+            background-color: #EBAD7A;
+            ;
+            display: block;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        div.right div:nth-child(2) div:nth-child(4) a:nth-child(2) {
+            background-color: #fff;
+            border: 1px solid;
+            margin-top: 15px;
+            color: #EBAD7A;
+        }
+        p {
+        	margin-bottom: 0;
+        }
+    </style>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+    		$('#login').on("click",function(){
+    			$("form").attr("method","POST").attr("action","/user/login").submit();	
+    		});
+    	});
+    </script>
+
+<title>어울림</title>
 </head>
 <body>
-
-<!--  여기서부터 챗봇  -->
-<div id="frogue-container" class="position-right-bottom" data-chatbot="4626e9e6-320e-4c99-afe8-c196f85db573" data-user="akxorb1234" data-init-key="value"></div>
-
-
-<script>
-(function(d, s, id){
-var js, fjs = d.getElementsByTagName(s)[0];
-if (d.getElementById(id)) {return;}
-js = d.createElement(s); js.id = id;
-js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
-fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'frogue-embed'));
-</script> 
-<!--   여기까지 ㅋㅋ  -->
-	<h1>Hello 어'울림! index.jsp</h1>
-	<br>
-	<br>
-	<br>
-	
-	<a href="/user/login" role="button">로그인</a>
-	<br/><br/>
-	<a href="/user/getUser?userId=${user.userId}" role="button">회원정보</a>
-	<br/>
-	<br/>
-	<button>문의사항</button>
-	<br/>
-	<br/>
-	<ul>
-			<h2>도전과제</h2>
-			<a href="/challenge/addChallenge" role="button">도전과제 등록</a>
-			
-			<br>
-			<br>
-			
-			
-			<a href="/challenge/getAdminChallengeList" role="button">도전과제리스트 (관리자용)</a>
-			
-			<br>
-			<br>
-			
-			<a href="/challenge/getCompleteChallengeList/{userId}"  role="button">완료된 도전과제리스트 (유저용)</a>
-			
-			<br>
-			<br>
-			
-			<a href="/challenge/getChallengeList/"  role="button">주간 도전과제리스트 (유저용/3개)</a>
-		
-			
-			
-			
-	</ul>
-	<br><hr><br>
-	<ul>
-		<h2>보상</h2>
-		<br>
-		<br>
-			
-		<a href="/reward/getUserBothPointList/{userId}"  role="button"> 내 포인트 사용내역조회 </a>
-	
-	
-	</ul>
-	
-	</ul>
-	<br><hr><br>
-	<ul>
-		<h2>학교랭킹</h2>
-		<br>
-		<br>
-			
-		<a href="/schoolRank/getSchoolRankingList/"  role="button"> 학교랭킹</a>
-	
-	
-	</ul>
-	<br><hr><br>
-	<ul>
-		<h2>친구모듈</h2>
-		<br>
-		<br>
-			
-		<a href="/friend/friendIndex.jsp"  role="button">친구모듈</a>
-	
-	
-	</ul>
-	<ul>
-		<h2>LEFT</h2>
-		<br>
-		<br>
-			
-		<a href="/post/left.jsp"  role="button">LEFT</a>
-	
-	
-	</ul>
-	<ul>
-		<h2>구매</h2>
-		<br>
-		<br>
-			
-		<a href="/purchase/addPurchase.jsp"  role="button">addPurchase</a><br/>
-		<a href="/purchase/listPurchase"  role="button">listPurchase</a><br/>
-		
-	
-	
-	</ul>
-	
-	
-	<ul>
-		<h2>채팅</h2>
-		<br>
-		<br>
-			
-		<a href="http://192.168.0.19:7777"  role="button">채팅1</a>
-	
-	
-	</ul>
-	
-	<ul>
-		
-		<br>
-		<br>
-			
-		<a href="http://192.168.0.19:5000"  role="button">채팅2</a>
-	
-	
-	</ul>
-</body>
-</html>
+<form>
+     <div class="index">
+        <div class="left">
+            <div class="intro">
+                <div>
+                    <span><i class="fas fa-search"></i></span>
+                    <span>관심사를 팔로우하세요.</span>
+                </div>
+                <div>
+                    <span><i class="fas fa-user-friends"></i></span>
+                    <span>사람들이 무엇에 대해 이야기하고 있는지 알아보세요.</span>
+                </div>
+                <div>
+                    <span><i class="far fa-comment"></i></span>
+                    <span>대화에 참여하세요.</span>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="rightTop">
+                <div class="loginForm">
+                    <div class="id">
+                        <p>휴대폰, 이메일, 사용자 아이디</p>
+                        <p><input type="text" name="userId"></p>
+                    </div>
+                    <div class="password">
+                        <p>비밀번호</p>
+                        <p><input type="password" name="password"></p>
+                        <p><a href="#">비밀번호를 잊으셨나요?</a></p>
+                    </div>
+                    <div><a href="#" id="login">로그인</a></div>
+                </div>
+            </div>
+            <div>
+                <div class="logo">
+                    <img src="/images/twitter_header_photo_1-removebg-preview.png" width="100px" alt="">
+                </div>
+                <div>지금 전 세계에서 무슨 일이 일어나고 있는지 알아보세요</div>
+                <div>
+                    오늘 어울림에 가입하세요.
+                </div>
+                <div>
+                    <a href="http://192.168.0.23:8080/user/addUserView.jsp" id="addUser">가입하기</a>
+                    <a href="login.jsp" id="login2">로그인</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </form>
+</body></html>

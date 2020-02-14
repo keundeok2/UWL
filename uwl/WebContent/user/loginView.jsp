@@ -1,5 +1,5 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8"%>
 
 
 <!DOCTYPE html>
@@ -7,9 +7,9 @@
 <html lang="ko">
 	
 <head>
-	<meta charset="EUC-KR">
+	<meta charset="UTF-8">
 	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -18,69 +18,65 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-	
-	
 	<!--  ///////////////////////// Bootstrap 4.4, jQuery 3.1.1 CDN ////////////////////////// -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
 			rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
 			crossorigin="anonymous">
-	
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 	
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	
-	
 	<!--  ///////////////////////// CSS, JS 4.4 CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
 	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
-integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
-integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	
 	
-	
-	
-	
-
-    
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 
-		//============= "·Î±×ÀÎ"  Event ¿¬°á =============
+		//============= "ë¡œê·¸ì¸"  Event ì—°ê²° =============
 		$( function() {
 			
 			$("#userId").focus();
 			
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$("button").on("click" , function() {
 				var id=$("input:text").val();
 				var pw=$("input:password").val();
 				
 				if(id == null || id.length <1) {
-					alert('ID ¸¦ ÀÔ·ÂÇÏÁö ¾ÊÀ¸¼Ì½À´Ï´Ù.');
+					$('#not').remove();
+					var view = "<span id='not' style='color:red'>IDë¥¼ ì…ë ¥í•˜ì§€ ì•Šìœ¼ì…¨ìŠµë‹ˆë‹¤.</span>";
+					$('#userId').after(view);
 					$("#userId").focus();
 					return;
 				}
 				
 				if(pw == null || pw.length <1) {
-					alert('ÆĞ½º¿öµå¸¦ ÀÔ·ÂÇÏÁö ¾ÊÀ¸¼Ì½À´Ï´Ù.');
+					$('#not').remove();
+					var view = "<span id='not' style='color:red'>íŒ¨ìŠ¤ì›Œë“œë¥¼ ì…ë ¥í•˜ì§€ ì•Šìœ¼ì…¨ìŠµë‹ˆë‹¤.</span>";
+					$('#password').after(view);
 					$("#password").focus();
 					return;
 				}
+				
+// 				if(id !== $('dbUser.userId') || pw !== $('dbUser.password')){
+// 					$('#not').remove();
+// 					var view = "<span id='not' style='color:red'> <br>ë‹¤ì‹œ í™•ì¸í•´ì£¼ì„¸ìš”.</span>";
+// 					$('#addButton').after(view);
+// 					$('#userId').focus();
+// 					return;
+// 				}
 				
 				$("form").attr("method","POST").attr("action","/user/login").submit();
 			});
 		});	
 		
-		//============= È¸¿ø°¡ÀÔÈ­¸éÀÌµ¿ =============
+		//============= íšŒì›ê°€ì…í™”ë©´ì´ë™ =============
 		$( function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a[href='#' ]").on("click" , function() {
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$("button#addButton").on("click" , function() {
 				self.location = "/user/addUser"
 			});
 		});
@@ -96,73 +92,65 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 	<style type="text/css">
 	
 	.fadeInDown {
-  -webkit-animation-name: fadeInDown;
-  animation-name: fadeInDown;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-@-webkit-keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
+	  -webkit-animation-name: fadeInDown;
+	  animation-name: fadeInDown;
+	  -webkit-animation-duration: 1s;
+	  animation-duration: 1s;
+	  -webkit-animation-fill-mode: both;
+	  animation-fill-mode: both;
+	}
+	@-webkit-keyframes fadeInDown {
+	  0% {
+	    opacity: 0;
+	    -webkit-transform: translate3d(0, -100%, 0);
+	    transform: translate3d(0, -100%, 0);
+	  }
+	  100% {
+	    opacity: 1;
+	    -webkit-transform: none;
+	    transform: none;
+	  }
+	}
 	
-	</style>
-</head>
-
-<body>
-
-		 	 	<br/><br/>
-				
-			        <form class="form-horizontal">
-		  <div class="wrapper fadeInDown">
-					  <div class="form-group ">
-<!-- 					    <label for="userId" class="col-sm-4 control-label">¾Æ ÀÌ µğ</label> -->
-<!-- 					    <div class="col-sm-6"> -->
-<div class="col-sm-offset-4 col-sm-6 text-center">
-					      <input type="text" class="form-control" name="userId" id="userId"  placeholder="¾ÆÀÌµğ" >
-					    </div>
-					  </div>
-					  
-					  <div class="form-group ">
-<!-- 					    <label for="password" class="col-sm-4 control-label">ÆĞ ½º ¿ö µå</label> -->
-<!-- 					    <div class="col-sm-6"> -->
-<div class="col-sm-offset-4 col-sm-6 text-center">
-					      <input type="password" class="form-control" name="password" id="password" placeholder="ÆĞ½º¿öµå" >
-					    </div>
-					  </div>
-					  
-					  <div class="form-group">
-					    <div class="col-sm-offset-4 col-sm-6 text-center">
-					      <button type="button" class="btn btn-primary btn-lg btn-block"  >·Î &nbsp;±× &nbsp;ÀÎ</button>
-					      <a class="btn btn-primary btn-lg btn-block" href="#" role="button">È¸ &nbsp;¿ø &nbsp;°¡ &nbsp;ÀÔ</a>
-					    </div>
-					  </div>
+	@keyframes fadeInDown {
+	  0% {
+	    opacity: 0;
+	    -webkit-transform: translate3d(0, -100%, 0);
+	    transform: translate3d(0, -100%, 0);
+	  }
+	  100% {
+	    opacity: 1;
+	    -webkit-transform: none;
+	    transform: none;
+	  }
+	}
+		
+		</style>
+	</head>
+	
+	<body>
+		<br/><br/>
+		<form class="form-horizontal">
+			<div class="wrapper fadeInDown">
+			  <div class="form-group ">
+				<div class="col-sm-offset-4 col-sm-6 text-center">
+			      <input type="text" class="form-control" name="userId" id="userId"  placeholder="ì•„ì´ë””" >
+			    </div>
+		  	</div>
+							  
+			  <div class="form-group ">
+				<div class="col-sm-offset-4 col-sm-6 text-center">
+			      <input type="password" class="form-control" name="password" id="password" placeholder="íŒ¨ìŠ¤ì›Œë“œ" >
+			    </div>
+		  	</div>
+							  
+			  <div class="form-group">
+			    <div class="col-sm-offset-4 col-sm-6 text-center">
+			      <button type="button" class="btn btn-primary btn-lg btn-block"  >ë¡œ &nbsp;ê·¸ &nbsp;ì¸</button>
+			      <button type="button" class="btn btn-primary btn-lg btn-block" href="#" id="addButton">íšŒ &nbsp;ì› &nbsp;ê°€ &nbsp;ì…</button>
+			    </div>
+			  </div>
 			</div>
-					</form>
-			
-</body>
-
+		</form>
+	</body>
 </html>

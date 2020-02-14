@@ -401,7 +401,7 @@
                 <a href="#" class="listAskBtn">답변완료목록</a>
             </p>
         </form>
-            <p>주소 : <input type="text" value="http://localhost:8080/social/getAskList/${targetUserId}" readonly="readonly"></p>
+            <p>주소 : <input type="text" value="http://localhost:8080/social/getAskList/${user.userId}" readonly="readonly"></p>
         </div>
         <div class="addAsk">
         	<c:forEach var="ask" items="${map.list}">

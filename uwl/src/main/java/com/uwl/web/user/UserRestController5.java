@@ -1,7 +1,6 @@
 package com.uwl.web.user;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
@@ -11,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.activation.FileDataSource;
 import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpHost;
@@ -34,7 +32,6 @@ import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,8 +48,8 @@ import com.uwl.service.domain.User;
 import com.uwl.service.user.UserService;
 
 @RestController
-@RequestMapping("/userrr/*")
-public class UserRestController3 {
+@RequestMapping("/userrrrrr/*")
+public class UserRestController5 {
 
 	/// Field
 	@Autowired
@@ -60,15 +57,23 @@ public class UserRestController3 {
 	private UserService userService;
 
 	// 메일 인증
-	@Autowired
 	private JavaMailSender mailSender;
 
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
+	
+	//////////////////////////형진 작품//////////////////////////////
+	@Value("#{apiProperties['blueApiid']}")
+	String apiId;
+	@Value("#{apiProperties['blueApiKey']}")
+	String apiKey;
+	@Value("#{apiProperties['blueSender']}")
+	String sender;
+	//////////////////////////형진 작품//////////////////////////////
 
-	public UserRestController3() {
+	public UserRestController5() {
 		System.out.println(this.getClass());
 	}
 
@@ -393,93 +398,22 @@ public class UserRestController3 {
 		return userService.getUser(user.getPassword());
 	}
 
-	// 문자인증
-	@RequestMapping(value = "rest/sendSms")
-	public String sendSms(String receiver, HttpSession session) {
-
-		// 6자리 인증 코드 생성
-		int rand = (int) (Math.random() * 899999) + 100000;
-		System.out.println("인증 코드 : " + rand);
-
-		session.setAttribute("rand", rand);
-
-		// 인증 코드를 데이터베이스에 저장하는 코드는 생략했습니다.
-
-		// 문자 보내기
-		String hostname = "api.bluehouselab.com";
-		String url = "https://" + hostname + "/smscenter/v1.0/sendsms";
-
-		CredentialsProvider credsProvider = new BasicCredentialsProvider();
-		credsProvider.setCredentials(new AuthScope(hostname, 443, AuthScope.ANY_REALM),
-				new UsernamePasswordCredentials(Config.appid, Config.apikey));
-
-		// Create AuthCache instance
-		AuthCache authCache = new BasicAuthCache();
-		authCache.put(new HttpHost(hostname, 443, "https"), new BasicScheme());
-
-		// Add AuthCache to the execution context
-		HttpClientContext context = HttpClientContext.create();
-		context.setCredentialsProvider(credsProvider);
-		context.setAuthCache(authCache);
-
-		DefaultHttpClient client = new DefaultHttpClient();
-
-		try {
-			HttpPost httpPost = new HttpPost(url);
-			httpPost.setHeader("Content-type", "application/json; charset=utf-8");
-
-			String json = "{\"sender\":\"" + Config.sender + "\",\"receivers\":[\"" + receiver + "\"],\"content\":\""
-					+ rand + "\"}";
-
-			StringEntity se = new StringEntity(json, "UTF-8");
-			httpPost.setEntity(se);
-
-			HttpResponse httpResponse = client.execute(httpPost, context);
-
-			InputStream inputStream = httpResponse.getEntity().getContent();
-			if (inputStream != null) {
-				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-				String line = "";
-				while ((line = bufferedReader.readLine()) != null)
-					inputStream.close();
-			}
-		} catch (Exception e) {
-			System.err.println("Error: " + e.getLocalizedMessage());
-		} finally {
-			client.getConnectionManager().shutdown();
-		}
-		return "true";
-	}
-
-	@RequestMapping(value = "rest/smsCheck")
-	public String smsCheck(String code, HttpSession session) {
-
-		String saveCode = "967698";
-		System.out.println("발행한 인증 코드 :" + saveCode);
-
-		if (code.equals(saveCode)) {
-			return "ok";
-		} else {
-			return "no";
-		}
-	}
-
-	final class Config {
-		public static final String appid = "keundeok2";
-		public static final String apikey = "e7dc07dc1ff111ea98850cc47a1fcfae";
-		public static final String content = "나는 유리를 먹을 수 있어요. 그래도 아프지 않아요";
-		public static final String sender = "01022269883";
-		public static final String receiver = "01022269883";
-	}
-
 //	 mail 인증
 	@RequestMapping(value = "rest/checkMail")
 	public Map checkMailValue(@RequestBody Map jsonMap) throws Exception {
 		System.out.println("user/rest/checkMail");
-		
 
-		String mail = (String)jsonMap.get("mail");
-		System.out.println("mail : " + mail);
+		// 파싱
+		ObjectMapper objectMapper = new ObjectMapper();
+		String mapString = objectMapper.writeValueAsString(jsonMap);
+		JSONObject jsonObject = (JSONObject) JSONValue.parse(mapString);
+
+		Map<String, String> mailMap = objectMapper.readValue(jsonObject.toString(),
+				new TypeReference<Map<String, String>>() {
+				});
+
+		String mail = mailMap.get("mail");
+
 		// 메일 인증 시 입력할 값을 생성
 		SecureRandom random = new SecureRandom();
 		String state = new BigInteger(130, random).toString(32);
@@ -492,27 +426,20 @@ public class UserRestController3 {
 
 		// JavaMailSender.setText(text) :: 메일 내용 설정
 		// StringBuffer로 작성
-		sendMail.setText(new StringBuffer()
-				.append("<img src='http://optimal.inven.co.kr/upload/2020/02/13/bbs/i13419547136.png' style='width : 250px; height : 100px'>")
-				.append("<h1>어'울림 이메일 인증</h1>")
-				.append("<p>소셜 데이팅 서비스 어울림입니다.</p>")
-				.append("<p>인증번호를 입력하시면 이메일 인증이 완료됩니다.</p>")
-				.append(" <p>인증번호  :: ")
+		sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>").append("<p>아래 글자를 입력하시면 이메일 인증이 완료됩니다.</p>")
+				.append("<p>입력 문자 :: </p><br/><br/><hr/>")
 				// 본인인증을 위한 state를 메일로 발송
-				.append(state +"</p>").toString());
+				.append("<p>" + state + "</p>").toString());
 
-		// 파일 첨부
-//		sendMail.addInline("img", new FileDataSource("c:\\bonobono.jpg"));
-		
 		// JavaMailSender.setFrom(senderEmail, senderName) :: 메일 작성자 설정
-		sendMail.setFrom("admin@uwl.com", "어'울림");
+		sendMail.setFrom("a@uwl.com", "어'울림");
 
 		// JavaMailSender.setTo(receiverEmail) :: 메일 수신자 설정
 		sendMail.setTo(mail);
 
 		// JavaMailSender.send :: 설정한 내용을 바탕으로 메일 전송
 		sendMail.send();
-		
+
 		Map<String, String> returnMap = new HashMap<String, String>();
 		returnMap.put("result", "done");
 
@@ -522,7 +449,6 @@ public class UserRestController3 {
 		return returnMap;
 	}
 
-	//	유저컨트롤러 본체에 추가 해야함
 	@RequestMapping(value = "rest/updatePassword", method = RequestMethod.POST)
 	public Map updatePassword(@RequestBody HashMap<String, Object> reqMap, HttpSession session) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -547,6 +473,88 @@ public class UserRestController3 {
 		return map;
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	/////////////////////////////////////////////////////////////////////형진이 작품///////////////////////////////////////////
+	@RequestMapping(value = "/rest/sendSms")
+	 public String sendSms(String receiver, HttpSession session) {
+			System.out.println(receiver);
+	        // 6자리 인증 코드 생성
+	        int rand = (int) (Math.random() * 899999) + 100000;
+	        System.out.println("인증 코드 : " + rand);
+	        
+	        session.setAttribute("rand", rand);
+	        
+	        // 인증 코드를 데이터베이스에 저장하는 코드는 생략했습니다.
+
+	        // 문자 보내기 
+	        String hostname = "api.bluehouselab.com";
+	        String url = "https://"+hostname+"/smscenter/v1.0/sendsms";
+
+	        CredentialsProvider credsProvider = new BasicCredentialsProvider();
+	        credsProvider.setCredentials(
+	            new AuthScope(hostname, 443, AuthScope.ANY_REALM),
+	            new UsernamePasswordCredentials(apiId, apiKey)
+	        );
+
+	        // Create AuthCache instance
+	        AuthCache authCache = new BasicAuthCache();
+	        authCache.put(new HttpHost(hostname, 443, "https"), new BasicScheme());
+
+	        // Add AuthCache to the execution context
+	        HttpClientContext context = HttpClientContext.create();
+	        context.setCredentialsProvider(credsProvider);
+	        context.setAuthCache(authCache);
+
+	        DefaultHttpClient client = new DefaultHttpClient();
+
+	        try {
+	            HttpPost httpPost = new HttpPost(url);
+	            httpPost.setHeader("Content-type", "application/json; charset=utf-8");
+
+	            String json = "{\"sender\":\""+sender+"\",\"receivers\":[\""+receiver+"\"],\"content\":\""+rand+"\"}";
+	            
+	            StringEntity se = new StringEntity(json, "UTF-8");
+	            httpPost.setEntity(se);
+
+	            HttpResponse httpResponse = client.execute(httpPost, context);
+
+	            InputStream inputStream = httpResponse.getEntity().getContent();
+	            if (inputStream != null) {
+	                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+	                String line = "";
+	                while ((line = bufferedReader.readLine()) != null)
+	                    inputStream.close();
+	                }
+	            } catch (Exception e) {
+	                System.err.println("Error: " + e.getLocalizedMessage());
+	            } finally {
+	                client.getConnectionManager().shutdown();
+	            }
+	            return "true";
+	}	
+	
+	
+		@RequestMapping(value="/rest/smsCheck")
+	   public boolean smsCheck(@RequestParam(value = "code") String code, HttpSession session) {
+	       String saveCode = (session.getAttribute("rand").toString());
+	       System.out.println(saveCode);
+	       System.out.println(code);
+	       System.out.println("발행한 인증 코드 :"+saveCode);
+	       if(code.equals(saveCode)) {
+	       	return true;
+	       }else {
+	       	return false;
+	       }
+	       
+	   }
+	
+		/////////////////////////////////////////////////////////////////////형진이 작품///////////////////////////////////////////
 	
 	
 }

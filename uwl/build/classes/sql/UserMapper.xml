@@ -168,25 +168,24 @@
 	 
 	 
 	 <!-- 문의사항 등록 -->
-	 <insert 	id="addQuestions"		parameterType="post" >
+	 <insert id="addQuestions"	parameterType="post" >
 	 INSERT
 		INTO post (post_category_no, post_no, user_id, post_title, post_content, post_date, hit_count, like_count, comment_count, view_status, question_status, gather_category_no)
-        values ('5', SEQ_POST_POST_NO.NEXTVAL, #{userId},#{postTitle},#{postContent},SYSDATE,1,1,1,'1','1', #{gatherCategoryNo})
+        values ('5', SEQ_POST_POST_NO.NEXTVAL, #{userId},#{postTitle},#{postContent},SYSDATE,0,0,0,'1',1, #{gatherCategoryNo})
 	 </insert>
 	 
 	 
 	 
 	 
-	  <!-- 문의사항 수정 -->
+	 <!-- 문의사항 수정 -->
 	 <update	id="updateQuestions"	parameterType="post">
 	   	UPDATE post
 	   	<set>
-	   		user_id				= #{userId},
 	   		post_title 			= #{postTitle} ,
 	   		post_content		= #{postContent} ,
-	   		post_date			= #{postDate},
-	   		view_status 		= #{viewStatus}	   		
-	   	</set>
+	   		view_status 		= #{viewStatus}	,   
+	   		GATHER_CATEGORY_NO  = #{gatherCategoryNo}
+	    	</set>
 	   	WHERE post_no = #{postNo}
 	 </update>
 	 

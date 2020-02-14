@@ -57,52 +57,40 @@ body {
 
 <script type="text/javascript">
 
-$(document).ready(function(){
-
-	 $("#fileInput").on('change', function(){  // 값이 변경되면
-
-	 if(window.FileReader){  // modern browser
-
-	 var filename = $(this)[0].files[0].name;
-
-	 } else {  // old IE
-
-	 var filename = $(this).val().split('/').pop().split('\\').pop();  // 파일명만 추출
-
-	 }
-
-	 
-
-	 // 추출한 파일명 삽입
-
-	 $("#userfile").val(filename);
-	 });
+	$(document).ready(function(){
+		 $("#fileInput").on('change', function(){  // 값이 변경되면
+		 if(window.FileReader){  // modern browser
+		 var filename = $(this)[0].files[0].name;
+		 } else {  // old IE
+		 var filename = $(this).val().split('/').pop().split('\\').pop();  // 파일명만 추출
+		 }
 	
-});
+		 // 추출한 파일명 삽입
+		 $("#userfile").val(filename);
+		 });
+	});
 
-
-
-	
 	//============= "수정"  Event 연결 =============
-	 $(function() {
+	$(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$( '#updateUserButton' ).on("click" , function() {
 			fncUpdateUser();
 		});
 	});	
 	
-		function fncUpdateUser() {
-			var name=$("input[name='name']").val();
-			
-			if(name == null || name.length <1){
-				alert("이름은  반드시 입력하셔야 합니다.");
-				return;
-			}
-				
-//			Debug...
-//			alert("phone : "+value);
-			$("#user").attr("method" , "POST").attr("action" , "/user/updateUser").submit();
+	function fncUpdateUser() {
+// 		var password=$("input[name='password']").val();
+		var password=$("input:password").val();
+		if(password == null || password.length <1){
+			$('#not').remove();
+			var view = "<span id='not' style='color:red'> <br>비밀번호는 반드시 입력하셔야 합니다.</span>";
+			$('#password').after(view);
+			$('#password').focus();
+			return;
 		}
+				
+		$("#user").attr("method" , "POST").attr("action" , "/user/updateUser").submit();
+	}
 ///////////////////////////////////////////////////////////////////////
 	
 </script>
@@ -116,7 +104,7 @@ $(document).ready(function(){
 	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<form id="user" enctype="multipart/form-data">
-	<table class="table table-hover text-center" id="table">
+		<table class="table table-hover text-center" id="table">
 			<tr>
 				<td> 아 이 디 </td>
 				<td> <input type="hidden" 	name="userId" value="${user.userId}" readonly>${user.userId} </td>
@@ -127,7 +115,7 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td> 비밀번호 </td>
-				<td> <input type="text" 	name="password"	 value="${user.password}"> </td>
+				<td> <input type="text" =name="password"	 value="${user.password}" id="password"> </td>
 			</tr>
 			<tr>
 				<td> 닉 네 임 </td>
@@ -143,15 +131,15 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td> 생      일 </td>
-				<td> ${user.birth} </td>
+				<td> <input type="hidden" 	name="birth" value="${user.birth}" readonly> ${user.birth} </td>
 			</tr>
 			<tr>
 				<td> 성      별  </td>
-				<td> <c:if test="${user.gender == '1' }">
-								여자
+				<td> <c:if test="${user.gender == '1' }"> 
+								<input type="hidden" 	name="gender" value="${user.gender}" readonly> 여자
 					</c:if>
-					<c:if test="${user.gender == '2'}">
-											남자
+					<c:if test="${user.gender == '2'}"> 
+								<input type="hidden" 	name="gender" value="${user.gender}" readonly> 남자
 					</c:if> 
 				</td>
 			</tr>
@@ -161,50 +149,31 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td> 사      진 </td>
-				
-<td> <div class="form-group">
-
-<input name="file" id="fileInput"  type="file" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);">
-
-<div class="bootstrap-filestyle input-group">
-
-<input type="text" id="userfile" class="form-control" name="userfile" readonly="readonly" placeholder="${user.profileName}">
-
-<span class="group-span-filestyle input-group-btn" tabindex="0">
-
-<label for="fileInput" class="btn btn-default ">
-
-<span class="glyphicon fa fa-upload"></span>
-
-</label>
-
-</span>
-
-</div>
-
-</div>
- </td>
+				<td> 
+					<div class="form-group">
+						<input name="file" id="fileInput"  type="file" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);">
+						<div class="bootstrap-filestyle input-group">
+								<input type="text" id="userfile" class="form-control" name="userfile" readonly="readonly" placeholder="${user.profileName}">
+							<span class="group-span-filestyle input-group-btn" tabindex="0">
+								<label for="fileInput" class="btn btn-default ">
+									<span class="glyphicon fa fa-upload"></span>
+								</label>
+							</span>
+						</div>
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td> 공개설정 </td>
 				<td> <input type="radio" name="publicStatus" value="1" checked> 공개 &nbsp;
-		    <input type="radio" name="publicStatus" value="2"> 비공개
-								
-<%-- 				<input type="text" name="publicStatus" value="${user.publicStatus}"> --%>
-<%-- 						<c:if test="${user.publicStatus == '1' }">공개</c:if> --%>
-<%-- 						<c:if test="${user.publicStatus == '2'}">비공개</c:if>  --%>
+		    		<input type="radio" name="publicStatus" value="2"> 비공개
 				</td>
 			</tr>
 		</table>
 <br><br>
-	
-<!-- 	사진 수정 안됨 -->
-
-	<div class="text-center">
-	<button type="button" id="updateUserButton" class="btn btn-outline-info btn-lg">완료</button>
-	</div>
+		<div class="text-center">
+			<button type="button" id="updateUserButton" class="btn btn-outline-info btn-lg">완료</button>
+		</div>
 	</form>
 </body>
-
-
 </html>

@@ -1,12 +1,14 @@
 package com.uwl.common;
 
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 import javax.activation.DataSource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
