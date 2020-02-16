@@ -1,29 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-	crossorigin="anonymous"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-	crossorigin="anonymous"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<script src="https://kit.fontawesome.com/4b823cf630.js"
-	crossorigin="anonymous"></script>
-<title>Insert title here</title>
- <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--  CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
+	<script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>    
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
+  	<script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -39,14 +33,49 @@
             color: inherit;
         }
 
+        a:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+
         body {
-            color: #898989;
+            
+            color: #333;
             font-size: 16px;
             font-family: 'Roboto', sans-serif;
             font-family: 'Nanum Gothic', sans-serif;
         }
 
-        img {
+        
+
+        section#left {
+            
+            height: 100vh;
+            width: 250px;
+            float: left;
+            border-right: 1px solid #eee;
+        }
+
+        section#work {
+            background-color: lemonchiffon;
+            width: calc(100% - 600px);
+            float: left;
+            height: 100vh;
+            overflow-y: scroll;
+        }
+
+        section#right {
+            
+            height: 100vh;
+            width: 350px;
+            float: right;
+            overflow-y: scroll;
+            border-right: 1px solid #eee;
+        }
+        
+        
+	/* --------------------------------------------------------------형진 추가 css---------------------------------------- */        
+	 img {
             vertical-align: middle;
         }
 
@@ -438,9 +467,10 @@
         	text-align: center;
         	line-height: 50px
         }
-        
+	/* --------------------------------------------------------------형진 추가 css---------------------------------------- */        
     </style>
-<script type="text/javascript">
+    
+    <script type="text/javascript">
 	    $(document).ready(function(){
 	    	
 	    	$('.a').on("click", function(){
@@ -454,111 +484,127 @@
 	    	});
 	    });
     </script>
-
 </head>
+
 <body>
-<form>
-	
-	<div class="mainHeader">
-                <div class="left2" style="color: #d75e0f;">
-                    <c:if test="${gatherCategoryNo eq '201' }">
-    					<h1><i class="fas fa-graduation-cap"></i> 진학상담</h1>
-    				</c:if>
-				    <c:if test="${gatherCategoryNo eq '202' }">
-				    	<h1><i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i></h1>
-				    </c:if>
-				    <c:if test="${gatherCategoryNo eq '203' }">
-				    	<h1><i class="fas fa-male"></i> 남자끼리</h1>
-				    </c:if>
-				    <c:if test="${gatherCategoryNo eq '204' }">
-				    	<h1><i class="fas fa-female"></i> 여자끼리</h1>
-				    </c:if>
-				    <c:if test="${gatherCategoryNo eq '205' }">
-				    	<h1><i class="far fa-kiss-wink-heart"></i>데이트 자랑</h1>
-				    </c:if>
-				    <c:if test="${gatherCategoryNo eq '206' }">
-				    	<h1><i class="fas fa-bullhorn"></i> 대나무 숲</h1>
-				    </c:if>
-                </div>
-                <div class="right2">
-                    <a href="#"><i class="far fa-star"></i></a>
-                </div>
-            </div>
-            <div class="mainTop">
-                <ul>
-                    <li><a href="#">조회수 <i class="fas fa-arrow-up"></i></a></li>
-                    <li><a href="#">좋아요 <i class="fas fa-arrow-up"></i></a></li>
-                    <li><a href="#">작성일 <i class="fas fa-arrow-up"></i></a></li>
-                </ul>
-                <div class="search">
-                    <select name="" id="">
-                        <option value="">내용</option>
-                        <option value="">제목</option>
-                        <option value="">제목 + 내용</option>
-                        <option value="">작성자</option>
-                    </select>
-                    <input type="text" placeholder="내용을 입력해주세요">
-                    <a href="#">검색</a>
-                </div>
-            </div>
-            
-            <div class="postList">
-            
-            <c:forEach var="post" items="${list }">
-                <div class="post">
-                <a href="#">
-                        <div class="uploadFile">
-                        	<img src="/images/${post.uploadFileName}" alt="" style='border-radius: 10px;'>
-                        </div>
-                        <div>
-                            <div class="postTop">
-                                <div class="postTitle">
-                                    <p>${post.postTitle }</p>
-                                    <p>${post.user.nickname }</p>
-                                </div>
-                                <div class="postCategory">
-                                     <c:if test="${gatherCategoryNo eq '201' }">
-    									<i class="fas fa-graduation-cap"></i> 진학상담
-    								</c:if>
-								    <c:if test="${gatherCategoryNo eq '202' }">
-								    	<i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i>
-								    </c:if>
-								    <c:if test="${gatherCategoryNo eq '203' }">
-								    	<i class="fas fa-male"></i> 남자끼리
-								    </c:if>
-								    <c:if test="${gatherCategoryNo eq '204' }">
-								    	<i class="fas fa-female"></i> 여자끼리
-								    </c:if>
-								    <c:if test="${gatherCategoryNo eq '205' }">
-								    	<i class="far fa-kiss-wink-heart"></i>데이트 자랑
-								    </c:if>
-								    <c:if test="${gatherCategoryNo eq '206' }">
-								    	<i class="fas fa-bullhorn"></i> 대나무 숲
-								    </c:if>
-                                    <p>${post.postDate }</p>
-                                </div>
-                            </div>
-                            <div class="postContent">
-                                ${post.postContent }
-                            </div>
-                            <div>
-                                <p><i class="far fa-comment"></i> ${post.commentCount }</p>
-                                <p><i class="far fa-eye"></i> ${post.hitCount }</p>
-                                <p><i class="far fa-heart"></i> ${post.likeCount }</p>
-                            </div>
-                        </div>
-                        <input type="hidden" class="postNo" value="${post.postNo }">
-                        </a>
-                </div>
-             </c:forEach>
-                </div>
-                
-                
-            <div class="a"><i class="fas fa-pencil-alt"></i></div>
-            </div>
-            
-            
-            
-    </form>
-</body>
-</html>
+<!--  여기서부터 챗봇  -->
+<div id="frogue-container" class="position-right-bottom" data-chatbot="4626e9e6-320e-4c99-afe8-c196f85db573" data-user="akxorb1234" data-init-key="value"></div>
+
+
+<script>
+(function(d, s, id){
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) {return;}
+js = d.createElement(s); js.id = id;
+js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'frogue-embed'));
+</script> 
+<!--   여기까지 ㅋㅋ  -->
+
+    <main>
+        <section id="left">
+			<jsp:include page="/layout/left.jsp" />
+        </section>
+        <section id="work">
+	<form>
+		<div class="mainHeader">
+	                <div class="left2" style="color: #d75e0f;">
+	                    <c:if test="${gatherCategoryNo eq '201' }">
+	    					<h1><i class="fas fa-graduation-cap"></i> 진학상담</h1>
+	    				</c:if>
+					    <c:if test="${gatherCategoryNo eq '202' }">
+					    	<h1><i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i></h1>
+					    </c:if>
+					    <c:if test="${gatherCategoryNo eq '203' }">
+					    	<h1><i class="fas fa-male"></i> 남자끼리</h1>
+					    </c:if>
+					    <c:if test="${gatherCategoryNo eq '204' }">
+					    	<h1><i class="fas fa-female"></i> 여자끼리</h1>
+					    </c:if>
+					    <c:if test="${gatherCategoryNo eq '205' }">
+					    	<h1><i class="far fa-kiss-wink-heart"></i>데이트 자랑</h1>
+					    </c:if>
+					    <c:if test="${gatherCategoryNo eq '206' }">
+					    	<h1><i class="fas fa-bullhorn"></i> 대나무 숲</h1>
+					    </c:if>
+	                </div>
+	                <div class="right2">
+	                    <a href="#"><i class="far fa-star"></i></a>
+	                </div>
+	            </div>
+	            <div class="mainTop">
+	                <ul>
+	                    <li><a href="#">조회수 <i class="fas fa-arrow-up"></i></a></li>
+	                    <li><a href="#">좋아요 <i class="fas fa-arrow-up"></i></a></li>
+	                    <li><a href="#">작성일 <i class="fas fa-arrow-up"></i></a></li>
+	                </ul>
+	                <div class="search">
+	                    <select name="" id="">
+	                        <option value="">내용</option>
+	                        <option value="">제목</option>
+	                        <option value="">제목 + 내용</option>
+	                        <option value="">작성자</option>
+	                    </select>
+	                    <input type="text" placeholder="내용을 입력해주세요">
+	                    <a href="#">검색</a>
+	                </div>
+	            </div>
+	            
+	            <div class="postList">
+	            
+	            <c:forEach var="post" items="${list }">
+	                <div class="post">
+	                <a href="#">
+	                        <div class="uploadFile">
+	                        	<img src="/images/${post.uploadFileName}" alt="" style='border-radius: 10px;'>
+	                        </div>
+	                        <div>
+	                            <div class="postTop">
+	                                <div class="postTitle">
+	                                    <p>${post.postTitle }</p>
+	                                    <p>${post.user.nickname }</p>
+	                                </div>
+	                                <div class="postCategory">
+	                                     <c:if test="${gatherCategoryNo eq '201' }">
+	    									<i class="fas fa-graduation-cap"></i> 진학상담
+	    								</c:if>
+									    <c:if test="${gatherCategoryNo eq '202' }">
+									    	<i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i>
+									    </c:if>
+									    <c:if test="${gatherCategoryNo eq '203' }">
+									    	<i class="fas fa-male"></i> 남자끼리
+									    </c:if>
+									    <c:if test="${gatherCategoryNo eq '204' }">
+									    	<i class="fas fa-female"></i> 여자끼리
+									    </c:if>
+									    <c:if test="${gatherCategoryNo eq '205' }">
+									    	<i class="far fa-kiss-wink-heart"></i>데이트 자랑
+									    </c:if>
+									    <c:if test="${gatherCategoryNo eq '206' }">
+									    	<i class="fas fa-bullhorn"></i> 대나무 숲
+									    </c:if>
+	                                    <p>${post.postDate }</p>
+	                                </div>
+	                            </div>
+	                            <div class="postContent">
+	                                ${post.postContent }
+	                            </div>
+	                            <div>
+	                                <p><i class="far fa-comment"></i> ${post.commentCount }</p>
+	                                <p><i class="far fa-eye"></i> ${post.hitCount }</p>
+	                                <p><i class="far fa-heart"></i> ${post.likeCount }</p>
+	                            </div>
+	                        </div>
+	                        <input type="hidden" class="postNo" value="${post.postNo }">
+	                        </a>
+	                </div>
+	             </c:forEach>
+	             </div>
+	    </form>
+        </section>
+        <section id="right">
+			<jsp:include page="/layout/right.jsp" />
+        </section>
+    </main>
+</body></html>
