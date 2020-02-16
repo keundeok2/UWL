@@ -117,7 +117,7 @@ font-family: 'Nanum Gothic', sans-serif;
     <script>
         $(document).ready(function() {
 
-
+        	var sessionUserId = "${user.userId}";
             //밑으로 내려오는 이벤트들
             $('#master').on('mouseenter', function() {
                 $('#goMaster').addClass('on');
@@ -238,7 +238,7 @@ font-family: 'Nanum Gothic', sans-serif;
             });
 
             $("#challengeControl").on("click", function() { //도전과제 관리
-                $(location).attr('href', "#");
+                $(location).attr('href', "/challenge/listAdminChallenge");
             });
 
             $("#reportList").on("click", function() { //신고목록
@@ -246,11 +246,11 @@ font-family: 'Nanum Gothic', sans-serif;
             });
 
             $("#home").on("click", function() { // 홈
-                $(location).attr('href', "");
+                $(location).attr('href', "/layout/default.jsp");
             });
 
             $("#myProfile").on("click", function() { //내 프로필
-                $(location).attr('href', "");
+                $(location).attr('href', "/user/getProfile/"+sessionUserId);
             });
 
             $("#201").on("click", function() { //진학상담
@@ -272,19 +272,22 @@ font-family: 'Nanum Gothic', sans-serif;
                 $(location).attr('href', "/post/listBoard?gatherCategoryNo=206");
             });
             $("#doChallenge").on("click", function() { //진행중인 도전과제
-                $(location).attr('href', "#");
+                $(location).attr('href', "/challenge/listChallenge");
             });
             $("#completeChallenge").on("click", function() { //완료한 도전과제
-                $(location).attr('href', "#");
+                $(location).attr('href', "/challenge/listUserCompleteChallenge");
             });
             $("#checkSchoolRanking").on("click", function() { //학교별 랭킹
-                $(location).attr('href', "#");
+                $(location).attr('href', "/schoolRank/listSchoolRanking");
             });
             $("#notice").on("click", function() { //공지사항
                 $(location).attr('href', "/post/listNotice");
             });
             $("#question").on("click", function() { //문의사항
                 $(location).attr('href', "/user/getUserQuestionsList");
+            });
+            $("#logout").on("click", function() { //로그아웃
+                $(location).attr('href', "/user/logout");
             });
         });
 
@@ -448,6 +451,11 @@ font-family: 'Nanum Gothic', sans-serif;
                 <li>
                     <h6>
                         <a href="#" id="question">문의사항</a>
+                    </h6>
+                </li>
+                <li>
+                    <h6>
+                        <a href="#" id="logout">로그아웃</a>
                     </h6>
                 </li>
             </ul>

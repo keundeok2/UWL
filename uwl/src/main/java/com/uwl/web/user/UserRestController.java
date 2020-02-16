@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +27,6 @@ import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,7 +42,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uwl.common.MailUtils;
 import com.uwl.common.Page;
 import com.uwl.common.Search;
+import com.uwl.service.domain.Report;
 import com.uwl.service.domain.User;
+import com.uwl.service.report.ReportService;
 import com.uwl.service.user.UserService;
 
 @RestController
@@ -56,7 +55,10 @@ public class UserRestController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
-
+	
+	@Autowired
+	private ReportService reportService;
+	
 	// 메일 인증
 	@Autowired
 	private JavaMailSender mailSender;
@@ -585,5 +587,33 @@ public class UserRestController {
 			
 			return map;
 		}
+		
+//		@RequestMapping(value = "/rest/checkReport")
+//		public String checkReport(@RequestBody User user) throws Exception {
+//			List reportList = new ArrayList<Report>();
+//			System.out.println(user.getUserId());
+//			reportList = reportService.getReportById(user.getUserId());
+//			if(reportList != null) {
+//				for(int i=0; i<reportList.size(); i++) {
+//					Report reportUser = (Report)reportList.get(i);
+//					if(reportUser.getUserId02().equals(user.getUserId()) || (reportUser.getReportStatus().equals("2"))){
+//						System.out.println("정보가 있다는 증거");
+//						Date stopDate = reportUser.getStopDate();
+//						Date today = new Date();
+//						int result = stopDate.compareTo(today);
+//						if(result >= 1) {
+//							System.out.println("아직 정지중이라는 증거");
+//							//신고상태가 있는 분
+//							String date = stopDate.toString();
+//							return date;
+//						}else {
+//							System.out.println("용서받았다는 증거");
+//							return "false";
+//						}
+//					}
+//				}
+//			}
+//			return "false";
+//		}
 
 }
