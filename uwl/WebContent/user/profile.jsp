@@ -18,6 +18,14 @@
     <script src="/javascript/profile.js"></script>
     <script type="text/javascript">
     // profile.js에 있는데 안되어서 넣었음
+    
+   		var sessionId;
+   		var sessionMail;
+   		var sessionName;
+   		var sessionPhone; 
+   		var currPoint;
+   		var price;
+   		
     	$(function() {
     		//	IMP init
     		IMP.init('imp12736999');
@@ -26,11 +34,13 @@
     		sessionMail = $("input#sessionMail").val();
     		sessionName = $("input#sessionName").val();
     		sessionPhone = $("input#sessionPhone").val();
+    		currPoint = $("input#totalPoint").val();
     		price = 100; ///////////////////// controller에서 받은 값으로 변경하기
     	});
     	
     	
     		$(document).on("click",".purchaseBtn", function() {
+    			var currPoint = $("input#totalPoint").val();
     			itemCategory = $(this).children("input[type='hidden']").val();
     			itemCount = $(this).children("span").html();
     			console.log("itemCount", itemCount);
@@ -40,6 +50,7 @@
     			} else if(itemCategory == "2"){
     				itemName = "방패";
     			}
+    			
     			$("#purchaseModal").modal();
     		});
     	
@@ -123,6 +134,19 @@
     			var paymentOption = $(this).val();
     			console.log("itemName", itemName);
     			console.log("paymentOption", paymentOption);
+    			
+    			if (currPoint < price) {
+    				var pureAlert = $.pureAlert.alert({
+        				title : "알림",
+        				content : "포인트가 부족합니다.",
+        				okBtn : "확인",
+        				autoShow : true,
+        				closeButton : false
+        			});
+    				
+    				return;
+				}
+    			
     			var pureAlert = $.pureAlert.confirm({
     				title : "알림",
     				content : "포인트 구매를 진행하시겠습니까?",
@@ -173,7 +197,14 @@
     	});
     
 
-	
+       	$(document).on("click", "div.list1", function() {
+			$.redirect("/social/getTimelineList/"+sessionId,{}, "GET");
+		});
+    
+    	$(document).on("click", "div.list2", function() {
+    		console.log("click");
+			$.redirect("/social/getAskList/"+sessionId,{}, "GET");
+		});
     </script>
 </head>
 
@@ -184,7 +215,7 @@
 	<input type="hidden" id="sessionMail" value="${user.mail}">
 	<input type="hidden" id="sessionName" value="${user.name}">
 	<input type="hidden" id="sessionPhone" value="${user.phone}">
-
+	<input type="hidden" id="totalPoint" value="${reward.recentlyTotalPoint}">
 
 
 
@@ -353,32 +384,41 @@
             </div>
             <section>
                 <div class="list1 on">
-                    게시물ㅋㅋ
+                <c:if test="${user.publicStatus == 2 }">
+                	비공개 계정입니다.
+                </c:if>
+                <c:if test="${user.publicStatus == 1 }">
+              	      게시물ㅋㅋ
+              	</c:if>
                 </div>
                 <div class="list2">
+                <c:if test="${user.publicStatus == 2 }">
+                	비공개 계정입니다.
+                </c:if>
+                <c:if test="${user.publicStatus == 1 }">
                     IGTVㅋㅋ
+                </c:if>
                 </div>
                 <div class="list3">
-                    저장됨ㅋㅋ
+                <c:if test="${user.publicStatus == 2 }">
+                	비공개 계정입니다.
+                </c:if>
+                <c:if test="${user.publicStatus == 1 }">
+              	      저장됨ㅋㅋ
+                </c:if>
                 </div>
                 <div class="list4">
-                    태그됨ㅋㅋ
+                <c:if test="${user.publicStatus == 2 }">
+                	비공개 계정입니다.
+                </c:if>
+                <c:if test="${user.publicStatus == 1 }">
+                	    태그됨ㅋㅋ
+                </c:if>	    
                 </div>
             </section>
         </div>
     </div>
     
-    <script type="text/javascript">
-    	$(document).on("click", "div.list1", function() {
-    		console.log("click");
-			$.redirect("/social/getTimelineList/"+sessionId,{}, "GET");
-		});
-    
-    	$(document).on("click", "div.list2", function() {
-    		console.log("click");
-			$.redirect("/social/getAskList/"+sessionId,{}, "GET");
-		});
-    </script>
     
     
     <!-- Purchase Modal -->

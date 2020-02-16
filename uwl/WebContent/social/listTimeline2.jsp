@@ -1,39 +1,45 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--  CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
-	<script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>    
-    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
-	<script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
-  	<script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
-  	<!-- ½æ¸Ó³ëÆ® -->
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
-	<!-- Font Awesome CDN -->
-	<script src="https://kit.fontawesome.com/376450b3c6.js" crossorigin="anonymous"></script>
-  	
-  	<script type="text/javascript">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!--  jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<!-- bootstrap 4.4 CDN -->
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<!-- jQuery Redirect CDN     https://github.com/mgalante/jquery.redirect  -->
+<script
+	src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
+<!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
+<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
+<!-- ì¸ë¨¸ë…¸íŠ¸ -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+<!-- Font Awesome CDN -->
+<script src="https://kit.fontawesome.com/376450b3c6.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
 	var postNo = null;
 	var targetUserId = "${targetUserId}";
 	var sessionId = "${user.userId}";
 	
-	$(document).on("click", "button#addTimeline", function(evt) {
+	$(document).on("click", "button#addTimeline", function() {
 		var timelinePostContent =$(".timelinePostContent").val();
+		console.log("timelinePostContent", timelinePostContent);
 		
 		if (timelinePostContent.length < 1 || timelinePostContent == null) {
 			var pureAlert = $.pureAlert({
-				title : "¾Ë¸²",
-				content : "³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä."
+				title : "ì•Œë¦¼",
+				content : "ë‚´ìš©ì„ ì…ë ¥í•˜ì„¸ìš”."
 			})
 			
 			pureAlert.pureAlert('show');
@@ -41,12 +47,10 @@
 			return;
 		}
 		
-		//	socket message send
-		evt.preventDefault();
-		if (socket.readyState !== 1) return;
-		let msg = timelinePostContent;
-		socket.send(msg);
-		
+		$("form#addTimelineForm")
+		.attr("method", "post")
+		.attr("action", "/social/addTimeline")
+		.submit();
 	})
 	
 	$(document).on("click", ".commentBtn", function() {
@@ -75,9 +79,9 @@
 						html += "<hr/><img src='/images/"+d.list[i].user.profileName+"' class='commentProfileName'><p class='commentPtag'>"+d.list[i].user.name+" &nbsp; "+d.list[i].commentContent+"</p></div>";
 					}
 					
-					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='´ñ±ÛÀÔ·Â ÈÄ Enter'>";
+					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='ëŒ“ê¸€ì…ë ¥ í›„ Enter'>";
 				} else {
-					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='´ñ±ÛÀÔ·Â ÈÄ Enter'>";
+					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='ëŒ“ê¸€ì…ë ¥ í›„ Enter'>";
 				}
 							
 				$("li."+postNo).append(html);
@@ -91,7 +95,7 @@
 		if (e.which == 13) {
 			
 			if (content.length < 1 || content == "" || content == null) {
-				alert('³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä');
+				alert('ë‚´ìš©ì„ ì…ë ¥í•˜ì„¸ìš”');
 				return;
 			} else {
 				
@@ -125,10 +129,10 @@
 		console.log("postNo", postNo)
 		
 		var pureAlert = $.pureAlert.confirm({
-			title : "¾Ë¸²",
-			content : "´ñ±ÛÀ» »èÁ¦ÇÏ½Ã°Ú½À´Ï±î?",
-			okBtn : "»èÁ¦",
-			cancelBtn : "Ãë¼Ò",
+			title : "ì•Œë¦¼",
+			content : "ëŒ“ê¸€ì„ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?",
+			okBtn : "ì‚­ì œ",
+			cancelBtn : "ì·¨ì†Œ",
 			autoShow : true,
 			closeButton : false
 		});
@@ -184,9 +188,9 @@
 				success : function() {
 					var veiw = null;
 					if (viewStatus == 1) {
-						view = "ÀüÃ¼°ø°³";
+						view = "ì „ì²´ê³µê°œ";
 					} else {
-						view = "³ª¸¸º¸±â";
+						view = "ë‚˜ë§Œë³´ê¸°";
 					}
 					
 					$("div."+postNo+"").html(newContent);
@@ -198,15 +202,15 @@
 			
 		});
 	
-	//°Ô½Ã±Û »èÁ¦
+	//ê²Œì‹œê¸€ ì‚­ì œ
 	$(document).on("click", "button.postDeleteBtn", function() {
 		var postNo = $(this).val();
 		
 		var pureAlert = $.pureAlert.confirm({
-			title : "¾Ë¸²",
-			content : "°Ô½Ã±ÛÀ» »èÁ¦ÇÏ½Ã°Ú½À´Ï±î?",
-			okBtn : "»èÁ¦",
-			cancelBtn : "Ãë¼Ò",
+			title : "ì•Œë¦¼",
+			content : "ê²Œì‹œê¸€ì„ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?",
+			okBtn : "ì‚­ì œ",
+			cancelBtn : "ì·¨ì†Œ",
 			autoShow : true,
 			closeButton : false
 		});
@@ -231,7 +235,7 @@
 		
 		
 		
-	//½ºÅ©·Ñ ÆäÀÌÂ¡
+	//ìŠ¤í¬ë¡¤ í˜ì´ì§•
 	var page = 1;
 
 	 $(function() {
@@ -266,17 +270,17 @@
 								var html = "<li class='"+data.list[i].postNo+"' value='"+data.list[i].postNo+"'>"
 											+"<a class='float-left text-monospace text-primary'>"+data.list[i].postDate+"</a>";
 												if (data.list[i].viewStatus == '1') {
-													html += "<a class='float-right font-weight-bold text-secondary postViewStatus"+data.list[i].postNo+"'>ÀüÃ¼°ø°³</a><br/>"; 
+													html += "<a class='float-right font-weight-bold text-secondary postViewStatus"+data.list[i].postNo+"'>ì „ì²´ê³µê°œ</a><br/>"; 
 												}
 												if (data.list[i].viewStatus == '2') {
-													html += "<a class='float-right font-weight-bold text-secondary postViewStatus"+data.list[i].postNo+"'>³ª¸¸º¸±â</a><br/>";
+													html += "<a class='float-right font-weight-bold text-secondary postViewStatus"+data.list[i].postNo+"'>ë‚˜ë§Œë³´ê¸°</a><br/>";
 												}
 												html += "<div class='postContentDiv "+data.list[i].postNo+"'>"+data.list[i].postContent+"</div>";
-												html += "<button class='btn btn-outline-primary btn-sm commentBtn' value='"+data.list[i].postNo+"'>´ñ±Û</button>";
+												html += "<button class='btn btn-outline-primary btn-sm commentBtn' value='"+data.list[i].postNo+"'>ëŒ“ê¸€</button>";
 												
 												if (sessionId == targetUserId) {
-													html += "<button class='btn btn-outline-secondary btn-sm postUpdateBtn' value='"+data.list[i].postNo+"' data-toggle='modal' data-target='#postUpdateModal'>¼öÁ¤</button>";
-													html += "<button class='btn btn-outline-secondary btn-sm postDeleteBtn' value='"+data.list[i].postNo+"'>»èÁ¦</button>";
+													html += "<button class='btn btn-outline-secondary btn-sm postUpdateBtn' value='"+data.list[i].postNo+"' data-toggle='modal' data-target='#postUpdateModal'>ìˆ˜ì •</button>";
+													html += "<button class='btn btn-outline-secondary btn-sm postDeleteBtn' value='"+data.list[i].postNo+"'>ì‚­ì œ</button>";
 												}
 												html += "</li>";
 								$("ul.timeline").append(html);
@@ -289,7 +293,7 @@
 			})
 		});
 	
-		//½æ¸Ó³ëÆ®--------------------------------------------------------------------------------
+		//ì¸ë¨¸ë…¸íŠ¸--------------------------------------------------------------------------------
 	$(document).ready(function() {
 			$('#summernote').summernote({
 				width : 550,
@@ -302,12 +306,12 @@
 				    ['toolbar', ['picture','bold']],	
 				    ['remove',['clear']]
 				  ],
-				placeholder : '³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä',
+				placeholder : 'ë‚´ìš©ì„ ì…ë ¥í•˜ì„¸ìš”',
 				lang : 'ko-KR',
 				callbacks : {
 					onImageUpload : function(files, editor, welEditable) {
 						sendFile(files[0], editor, welEditable);
-						//editor°¡ ´©±ºÁö welEditableÀÌ ´©±ºÁö ¾Ë¾Æº¸ÀÚ ¤µ¤²¤»¤»
+						//editorê°€ ëˆ„êµ°ì§€ welEditableì´ ëˆ„êµ°ì§€ ì•Œì•„ë³´ì ã……ã…‚ã…‹ã…‹
 					}
 				}
 			});
@@ -317,7 +321,7 @@
 				data.append("file", file);
 				$.ajax({
 					data : data,
-					url : '/post/rest/addSummerNoteFile',	//¸®ÅÏÀ» url·Î ÇØÁà¾ßÇÔ ¤»¤»
+					url : '/post/rest/addSummerNoteFile',	//ë¦¬í„´ì„ urlë¡œ í•´ì¤˜ì•¼í•¨ ã…‹ã…‹
 					type : "POST",
 					cache : false,
 					contentType : false,
@@ -328,71 +332,16 @@
 						$('#summernote').summernote('insertImage',file);
 					},
 					error : function(){
-						alert("¿¡·¯³Ä ¤»¤»");
+						alert("ì—ëŸ¬ëƒ ã…‹ã…‹");
 					}
 				});
 			}
 	
-	
-  	
-  	</script>
-    <title>Document</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+</script>
 
-        li {
-            list-style: none;
-        }
+<style type="text/css">
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        a:hover {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        body {
-            
-            color: #333;
-            font-size: 16px;
-            font-family: 'Roboto', sans-serif;
-            font-family: 'Nanum Gothic', sans-serif;
-        }
-
-        
-
-        section#left {
-            
-            height: 100vh;
-            width: 250px;
-            float: left;
-            border-right: 1px solid #eee;
-        }
-
-        section#work {
-            width: calc(100% - 600px);
-            float: left;
-            height: 100vh;
-            overflow-y: scroll;
-        }
-
-        section#right {
-            
-            height: 100vh;
-            width: 350px;
-            float: right;
-            overflow-y: scroll;
-            border-right: 1px solid #eee;
-        }
-        
-        body {
+body {
 	margin : 50px;
 }
 ul.timeline {
@@ -469,34 +418,14 @@ p.commentPtag {
 }
 
 body {word-break:break-all;}
-        
-    </style>
+</style>
+<title>ì–´ìš¸ë¦¼</title>
 </head>
-
 <body>
-<!--  ¿©±â¼­ºÎÅÍ Ãªº¿  -->
-<div id="frogue-container" class="position-right-bottom" data-chatbot="4626e9e6-320e-4c99-afe8-c196f85db573" data-user="akxorb1234" data-init-key="value"></div>
-
-
-<script>
-(function(d, s, id){
-var js, fjs = d.getElementsByTagName(s)[0];
-if (d.getElementById(id)) {return;}
-js = d.createElement(s); js.id = id;
-js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
-fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'frogue-embed'));
-</script> 
-<!--   ¿©±â±îÁö ¤»¤»  -->
-
-    <main>
-        <section id="left">
-			<jsp:include page="/layout/left.jsp" />
-        </section>
-        <section id="work">
+	<div class="container mt-5 mb-5">
 		<div class="row">
 			<div class="col-md-6 offset-md-3">
-				<h4>${user.name}´ÔÀÇ Timeline</h4>
+				<h4>${user.name}ë‹˜ì˜ Timeline</h4>
 			<c:if test="${targetUserId eq user.userId }">
 				<div class="addFormDiv">
 				<form id="addTimelineForm" enctype="multipart/form-data">
@@ -506,12 +435,12 @@ fjs.parentNode.insertBefore(js, fjs);
 						<input type="text" class="nononotext">
 					</div>
 			            <div class="float-right" >
-							<button class="btn btn-outline-primary btn-rt " id="addTimeline">µî·Ï</button>
+							<button class="btn btn-outline-primary btn-rt " id="addTimeline">ë“±ë¡</button>
 			            </div>
 					<input type="hidden" name="userId" value="${user.userId}">
 			           	<select class="custom-select float-right viewStatus" name="viewStatus">
-			              <option value="1" selected="selected">ÀüÃ¼°ø°³</option>
-			              <option value="2">³ª¸¸º¸±â</option>
+			              <option value="1" selected="selected">ì „ì²´ê³µê°œ</option>
+			              <option value="2">ë‚˜ë§Œë³´ê¸°</option>
 			            </select>
 				</form>
 				</div>
@@ -522,33 +451,34 @@ fjs.parentNode.insertBefore(js, fjs);
 						<a class="float-left text-monospace text-primary">${post.postDate}</a> 
 						
 						<c:if test="${post.viewStatus == 1 }">
-						<a class="float-right font-weight-bold text-secondary postViewStatus${post.postNo}">ÀüÃ¼°ø°³</a><br/> 
+						<a class="float-right font-weight-bold text-secondary postViewStatus${post.postNo}">ì „ì²´ê³µê°œ</a><br/> 
 						</c:if>
 						<c:if test="${post.viewStatus == 2 }">
-						<a class="float-right font-weight-bold text-secondary postViewStatus${post.postNo}">³ª¸¸º¸±â</a><br/> 
+						<a class="float-right font-weight-bold text-secondary postViewStatus${post.postNo}">ë‚˜ë§Œë³´ê¸°</a><br/> 
 						</c:if>
 						
 						<div class="postContentDiv ${post.postNo}">${post.postContent}</div>
-						<button class="btn btn-outline-primary btn-sm commentBtn" value="${post.postNo}">´ñ±Û</button>
+						<button class="btn btn-outline-primary btn-sm commentBtn" value="${post.postNo}">ëŒ“ê¸€</button>
 						<c:if test="${user.userId eq targetUserId }">
-						<button class="btn btn-outline-secondary btn-sm postUpdateBtn" value="${post.postNo}" data-toggle="modal" data-target="#postUpdateModal">¼öÁ¤</button>
-						<button class="btn btn-outline-secondary btn-sm postDeleteBtn" value="${post.postNo}">»èÁ¦</button>
+						<button class="btn btn-outline-secondary btn-sm postUpdateBtn" value="${post.postNo}" data-toggle="modal" data-target="#postUpdateModal">ìˆ˜ì •</button>
+						<button class="btn btn-outline-secondary btn-sm postDeleteBtn" value="${post.postNo}">ì‚­ì œ</button>
 						</c:if>
 					</li>
 				</c:forEach>
 				</ul>
 				<c:if test="${empty map.list}">
-					<h3>Ç¥½ÃÇÒ Å¸ÀÓ¶óÀÎÀÌ ¾ø½À´Ï´Ù.</h3>
+					<h3>í‘œì‹œí•  íƒ€ì„ë¼ì¸ì´ ì—†ìŠµë‹ˆë‹¤.</h3>
 				</c:if>
 			</div>
 		</div>
+	</div>
 	
 <!-- Modal -->
 <div class="modal fade" id="postUpdateModal" tabindex="-1" role="dialog" aria-labelledby="postUpdateModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="postUpdateModalLabel">¼öÁ¤</h5>
+        <h5 class="modal-title" id="postUpdateModalLabel">ìˆ˜ì •</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -558,18 +488,15 @@ fjs.parentNode.insertBefore(js, fjs);
       </div>
       <div class="modal-footer">
       	<select class="custom-select float-right viewStatusInModal" name="viewStatus">
-	        <option value="1" selected="selected">ÀüÃ¼°ø°³</option>
-	        <option value="2">³ª¸¸º¸±â</option>
+	        <option value="1" selected="selected">ì „ì²´ê³µê°œ</option>
+	        <option value="2">ë‚˜ë§Œë³´ê¸°</option>
 		</select>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ãë¼Ò</button>
-        <button type="button" class="btn btn-primary confirmUpdateBtn">¼öÁ¤</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ì·¨ì†Œ</button>
+        <button type="button" class="btn btn-primary confirmUpdateBtn">ìˆ˜ì •</button>
       </div>
     </div>
   </div>
 </div>
-        </section>
-        <section id="right">
-			<jsp:include page="/layout/right.jsp" />
-        </section>
-    </main>
-</body></html>
+	
+</body>
+</html>

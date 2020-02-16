@@ -194,6 +194,7 @@
 
         $(function() {
             rightLoad();
+            connectWS();
         })
 
         //	우측툴바 load 
@@ -344,6 +345,38 @@
             })
 
         });
+        
+        //////////////// WebSocket //////////////////
+        var socket = null;
+        
+        function connectWS() {
+            console.log("tttttttttttttt")
+            var ws = new WebSocket("ws://localhost:8080/replyEcho");
+            socket = ws;
+
+            ws.onopen = function () {
+                console.log('Info: connection opened.');
+            };
+
+            ws.onmessage = function (event) {
+                console.log("ReceiveMessage:", event.data+'\n');
+            };
+
+            ws.onclose = function (event) { 
+                console.log('Info: connection closed.');
+                //setTimeout( function(){ connectWS(); }, 1000); // retry connection!!
+            };
+            ws.onerror = function (err) { console.log('Error:', err); };
+        }
+        
+		//	푸시 메시지 send 이벤트 
+		$('#btnSend').on('click', function (evt) {
+			evt.preventDefualt();
+			if (socket.readyState !== 1) return;
+			let msg = $('input#msg').val();
+			socket.send(msg);
+		});
+		
     </script>
 
 

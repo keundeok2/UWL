@@ -213,7 +213,6 @@ function requestBtn() {
         }
 
         section#work {
-            background-color: lemonchiffon;
             width: calc(100% - 600px);
             float: left;
             height: 100vh;
