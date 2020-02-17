@@ -23,8 +23,8 @@
 	<script type="text/javascript">
 		// 이동 시 부모 창 새로고침(main.jsp로 이동)과 팝업창 종료를 위한 구간 
 		$(function(){
-			alert("g2");
-			opener.parent.location="/main.jsp";
+			alert("네이버로그인 완료");
+			opener.parent.location="/layout/default2.jsp";
 			window.open("about:blank","_self").close();
 		})
 	</script>
