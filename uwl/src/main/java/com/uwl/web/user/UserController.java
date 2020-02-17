@@ -47,6 +47,7 @@ import com.uwl.service.reward.RewardService;
 import com.uwl.service.schoolRank.SchoolRankService;
 import com.uwl.service.social.SocialService;
 import com.uwl.service.user.UserService;
+import com.uwl.service.weather.WeatherService;
 
 @Controller
 @RequestMapping("/user/*")
@@ -82,6 +83,7 @@ public class UserController {
 
 	@Autowired
 	private ReportService reportService;
+	
 	
 	public UserController() {
 		System.out.println(this.getClass());
@@ -255,6 +257,8 @@ public class UserController {
 		model.addAttribute("matching", matching);
 		int totalMatching = matchingService.getTotalMatching(search, targetUserId);
 		model.addAttribute("totalMatching", totalMatching);
+		
+		
 		
 		return "forward:/user/profile.jsp";
 	}

@@ -26,10 +26,6 @@ import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +42,9 @@ import com.uwl.common.MailUtils;
 import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.domain.User;
+import com.uwl.service.domain.Weather;
 import com.uwl.service.user.UserService;
+import com.uwl.service.weather.WeatherService;
 
 @RestController
 @RequestMapping("/user/*")
@@ -60,6 +58,9 @@ public class UserRestController {
 	// 메일 인증
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	@Autowired
+	private WeatherService weatherService;
 
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -583,6 +584,12 @@ public class UserRestController {
 			// {"url" : "naverLoginUrl"} 로 저장 => $.ajax에서 JSONData.url로 접근 가능  
 			map.put("url", naverLoginUrl);
 			
+			return map;
+		}
+		
+		@RequestMapping(value = "/rest/getWeather")
+		private Map getWeather(@RequestBody Weather weather) throws Exception{
+			Map<String, String> map = weatherService.getWeather(weather);
 			return map;
 		}
 

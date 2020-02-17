@@ -1,11 +1,12 @@
 package com.uwl.service.weather;
 
+import java.util.Map;
+
+import com.uwl.service.domain.Weather;
 
 public interface WeatherService {
 
-	public void getWeatherX(String region) throws Exception;
+	public Map getWeather(Weather weather) throws Exception;
+
 	
-	
-	//오류방지...수정해야함
-	public void getWeather(String string) throws Exception;
 }
