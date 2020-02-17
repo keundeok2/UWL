@@ -21,9 +21,9 @@
 	<!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
 	<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
     
-    <link rel="stylesheet" href="/css/jaeiCommon.css">
         <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
     
     <script type="text/javascript">
     
@@ -236,10 +236,48 @@
     </style>
     <script type="text/javascript">
     	$(document).ready(function(){
-    		$('#login').on("click",function(){
+    		 $('#login').on("click",function(){
+    			 /*	var userId = $('#userId').val();
+    			$.ajax({
+    				data : userId,
+					url : "/user/rest/checkReport",
+					type : "POST",
+					data : JSON.stringify({
+						userId : userId
+					}),
+					headers : {
+						"Accept" : "application/json",
+						"content-Type" : "application/json"
+					},
+					success : function(data){
+						console.log(data);
+						console.log("zz")
+					},
+					error : function(){
+						console.log('실패')
+					}
+    			});*/ 
+    			
     			$("form").attr("method","POST").attr("action","/user/login").submit();	
     		});
     	});
+    	
+    	 $(document).ready(function(){
+    		var reportDate = "${stopDate}";
+    		var reportStatus = "${stopStatus}";
+    		if(reportStatus == 'true'){
+	    		Swal.fire({
+					  icon: 'error',
+					  title: reportDate+'까지 정지되셨어요..',
+					  showConfirmButton: true,
+					  confirmButtonText : '알겠습니다...',
+					  confirmButtonColor: '#FF0000'
+					}).then((result) => {
+						delete reportDate;
+						delete reportStatus;
+					});
+    		}
+    	}); 
     </script>
 
 <title>어울림</title>
@@ -268,7 +306,7 @@
                 <div class="loginForm">
                     <div class="id">
                         <p>휴대폰, 이메일, 사용자 아이디</p>
-                        <p><input type="text" name="userId"></p>
+                        <p><input type="text" name="userId" id="userId"></p>
                     </div>
                     <div class="password">
                         <p>비밀번호</p>

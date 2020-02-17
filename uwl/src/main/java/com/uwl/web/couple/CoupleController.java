@@ -1,7 +1,6 @@
 package com.uwl.web.couple;
 
-import java.util.Date;
-import java.util.List;
+import java.sql.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -186,20 +184,40 @@ public class CoupleController {
 		return "forward:/couple/deleteCoupleTimelineComment2.jsp";
 	}
 	
+//	@RequestMapping(value = "getScheduleList")
+//	public String getScheduleList(@RequestParam("userId") String userId, Model model) throws Exception {
+//		System.out.println("/couple/getScheduleList");
+//		
+//		model.addAttribute("userId", userId);
+//		
+//		Search search = new Search();
+//		search.setCurrentPage(1);
+//		search.setPageSize(100);
+//		Map<String, Object> map = coupleService.getScheduleList2(search, userId);
+//		
+//		model.addAttribute("list", map.get("list"));
+//		
+//		return "forward:/couple/listSchedule.jsp";
+//	}
+	
 	@RequestMapping(value = "getScheduleList")
 	public String getScheduleList(@RequestParam("userId") String userId, Model model) throws Exception {
 		System.out.println("/couple/getScheduleList");
-		
 		model.addAttribute("userId", userId);
 		
+		return "forward:/couple/listSchedule3.jsp";
+	}
+	
+	@RequestMapping(value = "getScheduleList2")
+	public String getScheduleList2(@RequestParam("userId") String userId, @RequestParam("postDate") String postDate, Model model) throws Exception {
+		System.out.println("/couple/getScheduleListPostDate2");
+		model.addAttribute("userId", userId);
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(100);
-		Map<String, Object> map = coupleService.getScheduleList2(search, userId);
-		
+		Map<String, Object> map = coupleService.getScheduleList(search, userId, postDate);
 		model.addAttribute("list", map.get("list"));
-		
-		return "forward:/couple/listSchedule.jsp";
+		return "forward:/couple/getScheduleListPostDate2.jsp";
 	}
 	
 	@RequestMapping(value = "addSchedule")
@@ -217,7 +235,7 @@ public class CoupleController {
 		System.out.println("/couple/addSchedule2");
 		
 		
-		
+		System.out.println(post.getUserId());
 		coupleService.addSchedule(post);
 		
 		return "forward:/couple/getScheduleList";

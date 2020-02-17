@@ -117,7 +117,7 @@ font-family: 'Nanum Gothic', sans-serif;
     <script>
         $(document).ready(function() {
 
-
+        	var sessionUserId = "${user.userId}";
             //밑으로 내려오는 이벤트들
             $('#master').on('mouseenter', function() {
                 $('#goMaster').addClass('on');
@@ -238,7 +238,7 @@ font-family: 'Nanum Gothic', sans-serif;
             });
 
             $("#challengeControl").on("click", function() { //도전과제 관리
-                $(location).attr('href', "#");
+                $(location).attr('href', "/challenge/listAdminChallenge");
             });
 
             $("#reportList").on("click", function() { //신고목록
@@ -246,11 +246,11 @@ font-family: 'Nanum Gothic', sans-serif;
             });
 
             $("#home").on("click", function() { // 홈
-                $(location).attr('href', "");
+                $(location).attr('href', "/layout/default.jsp");
             });
 
             $("#myProfile").on("click", function() { //내 프로필
-                $(location).attr('href', "");
+                $(location).attr('href', "/user/getProfile/"+sessionUserId);
             });
 
             $("#201").on("click", function() { //진학상담
@@ -272,22 +272,26 @@ font-family: 'Nanum Gothic', sans-serif;
                 $(location).attr('href', "/post/listBoard?gatherCategoryNo=206");
             });
             $("#doChallenge").on("click", function() { //진행중인 도전과제
-                $(location).attr('href', "#");
+                $(location).attr('href', "/challenge/listChallenge");
             });
             $("#completeChallenge").on("click", function() { //완료한 도전과제
-                $(location).attr('href', "#");
+                $(location).attr('href', "/challenge/listUserCompleteChallenge");
             });
             $("#checkSchoolRanking").on("click", function() { //학교별 랭킹
-                $(location).attr('href', "#");
+                $(location).attr('href', "/schoolRank/listSchoolRanking");
             });
             $("#notice").on("click", function() { //공지사항
                 $(location).attr('href', "/post/listNotice");
             });
             $("#question").on("click", function() { //문의사항
-                $(location).attr('href', "/user/getUserQuestionsList");
+                $(location).attr('href', "/user/getUserQuestions");
+            });
+            $("#logout").on("click", function() { //로그아웃
+                $(location).attr('href', "/user/logout");
             });
         });
 
+        
     </script>
 </head>
 
@@ -300,7 +304,7 @@ font-family: 'Nanum Gothic', sans-serif;
            <img src="/images/twitter_header_photo_1-removebg-preview.png" width="100px" alt="">
            </a>
        </div>
-       <c:if test="${user.role eq '4'}">
+       <c:if test="${sessionScope.user.role eq '4'}">
 	        <h4>
 	            <a id="master" href="#">
 	                <i class="fas fa-crown"></i>
@@ -342,11 +346,11 @@ font-family: 'Nanum Gothic', sans-serif;
         
         <h4 class="img">
             <a id="myProfile" href="#">
-                <c:if test="${user.profileName eq null}">
+                <c:if test="${sessionScope.user.profileName eq null}">
                     <img src='/images/82910903_472735640087912_4282852221812207623_n(1).jpg' style='border-radius: 50%;' width='35px'  />
                 </c:if>
                 <c:if test="${user.profileName ne null}">
-                    <img src='/images/${user.profileName }' style='border-radius: 50%;' width='35px' height='35px' />
+                    <img src='/images/${sessionScope.user.profileName }' style='border-radius: 50%;' width='35px' height='35px' />
                 </c:if>
                 <span>내 프로필</span>
             </a>
@@ -373,7 +377,7 @@ font-family: 'Nanum Gothic', sans-serif;
                         <a href="#" id="202">사랑과 이별</a>
                     </h6>
                 </li>
-                <c:if test="${user.gender eq '2' or user.role eq '4'}">
+                <c:if test="${sessionScope.user.gender eq '2' or sessionScope.user.role eq '4'}">
 	                <li>
 	                
 	                    <h6>
@@ -381,7 +385,7 @@ font-family: 'Nanum Gothic', sans-serif;
 	                    </h6>
 	                </li>
                 </c:if>
-                <c:if test="${user.gender eq '1' or user.role eq '4'}">
+                <c:if test="${sessionScope.user.gender eq '1' or sessionScope.user.role eq '4'}">
 	                <li>
 	                    <h6>
 	                        <a href="#" id="204">여자끼리</a>
@@ -448,6 +452,11 @@ font-family: 'Nanum Gothic', sans-serif;
                 <li>
                     <h6>
                         <a href="#" id="question">문의사항</a>
+                    </h6>
+                </li>
+                <li>
+                    <h6>
+                        <a href="#" id="logout">로그아웃</a>
                     </h6>
                 </li>
             </ul>

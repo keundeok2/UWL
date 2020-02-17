@@ -48,17 +48,17 @@ public interface CoupleDAO {
 	
 	public Post getSchedule(int postNo) throws Exception;
 	
-	public List<Post> getScheduleList(Search search, String userId, Date postDate) throws Exception;
+	public List<Post> getScheduleList(Search search, String userId, String postDate) throws Exception;
 	
-	public List<Post> getScheduleList2(Search search, String userId) throws Exception;
+//	public List<Post> getScheduleList2(Search search, String userId) throws Exception;
 	
 	public void updateSchedule(Post post) throws Exception;
 	
 	public void deleteSchedule(Post post) throws Exception;
 	
-	public int getTotalSchedule(Search search, String userId, Date postDate) throws Exception;
+	public int getTotalSchedule(Search search, String userId, String postDate) throws Exception;
 	
-	public int getTotalSchedule2(Search search, String userId) throws Exception;
+//	public int getTotalSchedule2(Search search, String userId) throws Exception;
 	
 	public void deleteCoupleTimeline(String firstUserId, String secondUserId) throws Exception;
 }

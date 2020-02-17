@@ -254,42 +254,42 @@ public class CoupleServiceTest {
 	}
 	
 	//@Test
-	public void testGetScheduleList() throws Exception {
-		Search search = new Search();
-		search.setCurrentPage(1);
-		search.setPageSize(10);
-		String userId = "user06";
-		System.out.println("userId : " + userId);
-		String  day = "2020-01-29";
-		Date postDate = Date.valueOf(day);
-		Map<String, Object> map = coupleService.getScheduleList(search, userId, postDate);
-		System.out.println("map : " + map);
-		
-		List<Object> list = (List<Object>)map.get("list");
-		Assert.assertEquals(4, list.size());
-		System.out.println("list : " + list);
-		
-		Integer totalSchedule = (Integer)map.get("totalSchedule");
-		System.out.println("totalSchedule : " + totalSchedule);
-	}
+//	public void testGetScheduleList() throws Exception {
+//		Search search = new Search();
+//		search.setCurrentPage(1);
+//		search.setPageSize(10);
+//		String userId = "user06";
+//		System.out.println("userId : " + userId);
+//		String  day = "2020-01-29";
+//		Date postDate = Date.valueOf(day);
+//		Map<String, Object> map = coupleService.getScheduleList(search, userId, postDate);
+//		System.out.println("map : " + map);
+//		
+//		List<Object> list = (List<Object>)map.get("list");
+//		Assert.assertEquals(4, list.size());
+//		System.out.println("list : " + list);
+//		
+//		Integer totalSchedule = (Integer)map.get("totalSchedule");
+//		System.out.println("totalSchedule : " + totalSchedule);
+//	}   
 	
 	//@Test
-	public void testGetScheduleList2() throws Exception {
-		Search search = new Search();
-		search.setCurrentPage(1);
-		search.setPageSize(10);
-		String userId = "user02";
-		System.out.println("userId : " + userId);
-		Map<String, Object> map = coupleService.getScheduleList2(search, userId);
-		System.out.println("map : " + map);
-		
-		List<Object> list = (List<Object>)map.get("list");
-		Assert.assertEquals(2, list.size());
-		System.out.println("list : " + list);
-		
-		Integer totalSchedule = (Integer)map.get("totalSchedule");
-		System.out.println("totalSchedule : " + totalSchedule);
-	}
+//	public void testGetScheduleList2() throws Exception {
+//		Search search = new Search();
+//		search.setCurrentPage(1);
+//		search.setPageSize(10);
+//		String userId = "user02";
+//		System.out.println("userId : " + userId);
+//		Map<String, Object> map = coupleService.getScheduleList2(search, userId);
+//		System.out.println("map : " + map);
+//		
+//		List<Object> list = (List<Object>)map.get("list");
+//		Assert.assertEquals(2, list.size());
+//		System.out.println("list : " + list);
+//		
+//		Integer totalSchedule = (Integer)map.get("totalSchedule");
+//		System.out.println("totalSchedule : " + totalSchedule);
+//	}
 	
 	//@Test
 	public void testUpdateSchedule() throws Exception {
