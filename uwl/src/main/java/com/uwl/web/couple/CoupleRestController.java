@@ -188,19 +188,42 @@ public class CoupleRestController {
 		return comment;
 	}
 	
+//	@RequestMapping(value = "rest/getScheduleList/{userId}")
+//	public Map getScheduleList(@PathVariable String userId) throws Exception {
+//		System.out.println("rest/getScheduleList/{userId} 시작");
+//		Map<String, Object> map = new HashMap();
+//		map.put("userId", userId);
+//		Search search = new Search();
+//		search.setCurrentPage(1);
+//		search.setPageSize(100);
+//		Map<String, Object> map2 = coupleService.getScheduleList2(search, userId);
+//		map.put("list", map2.get("list"));
+//		System.out.println("rest/getScheduleList/{userId} 끝");
+//		return map;
+//	}
+	
 	@RequestMapping(value = "rest/getScheduleList/{userId}")
-	public Map getScheduleList(@PathVariable String userId) throws Exception {
+	public String getScheduleList(@PathVariable String userId) throws Exception {
 		System.out.println("rest/getScheduleList/{userId} 시작");
+		System.out.println("rest/getScheduleList/{userId} 끝");
+		return userId;
+	}
+	
+	@RequestMapping(value ="rest/getScheduleList2/{userId}/{postDate}")
+	public Map getScheduleList2(@PathVariable String userId, @PathVariable String postDate) throws Exception {
+		System.out.println("rest/getScheduleList2/{userId}/{postDate} 시작");
 		Map<String, Object> map = new HashMap();
 		map.put("userId", userId);
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(100);
-		Map<String, Object> map2 = coupleService.getScheduleList2(search, userId);
+		Map<String, Object> map2 = coupleService.getScheduleList(search, userId, postDate);
 		map.put("list", map2.get("list"));
-		System.out.println("rest/getScheduleList/{userId} 끝");
+		System.out.println("rest/getScheduleList2/{userId}/{postDate} 끝");
 		return map;
 	}
+	
+	
 	
 	@RequestMapping(value = "rest/addSchedule/{userId}")
 	public String addSchedule(@PathVariable String userId) throws Exception {

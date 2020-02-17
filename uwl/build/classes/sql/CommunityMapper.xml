@@ -33,12 +33,10 @@
 		<result property="likeWhat" column="LIKE_WHAT" jdbcType="VARCHAR"/>
 	</resultMap>
 	
-	<resultMap type="notification" id="notificationSelectMap">
-		<result property="notiNo" column="NOTI_NO" jdbcType="NUMERIC"/>
-		<result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
-		<result property="notiDate" column="NOTI_DATE" jdbcType="DATE"/>
-		<result property="notiOrigin" column="NOTI_ORIGIN" jdbcType="VARCHAR"/>
-		<result property="notiCode" column="NOTI_CODE" jdbcType="VARCHAR"/>
+	<resultMap type="chatting" id="chattingSelectMap">
+		<result property="master" column="MASTER" jdbcType="VARCHAR"/>
+		<result property="enterUser" column="TARGET" jdbcType="VARCHAR"/>
+		<result property="roomNo" column="ROOM_NO" jdbcType="NUMERIC"/>
 	</resultMap>
 	
 	
@@ -203,13 +201,30 @@
 						</if> --> ) countTable
 	</select>
 	
-	<!-- 알림 -->
-	<insert id="addNotification" parameterType="notification">
+	<!-- 채팅! -->
+	
+	<insert id="addChattingRoom" parameterType="chatting">	<!-- 채팅방 생성(1:1) -->
 		INSERT
-		INTO notification(
-				noti_no, user_id, noti_date, noti_origin, noti_code)
-		VALUES(seq_likey_like_no.NEXTVAL, #{refCommentNo}, null, #{userId}, '2')
+		INTO chatting_room(
+				room_no, master, target)
+		VALUES(seq_chatting_room_room_no.NEXTVAL, #{chatting.master}, null)
 	</insert>
+	
+	<update id="enterChattingRoom" parameterType="chatting"> <!-- 채팅방 입장(1:1) -->
+		UPDATE chatting_room
+ 		SET target = #{chatting.enterUser}
+ 		WHERE room_no = #{chatting.roomNo}
+	</update>
+	
+	
+	<select id="getChattingRoomList" parameterType="chatting" resultMap="chattingSelectMap">
+		SELECT
+	</select>
+	
+	
+	
+	
+	<!-- 채팅! -->
 	
 	
 	
