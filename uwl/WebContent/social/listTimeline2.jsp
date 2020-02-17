@@ -248,7 +248,7 @@
 				
 				if($(window).data('ajaxready') == false) return;
 				if (maxHeight <= currentScroll) {
-				if (page <= ${map.resultPage.maxPage}) {
+				if (page <= ${timelineMap.resultPage.maxPage}) {
 					$(window).data('ajaxready', false);
 					page++;
 					console.log('page : ' + page);
@@ -446,7 +446,7 @@ body {word-break:break-all;}
 				</div>
 			</c:if>
 				<ul class="timeline">
-				<c:forEach var="post" items="${map.list}">
+				<c:forEach var="post" items="${timelineMap.list}">
 					<li class="${post.postNo}" value="${post.postNo}">
 						<a class="float-left text-monospace text-primary">${post.postDate}</a> 
 						
@@ -466,7 +466,7 @@ body {word-break:break-all;}
 					</li>
 				</c:forEach>
 				</ul>
-				<c:if test="${empty map.list}">
+				<c:if test="${empty timelineMap.list}">
 					<h3>표시할 타임라인이 없습니다.</h3>
 				</c:if>
 			</div>

@@ -47,7 +47,7 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
 				String receiver = strs[1];
 				String senderName = strs[2];
 				String notiOrigin = strs[3]; // 1. post 2.ask 3. timeline 4. friend 5. question
-				String notiCode = strs[4]; // 1. comment 2. like 3.reply 4. requestFriend 5. acceptFriend 6. add
+				String notiCode = strs[4]; // 1. comment 2.reply 3. requestFriend 4. acceptFriend 5. add
 
 				WebSocketSession receiverSession = userSessions.get(receiver);
 				WebSocketSession senderSession = userSessions.get(sender);
@@ -93,6 +93,13 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
 						System.out.println(tmpMsg);
 						receiverSession.sendMessage(tmpMsg);
 					}
+					
+					if ("question".equals(notiOrigin) && "reply".equals(notiCode) && receiverSession != null) {
+						TextMessage tmpMsg = new TextMessage("1:1 문의사항에 답변이 등록되었습니다.");
+						System.out.println(tmpMsg);
+						receiverSession.sendMessage(tmpMsg);
+					}
+					
 				}
 			}
 		}
