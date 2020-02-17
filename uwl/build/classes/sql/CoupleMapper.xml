@@ -266,38 +266,39 @@
  	
  	<select id="getScheduleList" parameterType="map" resultMap="postSelectMap">
  		select
- 		*
- 		from (
- 			select
- 			inner_table.*, rownum as row_seq
- 			from (
- 				select
- 				post.*, couple.first_user_id, couple.second_user_id
- 				from (
- 					select
- 					*
- 					from post
- 					where view_status = '1'
- 					and post_date = #{postDate}
- 				) post, (
- 					select
- 					*
- 					from couple
- 					where delete_status = '1'
- 				) couple
- 				where (couple.first_user_id = #{userId}
- 				OR couple.second_user_id = #{userId})
- 				AND (post.user_id = couple.FIRST_USER_ID 
- 				OR post.user_id = couple.SECOND_USER_ID )
- 				and post.post_category_no = '7'
- 				order by post_no desc
- 			) inner_table
- 			where rownum &lt;= #{search.endRowNum}
- 		)
- 		where row_seq between #{search.startRowNum} and #{search.endRowNum}
+		*
+		from (
+			select
+			inner_table.*, rownum as row_seq
+			from (
+				select
+				post.*, couple.first_user_id, couple.second_user_id
+				from (
+					select
+					*
+					from post
+					where view_status = '1'
+					and post_date &gt;= TRUNC(TO_DATE(#{postDate}) , 'MM')
+					AND post_date &lt;= LAST_DAY(TO_DATE(#{postDate}))
+				) post, (
+					select
+					*
+					from couple
+					where delete_status = '1'
+				) couple
+				where (couple.first_user_id = #{userId}
+				OR couple.second_user_id = #{userId})
+				AND (post.user_id = couple.FIRST_USER_ID 
+				OR post.user_id = couple.SECOND_USER_ID )
+				and post.post_category_no = '7'
+				order by post_no desc
+			) inner_table
+			where rownum &lt;= #{search.endRowNum}
+		)
+		where row_seq between #{search.startRowNum} and #{search.endRowNum}
  	</select>
  	
- 	<select id="getScheduleList2" parameterType="map" resultMap="postSelectMap">
+ 	<!-- <select id="getScheduleList2" parameterType="map" resultMap="postSelectMap">
  		select
  		*
  		from (
@@ -327,7 +328,7 @@
  			where rownum &lt;= #{search.endRowNum}
  		)
  		where row_seq between #{search.startRowNum} and #{search.endRowNum}
- 	</select>
+ 	</select> -->
  	
  	
  	
@@ -354,29 +355,31 @@
  	
  	<sql id="scheduleList">
  		select
- 				post.*, couple.first_user_id, couple.second_user_id
- 				from (
- 					select
- 					*
- 					from post
- 					where view_status = '1'
- 					and post_date = #{postDate}
- 				) post, (
- 					select
- 					*
- 					from couple
- 					where delete_status = '1'
- 				) couple
- 				where (post.user_id = couple.first_user_id
- 				or post.user_id = couple.second_user_id)
- 				and (couple.first_user_id = #{userId}
- 				or couple.second_user_id = #{userId})
- 				and post.post_category_no = '7'
+				post.*, couple.first_user_id, couple.second_user_id
+				from (
+					select
+					*
+					from post
+					where view_status = '1'
+					and post_date &gt;= TRUNC(TO_DATE(#{postDate}) , 'MM')
+					AND post_date &lt;= LAST_DAY(TO_DATE(#{postDate}))
+				) post, (
+					select
+					*
+					from couple
+					where delete_status = '1'
+				) couple
+				where (couple.first_user_id = #{userId}
+				OR couple.second_user_id = #{userId})
+				AND (post.user_id = couple.FIRST_USER_ID 
+				OR post.user_id = couple.SECOND_USER_ID )
+				and post.post_category_no = '7'
+				order by post_no desc
  				
  				
  	</sql>
  	
- 	<sql id="scheduleList2">
+ 	<!-- <sql id="scheduleList2">
  		select
  				post.*, couple.first_user_id, couple.second_user_id
  				from (
@@ -397,7 +400,7 @@
  				and post.post_category_no = '7'
  				
  				
- 	</sql>
+ 	</sql> -->
  	
  	<select id="getTotalSchedule" parameterType="map" resultType="int">
  		select
@@ -407,13 +410,13 @@
  		)
  	</select>
  	
- 	<select id="getTotalSchedule2" parameterType="map" resultType="int">
+ 	<!-- <select id="getTotalSchedule2" parameterType="map" resultType="int">
  		select
  		count(*)
  		from (
  			<include refid="scheduleList2"/>
  		)
- 	</select>
+ 	</select> -->
  	
  	<update id="deleteCoupleTimeline" parameterType="map">
  		

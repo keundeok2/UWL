@@ -44,8 +44,10 @@ import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.domain.Report;
 import com.uwl.service.domain.User;
+import com.uwl.service.domain.Weather;
 import com.uwl.service.report.ReportService;
 import com.uwl.service.user.UserService;
+import com.uwl.service.weather.WeatherService;
 
 @RestController
 @RequestMapping("/user/*")
@@ -62,6 +64,9 @@ public class UserRestController {
 	// 메일 인증
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	@Autowired
+	private WeatherService weatherService;
 
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -561,7 +566,7 @@ public class UserRestController {
 			// 네이버 로그인이 끝난 뒤 redirect로 연결할 url 주소 
 			// 내 애플리케이션 => API 설정 => 사용 API => 로그인 오픈 API 서비스 환경에 등록한 
 			// 네이버아이디로로그인 Callback URL (최대 5개)에 등록한 URL을 인코딩 
-			String redirectUrl = URLEncoder.encode("http://192.168.0.19:8080/main.jsp", "UTF-8");
+			String redirectUrl = URLEncoder.encode("http://192.168.0.19:8080/user/naverLoginLogic", "UTF-8");
 			//http://192.168.0.19:8080/main.jsp
 			//http://192.168.0.21:8080/main.jsp
 			//http://192.168.0.19:8080/layout/default.jsp
@@ -588,6 +593,11 @@ public class UserRestController {
 			return map;
 		}
 		
+		@RequestMapping(value = "/rest/getWeather")
+		private Map getWeather(@RequestBody Weather weather) throws Exception{
+			Map<String, String> map = weatherService.getWeather(weather);
+			return map;
+		}
 //		@RequestMapping(value = "/rest/checkReport")
 //		public String checkReport(@RequestBody User user) throws Exception {
 //			List reportList = new ArrayList<Report>();

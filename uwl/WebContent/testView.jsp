@@ -14,7 +14,7 @@
 	
 	<ul>
 		<h2>회원 로그인</h2>
-		<a href="/user/login" role="button">회원 로그인</a>
+		<a href="/index.jsp" role="button">회원 로그인</a>
 	</ul>
 	<br>
 	<br>

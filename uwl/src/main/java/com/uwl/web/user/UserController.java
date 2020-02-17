@@ -48,6 +48,7 @@ import com.uwl.service.reward.RewardService;
 import com.uwl.service.schoolRank.SchoolRankService;
 import com.uwl.service.social.SocialService;
 import com.uwl.service.user.UserService;
+import com.uwl.service.weather.WeatherService;
 
 @Controller
 @RequestMapping("/user/*")
@@ -85,6 +86,7 @@ public class UserController {
 
 	@Autowired
 	private ReportService reportService;
+	
 	
 	public UserController() {
 		System.out.println(this.getClass());
@@ -259,6 +261,8 @@ public class UserController {
 		int totalMatching = matchingService.getTotalMatching(search, targetUserId);
 		model.addAttribute("totalMatching", totalMatching);
 		
+		
+		
 		return "forward:/user/profile.jsp";
 	}
 
@@ -430,6 +434,7 @@ public class UserController {
 						model.addAttribute("stopDate",stopDate);
 						return "forward:/index.jsp";
 					}else {
+						session.setAttribute("user", dbUser); // 형진이말대로 추가함 ㅋㅋ;;
 						return "forward:/user/main";
 					}
 				}
@@ -765,6 +770,14 @@ public class UserController {
 		
 		String name = profileMap.get("name");
 		String email = profileMap.get("email");
+		String gender = profileMap.get("gender");
+		System.out.println("성별 뜸? " + gender);
+		if(gender.equals("M")) {
+			gender = "2";
+		} else{
+			gender ="1";
+		}
+		System.out.println(gender + "젠더 나와라 ;;");
 		
 		// 이메일 ~~~@naver.com에서 @의 인덱스를 가져옴
 		int index = email.indexOf("@");
@@ -780,8 +793,14 @@ public class UserController {
 			user.setMail(email);
 			user.setName(name);
 			user.setPassword(id);
+			user.setGender(gender);
+			user.setBirth("1111-11-11");
+			user.setRole("1");
+			user.setNickname("마태");
+			user.setSchoolNo(1716);
 			
 			userService.addUser(user);
+			System.out.println("유저는 ? : " + user);
 			
 			User dbUser = userService.getUser(userId);
 			

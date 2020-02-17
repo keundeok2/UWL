@@ -1,8 +1,11 @@
 package com.uwl.web.challenge;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +56,9 @@ public class ChallengeRestController {
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
+	
+	@Value("#{challengeCategories}")
+	private Properties challengeCategory;
 	
 
 	//Constructor
@@ -128,6 +135,27 @@ public class ChallengeRestController {
 		
 		return completeCheck;
 	}
+	
+//	@RequestMapping( value = "rest/getSearchChallCategories")
+//	public Map<String,Object> getSearchChallCategories(@RequestBody Map<String, Object> categoryCode) throws Exception{
+//		
+//		String challCategory = categoryCode.get("cetegoryCode");
+//		System.out.println("ChallengeRestController getSearchChallCategories()의 challCategory : " + challCategory);
+//		Map<String, Object> returnMap  = new HashMap<String, Object>();
+//		
+//		List<String> categoryValueList = new ArrayList<String>();
+//		
+//		//일단 2개만하는데 갯수가 늘어날수록 유동적으로 하는것으로 바꿀 것.
+//		for (int i = 0; i < 2; i++) {
+//			String categoryCompleteKey = challCategory + "0" + i;
+//			System.out.println("categoryCompleteKey의 정보 : " + categoryCompleteKey);
+//			categoryValueList.add(categoryCompleteKey);
+//		}
+//		
+//		returnMap.put("categoryValueList", categoryValueList);
+//		
+//		return returnMap;
+//	}
 	
 	
 }
