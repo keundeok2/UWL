@@ -284,13 +284,14 @@ font-family: 'Nanum Gothic', sans-serif;
                 $(location).attr('href', "/post/listNotice");
             });
             $("#question").on("click", function() { //문의사항
-                $(location).attr('href', "/user/getUserQuestionsList");
+                $(location).attr('href', "/user/getUserQuestions");
             });
             $("#logout").on("click", function() { //로그아웃
                 $(location).attr('href', "/user/logout");
             });
         });
 
+        
     </script>
 </head>
 
@@ -303,7 +304,7 @@ font-family: 'Nanum Gothic', sans-serif;
            <img src="/images/twitter_header_photo_1-removebg-preview.png" width="100px" alt="">
            </a>
        </div>
-       <c:if test="${user.role eq '4'}">
+       <c:if test="${sessionScope.user.role eq '4'}">
 	        <h4>
 	            <a id="master" href="#">
 	                <i class="fas fa-crown"></i>
@@ -345,11 +346,11 @@ font-family: 'Nanum Gothic', sans-serif;
         
         <h4 class="img">
             <a id="myProfile" href="#">
-                <c:if test="${user.profileName eq null}">
+                <c:if test="${sessionScope.user.profileName eq null}">
                     <img src='/images/82910903_472735640087912_4282852221812207623_n(1).jpg' style='border-radius: 50%;' width='35px'  />
                 </c:if>
                 <c:if test="${user.profileName ne null}">
-                    <img src='/images/${user.profileName }' style='border-radius: 50%;' width='35px' height='35px' />
+                    <img src='/images/${sessionScope.user.profileName }' style='border-radius: 50%;' width='35px' height='35px' />
                 </c:if>
                 <span>내 프로필</span>
             </a>
@@ -376,7 +377,7 @@ font-family: 'Nanum Gothic', sans-serif;
                         <a href="#" id="202">사랑과 이별</a>
                     </h6>
                 </li>
-                <c:if test="${user.gender eq '2' or user.role eq '4'}">
+                <c:if test="${sessionScope.user.gender eq '2' or sessionScope.user.role eq '4'}">
 	                <li>
 	                
 	                    <h6>
@@ -384,7 +385,7 @@ font-family: 'Nanum Gothic', sans-serif;
 	                    </h6>
 	                </li>
                 </c:if>
-                <c:if test="${user.gender eq '1' or user.role eq '4'}">
+                <c:if test="${sessionScope.user.gender eq '1' or sessionScope.user.role eq '4'}">
 	                <li>
 	                    <h6>
 	                        <a href="#" id="204">여자끼리</a>
