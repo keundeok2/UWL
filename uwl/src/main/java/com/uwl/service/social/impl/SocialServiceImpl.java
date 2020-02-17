@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.uwl.common.Search;
 import com.uwl.service.community.CommunityDAO;
 import com.uwl.service.domain.Ask;
+import com.uwl.service.domain.Notification;
 import com.uwl.service.domain.Post;
 import com.uwl.service.social.SocialDAO;
 import com.uwl.service.social.SocialService;
@@ -108,5 +109,32 @@ public class SocialServiceImpl implements SocialService {
 	public void rejectQuestion(int questionPostNo) throws Exception {
 		socialDAO.rejectQuestion(questionPostNo);
 	}
+	
+	///////////////////// NOTIFICATION /////////////////////////
+	
+	@Override
+	public void addNoti(Notification notification) throws Exception {
+		socialDAO.addNoti(notification);
+	}
+
+	@Override
+	public Map<String,Object> getNotiList(String userId, Search search) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", socialDAO.getNotiList(userId, search));
+		map.put("totalCount", socialDAO.getTotalNotiList(userId));
+		
+		return map;
+	}
+
+	@Override
+	public void deleteNoti(int notiNo) throws Exception {
+		socialDAO.deleteNoti(notiNo);
+	}
+	@Override
+	public void deleteNotiAll(String userId) throws Exception {
+		socialDAO.deleteNotiAll(userId);
+	}
+	
+	
 
 }

@@ -414,7 +414,7 @@
         <form>
             <p>ASK - 질문&amp;답변</p>
             <p>새 질문 : ${map.totalCount}개</p>
-            <p>${targetUserId}님에게 질문합니다.</p>
+            <p>${user.name}님에게 질문합니다.</p>
             <p>
                 <textarea name="questionContent" cols="30" rows="10" placeholder="성희롱 및 욕설은 처벌대상입니다."></textarea>
                 <input type="hidden" name="userId" value="${targetUserId}">

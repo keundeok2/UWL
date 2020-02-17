@@ -22,6 +22,7 @@ import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.community.CommunityService;
 import com.uwl.service.domain.Ask;
+import com.uwl.service.domain.Notification;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.User;
 import com.uwl.service.social.SocialService;
@@ -35,7 +36,7 @@ public class SocialRestController {
 
 	@Autowired
 	private CommunityService communityService;
-
+	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 
@@ -58,6 +59,7 @@ public class SocialRestController {
 
 		search.setPageSize(10000);
 		search.setSearchCondition("1");
+		search.setSearchKeyword((String)dataMap.get("searchKeyword"));
 
 		System.out.println("dataMap" + dataMap);
 		System.out.println(dataMap.get("postNo"));
@@ -155,4 +157,33 @@ public class SocialRestController {
 		
 	}
 	
+	///////////////////// NOTIFICATION //////////////////////
+	
+	@RequestMapping(value = "rest/addNoti", method = RequestMethod.POST)
+	public void addNoti(@RequestBody Notification notification) throws Exception{
+		socialService.addNoti(notification);
+	}
+	
+	@RequestMapping(value = "rest/deleteNoti", method = RequestMethod.POST)
+	public void deleteNoti(@RequestBody int notiNo) throws Exception{
+		socialService.deleteNoti(notiNo);
+	}
+	
+	@RequestMapping(value = "rest/deleteNotiAll", method = RequestMethod.POST)
+	public void deleteNotiAll(@RequestBody String userId) throws Exception{
+		socialService.deleteNotiAll(userId);
+	}
+	
+	@RequestMapping(value = "rest/getNotiList", method = RequestMethod.POST)
+	public Map getNotiList(@RequestBody Search search, HttpSession session) throws Exception{
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		String userId = ((User)session.getAttribute("user")).getUserId();
+		return socialService.getNotiList(userId, search);
+	}
+	
+	///////////////////// NOTIFICATION //////////////////////
 }

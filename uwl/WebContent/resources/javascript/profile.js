@@ -46,6 +46,12 @@ $(document).ready(function () {
                 secondUserId: targetUserId
             }),
             success: function () {
+            	
+            	//socket push
+				socketMsg = sessionUserId + "," + targetUserId +"," + sessionName +"," + "friend,add,"+postNo;
+				console.log(socketMsg)
+				socket.send(socketMsg);
+            	
                 var html = "<div class='deleteFriend'><a href='#'>친구신청취소</a></div>"
                 $("div.user").after(html);
                 $("div.addFriend").remove();
@@ -107,6 +113,12 @@ $(document).ready(function () {
                 secondUserId: targetUserId
             }),
             success: function () {
+            	
+            	//socket push
+				socketMsg = sessionUserId + "," + targetUserId +"," + sessionName +"," + "friend,add,"+postNo;
+				console.log(socketMsg)
+				socket.send(socketMsg);
+            	
                 $("div.acceptFriend").remove();
                 var html = "<div class='deleteFriend'><a href='#'>친구끊기</a></div>" +
                     "<div class='sendFlower'><a href=''#' class='addMatching' data-toggle='modal' data-target='#exampleModal'>꽃보내기</a></div>" +

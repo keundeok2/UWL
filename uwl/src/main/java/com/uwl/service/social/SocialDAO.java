@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.uwl.common.Search;
 import com.uwl.service.domain.Ask;
+import com.uwl.service.domain.Notification;
 import com.uwl.service.domain.Post;
 
 public interface SocialDAO {
@@ -33,4 +34,14 @@ public interface SocialDAO {
 	public void rejectQuestion(int questionPostNo) throws Exception;
 	
 	public int getAskTotalCount(String userId, String questionStatus) throws Exception;
+	
+	public void addNoti(Notification notification) throws Exception;
+	
+	public List<Notification> getNotiList(String userId, Search search) throws Exception;
+	
+	public int getTotalNotiList(String userId) throws Exception;
+	
+	public void deleteNoti(int notiNo) throws Exception;
+	
+	public void deleteNotiAll(String userId) throws Exception;
 }

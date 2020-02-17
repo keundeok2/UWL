@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <style type="text/css">
-        /* ÀÏ´Ü ¿©±â¿¡ ¹Ú¾ÒÀ½ */
+        /* ì¼ë‹¨ ì—¬ê¸°ì— ë°•ì•˜ìŒ */
         div.addAskedFriendData img {
             width: 60px;
             height: 60px;
@@ -191,13 +191,13 @@
     </style>
     <script>
         var sessionUserId = null;
-
+		var sessionUserName = "${user.name}";
         $(function() {
             rightLoad();
             connectWS();
         })
 
-        //	¿ìÃøÅø¹Ù load 
+        //	ìš°ì¸¡íˆ´ë°” load 
         function rightLoad() {
             sessionUserId = $('input#sessionUserId').val();
             $.ajax({
@@ -212,7 +212,7 @@
                 }),
                 success: function(d) {
                     for (var i = 0; i < d.list.length; i++) {
-                        /*ÀçÀÌ°¡ °íÄ§!!*/
+                        /*ì¬ì´ê°€ ê³ ì¹¨!!*/
                        var html = '<li>'
                     + '<a href="#" class="rightProfileName">'
                         + '<span><img src="/images/' + d.list[i].profileName + '" alt=""></span>'
@@ -221,7 +221,7 @@
                     + '</a>'
                     + '<input type="hidden" value="' + d.list[i].userId + '">'
                 + '</li>';
-                        /*ÀçÀÌ°¡ °íÄ§!!*/
+                        /*ì¬ì´ê°€ ê³ ì¹¨!!*/
                         
                         $(html).appendTo("div.friendList ul");
                         
@@ -232,7 +232,7 @@
         }
 
 
-        //	¿ìÃøÅø¹Ù ÇÁ·ÎÇÊ ÀÌµ¿ event
+        //	ìš°ì¸¡íˆ´ë°” í”„ë¡œí•„ ì´ë™ event
         $(document).on("click", "div.friendList ul li a.rightProfileName", function() {
             var targetUserId = $(this).next().val();
             console.log("targetUserId", targetUserId);
@@ -240,14 +240,14 @@
             $.redirect("/user/getProfile/" + targetUserId + "", {}, "GET");
         });
 
-        //	¿ìÃøÅø¹Ù °Ë»ö event
+        //	ìš°ì¸¡íˆ´ë°” ê²€ìƒ‰ event
         $(document).on("keypress", "div.search2 input", function(e) {
             var searchKeyword = $(this).val();
             var searchCondition = $(this).next().val();
             if (e.which == 13) {
                 console.log("searchKeyword", searchKeyword);
                 if (searchKeyword == null || searchKeyword.length < 1) {
-                    alert("°Ë»ö¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä");
+                    alert("ê²€ìƒ‰ì–´ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”");
                     return;
                 }
 
@@ -260,7 +260,7 @@
             }
         });
 
-        //	Ä£±¸¿äÃ» Modal Event
+        //	ì¹œêµ¬ìš”ì²­ Modal Event
         $(document).on("click", "div.friendList ul i", function() {
             $("div#askedFriendModal").modal();
 
@@ -280,8 +280,8 @@
                         var addData = "<div id='" + d.list[i].userId + "' class='row addAskedFriendData'>" +
                             "<div class='col-sm-1'><img src='../../images/" + d.list[i].profileName + "'/></div>" +
                             "<div class='col-sm-7'> &nbsp; " + d.list[i].name + " &nbsp; " + d.list[i].schoolName + " &nbsp;</div>" +
-                            "<div class='col-sm-4 addTarget" + d.list[i].userId + "'><button type='button' class='btn btn-primary btn" + d.list[i].userId + "' id='acceptModalButton'>¼ö¶ô</button>" +
-                            "<button type='button' class='btn btn-danger btn" + d.list[i].userId + "' id='deleteModalButton'>°ÅÀı</button></div>" +
+                            "<div class='col-sm-4 addTarget" + d.list[i].userId + "'><button type='button' class='btn btn-primary btn" + d.list[i].userId + "' id='acceptModalButton'>ìˆ˜ë½</button>" +
+                            "<button type='button' class='btn btn-danger btn" + d.list[i].userId + "' id='deleteModalButton'>ê±°ì ˆ</button></div>" +
                             "<input type='hidden' value='" + d.list[i].userId + "'/>" +
                             "</div>";
 
@@ -291,7 +291,7 @@
             });
         })
 
-        //	Ä£±¸¿äÃ» Modal ¼ö¶ô event
+        //	ì¹œêµ¬ìš”ì²­ Modal ìˆ˜ë½ event
         $(document).on("click", "#acceptModalButton", function() {
             var userId = $(this).parent().next().val();
             console.log("userId", userId);
@@ -308,20 +308,26 @@
                     secondUserId: userId
                 }),
                 success: function() {
-                    var html = "<button type='button' class='btn btn-success'>Ä£±¸</button>";
+                    var html = "<button type='button' class='btn btn-success'>ì¹œêµ¬</button>";
                     $(html).appendTo("div.addTarget" + userId + "");
                     $(".btn" + userId + "").remove();
                     $("div.friendList ul").html("");
 
-                    var li = "<li>Ä£±¸ ¸ñ·Ï<a href='#'><i class='fas fa-cog'></i></a></li>";
+                    var li = "<li>ì¹œêµ¬ ëª©ë¡<a href='#'><i class='fas fa-cog'></i></a></li>";
                     $(li).appendTo("div.friendList ul");
                     rightLoad();
+                    
+                  //	socket push msg = (senderId,receiverId,senderName,notiOrigin,notiCode,postNo); í•˜ë‚˜ë¼ë„ ë¹¼ë¨¹ìœ¼ë©´ ì•ˆë¨.
+                  //	í•´ë‹¹í•˜ëŠ” ì¸ìê°’ ì—†ìœ¼ë©´ 1ì´ë¼ë„ ë„£ì–´ì•¼í•¨. CSV = ','ì„  ,ì•ë’¤ë¡œ ë„ì–´ì“°ê¸° í•˜ë©´ ì•ˆë¨.
+        			socketMsg = sessionUserId + "," + userId +"," + sessionName +"," + "friend,acceptFriend,1234";
+        			console.log(socketMsg)
+        			socket.send(socketMsg);
 
                 }
             })
         });
 
-        //	Ä£±¸¿äÃ» Modal °ÅÀı event
+        //	ì¹œêµ¬ìš”ì²­ Modal ê±°ì ˆ event
         $(document).on("click", "#deleteModalButton", function() {
             var userId = $(this).parent().next().val();
 
@@ -337,7 +343,7 @@
                     secondUserId: userId
                 }),
                 success: function() {
-                    var html = "<button type='button' class='btn btn-secondary'>°ÅÀıµÊ</button>";
+                    var html = "<button type='button' class='btn btn-secondary'>ê±°ì ˆë¨</button>";
                     $(html).appendTo("div.addTarget" + userId + "");
                     $(".btn" + userId + "").remove();
 
@@ -345,6 +351,29 @@
             })
 
         });
+        
+        //	addNoti Function
+        function addNoti(senderId, receiverId, notiOrigin, notiCode, postNo) {
+        	console.log(senderId, receiverId, notiOrigin, notiCode, postNo);
+        	$.ajax({
+                url: "/social/rest/addNoti",
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify({
+                	senderId : senderId,
+                	receiverId : receiverId,
+                	notiOrigin : notiOrigin,
+                	notiCode : notiCode,
+                	postNo : postNo
+                }),
+                success: function() {
+                    console.log("addNoti success!");
+                }
+            })
+		}
         
         //////////////// WebSocket //////////////////
         var socket = null;
@@ -360,22 +389,26 @@
 
             ws.onmessage = function (event) {
                 console.log("ReceiveMessage:", event.data+'\n');
+                $(".toast-body").html(event.data);
+                $(".toast").toast('show');
+                
+                /* let $socketAlert = $("div#socketAlert");
+                $socketAlert.html(event.data);
+                $socketAlert.css("display", "block");
+                
+                
+                setTimeout(function() {
+					$socketAlert.css('display', 'none');
+				},5000); */
             };
 
             ws.onclose = function (event) { 
                 console.log('Info: connection closed.');
-                //setTimeout( function(){ connectWS(); }, 1000); // retry connection!!
+                setTimeout( function(){ connectWS(); }, 100); // retry connection!!
             };
             ws.onerror = function (err) { console.log('Error:', err); };
         }
         
-		//	Çª½Ã ¸Ş½ÃÁö send ÀÌº¥Æ® 
-		$('#btnSend').on('click', function (evt) {
-			evt.preventDefualt();
-			if (socket.readyState !== 1) return;
-			let msg = $('input#msg').val();
-			socket.send(msg);
-		});
 		
     </script>
 
@@ -385,29 +418,69 @@
 <body>
     <div class="rightLayout">
         <input type="hidden" id="sessionUserId" name="sessionUserId" value="${user.userId}">
+        
+		<div id="socketAlert" class="alert alert-warning" role="alert" style="display : none;"></div>
+		
         <div class="search2">
 
-            <i class="fas fa-search"></i><input type="text" placeholder="¾î¿ï¸² °Ë»ö">
+            <i class="fas fa-search"></i><input type="text" placeholder="ì–´ìš¸ë¦¼ ê²€ìƒ‰">
             <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="searchCondition">
-                <option value="0" ${search.searchCondition==0 ? "selected" : "" }>¾ÆÀÌµğ</option>
-                <option value="1" ${search.searchCondition==1 ? "selected" : "" }>ÀÌ¸§</option>
-                <option value="2" ${search.searchCondition==2 ? "selected" : "" }>ÇĞ±³¸í</option>
+                <option value="0" ${search.searchCondition==0 ? "selected" : "" }>ì•„ì´ë””</option>
+                <option value="1" ${search.searchCondition==1 ? "selected" : "" }>ì´ë¦„</option>
+                <option value="2" ${search.searchCondition==2 ? "selected" : "" }>í•™êµëª…</option>
                 
             </select>
         </div>
         <div class="friendList">
             <ul>
-                <li>Ä£±¸ ¸ñ·Ï<a href="#"><i class="fas fa-cog"></i></a></li>
+                <li>ì¹œêµ¬ ëª©ë¡<a href="#"><i class="fas fa-cog"></i></a></li>
                 
             </ul>
         </div>
+        
+        <!-- ì•Œë¦¼ ì•„ì´ì½˜ -->
+        <h4>
+            <a id="noti" href="#">
+                <i class="fas fa-bell"></i>
+                <span>ì•Œë¦¼</span>
+            </a>
+        </h4>
+        
+        <script type="text/javascript">
+			$(function() {
+				$("#noti").on("click", function() {
+					$.redirect("/social/getNotiList");
+				});
+			});	
+        
+        </script>
+         <!-- ì•Œë¦¼ ì•„ì´ì½˜ -->
+         
+         <!-- ê²°ì œ ë‚´ì—­ -->
+         <h4>
+            <a id="purchaseList" href="#">
+                <i class="fas fa-bell"></i>
+                <span>ê²°ì œ ë‚´ì—­</span>
+            </a>
+        </h4>
+        <script type="text/javascript">
+			$(function() {
+				$("#purchaseList").on("click", function() {
+					$.redirect("/purchase/getPurchaseList",{userId : sessionUserId});
+				});
+			});	
+        
+        </script>
+          
+         <!-- ê²°ì œ ë‚´ì—­ -->
+         
 
         <!-- Right AskedFriend Modal -->
         <div class="modal fade" id="askedFriendModal" tabindex="-1" role="dialog" aria-labelledby="askedFriendModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <p class="modal-title" id="askedFriendModalLabel">Ä£±¸ ¿äÃ»</p>
+                        <p class="modal-title" id="askedFriendModalLabel">ì¹œêµ¬ ìš”ì²­</p>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -420,10 +493,23 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">´İ±â</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ë‹«ê¸°</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000" style="position: absolute; top: 0; right : 0;">
+	  <div class="toast-header">
+	    <img src="/images/rj.gif" class="rounded mr-2" alt="..." style="width:40px; height:20px;">
+	    <strong class="mr-auto">ì•Œë¦¼</strong>
+	    <small>ë°©ê¸ˆ</small>
+	    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+	      <span aria-hidden="true">&times;</span>
+	    </button>
+	  </div>
+	  <div class="toast-body"></div>
+	</div>
+	
 </body></html>

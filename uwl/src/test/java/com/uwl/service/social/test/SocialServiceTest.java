@@ -41,7 +41,7 @@ public class SocialServiceTest {
 		System.out.println(post);
 	}
 
-	@Test
+//	@Test
 	public void getTimelineList() throws Exception {
 		String userId = "user01";
 		Search search = new Search();
@@ -112,4 +112,15 @@ public class SocialServiceTest {
 		socialService.rejectQuestion(postNo);
 	}
 
+	@Test
+	public void getNotiList() throws Exception{
+		
+		String userId = "user01";
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(6);
+		
+		System.out.println(socialService.getNotiList(userId, search));
+	}
+	
 }

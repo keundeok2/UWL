@@ -152,5 +152,18 @@ public class SocialController {
 		return "redirect:/social/getTimelineList/"+sessionId;
 	}
 	
+	@RequestMapping(value = "getNotiList", method =  RequestMethod.POST)
+	public String getNotiList(@ModelAttribute Search search, HttpSession session, Model model) throws Exception{
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		String userId = ((User)session.getAttribute("user")).getUserId();
+		Map<String, Object> map = socialService.getNotiList(userId, search);
+		model.addAttribute(map);
+		
+		return "forward:/social/listNoti.jsp";
+	}
 	
 }

@@ -26,10 +26,39 @@
 <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
 <script type="text/javascript">
 
-var targetUserId = "${targetUserId}";
-var sessionId = "${user.userId}"
+$(function() {
+	connectWS();
+});
+//////////////// WebSocket ////////////////// right.jsp와 합치면 삭제
+var socket = null;
 
-$(document).on("click", ".addQuestionBtn", function() {
+function connectWS() {
+    console.log("tttttttttttttt")
+    var ws = new WebSocket("ws://localhost:8080/replyEcho");
+    socket = ws;
+
+    ws.onopen = function () {
+        console.log('Info: connection opened.');
+    };
+
+    ws.onmessage = function (event) {
+        console.log("ReceiveMessage:", event.data+'\n');
+    };
+
+    ws.onclose = function (event) { 
+        console.log('Info: connection closed.');
+        //setTimeout( function(){ connectWS(); }, 1000); // retry connection!!
+    };
+    ws.onerror = function (err) { console.log('Error:', err); };
+}
+////////////////WebSocket //////////////////
+
+
+var targetUserId = "${targetUserId}";
+var sessionId = "${user.userId}";
+var sessionName = "${user.name}";
+
+$(document).on("click", ".addQuestionBtn", function(evt) {
 	var content = $("textarea").val();
 	console.log(content);
 	
@@ -59,9 +88,12 @@ $(document).on("click", ".addQuestionBtn", function() {
 		}),
 		success : function() {
 			$("textarea").val("");
-			
+			//socket push
+			socketMsg = sessionId + "," + targetUserId +"," + sessionName +"," + "ask,add";
+			console.log(socketMsg)
+			socket.send(socketMsg);
 		}
-	})
+	});
 
 })
 

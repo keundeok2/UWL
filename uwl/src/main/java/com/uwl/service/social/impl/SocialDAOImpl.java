@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.uwl.common.Search;
 import com.uwl.service.domain.Ask;
+import com.uwl.service.domain.Notification;
 import com.uwl.service.domain.Post;
 import com.uwl.service.social.SocialDAO;
 
@@ -104,4 +105,34 @@ public class SocialDAOImpl implements SocialDAO{
 		return sqlSession.selectOne("SocialMapper.getAskTotalCount", map);
 	}
 
+	@Override
+	public void addNoti(Notification notification) throws Exception {
+		sqlSession.insert("SocialMapper.addNoti", notification);
+	}
+	
+	@Override
+	public List<Notification> getNotiList(String userId, Search search) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("search", search);
+		return sqlSession.selectList("SocialMapper.getNotiList", map);
+	}
+	
+	@Override
+	public int getTotalNotiList(String userId) throws Exception {
+		return sqlSession.selectOne("SocialMapper.getTotalNotiList", userId);
+	}
+	
+	@Override
+	public void deleteNoti(int notiNo) throws Exception {
+		sqlSession.delete("SocialMapper.deleteNoti", notiNo);
+	}
+	
+	@Override
+	public void deleteNotiAll(String userId) throws Exception {
+		sqlSession.delete("SocialMapper.deleteNotiAll", userId);
+	}
+	
+	
+	
 }
