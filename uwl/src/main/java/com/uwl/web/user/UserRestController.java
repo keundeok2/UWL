@@ -561,7 +561,7 @@ public class UserRestController {
 			// 네이버 로그인이 끝난 뒤 redirect로 연결할 url 주소 
 			// 내 애플리케이션 => API 설정 => 사용 API => 로그인 오픈 API 서비스 환경에 등록한 
 			// 네이버아이디로로그인 Callback URL (최대 5개)에 등록한 URL을 인코딩 
-			String redirectUrl = URLEncoder.encode("http://192.168.0.19:8080/main.jsp", "UTF-8");
+			String redirectUrl = URLEncoder.encode("http://192.168.0.19:8080/user/naverLoginLogic", "UTF-8");
 			//http://192.168.0.19:8080/main.jsp
 			//http://192.168.0.21:8080/main.jsp
 			//http://192.168.0.19:8080/layout/default.jsp
