@@ -1,35 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--  CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
-	<script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>    
-    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
-	<script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
-  	<script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
-  	<!-- 썸머노트 -->
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
-	<!-- Font Awesome CDN -->
-	<script src="https://kit.fontawesome.com/376450b3c6.js" crossorigin="anonymous"></script>
-  	
-  	<script type="text/javascript">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!--  jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<!-- bootstrap 4.4 CDN -->
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<!-- jQuery Redirect CDN     https://github.com/mgalante/jquery.redirect  -->
+<script
+	src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
+<!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
+<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
+<!-- 썸머노트 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+<!-- Font Awesome CDN -->
+<script src="https://kit.fontawesome.com/376450b3c6.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
 	var postNo = null;
 	var targetUserId = "${targetUserId}";
 	var sessionId = "${user.userId}";
-	var sessionName = "${user.name}";
 	
-	$(document).on("click", "button#addTimeline", function(evt) {
+	$(document).on("click", "button#addTimeline", function() {
 		var timelinePostContent =$(".timelinePostContent").val();
+		console.log("timelinePostContent", timelinePostContent);
 		
 		if (timelinePostContent.length < 1 || timelinePostContent == null) {
 			var pureAlert = $.pureAlert({
@@ -45,8 +50,7 @@
 		$("form#addTimelineForm")
 		.attr("method", "post")
 		.attr("action", "/social/addTimeline")
-		.submit();		
-		
+		.submit();
 	})
 	
 	$(document).on("click", ".commentBtn", function() {
@@ -60,7 +64,7 @@
 				"Accept" : "application/json",
 				"Content-Type" : "application/json"
 			},
-			data : JSON.stringify({searchCondition : "1", userId : "", postNo : postNo, searchKeyword : postNo}),
+			data : JSON.stringify({searchCondition : "1", userId : "", postNo : postNo}),
 			success : function(d) {
 				$(".addCommentDiv").remove();
 				
@@ -111,11 +115,6 @@
 					
 					$(".addCommentDiv").prepend(html);
 					$("input.regCommentText").val("");
-					
-					//socket push
-					socketMsg = sessionId + "," + targetUserId +"," + sessionName +"," + "timeline,comment";
-					console.log(socketMsg)
-					socket.send(socketMsg);
 				}
 			})
 			}
@@ -338,66 +337,11 @@
 				});
 			}
 	
-	
-  	
-  	</script>
-    <title>Document</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+</script>
 
-        li {
-            list-style: none;
-        }
+<style type="text/css">
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        a:hover {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        body {
-            
-            color: #333;
-            font-size: 16px;
-            font-family: 'Roboto', sans-serif;
-            font-family: 'Nanum Gothic', sans-serif;
-        }
-
-        
-
-        section#left {
-            
-            height: 100vh;
-            width: 250px;
-            float: left;
-            border-right: 1px solid #eee;
-        }
-
-        section#work {
-            width: calc(100% - 600px);
-            float: left;
-            height: 100vh;
-            overflow-y: scroll;
-        }
-
-        section#right {
-            
-            height: 100vh;
-            width: 350px;
-            float: right;
-            overflow-y: scroll;
-            border-right: 1px solid #eee;
-        }
-        
-        body {
+body {
 	margin : 50px;
 }
 ul.timeline {
@@ -474,31 +418,11 @@ p.commentPtag {
 }
 
 body {word-break:break-all;}
-        
-    </style>
+</style>
+<title>어울림</title>
 </head>
-
 <body>
-<!--  여기서부터 챗봇  -->
-<div id="frogue-container" class="position-right-bottom" data-chatbot="4626e9e6-320e-4c99-afe8-c196f85db573" data-user="akxorb1234" data-init-key="value"></div>
-
-
-<script>
-(function(d, s, id){
-var js, fjs = d.getElementsByTagName(s)[0];
-if (d.getElementById(id)) {return;}
-js = d.createElement(s); js.id = id;
-js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
-fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'frogue-embed'));
-</script> 
-<!--   여기까지 ㅋㅋ  -->
-
-    <main>
-        <section id="left">
-			<jsp:include page="/layout/left.jsp" />
-        </section>
-        <section id="work">
+	<div class="container mt-5 mb-5">
 		<div class="row">
 			<div class="col-md-6 offset-md-3">
 				<h4>${user.name}님의 Timeline</h4>
@@ -547,6 +471,7 @@ fjs.parentNode.insertBefore(js, fjs);
 				</c:if>
 			</div>
 		</div>
+	</div>
 	
 <!-- Modal -->
 <div class="modal fade" id="postUpdateModal" tabindex="-1" role="dialog" aria-labelledby="postUpdateModalLabel" aria-hidden="true">
@@ -572,9 +497,6 @@ fjs.parentNode.insertBefore(js, fjs);
     </div>
   </div>
 </div>
-        </section>
-        <section id="right">
-			<jsp:include page="/layout/right.jsp" />
-        </section>
-    </main>
-</body></html>
+	
+</body>
+</html>

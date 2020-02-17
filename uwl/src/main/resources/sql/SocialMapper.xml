@@ -42,6 +42,23 @@
  	<result property="answerDate" column="answer_date" jdbcType="DATE"/>
  	</resultMap>
  	
+ 	<resultMap type="notification" id="notificationSelectMap">
+		<result property="notiNo" column="NOTI_NO" jdbcType="NUMERIC"/>
+		
+		<result property="sender.userId" column="SENDER_ID" jdbcType="VARCHAR"/>
+		<result property="sender.name" column="NAME" jdbcType="VARCHAR"/>
+		<result property="sender.nickname" column="NICKNAME" jdbcType="VARCHAR"/>
+		<result property="sender.profileName" column="PROFILE_NAME" jdbcType="VARCHAR"/>
+		
+		<result property="senderId" column="SENDER_ID" jdbcType="VARCHAR"/>
+		<result property="receiverId" column="RECEIVER_ID" jdbcType="VARCHAR"/>
+		<result property="postNo" column="POST_NO" jdbcType="NUMERIC"/>
+		<result property="notiOrigin" column="NOTI_ORIGIN" jdbcType="VARCHAR"/>
+		<result property="notiCode" column="NOTI_CODE" jdbcType="VARCHAR"/>
+		<result property="notiDate" column="NOTI_DATE" jdbcType="DATE"/>
+	</resultMap>
+ 	
+ 	
  	<insert id="addTimeline" parameterType="post">
  		INSERT INTO post 
 		(post_no, user_id, uploadfile_name, post_content, post_date, view_status, post_category_no) 
@@ -191,6 +208,48 @@
 					ORDER BY post_no desc
 		) countTable
 	</select>
-		
-	 	
+	
+	<insert id="addNoti" parameterType="notification">
+		INSERT INTO notification
+		VALUES (SEQ_NOTIFICATION_NOTI_NO.NEXTVAL, 
+		#{senderId}, 
+		#{receiverId}, 
+		<if test="postNo == 0">null</if>
+		<if test="postNo != 0">#{postNo:NUMERIC}</if>
+		,#{notiOrigin}, 
+		#{notiCode}, 
+		SYSDATE)
+	</insert>
+	
+	<select id="getNotiList" parameterType="map" resultMap="notificationSelectMap">
+		SELECT * 
+		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
+				FROM ( SELECT *
+						FROM notification n, users u
+						WHERE receiver_id = #{userId}
+						AND n.sender_id = u.user_id) inner_table 
+				WHERE ROWNUM &lt; = #{search.endRowNum} ) 
+		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+	</select>
+	
+	<delete id="deleteNoti" parameterType="int">
+		DELETE FROM notification
+		WHERE noti_no = #{notiNo}
+	</delete>
+
+	<delete id="deleteNotiAll" parameterType="string">
+		DELETE FROM notification
+		WHERE noti_no = #{userId}
+	</delete>
+	
+	<select id="getTotalNotiList" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		FROM (
+			SELECT *
+			FROM notification
+			WHERE receiver_id = #{userId} 
+		) countTable
+	</select>
+	
+	
 </mapper>

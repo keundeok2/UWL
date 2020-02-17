@@ -56,10 +56,6 @@ public class ChallengeRestController {
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
-	
-	@Value("#{challengeCategories}")
-	private Properties challengeCategory;
-	
 
 	//Constructor
 	public ChallengeRestController() {

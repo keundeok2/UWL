@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.uwl.common.Search;
 import com.uwl.service.domain.Ask;
+import com.uwl.service.domain.Notification;
 import com.uwl.service.domain.Post;
 
 public interface SocialService {
@@ -28,4 +29,12 @@ public interface SocialService {
 	public Map<String, Object> getAskQuestionList(String userId, Search search, String questionStatus) throws Exception;
 	
 	public void rejectQuestion(int questionPostNo) throws Exception;
+	
+	public void addNoti(Notification notification) throws Exception;
+	
+	public Map<String, Object> getNotiList(String userId, Search search) throws Exception;
+	
+	public void deleteNoti(int notiNo) throws Exception;
+	
+	public void deleteNotiAll(String userId) throws Exception;
 }

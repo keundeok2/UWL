@@ -461,7 +461,7 @@ public class UserController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
-		return "forward:/layout/default2.jsp";
+		return "forward:/main.jsp";
 	}
 
 	// 로그아웃

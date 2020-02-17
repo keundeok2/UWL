@@ -19,7 +19,8 @@
     <title>Document</title>
     
     <script type="text/javascript">
-
+    var sessionName = "${user.name}";
+    
 $(function() {
 	var sessionId = $("input#sessionId").val();
 	console.log("sessionId", sessionId);
@@ -39,6 +40,7 @@ $(function() {
 	requestBtn();
 	
 })
+
 
 $(document).on("click","#applyBtn", function() {
 	var sessionId = $("input#sessionId").val();
@@ -62,6 +64,13 @@ $(document).on("click","#applyBtn", function() {
 			+"<input type='hidden' value='"+userId+"'>";
 			$("."+userId+"").remove();
 			$(html).appendTo("#"+userId+"");
+			
+			//socket push msg = (senderId,receiverId,senderName,notiOrigin,notiCode); 하나라도 빼먹으면 안됨. 해당하는 인자값 없으면 1이라도 넣어야함
+			socketMsg = sessionId + "," + userId +"," + sessionName +"," + "friend,requestFriend";
+			console.log(socketMsg)
+			socket.send(socketMsg);
+			
+			addNoti(sessionId, userId, "4", "4");
 		}
 })
 })
@@ -213,7 +222,6 @@ function requestBtn() {
         }
 
         section#work {
-            background-color: lemonchiffon;
             width: calc(100% - 600px);
             float: left;
             height: 100vh;
