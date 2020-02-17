@@ -82,11 +82,11 @@ public class SocialController {
 		System.out.println("search : " + search);
 		System.out.println("userId : " + ((User)(session.getAttribute("user"))).getUserId());
 		search.setPageSize(pageSize);
-		Map<String, Object> map = socialService.getAskQuestionList(((User)(session.getAttribute("user"))).getUserId(), search, "1");
-		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+		Map<String, Object> askQuestionMap = socialService.getAskQuestionList(((User)(session.getAttribute("user"))).getUserId(), search, "1");
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) askQuestionMap.get("totalCount")).intValue(), pageUnit,
 				pageSize);
-		map.put("resultPage", resultPage);
-		model.addAttribute("map", map);
+		askQuestionMap.put("resultPage", resultPage);
+		model.addAttribute("askQuestionMap", askQuestionMap);
 		return "forward:/social/listAskQuestion.jsp";
 		
 	}
@@ -97,16 +97,16 @@ public class SocialController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		Map<String, Object> map = socialService.getAskList(targetUserId, search, "2");
+		Map<String, Object> askMap = socialService.getAskList(targetUserId, search, "2");
 		
-		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) askMap.get("totalCount")).intValue(), pageUnit,
 				pageSize);
 		
 		User targetUser = userService.getUser(targetUserId);
 		
-		model.addAttribute("targetUser", targetUser);
-		map.put("resultPage", resultPage);
-		model.addAttribute("map", map);
+		askMap.put("targetUser", targetUser);
+		askMap.put("resultPage", resultPage);
+		model.addAttribute("askMap", askMap);
 		return "forward:/social/listAsk.jsp";
 	}
 	
@@ -128,15 +128,15 @@ public class SocialController {
 		}
 		
 		//	TL 게시글 가져오기
-		Map<String, Object> map = socialService.getTimelineList(targetUserId, search);
-		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+		Map<String, Object> timelineMap = socialService.getTimelineList(targetUserId, search);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) timelineMap.get("totalCount")).intValue(), pageUnit,
 				pageSize);
-		map.put("search", search);
-		map.put("resultPage", resultPage);
+		timelineMap.put("search", search);
+		timelineMap.put("resultPage", resultPage);
 		
 		// TL 댓글 가져오기
 		
-		model.addAttribute("map", map);
+		model.addAttribute("timelineMap", timelineMap);
 		
 		return "forward:/social/listTimeline.jsp";
 	}
@@ -152,6 +152,8 @@ public class SocialController {
 		return "redirect:/social/getTimelineList/"+sessionId;
 	}
 	
+	
+	///////////////////// NOTIFICATION ////////////////////
 	@RequestMapping(value = "getNotiList", method =  RequestMethod.POST)
 	public String getNotiList(@ModelAttribute Search search, HttpSession session, Model model) throws Exception{
 		if (search.getCurrentPage() == 0) {
@@ -161,7 +163,7 @@ public class SocialController {
 		
 		String userId = ((User)session.getAttribute("user")).getUserId();
 		Map<String, Object> map = socialService.getNotiList(userId, search);
-		model.addAttribute(map);
+		model.addAttribute("map", map);
 		
 		return "forward:/social/listNoti.jsp";
 	}
