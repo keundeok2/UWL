@@ -2,11 +2,13 @@ package com.uwl.service.chatting.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import com.uwl.service.chatting.ChattingDAO;
 import com.uwl.service.chatting.ChattingService;
 import com.uwl.service.domain.Chatting;
 
+@Service
 public class ChattingServiceImpl implements ChattingService {
 	
 	@Autowired

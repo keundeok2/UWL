@@ -246,7 +246,7 @@ font-family: 'Nanum Gothic', sans-serif;
             });
 
             $("#home").on("click", function() { // 홈
-                $(location).attr('href', "/layout/default.jsp");
+                $(location).attr('href', "/user/main");
             });
 
             $("#myProfile").on("click", function() { //내 프로필
