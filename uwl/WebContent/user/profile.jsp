@@ -196,15 +196,6 @@
     		$.redirect("/purchase/getPurchaseList",{userId : sessionId});
     	});
     
-
-       	$(document).on("click", "div.list1", function() {
-			$.redirect("/social/getTimelineList/"+sessionId,{}, "GET");
-		});
-    
-    	$(document).on("click", "div.list2", function() {
-    		console.log("click");
-			$.redirect("/social/getAskList/"+sessionId,{}, "GET");
-		});
     </script>
 </head>
 
@@ -388,7 +379,7 @@
                 	비공개 계정입니다.
                 </c:if>
                 <c:if test="${user.publicStatus == 1 }">
-              	      <jsp:include page="/social/listTimeline3.jsp">
+              	      <jsp:include page="/social/listTimeline2.jsp"/>
               	</c:if>
                 </div>
                 <div class="list2">
