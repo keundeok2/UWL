@@ -127,7 +127,7 @@ public class CoupleServiceImpl implements CoupleService{
 	}
 
 	@Override
-	public Map<String, Object> getScheduleList(Search search, String userId, Date postDate) throws Exception {
+	public Map<String, Object> getScheduleList(Search search, String userId, String postDate) throws Exception {
 		// TODO Auto-generated method stub
 		List<Post> list = coupleDAO.getScheduleList(search, userId, postDate);
 		int totalSchedule = coupleDAO.getTotalSchedule(search, userId, postDate);
@@ -138,17 +138,17 @@ public class CoupleServiceImpl implements CoupleService{
 		return map;
 	}
 	
-	@Override
-	public Map<String, Object> getScheduleList2(Search search, String userId) throws Exception {
-		// TODO Auto-generated method stub
-		List<Post> list = coupleDAO.getScheduleList2(search, userId);
-		int totalSchedule = coupleDAO.getTotalSchedule2(search, userId);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);
-		map.put("totalSchedule", totalSchedule);
-		return map;
-	}
+//	@Override
+//	public Map<String, Object> getScheduleList2(Search search, String userId) throws Exception {
+//		// TODO Auto-generated method stub
+//		List<Post> list = coupleDAO.getScheduleList2(search, userId);
+//		int totalSchedule = coupleDAO.getTotalSchedule2(search, userId);
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("list", list);
+//		map.put("totalSchedule", totalSchedule);
+//		return map;
+//	}
 
 	@Override
 	public void updateSchedule(Post post) throws Exception {

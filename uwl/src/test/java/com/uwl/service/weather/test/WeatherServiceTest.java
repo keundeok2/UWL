@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.uwl.service.domain.WeatherX;
+import com.uwl.service.domain.Weather;
 import com.uwl.service.weather.WeatherService;
 
 /*
@@ -33,30 +33,17 @@ public class WeatherServiceTest {
 	@Qualifier("weatherServiceImpl")
 	private WeatherService weatherService;
 
-//	@Test
-	public void testGetWeatherX() throws Exception {
-		
-		WeatherX weather = new WeatherX();
-		String region = "서울";
-		weather.setDate("20200214");
-		weather.setRegion("전국");
-		weather.setTo("06");
-		
-		 weatherService.getWeatherX(region);
-	}
 	
-	
-	
-//	@Test
+	@Test
 	public void testGetWeather() throws Exception {
 		
-//		Weather weather = new Weather();
-//		
-//		 weatherService.getWeather();
+		Weather weather = new Weather();
+		
+//		weather.setDate("20200214");
+//		weather.setTo("23");
+		weather.setX("60");
+		weather.setY("127");
+		
+		weatherService.getWeather(weather);
 	}
-
-	
-	
-	
-	
 }

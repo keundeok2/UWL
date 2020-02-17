@@ -41,12 +41,14 @@ import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.User;
 import com.uwl.service.friend.FriendService;
 import com.uwl.service.matching.MatchingService;
+import com.uwl.service.post.PostService;
 import com.uwl.service.purchase.PurchaseService;
 import com.uwl.service.report.ReportService;
 import com.uwl.service.reward.RewardService;
 import com.uwl.service.schoolRank.SchoolRankService;
 import com.uwl.service.social.SocialService;
 import com.uwl.service.user.UserService;
+import com.uwl.service.weather.WeatherService;
 
 @Controller
 @RequestMapping("/user/*")
@@ -70,6 +72,8 @@ public class UserController {
 	@Autowired
 	private MatchingService matchingService;
 	
+	@Autowired
+	private PostService postService;
 	
 	@Autowired
 	private FriendService friendService;
@@ -82,6 +86,7 @@ public class UserController {
 
 	@Autowired
 	private ReportService reportService;
+	
 	
 	public UserController() {
 		System.out.println(this.getClass());
@@ -256,6 +261,8 @@ public class UserController {
 		int totalMatching = matchingService.getTotalMatching(search, targetUserId);
 		model.addAttribute("totalMatching", totalMatching);
 		
+		
+		
 		return "forward:/user/profile.jsp";
 	}
 
@@ -401,12 +408,12 @@ public class UserController {
 
 		System.out.println("/user/logon : GET");
 
-		return "forward:/user/loginView.jsp";
+		return "forward:/index.jsp";
 	}
 
 	// 로그인
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String login(@ModelAttribute("user") User user, HttpSession session) throws Exception {
+	public String login(@ModelAttribute("user") User user, HttpSession session, Model model) throws Exception {
 		System.out.println("UserController : login() POST 호출");
 
 		System.out.println("/user/login : POST");
@@ -423,20 +430,38 @@ public class UserController {
 					Date today = new Date();
 					int result = stopDate.compareTo(today);
 					if(result >= 1) {
-						return "forward:/main.jsp";
+						model.addAttribute("stopStatus", true);
+						model.addAttribute("stopDate",stopDate);
+						return "forward:/index.jsp";
+					}else {
+						session.setAttribute("user", dbUser); // 형진이말대로 추가함 ㅋㅋ;;
+						return "forward:/user/main";
 					}
 				}
 			}
 		}
-		
-		
 		if (user.getPassword().equals(dbUser.getPassword())) {
 			session.setAttribute("user", dbUser);
 			System.out.println(dbUser);
 			System.out.println("session scope 저장");
 		}
-
-		return "redirect:/main.jsp";
+		return "forward:/user/main";
+	}
+	
+	@RequestMapping("main")
+	public String main(Model model) throws Exception {
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(pageSize);
+		String gatherCategoryNo = "206";
+		Map<String, Object> map = postService.getBoardList(search, gatherCategoryNo);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
+		return "forward:/layout/default2.jsp";
 	}
 
 	// 로그아웃
@@ -745,6 +770,14 @@ public class UserController {
 		
 		String name = profileMap.get("name");
 		String email = profileMap.get("email");
+		String gender = profileMap.get("gender");
+		System.out.println("성별 뜸? " + gender);
+		if(gender.equals("M")) {
+			gender = "2";
+		} else{
+			gender ="1";
+		}
+		System.out.println(gender + "젠더 나와라 ;;");
 		
 		// 이메일 ~~~@naver.com에서 @의 인덱스를 가져옴
 		int index = email.indexOf("@");
@@ -760,8 +793,14 @@ public class UserController {
 			user.setMail(email);
 			user.setName(name);
 			user.setPassword(id);
+			user.setGender(gender);
+			user.setBirth("1111-11-11");
+			user.setRole("1");
+			user.setNickname("마태");
+			user.setSchoolNo(1716);
 			
 			userService.addUser(user);
+			System.out.println("유저는 ? : " + user);
 			
 			User dbUser = userService.getUser(userId);
 			
@@ -779,6 +818,7 @@ public class UserController {
 		// 모든 네이버 로그인(회원가입) Business Logic이 끝난 타이밍을 알기 위해 전혀 의미 없는 jsp로 연결
 		return "forward:/naver/pathLoginImfo.jsp";
 	}
+	
 	
 
 }

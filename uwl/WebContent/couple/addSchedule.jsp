@@ -10,7 +10,7 @@
     <form action="/couple/addSchedule2" method="post">
         <h3>스케줄 등록</h3>
         
-        <input type="text" name="firstUserId" value="${userId }"><br>
+        <input type="text" name="userId" value="${userId }"><br>
         
         postTitle : <input type="text" name="postTitle"><br>
         postDate : <input type="text" name="postDate"><br>

@@ -330,15 +330,52 @@
                 ' <i class="fas fa-angle-right"></i>' +
                 '</td>' +
                 '<td colspan="2" class="answer" style="text-align: left">' +
-                '답변이 나오도록 ? 클릭하면 다시 들어가게 ${post.postTitle }:: '+ ${post.postTitle }+
-                '</td>' +
-                '</tr>';
+                '<div class="commentForm">'
+			       + '<textarea name="" id="" cols="130" rows="10" placeholder="답변입력" class="comment">'
+			        + '</textarea>'
+			        + '<p><a class="replyBtn"><i class="fas fa-pen"></i> 답하기</a></p>'
+			    + '</div>';
                 $(this).parent().after(displayValue);
                 
                 
                 
             });
         });
+        
+        $(document).on("click", "a.replyBtn", function() {
+			var content = $("textarea.comment").val();
+			console.log("content", content);
+			
+			if (content.length < 1 || content == null || content == "") {
+				var pureAlert = $.pureAlert.alert({
+					title : "알림",
+					content : "내용을 입력하세요.",
+					okBtn : "확인",
+					autoShow : true,
+					closeButton : false
+				});
+				
+				return;
+			}
+			
+			$.ajax({
+				url : "/social/rest/replyQuestion",
+				method : "POST",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				data : JSON.stringify({
+					userId : sessionId,
+					questionPostNo : questionPostNo,
+					answerContent : content,
+					questionTitle : "문의사항답변등록"
+				}),
+				success : function(d) {
+					$("div."+questionPostNo+"").remove();
+				}
+			})
+		})
         
         
     </script>
@@ -354,7 +391,7 @@
        
         <div class="main">
             <div class="mainHeader">
-                <span>회원의 문의사항 목록</span>
+                <span>전체회원의 문의사항 목록</span>
             </div>
             <div class="select">
                 <select name="gatherCategoryNo">
