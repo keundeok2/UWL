@@ -31,6 +31,7 @@
 		<typeAlias alias="report" type="com.uwl.service.domain.Report" />
 		<typeAlias alias="page" type="com.uwl.common.Page" />
 		<typeAlias alias="search" type="com.uwl.common.Search" />
+		<typeAlias alias="chatting" type="com.uwl.service.domain.Chatting"/>
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->

@@ -14,7 +14,12 @@
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 	    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+	    <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 	    
+	
 	  
 	    
 <title>Insert title here</title>
@@ -31,8 +36,64 @@
 // 	});
 	
 </script>
+ <script>
+        $(function() {
+            $(document).on('click', 'a[href="#"]', function(e) {
+                e.preventDefault();
+            });
 
+            
+            $('div.noticeList table tr:nth-child(n + 1) td:nth-child(2)').on('click', function() {
+                
+                
+                $('div.noticeList table').find('.admin').parent().remove();
+                var displayValue = '<tr>' +
+                '<td colspan="1" class="admin" style="text-align: right;">' +
+                '<span>A</span>' +
+                ' <i class="fas fa-angle-right"></i>' +
+                '</td>' +
+                '<td colspan="2" class="answer" style="text-align: left">' +
+                '답변이 나오도록 ?'+
+                		'<c:if test="${user.role eq '4'}">'+
+               '<p><a class="regBtn"><i class="fas fa-pen"></i> 답변 작성하기</a></p>'+
+               '</c:if>'
+                '</td>' +
+                '</tr>';
+                $(this).parent().after(displayValue);
+                
+                
+                
+            });
+        });
+        
+        
+    </script>
 <style>
+ td.admin {
+
+            vertical-align: top;
+            line-height: 1;
+            padding-right: 10px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+
+        td.admin span {
+            display: inline-block;
+
+            background-color: rgb(255, 108, 104);
+            padding: 3px 5px;
+            font-size: 1px;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        td.admin i {
+            vertical-align: middle;
+            color: rgb(255, 108, 104);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -240,10 +301,10 @@
                 <table>
                 
                 <div class="addNotice">
-                <button onclick="location.href='/user/getUserQuestionsList'">전체목록 ( 없어질 버튼 )</button><br>
+                <c:if test="${user.role eq '4' }">
+                <button onclick="location.href='/user/getUserQuestionsList'">문의사항 전체목록</button>
+                </c:if>
                 <a href="/user/addQuestions">문의사항 등록</a>
-                <!--  뒤로는 나중에 빼야될듯 ?  -->
-                  <a href="javascript:history.go(-1)">뒤로 (없어질 버튼 )</a>
                 </div>
                     <colgroup>
                         <col width="15%">

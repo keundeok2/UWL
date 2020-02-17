@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +27,6 @@ import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +42,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uwl.common.MailUtils;
 import com.uwl.common.Page;
 import com.uwl.common.Search;
+import com.uwl.service.domain.Report;
 import com.uwl.service.domain.User;
+import com.uwl.service.report.ReportService;
 import com.uwl.service.user.UserService;
 
 @RestController
@@ -55,7 +55,10 @@ public class UserRestController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
-
+	
+	@Autowired
+	private ReportService reportService;
+	
 	// 메일 인증
 	@Autowired
 	private JavaMailSender mailSender;
@@ -533,5 +536,84 @@ public class UserRestController {
 		System.out.println(map);
 		return map;
 	}
+	
+	//네이버로그인
+		@RequestMapping( value = "rest/naverLoginUrlMake" )
+		public Map naverLogin( HttpSession session ) throws Exception {
+			// 네이버 아이디로 로그인(회원가입) 절차 
+			// 네이버 아이디로 인증 요청 => 접근 토큰 발급 => 접근 토큰을 이용해 네이버 회원 프로필 조회
+			// 해당 부분은 네이버 아이디로 인증 요청을 위한 URL 작성 구간
+			
+			// developers.naver.com 에서 상단 Documents => 네이버 아이디로 로그인 => API 명세 => 로그인 API 명세 => 3.1 네이버 아이디로 로그인 인증 요청 참조
+			
+			/////////////////////////////////////////////////////////
+			// 사이트 간 요청 위조(cross-site request forgery) 공격을 방지하기 위한 상태 토큰 생성
+			// developers.naver.com 에서 상단 Documents => 네이버 아이디로 로그인 => 튜토리얼 => Web 애플리케이션 => 1.1.2 Java로 구현한 상태 토큰 생성 코드 예 참조
+			SecureRandom random = new SecureRandom();
+			String state = new BigInteger(130, random).toString(32);
+			
+			// 상태 토큰의 경우 요청 URL과 web server의 sessionScope에 저장된 값이 같아야 하기 때문에 session에 저장 
+			session.setAttribute("state", state); 
+			
+			// 상단 메뉴 => Application => 내 어플리케이션에서 발급받은 Client ID
+			String clientId = "Ih70sHbbwjRRLdIRzxMP";
+			
+			// 네이버 로그인이 끝난 뒤 redirect로 연결할 url 주소 
+			// 내 애플리케이션 => API 설정 => 사용 API => 로그인 오픈 API 서비스 환경에 등록한 
+			// 네이버아이디로로그인 Callback URL (최대 5개)에 등록한 URL을 인코딩 
+			String redirectUrl = URLEncoder.encode("http://192.168.0.19:8080/user/naverLoginLogic", "UTF-8");
+			//http://192.168.0.19:8080/main.jsp
+			//http://192.168.0.21:8080/main.jsp
+			//http://192.168.0.19:8080/layout/default.jsp
+			//http://192.168.0.21:8080/layout/default.jsp
+
+			
+			// https://nid.naver.com/oauth2.0/authorize :: 네이버 아이디로 로그인 인증 요청
+			// GET방식으로 url을 연결할 예정이므로 query String 형식으로 URL 작성
+			
+			// client_id :: 상단 메뉴 => Application => 내 어플리케이션에서 발급받은 Client ID
+			// redirect_url :: 애플리케이션을 등록 시 입력한 Callback URL 값으로 URL 인코딩을 적용한 값
+			// state :: 애플리케이션에서 생성한 상태 토큰값, session에 저장되어 있는 값
+			String naverLoginUrl = 	"https://nid.naver.com/oauth2.0/authorize?response_type=code" + 
+									"&client_id=" + clientId + 
+									"&redirect_uri=" + redirectUrl + 
+									"&state="+(String)session.getAttribute("state");
+			
+			// json 형식은 key : value의 mapping된 형식이므로 Map을 새로 생성 
+			Map<String, String> map = new HashMap<String, String>();
+			
+			// {"url" : "naverLoginUrl"} 로 저장 => $.ajax에서 JSONData.url로 접근 가능  
+			map.put("url", naverLoginUrl);
+			
+			return map;
+		}
+		
+//		@RequestMapping(value = "/rest/checkReport")
+//		public String checkReport(@RequestBody User user) throws Exception {
+//			List reportList = new ArrayList<Report>();
+//			System.out.println(user.getUserId());
+//			reportList = reportService.getReportById(user.getUserId());
+//			if(reportList != null) {
+//				for(int i=0; i<reportList.size(); i++) {
+//					Report reportUser = (Report)reportList.get(i);
+//					if(reportUser.getUserId02().equals(user.getUserId()) || (reportUser.getReportStatus().equals("2"))){
+//						System.out.println("정보가 있다는 증거");
+//						Date stopDate = reportUser.getStopDate();
+//						Date today = new Date();
+//						int result = stopDate.compareTo(today);
+//						if(result >= 1) {
+//							System.out.println("아직 정지중이라는 증거");
+//							//신고상태가 있는 분
+//							String date = stopDate.toString();
+//							return date;
+//						}else {
+//							System.out.println("용서받았다는 증거");
+//							return "false";
+//						}
+//					}
+//				}
+//			}
+//			return "false";
+//		}
 
 }

@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.uwl.common.Search;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.User;
-import com.uwl.service.post.PostService;
 import com.uwl.service.user.UserService;
 
 /*
@@ -62,7 +61,7 @@ public class UserServiceTest {
 	}
 	
 	
-	@Test
+//	@Test
 	public void testAddQuestions() throws Exception {
 
 		Post post = new Post();
@@ -72,11 +71,7 @@ public class UserServiceTest {
 		post.setPostContent("내용");
 		post.setUserId("user01");
 		
-		
-		
 		userService.addQuestions(post);
-		
-
 	}
 	
 	

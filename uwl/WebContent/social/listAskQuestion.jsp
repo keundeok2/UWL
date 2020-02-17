@@ -36,6 +36,18 @@
 		var content = $("textarea[name='questionContent']").val();
 		console.log(content);
 		
+		if (content.length < 1 || content == null || content == "") {
+			var pureAlert = $.pureAlert.alert({
+				title : "알림",
+				content : "내용을 입력하세요.",
+				okBtn : "확인",
+				autoShow : true,
+				closeButton : false
+			});
+			
+			return;
+		}
+		
 		$.ajax({
 			url : "/social/rest/addQuestion",
 			method : "POST",
@@ -108,6 +120,18 @@
                 $(document).on("click", "a.replyBtn", function() {
 					var content = $("textarea.comment").val();
 					console.log("content", content);
+					
+					if (content.length < 1 || content == null || content == "") {
+						var pureAlert = $.pureAlert.alert({
+							title : "알림",
+							content : "내용을 입력하세요.",
+							okBtn : "확인",
+							autoShow : true,
+							closeButton : false
+						});
+						
+						return;
+					}
 					
 					$.ajax({
 						url : "/social/rest/replyQuestion",

@@ -77,7 +77,7 @@ public class FriendController {
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(pageSize);
+		search.setPageSize(1000);
 		Map<String, Object> map = friendService.getSearchFriendList(search, userId);
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
@@ -85,14 +85,7 @@ public class FriendController {
 		map.put("search", search);
 		model.addAttribute("map", map);
 
-		return "forward:/friend/listSearchFriend2.jsp";
+		return "forward:/friend/listSearchFriend.jsp";
 	}
 	
-	//////////// main test
-	@RequestMapping(value = "ducmain", method = RequestMethod.GET)
-	public String duckmain() throws Exception{
-		
-		return "forward:/duckmain.jsp";
-	}
-
 }
