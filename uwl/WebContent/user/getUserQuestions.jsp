@@ -41,12 +41,7 @@ var answer = '';
 
  $(document).on("click", ".questionBox", function() {
 	 
-	 
-		var content = $("textarea.comment").next().val();
-		
 		var postNo = $(this).children().find('#anserPostNo').val();
-		
-		console.log("content", content);
 		console.log("postNo", postNo);
 		
 		
@@ -65,6 +60,12 @@ var answer = '';
 				console.log(d.post.postContent);
 				answer = d.post.postContent
 				//$("div."+questionPostNo+"").remove();
+				
+				//추가
+				
+				
+				
+				//추가끝
 				
                 
 			}

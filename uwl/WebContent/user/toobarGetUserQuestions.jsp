@@ -35,35 +35,69 @@
         // 	});
     </script>
     <script>
-        $(function() {
+var answer = '';
+
+ $(document).on("click", ".questionBox", function() {
+	 
+	 
+		var content = $("textarea.comment").next().val();
+		
+		var postNo = $(this).children().find('#anserPostNo').val();
+		
+		console.log("content", content);
+		console.log("postNo", postNo);
+		
+		
+		$.ajax({
+			url : "/user/rest/getAnswer",
+			method : "POST",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			data : JSON.stringify({
+				
+				postNo : postNo
+			}),
+			success : function(d) {
+				console.log(d.post.postContent);
+				answer = d.post.postContent
+				//$("div."+questionPostNo+"").remove();
+				
+                
+			}
+		})
+		
+		
+	})
+	
+ 
+ 
+       /* $(function() {
             $(document).on('click', 'a[href="#"]', function(e) {
                 e.preventDefault();
             });
 
-
-            $('div.noticeList table tr:nth-child(n + 1) td:nth-child(2)').on('click', function() {
-
-
+            
+            $('div.noticeList table tr:nth-child(n + 2) td:nth-child(2)').on('click', function() {
+                
                 $('div.noticeList table').find('.admin').parent().remove();
                 var displayValue = '<tr>' +
-                    '<td colspan="1" class="admin" style="text-align: right;">' +
-                    '<span>A</span>' +
-                    ' <i class="fas fa-angle-right"></i>' +
-                    '</td>' +
-                    '<td colspan="2" class="answer" style="text-align: left">' +
-                    '답변이 나오도록 ?' +
-                    '<c:if test="${user.role eq '
-                4 '}">' +
-                    '<p><a class="regBtn"><i class="fas fa-pen"></i> 답변 작성하기</a></p>' +
-                    '</c:if>'
+                '<td colspan="1" class="admin" style="text-align: right;">' +
+                '<span>A</span>' +
+                ' <i class="fas fa-angle-right"></i>' +
+                '</td>' +
+                '<td colspan="2" class="answer" style="text-align: left">' +
+               	answer+
                 '</td>' +
                 '</tr>';
                 $(this).parent().after(displayValue);
-
-
-
+                
             });
-        });
+            
+            
+        }); */
+         
     </script>
     <style>
         td.admin {

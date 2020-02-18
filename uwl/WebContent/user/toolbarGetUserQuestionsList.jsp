@@ -222,73 +222,79 @@
     </script>
 
     <script>
-        var questionPostNo = null;
-        var targetUserId = "${targetUserId}";
-        var sessionId = "${user.userId}";
+ 
+ var questionPostNo = null;
+	var targetUserId = "${targetUserId}";
+	var sessionId = "${user.userId}";
+
+	
+	
         $(function() {
             $(document).on('click', 'a[href="#"]', function(e) {
                 e.preventDefault();
             });
 
-
+            
             $('div.questionList table tr:nth-child(n + 2) td:nth-child(3)').on('click', function() {
-
-
+                
+                
                 $('div.questionList table').find('.admin').parent().remove();
                 var displayValue = '<tr>' +
-                    '<td colspan="1" class="admin" style="text-align: right;">' +
-                    '<span>A</span>' +
-                    ' <i class="fas fa-angle-right"></i>' +
-                    '</td>' +
-                    '<td colspan="2" class="answer" style="text-align: left">' +
-                    '<div class="commentForm">' +
-                    '<textarea name="" id="" cols="130" rows="10" placeholder="답변입력" class="comment">' +
-                    '</textarea>' +
-                    '<p><a class="replyBtn"><i class="fas fa-pen"></i> 답하기</a></p>' +
-                    '</div>';
+                '<td colspan="1" class="admin" style="text-align: right;">' +
+                '<span>A</span>' +
+                ' <i class="fas fa-angle-right"></i>' +
+                '</td>' +
+                '<td colspan="2" class="answer" style="text-align: left">' +
+                '<div class="commentForm">'
+			       + '<textarea name="" id="" cols="130" rows="10" placeholder="답변입력" class="comment">'
+			        + '</textarea>'
+			        + '<p><a class="replyBtn"><i class="fas fa-pen"></i> 답하기</a></p>'
+			    + '</div>';
                 $(this).parent().after(displayValue);
-
-
-
+                
+                
+                
             });
         });
-
+        
         $(document).on("click", "a.replyBtn", function() {
-            var content = $("textarea.comment").val();
-            var questionPostNo = $("#postNo").val();
-            console.log("content", content);
-            console.log("questionPostNo", questionPostNo);
-
-            if (content.length < 1 || content == null || content == "") {
-                var pureAlert = $.pureAlert.alert({
-                    title: "알림",
-                    content: "내용을 입력하세요.",
-                    okBtn: "확인",
-                    autoShow: true,
-                    closeButton: false
-                });
-
-                return;
-            }
-
-            $.ajax({
-                url: "/user/rest/replyQuestion",
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                data: JSON.stringify({
-                    userId: sessionId,
-                    questionPostNo: questionPostNo,
-                    answerContent: content,
-                    questionTitle: "문의사항답변등록"
-                }),
-                success: function(d) {
-                    $("div." + questionPostNo + "").remove();
-                }
-            })
-        })
+			var content = $("textarea.comment").val();
+			var questionPostNo = $("#postNo").val();
+			console.log("content", content);
+			console.log("questionPostNo", questionPostNo);
+			
+			if (content.length < 1 || content == null || content == "") {
+				var pureAlert = $.pureAlert.alert({
+					title : "알림",
+					content : "내용을 입력하세요.",
+					okBtn : "확인",
+					autoShow : true,
+					closeButton : false
+				});
+				
+				return;
+			}
+			
+			$.ajax({
+				url : "/user/rest/replyQuestion",
+				method : "POST",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				data : JSON.stringify({
+					userId : sessionId,
+					questionPostNo : questionPostNo,
+					answerContent : content,
+					questionTitle : "문의사항답변등록"
+				}),
+				success : function(d) {
+					$("div."+questionPostNo+"").remove();
+				}
+			})
+		})
+        
+        
     </script>
 
     <style>
