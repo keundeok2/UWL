@@ -120,4 +120,13 @@ public class FriendRestController {
 		return null;
 	}
 	
+	@RequestMapping(value = "getFriendListByName", method = RequestMethod.POST)
+	public Map getFriendListByName(@RequestBody HashMap<String, Object> jsonMap) throws Exception {
+		
+		
+		
+		
+		return null;
+	}
+	
 }

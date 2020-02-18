@@ -70,7 +70,7 @@ $(document).on("click","#applyBtn", function() {
 			console.log(socketMsg)
 			socket.send(socketMsg);
 			
-			addNoti(sessionId, userId, "4", "4");
+			addNoti(sessionId, userId, "4", "3");
 		}
 })
 })

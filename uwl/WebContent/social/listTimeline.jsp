@@ -116,6 +116,8 @@
 					socketMsg = sessionId + "," + targetUserId +"," + sessionName +"," + "timeline,comment";
 					console.log(socketMsg)
 					socket.send(socketMsg);
+					
+					addNoti(sessionId, targetUserId, '3', '1');
 				}
 			})
 			}
