@@ -56,6 +56,7 @@ public class Post {
 	private String prePostTitle;
 	private int nextPostNo;
 	private String nextPostTitle;
+	private String replyContent;
 	
 	
 	//Constructor
@@ -264,6 +265,16 @@ public class Post {
 	}
 
 
+	public String getReplyContent() {
+		return replyContent;
+	}
+
+
+	public void setReplyContent(String replyContent) {
+		this.replyContent = replyContent;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Post [postNo=" + postNo + ", userId=" + userId + ", user=" + user + ", postTitle=" + postTitle
@@ -272,8 +283,11 @@ public class Post {
 				+ ", viewStatus=" + viewStatus + ", postCategoryNo=" + postCategoryNo + ", gatherCategoryNo="
 				+ gatherCategoryNo + ", questionStatus=" + questionStatus + ", place=" + place + ", replyPostNo="
 				+ replyPostNo + ", prePostNo=" + prePostNo + ", prePostTitle=" + prePostTitle + ", nextPostNo="
-				+ nextPostNo + ", nextPostTitle=" + nextPostTitle + "]";
+				+ nextPostNo + ", nextPostTitle=" + nextPostTitle + ", replyContent=" + replyContent + "]";
 	}
+
+
+	
 
 	
 

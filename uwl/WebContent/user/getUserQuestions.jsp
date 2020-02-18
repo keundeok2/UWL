@@ -37,35 +37,59 @@
 	
 </script>
  <script>
-        $(function() {
-            $(document).on('click', 'a[href="#"]', function(e) {
-                e.preventDefault();
-            });
+ 
+var answer = '';
 
-            
-            $('div.noticeList table tr:nth-child(n + 1) td:nth-child(2)').on('click', function() {
-                
-                
-                $('div.noticeList table').find('.admin').parent().remove();
-                var displayValue = '<tr>' +
-                '<td colspan="1" class="admin" style="text-align: right;">' +
-                '<span>A</span>' +
-                ' <i class="fas fa-angle-right"></i>' +
-                '</td>' +
-                '<td colspan="2" class="answer" style="text-align: left">' +
-                '답변이 나오도록 ?'+
-                		'<c:if test="${user.role eq '4'}">'+
-               '<p><a class="regBtn"><i class="fas fa-pen"></i> 답변 작성하기</a></p>'+
-               '</c:if>'
-                '</td>' +
-                '</tr>';
-                $(this).parent().after(displayValue);
-                
-                
-                
-            });
-        });
-        
+ $(document).on("click", "div.noticeList table tr:nth-child(n + 1) td:nth-child(2)", function() {
+		
+		var PostNo = $("#anserPostNo").val();
+		
+		console.log("PostNo", PostNo);
+		
+		$.ajax({
+			url : "/user/rest/getAnswer",
+			method : "POST",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			data : JSON.stringify({
+				
+				postNo : PostNo
+			}),
+			success : function(d) {
+				answer = d.post.postContent
+				console.log(answer);
+				//$("div."+questionPostNo+"").remove();
+				
+			}
+			
+		})
+		
+		 $(function() {
+	            
+
+	            $('div.noticeList table tr:nth-child(n + 1) td:nth-child(2)').on('click', function() {
+	                
+	                $('div.noticeList table').find('.admin').parent().remove();
+	                var displayValue = '<tr>' +
+	                '<td colspan="1" class="admin" style="text-align: right;">' +
+	                '<span>A</span>' +
+	                ' <i class="fas fa-angle-right"></i>' +
+	                '</td>' +
+	                '<td colspan="2" class="answer" style="text-align: left">' +
+	                answer +
+	                '</td>' +
+	                '</tr>';
+	                $(this).parent().after(displayValue);
+	                
+	            });
+	        });
+		
+		
+	})
+ 
+       
         
     </script>
 <style>
@@ -282,9 +306,7 @@
         }
         
         
-    </style>
-    
-    
+    </style>    
 </head>
 
 
@@ -322,9 +344,10 @@
                     <c:if test="${notice.postTitle ne '문의사항답변등록'}">
                     <tr>
                         <td>${notice.postNo }</td>
-                        <td><a href="/user/getQuestions?postNo=${notice.postNo }">${notice.postTitle }</a></td>
+                        <td><input type="hidden" id="anserPostNo" name="anserPostNo" value="${notice.replyPostNo}"/>
+                        <a href="/user/getQuestions?postNo=${notice.postNo }">${notice.postTitle }</a></td>
                         <td>${notice.postDate }</td>
-                         <c:if test="${notice.questionStatus == null}">
+                         <c:if test="${notice.questionStatus == null or notice.questionStatus =='1'}">
 							<td>처리중</td>
 							</c:if>
 							<c:if test="${notice.questionStatus eq '2'}">

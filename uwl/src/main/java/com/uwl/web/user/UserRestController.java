@@ -43,6 +43,7 @@ import com.uwl.common.MailUtils;
 import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.domain.Ask;
+import com.uwl.service.domain.Post;
 import com.uwl.service.domain.Report;
 import com.uwl.service.domain.User;
 import com.uwl.service.domain.Weather;
@@ -556,6 +557,16 @@ public class UserRestController {
 		public void replyQuestion(@RequestBody Ask ask) throws Exception{
 			userService.replyQuestion(ask);
 			System.out.println("레스트컨트롤러 탄다");
+		}
+		@RequestMapping(value = "rest/getAnswer")
+		public Map getAnswer(@RequestBody Post  post) throws Exception {
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			System.out.println("/user/rest/getUser : GET");
+			Post returnPost =  userService.getAnswer(post.getPostNo());
+
+			map.put("post", returnPost);
+			return map;
 		}
 
 }
