@@ -1,5 +1,7 @@
 package com.uwl.service.chatting.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -23,9 +25,20 @@ public class ChattingServiceImpl implements ChattingService {
 		chattingDAO.addChattingRoom(chatting);
 	}
 
+	
 	@Override
-	public void enterChattingRoom(Chatting chatting) throws Exception {
+	public void enterChattingRoom(Chatting chatting) throws Exception {	//채팅방 창가
 		chattingDAO.enterChattingRoom(chatting);
+	}
+
+	@Override
+	public void outChattingRoom(Chatting chatting) throws Exception { //채팅방 폭파
+		chattingDAO.outChattingRoom(chatting);
+	}
+
+	@Override
+	public List<Chatting> getChattingRoomList(Chatting chatting) throws Exception {
+		return chattingDAO.getChattingRoomList(chatting);
 	}
 
 }

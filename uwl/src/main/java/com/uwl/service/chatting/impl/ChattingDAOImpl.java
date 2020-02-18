@@ -1,5 +1,7 @@
 package com.uwl.service.chatting.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,10 +28,21 @@ public class ChattingDAOImpl implements ChattingDAO {
 	public void addChattingRoom(Chatting chatting) throws Exception {	//채팅방 개설
 		sqlSession.insert("CommunityMapper.addChattingRoom", chatting);
 	}
-
+	
 	@Override
-	public void enterChattingRoom(Chatting chatting) throws Exception {
+	public void enterChattingRoom(Chatting chatting) throws Exception {	//채팅방 참가함
 		sqlSession.update("CommunityMapper.enterChattingRoom", chatting);
 	}
+
+	@Override
+	public void outChattingRoom(Chatting chatting) throws Exception {	//채팅방 폭파
+		sqlSession.update("CommunityMapper.outChattingRoom", chatting);
+	}
+
+	@Override
+	public List<Chatting> getChattingRoomList(Chatting chatting) throws Exception {
+		return sqlSession.selectList("CommunityMapper.getChattingRoomList", chatting);
+	}
+
 
 }
