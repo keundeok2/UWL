@@ -37,14 +37,18 @@
 	
 </script>
  <script>
- 
 var answer = '';
 
- $(document).on("click", "div.noticeList table tr:nth-child(n + 1) td:nth-child(2)", function() {
+ $(document).on("click", ".questionBox", function() {
+	 
+	 
+		var content = $("textarea.comment").next().val();
 		
-		var PostNo = $("#anserPostNo").val();
+		var postNo = $(this).children().find('#anserPostNo').val();
 		
-		console.log("PostNo", PostNo);
+		console.log("content", content);
+		console.log("postNo", postNo);
+		
 		
 		$.ajax({
 			url : "/user/rest/getAnswer",
@@ -55,42 +59,47 @@ var answer = '';
 			},
 			data : JSON.stringify({
 				
-				postNo : PostNo
+				postNo : postNo
 			}),
 			success : function(d) {
+				console.log(d.post.postContent);
 				answer = d.post.postContent
-				console.log(answer);
 				//$("div."+questionPostNo+"").remove();
 				
+                
 			}
-			
 		})
-		
-		 $(function() {
-	            
-
-	            $('div.noticeList table tr:nth-child(n + 1) td:nth-child(2)').on('click', function() {
-	                
-	                $('div.noticeList table').find('.admin').parent().remove();
-	                var displayValue = '<tr>' +
-	                '<td colspan="1" class="admin" style="text-align: right;">' +
-	                '<span>A</span>' +
-	                ' <i class="fas fa-angle-right"></i>' +
-	                '</td>' +
-	                '<td colspan="2" class="answer" style="text-align: left">' +
-	                answer +
-	                '</td>' +
-	                '</tr>';
-	                $(this).parent().after(displayValue);
-	                
-	            });
-	        });
 		
 		
 	})
+	
  
-       
-        
+ 
+       /* $(function() {
+            $(document).on('click', 'a[href="#"]', function(e) {
+                e.preventDefault();
+            });
+
+            
+            $('div.noticeList table tr:nth-child(n + 2) td:nth-child(2)').on('click', function() {
+                
+                $('div.noticeList table').find('.admin').parent().remove();
+                var displayValue = '<tr>' +
+                '<td colspan="1" class="admin" style="text-align: right;">' +
+                '<span>A</span>' +
+                ' <i class="fas fa-angle-right"></i>' +
+                '</td>' +
+                '<td colspan="2" class="answer" style="text-align: left">' +
+               	answer+
+                '</td>' +
+                '</tr>';
+                $(this).parent().after(displayValue);
+                
+            });
+            
+            
+        }); */
+         
     </script>
 <style>
  td.admin {
@@ -339,13 +348,17 @@ var answer = '';
                         <td>제목</td>
                         <td>작성일</td>
                         <td>처리여부</td>
+                        
                     </tr>
                     <c:forEach var="notice" items="${list }">
+                    
                     <c:if test="${notice.postTitle ne '문의사항답변등록'}">
-                    <tr>
+                    <tr class="questionBox">
                         <td>${notice.postNo }</td>
-                        <td><input type="hidden" id="anserPostNo" name="anserPostNo" value="${notice.replyPostNo}"/>
-                        <a href="/user/getQuestions?postNo=${notice.postNo }">${notice.postTitle }</a></td>
+                        <td>
+	                        <a href="/user/getQuestions?postNo=${notice.postNo }">${notice.postTitle }</a>
+	                        <input type="hidden" id="anserPostNo" name="anserPostNo" value="${notice.replyPostNo}"/>
+                        </td>
                         <td>${notice.postDate }</td>
                          <c:if test="${notice.questionStatus == null or notice.questionStatus =='1'}">
 							<td>처리중</td>
