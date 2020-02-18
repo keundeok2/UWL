@@ -362,29 +362,188 @@
     </style>
     
     <!-- 소켓연결 -->
-    <script type="text/javascript">
-    	$(document).ready(function(){
-	    	var socket = io("http://localhost:82"); //82번 포트와 소켓을 연다
-	    	var chattingRoomNo = '10004';	//82번포트와 연결됨과 동시에 채팅방 번호를 넘겨준다.
-	    	var enterUserId = "${user.userId}";	//입장 회원의 정보
-	    	socket.emit("enterUserId", enterUserId);	//입장 회원 정보 전송
-	        //socket.emit("chattingRoomNo", chattingRoomNo);	//채팅방 번호 전송
-    	});
-    </script>
     
     <script type="text/javascript">
+    
+    	var socket = null;
+    	var chattingRoomNo = null;
+    	var enterUserId = null;
+    	var targetId = null;
+    	var sender = null;
+    	var receiver = null;
+    	var chattingRoom = null;
+    	
+//채팅파트--------------------------------------------------------------
 	    $(function() {
+       		socket = io.connect("localhost:82");	//소켓연결
 	        $('div.chattingIcon a').on('click', function() {
 	            $('div.chattingList').toggleClass('on');
 	        });
+	        ///////////////////소켓 연결되는 구간
 	        $(document).on("click", 'div.chattingList li a', function(){
-	        	
-	        	//이거 누르면 노드 서버 연결시켜줘야할 듯	
-	        	
-	        	$('div.chattingBox').toggleClass('on');
+	        	$('div.chattingList li').css("backgroundColor", "#fff");
+	        	if(! $('div.chattingBox').hasClass('on')){	//채팅방이 열려있지 않다면 즉, 최초실행
+	        		$(this).parent().css("backgroundColor", "#ebad7a");	//바탕 색 변경
+	        		$('div.chattingBox').toggleClass('on');	//채팅방 열기
+	        		chattingRoomNo = $(this).children().find('#roomNo').val();//열린 룸 넘버
+	        		enterUserId = "${sessionScope.user.userId}";	//입장자
+	        		targetId = $(this).children().find("#chattingUserId").val();	//피입장자
+	        		socket.emit("enterUserId", enterUserId);
+	        		socket.emit("targetId", targetId);
+	        		socket.emit("chattingRoomNo", chattingRoomNo);
+	        		//true
+	        	}else{	//채팅방이 열려있다면
+	        		var roomNo = $(this).children().find('#roomNo').val();
+	        		if(chattingRoomNo == roomNo){	//기존에 열려있던 채팅방과 동일하다면
+	        			$('div.chattingBox').removeClass('on');	//채팅방 닫아버리기
+	        			$('.chatFromMe').remove();
+						$('.chatFromUser').remove();
+	        		}else{	//기존에 열려있던 채팅방이랑 다른 채팅방이면
+	        			$('.chatFromMe').remove();
+						$('.chatFromUser').remove();
+	        			$(this).parent().css("backgroundColor", "#ebad7a");
+	        			//새로운 채팅방 세팅
+	        			chattingRoomNo = $(this).children().find("#roomNo").val();
+						enterUserId = "${sessionScope.user.userId}";
+						targetId = $(this).children().find('#chattingUserId').val();
+						socket.emit("enterUserId", enterUserId);
+						socket.emit("targetId", targetId);
+						socket.emit("chattingRoomNo", chattingRoomNo);
+	        		}
+	        	}
 	        });
-	    });
-	    
+	        $(document).on("click","#outOfChattingByTimes",function(){	//x눌렀을때
+	        	$('div.chattingBox').removeClass('on');
+	        	$('div.chattingList li').css("backgroundColor", "#fff");
+	        	$('.chatFromMe').remove();
+				$('.chatFromUser').remove();
+	        });
+	        
+	        $(document).on("click", "#startChattingButton", function(){	//채팅방 개설
+	        	var enterUserId = $(this).parent().find('#searchByNameResultId').val();
+	        	var enterUserName = $(this).parent().find('#searchByNameResultName').val();
+	        	var masterId = "${sessionScope.user.userId}";
+	    		$.ajax({
+					 url : "/chatting/rest/addChattingRoom",
+					 method : "POST",
+					 dataType : 'json',
+					 data : JSON.stringify({
+						 master : masterId,
+						 enterUser : enterUserId
+					 }),
+					 headers : {
+		    				"Accept" : "application/json",
+		    				"content-Type" : "application/json"
+		    			},
+		    			success : function(data){
+		    				if(data == true){
+		    					var view = "<li><a href='#'>"
+                    				+"<div class='profileImage'>"
+				                        +"<img src='/images/bonobono.jpg' alt=''>&emsp;"
+				                    +"</div>"
+				                    +"<div class='chattingInfo'>"
+				                        +"<div class='chattingUser'>"
+				                            +"<p>"+enterUserName+"</p>"
+				                            +"<p>오전 10:13</p>"
+				                            +"<input type='hidden' id='chattingUserId' value='"+masterId+"'>"
+						                    +"<input type='hidden' id='roomNo' value='"+roomNo+"'>"
+				                        +"</div>"
+				                        "<div class='chattingContent'>"
+				                            +"줄여서 테마"
+				                        +"</div>"
+				                    +"</div>"
+				                +"</a></li>";
+				       $('#forFriendListAppend').after(view);
+		    				}
+		    			},
+		    			error : function(){
+		    				console.log('에러당 ㅋㅋ')
+		    			}
+				  }); 
+	    	});
+			$(window).keydown(function(key){
+				if(key.keyCode == 27){		//esc 눌렀을때
+					$('div.chattingList').removeClass('on');
+					$('div.chattingBox').removeClass('on');
+					$('div.chattingList li').css("backgroundColor", "#fff");
+					$('.chatFromMe').remove();
+					$('.chatFromUser').remove();
+				}
+			});	        
+	        $("#msg").keydown(function(key){
+                //해당하는 키가 엔터키(13) 일떄
+                if(key.keyCode == 13){
+	               $('#msgProcess').click();
+    	        }
+            });
+	        $('#msgProcess').on("click",function(){
+	        	var msg = $('#msg').val();
+	        	if(msg == "" || msg == null){	//채팅내용이 없으면 반응 x
+	        	}else{
+		        	$('#msg').val("");
+		        	var senderId = "${sessionScope.user.userId}";
+		        	var receiverId = targetId;
+		        	var sendMsg = msg;
+		        	socket.emit("sender", senderId);
+		        	socket.emit("receiver", receiverId);
+		        	socket.emit("msg", sendMsg);
+		        	socket.emit("chattingRoom", chattingRoomNo);
+	        	}
+	        });
+	        
+	      ////////////////////////노드에서 데이터 받는 파트///////////////////////////  	
+            socket.on('sender', function(senderId){
+        		sender = senderId; 
+	        });
+	        socket.on('receiver', function(receiverId){
+	        	receiver = receiverId;
+	        });
+	        socket.on('chattingRoomNo', function(room){
+	        	chattingRoom = room
+	        });
+	        socket.on('msg', function(sendMsg){
+	        	//////////////////////채팅 뷰///////////////////////////////////////
+		        var top = 	"<div class='userProfileImage'>"
+	            				+"<img src='/images/bonobono.jpg' alt=''>"
+		        			+"</div>"
+		        			+"<div class='chattingUserName'>"
+		           				 +"🎀주주장님🎀"
+		        			+"</div>";
+		        var friendView = "<div class='chatFromUser'>"
+	        						+"<div class='chattingBoxProfileImage'>"
+	        							+"<img src='/images/bonobono.jpg' alt=''>"
+	   								+"</div>"
+	    							+"<div class='chattingMessage'>"
+	        							+"<div class='userInfo'>"
+	            							+receiver
+	        							+"</div>"
+	        							+"<div class='message'>"
+	            							+sendMsg
+	        							+"</div>"
+	    							+"</div>"
+								+"</div>";
+		       var myView = "<div class='chatFromMe'>"
+	       						+"<div class='chattingMessage'>"
+	    							+"<div class='message'>"
+	        							+sendMsg
+							    	+"</div>"
+								+"</div>"
+							+"</div>";
+	        	//////////////////////채팅 뷰///////////////////////////////////////
+							
+	        	var sessionId = "${sessionScope.user.userId}";
+	        	if(sender == sessionId){	//본인의 채팅
+	        		$('#ChattingAppend').before(myView);
+	        	}else if(receiver == sessionId){
+	        		$('#ChattingAppend').before(friendView);
+	        	}
+	        });
+	        
+	        
+							
+		    });
+	      ////////////////////////노드에서 데이터 받는 파트///////////////////////////
+//채팅파트--------------------------------------------------------------
 	    
 	    
 	    $(document).ready(function(){
@@ -402,25 +561,30 @@
 				success : function(data){
 					var length = data.length;
 					for(var i=0; i<data.length; i++){
+						var roomNo = data[i].roomNo;
 						if(sessionUserId == data[i].master){
 							var userName = data[i].enterUserName;
+							var userId = data[i].enterUser;
 						}else{
-							var userName = data[i].masterName
+							var userName = data[i].masterName;
+							var userId = data[i].master;
 						}
 						var view = "<li><a href='#'>"
                     				+"<div class='profileImage'>"
-				                        +"<img src='/images/bonobono.jpg' alt=''>"
+				                        +"<img src='/images/bonobono.jpg' alt=''>&emsp;"
 				                    +"</div>"
 				                    +"<div class='chattingInfo'>"
 				                        +"<div class='chattingUser'>"
 				                            +"<p>"+userName+"</p>"
 				                            +"<p>오전 10:13</p>"
+				                            +"<input type='hidden' id='chattingUserId' value='"+userId+"'>"
+						                    +"<input type='hidden' id='roomNo' value='"+roomNo+"'>"
 				                        +"</div>"
 				                        "<div class='chattingContent'>"
 				                            +"줄여서 테마"
 				                        +"</div>"
 				                    +"</div>"
-				                "</a></li>";
+				                +"</a></li>";
 				       $('#forFriendListAppend').after(view);
 				       
 				       var howManyView = "채팅("+length+")";
@@ -492,44 +656,47 @@
 	    		}).show();
 	    		
 	    		var friendName = $('#tags').val();
-	    		
+	    		$('#searchFriendListByName').empty();
+	    		$.ajax({
+	    			url : "/friend/rest/getFriendListByName",
+	    			method : "POST",
+	    			dataType : "json",
+	    			data : JSON.stringify({
+	    				name : friendName
+	    			}),
+	    			headers : {
+	    				"Accept" : "application/json",
+	    				"content-Type" : "application/json"
+	    			},
+					success : function(data){
+						if(data.list.length == 0){
+							var view = "<span style='color:#cb4414; font-size:1em; font-weight:bold'>"
+										+"검색된 친구가 없어요!"
+										+"</span>";
+							$('#searchFriendListByName').append(view);
+						}else{
+							for(var i=0; i<data.list.length; i++){
+								var name = data.list[i].name;
+								var school = data.list[i].schoolName;
+								var profile = data.list[i].profileName;
+								var enterUserId = data.list[i].userId;
+								var view = "<span style='color:#cb4414; font-size:1em; font-weight:bold'  id='startChattingButton'>"
+												+"<img src='/images/"+profile+"' width='30' height='30' id='searchFriendByProfile' style='vertical-align: middle'/>&emsp;"+name+" &emsp;"+school+"&emsp; <i class='fas fa-comment-medical'></i>"
+												+"<input type='hidden' id='searchByNameResultId' value='"+enterUserId+"'>"
+												+"<input type='hidden' id='searchByNameResultName' value='"+name+"'>";
+											+"</span><br>";	
+								$('#searchFriendListByName').append(view);
+							}
+						}
+					},
+					error : function(){
+						console.log('친구가 에러네 ㅋㅋ');
+					}
+	    		});
 	    		
 	    	});
-	    		/* $.ajax({
-					 url : "/chatting/rest/addChattingRoom",
-					 method : "POST",
-					 dataType : 'json',
-					 data : JSON.stringify({
-						 master : masterId,
-						 enterUser : userId
-					 }),
-					 headers : {
-		    				"Accept" : "application/json",
-		    				"content-Type" : "application/json"
-		    			},
-		    			success : function(data){
-		    				if(data == true){
-		    					var view = "<li><a href='#'>"
-	                    				+"<div class='profileImage'>"
-					                        +"<img src='img/10506738_10150004552801856_220367501106153455_o.jpg' alt=''>"
-					                    +"</div>"
-					                    +"<div class='chattingInfo'>"
-					                        +"<div class='chattingUser'>"
-					                            +"<p>"+userId+"</p>"
-					                            +"<p>오전 10:13</p>"
-					                        +"</div>"
-					                        "<div class='chattingContent'>"
-					                            +"줄여서 테마"
-					                        +"</div>"
-					                    +"</div>"
-					                "</a></li>";
-		    					$('#forFriendListAppend').after(view);
-		    				}
-		    			},
-		    			error : function(){
-		    				console.log('에러당 ㅋㅋ')
-		    			}
-				  }); */
+	    	
+	    	
 	    
     </script>
     
@@ -542,9 +709,7 @@
 						</span>
 					</div>
 					<br>
-					<span style="color:#cb4414; font-size:1em; font-weight:bold" >
-						<img src="/images/bonobono.jpg" width="30" height="30" id="searchFriendByProfile" style="vertical-align: middle"/>&emsp;주형진 &emsp;신라공업고등학교&emsp; <i class="fas fa-comment-medical"></i>
-					</span><br>
+					<span id="searchFriendListByName"></span>
 				</div>
     <div class="chattingIcon"><a href="#"><i class="fas fa-comments"></i></a></div>
 
@@ -573,6 +738,8 @@
 
 
     <div class="chattingBox">
+    
+    
         <div class="chattingBoxTop">
             <a href="#">
                 <div class="chattingBoxTopLeft">
@@ -580,93 +747,32 @@
                         <img src="/images/bonobono.jpg" alt="">
                     </div>
                     <div class="chattingUserName">
-                        🎀주주장님🎀
+                        	🎀주주장님🎀
                     </div>
                 </div>
                 <div class="chattingBoxTopRight">
                     <a href="#"><i class="fas fa-cog"></i></a>
-                    <a href="#"><i class="fas fa-times"></i></a>
+                    <a href="#" id="outOfChattingByTimes"><i class="fas fa-times"></i></a>
                 </div>
             </a>
         </div>
+        
+        
         <div class="chattingBoxContent">
+        
             <div class="chatDate">
                 <p>2020년 2월 17일 월요일</p>
             </div>
-            <div class="chatFromUser">
-
-                <div class="chattingBoxProfileImage">
-                    <img src="/images/bonobono.jpg" alt="">
-
-                </div>
-                <div class="chattingMessage">
-                    <div class="userInfo">
-                        🎀주주장님🎀
-                    </div>
-                    <div class="message">
-                        채팅ㅋㅋ
-                    </div>
-                </div>
-            </div>
-            <div class="chatFromUser">
-
-                <div class="chattingBoxProfileImage">
-                    <img src="/images/bonobono.jpg" alt="">
-
-                </div>
-                <div class="chattingMessage">
-                    <div class="userInfo">
-                        🎀주주장님🎀
-                    </div>
-                    <div class="message">
-                        채팅ㅋㅋ
-                    </div>
-                </div>
-            </div>
-            <div class="chatFromUser">
-
-                <div class="chattingBoxProfileImage">
-                    <img src="img/10506738_10150004552801856_220367501106153455_o.jpg" alt="">
-
-                </div>
-                <div class="chattingMessage">
-                    <div class="userInfo">
-                        🎀주주장님🎀
-                    </div>
-                    <div class="message">
-                        채팅ㅋㅋ
-                    </div>
-                </div>
-            </div>
-            <div class="chatFromMe">
-
-
-                <div class="chattingMessage">
-
-                    <div class="message">
-                        답장ㅋㅋ
-                    </div>
-                </div>
-            </div>
-            <div class="chatFromUser">
-
-                <div class="chattingBoxProfileImage">
-                    <img src="img/10506738_10150004552801856_220367501106153455_o.jpg" alt="">
-
-                </div>
-                <div class="chattingMessage">
-                    <div class="userInfo">
-                        🎀주주장님🎀
-                    </div>
-                    <div class="message">
-                        채팅ㅋㅋ
-                    </div>
-                </div>
-            </div>
+            
+            
+            <div id="ChattingAppend"></div>
+            
+            
+            
         </div>
         <div class="chattingArea">
-            <input type="text">
-            <button type="button">보낼래!</button>
+            <input type="text" id="msg">
+            <button type="button" id="msgProcess">보낼래!</button>
         </div>
     </div>
 

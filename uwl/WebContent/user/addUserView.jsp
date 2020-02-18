@@ -2,7 +2,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! addUserView / 학교주소 찾기 !!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! addUserView / 학교주소 찾기 / 정규표현식 !!!!!!!!!!!!! -->
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -13,30 +13,40 @@
 <!-- 	<link rel="stylesheet" type="text/css" href="assets/css/main.css"> -->
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	
+	
+	
+	
 	<!--  ///////////////////////// Bootstrap 4.4, jQuery 3.1.1 CDN ////////////////////////// -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
 			rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
 			crossorigin="anonymous">
+			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+			<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	<!--  ///////////////////////// CSS, JS 4.4 CDN ////////////////////////// -->
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
-	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
-integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<!--  ///////////////////////// datePicker ////////////////////////// -->
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <!--  	<link rel="stylesheet" href="/resources/demos/style.css"> -->
- 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	
+ 	
  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<!--  ///////////////////////// ajax ////////////////////////// -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol-debug.js" ></script>
+	
+	
+	
+	
+	
+	
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+	
+	
+	
+	
 	
 		//============= "가입"  Event 연결 =============
 		 $(function() {
@@ -158,13 +168,13 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 				return 0;
 			}
 			
-			if(schoolName == null || schoolName.length <1){
-				$('#not').remove();
-				var view = "<span id='not' style='color:red'> 학교는 반드시 입력하셔야 합니다.</span>";
-				$('#schoolName').after(view);
-				$('#schoolName').focus();
-				return 0;
-			}
+// 			if(schoolName == null || schoolName.length <1){
+// 				$('#not').remove();
+// 				var view = "<span id='not' style='color:red'> 학교는 반드시 입력하셔야 합니다.</span>";
+// 				$('#schoolName').after(view);
+// 				$('#schoolName').focus();
+// 				return 0;
+// 			}
 			
 			if(birth == null || birth.length <1){
 				$('#not').remove();
@@ -309,68 +319,159 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 		    }		
 		    
 		
-		//==>"학교 주소찾기" Event 처리 및 연결 ================================ Error Error Error Error Error Error Error Error Error
-// 		$(document).ready(function(){ 
-			$("button#checkSchool").on("click" , function() {
-				console.log(1);
-				var schoolLevel = $("body > input:radio[name=school]:checked").val();
-				var schoolName = $("input[type=text]").val();
-				if(schoolName == "" || schoolName == null){
-				console.log(2);
-					alert('학교이름을 입력해주세요');
-					$('#not').remove();
-					var view = "<span id='not' style='color:red'> 학교이름을 입력해주세요.</span>";
-					$('#schoolName').after(view);
-					$('#schoolName').focus();
-				}else{
-					var url = "http://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=0e5ab738c07aa5a4e219e84f907db889&svcType=api&svcCode=SCHOOL&contentType=json&gubun="+schoolLevel+"&searchSchulNm="+schoolName;
-					ajaxCall(url,callback,error);			
-					console.log(3);
-				}
-			});
-// 		});
+		//==>"학교 주소찾기" Event 처리 및 연결  test================================ Error Error Error Error Error Error Error Error Error
+//  		$(document).ready(function(){ 
+// 			$("button#checkSchool").on("click" , function() {
+// 				console.log(1);
+// 				var schoolLevel = $("#schoolLevel").val();
+// 				var schoolName = $("#schoolName").val();
+// 				console.log(schoolLevel)
+// 				console.log(schoolName)
+// 				if(schoolName == "" || schoolName == null){
+// 				console.log(2);
+// 					alert('학교이름을 입력해주세요');
+// 					$('#not').remove();
+// 					var view = "<span id='not' style='color:red'> 학교이름을 입력해주세요.</span>";
+// 					$('#schoolName').after(view);
+// 					$('#schoolName').focus();
+// 				}else{
+// 					var url = "http://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=0e5ab738c07aa5a4e219e84f907db889&svcType=api&svcCode=SCHOOL&contentType=json&gubun="+schoolLevel+"&searchSchulNm="+schoolName;
+// 					ajaxCall(url,callback,error);			
+// 					console.log(3);
+// 				}
+// 			});
+//  		});
 				
-		function ajaxCall(url,callback){
-			$.ajax({
-				url : url,
-				async : true,
-				type : "GET",
-				dataType : 'json',
-				success : callback,
-				error : error
-			});
-		}
+// 		function ajaxCall(url,callback){
+// 			$.ajax({
+// 				url : url,
+// 				async : true,
+// 				type : "GET",
+// 				dataType : 'json',
+// 				success : callback,
+// 				error : error
+// 			});
+// 		}
 		
-		function callback(json){
-			var total = json.dataSearch.content.length;
-			var firstView = "검색어 <strong>"+$("input[type=text]").val()+"</strong> 에 대한 검색결과 총 <span>"+total+"</span>건입니다<hr/>"; 
-			$("#append").append(firstView);
-			for(var i=0; i<total; i++){
-				var schoolName = json.dataSearch.content[i].schoolName;
-				var adres = "     ,"+json.dataSearch.content[i].adres;
-				var seq = "     ,"+json.dataSearch.content[i].seq;
-				//이렇게 DB에 저장하면 될듯..?
-				var secondView = "<span>"+schoolName+adres+seq+"<span><br/><br/>"
-				$("#append2").append(secondView);
-			}
-		}
+// 		function callback(json){
+// 			var total = json.dataSearch.content.length;
+// 			var firstView = "검색어 <strong>"+$("input[type=text]").val()+"</strong> 에 대한 검색결과 총 <span>"+total+"</span>건입니다<hr/>"; 
+// 			$("#append").append(firstView);
+// 			for(var i=0; i<total; i++){
+// 				var schoolName = json.dataSearch.content[i].schoolName;
+// 				var adres = "     ,"+json.dataSearch.content[i].adres;
+// 				var seq = "     ,"+json.dataSearch.content[i].seq;
+// 				//이렇게 DB에 저장하면 될듯..?
+// 				var secondView = "<span>"+schoolName+adres+seq+"<span><br/><br/>"
+// 				$("#append2").append(secondView);
+// 			}
+// 		}
 		
-		function error(){
-			alert("에러발생! 에러발생!");
-		}
+// 		function error(){
+// 			alert("에러발생! 에러발생!");
+// 		}
 		
 		
-// 		//==>"학교 주소찾기" Event 처리 및 연결 ================================ Error Error Error Error Error Error Error Error Error
+// 		//==>"학교 주소찾기" Event 처리 및 연결 test================================ Error Error Error Error Error Error Error Error Error
 // 		 $(function() {
 // 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 // 			 $("button#checkSchool").on("click" , function() {
 // 				popWin 
-// 				= window.open("/user/checkDuplicationUserId.jsp",
+// 				= window.open("/user/checkDuplicationNickname.jsp",
 // 											"popWin", 
 // 											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
 // 											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
 // 			});
 // 		});	
+		
+		 	
+		 	
+		 	
+// 		//==>"Modal 학교 주소찾기" Event 처리 및 연결 test================================ Error Error Error Error Error Error Error Error Error
+
+	 	$(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+// 			$("button#checkSchool").on("click", function() {
+			$(document).ready(function(){ 
+	 			$("button#checkSchool").on("click" , function() {
+				console.log('왜안와');
+	 				var schoolLevel = $('input[name=school]:checked').val();
+	 				var schoolName = $("#schoolName").val();
+	 				console.log(schoolLevel)
+	 				console.log(schoolName)
+	 				if(schoolName == "" || schoolName == null){
+	 				console.log(2);
+	 					$('#not').remove();
+	 					var view = "<span id='not' style='color:red'> 학교이름을 입력해주세요.</span>";
+	 					$('#schoolName').after(view);
+	 					$('#schoolName').focus();
+	 				}else{
+	 					var url = "http://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=0e5ab738c07aa5a4e219e84f907db889&svcType=api&svcCode=SCHOOL&contentType=json&gubun="+schoolLevel+"&searchSchulNm="+schoolName;
+	 					ajaxCall(url,callback,error);			
+	 					console.log(3);
+	 				}
+	 			});
+	  		});
+					
+	 		function ajaxCall(url,callback){
+	 			$.ajax({
+	 				url : url,
+	 				async : true,
+	 				type : "GET",
+	 				dataType : 'json',
+	 				success : callback,
+	 				error : error
+	 			});
+	 		}
+			
+	 		function callback(json){
+	 			var total = json.dataSearch.content.length;
+	 			$('#school1').remove();
+	 			var firstView = "<span id='school1'>검색어 <strong>"+$("input[type=text]").val()+"</strong> 에 대한 검색결과 총 <span>"+total+"</span>건입니다<hr/></span>"; 
+	 			$("#append").append(firstView);
+	 			
+	 			for(var i=0; i<total; i++){
+	 				var schoolName = json.dataSearch.content[i].schoolName;
+	 				var adres = "     ,"+json.dataSearch.content[i].adres;
+	 				var seq = "     ,"+json.dataSearch.content[i].seq;
+	 				//이렇게 DB에 저장하면 될듯..?
+	 				var secondView = "<span id='school2'>"+schoolName+adres+seq+"<br/><br/></span>"
+	 				$("#append2").append(secondView);
+	 			}
+	 			// ERROR !!!!!!!!!!!!!!!!!!!!!!!!!
+// 	 			$('#school2').remove();
+	 			
+	 		}
+	 		
+	 		$(function(){
+	 			$('#append2').on('click',function(){
+	 					 alert("문장이 클릭되었습니다.");
+	 					 
+	 					$("document#schoolName").returnValue = $('#append2');
+// 	 					window.returnValue = $('#append2');
+	 					 
+	 					 
+	 					 
+	 					 
+	 					 
+// 		 			if(opener) {
+// 						opener.$('#append2').val('#append2');
+// 						opener.$("input[name='phone']").focus();
+// 					}
+// 					window.close();
+		 		});
+	 		});
+	 		
+			
+	 		function error(){
+	 			alert("에러발생! 에러발생!");
+	 		}	
+				
+		});	
+		 	
+		
+		
+		
 		
 		//==>"phone 본인인증" Event 처리 및 연결  ================================
 				 $(function() {
@@ -429,7 +530,7 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 			 });
 
 		
-		//==>"mail 본인인증" Event 처리 및 연결  ================================
+		//==>"mail 본인인증" Event 처리 및 연결  ================================시작
 		$(function() {
 			// 이메일 입력 시 인증번호확인 버튼이 보이지 않도록 hide 
 			$("button:contains('인증번호확인')").hide();
@@ -519,12 +620,10 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 		});
 	});	
 	
-	//==>"mail 본인인증" Event 처리 및 연결  ================================				
+	//==>"mail 본인인증" Event 처리 및 연결  ================================ 끝				
 				
-	</script>		
     
     <!--  ///////////////////////// datePicer ////////////////////////// -->
-  <script>
   $( function() {
     $( "#birth" ).datepicker({
       changeMonth: true,
@@ -533,9 +632,10 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
       dateFormat: "yy-mm-dd"
     });
   });
-  </script>
   
-  <script>
+  
+  
+//   사진 첨부 ===============================================================================
  	$(document).ready(function(){
 		 $("#fileInput").on('change', function(){  // 값이 변경되면
 			 if(window.FileReader){  // modern browser
@@ -548,6 +648,8 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 			 $("#userfile").val(profileName);
 		 });
 	});
+ 	
+ 	
   </script>
 </head>
 
@@ -611,23 +713,21 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 		  
 		  
 		  <div class="form-group">
-		    <label for="schoolName" class="col-sm-offset-1 col-sm-3 control-label" >* 학교</label>
+		    <label for="schoolName" class="col-sm-offset-1 col-sm-3 control-label"  >* 학교</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="schoolName" name="schoolName" placeholder="학교">
-			    <input type="radio" name="school" value="elem_list" checked="checked"/>초등학교
-				<input type="radio" name="school" value="midd_list"/>중학교
-				<input type="radio" name="school" value="high_list"/>고등학교
-				<input type="radio" name="school" value="univ_list"/>대학교
+		      <input type="text" class="form-control" value="${user.schoolNo}" readonly="readonly">
+<%-- 		      <input type="text" class="form-control" id="schoolName" name="schoolName" value="${user.schoolNo}" readonly="readonly"> --%>
+<!-- 			    <input type="radio" id="schoolLevel" name="school" value="elem_list"/>초등학교 -->
+<!-- 				<input type="radio" id="schoolLevel" name="school" value="midd_list"/>중학교 -->
+<!-- 				<input type="radio" id="schoolLevel" name="school" value="high_list"/>고등학교 -->
+<!-- 				<input type="radio" id="schoolLevel" name="school" value="univ_list"/>대학교 -->
 		    </div>
 		    <div class="col-sm-3">
-		      <button type="button" class="btn btn-outline-warning" id="checkSchool">주소찾기</button>
+		      <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#schoolModal">주소찾기</button>
 		    </div>
 		  </div>
 		  
-			<div id="append"></div>
 			
-			<br/><br/>
-			<div id="append2"></div>
 		  
 		  
 		  
@@ -703,6 +803,58 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 		    </div>
 		  </div>
 		  </div>
+		  
+		  
+		  
+		  <!-- Modal 학교 주소 찾기 -->
+		  
+		<div class="modal fade" id="schoolModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">학교 찾기</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+<!-- 		       <div class="form-group"> -->
+<!-- 					<label for="userId">ID</label> -->
+<%-- 						<input type="text" name="userId" id="userId" class="form-control" readonly="readonly" value="${user.userId }"> --%>
+<!-- 				</div>					 -->
+				<div class="form-group">
+					<label for="schoolName">학교</label>
+<!-- 						<input name="schoolName" id="schoolName" class="form-control" type="text"> -->
+<%-- 			     	<input type="text" class="form-control" id="schoolName" name="schoolName" value="${user.schoolNo}" readonly="readonly"> --%>
+			     	<input type="text" class="form-control" id="schoolName" name="schoolName">
+<!-- 			     	<input type="submit" class="form-control" id="searchSchool" href="/user/addUserView.jsp"> -->
+				</div>	
+				
+				<div >
+				    <input type="radio" id="school" name="school" value="elem_list" checked />초등학교
+					<input type="radio" id="school" name="school" value="midd_list"/>중학교
+					<input type="radio" id="school" name="school" value="high_list"/>고등학교
+					<input type="radio" id="school" name="school" value="univ_list"/>대학교
+		   		</div>
+				
+				<div id="append"></div>
+				
+				<br/><br/>
+				<div id="append2"></div>
+		  		
+								
+			</div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" id="checkSchool">확인</button>
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		  
+		  
+		
+		  
 		</form>
 		
 		<!-- form Start /////////////////////////////////////-->
