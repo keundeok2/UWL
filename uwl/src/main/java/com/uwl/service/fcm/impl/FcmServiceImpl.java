@@ -51,7 +51,7 @@ public class FcmServiceImpl implements FcmService {
 		Message message = Message.builder()
 				.setToken(notificationRequest.getToken())
 				.setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "300")
-						.setNotification(new WebpushNotification(notificationRequest.getTitle(), notificationRequest.getMessage()))
+						.setNotification(new WebpushNotification(notificationRequest.getTitle(), notificationRequest.getMessage(), notificationRequest.getIcon()))
 						.build())
 				.build();
 		
@@ -87,12 +87,13 @@ public class FcmServiceImpl implements FcmService {
 	}
 
 	@Override
-	public void createReceiveNotification(User sender, User receiver) throws Exception {
+	public void createReceiveNotification(String senderId, String receiverId) throws Exception {
 		System.out.println("run CreateReceiveNotification");
     	NotificationRequest request = new NotificationRequest();
     	request.setTitle("어'울림 알림메시지");
-    	request.setToken(this.getToken(receiver.getUserId()));
-    	request.setMessage(sender.getUserId() +"님으로부터 알림이 도착했습니다.");
+    	request.setToken(this.getToken(receiverId));
+    	request.setMessage(senderId +"님으로부터 알림이 도착했습니다.");
+    	request.setIcon("/images/20191231507059.jpg");
     	this.sendNotification(request);
 	}
 	

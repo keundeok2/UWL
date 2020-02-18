@@ -51,7 +51,7 @@
 	                        })
 	                        .then(async function(token) {
 	                        	console.log("token",token);
-	                            await fetch('/user/register', { method: 'post', body: token })
+	                            await fetch('/user/rest/register', { method: 'post', body: token })
 	                            messaging.onMessage(payload => {
 	                                const title = payload.notification.title
 	                                const options = {

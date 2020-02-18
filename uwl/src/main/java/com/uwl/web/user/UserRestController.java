@@ -47,6 +47,7 @@ import com.uwl.service.domain.Post;
 import com.uwl.service.domain.Report;
 import com.uwl.service.domain.User;
 import com.uwl.service.domain.Weather;
+import com.uwl.service.fcm.FcmService;
 import com.uwl.service.report.ReportService;
 import com.uwl.service.user.UserService;
 import com.uwl.service.weather.WeatherService;
@@ -69,6 +70,9 @@ public class UserRestController {
 	
 	@Autowired
 	private WeatherService weatherService;
+	
+	@Autowired
+	private FcmService fcmService;
 
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -567,6 +571,14 @@ public class UserRestController {
 
 			map.put("post", returnPost);
 			return map;
+		}
+		
+		@RequestMapping(value = "rest/register", method =  RequestMethod.POST)
+		public void register(@RequestBody String token, HttpSession httpSession) throws Exception{
+			System.out.println("usercontroller register token : " + token);
+			User user = ((User)(httpSession.getAttribute("user")));
+			String userId = user.getUserId();	
+			fcmService.register(userId, token);
 		}
 
 }

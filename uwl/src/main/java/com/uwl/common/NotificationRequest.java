@@ -5,6 +5,7 @@ public class NotificationRequest {
 	private String title;
 	private String message;
 	private String token;
+	private String icon;
 	
 	public NotificationRequest() {
 	}
@@ -39,10 +40,18 @@ public class NotificationRequest {
 		this.token = token;
 	}
 
-	@Override
-	public String toString() {
-		return "NotificationRequest [title=" + title + ", message=" + message + ", token=" + token + "]";
+	public String getIcon() {
+		return icon;
 	}
 	
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	@Override
+	public String toString() {
+		return "NotificationRequest [title=" + title + ", message=" + message + ", token=" + token + ", icon=" + icon
+				+ "]";
+	}
 	
 }
