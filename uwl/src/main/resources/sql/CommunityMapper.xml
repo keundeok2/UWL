@@ -35,7 +35,9 @@
 	
 	<resultMap type="chatting" id="chattingSelectMap">
 		<result property="master" column="MASTER" jdbcType="VARCHAR"/>
+		<result property="masterName" column="MASTER_NAME" jdbcType="VARCHAR"/>
 		<result property="enterUser" column="TARGET" jdbcType="VARCHAR"/>
+		<result property="enterUserName" column="TARGET_NAME" jdbcType="VARCHAR"/>
 		<result property="roomNo" column="ROOM_NO" jdbcType="NUMERIC"/>
 	</resultMap>
 	
@@ -207,7 +209,7 @@
 		INSERT
 		INTO chatting_room(
 				room_no, master, target)
-		VALUES(seq_chatting_room_room_no.NEXTVAL, #{chatting.master}, null)
+		VALUES(seq_chatting_room_room_no.NEXTVAL, #{master}, #{enterUser})
 	</insert>
 	
 	<update id="enterChattingRoom" parameterType="chatting"> <!-- 채팅방 입장(1:1) -->
@@ -216,13 +218,23 @@
  		WHERE room_no = #{chatting.roomNo}
 	</update>
 	
+	<delete id="outChattingRoom" parameterType="chatting">	<!-- 채팅방 폭파 -->
+		DELETE 
+		FROM chatting_room
+		WHERE room_no = #{chatting.roomNo}
+	</delete>
 	
 	<select id="getChattingRoomList" parameterType="chatting" resultMap="chattingSelectMap">
 		SELECT
+			room_no, master, target,
+				(SELECT name FROM users WHERE master = user_id) master_name,
+				(SELECT name FROM users WHERE target = user_id) target_name
+		FROM chatting_room
+		WHERE 
+			master = #{master}
+			OR target = #{master}
+		
 	</select>
-	
-	
-	
 	
 	<!-- 채팅! -->
 	

@@ -1,6 +1,8 @@
 package com.uwl.web.friend;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -118,6 +120,26 @@ public class FriendRestController {
 		map.put("resultPage", resultPage);
 		map.put("search", search);
 		return null;
+	}
+	
+	@RequestMapping(value = "rest/getFriendListByName", method = RequestMethod.POST)
+	public Map getFriendListByName(@RequestBody User user, HttpSession session) throws Exception {
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(10000);
+		
+		User sessionUser = (User)session.getAttribute("user");
+		List<User> list =(List<User>)friendService.getFriendList(sessionUser.getUserId(), search).get("list");
+		List<User> returnList = new ArrayList<User>();
+		String name = user.getName();
+		for(User findUser : list) {
+			if (findUser.getName().equals(name)) {
+				returnList.add(findUser);
+			}
+		}
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("list", returnList);
+		return returnMap;
 	}
 	
 }

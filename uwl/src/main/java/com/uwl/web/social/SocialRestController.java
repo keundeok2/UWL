@@ -165,13 +165,13 @@ public class SocialRestController {
 	}
 	
 	@RequestMapping(value = "rest/deleteNoti", method = RequestMethod.POST)
-	public void deleteNoti(@RequestBody int notiNo) throws Exception{
-		socialService.deleteNoti(notiNo);
+	public void deleteNoti(@RequestBody Notification notification) throws Exception{
+		socialService.deleteNoti(notification.getNotiNo());
 	}
 	
 	@RequestMapping(value = "rest/deleteNotiAll", method = RequestMethod.POST)
-	public void deleteNotiAll(@RequestBody String userId) throws Exception{
-		socialService.deleteNotiAll(userId);
+	public void deleteNotiAll(@RequestBody User user) throws Exception{
+		socialService.deleteNotiAll(user.getUserId());
 	}
 	
 	@RequestMapping(value = "rest/getNotiList", method = RequestMethod.POST)

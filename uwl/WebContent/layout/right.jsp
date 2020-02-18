@@ -319,9 +319,11 @@
                     
                   //	socket push msg = (senderId,receiverId,senderName,notiOrigin,notiCode,postNo); 하나라도 빼먹으면 안됨.
                   //	해당하는 인자값 없으면 1이라도 넣어야함. CSV = ','임  ,앞뒤로 띄어쓰기 하면 안됨.
-        			socketMsg = sessionUserId + "," + userId +"," + sessionName +"," + "friend,acceptFriend,1234";
+        			socketMsg = sessionUserId + "," + userId +"," + sessionUserName +"," + "friend,acceptFriend";
         			console.log(socketMsg)
         			socket.send(socketMsg);
+        			
+        			addNoti(sessionUserId, userId, '4', '4');
 
                 }
             })
