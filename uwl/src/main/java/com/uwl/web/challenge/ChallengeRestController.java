@@ -73,7 +73,7 @@ public class ChallengeRestController {
 	}
 	
 	@RequestMapping(value = "/rest/completeChallenge", method = RequestMethod.POST)
-	public boolean completeChallenge(HttpSession session) throws Exception{
+	public boolean completeChallenge(@RequestBody Commentt comment, @RequestBody Post post, HttpSession session) throws Exception{
 		
 		Map<String, Object> map = challengeService.getChallengeList();
 		
@@ -87,11 +87,8 @@ public class ChallengeRestController {
 		
 		for (int i = 0; i < 1; i++) {
 		
-		Commentt commentt = new Commentt();
-		commentt.setUserId(user.getUserId());
-		Post post = new Post();
-		post.setUserId(user.getUserId());
-		post.setGatherCategoryNo(list.get(i).getPost().getGatherCategoryNo());
+		Commentt addPostNotComment = new Commentt();
+		addPostNotComment.setUserId(user.getUserId());
 		
 		
 		Challenge challenge = new Challenge();
@@ -99,8 +96,19 @@ public class ChallengeRestController {
 		challenge.setChallCategory(list.get(i).getChallCategory());
 		challenge.setChallReward(list.get(i).getChallReward());
 		challenge.setPostCommentComplete(list.get(i).getPostCommentComplete());
+		//post를 req로 받아온다면 존재, 아니면 없음
 		challenge.setPost(post);
-		challenge.setCommentt(commentt);
+		
+		//코멘트를 작성해서 코멘트넘버가 생긴다면
+		if (comment.getCommentNo() != 0) {
+			challenge.setCommentt(comment);
+		}
+		
+		//addPost를 해서 comment의 정보가 없다면
+		challenge.setCommentt(addPostNotComment);
+		System.out.println("/rest/completeChallenge comment : " + comment.getCommentNo());
+		System.out.println("/rest/completeChallenge challenge.addPostNotComment; : " + addPostNotComment.getCommentNo());
+		
 		System.out.println("/rest/completeChallenge challenge : " + challenge);
 		System.out.println("/rest/completeChallenge challenge.getPost() : " + challenge.getPost());
 		
