@@ -171,7 +171,7 @@
 				
 				if($(window).data('ajaxready') == false) return;
 				if (maxHeight <= currentScroll) {
-				if (page <= ${map.resultPage.maxPage}) {
+				if (page <= ${askQuestionMap.resultPage.maxPage}) {
 					$(window).data('ajaxready', false);
 					page++;
 					console.log('page : ' + page);
@@ -413,7 +413,7 @@
         <div class="header">
         <form>
             <p>ASK - 질문&amp;답변</p>
-            <p>새 질문 : ${map.totalCount}개</p>
+            <p>새 질문 : ${askQuestionMap.totalCount}개</p>
             <p>${user.name}님에게 질문합니다.</p>
             <p>
                 <textarea name="questionContent" cols="30" rows="10" placeholder="성희롱 및 욕설은 처벌대상입니다."></textarea>
@@ -428,7 +428,7 @@
             <p>주소 : <input type="text" value="http://localhost:8080/social/getAskList/${user.userId}" readonly="readonly"></p>
         </div>
         <div class="addAsk">
-        	<c:forEach var="ask" items="${map.list}">
+        	<c:forEach var="ask" items="${askQuestionMap.list}">
             <div class="ask ${ask.questionPostNo}">
                 <p><span>익명</span> · <span>${ask.questionDate}</span></p>
                 <p><a href="#"><i class="fas fa-ellipsis-h"></i></a></p>

@@ -47,14 +47,15 @@ $(document).ready(function () {
             }),
             success: function () {
             	
+            	var html = "<div class='deleteFriend'><a href='#'>친구신청취소</a></div>"
+            		$("div.user").after(html);
+            	$("div.addFriend").remove();
+            	
             	//socket push
-				socketMsg = sessionUserId + "," + targetUserId +"," + sessionName +"," + "friend,add,"+postNo;
+				socketMsg = sessionUserId + "," + targetUserId +"," + sessionName +"," + "friend,add";
 				console.log(socketMsg)
 				socket.send(socketMsg);
             	
-                var html = "<div class='deleteFriend'><a href='#'>친구신청취소</a></div>"
-                $("div.user").after(html);
-                $("div.addFriend").remove();
             }
         });
     });

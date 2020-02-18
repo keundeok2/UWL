@@ -475,7 +475,7 @@
 </head>
 
 <body>
-    <input type="hidden" name="userId" value="${userId}">
+    <input type="hidden" name="userId" value="${user.userId}">
     <div class="overlay">
 
     </div>
@@ -697,7 +697,7 @@
         		},
         		success: function(data) {
         			for(var i = 0; i < data.list.length; i++) {
-        				alert('postDate : ' + data.list[i].postDate + ' postTitle : ' + data.list[i].postTitle);
+        				//alert('postDate : ' + data.list[i].postDate + ' postTitle : ' + data.list[i].postTitle);
         				getPostDateAndAddPostTitle(data.list[i].postDate, data.list[i].postTitle, data.list[i].postNo);
         			}
         		},
@@ -735,7 +735,7 @@
 
                 if ($('div.cal-day').eq(i).text() == postDate.substring(8, 10) || '0' + $('div.cal-day').eq(i).text() == postDate.substring(8, 10)) {
                     
-                    $('div.cal-day').eq(i).parent().find('div.cal-schedule').append('<a href="#">' 
+                    $('div.cal-day').eq(i).parent().find('div.cal-schedule').append('<a href="#" class="' + postNo + '">' 
                     		+ '<input type="hidden" class="postNo" value="' + postNo + '">' + postTitle + '</a>');
                 }
             }
@@ -959,11 +959,12 @@
                 } else {
 
 
-                    alert();
+                    
                     $('div.getScheduleModal').remove();
 					
                     var userId = $('input[name="userId"]').val();
                     var postNo = $(this).find('input.postNo').val();
+                    alert('postNo : ' + postNo);
                     var getScheduleModal = '';
                     $.ajax({
                     	url: '/couple/rest/getSchedule/' + userId + '/' + postNo,
@@ -978,28 +979,65 @@
                     		'Content-Type': 'application/json'
                     	},
                     	success: function(data) {
-                    		alert('성공ㅋㅋ');
-                    		var postNo = data.postNo;
-                    		var postTitle = data.postTitle;
-                    		var postDate = data.postDate;
-                    		var place = data.place;
-                    		var postContent = data.postContent;
-                    		var userId = data.userId;
+                    		
+                    		
+                    		var postTitle = data.post.postTitle;
+                    		var postDate = data.post.postDate;
+                    		var place = data.post.place;
+                    		var postContent = data.post.postContent;
+                    		
+                    		
+                    		
                     		
                     		getScheduleModal = '<div class="getScheduleModal">' +
                             '<h3>스케줄 보기</h3>' +
-                            '<input type="text" name="sessionUserId" value="${userId}"><br>' +
+                            '<input type="text" name="sessionUserId" value="' + userId + '"><br>' +
                             'postNo : <input type="text" name="postNo" value="' + postNo + '"><br>' +
                             'postTitle : <input type="text" name="postTitle" value="' + postTitle + '"><br>' +
                             'postDate : <input type="text" name="postDate" value="' + postDate + '"><br>' +
                             'place : <input type="text" name="place" value="' + place + '"><br>' +
                             'postContent : <input type="text" name="postContent" value="' + postContent + '"><br>' +
-                            'userId : <input type="text" name="userId" value="' + userId + '"><br>' +
+                            'userId : <input type="text" name="userId" value="' + data.post.userId + '"><br>' +
                             '<a href="#">스케줄 수정</a> <a href="#">스케줄 삭제</a>' +
                             '</div>';
                             
-                            alert('getScheduleModal : ' + getScheduleModal);
+                            //alert('getScheduleModal : ' + getScheduleModal);
                             
+                    		
+                            
+                            
+                            alert('getScheduleModal : ' + getScheduleModal);
+                                
+                            
+                            
+                            $('a.' + postNo).parent().append(getScheduleModal);
+                            if ($('a.' + postNo).parent().parent().index() == 0 || $('a.' + postNo).parent().parent().index() == 1 || $('a.' + postNo).parent().parent().index() == 2) {
+                                $('div.getScheduleModal').css({
+                                    'right': '-310px'
+                                });
+                            } else {
+                                $('div.getScheduleModal').css({
+                                    'left': '-310px'
+                                });
+                            }
+                            
+                            $('div.getScheduleModal').on('click', function(e) {
+                                e.stopPropagation();
+                            });
+
+
+                            $('html').click(function(e) {
+                                if ($('html').find('div').hasClass('getScheduleModal')) {
+                                    if (!$(e.target).hasClass("getScheduleModal")) {
+                                    	e.stopPropagation();
+                                        alert('영역 밖입니다.');
+                                        $('div.getScheduleModal').remove();
+                                        $('div.wrap').remove();
+
+                                    }
+                                }
+
+                            });
 
                         
                     	},
@@ -1008,46 +1046,15 @@
 		                }
                     })
                     
-                    alert($(this).parent().parent().index());
                     
-                    
-                    alert('getScheduleModal2 : ' + getScheduleModal);
-                        
-                    
-                    
-                    $(this).parent().append(getScheduleModal);
                     
                     //alert('getScheduleModal2 : ' + getScheduleModal);
                     //$(this).parent().append(getScheduleModal);
 
-                    if ($(this).parent().parent().index() == 0 || $(this).parent().parent().index() == 1 || $(this).parent().parent().index() == 2) {
-                        $('div.getScheduleModal').css({
-                            'right': '-310px'
-                        });
-                    } else {
-                        $('div.getScheduleModal').css({
-                            'left': '-310px'
-                        });
-                    }
+                    
 
 
-                    $('div.getScheduleModal').on('click', function(e) {
-                        e.stopPropagation();
-                    });
-
-
-                    $('html').click(function(e) {
-                        if ($('html').find('div').hasClass('getScheduleModal')) {
-                            if (!$(e.target).hasClass("getScheduleModal")) {
-                            	e.stopPropagation();
-                                alert('영역 밖입니다.');
-                                $('div.getScheduleModal').remove();
-                                $('div.wrap').remove();
-
-                            }
-                        }
-
-                    });
+                    
 					
                     
                 }
