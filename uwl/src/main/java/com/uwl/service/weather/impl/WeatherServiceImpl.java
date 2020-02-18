@@ -36,8 +36,8 @@ public class WeatherServiceImpl implements WeatherService {
 	@Override
 	public Map getWeather(Weather weather) throws Exception {
 
-		String x = "60";	//weather.getX;
-		String y = "127";
+//		String x = "60";	//weather.getX;
+//		String y = "127";
 
 //		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst"); /*URL*/
 //        urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "serviceKey"); /*Service Key*/
@@ -93,12 +93,12 @@ public class WeatherServiceImpl implements WeatherService {
 			System.out.println("23 = " + to);
 		}
 
-		System.out.println("날짜 = " + date + "\n시간 = " + to + "00" + "\nX = " + x + "\nY = " + y);
+		System.out.println("날짜 = " + date + "\n시간 = " + to + "00" + "\nX = " + weather.getX() + "\nY = " + weather.getY());
 
 		try {
 
 			String url = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?serviceKey=" + weatherKey
-					+ "&numOfRows=10&pageNo=1&base_date=" + date + "&base_time=" + to + "00&nx=" + x + "&ny=" + y
+					+ "&numOfRows=10&pageNo=1&base_date=" + date + "&base_time=" + to + "00&nx=" + weather.getX() + "&ny=" + weather.getY()
 					+ "&dataType=json";
 
 			URL obj = new URL(url);

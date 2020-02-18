@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--  CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -15,9 +14,8 @@
 	<script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>    
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
-  	<script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
     <title>Document</title>
-    <style>
+<style>
         * {
             margin: 0;
             padding: 0;
@@ -39,67 +37,58 @@
         }
 
         body {
-            
             color: #333;
             font-size: 16px;
             font-family: 'Roboto', sans-serif;
             font-family: 'Nanum Gothic', sans-serif;
+
         }
 
-        
-
-        section#left {
+        div#layout {
+            width: 100%;
             
-            height: 100vh;
+            min-height: 200vh;
+            margin: 0 auto;
+            position: relative;
+            padding: 0 250px;
+        }
+
+        div#leftLayout {
             width: 250px;
-            float: left;
-            border-right: 1px solid #eee;
-        }
-
-        section#work {
-            background-color: lemonchiffon;
-            width: calc(100% - 600px);
-            float: left;
-            height: 100vh;
-            overflow-y: scroll;
-        }
-
-        section#right {
+            min-height: 100vh;
             
-            height: 100vh;
-            width: 350px;
-            float: right;
-            overflow-y: scroll;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
             border-right: 1px solid #eee;
+        }
+        div#rightLayout {
+            width: 300px;
+            min-height: 100vh;
+            
+            position: fixed;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border-left: 1px solid #eee;
+        }
+        div#work > div {
+        	width: 100%;
         }
     </style>
 </head>
-
 <body>
-<!--  여기서부터 챗봇  -->
-<div id="frogue-container" class="position-right-bottom" data-chatbot="4626e9e6-320e-4c99-afe8-c196f85db573" data-user="akxorb1234" data-init-key="value"></div>
-
-
-<script>
-(function(d, s, id){
-var js, fjs = d.getElementsByTagName(s)[0];
-if (d.getElementById(id)) {return;}
-js = d.createElement(s); js.id = id;
-js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
-fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'frogue-embed'));
-</script> 
-<!--   여기까지 ㅋㅋ  -->
-
-    <main>
-        <section id="left">
+<div id="layout">
+        <div id="leftLayout">
 			<jsp:include page="/layout/left.jsp" />
-        </section>
-        <section id="work">
+        </div>
+        <div id="work">
 
-        </section>
-        <section id="right">
+        </div>
+        <div id="rightLayout">
 			<jsp:include page="/layout/right.jsp" />
-        </section>
-    </main>
-</body></html>
+        </div>
+    </div>
+</body>
+</html>
