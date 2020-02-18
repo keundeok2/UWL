@@ -41,6 +41,25 @@
  		<result property="place" column="PLACE" jdbcType="VARCHAR"/>
  		<result property="replyPostNo" column="REPLY_POST_NO" jdbcType="NUMERIC"/>
  	</resultMap>
+ 	
+ 	<resultMap id="askSelectMap" type="ask">
+ 	<result property="questionPostNo" column="question_post_no" jdbcType="NUMERIC"/>
+ 	<result property="userId" column="user_id" jdbcType="VARCHAR"/>
+ 	<result property="user.userId" column="user_id" jdbcType="VARCHAR"/>
+ 	<result property="user.name" column="name" jdbcType="VARCHAR"/>
+ 	<result property="user.nickname" column="nickname" jdbcType="VARCHAR"/>
+ 	<result property="user.profileName" column="profile_name" jdbcType="VARCHAR"/>
+ 	
+ 	
+ 	<result property="questionTitle" column="question_title" jdbcType="VARCHAR"/>
+ 	<result property="questionContent" column="question_content" jdbcType="VARCHAR"/>
+ 	<result property="questionDate" column="question_date" jdbcType="DATE"/>
+ 	<result property="questionStatus" column="question_status" jdbcType="VARCHAR"/>
+ 	<result property="answerPostNo" column="answer_post_no" jdbcType="NUMERIC"/>
+ 	<result property="answerTitle" column="answer_post_title" jdbcType="VARCHAR"/>
+ 	<result property="answerContent" column="answer_post_content" jdbcType="VARCHAR"/>
+ 	<result property="answerDate" column="answer_date" jdbcType="DATE"/>
+ 	</resultMap>
 	
 	
 	<!-- 회원가입 -->
@@ -339,4 +358,17 @@
  		SET password = #{password}
  		WHERE user_id = #{userId}
  	</update>
+ 	
+ 	<!-- ASK 질문에 답변 등록-->
+	<insert id="replyQuestion" parameterType="ask">
+	INSERT INTO post (post_no, user_id, post_title, post_content, post_date, view_status, post_category_no, question_status) 
+	VALUES (seq_post_post_no.NEXTVAL, #{userId},#{questionTitle:VARCHAR}, #{answerContent}, SYSDATE, '1', '5', NULL)
+	</insert>
+	
+	<!-- ASK 질문글의 questionStatus 업데이트 미답변('1')=>답변('2') -->
+	<update id="updateQuestionStatus" parameterType="int">
+		UPDATE post 
+		SET reply_post_no = seq_post_post_no.CURRVAL, question_status = '2' 
+		WHERE post_no = #{value}
+	</update>
 </mapper>

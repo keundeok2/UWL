@@ -319,17 +319,19 @@
                         <td>처리여부</td>
                     </tr>
                     <c:forEach var="notice" items="${list }">
+                    <c:if test="${notice.postTitle ne '문의사항답변등록'}">
                     <tr>
                         <td>${notice.postNo }</td>
                         <td><a href="/user/getQuestions?postNo=${notice.postNo }">${notice.postTitle }</a></td>
                         <td>${notice.postDate }</td>
-                         <c:if test="${post.questionStatus eq '1' or post.questionStatus == null}">
+                         <c:if test="${notice.questionStatus == null}">
 							<td>처리중</td>
 							</c:if>
-							<c:if test="${post.questionStatus eq '2'}">
+							<c:if test="${notice.questionStatus eq '2'}">
 							<td>처리 완료</td>
 							</c:if>
 		                     </tr>
+		                     </c:if>
                     </c:forEach>
                    
                 </table>

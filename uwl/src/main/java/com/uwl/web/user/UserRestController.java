@@ -42,6 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uwl.common.MailUtils;
 import com.uwl.common.Page;
 import com.uwl.common.Search;
+import com.uwl.service.domain.Ask;
 import com.uwl.service.domain.Report;
 import com.uwl.service.domain.User;
 import com.uwl.service.domain.Weather;
@@ -550,5 +551,11 @@ public class UserRestController {
 //			}
 //			return "false";
 //		}
+		
+		@RequestMapping(value = "rest/replyQuestion", method = RequestMethod.POST)
+		public void replyQuestion(@RequestBody Ask ask) throws Exception{
+			userService.replyQuestion(ask);
+			System.out.println("레스트컨트롤러 탄다");
+		}
 
 }

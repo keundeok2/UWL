@@ -3,6 +3,7 @@ package com.uwl.service.user;
 import java.util.Map;
 
 import com.uwl.common.Search;
+import com.uwl.service.domain.Ask;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.User;
 
@@ -60,5 +61,9 @@ public interface UserService {
 	public boolean checkDuplicationMail(String mail) throws Exception; // mail 중복체크
 	
 	public void updatePassword(User user) throws Exception;
+	
+	//
+	
+	public void replyQuestion(Ask ask) throws Exception;
 
 }

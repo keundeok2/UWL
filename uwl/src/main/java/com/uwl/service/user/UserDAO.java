@@ -3,6 +3,7 @@ package com.uwl.service.user;
 import java.util.List;
 
 import com.uwl.common.Search;
+import com.uwl.service.domain.Ask;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.User;
 
@@ -61,5 +62,9 @@ public interface UserDAO {
 	public int getTotalCount(Search search) throws Exception; // 전체 회원수
 	
 	public void updatePassword(User user) throws Exception;
+	/////////////
+	public void replyQuestion(Ask post) throws Exception;
+	
+	public void updateQuestionStatus(int postNo) throws Exception;
 
 }
