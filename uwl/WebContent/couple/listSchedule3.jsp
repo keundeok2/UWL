@@ -6,10 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/jquery-ui.css">
-    <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="/javascript/jquery-ui.js"></script>
     <script>
         $(function() {

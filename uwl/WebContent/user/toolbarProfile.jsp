@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>어울림</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -313,6 +314,7 @@
     <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
     <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
     <script>
         var sessionId = null;
         var sessionName = null;
@@ -771,6 +773,20 @@
                     $('section > div').eq(i).addClass('on');
 
                 });
+                
+                $('.replyQuestionBtn').on("click", function() {
+                	var i = $(this).parent().index();
+                	$('div.section ul li').removeClass('on');
+                    $('div.section ul li').eq(i).addClass('on');
+                	$('section > div').removeClass('on');
+                	$('section > div').eq(i).addClass('on');
+				});
+                
+                $('.listAskBtn').on("click", function() {
+                	var i = $(this).parent().index();
+                	$('section > div').removeClass('on');
+                	$('section > div').eq(i-3).addClass('on');
+				});
             });
         });
     </script>
@@ -1244,7 +1260,7 @@
                                 비공개 계정입니다.
                             </c:if>
                             <c:if test="${user.publicStatus == 1 }">
-                                <jsp:include page="/social/listTimeline2.jsp" />
+                                <jsp:include page="/social/includeListTimeline.jsp" />
                             </c:if>
                         </div>
                         <div class="list2">
@@ -1252,7 +1268,7 @@
                                 비공개 계정입니다.
                             </c:if>
                             <c:if test="${user.publicStatus == 1 }">
-                                IGTVㅋㅋ
+                                <jsp:include page="/social/includeListAsk.jsp" />
                             </c:if>
                         </div>
                         <div class="list3">
@@ -1268,7 +1284,15 @@
                                 비공개 계정입니다.
                             </c:if>
                             <c:if test="${user.publicStatus == 1 }">
-                                태그됨ㅋㅋ
+                            	<jsp:include page="/couple/listSchedule3.jsp" />
+                            </c:if>
+                        </div>
+                        <div class="list5">
+                            <c:if test="${user.publicStatus == 2 }">
+                           	     비공개 계정입니다.
+                            </c:if>
+                            <c:if test="${user.publicStatus == 1 }">
+                            	<jsp:include page="/social/includeListAskQuestion.jsp" />
                             </c:if>
                         </div>
                     </section>

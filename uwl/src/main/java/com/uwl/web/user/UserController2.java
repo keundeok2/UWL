@@ -285,7 +285,7 @@ public class UserController2 {
 		model.addAttribute("askQuestionMap", askQuestionMap);
 		model.addAttribute("askMap", askMap);
 		
-		return "forward:/user/profile.jsp";
+		return "forward:/user/toolbarProfile.jsp";
 	}
 
 	

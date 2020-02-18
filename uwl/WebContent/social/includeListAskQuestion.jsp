@@ -7,25 +7,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!--  jQuery CDN -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<!-- bootstrap 4.4 CDN -->
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<!-- jQuery Redirect CDN     https://github.com/mgalante/jquery.redirect  -->
-<script
-	src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
-<!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
-<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
-<!-- Font, Icon CDN -->
-<script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
-
 <script type="text/javascript">
 	var questionPostNo = null;
 	var targetUserId = "${targetUserId}";
@@ -153,9 +134,9 @@
 				})
 	
 	//	답변완료목록 버튼
-	$(document).on("click", ".listAskBtn", function() {
+/* 	$(document).on("click", ".listAskBtn", function() {
 		$.redirect("/social/getAskList/"+sessionId,{}, "GET");
-	});
+	}); */
 	
 
 	//스크롤 페이징
