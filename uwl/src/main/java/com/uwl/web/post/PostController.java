@@ -1,6 +1,7 @@
 package com.uwl.web.post;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -72,18 +73,35 @@ public class PostController {
 	}
 	
 	@RequestMapping(value ="addBoard", method=RequestMethod.GET)	//------------------------------------------------테스트 종료
-	public String addBoard(@RequestParam("gatherCategoryNo") String gatherCategoryNo, Model model) throws Exception {
+	public String addBoard(@RequestParam("gatherCategoryNo") String gatherCategoryNo, @RequestParam("postChallenge") String postChallenge,Model model) throws Exception {
 		System.out.println("addBoard.GET");
+		System.out.println("PostController challenge : " + postChallenge);
+		
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
+		
 		return "forward:/post/addBoard.jsp";
 	}
 	
+	//원본
+//	@RequestMapping(value ="addBoard", method=RequestMethod.GET)	//------------------------------------------------테스트 종료
+//	public String addBoard(@RequestParam("gatherCategoryNo") String gatherCategoryNo, Model model) throws Exception {
+//		System.out.println("addBoard.GET");
+//		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
+//		return "forward:/post/addBoard.jsp";
+//	}
+	
 	@RequestMapping(value="addBoard", method=RequestMethod.POST)	//------------------------------------------------테스트 종료(테스트 중)
 	public String addBoard(@ModelAttribute("post") Post post, HttpSession session,
-					HttpServletRequest request, Model model, @RequestParam("file") MultipartFile file) throws Exception {
+					HttpServletRequest request, Model model, @RequestParam("file") MultipartFile file,@RequestParam("postChallenge") String postChallenge) throws Exception {
 		System.out.println("addBoard.POST");
 		User user = (User)session.getAttribute("user");
 		post.setUserId(user.getUserId());
+		
+		Map<String, Object> map = new HashMap <String,Object>();
+		
+		System.out.println("addBoard POST postChallenge : " + postChallenge);
+		
+		
 		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\"; //썸네일 저장할 경로
 		String name="";
 //		userid hidden
@@ -92,13 +110,40 @@ public class PostController {
 			name = file.getOriginalFilename();
 			post.setUploadFileName(name);
 			postService.addBoard(post);
-			return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo();
+			//return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo();
+			return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo()+"&postChallenge=" + postChallenge;
+			//+"&challenge=" + challenge
 		}else { 	//썸네일을 안올렸을 때
 			post.setUploadFileName("empty.jpg");
 			postService.addBoard(post);
-			return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo();
+			return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo()+"&postChallenge=" + postChallenge;
 		}
 	}
+	
+	//원본
+//	@RequestMapping(value="addBoard", method=RequestMethod.POST)	//------------------------------------------------테스트 종료(테스트 중)
+//	public String addBoard(@ModelAttribute("post") Post post, HttpSession session,
+//			HttpServletRequest request, Model model, @RequestParam("file") MultipartFile file) throws Exception {
+//		System.out.println("addBoard.POST");
+//		User user = (User)session.getAttribute("user");
+//		post.setUserId(user.getUserId());
+//		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\"; //썸네일 저장할 경로
+//		String name="";
+////		userid hidden
+//		if(!file.getOriginalFilename().isEmpty()) {	//썸네일을 올렸을 때
+//			file.transferTo(new File(path, file.getOriginalFilename()));
+//			name = file.getOriginalFilename();
+//			post.setUploadFileName(name);
+//			postService.addBoard(post);
+//			//return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo();
+//			return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo()+"&postChallenge=" + postChallenge;
+//			//+"&challenge=" + challenge
+//		}else { 	//썸네일을 안올렸을 때
+//			post.setUploadFileName("empty.jpg");
+//			postService.addBoard(post);
+//			return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo();
+//		}
+//	}
 	
 	@RequestMapping(value="updateBoard", method=RequestMethod.GET)	//------------------------------------------------테스트 종료
 	public String updateBoard(@RequestParam("postNo") int postNo, Model model) throws Exception {
@@ -152,7 +197,7 @@ public class PostController {
 	
 	@RequestMapping(value="listBoard")	//----------------------------테스트 종료
 	public String getBoardList(@ModelAttribute("search") Search search, @RequestParam("gatherCategoryNo") String gatherCategoryNo,
-								Model model) throws Exception{
+								Model model, @RequestParam("postChallenge") String postChallenge) throws Exception{
 		System.out.println("getBoardList.POST or GET");
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -166,6 +211,7 @@ public class PostController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
+		model.addAttribute("postChallenge", postChallenge);
 		return "forward:/post/listBoard.jsp";
 	}
 	

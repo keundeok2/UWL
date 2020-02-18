@@ -45,6 +45,7 @@
 		}
 		
 		
+		
 		@import url(https://fonts.googleapis.com/css?family=Quicksand:300,400);
 		
 		*, *:before, *:after {
@@ -247,15 +248,8 @@
 			var postContent = $('#summernote').val();
 			var thumbNail = $('#fileInput').val();
 			
-			//도전과제 수행을 위해 추가된 변수
-			var postChallenge = $('#postChallenge').val();
-			var userId = "${user.userId}"
 			
-			
-			/* alert("gatherCategoryNo : " + gatherCategoryNo + " postTitle : " + postTitle + 
-					" postContent : " + postContent + " thumbNail : " + thumbNail + " postChallenge : " + postChallenge
-					+ " userId : " + userId) */
-			console.log(gatherCategoryNo, postTitle, postContent, thumbNail,postChallenge,userId)
+			console.log(gatherCategoryNo, postTitle, postContent, thumbNail)
 			if(gatherCategoryNo == '' || gatherCategoryNo == null){
 				Swal.fire({
 					  icon: 'error',
@@ -302,7 +296,6 @@
 							  timer: 800
 							}).then((result) => {
 								$('form').attr('method','POST').attr('action','/post/addBoard').submit();
-								
 							});
 					  }
 					});
@@ -388,7 +381,6 @@
 			    <li value="206"><i class="fas fa-bullhorn"></i> 대나무 숲</li> 
 			</ul>
 			    <input type="hidden" name="gatherCategoryNo" value="" id="gatherCategoryNo">
-			    <input type="hidden" name="postChallenge" value="2" id="postChallenge">
 		</div>
 	    <div class="table table-responsive">
 	        <table class="table">	

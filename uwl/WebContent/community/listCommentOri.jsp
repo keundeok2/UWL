@@ -62,10 +62,7 @@
 	    	var reportContent = null;
 	    	var likeCount = null;	//좋아요 취소시 ajax로 뿌린 값은 못가져와서 그대로 준다
 	    	var result = null;	//첫 댓글수 값은 가져올 수 있어서 좋아요 누를 시 여기서 +1
-	    	
-	    	//도전과제 완료조건 flag
-	    	boolean completeResult = false;
-	    	
+	    
 	    	$(document).ready(function(){	//댓글 등록
 	    		
 	    		$('#addComment').on("click", function(){
@@ -146,16 +143,6 @@
 	    					}
 			    			var lastView = view1+view2+view3;
 	    					$('#forAppend').append(lastView);
-	    					
-	    					/* $.ajax({
-	    						url : "/challenge/rest/completeChallenge",
-	    	    				method : "POST",
-	    	    				dataType : "json",
-	    	    				data : JSON.stringify({
-	    	    					
-	    	    				}),
-	    						
-	    					}); */
 	    				},
 	    				error : function(){
 	    					alert('에러 ㅋㅋ');

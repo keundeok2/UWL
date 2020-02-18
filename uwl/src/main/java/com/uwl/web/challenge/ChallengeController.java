@@ -76,7 +76,8 @@ public class ChallengeController {
 		
 		System.out.println("/challenge/addChallenge : GET 관리자일때만 간다.");
 		
-		return "redirect:/challenge/addChallenge.jsp";
+		//return "redirect:/challenge/addChallenge.jsp";
+		return "redirect:/challenge/toolbarAddChallenge.jsp";
 		
 	}
 	
@@ -94,7 +95,8 @@ public class ChallengeController {
 		
 		System.out.println("challenege : " + challenge);
 		
-		return "redirect:/challenge/listAdminChallenge";
+		//return "redirect:/challenge/listAdminChallenge";
+		return "redirect:/challenge/toolbarListAdminChallenge.jsp";
 	}
 	
 	@RequestMapping(value = "updateChallenge/{challNo}", method = RequestMethod.GET)
@@ -112,14 +114,16 @@ public class ChallengeController {
 		//관리자가 아니라면 메인페이지로 이동하게끔 만든다.
 		}else if(!(user.getRole().equals("4"))) {
 			System.out.println("ChallengeController updateChallenge() : GET role이 관리자(\"4\")가 아니면 main.jsp로 이동");
-			return "forward:/main.jsp";
+			//return "forward:/main.jsp";
+			return "forward:/toolbarMain.jsp";
 		}
 		
 		Challenge challenge = challService.getChallengeAdmin(challNo);
 		
 		model.addAttribute("challenge", challenge);
 		
-		return "forward:/challenge/updateChallenge.jsp";
+		//return "forward:/challenge/updateChallenge.jsp";
+		return "forward:/challenge/toolbarUpdateChallenge.jsp";
 		
 	}
 	
@@ -194,7 +198,8 @@ public class ChallengeController {
 		//관리자가 아니라면 메인페이지로 이동하게끔 만든다.
 		}else if(!(user.getRole().equals("4"))) {
 			System.out.println("ChallengeController getAdminChallengeList() : GET / POST role이 관리자(\"4\")가 아니면 main.jsp로 이동");
-			return "forward:/main.jsp";
+			//return "forward:/main.jsp";
+			return "forward:/toolbarMain.jsp";
 		}
 		
 		//가져온 현재페이지가 0이면 1페이지로 navagation
@@ -217,7 +222,8 @@ public class ChallengeController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		return "forward:/challenge/listAdminChallenge.jsp";
+		//return "forward:/challenge/listAdminChallenge.jsp";
+		return "forward:/challenge/toolbarListAdminChallenge.jsp";
 		
 	}
 	
@@ -246,7 +252,8 @@ public class ChallengeController {
 		model.addAttribute("challenge", challenge);
 		model.addAttribute("preNextPost", preNextPost);
 		
-		return "forward:/challenge/getChallenge.jsp";
+		//return "forward:/challenge/getChallenge.jsp";
+		return "forward:/challenge/toolbarGetChallenge.jsp";
 	}
 	
 	//GET과 POST를 동시에
@@ -290,7 +297,8 @@ public class ChallengeController {
 		//userId를 가져온다?? 필요한지 볼 것.
 		model.addAttribute("user", user);
 		
-		return "forward:/challenge/listUserCompleteChallenge.jsp";
+		//return "forward:/challenge/listUserCompleteChallenge.jsp";
+		return "forward:/challenge/toolbarListUserCompleteChallenge.jsp";
 		
 	}
 	
@@ -320,7 +328,8 @@ public class ChallengeController {
 		
 		model.addAttribute("list", list);
 		
-		return "forward:/challenge/listChallenge.jsp";
+		//return "forward:/challenge/listChallenge.jsp";
+		return "forward:/challenge/toolbarListChallenge.jsp";
 	}
 	
 	

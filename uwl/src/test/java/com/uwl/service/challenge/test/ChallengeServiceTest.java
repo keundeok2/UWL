@@ -256,7 +256,7 @@ public class ChallengeServiceTest {
 			reward.setTotalActivityPoint(12000);
 			
 			System.out.println("JunitTest reward : " + reward + "ㅇㄴㅇㄴㅇchall : " + challenge + "map의 get : " + map.get("list"));
-			challengeService.completeChallenge(reward, challenge, map, completeCheck);
+			challengeService.completeChallenge(reward, challenge, map);
 			
 			}
 		}

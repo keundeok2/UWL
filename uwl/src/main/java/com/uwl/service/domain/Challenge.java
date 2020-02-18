@@ -8,6 +8,8 @@ public class Challenge {
 	//도전과제 시퀀스, 카테고리
 	private int challNo;
 	private String challCategory;
+	//세부카테고리를 정의
+	private String detailCategory;
 	
 	//CRUD 등록시 - 썸머노트 사용
 	private String challTitle;
@@ -334,16 +336,31 @@ public class Challenge {
 
 
 
+	public String getDetailCategory() {
+		return detailCategory;
+	}
+
+
+
+	public void setDetailCategory(String detailCategory) {
+		this.detailCategory = detailCategory;
+	}
+
+
+
+
+
+
 	@Override
 	public String toString() {
-		return "Challenge [challNo=" + challNo + ", challCategory=" + challCategory + ", challTitle=" + challTitle
-				+ ", challContent=" + challContent + ", challDate=" + challDate + ", weeklyStart=" + weeklyStart
-				+ ", weeklyEnd=" + weeklyEnd + ", post=" + post + ", commentt=" + commentt + ", challStatus="
-				+ challStatus + ", preChallNo=" + preChallNo + ", nextChallNo=" + nextChallNo + ", preChallTitle="
-				+ preChallTitle + ", nextChallTitle=" + nextChallTitle + ", firstUser=" + firstUser
-				+ ", firstUserLocation=" + firstUserLocation + ", secondUser=" + secondUser + ", secondUserLocation="
-				+ secondUserLocation + ", challReward=" + challReward + ", postCommentComplete=" + postCommentComplete
-				+ ", viewStatus=" + viewStatus + "]";
+		return "Challenge [challNo=" + challNo + ", challCategory=" + challCategory + ", detailCategory="
+				+ detailCategory + ", challTitle=" + challTitle + ", challContent=" + challContent + ", challDate="
+				+ challDate + ", weeklyStart=" + weeklyStart + ", weeklyEnd=" + weeklyEnd + ", post=" + post
+				+ ", commentt=" + commentt + ", challStatus=" + challStatus + ", preChallNo=" + preChallNo
+				+ ", nextChallNo=" + nextChallNo + ", preChallTitle=" + preChallTitle + ", nextChallTitle="
+				+ nextChallTitle + ", firstUser=" + firstUser + ", firstUserLocation=" + firstUserLocation
+				+ ", secondUser=" + secondUser + ", secondUserLocation=" + secondUserLocation + ", challReward="
+				+ challReward + ", postCommentComplete=" + postCommentComplete + ", viewStatus=" + viewStatus + "]";
 	}
 	
 	

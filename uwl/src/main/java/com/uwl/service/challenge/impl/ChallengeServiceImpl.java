@@ -136,12 +136,14 @@ public class ChallengeServiceImpl implements ChallengeService{
 
 
 	@Override
-	public boolean completeChallenge(Reward reward, Challenge challenge, Map<String, Object> map, boolean completeCheck) throws Exception {
+	public Reward completeChallenge(Reward reward, Challenge challenge, Map<String, Object> map) throws Exception {
 		
-		
+		boolean completeResult = true;
 		List<Challenge> list = (List<Challenge>)(map.get("list"));
 		Post challpost = challenge.getPost();
 		Commentt commentt = challenge.getCommentt();
+		System.out.println("challpost : " + challpost);
+		System.out.println("commentt : " + commentt);
 		
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println("challengeServiceImpl의 completeChallenge() list: " + list.get(i));
@@ -151,40 +153,52 @@ public class ChallengeServiceImpl implements ChallengeService{
 			System.out.println("challengeServiceImpl의 completeChallenge()의 주간도전과제 list("+i+") : " + list.get(i));
 			
 			//게시판활동 도전과제를 수행한다면 카테고리 3: 게시판활동 도전과제
-			if (list.get(i).getChallCategory().equals("3")) {
+//			if (list.get(i).getChallCategory().equals("3")) {
+			//게시판활동 조건 중 게시글 등록 조건을 수행한다면
+			System.out.println("list.get(i).getDetailCategory() : " + list.get(i).getDetailCategory());
+			System.out.println("challpost.getGatherCategoryNo() : " + challpost.getGatherCategoryNo());
+			if (list.get(i).getChallCategory().equals("3") && list.get(i).getDetailCategory().equals(challpost.getGatherCategoryNo())) {
 				if (challengeDAO.getChallPostCompleteCount(list.get(i)) == list.get(i).getPostCommentComplete()) {
 					System.out.println("challengeDAO.getChallPostCompleteCount(challenge) : " + challengeDAO.getChallPostCompleteCount(challenge) );
 					reward.setChallenge(list.get(i)); 
+					//통과하면 true를 set
+					reward.setCompleteResult(completeResult);
 					rewardDAO.increasePoint(reward);
 					
-					//조건이 충족되면 트루
-					completeCheck = true;
-					System.out.println("boolean : " + completeCheck);
 					
 					System.out.println("게시글작성 도전과제 조건이 충족되었음.");
-					return completeCheck;
+					return reward;
 					
-					//코멘트 조건이 충족했을 경우
-				}else if(challengeDAO.getChallCommentCompleteCount(list.get(i)) == list.get(i).getPostCommentComplete()) {
+				}
+			}//end of if
+			
+			//게시판활동 조건 중 댓글 등록 조건을 수행한다면
+			System.out.println("list.get(i).getDetailCategory() : " + list.get(i).getDetailCategory());
+			System.out.println("challpost.getGatherCategoryNo() : " + challpost.getGatherCategoryNo());
+			if (list.get(i).getChallCategory().equals("3") && list.get(i).getDetailCategory().equals("댓글")) {
+				if(challengeDAO.getChallCommentCompleteCount(list.get(i)) == list.get(i).getPostCommentComplete()) {
+					System.out.println("if조건 중 댓글조건에 진입함");
 					System.out.println("challengeDAO.getChallCommentCompleteCount(challenge) : " + challengeDAO.getChallPostCompleteCount(challenge) );
-					reward.setChallenge(list.get(i)); 
+					System.out.println("challengeDAO.list.get(i).getPostCommentComplete() : " + list.get(i).getPostCommentComplete() );
+					reward.setChallenge(list.get(i));
+					//통과하면 true를 set
+					
+					reward.setCompleteResult(completeResult);
 					rewardDAO.increasePoint(reward);
+					
 					System.out.println("코멘트작성 도전과제 조건이 충족되었음.");
 					
-					//조건이 충족되면 트루
-					completeCheck = true;
-					System.out.println("boolean : " + completeCheck);
-					
-					return completeCheck;
+					return reward;
 				}
+			}
 				
-			}//end of if
+			
 			else {System.out.println("다른 도전과제를 검증하세요");}
 			System.out.println("======================끝========================");
 		} //end of for
 		
 		//조건이 충족되지않으면 false
-		return completeCheck;
+		return reward;
 	}
 
 	

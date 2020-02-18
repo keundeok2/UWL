@@ -21,6 +21,9 @@ public class Reward {
 	private int totalPoint;
 	private int totalActivityPoint;
 	
+	//여기다가 트루폴스넣기
+	private boolean completeResult;
+	
 	//랭크에 쏴줄 토탈포인트 변수
 	private int recentlyTotalPoint;
 	private int recentlyTotalActivityPoint;
@@ -163,13 +166,23 @@ public class Reward {
 	}
 
 
+	public boolean isCompleteResult() {
+		return completeResult;
+	}
+
+
+	public void setCompleteResult(boolean completeResult) {
+		this.completeResult = completeResult;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Reward [userId=" + userId + ", rewardNo=" + rewardNo + ", purchaseItem=" + purchaseItem + ", challenge="
 				+ challenge + ", variablePoint=" + variablePoint + ", variableActivityPoint=" + variableActivityPoint
 				+ ", variableDate=" + variableDate + ", totalPoint=" + totalPoint + ", totalActivityPoint="
-				+ totalActivityPoint + ", recentlyTotalPoint=" + recentlyTotalPoint + ", recentlyTotalActivityPoint="
-				+ recentlyTotalActivityPoint + "]";
+				+ totalActivityPoint + ", completeResult=" + completeResult + ", recentlyTotalPoint="
+				+ recentlyTotalPoint + ", recentlyTotalActivityPoint=" + recentlyTotalActivityPoint + "]";
 	}
 
 	

@@ -16,6 +16,7 @@
 		<result property="challReward" 	column="chall_reward" 		jdbcType="NUMERIC" />
 		<result property="viewStatus" 	column="view_status" 		jdbcType="VARCHAR" />
 		<result property="postCommentComplete" 	column="post_comment_complete" 		jdbcType="NUMERIC" />
+		<result property="detailCategory" 	column="detail_category" 		jdbcType="VARCHAR" />
 		
 		<!-- 가상컬럼과 바인딩 -->
 		<result property="weeklyStart" 	column="weekly_start" 		jdbcType="DATE" />
@@ -73,7 +74,8 @@
 								chall_content,
 								chall_date,
 								chall_reward,
-								view_status
+								view_status,
+								detail_category
 								<if test="challCategory == 3">
 									, post_comment_complete
 								</if>
@@ -83,7 +85,8 @@
 				#{challTitle},
 				#{challContent:VARCHAR},SYSDATE,
 				#{challReward:NUMERIC},
-				'1'
+				'1',
+				#{detailCategory:VARCHAR}
 			<if test="challCategory == 3">
 				, #{postCommentComplete:NUMERIC}
 			</if>)
@@ -100,7 +103,8 @@
 			chall_category = #{challCategory},
 			chall_title = #{challTitle},
 			chall_content = #{challContent},
-			chall_reward = #{challReward}
+			chall_reward = #{challReward},
+			detail_category = #{detailCategory:VARCHAR}
 			<if test="challCategory != 3">
 				, post_comment_complete = 0
 			</if>
@@ -131,7 +135,8 @@
 									chall_date,
 									chall_reward,
 									view_status,
-									post_comment_complete
+									post_comment_complete,
+									detail_category
 						 	FROM challenge
 							WHERE view_status = '1'
 							<if test="searchCondition != null">
@@ -159,7 +164,8 @@
 			chall_date,
 			chall_reward,
 			view_status,
-			post_comment_complete
+			post_comment_complete,
+			detail_category
 		FROM challenge 
 		WHERE chall_no = #{value}
 	 </select>
@@ -197,7 +203,8 @@
 											c.chall_content,
 											c.chall_date,
 											c.chall_reward,
-											r.user_id
+											r.user_id,
+											c.detail_category
 										FROM reward r, challenge c  
 										WHERE r.chall_no = c.chall_no AND r.user_id = #{userId} ORDER BY  r.variable_date DESC) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER} )
@@ -264,27 +271,27 @@
 								AND p.user_id = #{post.userId:VARCHAR}
 								  <if test="challCategory == 3 ">
 										<!-- 진학상담 -->
-										<if test="post.gatherCategoryNo == 201 ">
+										<if test="detailCategory == 201 ">
 										 	AND	p.gather_category_no = '201'
 										</if>
 										<!-- 사랑 -->
-										<if test="post.gatherCategoryNo == 202 ">
+										<if test="detailCategory == 202 ">
 										 	AND p.gather_category_no = '202'
 										</if>
 										<!-- 남자끼리 -->
-										<if test="post.gatherCategoryNo == 203 ">
+										<if test="detailCategory == 203 ">
 										 	AND p.gather_category_no = '203'
 										</if>
 										<!-- 여자끼리 -->
-										<if test="post.gatherCategoryNo == 204 ">
+										<if test="detailCategory == 204 ">
 										 	AND p.gather_category_no = '204'
 										</if>
 										<!-- 데이트 -->
-										<if test="post.gatherCategoryNo == 205 ">
+										<if test="detailCategory == 205 ">
 										 	AND p.gather_category_no = '205'
 										</if>
 										<!-- 대나무숲 -->
-										<if test="post.gatherCategoryNo == 206 ">
+										<if test="detailCategory == 206 ">
 										 	AND p.gather_category_no = '206'
 										</if>
 								</if>  
@@ -296,46 +303,18 @@
 	 <select  id="getChallCommentCompleteCount"  parameterType="challenge"	 resultType="int">
 	  	SELECT COUNT(*) FROM(			
 								 SELECT  DISTINCT c.user_id,
-												c.comment_date,
-												p.gather_category_no
-											FROM commentt c, post p, (SELECT the_latest.weekly_start weekly_start,
-																			weekly_end.	weekly_end	weekly_end		FROM
-																	(SELECT weekly_start  
-																	FROM challenge 
-																	WHERE weekly_start IS NOT NULL 
-																	ORDER BY weekly_start DESC) the_latest, (SELECT 
-																												to_char(weekly_start+7,'yyyy-mm-dd HH24:MI:SS') weekly_end
-																												from challenge c WHERE c.weekly_start IS NOT NULL ORDER BY c.weekly_start DESC) weekly_end
-								WHERE ROWNUM = 1) week
-			WHERE TO_DATE(c.comment_date, 'yyyy-mm-dd HH24:MI:SS') BETWEEN TO_DATE(week.weekly_start, 'yyyy-mm-dd HH24:MI:SS') AND TO_DATE(week.weekly_end , 'yyyy-mm-dd HH24:MI:SS')
-						AND p.user_id = #{commentt.userId:VARCHAR}
-								  <if test="challCategory == 3 ">
-										<!-- 진학상담 -->
-										<if test="post.gatherCategoryNo == 201 ">
-										 	AND	p.gather_category_no = '201'
-										</if>
-										<!-- 사랑 -->
-										<if test="post.gatherCategoryNo == 202 ">
-										 	AND p.gather_category_no = '202'
-										</if>
-										<!-- 남자끼리 -->
-										<if test="post.gatherCategoryNo == 203 ">
-										 	AND p.gather_category_no = '203'
-										</if>
-										<!-- 여자끼리 -->
-										<if test="post.gatherCategoryNo == 204 ">
-										 	AND p.gather_category_no = '204'
-										</if>
-										<!-- 데이트 -->
-										<if test="post.gatherCategoryNo == 205 ">
-										 	AND p.gather_category_no = '205'
-										</if>
-										<!-- 대나무숲 -->
-										<if test="post.gatherCategoryNo == 206 ">
-										 	AND p.gather_category_no = '206'
-										</if>
-								</if> 
-								) countTable
+												c.comment_date
+											FROM commentt c, (SELECT the_latest.weekly_start weekly_start,
+																												weekly_end.	weekly_end	weekly_end		FROM
+																										(SELECT weekly_start  
+																										FROM challenge 
+																										WHERE weekly_start IS NOT NULL 
+																										ORDER BY weekly_start DESC) the_latest, (SELECT 
+																																															to_char(weekly_start+7,'yyyy-mm-dd HH24:MI:SS') weekly_end
+																																															from challenge c WHERE c.weekly_start IS NOT NULL ORDER BY c.weekly_start DESC) weekly_end
+																								WHERE ROWNUM = 1) week
+					WHERE TO_DATE(c.comment_date, 'yyyy-mm-dd HH24:MI:SS') BETWEEN TO_DATE(week.weekly_start, 'yyyy-mm-dd HH24:MI:SS') AND TO_DATE(week.weekly_end , 'yyyy-mm-dd HH24:MI:SS')
+					AND c.user_id = #{commentt.userId} ) countTable
 	 </select>
 	 
 	 <!-- 이전글 이후글보기 추가 -->
