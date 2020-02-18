@@ -209,18 +209,6 @@ public class UserRestController {
 		return map;
 	}
 
-//	// 회원전체 목록
-//	@RequestMapping(value ="rest/listUser", method = RequestMethod.GET)
-//	public String listUser(@RequestParam("userId") String userId, Model model) throws Exception {
-//
-//		System.out.println("/user/rest/listUser : GET");
-//		// Business Logic
-//		List<User> user = userService.getUserList(userId);
-//		// Model 과 View 연결
-//		model.addAttribute("user", user);
-//
-//		return "forward:/user/listUser.jsp";
-//	}
 
 	// id 중복체크
 	@RequestMapping(value = "rest/checkDuplicationUserId", method = RequestMethod.GET)
@@ -306,68 +294,6 @@ public class UserRestController {
 		return map;
 	}
 
-//	// 내가 쓴 게시글
-//	@RequestMapping(value = "rest/getUserPostList", method = RequestMethod.GET)
-//	public Map getUserPostList() throws Exception{
-//		Search search = new Search();
-//		
-//		System.out.println("/user/rest/getUserPostList : GET ");
-//		if(search.getCurrentPage() ==0 ){
-//			search.setCurrentPage(1);
-//		}
-//		search.setPageSize(pageSize);
-//		
-//		Map<String , Object> map=userService.getUserPostList(search);
-//		
-//		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-//		System.out.println(resultPage);
-//		
-//		map.put("search", search);
-//		map.put("resultPage", resultPage);
-//		return map;
-//	}
-//
-//	// 내가 쓴 댓글
-//	@RequestMapping(value = "rest/getUserCommentList", method = RequestMethod.GET)
-//	public Map getUserCommentList() throws Exception{
-//		Search search = new Search();
-//		
-//		System.out.println("/user/rest/getUserCommentList : GET ");
-//		if(search.getCurrentPage() ==0 ){
-//			search.setCurrentPage(1);
-//		}
-//		search.setPageSize(pageSize);
-//		
-//		Map<String , Object> map=userService.getUserCommentList(search);
-//		
-//		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-//		System.out.println(resultPage);
-//		
-//		map.put("search", search);
-//		map.put("resultPage", resultPage);
-//		return map;
-//	}
-//
-//	// 내가 좋아요한 글
-//	@RequestMapping(value = "rest/getUserLikePostList", method = RequestMethod.GET)
-//	public Map getUserLikePostList() throws Exception{
-//		Search search = new Search();
-//		
-//		System.out.println("/user/rest/getUserLikePostList : GET ");
-//		if(search.getCurrentPage() ==0 ){
-//			search.setCurrentPage(1);
-//		}
-//		search.setPageSize(pageSize);
-//		
-//		Map<String , Object> map=userService.getUserLikePostList(search);
-//		
-//		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-//		System.out.println(resultPage);
-//		
-//		map.put("search", search);
-//		map.put("resultPage", resultPage);
-//		return map;
-//	}
 
 	// id 찾기
 	@RequestMapping(value = "rest/findId", method = RequestMethod.POST)
@@ -466,7 +392,6 @@ public class UserRestController {
 		} else {
 			return false;
 		}
-
 	}
 
 //	 mail 인증
@@ -593,7 +518,7 @@ public class UserRestController {
 			return map;
 		}
 		
-		@RequestMapping(value = "/rest/getWeather")
+		@RequestMapping(value = "/rest/getWeather", method = RequestMethod.POST)
 		private Map getWeather(@RequestBody Weather weather) throws Exception{
 			Map<String, String> map = weatherService.getWeather(weather);
 			return map;

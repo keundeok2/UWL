@@ -214,13 +214,13 @@
                     for (var i = 0; i < d.list.length; i++) {
                         /*재이가 고침!!*/
                        var html = '<li>'
-                    + '<a href="#" class="rightProfileName">'
-                        + '<span><img src="/images/' + d.list[i].profileName + '" alt=""></span>'
-                        + '<span>' + d.list[i].name + '</span>'
-                        + '<span></span>'
-                    + '</a>'
-                    + '<input type="hidden" value="' + d.list[i].userId + '">'
-                + '</li>';
+				                    + '<a href="#" class="rightProfileName">'
+				                        + '<span><img src="/images/' + d.list[i].profileName + '" alt=""></span>'
+				                        + '<span>' + d.list[i].name + '</span>'
+				                        + '<span></span>'
+				                    + '</a>'
+				                    + '<input type="hidden" value="' + d.list[i].userId + '">'
+				                + '</li>';
                         /*재이가 고침!!*/
                         
                         $(html).appendTo("div.friendList ul");

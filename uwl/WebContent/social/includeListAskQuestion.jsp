@@ -209,44 +209,10 @@
 
 </script>
 
-<style type="text/css">
-
 <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: 0;
-        }
+        
 
-        li {
-            list-style: none;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        a:hover,
-        a:focus {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        body {
-            font-size: 16px;
-            color: #898989;
-            font-family: 'Roboto', sans-serif;
-            font-family: 'Nanum Gothic', sans-serif;
-        }
-
-        img,
-        i,
-        input {
-            vertical-align: middle;
-        }
-
-        div.wrap {
+        section div.wrap {
             background-color: rgb(121, 134, 203);
             padding: 10px;
         }
@@ -316,35 +282,40 @@
             margin-bottom: 30px;
         }
 
-        
+
 
         div.addAsk {
-            
+
             background-color: rgb(248, 249, 251);
         }
+
         div.addAsk div.ask {
             background-color: #fff;
-            
+
             padding: 15px 10px 43px;
             margin-bottom: 6px;
         }
+
         div.addAsk div.ask p:nth-child(1) {
-            
+
             font-size: 13px;
             float: left;
         }
+
         div.addAsk div.ask p:nth-child(2) {
             float: right;
         }
+
         div.addAsk div.ask p:nth-child(3) {
             clear: both;
             margin-bottom: 10px;
             font-weight: bold;
             font-size: 15px;
         }
+
         div.addAsk div.ask p:nth-child(4) a {
             display: inline-block;
-            
+
             line-height: 30px;
             font-size: 12px;
             width: 80px;
@@ -353,30 +324,36 @@
             border: 1px solid;
             color: rgb(121, 134, 203);
         }
+
         div.addAsk div.ask p:nth-child(4) {
             margin-left: 5px;
         }
-        div.addAsk div.ask > p:nth-child(4) a:nth-child(1) {
+
+        div.addAsk div.ask>p:nth-child(4) a:nth-child(1) {
             color: #c6c6c6;
         }
+
         textarea.comment {
             width: 100%;
             resize: none;
             height: 120px;
             background-color: #f8f8f8;
         }
+
         div.commentForm p:nth-child(2) {
             padding: 5px;
             float: left;
         }
+
         div.commentForm p:nth-child(3) {
             float: right;
             padding: 5px;
-            
+
         }
+
         div.commentForm p:nth-child(3) a {
             display: inline-block;
-            
+
             line-height: 30px;
             font-size: 12px;
             width: 80px;
@@ -385,12 +362,13 @@
             border: 1px solid;
             color: rgb(121, 134, 203);
         }
+
         div.commentForm {
             background-color: #fff;
             height: 160px;
             padding-top: 15px;
         }
-        
+
         .wrap>div:last-child {
             background-color: #fff;
             line-height: 60px;
@@ -398,10 +376,11 @@
             text-align: center;
             margin-top: 10px;
         }
-        
+
         .btn-default {
-        	border: 1px solid black;
+            border: 1px solid black;
         }
+
     </style>
 
 <title>어울림</title>

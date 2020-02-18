@@ -341,9 +341,7 @@
 
 <style type="text/css">
 
-body {
-	margin : 50px;
-}
+
 ul.timeline {
     list-style-type: none;
     position: relative;
@@ -422,9 +420,9 @@ body {word-break:break-all;}
 <title>어울림</title>
 </head>
 <body>
-	<div class="container mt-5 mb-5">
-		<div class="row">
-			<div class="col-md-6 offset-md-3">
+	<div>
+		<div>
+			<div>
 				<h4>${user.name}님의 Timeline</h4>
 			<c:if test="${targetUserId eq user.userId }">
 				<div class="addFormDiv">

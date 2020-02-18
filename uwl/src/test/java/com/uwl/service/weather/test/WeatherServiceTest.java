@@ -44,6 +44,9 @@ public class WeatherServiceTest {
 		weather.setX("60");
 		weather.setY("127");
 		
+		// 60, 127 서울
+		// 61, 126 강남
+		
 		weatherService.getWeather(weather);
 	}
 }

@@ -115,7 +115,7 @@ var page = 1;
 			
 			if($(window).data('ajaxready') == false) return;
 			if (maxHeight <= currentScroll) {
-			if (page <= ${map.resultPage.maxPage}) {
+			if (page <= ${askMap.resultPage.maxPage}) {
 				$(window).data('ajaxready', false);
 				page++;
 				console.log('page : ' + page);
@@ -154,41 +154,11 @@ var page = 1;
 </script>
 
 <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: 0;
-        }
+        
 
-        li {
-            list-style: none;
-        }
+        
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        a:hover,
-        a:focus {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        body {
-            font-size: 16px;
-            color: #898989;
-            font-family: 'Roboto', sans-serif;
-            font-family: 'Nanum Gothic', sans-serif;
-        }
-
-        img,
-        i,
-        input {
-            vertical-align: middle;
-        }
-
-        div.wrap {
+        section div.wrap {
             background-color: rgb(121, 134, 203);
             padding: 10px;
         }
@@ -217,7 +187,7 @@ var page = 1;
             font-size: 18px;
         }
 
-        textarea {
+        section textarea {
             width: 100%;
             height: 55px;
             resize: none;
@@ -255,7 +225,7 @@ var page = 1;
             margin-bottom: 30px;
         }
 
-        
+
 
         div.ask {
             background-color: #fff;
@@ -263,9 +233,10 @@ var page = 1;
             border-radius: 40px;
             padding: 20px 20px 10px;
         }
+
         div.ask p:nth-child(2),
         div.ask p:nth-child(4) {
-            
+
             font-size: 12px;
             text-indent: 5px;
             margin-bottom: 28px;
@@ -274,19 +245,19 @@ var page = 1;
 
         div.ask p:nth-child(3),
         div.ask p:nth-child(4) {
-            
+
             text-indent: 30px;
             margin-bottom: 0;
         }
 
-        .wrap>div:last-child {
+        section div.wrap>div:last-child {
             background-color: #fff;
             line-height: 60px;
             border-radius: 16px;
             text-align: center;
             margin-top: 10px;
         }
-        
+
     </style>
 <title>어울림</title>
 </head>
@@ -295,7 +266,7 @@ var page = 1;
         <div class="header">
         <form>
             <p>ASK - 질문&amp;답변</p>
-            <p>답변완료 : ${map.totalCount}개</p>
+            <p>답변완료 : ${askMap.totalCount}개</p>
             <p>${targetUser.name}님에게 질문합니다.</p>
             <p>
                 <textarea name="questionContent" cols="30" rows="10" placeholder="성희롱 및 욕설은 처벌대상입니다."></textarea>
@@ -312,7 +283,7 @@ var page = 1;
             <p>주소 : <input type="text" value="http://localhost:8080/social/getAskList/${targetUserId}" readonly="readonly"></p>
         </div>
         <div class="askList">
-            <c:forEach var="ask" items="${map.list}">
+            <c:forEach var="ask" items="${askMap.list}">
             <div class="ask">
                 <p>${ask.questionContent}</p>
                 <p><span>익명</span> ｜ <span>${ask.questionDate}</span></p>
