@@ -1,19 +1,22 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- 참조 : http://getbootstrap.com/css/   참조 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
-    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-    <title>Insert title here</title>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+            $("button").on("click", function() {
+                // 			self.location = "/user/getUser?userId=${user.userId}"
+                $("form").attr("method", "POST").attr("action", "/user/updateQuestions").submit();
+            });
+        });
+    </script>
 
     <style>
         * {
@@ -38,7 +41,7 @@
             font-family: 'Nanum Gothic', sans-serif;
         }
 
-
+        
 
         div.navigation {
 
@@ -118,7 +121,7 @@
 
         }
 
-        div.notice div.list input {
+        div.notice div.list button {
             background-color: #EBAD7A;
             display: inline-block;
             line-height: 25px;
@@ -153,69 +156,6 @@
 
         div.wrap>div:nth-child(4) table tr td:nth-child(2) {
             padding-left: 30px;
-        }
-    </style>
-
-
-
-    <script type="text/javascript">
-        $(function() {
-            //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-            $("input.btn.btn-primary").on("click", function() {
-                fncAddQuestions();
-            });
-        });
-
-
-        function fncAddQuestions() {
-
-            var postTitle = $("input[name='postTitle']").val();
-            var postContent = $("input[name='postContent']").val();
-
-            if (postTitle == null || postTitle.length < 1) {
-                alert("제목을 입력하세요.");
-                return;
-            }
-            if (postContent == null || postContent.length < 1) {
-                alert("내용을 입력하세요.");
-                return;
-            }
-
-            $("form").attr("method", "POST").attr("action", "/user/addQuestions").submit();
-        }
-    </script>
-
-    <style>
-        div.layoutWrap {
-
-            width: 100%;
-            min-height: 200vh;
-            padding: 0 20%;
-            position: relative;
-        }
-
-        div.leftToolbar {
-            width: 20%;
-            height: 100vh;
-
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            border: 1px solid #eee;
-            background: #fff;
-        }
-
-        div.rightToolbar {
-            width: 20%;
-            height: 100vh;
-
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            background: #fff;
-            border: 1px solid #eee;
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
@@ -296,30 +236,29 @@
         <div class="work2">
             <form>
 
-                <input type="hidden" id="userId" name="userId" value="${user.userId}" />
+
                 <div class="wrap">
                     <div class="navigation">
                         <span>홈 > 고객행복센터 ></span>
-                        <span>문의사항 등록</span>
+                        <span>내 문의사항 수정</span>
                     </div>
                     <div class="noticeTop">
-                        <span>문의사항 등록</span>
-                        <span>문의사항을 등록해 보아요 </span>
+                        <span>내 문의사항 수정</span>
+                        <span></span>
                     </div>
                     <div class="notice">
                         <table>
                             <colgroup>
-                                <col width="15%">
-                                <col width="35%">
-                                <col width="15%">
-                                <col width="35%">
+                                <col width="10%">
+                                <col width="40%">
+                                <col width="10%">
+                                <col width="40%">
                             </colgroup>
                             <tr>
                                 <td>제목</td>
-                                <td><input type="text" id="postTitle" name="postTitle" placeholder="제목 입력" style="line-height : 1"></td>
-
+                                <td><input type="text" name="postTitle" value="${post.postTitle}"></td>
                                 <td>카테고리</td>
-                                <td><select name="gatherCategoryNo">
+                                <td> <select name="gatherCategoryNo">
                                         <option value="101">매칭</option>
                                         <option value="102">아이템</option>
                                         <option value="103">도전과제</option>
@@ -333,78 +272,75 @@
                                         <option value="111">기타</option>
                                     </select></td>
                             </tr>
-
                             <tr>
-                                <td>공개설정여부</td>
-                                <td>
-                                    <input type="radio" id="viewStatus" name="viewStatus" value="1" checked /> 공개
-                                    <input type="radio" id="viewStatus" name="viewStatus" value="2" /> 비공개
-                                </td>
+                                <td>작성자</td>
+                                <td>${post.userId }</td>
+                                <td>공개여부</td>
+                                <td><input type="radio" id="viewStatus" name="viewStatus" value="1" checked /> 공개
+                                    <input type="radio" id="viewStatus" name="viewStatus" value="2" /> 비공개</td>
 
                             </tr>
+                            <tr>
+                                <td>작성일</td>
+                                <td>${post.postDate }</td>
+                                <td>처리결과</td>
+                                <td>
+                                    <c:if test="${post.questionStatus == '1' or post.questionStatus == null}">처리중</c:if>
+                                    <c:if test="${post.questionStatus == '2'}">처리 완료</c:if>
+                                </td>
+                            </tr>
                             <td colspan="4">
-                                <div><input type="text" id="postContent" name="postContent" placeholder="내용입력" name="postContent" style="resize:none ; width:100% ; height: 350px" /></div>
-
+                                <br>
+                                <!--  내용  -->
+                                <div><textarea cols="50" rows="10" name="postContent" style="resize:none ; width:100% ">${post.postContent }</textarea></div>
                                 <br>
                             </td>
-
+                            <tr>
+                                <td colspan="4">
+                                    <img src="img/e7b99206a6a2d1e0.webp" alt="">
+                                </td>
+                            </tr>
                         </table>
 
 
                     </div>
                     <div class="notice">
-                        <table>
-                            <tr>
 
-                            </tr>
-
-                        </table>
                         <div class="list">
                             <a href="/user/getUserQuestions">목록</a>
                             <a href="javascript:history.go(-1)">뒤로</a>
-                            <input type="submit" class="btn btn-primary" value="등록">
+                            <button type="button" id="updateQuestions">완료</button>
                         </div>
 
                     </div>
 
                 </div>
 
+                <input type="hidden" name="postNo" value="${post.postNo}">
+                <input type="hidden" name="postDate" value="${post.postDate}">
+                <input type="hidden" name="hitCount" value="${post.hitCount}">
+                <input type="hidden" name="likeCount" value="${post.likeCount}">
+                <input type="hidden" name="commentCount" value="${post.commentCount}">
 
 
+                <!--<%-- 	아이디  : <input type="text"	name="userId"		 value="${user.userId}"		readonly> --%>-->
 
-
-
-
-
-
-                <br>
-                <br>
-
-
-
-
-                <input type="hidden" />${post.hitCount}
-                <input type="hidden" />${post.likeCount}
-                <input type="hidden" />${post.commentCount}
-                <input type="hidden" />${post.postDate}
-                <input type="hidden" />${post.postNo}
-                <br>
-                <br>
-                <br>
-
-
-
-
-
-                <!--<%-- <div><input type= "hidden" id="hitCount"	name="hitCount"	value="${post.hitCount}"/>${post.hitCount}</div> --%>-->
-                <!--     <br> -->
-                <!--              <br> -->
-                <!--<%-- <div><input type= "hidden" id="likeCount"	name="likeCount"	value="${post.likeCount}"/>${post.likeCount}</div> --%>-->
-                <!--     <br> -->
-                <!--                  <br> -->
-                <!--<%-- <div><input type= "hidden" id="commentCount"	name="commentCount"	value="${post.commentCount}"/>${post.commentCount}</div> --%>-->
-                <!--     <br> -->
-
+                <!--<%-- 제목  : <div>${post.postTitle}</div><input type="text"		name="postTitle"	 value="${post.postTitle}">
+	<br>
+	<br>
+	내용  : <div>${post.postContent}</div> <input type="text" 	name="postContent"	 value="${post.postContent}">
+	<br>
+	<br>
+	
+	  공개설정 :  <div>  <input type= "radio" id="viewStatus"	name="viewStatus"	value="1"	checked/> 공개
+    <input type= "radio" id="viewStatus"	name="viewStatus"	value="2"/> 비공개
+    </div>
+  
+  
+    <br> 
+    <br> 
+    <br> 
+	 --%>-->
 
 
             </form>

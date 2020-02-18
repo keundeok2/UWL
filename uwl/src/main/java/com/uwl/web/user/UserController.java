@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.couple.CoupleService;
+import com.uwl.service.domain.Ask;
 import com.uwl.service.domain.Friend;
 import com.uwl.service.domain.Matching;
 import com.uwl.service.domain.Post;
@@ -817,6 +818,14 @@ public class UserController {
 		
 		// 모든 네이버 로그인(회원가입) Business Logic이 끝난 타이밍을 알기 위해 전혀 의미 없는 jsp로 연결
 		return "forward:/naver/pathLoginImfo.jsp";
+	}
+	
+	@RequestMapping(value = "replyQuestion", method = RequestMethod.POST)
+	public String replyQuestion(@ModelAttribute Ask ask) throws Exception{
+		userService.replyQuestion(ask);
+		System.out.println("컨트롤러 탄다");
+		return "forward:/user/getQuestionsList";
+		
 	}
 	
 	

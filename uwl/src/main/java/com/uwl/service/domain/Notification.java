@@ -11,12 +11,18 @@ public class Notification {
 	private String receiverId;
 	private int postNo;
 	private String notiOrigin;
-//			1:게시글
-//			2:댓글
+//	1:게시글
+//	2.ask
+//	3. 타임라인
+//	4. 친구
+//	5. 문의사항
 	private String notiCode;
-//			1:댓글
-//			2:좋아요
-	private Date notiDate;
+//	1:댓글
+//	2:답변
+//	3.친구신청
+//	4.친구수락
+//	5. (Ask)등록
+	private String notiDate;
 	//변수명과 table명을 일치시킴. 
 	
 	public Notification() {
@@ -79,11 +85,11 @@ public class Notification {
 		this.notiCode = notiCode;
 	}
 
-	public Date getNotiDate() {
+	public String getNotiDate() {
 		return notiDate;
 	}
 
-	public void setNotiDate(Date notiDate) {
+	public void setNotiDate(String notiDate) {
 		this.notiDate = notiDate;
 	}
 

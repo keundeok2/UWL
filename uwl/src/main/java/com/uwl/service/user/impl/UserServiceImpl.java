@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.uwl.common.Search;
+import com.uwl.service.domain.Ask;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.User;
 import com.uwl.service.schoolRank.SchoolRankDAO;
@@ -273,6 +274,19 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updatePassword(User user) throws Exception {
 		userDAO.updatePassword(user);
+	}
+	///////////////////
+	@Override
+	public void replyQuestion(Ask ask) throws Exception {
+		userDAO.replyQuestion(ask);
+		userDAO.updateQuestionStatus(ask.getQuestionPostNo());
+		System.out.println("유저 서비스 임쁠 탄다");
+	}
+	
+	@Override
+	public Post getAnswer(int postNo) throws Exception {
+		System.out.println("유저 서비스 임쁠 탄다 답변내용가져오기");
+		return userDAO.getAnswer(postNo);
 	}
 	
 }

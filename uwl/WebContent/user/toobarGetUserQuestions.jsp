@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <!-- 참조 : http://getbootstrap.com/css/   참조 -->
@@ -112,9 +113,9 @@
             font-family: 'Nanum Gothic', sans-serif;
         }
 
-        
 
-        
+
+
 
         div.mainHeader {
 
@@ -191,13 +192,9 @@
         div.noticeList table tr:nth-child(n + 2) td:nth-child(2) {
             text-align: left;
         }
-
-        
     </style>
 
     <style>
-        
-
         div.layoutWrap {
 
             width: 100%;
@@ -230,14 +227,82 @@
             border-left: 1px solid #eee;
         }
     </style>
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+
+        }
+
+        a:hover,
+        a:focus {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        body {
+            color: #333;
+            font-size: 16px;
+            font-family: 'Roboto', sans-serif;
+            font-family: 'Nanum Gothic', sans-serif;
+
+        }
+
+        div.layoutWrap2 {
+            width: 1500px;
+            height: 100vh;
+
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        div.leftToolbar2 {
+
+            width: 300px;
+            height: 100vh;
+            float: left;
+            background-color: #fff;
+            border-right: 1px solid #eee;
+        }
+
+        div.work2 {
+
+            width: 900px;
+            height: 100vh;
+            float: left;
+            overflow: hidden;
+            overflow-y: scroll;
+
+        }
+
+        div.rightToolbar2 {
+
+            width: 300px;
+            height: 100vh;
+            float: left;
+            background-color: #fff;
+            border-left: 1px solid #eee;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="layoutWrap">
-        <div class="leftToolbar">
+    <div class="layoutWrap2">
+        <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work">
+        <div class="work2">
             <div class="wrap">
 
                 <div class="main">
@@ -285,7 +350,7 @@
                 </div>
             </div>
         </div>
-        <div class="rightToolbar">
+        <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
         </div>
     </div>

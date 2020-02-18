@@ -314,6 +314,13 @@
 </script>
 
  <script>
+ 
+ var questionPostNo = null;
+	var targetUserId = "${targetUserId}";
+	var sessionId = "${user.userId}";
+
+	
+	
         $(function() {
             $(document).on('click', 'a[href="#"]', function(e) {
                 e.preventDefault();
@@ -344,7 +351,9 @@
         
         $(document).on("click", "a.replyBtn", function() {
 			var content = $("textarea.comment").val();
+			var questionPostNo = $("#postNo").val();
 			console.log("content", content);
+			console.log("questionPostNo", questionPostNo);
 			
 			if (content.length < 1 || content == null || content == "") {
 				var pureAlert = $.pureAlert.alert({
@@ -359,7 +368,7 @@
 			}
 			
 			$.ajax({
-				url : "/social/rest/replyQuestion",
+				url : "/user/rest/replyQuestion",
 				method : "POST",
 				headers : {
 					"Accept" : "application/json",
@@ -433,9 +442,10 @@
 					<c:set var="i" value="0"/>
 						<c:forEach var="post" items="${ list }">
 							<c:set var ="i" value="${i}"/>
-								<c:if test="${post.postCategoryNo == '5'}">
+								<c:if test="${post.postCategoryNo == '5' and post.postTitle !='문의사항답변등록'}">
 						<tr>
-								<td><a href="/user/getQuestions?postNo=${post.postNo}">${post.postNo}</a></td>
+								<td><input type="hidden" id="postNo" name="postNo" value="${post.postNo}"/>
+								<a href="/user/getQuestions?postNo=${post.postNo}">${post.postNo}</a></td>
 					 <c:if test="${post.gatherCategoryNo == '101'}">
                     <td>매칭</td>
                     </c:if>

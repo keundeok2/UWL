@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.uwl.common.Search;
+import com.uwl.service.domain.Ask;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.User;
 import com.uwl.service.user.UserDAO;
@@ -186,5 +187,25 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void updatePassword(User user) throws Exception {
 		sqlSession.update("UserMapper.updatePassword", user);
+	}
+	
+	////////////////
+	
+	@Override
+	public void replyQuestion(Ask ask) throws Exception {
+		sqlSession.insert("UserMapper.replyQuestion", ask);
+		System.out.println("유저 DAO 임쁠 탄다");
+	}
+	
+	@Override
+	public void updateQuestionStatus(int questionPostNo) throws Exception {
+		sqlSession.update("UserMapper.updateQuestionStatus", questionPostNo);
+		System.out.println("유저 DAO 임쁠 탄다 상태 업데이투 ");
+	}
+	
+	@Override
+	public Post getAnswer(int postNo) throws Exception {
+		System.out.println("유저 DAO 임쁠 탄다 답변가져오기");
+		return sqlSession.selectOne("UserMapper.getAnswer", postNo); 
 	}
 }
