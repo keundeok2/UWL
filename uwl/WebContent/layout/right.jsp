@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <style type="text/css">
+    
+        <style type="text/css">
         /* 일단 여기에 박았음 */
         div.addAskedFriendData img {
             width: 60px;
@@ -59,17 +60,14 @@
             font-family: 'Nanum Gothic', sans-serif;
         }
 
-        div.rightLayout {
-        	margin-right: 20px;
-        	margin-top: 20px;
-        	margin-left: 20px;
-        }
+        
 
         div.search2 {
-            
+
             overflow: hidden;
             margin-bottom: 15px;
             
+
         }
 
         div.search2 i {
@@ -79,7 +77,8 @@
             float: left;
             padding: 0 15px;
             font-size: 17px;
-            border-radius: 15px 0 0 15px;
+            border-radius: 10px 0 0 10px;
+            width: 15%;
         }
 
         div.search2 input {
@@ -92,9 +91,25 @@
             font-size: 16px;
             color: #919191;
             padding-right: 35px;
+            width: 60%;
+        }
+        
+        div.search2 select {
+            width: 25%;
+            line-height: 40px;
+            height: 40px;
+            border: none;
+            background: #efefef;
+            color: #919191;
+            border-radius: 0 10px 10px 0;
+            position: relative;
+            z-index: 1;
         }
 
         input:focus {
+            outline: none;
+        }
+        selece:focus {
             outline: none;
         }
 
@@ -105,21 +120,23 @@
         }
 
         div.friendList ul {
-            
+
             padding-bottom: 20px;
         }
 
-        
+
 
         div.friendList ul li:nth-child(1) {
-            
+
             font-size: 20px;
             font-weight: bold;
             line-height: 40px;
             padding: 5px 10px;
             position: relative;
+            
+            
         }
-
+        
         div.friendList ul li:nth-child(1) a {
             position: absolute;
             right: 10px;
@@ -128,30 +145,34 @@
             line-height: 1;
             padding: 8px;
             border-radius: 50%;
-            
+
             color: #EBAD7A;
             
         }
+        
 
         div.friendList ul li:nth-child(1) a:hover {
             background-color: rgba(235, 173, 122, 0.1);
         }
 
         div.friendList ul li:nth-child(n + 2) {
-            
+
             border-top: 1px solid #eee;
             line-height: 50px;
-            
+
         }
+
         div.friendList ul li:last-child {
             border-bottom: 1px solid #eee;
         }
+
         div.friendList ul li:nth-child(n + 2) a {
-            
+
             display: block;
             padding: 0 10px;
             position: relative;
         }
+
         div.friendList ul li:nth-child(n + 2) a span:nth-child(1) {
             width: 40px;
             height: 40px;
@@ -164,18 +185,21 @@
             margin-right: 10px;
             background-color: #aaa;
         }
+
         div.friendList ul li:nth-child(n + 2) a span:nth-child(1) img {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             height: 100%;
-            
+
         }
+
         div.friendList ul li:nth-child(n + 2) a span:nth-child(2) {
             font-weight: bold;
-            
+
         }
+
         div.friendList ul li:nth-child(n + 2) a span:nth-child(3) {
             background-color: green;
             width: 10px;
@@ -186,12 +210,13 @@
             right: 23px;
             top: 50%;
             transform: translateY(-50%);
-            
+
         }
+        
     </style>
     <script>
         var sessionUserId = null;
-		var sessionUserName = "${user.name}";
+        var sessionUserName = "${user.name}";
         $(function() {
             rightLoad();
             connectWS();
@@ -213,19 +238,19 @@
                 success: function(d) {
                     for (var i = 0; i < d.list.length; i++) {
                         /*재이가 고침!!*/
-                       var html = '<li>'
-				                    + '<a href="#" class="rightProfileName">'
-				                        + '<span><img src="/images/' + d.list[i].profileName + '" alt=""></span>'
-				                        + '<span>' + d.list[i].name + '</span>'
-				                        + '<span></span>'
-				                    + '</a>'
-				                    + '<input type="hidden" value="' + d.list[i].userId + '">'
-				                + '</li>';
+                        var html = '<li>' +
+                            '<a href="#" class="rightProfileName">' +
+                            '<span><img src="/images/' + d.list[i].profileName + '" alt=""></span>' +
+                            '<span>' + d.list[i].name + '</span>' +
+                            '<span></span>' +
+                            '</a>' +
+                            '<input type="hidden" value="' + d.list[i].userId + '">' +
+                            '</li>';
                         /*재이가 고침!!*/
-                        
+
                         $(html).appendTo("div.friendList ul");
-                        
-                        
+
+
                     }
                 }
             })
@@ -316,12 +341,12 @@
                     var li = "<li>친구 목록<a href='#'><i class='fas fa-cog'></i></a></li>";
                     $(li).appendTo("div.friendList ul");
                     rightLoad();
-                    
-                  //	socket push msg = (senderId,receiverId,senderName,notiOrigin,notiCode,postNo); 하나라도 빼먹으면 안됨.
-                  //	해당하는 인자값 없으면 1이라도 넣어야함. CSV = ','임  ,앞뒤로 띄어쓰기 하면 안됨.
-        			socketMsg = sessionUserId + "," + userId +"," + sessionName +"," + "friend,acceptFriend,1234";
-        			console.log(socketMsg)
-        			socket.send(socketMsg);
+
+                    //	socket push msg = (senderId,receiverId,senderName,notiOrigin,notiCode,postNo); 하나라도 빼먹으면 안됨.
+                    //	해당하는 인자값 없으면 1이라도 넣어야함. CSV = ','임  ,앞뒤로 띄어쓰기 하면 안됨.
+                    socketMsg = sessionUserId + "," + userId + "," + sessionUserName + "," + "friend,acceptFriend";
+                    console.log(socketMsg)
+                    socket.send(socketMsg);
 
                 }
             })
@@ -351,11 +376,11 @@
             })
 
         });
-        
+
         //	addNoti Function
         function addNoti(senderId, receiverId, notiOrigin, notiCode, postNo) {
-        	console.log(senderId, receiverId, notiOrigin, notiCode, postNo);
-        	$.ajax({
+            console.log(senderId, receiverId, notiOrigin, notiCode, postNo);
+            $.ajax({
                 url: "/social/rest/addNoti",
                 method: "POST",
                 headers: {
@@ -363,35 +388,34 @@
                     "Content-Type": "application/json"
                 },
                 data: JSON.stringify({
-                	senderId : senderId,
-                	receiverId : receiverId,
-                	notiOrigin : notiOrigin,
-                	notiCode : notiCode,
-                	postNo : postNo
+                    senderId: senderId,
+                    receiverId: receiverId,
+                    notiOrigin: notiOrigin,
+                    notiCode: notiCode,
+                    postNo: postNo
                 }),
                 success: function() {
                     console.log("addNoti success!");
                 }
             })
-		}
-        
+        }
+
         //////////////// WebSocket //////////////////
         var socket = null;
-        
+
         function connectWS() {
-            console.log("tttttttttttttt")
             var ws = new WebSocket("ws://localhost:8080/replyEcho");
             socket = ws;
 
-            ws.onopen = function () {
+            ws.onopen = function() {
                 console.log('Info: connection opened.');
             };
 
-            ws.onmessage = function (event) {
-                console.log("ReceiveMessage:", event.data+'\n');
+            ws.onmessage = function(event) {
+                console.log("ReceiveMessage:", event.data + '\n');
                 $(".toast-body").html(event.data);
                 $(".toast").toast('show');
-                
+
                 /* let $socketAlert = $("div#socketAlert");
                 $socketAlert.html(event.data);
                 $socketAlert.css("display", "block");
@@ -402,42 +426,64 @@
 				},5000); */
             };
 
-            ws.onclose = function (event) { 
+            ws.onclose = function(event) {
                 console.log('Info: connection closed.');
-                setTimeout( function(){ connectWS(); }, 100); // retry connection!!
+                setTimeout(function() {
+                    connectWS();
+                }, 100); // retry connection!!
             };
-            ws.onerror = function (err) { console.log('Error:', err); };
+            ws.onerror = function(err) {
+                console.log('Error:', err);
+            };
         }
-        
-		
+
     </script>
 
 
 </head>
-
 <body>
+    <!--  여기서부터 챗봇  -->
+    <div id="frogue-container" class="position-right-bottom" data-chatbot="4626e9e6-320e-4c99-afe8-c196f85db573" data-user="akxorb1234" data-init-key="value"></div>
+
+
+    <script>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'frogue-embed'));
+
+    </script>
+    <!--   여기까지 ㅋㅋ  -->
     <div class="rightLayout">
         <input type="hidden" id="sessionUserId" name="sessionUserId" value="${user.userId}">
-        
-		<div id="socketAlert" class="alert alert-warning" role="alert" style="display : none;"></div>
-		
+
+        <div id="socketAlert" class="alert alert-warning" role="alert" style="display : none;"></div>
+
         <div class="search2">
 
             <i class="fas fa-search"></i><input type="text" placeholder="어울림 검색">
-            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="searchCondition">
-                <option value="0" ${search.searchCondition==0 ? "selected" : "" }>아이디</option>
-                <option value="1" ${search.searchCondition==1 ? "selected" : "" }>이름</option>
-                <option value="2" ${search.searchCondition==2 ? "selected" : "" }>학교명</option>
-                
+            <select name="searchCondition">
+                <!--<option value="0" ${search.searchCondition==0 ? "selected" : "" }>아이디</option>
+<option value="1" ${search.searchCondition==1 ? "selected" : "" }>이름</option>
+<option value="2" ${search.searchCondition==2 ? "selected" : "" }>학교명</option>-->
+                <option value="0">아이디</option>
+                <option value="1">이름</option>
+                <option value="2">학교명</option>
             </select>
         </div>
         <div class="friendList">
             <ul>
-                <li>친구 목록<a href="#"><i class="fas fa-cog"></i></a></li>
-                
+                <li>친구 목록<a href="#"><i class="fas fa-user-plus"></i></a></li>
+
             </ul>
         </div>
-        
+
         <!-- 알림 아이콘 -->
         <h4>
             <a id="noti" href="#">
@@ -445,35 +491,37 @@
                 <span>알림</span>
             </a>
         </h4>
-        
+
         <script type="text/javascript">
-			$(function() {
-				$("#noti").on("click", function() {
-					$.redirect("/social/getNotiList");
-				});
-			});	
-        
+            $(function() {
+                $("#noti").on("click", function() {
+                    $.redirect("/social/getNotiList");
+                });
+            });
+
         </script>
-         <!-- 알림 아이콘 -->
-         
-         <!-- 결제 내역 -->
-         <h4>
+        <!-- 알림 아이콘 -->
+
+        <!-- 결제 내역 -->
+        <h4>
             <a id="purchaseList" href="#">
                 <i class="fas fa-bell"></i>
                 <span>결제 내역</span>
             </a>
         </h4>
         <script type="text/javascript">
-			$(function() {
-				$("#purchaseList").on("click", function() {
-					$.redirect("/purchase/getPurchaseList",{userId : sessionUserId});
-				});
-			});	
-        
+            $(function() {
+                $("#purchaseList").on("click", function() {
+                    $.redirect("/purchase/getPurchaseList", {
+                        userId: sessionUserId
+                    });
+                });
+            });
+
         </script>
-          
-         <!-- 결제 내역 -->
-         
+
+        <!-- 결제 내역 -->
+
 
         <!-- Right AskedFriend Modal -->
         <div class="modal fade" id="askedFriendModal" tabindex="-1" role="dialog" aria-labelledby="askedFriendModalLabel" aria-hidden="true">
@@ -499,17 +547,19 @@
             </div>
         </div>
     </div>
-    
-    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000" style="position: absolute; top: 0; right : 0;">
-	  <div class="toast-header">
-	    <img src="/images/rj.gif" class="rounded mr-2" alt="..." style="width:40px; height:20px;">
-	    <strong class="mr-auto">알림</strong>
-	    <small>방금</small>
-	    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-	      <span aria-hidden="true">&times;</span>
-	    </button>
-	  </div>
-	  <div class="toast-body"></div>
-	</div>
-	
-</body></html>
+
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000" style="position: absolute; top: 0; right : 0; z-index:2;">
+        <div class="toast-header">
+            <img src="/images/rj.gif" class="rounded mr-2" alt="..." style="width:40px; height:20px;">
+            <strong class="mr-auto">알림</strong>
+            <small>방금</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body"></div>
+    </div>
+
+</body>
+
+</html>

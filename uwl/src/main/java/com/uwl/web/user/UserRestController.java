@@ -42,9 +42,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uwl.common.MailUtils;
 import com.uwl.common.Page;
 import com.uwl.common.Search;
+import com.uwl.service.domain.Ask;
+import com.uwl.service.domain.Post;
 import com.uwl.service.domain.Report;
 import com.uwl.service.domain.User;
 import com.uwl.service.domain.Weather;
+import com.uwl.service.fcm.FcmService;
 import com.uwl.service.report.ReportService;
 import com.uwl.service.user.UserService;
 import com.uwl.service.weather.WeatherService;
@@ -67,6 +70,9 @@ public class UserRestController {
 	
 	@Autowired
 	private WeatherService weatherService;
+	
+	@Autowired
+	private FcmService fcmService;
 
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -550,5 +556,29 @@ public class UserRestController {
 //			}
 //			return "false";
 //		}
+		
+		@RequestMapping(value = "rest/replyQuestion", method = RequestMethod.POST)
+		public void replyQuestion(@RequestBody Ask ask) throws Exception{
+			userService.replyQuestion(ask);
+			System.out.println("레스트컨트롤러 탄다");
+		}
+		@RequestMapping(value = "rest/getAnswer")
+		public Map getAnswer(@RequestBody Post  post) throws Exception {
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			System.out.println("/user/rest/getUser : GET");
+			Post returnPost =  userService.getAnswer(post.getPostNo());
+
+			map.put("post", returnPost);
+			return map;
+		}
+		
+		@RequestMapping(value = "rest/register", method =  RequestMethod.POST)
+		public void register(@RequestBody String token, HttpSession httpSession) throws Exception{
+			System.out.println("usercontroller register token : " + token);
+			User user = ((User)(httpSession.getAttribute("user")));
+			String userId = user.getUserId();	
+			fcmService.register(userId, token);
+		}
 
 }

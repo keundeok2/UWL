@@ -311,7 +311,7 @@
                     <div class="password">
                         <p>비밀번호</p>
                         <p><input type="password" name="password"></p>
-                        <p><a href="#">비밀번호를 잊으셨나요?</a></p>
+                        <p><a href="#" tabindex="-1">비밀번호를 잊으셨나요?</a></p>
                     </div>
                     <div><a href="#" id="login">로그인</a></div>
                 </div>
@@ -325,7 +325,7 @@
                     오늘 어울림에 가입하세요.
                 </div>
                 <div>
-                    <a href="http://192.168.0.23:8080/user/addUserView.jsp" id="addUser">가입하기</a>
+                    <a href="/user/addUser" id="addUser">가입하기</a>
                     <a href="login.jsp" id="login2">로그인</a>
                 </div>
             </div>

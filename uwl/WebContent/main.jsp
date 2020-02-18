@@ -15,7 +15,73 @@
 	<script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>    
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
-  	<script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-messaging.js"></script>
+	
+	<script type="text/javascript">
+	
+	//////////////// FCM /////////////////
+	const firebaseModule = (function () {
+	    async function init() {
+	        // Your web app's Firebase configuration
+	        if ('serviceWorker' in navigator) {
+	            window.addEventListener('load', function() {
+	                navigator.serviceWorker.register('/javascript/firebase-messaging-sw.js')
+	                    .then(registration => {
+	                        var firebaseConfig = {
+	                        		apiKey: "AIzaSyCP7-9lifICjBrXx38qVaYolWTYChiy9nU",
+	                        	    authDomain: "webuwl.firebaseapp.com",
+	                        	    databaseURL: "https://webuwl.firebaseio.com",
+	                        	    projectId: "webuwl",
+	                        	    storageBucket: "webuwl.appspot.com",
+	                        	    messagingSenderId: "379855395449",
+	                        	    appId: "1:379855395449:web:ef47774cfc1627f914d2a8",
+	                        	    measurementId: "G-YJ4JNNVF8T"
+	                        };
+	                        // Initialize Firebase
+	                        firebase.initializeApp(firebaseConfig);
+
+
+	                        // Show Notificaiton Dialog
+	                        const messaging = firebase.messaging();
+	                        messaging.requestPermission()
+	                        .then(function() {
+	                        	console.log('Have permission.');
+	                            return messaging.getToken();
+	                        })
+	                        .then(async function(token) {
+	                        	console.log("token",token);
+	                            await fetch('/user/rest/register', { method: 'post', body: token })
+	                            messaging.onMessage(payload => {
+	                                const title = payload.notification.title
+	                                const options = {
+	                                    body : payload.notification.body
+	                                }
+	                                navigator.serviceWorker.ready.then(registration => {
+	                                    registration.showNotification(title, options);
+	                                })
+	                            })
+	                        })
+	                        .catch(function(err) {
+	                            console.log("Error Occured");
+	                        })
+	                        
+	                    })
+	            })
+	        }
+	    }      
+
+	    return {
+	        init: function () {
+	            init()
+	        }
+	    }
+	})()
+
+	firebaseModule.init();
+	
+	</script>
+	
     <title>Document</title>
     <style>
         * {
@@ -506,103 +572,103 @@ fjs.parentNode.insertBefore(js, fjs);
         <section id="left">
 			<jsp:include page="/layout/left.jsp" />
         </section>
-        <section id="work">
-	<form>
-		<div class="mainHeader">
-	                <div class="left2" style="color: #d75e0f;">
-	                    <c:if test="${gatherCategoryNo eq '201' }">
-	    					<h1><i class="fas fa-graduation-cap"></i> 진학상담</h1>
-	    				</c:if>
-					    <c:if test="${gatherCategoryNo eq '202' }">
-					    	<h1><i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i></h1>
-					    </c:if>
-					    <c:if test="${gatherCategoryNo eq '203' }">
-					    	<h1><i class="fas fa-male"></i> 남자끼리</h1>
-					    </c:if>
-					    <c:if test="${gatherCategoryNo eq '204' }">
-					    	<h1><i class="fas fa-female"></i> 여자끼리</h1>
-					    </c:if>
-					    <c:if test="${gatherCategoryNo eq '205' }">
-					    	<h1><i class="far fa-kiss-wink-heart"></i>데이트 자랑</h1>
-					    </c:if>
-					    <c:if test="${gatherCategoryNo eq '206' }">
-					    	<h1><i class="fas fa-bullhorn"></i> 대나무 숲</h1>
-					    </c:if>
-	                </div>
-	                <div class="right2">
-	                    <a href="#"><i class="far fa-star"></i></a>
-	                </div>
-	            </div>
-	            <div class="mainTop">
-	                <ul>
-	                    <li><a href="#">조회수 <i class="fas fa-arrow-up"></i></a></li>
-	                    <li><a href="#">좋아요 <i class="fas fa-arrow-up"></i></a></li>
-	                    <li><a href="#">작성일 <i class="fas fa-arrow-up"></i></a></li>
-	                </ul>
-	                <div class="search">
-	                    <select name="" id="">
-	                        <option value="">내용</option>
-	                        <option value="">제목</option>
-	                        <option value="">제목 + 내용</option>
-	                        <option value="">작성자</option>
-	                    </select>
-	                    <input type="text" placeholder="내용을 입력해주세요">
-	                    <a href="#">검색</a>
-	                </div>
-	            </div>
-	            
-	            <div class="postList">
-	            
-	            <c:forEach var="post" items="${list }">
-	                <div class="post">
-	                <a href="#">
-	                        <div class="uploadFile">
-	                        	<img src="/images/${post.uploadFileName}" alt="" style='border-radius: 10px;'>
-	                        </div>
-	                        <div>
-	                            <div class="postTop">
-	                                <div class="postTitle">
-	                                    <p>${post.postTitle }</p>
-	                                    <p>${post.user.nickname }</p>
-	                                </div>
-	                                <div class="postCategory">
-	                                     <c:if test="${gatherCategoryNo eq '201' }">
-	    									<i class="fas fa-graduation-cap"></i> 진학상담
-	    								</c:if>
-									    <c:if test="${gatherCategoryNo eq '202' }">
-									    	<i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i>
-									    </c:if>
-									    <c:if test="${gatherCategoryNo eq '203' }">
-									    	<i class="fas fa-male"></i> 남자끼리
-									    </c:if>
-									    <c:if test="${gatherCategoryNo eq '204' }">
-									    	<i class="fas fa-female"></i> 여자끼리
-									    </c:if>
-									    <c:if test="${gatherCategoryNo eq '205' }">
-									    	<i class="far fa-kiss-wink-heart"></i>데이트 자랑
-									    </c:if>
-									    <c:if test="${gatherCategoryNo eq '206' }">
-									    	<i class="fas fa-bullhorn"></i> 대나무 숲
-									    </c:if>
-	                                    <p>${post.postDate }</p>
-	                                </div>
-	                            </div>
-	                            <div class="postContent">
-	                                ${post.postContent }
-	                            </div>
-	                            <div>
-	                                <p><i class="far fa-comment"></i> ${post.commentCount }</p>
-	                                <p><i class="far fa-eye"></i> ${post.hitCount }</p>
-	                                <p><i class="far fa-heart"></i> ${post.likeCount }</p>
-	                            </div>
-	                        </div>
-	                        <input type="hidden" class="postNo" value="${post.postNo }">
-	                        </a>
-	                </div>
-	             </c:forEach>
-	             </div>
-	    </form>
-        </section>
+	        <section id="work">
+		<form>
+			<div class="mainHeader">
+		                <div class="left2" style="color: #d75e0f;">
+		                    <c:if test="${gatherCategoryNo eq '201' }">
+		    					<h1><i class="fas fa-graduation-cap"></i> 진학상담</h1>
+		    				</c:if>
+						    <c:if test="${gatherCategoryNo eq '202' }">
+						    	<h1><i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i></h1>
+						    </c:if>
+						    <c:if test="${gatherCategoryNo eq '203' }">
+						    	<h1><i class="fas fa-male"></i> 남자끼리</h1>
+						    </c:if>
+						    <c:if test="${gatherCategoryNo eq '204' }">
+						    	<h1><i class="fas fa-female"></i> 여자끼리</h1>
+						    </c:if>
+						    <c:if test="${gatherCategoryNo eq '205' }">
+						    	<h1><i class="far fa-kiss-wink-heart"></i>데이트 자랑</h1>
+						    </c:if>
+						    <c:if test="${gatherCategoryNo eq '206' }">
+						    	<h1><i class="fas fa-bullhorn"></i> 대나무 숲</h1>
+						    </c:if>
+		                </div>
+		                <div class="right2">
+		                    <a href="#"><i class="far fa-star"></i></a>
+		                </div>
+		            </div>
+		            <div class="mainTop">
+		                <ul>
+		                    <li><a href="#">조회수 <i class="fas fa-arrow-up"></i></a></li>
+		                    <li><a href="#">좋아요 <i class="fas fa-arrow-up"></i></a></li>
+		                    <li><a href="#">작성일 <i class="fas fa-arrow-up"></i></a></li>
+		                </ul>
+		                <div class="search">
+		                    <select name="" id="">
+		                        <option value="">내용</option>
+		                        <option value="">제목</option>
+		                        <option value="">제목 + 내용</option>
+		                        <option value="">작성자</option>
+		                    </select>
+		                    <input type="text" placeholder="내용을 입력해주세요">
+		                    <a href="#">검색</a>
+		                </div>
+		            </div>
+		            
+		            <div class="postList">
+		            
+		            <c:forEach var="post" items="${list }">
+		                <div class="post">
+		                <a href="#">
+		                        <div class="uploadFile">
+		                        	<img src="/images/${post.uploadFileName}" alt="" style='border-radius: 10px;'>
+		                        </div>
+		                        <div>
+		                            <div class="postTop">
+		                                <div class="postTitle">
+		                                    <p>${post.postTitle }</p>
+		                                    <p>${post.user.nickname }</p>
+		                                </div>
+		                                <div class="postCategory">
+		                                     <c:if test="${gatherCategoryNo eq '201' }">
+		    									<i class="fas fa-graduation-cap"></i> 진학상담
+		    								</c:if>
+										    <c:if test="${gatherCategoryNo eq '202' }">
+										    	<i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i>
+										    </c:if>
+										    <c:if test="${gatherCategoryNo eq '203' }">
+										    	<i class="fas fa-male"></i> 남자끼리
+										    </c:if>
+										    <c:if test="${gatherCategoryNo eq '204' }">
+										    	<i class="fas fa-female"></i> 여자끼리
+										    </c:if>
+										    <c:if test="${gatherCategoryNo eq '205' }">
+										    	<i class="far fa-kiss-wink-heart"></i>데이트 자랑
+										    </c:if>
+										    <c:if test="${gatherCategoryNo eq '206' }">
+										    	<i class="fas fa-bullhorn"></i> 대나무 숲
+										    </c:if>
+		                                    <p>${post.postDate }</p>
+		                                </div>
+		                            </div>
+		                            <div class="postContent">
+		                                ${post.postContent }
+		                            </div>
+		                            <div>
+		                                <p><i class="far fa-comment"></i> ${post.commentCount }</p>
+		                                <p><i class="far fa-eye"></i> ${post.hitCount }</p>
+		                                <p><i class="far fa-heart"></i> ${post.likeCount }</p>
+		                            </div>
+		                        </div>
+		                        <input type="hidden" class="postNo" value="${post.postNo }">
+		                        </a>
+		                </div>
+		             </c:forEach>
+		             </div>
+		    </form>
+	        </section>
         <section id="right">
 			<jsp:include page="/layout/right.jsp" />
         </section>

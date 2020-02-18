@@ -1,5 +1,7 @@
 package com.uwl.service.friend.test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -122,13 +124,38 @@ public class FriendServiceTest {
 		System.out.println(friendService.checkFriend(friend));
 	}
 	
-	@Test
+//	@Test
 	public void checkRequest() throws Exception{
 		Friend friend = new Friend();
 		friend.setFirstUserId("user01");
 		friend.setSecondUserId("user40");
 		
 		friendService.checkRequest(friend);
+	}
+	
+	@Test
+	public void getFriendListByName() throws Exception{
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(10000);
+		User user = new User();
+		user.setName("name03");
+		
+		List<User> list =(List<User>)friendService.getFriendList("user01", search).get("list");
+		List<User> returnList = new ArrayList<User>();
+		String name = user.getName();
+		for(User findUser : list) {
+			if (findUser.getName().equals(name)) {
+				returnList.add(findUser);
+			}
+		}
+		System.out.println("returnList :::: \t"  +returnList);
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("list", returnList);
+		
+		
+		
 	}
 	
 }

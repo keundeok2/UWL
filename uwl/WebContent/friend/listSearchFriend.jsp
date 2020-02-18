@@ -70,7 +70,7 @@ $(document).on("click","#applyBtn", function() {
 			console.log(socketMsg)
 			socket.send(socketMsg);
 			
-			addNoti(sessionId, userId, "4", "4");
+			addNoti(sessionId, userId, "4", "3");
 		}
 })
 })
@@ -275,7 +275,7 @@ fjs.parentNode.insertBefore(js, fjs);
 			<div class="row">
 				<c:forEach var="friendUser" items="${map.list}">
 			<div class="col-sm-1"></div>
-			<div class="col-sm-10">
+			<div class="col-sm-10" style="margin : 10px 0 10px 0;">
 				<div id="${friendUser.userId}">
 					<img src="../../images/${friendUser.profileName}" id="searchProfileName"/>&nbsp; 
 					<span id="userId">${friendUser.userId}</span> &nbsp; 

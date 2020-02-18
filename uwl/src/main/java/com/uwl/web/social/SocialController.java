@@ -138,7 +138,7 @@ public class SocialController {
 		
 		model.addAttribute("timelineMap", timelineMap);
 		
-		return "forward:/social/listTimeline.jsp";
+		return "forward:/social/includeListTimeline.jsp";
 	}
 	
 	

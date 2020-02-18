@@ -1,6 +1,8 @@
 package com.uwl.web.friend;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +18,7 @@ import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.domain.Friend;
 import com.uwl.service.domain.User;
+import com.uwl.service.fcm.FcmService;
 import com.uwl.service.friend.FriendService;
 
 @RestController
@@ -24,6 +27,9 @@ public class FriendRestController {
 
 	@Autowired
 	private FriendService friendService;
+	
+	@Autowired
+	private FcmService fcmService;
 	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -36,6 +42,7 @@ public class FriendRestController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		friendService.requestFriend(friend);
 		map.put("success", true);
+		fcmService.createReceiveNotification(friend.getFirstUserId(), friend.getSecondUserId());
 		return map;
 	}
 
@@ -118,6 +125,26 @@ public class FriendRestController {
 		map.put("resultPage", resultPage);
 		map.put("search", search);
 		return null;
+	}
+	
+	@RequestMapping(value = "rest/getFriendListByName", method = RequestMethod.POST)
+	public Map getFriendListByName(@RequestBody User user, HttpSession session) throws Exception {
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(10000);
+		
+		User sessionUser = (User)session.getAttribute("user");
+		List<User> list =(List<User>)friendService.getFriendList(sessionUser.getUserId(), search).get("list");
+		List<User> returnList = new ArrayList<User>();
+		String name = user.getName();
+		for(User findUser : list) {
+			if (findUser.getName().equals(name)) {
+				returnList.add(findUser);
+			}
+		}
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("list", returnList);
+		return returnMap;
 	}
 	
 }

@@ -55,7 +55,7 @@
 		<result property="postNo" column="POST_NO" jdbcType="NUMERIC"/>
 		<result property="notiOrigin" column="NOTI_ORIGIN" jdbcType="VARCHAR"/>
 		<result property="notiCode" column="NOTI_CODE" jdbcType="VARCHAR"/>
-		<result property="notiDate" column="NOTI_DATE" jdbcType="DATE"/>
+		<result property="notiDate" column="NOTI_DATE" jdbcType="VARCHAR"/>
 	</resultMap>
  	
  	
@@ -224,7 +224,7 @@
 	<select id="getNotiList" parameterType="map" resultMap="notificationSelectMap">
 		SELECT * 
 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
-				FROM ( SELECT *
+				FROM ( SELECT noti_no, sender_id, receiver_id, post_no, noti_origin, noti_code, to_char(noti_date, 'yyyy-mm-dd hh24:mi:ss') as noti_date,  name, nickname, profile_name
 						FROM notification n, users u
 						WHERE receiver_id = #{userId}
 						AND n.sender_id = u.user_id) inner_table 
@@ -239,7 +239,7 @@
 
 	<delete id="deleteNotiAll" parameterType="string">
 		DELETE FROM notification
-		WHERE noti_no = #{userId}
+		WHERE receiver_id = #{userId}
 	</delete>
 	
 	<select id="getTotalNotiList" parameterType="string" resultType="int">

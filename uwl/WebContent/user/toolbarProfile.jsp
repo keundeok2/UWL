@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>어울림</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -49,7 +50,7 @@
 
 
 
-        
+
 
         div.profileHeader {
 
@@ -313,6 +314,7 @@
     <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
     <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
     <script>
         var sessionId = null;
         var sessionName = null;
@@ -771,6 +773,20 @@
                     $('section > div').eq(i).addClass('on');
 
                 });
+                
+                $('.replyQuestionBtn').on("click", function() {
+                	var i = $(this).parent().index();
+                	$('div.section ul li').removeClass('on');
+                    $('div.section ul li').eq(i).addClass('on');
+                	$('section > div').removeClass('on');
+                	$('section > div').eq(i).addClass('on');
+				});
+                
+                $('.listAskBtn').on("click", function() {
+                	var i = $(this).parent().index();
+                	$('section > div').removeClass('on');
+                	$('section > div').eq(i-3).addClass('on');
+				});
             });
         });
     </script>
@@ -958,8 +974,6 @@
     </script>
 
     <style>
-        
-
         div.layoutWrap {
 
             width: 100%;
@@ -992,14 +1006,82 @@
             border-left: 1px solid #eee;
         }
     </style>
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+
+        }
+
+        a:hover,
+        a:focus {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        body {
+            color: #333;
+            font-size: 16px;
+            font-family: 'Roboto', sans-serif;
+            font-family: 'Nanum Gothic', sans-serif;
+
+        }
+
+        div.layoutWrap2 {
+            width: 1500px;
+            height: 100vh;
+
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        div.leftToolbar2 {
+
+            width: 300px;
+            height: 100vh;
+            float: left;
+            background-color: #fff;
+            border-right: 1px solid #eee;
+        }
+
+        div.work2 {
+
+            width: 900px;
+            height: 100vh;
+            float: left;
+            overflow: hidden;
+            overflow-y: scroll;
+
+        }
+
+        div.rightToolbar2 {
+
+            width: 300px;
+            height: 100vh;
+            float: left;
+            background-color: #fff;
+            border-left: 1px solid #eee;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="layoutWrap">
-        <div class="leftToolbar">
+    <div class="layoutWrap2">
+        <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work">
+        <div class="work2">
             <input type="hidden" id="sessionUserId" value="${user.userId}">
             <input type="hidden" id="targetUserId" value="${targetUserId}">
             <input type="hidden" id="sessionMail" value="${user.mail}">
@@ -1178,7 +1260,7 @@
                                 비공개 계정입니다.
                             </c:if>
                             <c:if test="${user.publicStatus == 1 }">
-                                <jsp:include page="/social/listTimeline2.jsp" />
+                                <jsp:include page="/social/includeListTimeline.jsp" />
                             </c:if>
                         </div>
                         <div class="list2">
@@ -1186,7 +1268,7 @@
                                 비공개 계정입니다.
                             </c:if>
                             <c:if test="${user.publicStatus == 1 }">
-                                IGTVㅋㅋ
+                                <jsp:include page="/social/includeListAsk.jsp" />
                             </c:if>
                         </div>
                         <div class="list3">
@@ -1202,7 +1284,15 @@
                                 비공개 계정입니다.
                             </c:if>
                             <c:if test="${user.publicStatus == 1 }">
-                                태그됨ㅋㅋ
+                            	<jsp:include page="/couple/listSchedule3.jsp" />
+                            </c:if>
+                        </div>
+                        <div class="list5">
+                            <c:if test="${user.publicStatus == 2 }">
+                           	     비공개 계정입니다.
+                            </c:if>
+                            <c:if test="${user.publicStatus == 1 }">
+                            	<jsp:include page="/social/includeListAskQuestion.jsp" />
                             </c:if>
                         </div>
                     </section>
@@ -1241,7 +1331,7 @@
                 </div>
             </div>
         </div>
-        <div class="rightToolbar">
+        <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
         </div>
     </div>
