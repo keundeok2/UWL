@@ -1,7 +1,8 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! addUserView / 메일 인증, 학교주소 찾기, 핸드폰 인증  !!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! addUserView / 학교주소 찾기 !!!!!!!!!!!!! -->
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -13,9 +14,9 @@
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<!--  ///////////////////////// Bootstrap 4.4, jQuery 3.1.1 CDN ////////////////////////// -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
 			rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
@@ -27,13 +28,13 @@
 	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
 integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	
 	<!--  ///////////////////////// datePicker ////////////////////////// -->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <!--  	<link rel="stylesheet" href="/resources/demos/style.css"> -->
  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
+	<!--  ///////////////////////// ajax ////////////////////////// -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol-debug.js" ></script>
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
@@ -62,7 +63,7 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 			var nickname=$("input[name='nickname']").val();
 			var gender=$("input[name='gender']").val();
 			var birth=$("input[name='birth']").val();
-			var schoolNo=$("input[name='schoolNo']").val();
+			var schoolName=$("input[name='schoolName']").val();
 			var mail=$("input[name='mail']").val();
 			
 			// 메일 인증 유무를 판단하기 위한 Flag 
@@ -73,8 +74,33 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 // 				$("h6").text("메일 인증을 진행해주세요.");
 // 				return;
 // 			}
-			
 				
+			
+			
+			
+			
+// 			정규표현식 test ==========================================================
+// 		$(document).ready(function(){
+// 			var regType1 = /^[a-z0-9_]{4,20}$/;
+// 			var isValid = regType1.test("@user");
+// 			console.log(isValid);
+// 				console.log(/^[a-z0-9_]{5,8}$/.test($('#userId')));
+				
+				var idReg = /^[a-z]+[a-z0-9]{5,9}$/g;
+		        if( !idReg.test( $("input[name=userId]").val() ) ) {
+		        	$('#idReg').remove();
+	 				var view = "<span id='idReg' style='color:red'> 아이디는 영문자로 시작하는 6~10자 영문자 또는 숫자이어야 합니다. </span>";
+	 				$('#userId').after(view);
+	 				$('#userId').focus();
+// 		            alert("아이디는 영문자로 시작하는 6~10자 영문자 또는 숫자이어야 합니다.");
+	 				return;
+		        }
+// 		})
+// 			정규표현식 test ==========================================================
+
+
+
+
 			if(id == null || id.length <1){
 				$('#not').remove();
 				var view = "<span id='not' style='color:red'> 아이디는 반드시 입력하셔야 합니다.</span>";
@@ -96,6 +122,15 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 				var view = "<span id='not' style='color:red'> 패스워드 확인은  반드시 입력하셔야 합니다.</span>";
 				$('#password2').after(view);
 				$('#password2').focus();
+				return 0;
+			}
+			
+			if( pw != pw_confirm ) {	
+				$('#not').remove();
+				var view = "<span id='not' style='color:red'> 비밀번호가 일치하지 않습니다.</span>";
+				$('#password2').after(view);
+				$('#password2').focus();
+				$("input:text[name='password2']").focus();
 				return 0;
 			}
 			
@@ -123,19 +158,19 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 				return 0;
 			}
 			
+			if(schoolName == null || schoolName.length <1){
+				$('#not').remove();
+				var view = "<span id='not' style='color:red'> 학교는 반드시 입력하셔야 합니다.</span>";
+				$('#schoolName').after(view);
+				$('#schoolName').focus();
+				return 0;
+			}
+			
 			if(birth == null || birth.length <1){
 				$('#not').remove();
 				var view = "<span id='not' style='color:red'> 생일은 반드시 입력하셔야 합니다. </span>";
 				$('#birth').after(view);
 				$('#birth').focus();
-				return 0;
-			}
-			
-			if(schoolNo == null || schoolNo.length <1){
-				$('#not').remove();
-				var view = "<span id='not' style='color:red'> 학교는 반드시 입력하셔야 합니다.</span>";
-				$('#schoolNo').after(view);
-				$('#schoolNo').focus();
 				return 0;
 			}
 			
@@ -147,15 +182,6 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 				return 0;
 			}
 			
-			if( pw != pw_confirm ) {	
-				$('#not').remove();
-				var view = "<span id='not' style='color:red'> 비밀번호가 일치하지 않습니다.</span>";
-				$('#password2').after(view);
-				$('#password2').focus();
-				$("input:text[name='password2']").focus();
-				return 0;
-			}
-				
 			var value = "";	
 			if( $("input:text[name='phone2']").val() != ""  &&  $("input:text[name='phone3']").val() != "") {
 				var value = $("option:selected").val() + "-" 
@@ -284,16 +310,67 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 		    
 		
 		//==>"학교 주소찾기" Event 처리 및 연결 ================================ Error Error Error Error Error Error Error Error Error
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $("button#checkSchool").on("click" , function() {
-				popWin 
-				= window.open("/user/checkDuplicationUserId.jsp",
-											"popWin", 
-											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
-											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+// 		$(document).ready(function(){ 
+			$("button#checkSchool").on("click" , function() {
+				console.log(1);
+				var schoolLevel = $("body > input:radio[name=school]:checked").val();
+				var schoolName = $("input[type=text]").val();
+				if(schoolName == "" || schoolName == null){
+				console.log(2);
+					alert('학교이름을 입력해주세요');
+					$('#not').remove();
+					var view = "<span id='not' style='color:red'> 학교이름을 입력해주세요.</span>";
+					$('#schoolName').after(view);
+					$('#schoolName').focus();
+				}else{
+					var url = "http://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=0e5ab738c07aa5a4e219e84f907db889&svcType=api&svcCode=SCHOOL&contentType=json&gubun="+schoolLevel+"&searchSchulNm="+schoolName;
+					ajaxCall(url,callback,error);			
+					console.log(3);
+				}
 			});
-		});	
+// 		});
+				
+		function ajaxCall(url,callback){
+			$.ajax({
+				url : url,
+				async : true,
+				type : "GET",
+				dataType : 'json',
+				success : callback,
+				error : error
+			});
+		}
+		
+		function callback(json){
+			var total = json.dataSearch.content.length;
+			var firstView = "검색어 <strong>"+$("input[type=text]").val()+"</strong> 에 대한 검색결과 총 <span>"+total+"</span>건입니다<hr/>"; 
+			$("#append").append(firstView);
+			for(var i=0; i<total; i++){
+				var schoolName = json.dataSearch.content[i].schoolName;
+				var adres = "     ,"+json.dataSearch.content[i].adres;
+				var seq = "     ,"+json.dataSearch.content[i].seq;
+				//이렇게 DB에 저장하면 될듯..?
+				var secondView = "<span>"+schoolName+adres+seq+"<span><br/><br/>"
+				$("#append2").append(secondView);
+			}
+		}
+		
+		function error(){
+			alert("에러발생! 에러발생!");
+		}
+		
+		
+// 		//==>"학교 주소찾기" Event 처리 및 연결 ================================ Error Error Error Error Error Error Error Error Error
+// 		 $(function() {
+// 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+// 			 $("button#checkSchool").on("click" , function() {
+// 				popWin 
+// 				= window.open("/user/checkDuplicationUserId.jsp",
+// 											"popWin", 
+// 											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
+// 											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+// 			});
+// 		});	
 		
 		//==>"phone 본인인증" Event 처리 및 연결  ================================
 				 $(function() {
@@ -340,7 +417,9 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 								$('body').after(view);
 							}else{
 								//인증 틀릴시 누님이 이쁘게 틀렸다고 알려주세요! 
-								var view = "<span>인증번호를 다시 확인해주세요.</span>"
+								$('#not').remove();
+								var view = "<span id='not' style='color:red'> 인증번호를 다시 확인해주세요.</span>";
+								$('body').after(view);
 							}
 						},
 						error : function(){
@@ -518,7 +597,7 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 		  <div class="form-group">
 		    <label for="name" class="col-sm-offset-1 col-sm-3 control-label" >* 이름</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="name" name="name" placeholder="회원이름">
+		      <input type="text" class="form-control" id="name" name="name" placeholder="회원 이름">
 		    </div>
 		  </div>
 		  
@@ -532,14 +611,25 @@ integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfoo
 		  
 		  
 		  <div class="form-group">
-		    <label for="schoolNo" class="col-sm-offset-1 col-sm-3 control-label" >* 학교</label>
+		    <label for="schoolName" class="col-sm-offset-1 col-sm-3 control-label" >* 학교</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="schoolNo" name="schoolNo" placeholder="학교">
+		      <input type="text" class="form-control" id="schoolName" name="schoolName" placeholder="학교">
+			    <input type="radio" name="school" value="elem_list" checked="checked"/>초등학교
+				<input type="radio" name="school" value="midd_list"/>중학교
+				<input type="radio" name="school" value="high_list"/>고등학교
+				<input type="radio" name="school" value="univ_list"/>대학교
 		    </div>
 		    <div class="col-sm-3">
 		      <button type="button" class="btn btn-outline-warning" id="checkSchool">주소찾기</button>
 		    </div>
 		  </div>
+		  
+			<div id="append"></div>
+			
+			<br/><br/>
+			<div id="append2"></div>
+		  
+		  
 		  
 		  <div class="form-group" id="phoneCheckAppend">
 		    <label for="phone" class="col-md-offset-1 col-md-3 control-label">휴대전화번호</label>

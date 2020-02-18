@@ -4,7 +4,7 @@ package com.uwl.service.domain;
 public class Weather {
 
 	private String date;	
-	private String to;	
+	private String to;	// 시간
 	private String x;
 	private String y;
 	
@@ -14,7 +14,7 @@ public class Weather {
 	public Weather(String date, String to, String x, String y) {
 		super();
 		this.date = date;
-		this.to = to;
+		this.to = to; 
 		this.x = x;
 		this.y = y;
 	}

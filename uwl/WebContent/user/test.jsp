@@ -7,6 +7,10 @@ integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXy
 
 
 
+<!-- =========================================================== 날씨 api test ================================= -->
+
+
+
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -21,88 +25,75 @@ integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXy
 
 <script>
 
-
-
-// $(function() {
-// 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-// 		$("button").on("click", function() {
-// 			self.location = "/user/test.jsp"
-// 		});
-// 	});
-	
 	
 	//profile.jsp
 	$(document).ready(function(){
 		
-// 		var weather;
-		
-		var data = {};
-		  data["SKY1"] = $("#SKY1").val();
-		  data["SKY3"] = $("#SKY3").val();
-		  data["SKY4"] = $("#SKY4").val();
-		  
-		  data["PTY1"] = $("#PTY1").val();
-		  data["PTY3"] = $("#PTY3").val();
-		  data["PTY4"] = $("#PTY4").val();
-		
 		$.ajax({
+			//	REQUEST
 			url: "/user/rest/getWeather", 
-			type: 'GET',
+			type: 'POST',
 			dataType: 'json',
 			headers : {
 				"Accept" : "application/json",
 				"Content-Type" : "application/json"
 			},
-			data : JSON.stringify(data),
+			data : JSON.stringify({
+				x : "61",
+				y : "126"
+			}),
+			
+			
+			// RESPONSE data => return 받은 값. ex) map, string ...
 			success : function(data) {
-					 { console.log("success")}
-				if (data == SKY1) {
-					var view = "<h1><a href='javascript:;'><i class='fas fa-sun' id='SKY1'>맑음</i></a></h1>";
-					alert(view);					
-					
+				console.log(data);
+				console.log(data.SKY);
+				console.log(data.PTY);
+				
+				/* var html = "<i class='fas fa-sun'  id='"+data.SKY+"'>"+data.SKY+"</i>"
+							+"<i class='fas fa-cloud-showers-heavy' id='"+data.PTY+"'>"+data.PTY+"</i>"; */
+				
+				if (data.SKY == 1) {
+					var view = "<h1><a href='javascript:;'><i class='fas fa-sun' id='SKY1'> 맑음</i></a></h1>";
+				}else if(data.SKY == 3){
+					var view = "<h1><a href='javascript:;'><i class='fas fa-cloud' id='SKY3'> 구름 많음</i></a></h1>";
+				}else if(data.SKY == 4){
+					var view = "<h1><a href='javascript:;'><i class='fas fa-cloud-sun' id='SKY4'> 흐림</i></a></h1>";
+				}$("div.weather").append(view);
+				
+							
+				if(data.PTY == 1){
+					var view = "<h1><a href='javascript:;'><i class='fas fa-cloud-showers-heavy' id='PTY1'> 비</i></a></h1>";
+				}else if(data.PTY == 2){
+					var view = "<h1><a href='javascript:;'><i class='fas fa-cloud-meatball' id='PTY2'> 비/눈</i></a></h1>";
+				}else if(data.PTY == 3){
+					var view = "<h1><a href='javascript:;'><i class='far fa-snowflake'  id='PTY3'> 눈</i></a></h1>";
+				}else if(data.PTY == 4){
+					var view = "<h1><a href='javascript:;'><i class='fas fa-cloud-sun-rain'  id='PTY4'> 소나기</i></a></h1>";
 				}
+				$("div.weather").append(view); 
 			}
-		});
+		})
 	});
 
-	
-// 	var SKY1 = $("a#SKY1").val();
-// 	var SKY3 = $("a#SKY3").val();
-// 	var SKY4 = $("a#SKY4").val();
-	
-// 	var PTY1 = $("a#PTY1").val();
-// 	var PTY3 = $("a#PTY3").val();
-// 	var PTY4 = $("a#PTY4").val();
-	
 	
 </script>
 </head>
 
 <body>
+
+	<i class='fas fa-sun' id='SKY1'> 맑음</i> <br><br>
+	<i class='fas fa-cloud' id='SKY3'> 구름 많음</i> <br><br>
+	<i class='fas fa-cloud-sun' id='SKY4'> 흐림</i> <br><br>
+
+	<i class='fas fa-cloud-showers-heavy' id='PTY1'> 비</i> <br><br>
+	<i class='fas fa-cloud-meatball' id='PTY2'> 비/눈</i> <br><br>
+	<i class='far fa-snowflake'  id='PTY3'> 눈</i> <br><br>
+	<i class='fas fa-cloud-sun-rain'  id='PTY4'> 소나기</i> <br><br>
+ 
+ 	<br><br>
 	
-<!-- 	<input type="text" id="weatherIcon" value= ""> -->
-<%-- 	<c:if test="${SKY1 == '1' }"> --%>
-<!-- 	<i class="fas fa-sun"  id="SKY1">맑음</i> -->
-<%-- 	</c:if> --%>
-
-
-	<input type="text" id="weatherIcon" value= "">
-
-
-	<i class="fas fa-sun"  id="SKY1">맑음</i>
-	<i class="fas fa-cloud" id="SKY3">구름 많음</i>
-	<i class="fas fa-cloud-sun" id="SKY4">흐림</i>
-
-	<i class="fas fa-cloud-showers-heavy" id="PTY1">비</i>
-	<i class="far fa-snowflake"  id="PTY3">눈</i>
-	<i class="fas fa-cloud-sun-rain"  id="PTY4">소나기</i>
+	<div class="weather"></div>
 	
-<br><br>
-	
-	<div class="text-center">
-	<button type="button" id="" class="btn btn-outline-info btn-lg">완료</button>
-	</div>
 </body>
-
-
 </html>
