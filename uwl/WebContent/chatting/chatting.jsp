@@ -355,6 +355,10 @@
 			top: 5px;
 			right: 5px
 		}
+		
+		#searchFriendByProfile{
+			border-radius: 15px; /* 이미지 반크기만큼 반경을 잡기*/
+		}
     </style>
     
     <!-- 소켓연결 -->
@@ -405,7 +409,7 @@
 						}
 						var view = "<li><a href='#'>"
                     				+"<div class='profileImage'>"
-				                        +"<img src='img/10506738_10150004552801856_220367501106153455_o.jpg' alt=''>"
+				                        +"<img src='/images/bonobono.jpg' alt=''>"
 				                    +"</div>"
 				                    +"<div class='chattingInfo'>"
 				                        +"<div class='chattingUser'>"
@@ -463,7 +467,6 @@
 	    	
 	    	
 	    	$(document).on("click", "#findFriendByName", function(e){
-	    		console.log('z')
 	    		var sWidth = window.innerWidth;
 	    		var sHeight = window.innerHeight;
 
@@ -487,6 +490,10 @@
 	    			"left": divLeft,
 	    			"position": "absolute"
 	    		}).show();
+	    		
+	    		var friendName = $('#tags').val();
+	    		
+	    		
 	    	});
 	    		/* $.ajax({
 					 url : "/chatting/rest/addChattingRoom",
@@ -528,24 +535,16 @@
     
 </head>
 <body>
-				<div class="popupLayer">
+				<div class="popupLayer" style="overflow-y:scroll; overflow-x:scroll ">
 					<div>
 						<span onClick="closeLayer(this)"
 							style="cursor: pointer; font-size: 1.5em" title="닫기"><i class="fas fa-times"></i>
 						</span>
 					</div>
 					<br>
-					<span>프로필사진 주형진 학교 <i class="fas fa-comment-medical"></i></span><br>
-					<span>프로필사진 주형진 학교 <i class="fas fa-comment-medical"></i></span><br>
-					<span>프로필사진 주형진 학교 <i class="fas fa-comment-medical"></i></span><br>
-					<span>프로필사진 주형진 학교 <i class="fas fa-comment-medical"></i></span><br>
-					<span>프로필사진 주형진 학교 <i class="fas fa-comment-medical"></i></span><br>
-					<span>프로필사진 주형진 학교 <i class="fas fa-comment-medical"></i></span><br>
-					<span>프로필사진 주형진 학교 <i class="fas fa-comment-medical"></i></span><br>
-					<span>프로필사진 주형진 학교 <i class="fas fa-comment-medical"></i></span><br>
-					<span>프로필사진 주형진 학교 <i class="fas fa-comment-medical"></i></span><br>
-					<span>프로필사진 주형진 학교 <i class="fas fa-comment-medical"></i></span><br>
-					<span>프로필사진 주형진 학교 <i class="fas fa-comment-medical"></i></span><br>
+					<span style="color:#cb4414; font-size:1em; font-weight:bold" >
+						<img src="/images/bonobono.jpg" width="30" height="30" id="searchFriendByProfile" style="vertical-align: middle"/>&emsp;주형진 &emsp;신라공업고등학교&emsp; <i class="fas fa-comment-medical"></i>
+					</span><br>
 				</div>
     <div class="chattingIcon"><a href="#"><i class="fas fa-comments"></i></a></div>
 
