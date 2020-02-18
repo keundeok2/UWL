@@ -283,4 +283,10 @@ public class UserServiceImpl implements UserService {
 		System.out.println("유저 서비스 임쁠 탄다");
 	}
 	
+	@Override
+	public Post getAnswer(int postNo) throws Exception {
+		System.out.println("유저 서비스 임쁠 탄다 답변내용가져오기");
+		return userDAO.getAnswer(postNo);
+	}
+	
 }

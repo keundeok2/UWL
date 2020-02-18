@@ -67,4 +67,5 @@ public interface UserDAO {
 	
 	public void updateQuestionStatus(int postNo) throws Exception;
 
+	public Post getAnswer(int postNo) throws Exception;
 }

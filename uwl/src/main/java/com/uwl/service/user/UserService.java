@@ -65,5 +65,7 @@ public interface UserService {
 	//
 	
 	public void replyQuestion(Ask ask) throws Exception;
+	
+	public Post getAnswer(int postNo) throws Exception;
 
 }

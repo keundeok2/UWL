@@ -40,6 +40,7 @@
  		<result property="questionStatus" column="QUESTION_STATUS" jdbcType="VARCHAR"/>
  		<result property="place" column="PLACE" jdbcType="VARCHAR"/>
  		<result property="replyPostNo" column="REPLY_POST_NO" jdbcType="NUMERIC"/>
+ 		<result property="replyContent" column="REPLY_CONTENT" jdbcType="VARCHAR"/>
  	</resultMap>
  	
  	<resultMap id="askSelectMap" type="ask">
@@ -221,7 +222,7 @@
 	 <select 	id="getUserQuestions"	parameterType="map"	resultMap="postSelectMap">
 		SELECT * 
         FROM (  SELECT inner_table.* , ROWNUM AS row_seq
-                  FROM ( SELECT post_no , post_title, post_content, post_date
+                  FROM ( SELECT post_no , post_title, post_content, post_date , QUESTION_STATUS, reply_post_no
                             FROM post
 							WHERE user_id = #{userId} AND post_category_no = '5'
 							ORDER BY post_date DESC) 
@@ -371,4 +372,33 @@
 		SET reply_post_no = seq_post_post_no.CURRVAL, question_status = '2' 
 		WHERE post_no = #{value}
 	</update>
+	
+	<!--  문의사항 질문에대한 답변글 가져오기 -->
+	
+	<select id="getAnswer"	parameterType="int"	resultMap="postSelectMap">
+		select * from post where post_category_no = '5' and post_no = #{value}
+	 </select>
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

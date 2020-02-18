@@ -202,4 +202,10 @@ public class UserDAOImpl implements UserDAO {
 		sqlSession.update("UserMapper.updateQuestionStatus", questionPostNo);
 		System.out.println("유저 DAO 임쁠 탄다 상태 업데이투 ");
 	}
+	
+	@Override
+	public Post getAnswer(int postNo) throws Exception {
+		System.out.println("유저 DAO 임쁠 탄다 답변가져오기");
+		return sqlSession.selectOne("UserMapper.getAnswer", postNo); 
+	}
 }
