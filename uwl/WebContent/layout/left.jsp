@@ -291,22 +291,22 @@
             });
 
             $("#201").on("click", function() { //진학상담
-                $(location).attr('href', "/post/listBoard?gatherCategoryNo=201");
+                $(location).attr('href', "/post/listBoard?gatherCategoryNo=201&postChallenge=1");
             });
             $("#202").on("click", function() { //사랑과 이별
-                $(location).attr('href', "/post/listBoard?gatherCategoryNo=202");
+                $(location).attr('href', "/post/listBoard?gatherCategoryNo=202&postChallenge=1");
             });
             $("#203").on("click", function() { //남자끼리
-                $(location).attr('href', "/post/listBoard?gatherCategoryNo=203");
+                $(location).attr('href', "/post/listBoard?gatherCategoryNo=203&postChallenge=1");
             });
             $("#204").on("click", function() { //여자끼리
-                $(location).attr('href', "/post/listBoard?gatherCategoryNo=204");
+                $(location).attr('href', "/post/listBoard?gatherCategoryNo=204&postChallenge=1");
             });
             $("#205").on("click", function() { //데이트 자랑
-                $(location).attr('href', "/post/listBoard?gatherCategoryNo=205");
+                $(location).attr('href', "/post/listBoard?gatherCategoryNo=205&postChallenge=1");
             });
             $("#206").on("click", function() { //대나무 숲
-                $(location).attr('href', "/post/listBoard?gatherCategoryNo=206");
+                $(location).attr('href', "/post/listBoard?gatherCategoryNo=206&postChallenge=1");
             });
             $("#doChallenge").on("click", function() { //진행중인 도전과제
                 $(location).attr('href', "/challenge/listChallenge");

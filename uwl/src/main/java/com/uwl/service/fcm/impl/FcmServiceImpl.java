@@ -17,7 +17,6 @@ import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.WebpushConfig;
 import com.google.firebase.messaging.WebpushNotification;
 import com.uwl.common.NotificationRequest;
-import com.uwl.service.domain.User;
 import com.uwl.service.fcm.FcmService;
 
 @Service
