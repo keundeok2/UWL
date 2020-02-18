@@ -30,6 +30,7 @@ public class ChattingRestController {
 		try{
 			chattingService.addChattingRoom(chatting);
 		}catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -47,12 +48,16 @@ public class ChattingRestController {
 	
 	@RequestMapping(value="/rest/outChattingRoom", method=RequestMethod.POST)	//1:1 채팅방 나가기
 	public boolean outChattingRoom(@RequestBody Chatting chatting) throws Exception{
-		
+		try {
+			chattingService.outChattingRoom(chatting);
+		}catch (Exception e) {
+			return false;
+		}
 		return true;
 	}	
+	
 	@RequestMapping(value="/rest/getChattingRoomList", method=RequestMethod.POST)	//유저 채팅목록 호출
 	public List<Chatting> getChattingRoomList(@RequestBody Chatting chatting) throws Exception{
-		
-		return null;
+		return chattingService.getChattingRoomList(chatting);
 	}
 }
