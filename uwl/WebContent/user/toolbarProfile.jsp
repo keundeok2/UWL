@@ -1062,7 +1062,7 @@
             float: left;
             overflow: hidden;
             overflow-y: scroll;
-
+			
         }
 
         div.rightToolbar2 {
