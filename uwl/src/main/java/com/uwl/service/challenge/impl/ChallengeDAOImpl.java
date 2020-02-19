@@ -125,6 +125,12 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 		return sqlSession.selectOne("ChallengeMapper.getChallCommentCompleteCount",challenge);
 	}
 
+	@Override
+	public List<Challenge> getDetailCategoryList(String detailCategory) throws Exception {
+		System.out.println("ChallengeDAOImpl의  getDetailCategoryList()" + detailCategory );
+		return sqlSession.selectList("ChallengeMapper.getDetailCategoryList", detailCategory);
+	}
+
 	
 	
 	

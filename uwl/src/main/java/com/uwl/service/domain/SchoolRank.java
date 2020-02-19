@@ -4,7 +4,8 @@ public class SchoolRank {
 	
 	//field
 	private int rankNo;
-	private User user;
+	private String userId;
+	//private User user;
 	
 	//학교 정보를 가져오는 변수
 	private int schoolNo;
@@ -17,6 +18,9 @@ public class SchoolRank {
 	//재학중인 총 학생인원 수, 재학중인 총 활동점수
 	private int totalUser;
 	private int totalActivityPoint;
+	
+	//개인랭킹
+	private int recentlyTotalActivityPoint;
 	
 	
 	//Constructor
@@ -88,13 +92,6 @@ public class SchoolRank {
 		this.totalActivityPoint = totalActivityPoint;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 
 	public int getRanking() {
 		return ranking;
@@ -104,11 +101,28 @@ public class SchoolRank {
 		this.ranking = ranking;
 	}
 
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public int getRecentlyTotalActivityPoint() {
+		return recentlyTotalActivityPoint;
+	}
+
+	public void setRecentlyTotalActivityPoint(int recentlyTotalActivityPoint) {
+		this.recentlyTotalActivityPoint = recentlyTotalActivityPoint;
+	}
+
 	@Override
 	public String toString() {
-		return "SchoolRank [rankNo=" + rankNo + ", user=" + user + ", schoolNo=" + schoolNo + ", schoolName="
-				+ schoolName + ", schoolAddress=" + schoolAddress + ", totalUser=" + totalUser + ", totalActivityPoint="
-				+ totalActivityPoint + "]";
+		return "SchoolRank [rankNo=" + rankNo + ", userId=" + userId + ", schoolNo=" + schoolNo
+				+ ", schoolName=" + schoolName + ", schoolAddress=" + schoolAddress + ", ranking=" + ranking
+				+ ", totalUser=" + totalUser + ", totalActivityPoint=" + totalActivityPoint
+				+ ", recentlyTotalActivityPoint=" + recentlyTotalActivityPoint + "]";
 	}
 
 
