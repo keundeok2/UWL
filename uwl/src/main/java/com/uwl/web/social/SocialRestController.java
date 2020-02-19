@@ -52,8 +52,12 @@ public class SocialRestController {
 	int pageSize;
 
 	@RequestMapping(value = "rest/addQuestion", method = RequestMethod.POST)
-	public void addQuestion(@RequestBody Ask ask) throws Exception {
+	public Map addQuestion(@RequestBody Ask ask) throws Exception {
 		socialService.addQuestion(ask);
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(1);
+		return socialService.getAskQuestionList(ask.getUserId(), search, "1");
 	}
 
 	@RequestMapping(value = "rest/getCommentList") // 페이지 넘기기 용?
@@ -90,8 +94,14 @@ public class SocialRestController {
 	}
 
 	@RequestMapping(value = "rest/replyQuestion", method = RequestMethod.POST)
-	public void replyQuestion(@RequestBody Ask ask) throws Exception {
+	public Map replyQuestion(@RequestBody Ask ask) throws Exception {
 		socialService.replyQuestion(ask);
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(1);
+		return socialService.getAskList(ask.getUserId(), search, "2");
+		
+		
 	}
 
 	@RequestMapping(value = "rest/rejectQuestion", method = RequestMethod.POST)
@@ -120,8 +130,9 @@ public class SocialRestController {
 
 	@RequestMapping(value = "rest/getAskList", method = RequestMethod.POST)
 	public Map getAskList(@RequestBody HashMap<String, Object> hashmap) throws Exception {
+		String currPage = (String)hashmap.get("currentPage");
 		Search search = new Search();
-		search.setCurrentPage((Integer) hashmap.get("currentPage"));
+		search.setCurrentPage(Integer.parseInt(currPage));
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}

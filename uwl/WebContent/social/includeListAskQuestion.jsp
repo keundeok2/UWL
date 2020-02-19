@@ -12,9 +12,9 @@
 	var targetUserId = "${targetUserId}";
 	var sessionId = "${user.userId}";
 
-	
-	$(document).on("click", ".addQuestionBtn", function() {
-		var content = $("textarea[name='questionContent']").val();
+	//	질문 등록
+	$(document).on("click", "a.addQuestionBtnAskQuestion", function() {
+		var content = $("textarea#questionContentAskQuestion").val();
 		console.log(content);
 		
 		if (content.length < 1 || content == null || content == "") {
@@ -37,16 +37,24 @@
 				"Content-Type" : "application/json"
 			},
 			data : JSON.stringify({
-				userId : sessionId,
+				userId : targetUserId,
 				questionContent : content,
 				questionTitle : "ask"
 			}),
-			success : function() {
-				$.redirect("/social/getAskQuestionList", {userId : sessionId}, "POST");
+			success : function(d) {
+				$("textarea").val("");
+				
+				var html = "<div class='ask "+d.list[0].questionPostNo+"'>"
+				                +"<p><span>익명</span> · <span>"+d.list[0].questionDate+"</span></p>"
+				                +"<p><a href='#'><i class='fas fa-ellipsis-h'></i></a></p>"
+				                +"<p>"+d.list[0].questionContent+"</p>"
+				                +"<p><a class='rejectBtn'>거절하기</a><a class='regBtn'><i class='fas fa-pen'></i> 답하기</a></p>"
+				                +"<input type='hidden' value='"+d.list[0].questionPostNo+"'>"
+				            +"</div>"
+				$("div.addAsk").prepend(html);
 			}
-		})
-
-	})
+		});
+	});
 	
 	//	거절하기 버튼
 	$(document).on("click", ".rejectBtn", function() {
@@ -129,14 +137,17 @@
 						}),
 						success : function(d) {
 							$("div."+questionPostNo+"").remove();
+							console.log("d", d);
+							var html = "<div class='ask'>"
+							                +"<p>"+d.list[0].questionContent+"</p>"
+							                +"<p><span>익명</span> ｜ <span>"+d.list[0].questionDate+"</span></p>"
+							                +"<p>"+d.list[0].answerContent+"</p>"
+							                +"<p><span>"+d.list[0].user.name+"</span> ｜ <span>"+d.list[0].answerDate+"</span></p>"
+							            +"</div>";
+							$("div.askList").prepend(html);
 						}
 					})
 				})
-	
-	//	답변완료목록 버튼
-/* 	$(document).on("click", ".listAskBtn", function() {
-		$.redirect("/social/getAskList/"+sessionId,{}, "GET");
-	}); */
 	
 
 	//스크롤 페이징
@@ -394,19 +405,19 @@
             <p>새 질문 : ${askQuestionMap.totalCount}개</p>
             <p>${user.name}님에게 질문합니다.</p>
             <p>
-                <textarea name="questionContent" cols="30" rows="10" placeholder="성희롱 및 욕설은 처벌대상입니다."></textarea>
+                <textarea name="questionContent" id="questionContentAskQuestion" cols="30" rows="10" placeholder="성희롱 및 욕설은 처벌대상입니다."></textarea>
                 <input type="hidden" name="userId" value="${targetUserId}">
                 <input type="hidden" name="questionTitle" value="ask">
             </p>
             <p>
-                <a href="#" class="addQuestionBtn">질문하기</a>
+                <a href="#" class="addQuestionBtnAskQuestion">질문하기</a>
                 <a href="#" class="listAskBtn">답변완료목록</a>
             </p>
         </form>
             <p>주소 : <input type="text" value="http://localhost:8080/social/getAskList/${user.userId}" readonly="readonly"></p>
         </div>
         <div class="addAsk">
-        	<c:forEach var="ask" items="${askQuestionMap.list}">
+        	<%-- <c:forEach var="ask" items="${askQuestionMap.list}">
             <div class="ask ${ask.questionPostNo}">
                 <p><span>익명</span> · <span>${ask.questionDate}</span></p>
                 <p><a href="#"><i class="fas fa-ellipsis-h"></i></a></p>
@@ -414,10 +425,7 @@
                 <p><a class="rejectBtn">거절하기</a><a class="regBtn"><i class="fas fa-pen"></i> 답하기</a></p>
                 <input type="hidden" value="${ask.questionPostNo}">
             </div>
-            </c:forEach>
-            
-            
-            
+            </c:forEach> --%>
             
             
         </div>
