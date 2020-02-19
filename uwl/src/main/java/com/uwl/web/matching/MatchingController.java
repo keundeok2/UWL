@@ -2,6 +2,7 @@ package com.uwl.web.matching;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -374,5 +375,28 @@ public class MatchingController {
 		System.out.println("userId : " + userId);
 		
 		return "forward:/matching/updateMatching.jsp";
+	}
+	
+	@RequestMapping(value = "getAllMatchingList")
+	public String getAllMatchingList(Model model) throws Exception {
+		System.out.println("/matchig/getAllMatchingList");
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(100);
+		Map<String, Object> map = matchingService.getAllMatchingList(search);
+		model.addAttribute("list", map.get("list"));
+		return "forward:/matching/listAllMatching.jsp";
+	}
+	
+	@RequestMapping(value = "getMatchingByUserId")
+	public String getMatchingByUserId(Model model, HttpServletRequest request) throws Exception {
+		System.out.println("/matching/getMatchingByUserId");
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		String userId = user.getUserId();
+		Matching matching = matchingService.getMatchingByUserId(userId);
+		
+		model.addAttribute("matching", matching);
+		return "forward:/matching/getMatchingByUserId.jsp";
 	}
 }

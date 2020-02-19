@@ -42,6 +42,12 @@ public class MatchingDAOImpl implements MatchingDAO {
 	}
 	
 	@Override
+	public Matching getMatchingByUserId(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("MatchingMapper.getMatchingByUserId", userId);
+	}
+	
+	@Override
 	public void updateMatching(Matching matching) throws Exception {
 		// TODO Auto-generated method stub
 		sqlSession.update("MatchingMapper.updateMatching", matching);
@@ -147,6 +153,8 @@ public class MatchingDAOImpl implements MatchingDAO {
 		
 		return sqlSession.selectOne("MatchingMapper.getTotalItem", map);
 	}
+
+	
 
 	
 

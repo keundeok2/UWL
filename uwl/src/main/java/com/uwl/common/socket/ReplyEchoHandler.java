@@ -46,8 +46,8 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
 				String sender = strs[0];
 				String receiver = strs[1];
 				String senderName = strs[2];
-				String notiOrigin = strs[3]; // 1. post 2.ask 3. timeline 4. friend 5. question
-				String notiCode = strs[4]; // 1. comment 2.reply 3. requestFriend 4. acceptFriend 5. add
+				String notiOrigin = strs[3]; // 1. post 2.ask 3. timeline 4. friend 5. question 6.coupleTimeline
+				String notiCode = strs[4]; // 1. comment 2.reply 3. requestFriend 4. acceptFriend 5. add 6.like
 
 				WebSocketSession receiverSession = userSessions.get(receiver);
 				WebSocketSession senderSession = userSessions.get(sender);
@@ -57,44 +57,44 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
 				//	자신에게 메시지 보내지 않기 위한 조건문
 				if (!receiverSession.equals(senderSession)) {
 
-					if ("post".equals(notiOrigin) && "comment".equals(notiCode) && receiverSession != null) {
+					if ("1".equals(notiOrigin) && "1".equals(notiCode) && receiverSession != null) {
 						TextMessage tmpMsg = new TextMessage(senderName + "님이" + " 게시글에 댓글을 달았습니다.");
 						System.out.println(tmpMsg);
 						receiverSession.sendMessage(tmpMsg);
 					}
 
-					if ("post".equals(notiOrigin) && "like".equals(notiCode) && receiverSession != null) {
+					if ("1".equals(notiOrigin) && "6".equals(notiCode) && receiverSession != null) {
 						TextMessage tmpMsg = new TextMessage(senderName + "님이" + " 게시글을 좋아합니다.");
 						System.out.println(tmpMsg);
 						receiverSession.sendMessage(tmpMsg);
 					}
 
-					if ("timeline".equals(notiOrigin) && "comment".equals(notiCode) && receiverSession != null) {
+					if ("3".equals(notiOrigin) && "1".equals(notiCode) && receiverSession != null) {
 
 						TextMessage tmpMsg = new TextMessage(senderName + "님이" + " 타임라인에 댓글을 달았습니다.");
 						System.out.println(tmpMsg);
 						receiverSession.sendMessage(tmpMsg);
 					}
 
-					if ("ask".equals(notiOrigin) && "add".equals(notiCode) && receiverSession != null) {
+					if ("2".equals(notiOrigin) && "5".equals(notiCode) && receiverSession != null) {
 						TextMessage tmpMsg = new TextMessage("ASK에 질문이 등록되었습니다.");
 						System.out.println(tmpMsg);
 						receiverSession.sendMessage(tmpMsg);
 					}
 					
-					if ("friend".equals(notiOrigin) && "requestFriend".equals(notiCode) && receiverSession != null) {
+					if ("4".equals(notiOrigin) && "3".equals(notiCode) && receiverSession != null) {
 						TextMessage tmpMsg = new TextMessage(senderName + "님이 친구신청을 보냈습니다.");
 						System.out.println(tmpMsg);
 						receiverSession.sendMessage(tmpMsg);
 					}
 					
-					if ("friend".equals(notiOrigin) && "acceptFriend".equals(notiCode) && receiverSession != null) {
+					if ("4".equals(notiOrigin) && "4".equals(notiCode) && receiverSession != null) {
 						TextMessage tmpMsg = new TextMessage(senderName + "님이 친구신청을 수락했습니다.");
 						System.out.println(tmpMsg);
 						receiverSession.sendMessage(tmpMsg);
 					}
 					
-					if ("question".equals(notiOrigin) && "reply".equals(notiCode) && receiverSession != null) {
+					if ("5".equals(notiOrigin) && "2".equals(notiCode) && receiverSession != null) {
 						TextMessage tmpMsg = new TextMessage("1:1 문의사항에 답변이 등록되었습니다.");
 						System.out.println(tmpMsg);
 						receiverSession.sendMessage(tmpMsg);

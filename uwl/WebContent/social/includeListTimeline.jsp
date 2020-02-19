@@ -64,7 +64,7 @@
 				"Accept" : "application/json",
 				"Content-Type" : "application/json"
 			},
-			data : JSON.stringify({searchCondition : "1", userId : "", postNo : postNo}),
+			data : JSON.stringify({searchCondition : "1", userId : "", postNo : postNo, searchKeyword : postNo}),
 			success : function(d) {
 				$(".addCommentDiv").remove();
 				
@@ -423,7 +423,7 @@ body {word-break:break-all;}
 	<div>
 		<div>
 			<div>
-				<h4>${user.name}님의 Timeline</h4>
+				<h4>${targetUserId}님의 Timeline</h4>
 			<c:if test="${targetUserId eq user.userId }">
 				<div class="addFormDiv">
 				<form id="addTimelineForm" enctype="multipart/form-data">

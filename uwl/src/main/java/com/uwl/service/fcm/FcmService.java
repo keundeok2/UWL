@@ -15,5 +15,7 @@ public interface FcmService {
 	
 	public void sendNotification(final NotificationRequest request) throws Exception;
 	
-	public void createReceiveNotification(String senderId, String receiverId) throws Exception;
+	public void createReceiveNotification(String sender, String receiverId, String notiCode) throws Exception;
+	
+	
 }

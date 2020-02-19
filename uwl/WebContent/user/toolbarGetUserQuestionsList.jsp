@@ -222,73 +222,79 @@
     </script>
 
     <script>
-        var questionPostNo = null;
-        var targetUserId = "${targetUserId}";
-        var sessionId = "${user.userId}";
+ 
+ var questionPostNo = null;
+	var targetUserId = "${targetUserId}";
+	var sessionId = "${user.userId}";
+
+	
+	
         $(function() {
             $(document).on('click', 'a[href="#"]', function(e) {
                 e.preventDefault();
             });
 
-
+            
             $('div.questionList table tr:nth-child(n + 2) td:nth-child(3)').on('click', function() {
-
-
+                
+                
                 $('div.questionList table').find('.admin').parent().remove();
                 var displayValue = '<tr>' +
-                    '<td colspan="1" class="admin" style="text-align: right;">' +
-                    '<span>A</span>' +
-                    ' <i class="fas fa-angle-right"></i>' +
-                    '</td>' +
-                    '<td colspan="2" class="answer" style="text-align: left">' +
-                    '<div class="commentForm">' +
-                    '<textarea name="" id="" cols="130" rows="10" placeholder="답변입력" class="comment">' +
-                    '</textarea>' +
-                    '<p><a class="replyBtn"><i class="fas fa-pen"></i> 답하기</a></p>' +
-                    '</div>';
+                '<td colspan="1" class="admin" style="text-align: right;">' +
+                '<span>A</span>' +
+                ' <i class="fas fa-angle-right"></i>' +
+                '</td>' +
+                '<td colspan="2" class="answer" style="text-align: left">' +
+                '<div class="commentForm">'
+			       + '<textarea name="" id="" cols="70" rows="10" placeholder="답변입력" class="comment">'
+			        + '</textarea>'
+			        + '<p><a class="replyBtn"><i class="fas fa-pen"></i> 답변하기</a></p>'
+			    + '</div>';
                 $(this).parent().after(displayValue);
-
-
-
+                
+                
+                
             });
         });
-
+        
         $(document).on("click", "a.replyBtn", function() {
-            var content = $("textarea.comment").val();
-            var questionPostNo = $("#postNo").val();
-            console.log("content", content);
-            console.log("questionPostNo", questionPostNo);
-
-            if (content.length < 1 || content == null || content == "") {
-                var pureAlert = $.pureAlert.alert({
-                    title: "알림",
-                    content: "내용을 입력하세요.",
-                    okBtn: "확인",
-                    autoShow: true,
-                    closeButton: false
-                });
-
-                return;
-            }
-
-            $.ajax({
-                url: "/user/rest/replyQuestion",
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                data: JSON.stringify({
-                    userId: sessionId,
-                    questionPostNo: questionPostNo,
-                    answerContent: content,
-                    questionTitle: "문의사항답변등록"
-                }),
-                success: function(d) {
-                    $("div." + questionPostNo + "").remove();
-                }
-            })
-        })
+			var content = $("textarea.comment").val();
+			var questionPostNo = $("#postNo").val();
+			console.log("content", content);
+			console.log("questionPostNo", questionPostNo);
+			
+			if (content.length < 1 || content == null || content == "") {
+				var pureAlert = $.pureAlert.alert({
+					title : "알림",
+					content : "내용을 입력하세요.",
+					okBtn : "확인",
+					autoShow : true,
+					closeButton : false
+				});
+				
+				return;
+			}
+			
+			$.ajax({
+				url : "/user/rest/replyQuestion",
+				method : "POST",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				data : JSON.stringify({
+					userId : sessionId,
+					questionPostNo : questionPostNo,
+					answerContent : content,
+					questionTitle : "문의사항답변등록"
+				}),
+				success : function(d) {
+					$("div."+questionPostNo+"").remove();
+				}
+			})
+		})
+        
+        
     </script>
 
     <style>
@@ -403,131 +409,130 @@
             <div class="wrap">
 
                 <div class="main">
-                    <div class="mainHeader">
-                        <span>전체회원의 문의사항 목록</span>
-                    </div>
-                    <div class="select">
-                        <select name="gatherCategoryNo">
-                            <option>선택</option>
-                            <option value="101" ${post.gatherCategoryNo eq '101' ? "selected" : "" }>매칭</option>
-                            <option value="102" ${post.gatherCategoryNo eq '102' ? "selected" : "" }>아이템</option>
-                            <option value="103" ${post.gatherCategoryNo eq '103' ? "selected" : "" }>도전과제</option>
-                            <option value="104" ${post.gatherCategoryNo eq '104' ? "selected" : "" }>결제</option>
-                            <option value="105" ${post.gatherCategoryNo eq '105' ? "selected" : "" }>친구</option>
-                            <option value="106" ${post.gatherCategoryNo eq '106' ? "selected" : "" }>타임라인</option>
-                            <option value="107" ${post.gatherCategoryNo eq '107' ? "selected" : "" }>ASK</option>
-                            <option value="108" ${post.gatherCategoryNo eq '108' ? "selected" : "" }>계정</option>
-                            <option value="109" ${post.gatherCategoryNo eq '109' ? "selected" : "" }>알림</option>
-                            <option value="110" ${post.gatherCategoryNo eq '110' ? "selected" : "" }>위치</option>
-                            <option value="111" ${post.gatherCategoryNo eq '111' ? "selected" : "" }>기타</option>
-                            <!-- 기존 카테고리 selected-->
-                        </select>
-                    </div>
-                    <div class="questionList">
-                        <input type="hidden" id="postContent" name="postContent" value="${post.postContent}" /> <!--  이거 써먹고싶음  -->
-                        <table>
-                            <colgroup>
-                                <col width="10%">
-                                <col width="15%">
-                                <col width="65%">
-                                <col width="10%">
+            <div class="mainHeader">
+                <span>전체회원의 문의사항 목록</span>
+            </div>
+            <div class="select">
+                <select name="gatherCategoryNo">
+               			 <option>선택</option>
+					        <option value="101" ${post.gatherCategoryNo eq '101' ? "selected" : "" }>매칭</option>
+					        <option value="102" ${post.gatherCategoryNo eq '102' ? "selected" : "" }>아이템</option>
+					        <option value="103" ${post.gatherCategoryNo eq '103' ? "selected" : "" }>도전과제</option>
+					        <option value="104" ${post.gatherCategoryNo eq '104' ? "selected" : "" }>결제</option>
+					        <option value="105" ${post.gatherCategoryNo eq '105' ? "selected" : "" }>친구</option>
+					        <option value="106" ${post.gatherCategoryNo eq '106' ? "selected" : "" }>타임라인</option>        
+					        <option value="107" ${post.gatherCategoryNo eq '107' ? "selected" : "" }>ASK</option>        
+					        <option value="108" ${post.gatherCategoryNo eq '108' ? "selected" : "" }>계정</option>        
+					        <option value="109" ${post.gatherCategoryNo eq '109' ? "selected" : "" }>알림</option>        
+					        <option value="110" ${post.gatherCategoryNo eq '110' ? "selected" : "" }>위치</option>        
+					        <option value="111" ${post.gatherCategoryNo eq '111' ? "selected" : "" }>기타</option> 
+       					 <!-- 기존 카테고리 selected-->       
+    				</select>
+            </div>
+           	 <div class="questionList">
+				<input type="hidden"	id="postContent" name="postContent" value="${post.postContent}"/> <!--  이거 써먹고싶음  -->
+					<table>
+                    <colgroup>
+                        <col width="10%">
+                        <col width="15%">
+                        <col width="65%">
+                        <col width="10%">
 
-                            </colgroup>
-                            <tr>
-                                <td>번호</td>
-                                <td>카테고리</td>
-                                <td>제목</td>
-                                <td>처리여부</td>
+                    </colgroup>
+                    <tr>
+                        <td>번호</td>
+                        <td>카테고리</td>
+                        <td>제목</td>
+                        <td>처리여부</td>
 
-                            </tr>
-
-
-
-                            <c:set var="i" value="0" />
-                            <c:forEach var="post" items="${ list }">
-                                <c:set var="i" value="${i}" />
-                                <c:if test="${post.postCategoryNo == '5'}">
-                                    <tr>
-                                        <td><a href="/user/getQuestions?postNo=${post.postNo}">${post.postNo}</a></td>
-                                        <c:if test="${post.gatherCategoryNo == '101'}">
-                                            <td>매칭</td>
-                                        </c:if>
-                                        <c:if test="${post.gatherCategoryNo == '102'}">
-                                            <td>아이템</td>
-                                        </c:if>
-                                        <c:if test="${post.gatherCategoryNo == '103'}">
-                                            <td>도전과제</td>
-                                        </c:if>
-                                        <c:if test="${post.gatherCategoryNo == '104'}">
-                                            <td>결제</td>
-                                        </c:if>
-                                        <c:if test="${post.gatherCategoryNo == '105'}">
-                                            <td>친구</td>
-                                        </c:if>
-                                        <c:if test="${post.gatherCategoryNo == '106'}">
-                                            <td>타임라인</td>
-                                        </c:if>
-                                        <c:if test="${post.gatherCategoryNo == '107'}">
-                                            <td>ASK</td>
-                                        </c:if>
-                                        <c:if test="${post.gatherCategoryNo == '108'}">
-                                            <td>계정</td>
-                                        </c:if>
-                                        <c:if test="${post.gatherCategoryNo == '109'}">
-                                            <td>알림</td>
-                                        </c:if>
-                                        <c:if test="${post.gatherCategoryNo == '110'}">
-                                            <td>위치</td>
-                                        </c:if>
-                                        <c:if test="${post.gatherCategoryNo == '111'}">
-                                            <td>기타</td>
-                                        </c:if>
-
-                                        <td>
-                                            <c:out value="${post.postTitle}"></c:out>
-                                        </td>
-
-                                        <c:if test="${post.questionStatus eq '1' or post.questionStatus == null}">
-                                            <td> 처리중 </td>
-                                        </c:if>
-
-                                        <c:if test="${post.questionStatus eq '2'}">
-                                            <td> 처리 완료 </td>
-                                        </c:if>
-                                    </tr>
-                                </c:if>
-                            </c:forEach>
-
-                        </table>
-                    </div>
-                    <div class="notice">
-                        <div class="list">
-                            <a href="javascript:history.go(-1)">뒤로( 임시 )</a>
-                            <a href="/user/addQuestions">등록</a> <!--  수정필요  -->
-                        </div>
-
-                    </div>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-angle-left"></i></a>
-                            </li>
-                            <li class="page-item on"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-angle-right"></i></a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+                    </tr>
+                    
+                    
+                    
+					<c:set var="i" value="0"/>
+						<c:forEach var="post" items="${ list }">
+							<c:set var ="i" value="${i}"/>
+								<c:if test="${post.postCategoryNo == '5' and post.postTitle !='문의사항답변등록'}">
+						<tr>
+								<td><input type="hidden" id="postNo" name="postNo" value="${post.postNo}"/>
+								<a href="/user/getQuestions?postNo=${post.postNo}">${post.postNo}</a></td>
+					 <c:if test="${post.gatherCategoryNo == '101'}">
+                    <td>매칭</td>
+                    </c:if>
+                    <c:if test="${post.gatherCategoryNo == '102'}">
+                    <td>아이템</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '103'}">
+                    <td>도전과제</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '104'}">
+                    <td>결제</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '105'}">
+                    <td>친구</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '106'}">
+                    <td>타임라인</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '107'}">
+                    <td>ASK</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '108'}">
+                    <td>계정</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '109'}">
+                    <td>알림</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '110'}">
+                    <td>위치</td>
+                    </c:if>
+                     <c:if test="${post.gatherCategoryNo == '111'}">
+                    <td>기타</td>
+                    </c:if>
+                    
+					<td>	<c:out value="${post.postTitle}"></c:out>	</td>
+					
+					 <c:if test="${post.questionStatus eq '1' or post.questionStatus == null}">
+					<td>	처리중	</td>
+					</c:if>
+					
+					<c:if test="${post.questionStatus eq '2'}">
+					<td>	처리 완료	</td>
+					</c:if>
+						</tr>
+						</c:if>
+					  	</c:forEach>
+                   
+                </table>
+			</div>
+		<div class="notice">
+            <div class="list">
+        <a href="javascript:history.go(-1)">뒤로( 임시 )</a>
+        <a href="/user/addQuestions">등록</a> <!--  수정필요  -->
+    	</div>
+            
+        </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#"><i class="fas fa-angle-left"></i></a>
+                        </li>
+                        <li class="page-item on"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#"><i class="fas fa-angle-right"></i></a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+        </div>
             </div>
         </div>
         <div class="rightToolbar2">

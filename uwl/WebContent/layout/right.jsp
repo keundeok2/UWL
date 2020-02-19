@@ -220,8 +220,36 @@
         $(function() {
             rightLoad();
             connectWS();
+            notiIconLoad();
         })
 
+        //	우측툴바 알림아이콘 load
+        function notiIconLoad() {
+        	sessionUserId = $('input#sessionUserId').val();
+        	$.ajax({
+        		url: "/social/rest/getNotiList",
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify({
+                }),
+                success : function (d) {
+					console.log("notiTotalCount", d.totalCount);
+					
+					if (d.totalCount != 0) {
+						$("#notiIcon").children("i").remove();
+						var html = "<i class='fas fa-bell'></i>"
+						$("#notiIcon").prepend(html);
+					}
+				}
+        	});
+		}
+        
+        
+        
+        
         //	우측툴바 load 
         function rightLoad() {
             sessionUserId = $('input#sessionUserId').val();
@@ -344,9 +372,10 @@
 
                     //	socket push msg = (senderId,receiverId,senderName,notiOrigin,notiCode,postNo); 하나라도 빼먹으면 안됨.
                     //	해당하는 인자값 없으면 1이라도 넣어야함. CSV = ','임  ,앞뒤로 띄어쓰기 하면 안됨.
-                    socketMsg = sessionUserId + "," + userId + "," + sessionUserName + "," + "friend,acceptFriend";
-                    console.log(socketMsg)
+                    socketMsg = sessionUserId + "," + userId + "," + sessionUserName + "," + "4,4";
                     socket.send(socketMsg);
+                    
+                    addNoti(sessionUserId, userId, "4", "4");
 
                 }
             })
@@ -395,7 +424,6 @@
                     postNo: postNo
                 }),
                 success: function() {
-                    console.log("addNoti success!");
                 }
             })
         }
@@ -415,7 +443,11 @@
                 console.log("ReceiveMessage:", event.data + '\n');
                 $(".toast-body").html(event.data);
                 $(".toast").toast('show');
-
+                
+				$("#notiIcon").children("i").remove();
+				var html = "<i class='fas fa-bell'></i>"
+				$("#notiIcon").prepend(html);
+				
                 /* let $socketAlert = $("div#socketAlert");
                 $socketAlert.html(event.data);
                 $socketAlert.css("display", "block");
@@ -486,15 +518,15 @@
 
         <!-- 알림 아이콘 -->
         <h4>
-            <a id="noti" href="#">
-                <i class="fas fa-bell"></i>
+            <a id="notiIcon" href="#">
+                <i class="far fa-bell"></i>
                 <span>알림</span>
             </a>
         </h4>
 
         <script type="text/javascript">
             $(function() {
-                $("#noti").on("click", function() {
+                $("#notiIcon").on("click", function() {
                     $.redirect("/social/getNotiList");
                 });
             });
@@ -504,14 +536,14 @@
 
         <!-- 결제 내역 -->
         <h4>
-            <a id="purchaseList" href="#">
+            <a id="purchaseListIcon" href="#">
                 <i class="fas fa-bell"></i>
                 <span>결제 내역</span>
             </a>
         </h4>
         <script type="text/javascript">
             $(function() {
-                $("#purchaseList").on("click", function() {
+                $("#purchaseListIcon").on("click", function() {
                     $.redirect("/purchase/getPurchaseList", {
                         userId: sessionUserId
                     });

@@ -266,7 +266,7 @@ public class UserController2 {
 		timelineMap.put("resultPage", resultPage);
 		model.addAttribute("timelineMap", timelineMap);
 		
-		Map<String,Object> askQuestionMap = socialService.getAskList(sessionUser.getUserId(), search, "1" );
+		Map<String,Object> askQuestionMap = socialService.getAskQuestionList(sessionUser.getUserId(), search, "1" );
 		resultPage = new Page(search.getCurrentPage(), ((Integer) askQuestionMap.get("totalCount")).intValue(), pageUnit,
 				pageSize);
 		askQuestionMap.put("resultPage", resultPage);
