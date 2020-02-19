@@ -35,7 +35,46 @@
         // 	});
     </script>
     <script>
-var answer = '';
+    
+    $(function() {
+    	$(document).on('click', 'div.noticeList table tr:nth-child(n + 2) td:nth-child(2)', function() {
+    		var postNo = $(this).find('#anserPostNo').val();
+    		alert(postNo);
+    		
+    		$.ajax({
+    			url: "/user/rest/getAnswer",
+    			method : "POST",
+    			headers : {
+    				"Accept" : "application/json",
+    				"Content-Type" : "application/json"
+    			},
+    			data : JSON.stringify({
+    				
+    				postNo : postNo
+    			}),
+    			success : function(data) {
+    				alert(data.post.postContent);
+    				var answer = data.post.postContent;
+    				
+   					var displayValue = '<tr>' +
+   	                '<td colspan="1" class="admin" style="text-align: right;">' +
+   	                '<span>A</span>' +
+   	                ' <i class="fas fa-angle-right"></i>' +
+   	                '</td>' +
+   	                '<td colspan="2" class="answer" style="text-align: left">' +
+   	               	answer+
+   	                '</td>' +
+   	                '</tr>';
+   	                
+   	                $('.' + postNo).parent().parent().after(displayValue);
+    				
+                    
+    			}
+    		});
+    	});
+    });
+    
+/* var answer = '';
 
  $(document).on("click", ".questionBox", function() {
 	 
@@ -95,7 +134,7 @@ var answer = '';
                 $(this).parent().after(displayValue);
                 
             });
-        }); 
+        });  */
  
           
     </script>
@@ -409,7 +448,7 @@ var answer = '';
                                 <tr class="questionBox">
                                     <td>${notice.postNo }</td>
 	                                    <td><a href="/user/getQuestions?postNo=${notice.postNo }">${notice.postTitle }</a>
-	                                    <input type="hidden" id="anserPostNo" name="anserPostNo" value="${notice.replyPostNo}"/>
+	                                    <input type="hidden" id="anserPostNo" name="anserPostNo" value="${notice.replyPostNo}" class="${notice.replyPostNo }"/>
                                     </td>
                                     <td>${notice.postDate }</td>
                                     <c:if test="${notice.questionStatus eq '1' or notice.questionStatus == null}">
