@@ -78,6 +78,18 @@ public class ChallengeRestController {
 		return name;
 	}
 	
+	@RequestMapping(value="/rest/listDetailCetegory", method=RequestMethod.POST)
+	public List<Challenge> getDetailCategoryList(@RequestBody Challenge challenge) throws Exception{
+		System.out.println("/rest/listDetailCetegory : POST");
+		
+		System.out.println("detailCategory : " + challenge.getDetailCategory());
+		List<Challenge> list = challengeService.getDetailCategoryList(challenge.getDetailCategory());
+		
+		System.out.println("/rest/listDetailCetegory의 List : " + list);
+		
+		return list;
+	}
+	
 	@RequestMapping(value = "/rest/completeCommentChallenge", method = RequestMethod.POST)
 	public Reward completeCommentChallenge(@RequestBody Post post, HttpSession session) throws Exception{
 		

@@ -41,6 +41,9 @@ public interface ChallengeService {
 	//User가 자신들이 깬 도전과제를 볼 수 있는 method
 	public Map<String, Object> getCompleteChallengeList(Search search, String userId) throws Exception;
 	
+	//addChallenge 시 세부 카테고리를 선택창의 값을 불러오는 method
+	public List<Challenge> getDetailCategoryList(String detailCategory) throws Exception;
+	
 	//도전과제를 수행했을때 완료되는 method ==> Map, Vision, Post에 따라 overloading 할 것.
 	//인자에 challNo을 가지고 있어야함. int나 chall을 가지고 있을것. 
 	//단순 깬 목록만 보면되니까 int가 나아보임
