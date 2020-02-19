@@ -415,7 +415,7 @@
 	        $(document).on("click","#outOfChattingByTimes",function(){	//x눌렀을때
 	        	$('div.chattingBox').removeClass('on');
 	        	$('div.chattingList li').css("backgroundColor", "#fff");
-	        	$('.chatFromMe').remove();
+	         	$('.chatFromMe').remove();
 				$('.chatFromUser').remove();
 	        });
 	        
@@ -502,6 +502,7 @@
 	        	chattingRoom = room
 	        });
 	        socket.on('msg', function(sendMsg){
+	        	console.log(sender, receiver);
 	        	//////////////////////채팅 뷰///////////////////////////////////////
 		        var top = 	"<div class='userProfileImage'>"
 	            				+"<img src='/images/bonobono.jpg' alt=''>"
