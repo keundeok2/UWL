@@ -8,7 +8,31 @@
     <title>어울림</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+    <script src="/javascript/jquery-3.4.0.min.js"></script>
+    <script src="/javascript/iscroll.js"></script>
+    <script>
+	    $(function() {
+	    	
+	        var myScroll = new IScroll('#wrapper', {
+	            mouseWheel: true,
+	            scrollbars: true
+	        });
+	        
+	        
+	        
+	        $('div.section ul li a').on('click', function() {
+	        	setTimeout(function() {
+	        		myScroll.refresh();
+	        	}, 100);
+	        	
+	        });
+	        
+	        
+	    });
+    </script>
     <style>
+	    
+	    
         * {
             margin: 0;
             padding: 0;
@@ -296,7 +320,7 @@
 
         section>div {
             display: none;
-            height: 300px;
+            
         }
 
         section>div.on {
@@ -765,7 +789,7 @@
 
             $(function() {
                 $('div.section ul li a').on('click', function() {
-
+                	
                     var i = $(this).parent().index();
                     $('div.section ul li').removeClass('on');
                     $('div.section ul li').eq(i).addClass('on');
@@ -1061,7 +1085,7 @@
             height: 100vh;
             float: left;
             overflow: hidden;
-            overflow-y: scroll;
+            
 			
         }
 
@@ -1081,7 +1105,8 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        <ul>
             <input type="hidden" id="sessionUserId" value="${user.userId}">
             <input type="hidden" id="targetUserId" value="${targetUserId}">
             <input type="hidden" id="sessionMail" value="${user.mail}">
@@ -1330,6 +1355,7 @@
                     </div>
                 </div>
             </div>
+            </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
