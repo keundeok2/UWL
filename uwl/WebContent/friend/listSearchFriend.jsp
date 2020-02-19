@@ -66,8 +66,7 @@ $(document).on("click","#applyBtn", function() {
 			$(html).appendTo("#"+userId+"");
 			
 			//socket push msg = (senderId,receiverId,senderName,notiOrigin,notiCode); 하나라도 빼먹으면 안됨. 해당하는 인자값 없으면 1이라도 넣어야함
-			socketMsg = sessionId + "," + userId +"," + sessionName +"," + "friend,requestFriend";
-			console.log(socketMsg)
+			socketMsg = sessionId + "," + userId +"," + sessionName +"," + "4,3";
 			socket.send(socketMsg);
 			
 			addNoti(sessionId, userId, "4", "3");
