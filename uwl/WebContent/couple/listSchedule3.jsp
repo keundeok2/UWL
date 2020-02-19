@@ -49,11 +49,14 @@
 
             height: 70px;
             position: relative;
+            background: #fff;
         }
 
         #cal_tab {
 
             height: calc(100vh - 70px);
+            background: #fff;
+            
         }
 
         #cal_tab table {
@@ -199,67 +202,69 @@
             z-index: 2;
         }*/
 
-        .wrap.right {
+        td .wrap.right {
             background-color: #fff;
             width: 400px;
             padding: 10px 20px 15px 10px;
-
+			border: 1px solid #eee;
             border-radius: 5px;
-            box-shadow: 0px 0px 20px rgba(137, 137, 137, 0.56);
+            box-shadow: 1px 1px 1px #eee;
             position: absolute;
             top: 50%;
-            left: 100px;
+            left: 50px;
             transform: translateY(-50%);
             opacity: 0;
             z-index: 2;
             transition: all 0.3s;
+            font-size: 13px;
         }
 
-        .wrap.left {
+        td .wrap.left {
             background-color: #fff;
             width: 400px;
             padding: 10px 20px 15px 10px;
-
+			border: 1px solid #eee;
             border-radius: 5px;
-            box-shadow: 0px 0px 20px rgba(137, 137, 137, 0.56);
+            box-shadow: 1px 1px 1px #eee;
             position: absolute;
             top: 50%;
-            right: 100px;
+            right: 50px;
             transform: translateY(-50%);
             opacity: 0;
             z-index: 2;
             transition: all 0.3s;
+            font-size: 13px;
         }
 
-        .wrap.right.on {
-            left: 200px;
+        td .wrap.right.on {
+            left: 90px;
             opacity: 1;
         }
 
-        .wrap.left.on {
-            right: 200px;
+        td .wrap.left.on {
+            right: 90px;
             opacity: 1;
         }
 
-        .wrap div:nth-child(1) {
+        td .wrap div:nth-child(1) {
             text-align: right;
         }
 
-        .wrap div:nth-child(n + 2) {
+        td .wrap div:nth-child(n + 2) {
 
 
             width: 100%;
             overflow: hidden;
         }
 
-        .wrap div:nth-child(n + 2) i {
+        td .wrap div:nth-child(n + 2) i {
             width: 10%;
             float: left;
             text-align: center;
             line-height: 34px;
         }
 
-        .wrap div:nth-child(n + 2) input {
+        td .wrap div:nth-child(n + 2) input {
             width: 90%;
             float: right;
 
@@ -267,20 +272,20 @@
             line-height: 34px;
         }
 
-        .wrap div:nth-child(6) {
+        td .wrap div:nth-child(6) {
 
             text-align: right;
-            padding-top: 20px;
+            padding-top: 10px;
         }
 
-        .wrap div:nth-child(2) input {
+        td .wrap div:nth-child(2) input {
 
             font-size: 20px;
             border-bottom: 1px solid;
             margin-bottom: 15px;
         }
 
-        .wrap div:nth-child(6) a {
+        td .wrap div:nth-child(6) a {
             display: inline-block;
             background: #EBAD7A;
 
@@ -293,11 +298,11 @@
             padding: 0 20px;
         }
 
-        .wrap div:nth-child(6) a:hover {
+        td .wrap div:nth-child(6) a:hover {
             background-color: rgba(235, 173, 122, 0.9);
         }
 
-        .wrap div:nth-child(3) input {
+        td .wrap div:nth-child(3) input {
             color: #000;
             width: auto;
 
@@ -307,27 +312,27 @@
             text-align: center
         }
 
-        .wrap div:nth-child(n + 3) input {
+        td .wrap div:nth-child(n + 3) input {
             border-radius: 5px;
             transition: all 0.2s;
         }
 
-        .wrap div:nth-child(n + 3) input {
+        td .wrap div:nth-child(n + 3) input {
             padding: 0 8px;
 
         }
 
-        .wrap div:nth-child(n + 3) input:hover,
-        .wrap div:nth-child(n + 3) input:focus {
+        td .wrap div:nth-child(n + 3) input:hover,
+        td .wrap div:nth-child(n + 3) input:focus {
             background-color: rgba(235, 173, 122, 0.3);
 
         }
 
-        .wrap div:nth-child(2) {
+        td .wrap div:nth-child(2) {
             position: relative;
         }
 
-        .wrap div:nth-child(2) span {
+        td .wrap div:nth-child(2) span {
             display: block;
             background-color: #EBAD7A;
             width: 0%;
@@ -339,16 +344,16 @@
         }
 
 
-        .wrap div:nth-child(2).on span {
+        td .wrap div:nth-child(2).on span {
             width: 90%;
             right: 0;
         }
 
-        .wrap div:nth-child(3) {
+        td .wrap div:nth-child(3) {
             position: relative;
         }
 
-        .wrap div:nth-child(3) span {
+        td .wrap div:nth-child(3) span {
             display: block;
             background-color: #EBAD7A;
             width: 0%;
@@ -359,18 +364,18 @@
             transition: width 0.5s, left 0.5s;
         }
 
-        .wrap div:nth-child(3).on span {
+        td .wrap div:nth-child(3).on span {
             width: 33.7%;
             left: 10%;
         }
 
-        .wrap div:nth-child(4),
-        .wrap div:nth-child(5) {
+        td .wrap div:nth-child(4),
+        td .wrap div:nth-child(5) {
             position: relative;
         }
 
-        .wrap div:nth-child(4) span,
-        .wrap div:nth-child(5) span {
+        td .wrap div:nth-child(4) span,
+        td .wrap div:nth-child(5) span {
             display: block;
             background-color: #EBAD7A;
             width: 0%;
@@ -381,8 +386,8 @@
             transition: width 0.5s, right 0.5s;
         }
 
-        .wrap div:nth-child(4).on span,
-        .wrap div:nth-child(5).on span {
+        td .wrap div:nth-child(4).on span,
+        td .wrap div:nth-child(5).on span {
             width: 90%;
             right: 0;
         }
@@ -416,7 +421,7 @@
             outline: none;
         }
 
-        .wrap div:nth-child(1) a {
+        td .wrap div:nth-child(1) a {
             display: inline-block;
             width: 25px;
             height: 25px;
@@ -428,7 +433,7 @@
 
         }
 
-        .wrap div:nth-child(1) a:hover {
+        td .wrap div:nth-child(1) a:hover {
             background-color: rgba(235, 173, 122, 0.3);
         }
 

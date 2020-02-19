@@ -113,44 +113,44 @@ var page = 1;
 
         
 
-        section div.wrap {
-            background-color: rgb(121, 134, 203);
+        section div.list2 div.wrap {
+            background-color: #EBAD7A;
             padding: 10px;
         }
 
-        div.header {
+        div.list2 div.header {
             background-color: #fff;
-            border-radius: 40px;
+            border-radius: 20px;
             text-align: center;
             padding: 50px 25px 5px;
-
+			box-shadow: none;
         }
 
-        div.header p:nth-child(1) {
+        div.list2 div.header p:nth-child(1) {
             font-weight: bold;
             font-size: 21px;
             margin-bottom: 15px;
         }
 
-        div.header p:nth-child(2) {
+        div.list2 div.header p:nth-child(2) {
             margin-bottom: 15px;
             font-size: 13px;
         }
 
-        div.header p:nth-child(3) {
+        div.list2 div.header p:nth-child(3) {
             margin-bottom: 15px;
             font-size: 18px;
         }
 
-        section textarea {
+        section div.list2 textarea {
             width: 100%;
             height: 55px;
             resize: none;
             padding: 2px;
         }
 
-        div.header p:nth-child(5) a {
-            background-color: rgb(121, 134, 203);
+        div.list2 div.header p:nth-child(5) a {
+            background-color: #EBAD7A;
             line-height: 38px;
             display: inline-block;
             width: 100px;
@@ -158,12 +158,12 @@ var page = 1;
             margin-bottom: 30px;
         }
 
-        div.header p:nth-child(6) {
+        div.list2 div.header p:nth-child(6) {
             font-size: 18px;
             margin-bottom: 40px;
         }
 
-        div.header p:nth-child(6) input {
+        div.list2 div.header p:nth-child(6) input {
             line-height: 34px;
             border: 1px solid #e3e3e3;
             text-indent: 5px;
@@ -171,7 +171,7 @@ var page = 1;
             width: 245px;
         }
 
-        div.header p:nth-child(7) a {
+        div.list2 div.header p:nth-child(7) a {
             background-color: rgb(121, 134, 203);
             line-height: 38px;
             display: inline-block;
@@ -182,15 +182,15 @@ var page = 1;
 
 
 
-        div.ask {
+        div.list2 div.ask {
             background-color: #fff;
             margin-top: 10px;
             border-radius: 40px;
             padding: 20px 20px 10px;
         }
 
-        div.ask p:nth-child(2),
-        div.ask p:nth-child(4) {
+        div.list2 div.ask p:nth-child(2),
+        div.list2 div.ask p:nth-child(4) {
 
             font-size: 12px;
             text-indent: 5px;
@@ -198,17 +198,17 @@ var page = 1;
             margin-top: 2px;
         }
 
-        div.ask p:nth-child(3),
-        div.ask p:nth-child(4) {
+        div.list2 div.ask p:nth-child(3),
+        div.list2 div.ask p:nth-child(4) {
 
             text-indent: 30px;
             margin-bottom: 0;
         }
 
-        section div.wrap>div:last-child {
+        section div.list2 div.wrap>div:last-child {
             background-color: #fff;
             line-height: 60px;
-            border-radius: 16px;
+            border-radius: 20px;
             text-align: center;
             margin-top: 10px;
         }
