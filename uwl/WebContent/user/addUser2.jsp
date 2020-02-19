@@ -11,31 +11,19 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <!-- bootstrap 4.4 CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/jquery-ui.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <!-- jQuery Redirect CDN     https://github.com/mgalante/jquery.redirect  -->
     <script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
     <!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
     <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
-	<script src="/javascript/jquery-ui.js"></script>
+
     <link rel="stylesheet" href="/css/jaeiCommon.css">
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
-    <script>
-        $(function() {
-            $("#datepicker").datepicker({
-                dateFormat: 'yy년 mm월 dd일',
-                monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'] //달력의 월 부분 Tooltip 텍스트
-                    ,
-                dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'] //달력의 요일 부분 텍스트
-                    ,
-                showMonthAfterYear: true,
-                yearSuffix: "년"
-            });
+    <script type="text/javascript">
 
-        });
     </script>
 
 
@@ -116,13 +104,12 @@
         }
 
         div.loginForm div.id:nth-child(11) p:nth-child(1) {
-            background-color: #fff;
+            background-color: #f8f8f8;
         }
 
         p.gender {
             text-align: left;
-            margin-top: 5px;
-            margin-bottom: 20px;
+            
         }
 
         div.loginForm div.id p:nth-child(1) i,
@@ -147,6 +134,7 @@
 
 
             font-size: 16px;
+            font-weight: bold;
 
         }
 
@@ -180,7 +168,7 @@
 
         div.loginForm>p>a {
 
-            margin-top: 10px;
+            
             margin-bottom: 20px;
         }
 
@@ -212,6 +200,20 @@
 
         p.level {
             text-align: left;
+        }
+        div.id select {
+            background-color: #f8f8f8;
+            border: none;
+            border-bottom: 2px solid #333;
+            width: 100%;
+            line-height: 30px;
+            height: 30px;
+            padding: 0 15px 2px 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            
+            vertical-align: bottom;
+            font-weight: bold;
         }
     </style>
 
@@ -273,10 +275,7 @@
 
                 </div>
                 <p class="level">
-                    <input type="radio" name="level" value="element">초등학교
-                    <input type="radio" name="level" value="middle">중학교
-                    <input type="radio" name="level" value="high">고등학교
-                    <input type="radio" name="level" value="college">대학교
+                    
                 </p>
                 <p><a href="#">주소찾기</a></p>
 
@@ -291,11 +290,14 @@
                 </div>
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>성별</p>
-
+                    <select name="" id="">
+                        <option value="" style="display: none"></option>
+                        <option value="">여자</option>
+                        <option value="">남자</option>
+                    </select>
                 </div>
                 <p class="gender">
-                    <input type="radio" name="gender" value="female">여자
-                    <input type="radio" name="gender" value="male">남자
+                    
                 </p>
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>이메일</p>
