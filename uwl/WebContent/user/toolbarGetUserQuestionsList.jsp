@@ -290,6 +290,7 @@
 				}),
 				success : function(d) {
 					$("div."+questionPostNo+"").remove();
+					alert("답변등록완료");
 				}
 			})
 		})
