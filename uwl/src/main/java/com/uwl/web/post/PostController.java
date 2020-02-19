@@ -228,13 +228,13 @@ public class PostController {
 		Post post2 = postService.getNextOrPrePost(postNo);
 		model.addAttribute("post", post);
 		model.addAttribute("post2", post2);
-		return "forward:/post/getNotice.jsp";
+		return "forward:/post/toolbarGetNotice.jsp";
 	}
 	
 	@RequestMapping(value="addNotice", method=RequestMethod.GET)	//--------------------테스트 종료
 	public String addNotice() throws Exception{
 		System.out.println("addNotice.GET");
-		return "forward:/post/addNotice.jsp";
+		return "forward:/post/toolbarAddNotice.jsp";
 	}
 	
 	@RequestMapping(value="addNotice", method=RequestMethod.POST)	//--------------------테스트 종료
@@ -252,7 +252,7 @@ public class PostController {
 		Post post2 = postService.getNextOrPrePost(postNo);
 		model.addAttribute("post", post);
 		model.addAttribute("post2", post2);
-		return "forward:/post/updateNotice.jsp";
+		return "forward:/post/toolbarUpdateNotice.jsp";
 	}
 	
 	@RequestMapping(value="updateNotice", method=RequestMethod.POST)	//-----------------------테스트 종료
@@ -262,7 +262,7 @@ public class PostController {
 		post2 = postService.getNextOrPrePost(postNo);
 		model.addAttribute("post", post);
 		model.addAttribute("post2", post2);
-		return "forward:/post/getNotice.jsp";
+		return "forward:/post/toolbarGetNotice.jsp";
 	}
 	
 	@RequestMapping(value="deleteNotice", method=RequestMethod.GET)		//-------------------------테스트 종료
@@ -286,7 +286,7 @@ public class PostController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-		return "forward:/post/listNotice.jsp";
+		return "forward:/post/toolbarListNotice.jsp";
 	}
 	
 	

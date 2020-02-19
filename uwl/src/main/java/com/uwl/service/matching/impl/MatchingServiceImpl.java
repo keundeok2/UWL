@@ -41,6 +41,12 @@ public class MatchingServiceImpl implements MatchingService{
 	}
 	
 	@Override
+	public Matching getMatchingByUserId(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return matchingDAO.getMatchingByUserId(userId);
+	}
+	
+	@Override
 	public void updateMatching(Matching matching) throws Exception {
 		// TODO Auto-generated method stub
 		matchingDAO.updateMatching(matching);
@@ -133,6 +139,8 @@ public class MatchingServiceImpl implements MatchingService{
 		// TODO Auto-generated method stub
 		return matchingDAO.getTotalItem(search, userId, itemCategory);
 	}
+
+	
 
 	
 

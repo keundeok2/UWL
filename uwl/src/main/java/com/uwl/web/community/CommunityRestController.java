@@ -18,7 +18,10 @@ import com.uwl.common.Search;
 import com.uwl.service.community.CommunityService;
 import com.uwl.service.domain.Commentt;
 import com.uwl.service.domain.Likey;
+import com.uwl.service.domain.Post;
 import com.uwl.service.domain.User;
+import com.uwl.service.fcm.FcmService;
+import com.uwl.service.post.PostService;
 
 @RestController
 @RequestMapping("/community/*")
@@ -27,6 +30,12 @@ public class CommunityRestController {
 	@Autowired
 	@Qualifier("communityServiceImpl")
 	private CommunityService communityService;
+	
+	@Autowired
+	private FcmService fcmService;
+	
+	@Autowired
+	private PostService postService;
 	
 	public CommunityRestController() {
 		System.out.println(this.getClass());
@@ -118,6 +127,19 @@ public class CommunityRestController {
 		User user = (User)session.getAttribute("user");
 		comment.setUserId(user.getUserId()); //session 처리해야해
 		communityService.addComment(comment);
+		
+		//	FCM push
+		String notiCode = "post";
+		Post post = postService.getBoard(comment.getPostNo());
+		if (post.getPostCategoryNo().equals("2")) {
+			notiCode = "post";
+		} else if (post.getPostCategoryNo().equals("4")) {
+			notiCode = "timeline";
+		} else if (post.getPostCategoryNo().equals("6")) {
+			notiCode = "coupleTimelineComment";
+		}
+		
+		fcmService.createReceiveNotification(comment.getUserId(), post.getUserId(), notiCode);
 		
 		//get해서 다시 붙여주는 용도
 		comment = communityService.getComment(comment.getUserId(), comment.getPostNo());

@@ -104,13 +104,12 @@
         }
 
         div.loginForm div.id:nth-child(11) p:nth-child(1) {
-            background-color: #fff;
+            background-color: #f8f8f8;
         }
 
         p.gender {
             text-align: left;
-            margin-top: 5px;
-            margin-bottom: 20px;
+            
         }
 
         div.loginForm div.id p:nth-child(1) i,
@@ -135,6 +134,7 @@
 
 
             font-size: 16px;
+            font-weight: bold;
 
         }
 
@@ -168,7 +168,7 @@
 
         div.loginForm>p>a {
 
-            margin-top: 10px;
+            
             margin-bottom: 20px;
         }
 
@@ -200,6 +200,20 @@
 
         p.level {
             text-align: left;
+        }
+        div.id select {
+            background-color: #f8f8f8;
+            border: none;
+            border-bottom: 2px solid #333;
+            width: 100%;
+            line-height: 30px;
+            height: 30px;
+            padding: 0 15px 2px 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            
+            vertical-align: bottom;
+            font-weight: bold;
         }
     </style>
 
@@ -261,10 +275,7 @@
 
                 </div>
                 <p class="level">
-                    <input type="radio" name="level" value="element">초등학교
-                    <input type="radio" name="level" value="middle">중학교
-                    <input type="radio" name="level" value="high">고등학교
-                    <input type="radio" name="level" value="college">대학교
+                    
                 </p>
                 <p><a href="#">주소찾기</a></p>
 
@@ -279,11 +290,14 @@
                 </div>
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>성별</p>
-
+                    <select name="" id="">
+                        <option value="" style="display: none"></option>
+                        <option value="">여자</option>
+                        <option value="">남자</option>
+                    </select>
                 </div>
                 <p class="gender">
-                    <input type="radio" name="gender" value="female">여자
-                    <input type="radio" name="gender" value="male">남자
+                    
                 </p>
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>이메일</p>
