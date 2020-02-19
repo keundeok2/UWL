@@ -303,7 +303,7 @@ public class UserController {
 		System.out.println("/user/addQuestion : GET");
 		System.out.println("/user/addQuestion : GET22");
 
-		return "forward:/user/addQuestions.jsp";
+		return "forward:/user/toolbarAddQuestions.jsp";
 
 	}
 
@@ -315,7 +315,7 @@ public class UserController {
 		System.out.println("/user/addQuestions : POST" + post);
 		// Business Logic
 		userService.addQuestions(post);
-		return "forward:/user/getQuestions.jsp";
+		return "forward:/user/toolbarGetQuestions.jsp";
 	}
 
 	// 문의사항 수정
@@ -328,7 +328,7 @@ public class UserController {
 		Post post = userService.getQuestions(postNo);
 		model.addAttribute("post", post);
 
-		return "forward:/user/updateQuestions.jsp";
+		return "forward:/user/toolbarUpdateQuestions.jsp";
 //		return "forward:/user/updateQuestions?postNo=" + post.getPostNo();
 	}
 
@@ -342,7 +342,7 @@ public class UserController {
 		userService.updateQuestions(post);
 		
 
-		return "redirect:/user/getQuestions?postNo=" + post.getPostNo();
+		return "redirect:/user/toolbarGetQuestions?postNo=" + post.getPostNo();
 	}
 
 	// 문의사항 내용
@@ -357,7 +357,7 @@ public class UserController {
 		// Model 과 View 연결
 		model.addAttribute("post", post);
 
-		return "forward:/user/getQuestions.jsp";
+		return "forward:/user/toolbarGetQuestions.jsp";
 //			return "forward:/user/getQuestions?postNo"+post.getPostNo();
 	}
 
@@ -370,7 +370,7 @@ public class UserController {
 		// Business Logic
 //				userService.getQuestions(post);
 
-		return "forward:/user/getQuestions?postNo" + post.getPostNo();
+		return "forward:/user/toolbarGetQuestions?postNo" + post.getPostNo();
 	}
 
 	// 나의 문의사항 내역
@@ -398,7 +398,7 @@ public class UserController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-		return "forward:/user/getUserQuestions.jsp";
+		return "forward:/user/toolbarGetUserQuestions.jsp";
 	}
 
 
@@ -603,7 +603,7 @@ public class UserController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 
-		return "forward:/user/getUserQuestionsList.jsp";
+		return "forward:/user/toolbarGetUserQuestionsList.jsp";
 	}
 
 
@@ -824,7 +824,7 @@ public class UserController {
 	public String replyQuestion(@ModelAttribute Ask ask) throws Exception{
 		userService.replyQuestion(ask);
 		System.out.println("컨트롤러 탄다");
-		return "forward:/user/getQuestionsList";
+		return "forward:/user/toolbarGetQuestionsList";
 		
 	}
 	

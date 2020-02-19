@@ -57,12 +57,28 @@ var answer = '';
 				postNo : postNo
 			}),
 			success : function(d) {
-				console.log(d.post.postContent);
+				//console.log(d.post.postContent);
 				answer = d.post.postContent
-				//$("div."+questionPostNo+"").remove();
+				console.log(answer);
 				
 				//추가
-				
+				$(document).on('click','div.noticeList table tr:nth-child(n + 2) td:nth-child(2)', function() {
+	                
+	                $('div.noticeList table').find('.admin').parent().remove();
+	                var displayValue = '<tr>' +
+	                '<td colspan="1" class="admin" style="text-align: right;">' +
+	                '<span>A</span>' +
+	                ' <i class="fas fa-angle-right"></i>' +
+	                '</td>' +
+	                '<td colspan="2" class="answer" style="text-align: left">' +
+	               	answer+
+	                '</td>' +
+	                '</tr>';
+	                $(this).parent().after(displayValue);
+	                
+	            });
+	            
+	           
 				
 				
 				//추가끝

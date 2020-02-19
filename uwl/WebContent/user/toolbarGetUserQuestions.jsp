@@ -39,12 +39,7 @@ var answer = '';
 
  $(document).on("click", ".questionBox", function() {
 	 
-	 
-		var content = $("textarea.comment").next().val();
-		
 		var postNo = $(this).children().find('#anserPostNo').val();
-		
-		console.log("content", content);
 		console.log("postNo", postNo);
 		
 		
@@ -60,9 +55,14 @@ var answer = '';
 				postNo : postNo
 			}),
 			success : function(d) {
-				console.log(d.post.postContent);
+				//console.log(d.post.postContent);
 				answer = d.post.postContent
-				//$("div."+questionPostNo+"").remove();
+				console.log(answer);
+				
+				//추가
+				
+				
+				//추가끝
 				
                 
 			}
@@ -72,8 +72,9 @@ var answer = '';
 	})
 	
  
+
  
-       /* $(function() {
+        $(function() {
             $(document).on('click', 'a[href="#"]', function(e) {
                 e.preventDefault();
             });
@@ -94,10 +95,9 @@ var answer = '';
                 $(this).parent().after(displayValue);
                 
             });
-            
-            
-        }); */
-         
+        }); 
+ 
+          
     </script>
     <style>
         td.admin {
@@ -196,16 +196,16 @@ var answer = '';
 
         div.noticeList table {
 
-            border-top: 2px solid #EBAD7A;
-            border-bottom: 2px solid #EBAD7A;
+            border-top: 3px solid #EBAD7A;
+            border-bottom: 3px solid #EBAD7A;
             border-collapse: collapse;
             width: 100%;
         }
 
         div.noticeList table tr {
 
-            border-bottom: 1px solid #ddd;
-            line-height: 50px;
+            border-bottom: 2px solid #ddd;
+            line-height: 40px;
         }
 
         div.noticeList table tr:nth-child(1) {
@@ -328,6 +328,45 @@ var answer = '';
             background-color: #fff;
             border-left: 1px solid #eee;
         }
+        
+        div.wrap nav {
+
+            padding: 15px 0;
+            border-bottom: 1px solid #EBAD7A;
+            margin-top: 50px;
+            text-align: center;
+            
+        }
+
+
+        div.wrap nav ul li a {
+
+            padding: 10px 15px;
+            color: #333;
+            font-weight: bold;
+            
+        }
+
+        div.wrap nav ul li.on a {
+            background-color: #eee;
+            
+
+            color: #e9a064;
+
+        }
+
+        div.wrap nav ul li a:hover {
+            background-color: #eee;
+            
+
+            color: #e9a064;
+        }
+
+        div.wrap nav ul li a:hover i {
+            background-color: #eee;
+
+            color: #333;
+        }
     </style>
 </head>
 
@@ -366,22 +405,46 @@ var answer = '';
                                 <td>처리여부</td>
                             </tr>
                             <c:forEach var="notice" items="${list }">
-                                <tr>
+                            <c:if test="${notice.postTitle ne '문의사항답변등록'}">
+                                <tr class="questionBox">
                                     <td>${notice.postNo }</td>
-                                    <td><a href="/user/getQuestions?postNo=${notice.postNo }">${notice.postTitle }</a></td>
+	                                    <td><a href="/user/getQuestions?postNo=${notice.postNo }">${notice.postTitle }</a>
+	                                    <input type="hidden" id="anserPostNo" name="anserPostNo" value="${notice.replyPostNo}"/>
+                                    </td>
                                     <td>${notice.postDate }</td>
-                                    <c:if test="${post.questionStatus eq '1' or post.questionStatus == null}">
+                                    <c:if test="${notice.questionStatus eq '1' or notice.questionStatus == null}">
                                         <td>처리중</td>
                                     </c:if>
-                                    <c:if test="${post.questionStatus eq '2'}">
+                                    <c:if test="${notice.questionStatus eq '2'}">
                                         <td>처리 완료</td>
                                     </c:if>
                                 </tr>
+                                </c:if>
                             </c:forEach>
 
                         </table>
                     </div>
                 </div>
+            <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#"><i class="fas fa-angle-left"></i></a>
+                        </li>
+                        <li class="page-item on"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#"><i class="fas fa-angle-right"></i></a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
         <div class="rightToolbar2">
