@@ -19,9 +19,17 @@ public interface SchoolRankDAO {
 	//학교랭킹 리스트를 확인하기 위한 method
 	public List<SchoolRank> getSchoolRankingList(Search search) throws Exception;
 	
+	//개인랭킹 리스트를 확인하기 위한 method
+	public List<SchoolRank> getIndividualRankingList(Search search) throws Exception;
+	
 	//유저가 검색한 학교리스트
 	public SchoolRank getSearchRank(int schoolNo) throws Exception;
 	
+	//내 학교검색
+	public SchoolRank getMySchool(String userId) throws Exception;
+	
 	public int getTotalCount(Search search) throws Exception ;
+	
+	public int getTotalCountIndividual(Search search) throws Exception ;
 
 }

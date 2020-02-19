@@ -63,6 +63,7 @@ public class ChallengeController {
 		
 		user = (User)session.getAttribute("user");
 		
+		
 		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
 		if (user.getUserId() == null) {
 			System.out.println("ChallengeController addChallenge() : GET ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
@@ -95,8 +96,8 @@ public class ChallengeController {
 		
 		System.out.println("challenege : " + challenge);
 		
-		//return "redirect:/challenge/listAdminChallenge";
-		return "redirect:/challenge/toolbarListAdminChallenge.jsp";
+		return "redirect:/challenge/listAdminChallenge";
+		//return "redirect:/challenge/toolbarListAdminChallenge.jsp";
 	}
 	
 	@RequestMapping(value = "updateChallenge/{challNo}", method = RequestMethod.GET)

@@ -65,6 +65,12 @@
 		
 	</resultMap>
 	
+	<!-- addCahllenge 시 카테고리를 불러오는 작업 -->
+	<resultMap id="challengCategorySelectMap" type="challenge">
+		<result property="challCategory" column="chall_category" jdbcType="VARCHAR"/>
+		<result property="detailCategory" column="chall_detail_category" jdbcType="VARCHAR"/>
+	</resultMap>
+	
 	<!-- Challenge -->
 	<!-- SQL : INSERT -->
 	<insert 	id="addChallenge"		parameterType="challenge" >
@@ -182,6 +188,14 @@
 													to_char(weekly_start+7,'yyyy-mm-dd HH24:MI:SS') weekly_end
 													from challenge c WHERE c.weekly_start IS NOT NULL ORDER BY c.weekly_start DESC) weekly_end
 		WHERE ROWNUM = 1
+		
+	 </select>
+	 
+	 <!-- SQL : SELECT ONE  -->
+	 <select  id="getDetailCategoryList" 	parameterType="string" 	resultMap="challengCategorySelectMap">
+	  	
+	  	SELECT * FROM challenge_detail_category 
+  				WHERE chall_category = #{value} ORDER BY chall_category
 		
 	 </select>
 	 

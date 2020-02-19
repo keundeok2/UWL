@@ -40,10 +40,8 @@ public interface ChallengeDAO {
 	//User가 자신들이 깬 도전과제를 볼 수 있는 method
 	public Map<String, Object> getCompleteChallengeList(Search search, String userId) throws Exception;
 	
-	//도전과제를 수행했을때 완료되는 method ==> Map, Vision, Post에 따라 overloading 할 것.
-	
-	//==>> 이건 서비스에만 있어도 될 것 같음 DAO에 접근 X ==> 할것
-	//public void completeChallenge(int challReward, String rewardCategory) throws Exception;
+	//addChallenge 시 세부 카테고리를 선택창의 값을 불러오는 method
+	public List<Challenge> getDetailCategoryList(String detailCategory) throws Exception;
 	
 	public int getTotalCount(Search search) throws Exception ;
 	
