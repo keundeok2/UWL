@@ -13,8 +13,8 @@ var targetUserId = "${targetUserId}";
 var sessionId = "${user.userId}";
 var sessionName = "${user.name}";
 
-$(document).on("click", ".addQuestionBtn", function(evt) {
-	var content = $("textarea").val();
+$(document).on("click", ".addQuestionBtnAsk", function(evt) {
+	var content = $("textarea#questionContentAsk").val();
 	console.log(content);
 	
 	if (content.length < 1 || content == null || content == "") {
@@ -52,10 +52,33 @@ $(document).on("click", ".addQuestionBtn", function(evt) {
 
 })
 
-/* $(document).on("click", ".replyQuestionBtn", function() {
-	$.redirect("/social/getAskQuestionList",{userId : sessionId});
-}); */
-
+	$(document).on("click", ".replyQuestionBtn", function() {
+		
+		$.ajax({
+			url : "/social/rest/getAskQuestionList",
+			method : "POST",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			data : JSON.stringify({
+			}),
+			success : function(d) {
+				console.log("d", d);
+				$("div.addAsk").html("");
+				for (var i = 0; i < d.list.length; i++) {
+				var html = "<div class='ask "+d.list[i].questionPostNo+"'>"
+				                +"<p><span>익명</span> · <span>"+d.list[i].questionDate+"</span></p>"
+				                +"<p><a href='#'><i class='fas fa-ellipsis-h'></i></a></p>"
+				                +"<p>"+d.list[i].questionContent+"</p>"
+				                +"<p><a class='rejectBtn'>거절하기</a><a class='regBtn'><i class='fas fa-pen'></i> 답하기</a></p>"
+				                +"<input type='hidden' value='"+d.list[i].questionPostNo+"'>"
+				            +"</div>";
+				$(html).appendTo("div.addAsk");
+				}
+			}
+		});
+	});
 
 //스크롤 페이징
 var page = 1;
@@ -224,12 +247,12 @@ var page = 1;
             <p>답변완료 : ${askMap.totalCount}개</p>
             <p>${targetUser.name}님에게 질문합니다.</p>
             <p>
-                <textarea name="questionContent" cols="30" rows="10" placeholder="성희롱 및 욕설은 처벌대상입니다."></textarea>
+                <textarea name="questionContent" id="questionContentAsk" cols="30" rows="10" placeholder="성희롱 및 욕설은 처벌대상입니다."></textarea>
                 <input type="hidden" name="userId" value="${targetUserId}">
                 <input type="hidden" name="questionTitle" value="ask">
             </p>
             <p>
-                <a href="#" class="addQuestionBtn">질문하기</a>
+                <a href="#" class="addQuestionBtnAsk">질문하기</a>
                 <c:if test="${targetUserId eq user.userId }">
                 <a href="#" class="replyQuestionBtn">답변하기</a>
                 </c:if>

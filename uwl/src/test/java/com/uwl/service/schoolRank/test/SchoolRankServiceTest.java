@@ -94,13 +94,22 @@ public class SchoolRankServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testUpdateSchoolRank() throws Exception{
 		
 		SchoolRank schoolRank = new SchoolRank();
 		schoolRank.setSchoolNo(1438);
 		
 		schoolRankService.updateSchoolRank(schoolRank);
+		
+	}
+	
+	//@Test
+	public void testGetMySchool() throws Exception{
+		
+		String userId = "user01";
+		
+		schoolRankService.getMySchool(userId);
 		
 	}
 	

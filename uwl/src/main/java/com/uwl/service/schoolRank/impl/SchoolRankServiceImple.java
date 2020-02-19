@@ -56,11 +56,31 @@ public class SchoolRankServiceImple implements SchoolRankService {
 		
 		return map;
 	}
+	
+	@Override
+	public Map<String, Object> getIndividualRankingList(Search search) throws Exception {
+		
+		List<SchoolRank> list = schoolRankDAO.getIndividualRankingList(search);
+		int totalCount = schoolRankDAO.getTotalCountIndividual(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", totalCount);
+		
+		return map;
+	}
 
 	@Override
 	public SchoolRank getSearchRank(int schoolNo) throws Exception {
 		return schoolRankDAO.getSearchRank(schoolNo);
 	}
+
+	@Override
+	public SchoolRank getMySchool(String userId) throws Exception {
+		return schoolRankDAO.getMySchool(userId);
+	}
+
+	
 
 
 

@@ -355,26 +355,115 @@
 
             $('#challCategory').on("change", function() {
                 console.log($(this).val())
+                var detailCategory = $(this).val();
                 var complete = null;
-
-
-                if ($(this).val() == 3) {
-                    complete = "<div class='input-group col-3' id='postCommentComplete'>" +
-                        "<div class='input-group-prepend'>" +
-                        "<span class='input-group-text' style='width: 35px;'><i class='fas fa-trophy'></i></span>" +
-                        "</div>" +
-                        "<input type='text' class='form-control' name='postCommentComplete' placeholder='완성조건'>" +
-                        "<div class='input-group-append'>" +
-                        "<span class='input-group-text' style='width: 35px'>회</span>" +
-                        "</div>" +
-                        "</div>"
-                    console.log("if문에 들어왔습니다.");
-
-                    $("#reward").append(complete);
-                } else {
-                    console.log("else if문에 들어왔습니다.");
-                    $("#postCommentComplete").remove();
-                }
+                var challReward = null;
+                //alert("dsa : " + detailCategory);
+                
+                $.ajax({
+    				url : "/challenge/rest/listDetailCetegory",
+    				method : "POST",
+    				headers : {
+    					"Accept" : "application/json",
+    					"Content-Type" : "application/json"
+    				},
+    				data : JSON.stringify({
+    					detailCategory : detailCategory
+    				}),
+    				success : function(data) {
+    					//alert("여기 성공임 ㅋㅋ");
+    					
+    					var detailSelect = null;
+    					var detailView = null;
+    					var challCategory = null;
+    					var detailCategory = null;
+    					var appendDetail = null;
+    					var startSelect = "<select class='custom-select col-2' name='detailCategory' id='detailCategory'>"
+											+ "<option selected>세부카테고리</option>";
+    					
+    					for (var i = 0; i < data.length; i++) {
+	    					//challCategory 1: map, 2: vision, 3: 게시판활동
+	    					challCategory = data[i].challCategory;
+	    					detailCategory = data[i].detailCategory;
+	    					appendDetail = "<option value=" + detailCategory  + ">" +  detailCategory +"</option>";
+	    					
+	    					if (challCategory == '3') {
+		    					
+		    					//해당 카테고리에 해당하면 view를 바꿔줌 
+		    					if (detailCategory == '201') {
+		    						detailView = '진학상담';
+			    					appendDetail = "<option value=" + detailCategory  + ">" +  detailView +"</option>";
+								}else if(detailCategory == '202') {
+									detailView = '사랑과이별';
+								}else if(detailCategory == '203') {
+									detailView = '남자끼리';
+								}else if(detailCategory == '204') {
+									detailView = '여자끼리';
+								}else if(detailCategory == '205') {
+									detailView = '데이트자랑';
+								}else if(detailCategory == '206') {
+									detailView = '대나무숲';
+								}else if(detailCategory == '댓글') {
+									detailView = '댓글';
+								}
+			    					appendDetail = "<option value=" + detailCategory  + ">" +  detailView +"</option>";
+	    					}
+	    					
+	    					//append해줌
+  							startSelect += appendDetail;
+    						//alert("detailCategory : " + detailCategory + "challCategory : " + challCategory);
+    						//alert("appendDetail : " + appendDetail + "data 사이즈 : " + data.length );
+						} //end of for 
+						
+						//긁어온 정보를 최종 append
+						startSelect += "</select>";
+   					 	$("#reward").append(startSelect);
+   					 	
+   					 	
+   					}
+    				
+    				
+    			}); //end of ajax
+    			
+   				 $("#detailCategory").remove();
+    			
+   				 setTimeout(function(){
+	    			challReward = "<div class='input-group col-3' id='challReward'>"
+	                     		+	"<div class='input-group-prepend'>"
+	                       		+  "<span class='input-group-text' style='width: 35px;'><i class='fas fa-coins'></i></span>"
+	                   			+  "</div>"
+	                     		+	"<input type='text' class='form-control' name='challReward' placeholder='점수를 입력하세요';>"
+	                     		+	"<div class='input-group-append'>"
+	                      		+   "<span class='input-group-text' style='width: 35px;'>점</span>"
+	                    		+ "</div>"
+	                 			+"</div>";
+	                 			
+            		$("#reward").append(challReward);
+   				 }, 15)
+   				 
+   				 	 $("#challReward").remove();
+                
+	                 if ($(this).val() == 3) {
+						setTimeout(function(){
+		                    complete = "<div class='input-group col-3' id='postCommentComplete'>" +
+		                        "<div class='input-group-prepend'>" +
+		                        "<span class='input-group-text' style='width: 35px;'><i class='fas fa-trophy'></i></span>" +
+		                        "</div>" +
+		                        "<input type='text' class='form-control' name='postCommentComplete' placeholder='완성조건'>" +
+		                        "<div class='input-group-append'>" +
+		                        "<span class='input-group-text' style='width: 35px'>회</span>" +
+		                        "</div>" +
+		                        "</div>"
+		                    console.log("if문에 들어왔습니다.");
+		
+		                    $("#reward").append(complete);
+							}, 17);
+		                } else {
+		                    console.log("else if문에 들어왔습니다.");
+		                    $("#postCommentComplete").remove();
+		                } //end of if 
+					
+                
             });
 
 
@@ -552,9 +641,11 @@
                                 <option value="2" id="vison">Vision</option>
                                 <option value="3" id="post">게시판활동</option>
                             </select>
+                            <br>&emsp;
+                           
 
                             <!-- 보상점수 -->
-                            <div class="input-group col-3">
+                            <!-- <div class="input-group col-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" style="width: 35px;"><i class="fas fa-coins"></i></span>
                                 </div>
@@ -562,7 +653,8 @@
                                 <div class="input-group-append">
                                     <span class="input-group-text" style="width: 35px;">점</span>
                                 </div>
-                            </div>
+                            </div> -->
+                            
                         </div>
                         <br>
 

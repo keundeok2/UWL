@@ -1,6 +1,7 @@
 package com.uwl.web.schoolRank;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -77,7 +78,7 @@ public class schoolRankRestController {
 	@RequestMapping( value = "rest/getSchoolRankingList", method = RequestMethod.POST)
 	public Map getSchoolRankingList(@RequestBody Search search) throws Exception{
 		
-		System.out.println("rest/schoolRank/getSchoolRankingList : POST ");
+		System.out.println("schoolRank/rest/getSchoolRankingList : POST ");
 		
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -109,6 +110,20 @@ public class schoolRankRestController {
 		map.put("search", search);
 		
 		return map;
+	}
+	
+	@RequestMapping( value = "rest/getMySchool", method = RequestMethod.POST)
+	public SchoolRank getMySchool(@RequestBody SchoolRank schoolRank) throws Exception{
+		
+		System.out.println("schoolRank/rest/getSchoolRankingList : POST ");
+		
+		System.out.println("RequestBody로 받은 schoolRank : " + schoolRank);
+		schoolRank = schoolRankService.getMySchool(schoolRank.getUserId());
+		
+		System.out.println("schoolRankService.getMySchool()로 긁어온 정보 : " + schoolRank);
+		
+		
+		return schoolRank;
 	}
 	
 		

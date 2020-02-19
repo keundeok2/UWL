@@ -93,9 +93,9 @@ public class SocialServiceTest {
 		
 	}
 	
-//	@Test
+	@Test
 	public void getAskList() throws Exception{
-		String userId = "user20";
+		String userId = "user01";
 		String questionStatus = "1";
 		Search search = new Search();
 		search.setCurrentPage(1);
@@ -112,7 +112,7 @@ public class SocialServiceTest {
 		socialService.rejectQuestion(postNo);
 	}
 
-	@Test
+//	@Test
 	public void getNotiList() throws Exception{
 		
 		String userId = "user01";

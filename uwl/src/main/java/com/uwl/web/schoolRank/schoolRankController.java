@@ -21,6 +21,7 @@ import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.challenge.ChallengeService;
 import com.uwl.service.domain.Challenge;
+import com.uwl.service.domain.SchoolRank;
 import com.uwl.service.domain.User;
 import com.uwl.service.schoolRank.SchoolRankService;
 
@@ -80,14 +81,17 @@ public class schoolRankController {
 		
 		Map<String, Object> map = schoolRankService.getSchoolRankingList(search);
 		
+		SchoolRank mySchool = schoolRankService.getMySchool(user.getUserId());
+		
 		System.out.println("schoolRankController getSchoolRankingList()의 map : " + map);
 		
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageSize, pageUnit);
 		System.out.println("schoolRankController getSchoolRankingList()의 resultPage : " + resultPage);
-		
+		System.out.println("map.get(\"list\") : " + map.get("list"));
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		model.addAttribute("mySchool", mySchool);
 		
 		return "forward:/schoolRank/listSchoolRanking.jsp";
 	}

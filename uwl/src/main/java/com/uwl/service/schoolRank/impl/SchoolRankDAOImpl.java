@@ -47,16 +47,34 @@ public class SchoolRankDAOImpl implements SchoolRankDAO {
 	public List<SchoolRank> getSchoolRankingList(Search search) throws Exception {
 		return sqlSession.selectList("SchoolRankMapper.getSchoolRankingList", search);
 	}
+	
+	@Override
+	public List<SchoolRank> getIndividualRankingList(Search search) throws Exception {
+		return sqlSession.selectList("SchoolRankMapper.getIndividualRankingList", search);
+	}
+
 
 	@Override
 	public SchoolRank getSearchRank(int schoolNo) throws Exception {
 		return sqlSession.selectOne("SchoolRankMapper.getSearchRank", schoolNo);
+	}
+	
+	@Override
+	public SchoolRank getMySchool(String userId) throws Exception {
+		return sqlSession.selectOne("SchoolRankMapper.getMySchool", userId);
 	}
 
 	@Override
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("SchoolRankMapper.getTotalCount", search);
 	}
+	
+	@Override
+	public int getTotalCountIndividual(Search search) throws Exception {
+		return sqlSession.selectOne("SchoolRankMapper.getTotalCountIndividual", search);
+	}
+
+	
 
 	
 	

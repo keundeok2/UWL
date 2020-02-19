@@ -201,6 +201,14 @@ public class ChallengeServiceImpl implements ChallengeService{
 		return reward;
 	}
 
+	@Override
+	public List<Challenge> getDetailCategoryList(String detailCategory) throws Exception {
+		
+		List<Challenge> list = challengeDAO.getDetailCategoryList(detailCategory);
+		System.out.println("ChallengeService의 getDetailCategoryList()의 list값 : " + list);
+		return list;
+	}
+
 	
 
 }

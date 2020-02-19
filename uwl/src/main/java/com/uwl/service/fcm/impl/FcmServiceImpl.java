@@ -25,35 +25,35 @@ public class FcmServiceImpl implements FcmService {
 	public FcmServiceImpl() {
 		System.out.println("FcmServiceImpl run()...");
 	}
-	
+
 	private final Map<String, String> tokenMap = new HashMap<>();
-	
+
 	@PostConstruct
 	public void init() {
 		try {
-			FileInputStream serviceAccount =
-					  new FileInputStream("C:\\Users\\User\\Downloads\\webuwl-firebase-adminsdk-cdwqm-f2eba118f1.json");
-					FirebaseOptions options = new FirebaseOptions.Builder()
-					  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-					  .setDatabaseUrl("https://webuwl.firebaseio.com")
-					  .build();
-					FirebaseApp.initializeApp(options);
+			FileInputStream serviceAccount = new FileInputStream(
+					"C:\\Users\\User\\Downloads\\webuwl-firebase-adminsdk-cdwqm-f2eba118f1.json");
+			FirebaseOptions options = new FirebaseOptions.Builder()
+					.setCredentials(GoogleCredentials.fromStream(serviceAccount))
+					.setDatabaseUrl("https://webuwl.firebaseio.com").build();
+			FirebaseApp.initializeApp(options);
 			System.out.println("Firebase application has been initialized");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void send(NotificationRequest notificationRequest) throws Exception {
 		System.out.println("run FCMService send()");
-		Message message = Message.builder()
-				.setToken(notificationRequest.getToken())
-				.setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "300")
-						.setNotification(new WebpushNotification(notificationRequest.getTitle(), notificationRequest.getMessage(), notificationRequest.getIcon()))
-						.build())
+		Message message = Message.builder().setToken(notificationRequest.getToken())
+				.setWebpushConfig(
+						WebpushConfig.builder().putHeader("ttl", "300")
+								.setNotification(new WebpushNotification(notificationRequest.getTitle(),
+										notificationRequest.getMessage(), notificationRequest.getIcon()))
+								.build())
 				.build();
-		
+
 		String response = FirebaseMessaging.getInstance().sendAsync(message).get();
 		System.out.println("Sent Message : " + response);
 	}
@@ -61,7 +61,7 @@ public class FcmServiceImpl implements FcmService {
 	@Override
 	public void register(String userId, String token) throws Exception {
 		tokenMap.put(userId, token);
-        System.out.println("tokenMap : " + tokenMap);
+		System.out.println("tokenMap : " + tokenMap);
 	}
 
 	@Override
@@ -77,24 +77,44 @@ public class FcmServiceImpl implements FcmService {
 	@Override
 	public void sendNotification(NotificationRequest request) throws Exception {
 		try {
-        	System.out.println("run sendNotification");
-            this.send(request);
-        } catch (InterruptedException | ExecutionException e) {
-        	e.printStackTrace();
-        }
-		
+			System.out.println("run sendNotification");
+			this.send(request);
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
 	}
 
+	// sender : 유저의 name 혹은 nickname, receiverId : userId
 	@Override
-	public void createReceiveNotification(String senderId, String receiverId) throws Exception {
+	public void createReceiveNotification(String sender, String receiverId, String notiCode) throws Exception {
 		System.out.println("run CreateReceiveNotification");
-    	NotificationRequest request = new NotificationRequest();
-    	request.setTitle("어'울림 알림메시지");
-    	request.setToken(this.getToken(receiverId));
-    	request.setMessage(senderId +"님으로부터 알림이 도착했습니다.");
-    	request.setIcon("/images/20191231507059.jpg");
-    	this.sendNotification(request);
+		String msg = sender + "님으로부터 알림이 도착했습니다.";
+		NotificationRequest request = new NotificationRequest();
+		request.setTitle("어'울림 알림메시지");
+		request.setToken(this.getToken(receiverId));
+		
+		if (notiCode.equals("requestFriend")) {
+			msg = sender + "님이 친구가 되기를 요청했습니다.";
+		} else if (notiCode.equals("acceptFriend")) {
+			msg = sender + "님이 친구요청을 수락했습니다.";
+		} else if (notiCode.equals("ask")) {
+			msg = "ASK에 새로운 질문이 등록되었습니다.";
+		} else if (notiCode.equals("timeline")) {
+			msg = sender + "님이 타임라인에 댓글을 등록했습니다..";
+		} else if (notiCode.equals("post")) {
+			msg = sender + "님이 게시글에 댓글을 등록했습니다..";
+		} else if (notiCode.equals("question")) {
+			msg = "1:1 문의사항에 답변이 등록되었습니다.";
+		} else if (notiCode.equals("coupleTimelineComment")) {
+			msg = "커플타임라인에 댓글이 등록되었습니다.";
+		} else if (notiCode.equals("coupleTimelinePost")) {
+			msg = "커플타임라인에 새로운 게시글이 등록되었습니다.";
+		}
+		
+		request.setMessage(msg);
+		request.setIcon("/images/logo.png");
+		System.out.println("FCM send msg :: " + request);
+		this.sendNotification(request);
 	}
-	
-	
+
 }

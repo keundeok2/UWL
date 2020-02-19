@@ -429,6 +429,25 @@
 			  <option value="3" id="post">게시판활동</option>
 			</select>
 			
+         <!--세부 카테고리 -->
+        <!--   &emsp;<select class="custom-select col-3" name="detailCategory" id="detailCategory"> 
+			  <option selected>세부카테고리</option>
+			  <option value="1" id="map">백화점</option>
+			  <option value="2" id="vison">동네</option>
+			  <option value="3" id="post">etc... for문 돌리기</option>
+			</select> -->
+		<%--
+		<c:if test="${challenge.challCategory == '2'}">
+          <!--세부 카테고리 -->
+          <div class="row" id="reward">
+         &emsp;<select class="custom-select col-3" name="detailCategory" id="detailCategory"> 
+			  <option selected>세부카테고리</option>
+			  <option value="1" id="map">백화점</option>
+			  <option value="2" id="vison">동네</option>
+			  <option value="3" id="post">etc... for문 돌리기</option>
+			</select>
+		</c:if> --%>
+			
 			<!-- 보상점수 -->
 			<div class="input-group col-3" >
 			  <div class="input-group-prepend">
