@@ -176,7 +176,6 @@
 	   		name = #{name},
 	   		nickname = #{nickname},
 	   		school_no = #{schoolNo},
-	   		birth = #{birth},
 	   		mail = #{mail},
 	   		phone = #{phone},
 	   		self_introduction	= #{selfIntroduction:VARCHAR},
