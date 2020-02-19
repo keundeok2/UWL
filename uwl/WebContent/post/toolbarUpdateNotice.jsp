@@ -335,16 +335,16 @@
                         <table>
                             <tr>
                                 <td>이전글</td>
-                                <c:if test="${post2.prePostNo ne '0'}">
+                                <c:if test="${post2.prePostNo ne '0'">
                                     <td><a href="/post/getNotice?postNo=${post2.prePostNo }">${post2.prePostTitle}</a></td>
                                 </c:if>
-                                <c:if test="${post2.prePostNo eq '0'}">
+                                <c:if test="${post2.prePostNo eq '0' and post2.prePostTitle = null}}">
                                     <td><a href="#">이전글이 없습니다.</a></td>
                                 </c:if>
                             </tr>
                             <tr>
                                 <td>다음글</td>
-                                <c:if test="${post2.nextPostNo ne '0'}">
+                                <c:if test="${post2.nextPostNo ne '0' and post2.nextPostTitle = null}">
                                     <td><a href="/post/getNotice?postNo=${post2.nextPostNo }">${post2.nextPostTitle}</a></td>
                                 </c:if>
                                 <c:if test="${post2.nextPostNo eq '0'}">
