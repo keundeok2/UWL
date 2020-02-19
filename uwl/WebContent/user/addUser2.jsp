@@ -11,19 +11,31 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <!-- bootstrap 4.4 CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/jquery-ui.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <!-- jQuery Redirect CDN     https://github.com/mgalante/jquery.redirect  -->
     <script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
     <!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
     <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
-
+	<script src="/javascript/jquery-ui.js"></script>
     <link rel="stylesheet" href="/css/jaeiCommon.css">
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
-    <script type="text/javascript">
+    <script>
+        $(function() {
+            $("#datepicker").datepicker({
+                dateFormat: 'yy년 mm월 dd일',
+                monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'] //달력의 월 부분 Tooltip 텍스트
+                    ,
+                dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'] //달력의 요일 부분 텍스트
+                    ,
+                showMonthAfterYear: true,
+                yearSuffix: "년"
+            });
 
+        });
     </script>
 
 

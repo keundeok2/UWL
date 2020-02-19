@@ -95,7 +95,7 @@
 							        + '</p>'
 							        + '<p><a class="replyBtn"><i class="fas fa-pen"></i> 답하기</a></p>'
 							    + '</div>';
-                $(this).parent().append(displayValue);
+                $(this).parent().parent().append(displayValue);
             });
 	
                 $(document).on("click", "a.replyBtn", function() {
@@ -193,60 +193,60 @@
 <style>
         
 
-        section div.wrap {
-            background-color: rgb(121, 134, 203);
+        div.askQuestionList {
+            background-color: #EBAD7A;
             padding: 10px;
         }
 
-        div.header {
+        div.askQuestionList div.header {
             background-color: #fff;
-            border-radius: 40px 40px 0 0;
+            border-radius: 20px 20px 0 0;
             text-align: center;
             padding: 50px 25px 5px;
-            box-shadow: 0 5px 5px #cccccc;
+            box-shadow: 1px 1px 1px #eee;
             z-index: 1;
             position: relative;
 
         }
 
-        div.header p:nth-child(1) {
+        div.askQuestionList div.header p:nth-child(1) {
             font-weight: bold;
             font-size: 21px;
             margin-bottom: 15px;
         }
 
-        div.header p:nth-child(2) {
+        div.askQuestionList div.header p:nth-child(2) {
             margin-bottom: 15px;
             font-size: 13px;
         }
 
-        div.header p:nth-child(3) {
+        div.askQuestionList div.header p:nth-child(3) {
             margin-bottom: 15px;
             font-size: 18px;
         }
 
-        textarea {
+        div.askQuestionList textarea {
             width: 100%;
             height: 55px;
             resize: none;
             padding: 2px;
         }
 
-        div.header p:nth-child(5) a {
-            background-color: rgb(121, 134, 203);
+        div.askQuestionList div.header p:nth-child(5) a {
+            background-color: #EBAD7A;
             line-height: 38px;
             display: inline-block;
-            width: 100px;
+            width: 110px;
             color: #fff;
             margin-bottom: 30px;
         }
 
-        div.header p:nth-child(6) {
+        div.askQuestionList div.header p:nth-child(6) {
             font-size: 18px;
             margin-bottom: 40px;
         }
 
-        div.header p:nth-child(6) input {
+        div.askQuestionList div.header p:nth-child(6) input {
             line-height: 34px;
             border: 1px solid #e3e3e3;
             text-indent: 5px;
@@ -254,7 +254,7 @@
             width: 245px;
         }
 
-        div.header p:nth-child(7) a {
+        div.askQuestionList div.header p:nth-child(7) a {
             background-color: rgb(121, 134, 203);
             line-height: 38px;
             display: inline-block;
@@ -265,36 +265,39 @@
 
 
 
-        div.addAsk {
+        div.askQuestionList div.addAsk {
 
-            background-color: rgb(248, 249, 251);
+            background-color: #eee;
+            
         }
 
-        div.addAsk div.ask {
+        div.askQuestionList div.addAsk div.ask {
             background-color: #fff;
 
-            padding: 15px 10px 43px;
+            padding: 15px 30px;
             margin-bottom: 6px;
+            
         }
 
-        div.addAsk div.ask p:nth-child(1) {
+        div.askQuestionList div.addAsk div.ask > p:nth-child(1) {
 
             font-size: 13px;
             float: left;
+            margin-bottom: 5px;
         }
 
-        div.addAsk div.ask p:nth-child(2) {
+        div.askQuestionList div.addAsk div.ask > p:nth-child(2) {
             float: right;
         }
 
-        div.addAsk div.ask p:nth-child(3) {
+        div.askQuestionList div.addAsk div.ask > p:nth-child(3) {
             clear: both;
             margin-bottom: 10px;
             font-weight: bold;
             font-size: 15px;
         }
 
-        div.addAsk div.ask p:nth-child(4) a {
+        div.askQuestionList div.addAsk div.ask > p:nth-child(4) a {
             display: inline-block;
 
             line-height: 30px;
@@ -303,36 +306,46 @@
             text-align: center;
             border-radius: 40px;
             border: 1px solid;
-            color: rgb(121, 134, 203);
+            color: #d25412;
         }
 
-        div.addAsk div.ask p:nth-child(4) {
-            margin-left: 5px;
-        }
+        
 
-        div.addAsk div.ask>p:nth-child(4) a:nth-child(1) {
-            color: #c6c6c6;
+        div.askQuestionList div.addAsk div.ask>p:nth-child(4) a:nth-child(1) {
+            color: #898989;
+            margin-right: 10px;
         }
-
-        textarea.comment {
+		
+        div.askQuestionList textarea.comment {
             width: 100%;
+            box-sizing: border-box;
             resize: none;
             height: 120px;
             background-color: #f8f8f8;
-        }
-
-        div.commentForm p:nth-child(2) {
+            margin-bottom: 10px;
             padding: 5px;
+        }
+		div.commentForm {
+			overflow: hidden;
+			padding-bottom: 15px;
+		}
+        div.askQuestionList div.commentForm > p:nth-child(2) {
+            
+            
+            width: 50%;
             float: left;
+            
         }
 
-        div.commentForm p:nth-child(3) {
-            float: right;
-            padding: 5px;
-
+        div.askQuestionList div.commentForm > p:nth-child(3) {
+            
+			width: 50%;
+			float: right;
+			text-align: right;
+			
         }
 
-        div.commentForm p:nth-child(3) a {
+        div.askQuestionList div.commentForm > p:nth-child(3) a {
             display: inline-block;
 
             line-height: 30px;
@@ -341,25 +354,30 @@
             text-align: center;
             border-radius: 40px;
             border: 1px solid;
-            color: rgb(121, 134, 203);
+            color: #d25412;
         }
 
-        div.commentForm {
+        div.askQuestionList div.commentForm {
             background-color: #fff;
             height: 160px;
             padding-top: 15px;
         }
 
-        .wrap>div:last-child {
+        div.askQuestionList > div:last-child {
             background-color: #fff;
             line-height: 60px;
-            border-radius: 16px;
+            border-radius: 20px;
             text-align: center;
             margin-top: 10px;
+            
         }
 
-        .btn-default {
+        div.askQuestionList .btn-default {
             border: 1px solid black;
+        }
+        
+        p {
+        	margin: 0;
         }
 
     </style>
@@ -369,7 +387,7 @@
 <body>
 	
 	
-	<div class="wrap">
+	<div class="askQuestionList">
         <div class="header">
         <form>
             <p>ASK - 질문&amp;답변</p>
@@ -397,6 +415,11 @@
                 <input type="hidden" value="${ask.questionPostNo}">
             </div>
             </c:forEach>
+            
+            
+            
+            
+            
         </div>
         <div><a href="#">맨 위로 <i class="fas fa-caret-up"></i></a></div>
     </div>
