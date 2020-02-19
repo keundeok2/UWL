@@ -39,7 +39,28 @@
     $(function() {
     	$(document).on('click', 'div.noticeList table tr:nth-child(n + 2) td:nth-child(2)', function() {
     		var postNo = $(this).find('#anserPostNo').val();
-    		alert(postNo);
+    		//alert(postNo);
+    		
+    		
+    		if(postNo == '0'){
+    			var answer = "<<<   처리중인 문의사항입니다.   >>>"
+    			
+    			var displayValue = '<tr class="append">' +
+	                '<td colspan="1" class="admin" style="text-align: right;">' +
+	                '<span>A</span>' +
+	                ' <i class="fas fa-angle-right"></i>' +
+	                '</td>' +
+	                '<td colspan="2" class="answer" style="text-align: left">' +
+	               	answer +
+	                '</td>' +
+	                '<td></td>'+
+	                '</tr>';
+	                
+	                
+	                $('.' + postNo).parent().parent().after(displayValue); 
+	                
+	                
+    		}else{
     		
     		$.ajax({
     			url: "/user/rest/getAnswer",
@@ -53,26 +74,48 @@
     				postNo : postNo
     			}),
     			success : function(data) {
-    				alert(data.post.postContent);
+    				//alert(data.post.postContent);
     				var answer = data.post.postContent;
+    				var date = data.post.postDate
     				
-   					var displayValue = '<tr>' +
+   					var displayValue =
+   						'<tr class="append2">' +
    	                '<td colspan="1" class="admin" style="text-align: right;">' +
    	                '<span>A</span>' +
    	                ' <i class="fas fa-angle-right"></i>' +
    	                '</td>' +
    	                '<td colspan="2" class="answer" style="text-align: left">' +
-   	               	answer+
+   	               	answer +
    	                '</td>' +
+   	                '<td>'+date+'</td>'+
    	                '</tr>';
    	                
    	                $('.' + postNo).parent().parent().after(displayValue);
-    				
-                    
-    			}
-    		});
+   	                
+    				}
+    			});
+       		}
+    		
     	});
     });
+    
+    
+    $(function() {
+    	$(document).on('click', 'tr.append', function() {
+    		$(this).remove();
+    		
+    	})
+    	
+    })
+    
+    $(function() {
+    	$(document).on('click', 'tr.append2', function() {
+    		$(this).remove();
+    	})
+    	
+    })
+    
+    
     
 /* var answer = '';
 
