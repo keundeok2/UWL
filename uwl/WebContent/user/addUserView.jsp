@@ -390,11 +390,12 @@
 // 		//==>"Modal 학교 주소찾기" Event 처리 및 연결 test================================ Error Error Error Error Error Error Error Error Error
 
 	 	$(function() {
+				console.log('왜안와');
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 // 			$("button#checkSchool").on("click", function() {
 			$(document).ready(function(){ 
 	 			$("button#checkSchool").on("click" , function() {
-				console.log('왜안와');
+	 				console.log(1);
 	 				var schoolLevel = $('input[name=school]:checked').val();
 	 				var schoolName = $("#schoolName").val();
 	 				console.log(schoolLevel)
@@ -406,13 +407,14 @@
 	 					$('#schoolName').after(view);
 	 					$('#schoolName').focus();
 	 				}else{
+	 					$('#school2').remove();
 	 					var url = "http://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=0e5ab738c07aa5a4e219e84f907db889&svcType=api&svcCode=SCHOOL&contentType=json&gubun="+schoolLevel+"&searchSchulNm="+schoolName;
 	 					ajaxCall(url,callback,error);			
 	 					console.log(3);
 	 				}
 	 			});
 	  		});
-					
+			console.log(4);
 	 		function ajaxCall(url,callback){
 	 			$.ajax({
 	 				url : url,
@@ -423,42 +425,38 @@
 	 				error : error
 	 			});
 	 		}
-			
+	 		console.log(5);
 	 		function callback(json){
+	 			console.log(6);
 	 			var total = json.dataSearch.content.length;
 	 			$('#school1').remove();
 	 			var firstView = "<span id='school1'>검색어 <strong>"+$("input[type=text]").val()+"</strong> 에 대한 검색결과 총 <span>"+total+"</span>건입니다<hr/></span>"; 
 	 			$("#append").append(firstView);
+	 			console.log(7);
 	 			
+	 			// ERROR !!!!!!!!!!!!!! 초등학교만 안됨 !!!!!!!!!!! $('#school2').remove();
+	 			$('#school2').remove();
 	 			for(var i=0; i<total; i++){
+	 				console.log(8);
 	 				var schoolName = json.dataSearch.content[i].schoolName;
 	 				var adres = "     ,"+json.dataSearch.content[i].adres;
 	 				var seq = "     ,"+json.dataSearch.content[i].seq;
 	 				//이렇게 DB에 저장하면 될듯..?
-	 				var secondView = "<span id='school2'>"+schoolName+adres+seq+"<br/><br/></span>"
+	 				var secondView = "<span id='school2'><span>"+schoolName+adres+seq+"</span><br/><br/></span>"
 	 				$("#append2").append(secondView);
-	 			}
-	 			// ERROR !!!!!!!!!!!!!!!!!!!!!!!!!
-// 	 			$('#school2').remove();
-	 			
+	 				console.log(9);
+	 				console.log($("#school1"));
+	 				console.log($("#school2"));
+	 			}console.log(10);
 	 		}
 	 		
+	 		
 	 		$(function(){
-	 			$('#append2').on('click',function(){
-	 					 alert("문장이 클릭되었습니다.");
-	 					 
-	 					$("document#schoolName").returnValue = $('#append2');
-// 	 					window.returnValue = $('#append2');
-	 					 
-	 					 
-	 					 
-	 					 
-	 					 
-// 		 			if(opener) {
-// 						opener.$('#append2').val('#append2');
-// 						opener.$("input[name='phone']").focus();
-// 					}
-// 					window.close();
+	 			$(document).on('click', 'span#school2', function() {
+// 	 				alert("문장이 클릭되었습니다.");
+// 	 				alert($(this).text());
+	 				$("input[name='schoolName']").val($(this).text());
+	 				$('#schoolModal').modal('hide');
 		 		});
 	 		});
 	 		
@@ -469,8 +467,6 @@
 				
 		});	
 		 	
-		
-		
 		
 		
 		//==>"phone 본인인증" Event 처리 및 연결  ================================
@@ -715,7 +711,7 @@
 		  <div class="form-group">
 		    <label for="schoolName" class="col-sm-offset-1 col-sm-3 control-label"  >* 학교</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" value="${user.schoolNo}" readonly="readonly">
+		      <input type="text" class="form-control"  readonly="readonly" name="schoolName" data-toggle="modal" data-target="#schoolModal">
 <%-- 		      <input type="text" class="form-control" id="schoolName" name="schoolName" value="${user.schoolNo}" readonly="readonly"> --%>
 <!-- 			    <input type="radio" id="schoolLevel" name="school" value="elem_list"/>초등학교 -->
 <!-- 				<input type="radio" id="schoolLevel" name="school" value="midd_list"/>중학교 -->
