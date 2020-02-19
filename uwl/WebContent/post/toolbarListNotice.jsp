@@ -236,6 +236,38 @@
             background-color: #fff;
             border-left: 1px solid #eee;
         }
+        
+         div.search {
+            width: 50%;
+            float: right;
+
+            text-align: right;
+        }
+
+        div.search select {
+
+            line-height: 30px;
+            height: 30px;
+        }
+
+        div.search input {
+
+            border: none;
+            border: 1px solid #898989;
+            line-height: 30px;
+            height: 30px;
+            text-indent: 5px;
+        }
+
+        div.search a {
+
+            display: inline-block;
+            height: 30px;
+            line-height: 30px;
+            padding: 0 10px;
+            border: 1px solid;
+            vertical-align: middle;
+        }
     </style>
 </head>
 
@@ -251,11 +283,21 @@
                     <div class="mainHeader">
                         <span>공지사항</span>
                         <span>어울림의 새로운 소식들과 유용한 정보들을 한곳에서 확인하세요.</span>
-                        <div>
-                            검색 창 들어갈곳 </div>
+                        <div class="search">
+                    <select name="" id="">
+                        <option value="">내용</option>
+                        <option value="">제목</option>
+                        <option value="">제목 + 내용</option>
+                        <option value="">작성자</option>
+                    </select>
+                    <input type="text" placeholder="내용을 입력해주세요">
+                    <a href="#">검색</a>
+                </div>
+                            
+                    </div>
                         <div style="text-align: left">
                             <select name="gatherCategoryNo">
-                                <option>선택 이거 왼쪽으로 보내줭..</option>
+                                <option>선택</option>
                                 <option value="101" ${post.gatherCategoryNo eq '101' ? "selected" : "" }>매칭</option>
                                 <option value="102" ${post.gatherCategoryNo eq '102' ? "selected" : "" }>아이템</option>
                                 <option value="103" ${post.gatherCategoryNo eq '103' ? "selected" : "" }>도전과제</option>
@@ -269,7 +311,6 @@
                                 <option value="111" ${post.gatherCategoryNo eq '111' ? "selected" : "" }>기타</option>
                                 <!-- 기존 카테고리 selected-->
                             </select></div>
-                    </div>
                     <div class="noticeList">
                         <table>
 
@@ -297,9 +338,9 @@
                             <c:forEach var="notice" items="${list }">
                                 <tr>
                                     <td>${notice.postNo }</td>
-                                    <!--<c:if test="${notice.gatherCategoryNo == '101'}">-->
+                                    <c:if test="${notice.gatherCategoryNo == '101'}">
                                     <td>매칭</td>
-                                    <!--</c:if>
+                                    </c:if>
                                     <c:if test="${notice.gatherCategoryNo == '102'}">
                                         <td>아이템</td>
                                     </c:if>
@@ -329,7 +370,7 @@
                                     </c:if>
                                     <c:if test="${notice.gatherCategoryNo == '111'}">
                                         <td>기타</td>
-                                    </c:if>-->
+                                    </c:if>
                                     <td><a href="/post/getNotice?postNo=${notice.postNo }">${notice.postTitle }</a></td>
                                     <td>${user.userId }</td>
                                     <td>${notice.postDate }</td>
@@ -340,12 +381,11 @@
                         </table>
                         <br>
 
-                        <div class="searchpoint">
-                            검색창 들어갈곳</div>
+                        
                         <br>
 
                     </div>
-                    가운데로 보내줘..
+                
                     <nav aria-label="Page navigation example" style="text-align: center">
                         <ul class="pagination justify-content-center">
                             <li class="page-item">

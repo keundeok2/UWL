@@ -12,6 +12,8 @@ public interface MatchingService {
 	
 	public Matching getMatching(String userId) throws Exception;
 	
+	public Matching getMatchingByUserId(String userId) throws Exception;
+	
 	public void updateMatching(Matching matching) throws Exception;
 	
 	public void deleteMatching(Matching matching) throws Exception;

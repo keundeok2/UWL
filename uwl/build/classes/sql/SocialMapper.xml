@@ -227,7 +227,8 @@
 				FROM ( SELECT noti_no, sender_id, receiver_id, post_no, noti_origin, noti_code, to_char(noti_date, 'yyyy-mm-dd hh24:mi:ss') as noti_date,  name, nickname, profile_name
 						FROM notification n, users u
 						WHERE receiver_id = #{userId}
-						AND n.sender_id = u.user_id) inner_table 
+						AND n.sender_id = u.user_id
+						ORDER BY noti_date DESC) inner_table 
 				WHERE ROWNUM &lt; = #{search.endRowNum} ) 
 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
 	</select>

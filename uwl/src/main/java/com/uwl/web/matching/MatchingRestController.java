@@ -3,7 +3,11 @@ package com.uwl.web.matching;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uwl.common.Search;
 import com.uwl.service.domain.Item;
 import com.uwl.service.domain.Matching;
+import com.uwl.service.domain.User;
 import com.uwl.service.matching.MatchingService;
 
 @RestController
@@ -264,5 +269,31 @@ public class MatchingRestController {
 		System.out.println("userId : " + userId);
 		System.out.println("rest/updateMatching/{userId} 끝");
 		return userId;
+	}
+	
+	@RequestMapping(value = "rest/getAllMatchingList")
+	public List<Matching> getAllMatchingList(HttpServletRequest request) throws Exception {
+		System.out.println("rest/getAllMatchingList 시작");
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		String userId = user.getUserId();
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(100);
+		Map<String, Object> map = matchingService.getAllMatchingList(search);
+		List<Matching> list = (List<Matching>)map.get("list");
+		System.out.println("rest/getAllMatchingList 끝");
+		return list;
+	}
+	
+	@RequestMapping(value = "rest/getMatchingByUserId")
+	public Matching getMatchingByUserId(HttpServletRequest request) throws Exception {
+		System.out.println("rest/getMatchingByUserId 시작");
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		String userId = user.getUserId();
+		Matching matching = matchingService.getMatchingByUserId(userId);
+		System.out.println("rest/getMatchingByUserId 끝");
+		return matching;
 	}
 }
