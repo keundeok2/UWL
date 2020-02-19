@@ -365,9 +365,13 @@
     
     <script type="text/javascript">
     
+    //--------------------위치 실험중----------------------------------------------------
+    //--------------------위치 실험중----------------------------------------------------
+    
     	var socket = null;
     	var chattingRoomNo = null;
-    	var enterUserId = null;
+    	var enterUserId = null;	//본인의 세션
+    	var clickEnterUser = null; //소켓에서 불러온 입장자
     	var targetId = null;
     	var sender = null;
     	var receiver = null;
@@ -375,11 +379,62 @@
     	
 //채팅파트--------------------------------------------------------------
 	    $(function() {
+	    	//////////////////소켓 연결되는 구간
        		socket = io.connect("localhost:82");	//소켓연결
 	        $('div.chattingIcon a').on('click', function() {
 	            $('div.chattingList').toggleClass('on');
 	        });
 	        ///////////////////소켓 연결되는 구간
+       		
+       		
+       		///////////////////유저가 채팅창을 눌렀을 때
+	        socket.on('userChatting', function(userChatting){
+	        	var top = 	"<div class='userProfileImage'>"
+			    				+"<img src='/images/bonobono.jpg' alt=''>"
+			    			+"</div>"
+			    			+"<div class='chattingUserName'>"
+			       				 +"🎀주주장님🎀"
+			    			+"</div>";
+			    var friendView = "<div class='chatFromUser'>"
+									+"<div class='chattingBoxProfileImage'>"
+										+"<img src='/images/bonobono.jpg' alt=''>"
+										+"</div>"
+									+"<div class='chattingMessage'>"
+										+"<div class='userInfo'>"
+			    							+userChatting.sender
+										+"</div>"
+										+"<div class='message'>"
+			    							+userChatting.msg
+										+"</div>"
+									+"</div>"
+								+"</div>";
+			   var myView = "<div class='chatFromMe'>"
+									+"<div class='chattingMessage'>"
+									+"<div class='message'>"
+										+userChatting.msg
+							    	+"</div>"
+								+"</div>"
+							+"</div>";
+				
+				var sessionId = "${sessionScope.user.userId}";
+				if(clickEnterUser == sessionId){
+					console.log(clickEnterUser);
+					if(userChatting.sender == sessionId){	//본인의 채팅
+						$('#ChattingAppend').before(myView);
+					}else if(userChatting.receiver == sessionId){
+						$('#ChattingAppend').before(friendView);
+					}
+				}
+	        });
+	        
+	        socket.on('enterUser', function(enterUser){
+				clickEnterUser = enterUser;
+			});
+       		///////////////////우저가 채팅창을 눌렀을때
+	        
+	        
+	        
+	        
 	        $(document).on("click", 'div.chattingList li a', function(){
 	        	$('div.chattingList li').css("backgroundColor", "#fff");
 	        	if(! $('div.chattingBox').hasClass('on')){	//채팅방이 열려있지 않다면 즉, 최초실행
@@ -415,7 +470,7 @@
 	        $(document).on("click","#outOfChattingByTimes",function(){	//x눌렀을때
 	        	$('div.chattingBox').removeClass('on');
 	        	$('div.chattingList li').css("backgroundColor", "#fff");
-	        	$('.chatFromMe').remove();
+	         	$('.chatFromMe').remove();
 				$('.chatFromUser').remove();
 	        });
 	        
@@ -515,7 +570,7 @@
 	   								+"</div>"
 	    							+"<div class='chattingMessage'>"
 	        							+"<div class='userInfo'>"
-	            							+receiver
+	            							+sender
 	        							+"</div>"
 	        							+"<div class='message'>"
 	            							+sendMsg
@@ -742,6 +797,8 @@
     
         <div class="chattingBoxTop">
             <a href="#">
+            
+ <!-- ---------------------------여기가 채팅창 상단--------------------------------------------------------- -->
                 <div class="chattingBoxTopLeft">
                     <div class="userProfileImage">
                         <img src="/images/bonobono.jpg" alt="">
@@ -750,6 +807,8 @@
                         	🎀주주장님🎀
                     </div>
                 </div>
+ <!-- ---------------------------여기가 채팅창 상단--------------------------------------------------------- -->
+ 
                 <div class="chattingBoxTopRight">
                     <a href="#"><i class="fas fa-cog"></i></a>
                     <a href="#" id="outOfChattingByTimes"><i class="fas fa-times"></i></a>
@@ -759,10 +818,11 @@
         
         
         <div class="chattingBoxContent">
-        
+ <!-- --------------------------여긴 채팅 날짜------------------------------------------------------------ -->       
             <div class="chatDate">
                 <p>2020년 2월 17일 월요일</p>
             </div>
+ <!-- --------------------------여긴 채팅 날짜------------------------------------------------------------ -->       
             
             
             <div id="ChattingAppend"></div>
