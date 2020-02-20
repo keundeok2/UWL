@@ -16,6 +16,7 @@ import com.uwl.service.domain.Commentt;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.SchoolRank;
+import com.uwl.service.domain.User;
 import com.uwl.service.post.PostDAO;
 import com.uwl.service.reward.RewardDAO;
 import com.uwl.service.schoolRank.SchoolRankDAO;
@@ -142,7 +143,7 @@ public class ChallengeServiceImpl implements ChallengeService{
 
 
 	@Override
-	public Reward completeChallenge(Reward reward, Challenge challenge, Map<String, Object> map ) throws Exception {
+	public Reward completeChallenge(Reward reward, Challenge challenge, Map<String, Object> map, User user) throws Exception {
 		
 		boolean completeResult = true;
 		List<Challenge> list = (List<Challenge>)(map.get("list"));
@@ -150,6 +151,10 @@ public class ChallengeServiceImpl implements ChallengeService{
 		Commentt commentt = challenge.getCommentt();
 		System.out.println("challpost : " + challpost);
 		System.out.println("commentt : " + commentt);
+		
+		//도전과제 수행후 점수를 획득하고나서 랭크를 바로 업데이트 시켜줌
+		SchoolRank schoolRank = new SchoolRank();
+		schoolRank.setSchoolNo(user.getSchoolNo());
 		
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println("challengeServiceImpl의 completeChallenge() list: " + list.get(i));
@@ -169,8 +174,10 @@ public class ChallengeServiceImpl implements ChallengeService{
 					reward.setChallenge(list.get(i)); 
 					//통과하면 true를 set
 					reward.setCompleteResult(completeResult);
+					//보상을 주는 method
 					rewardDAO.increasePoint(reward);
-					//schoolRankDAO.updateSchoolRank(schoolRank);
+					//실시간 ranking을 update해주는 method
+					schoolRankDAO.updateSchoolRank(schoolRank);
 					
 					System.out.println("게시글작성 도전과제 조건이 충족되었음.");
 					return reward;
@@ -190,7 +197,11 @@ public class ChallengeServiceImpl implements ChallengeService{
 					//통과하면 true를 set
 					
 					reward.setCompleteResult(completeResult);
+					//보상을 주는 method
 					rewardDAO.increasePoint(reward);
+					
+					//실시간 ranking을 update해주는 method
+					schoolRankDAO.updateSchoolRank(schoolRank);
 					
 					System.out.println("코멘트작성 도전과제 조건이 충족되었음.");
 					

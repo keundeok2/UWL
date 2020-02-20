@@ -110,6 +110,7 @@ public class ChallengeRestController {
 		
 		User user = (User) session.getAttribute("user");
 		System.out.println("======================user.userId session으로 가져옴 : " + user.getUserId());
+		System.out.println("======================user.userId 학교번호으로 가져옴 : " + user.getSchoolNo());
 		
 		//addBoard로 들어온게 아니라면
 		post = postService.getBoard(post.getPostNo());
@@ -168,7 +169,7 @@ public class ChallengeRestController {
 		}
 		
 		System.out.println("/rest/completeChallenge completeChallenge() reward : " + reward + "chall : " + challenge);
-		challengeService.completeChallenge(reward, challenge, map);
+		challengeService.completeChallenge(reward, challenge, map, user);
 		
 		System.out.println("challengeReward : " + reward.getChallenge().getChallReward());
 		}
@@ -252,7 +253,7 @@ public class ChallengeRestController {
 			}
 			
 			System.out.println("/rest/completeChallenge completeChallenge() reward : " + reward + "chall : " + challenge);
-			challengeService.completeChallenge(reward, challenge, map);
+			challengeService.completeChallenge(reward, challenge, map, user);
 			System.out.println("challengeReward : " + reward.getChallenge().getChallReward());
 		}
 		

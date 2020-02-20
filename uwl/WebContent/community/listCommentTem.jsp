@@ -62,7 +62,10 @@
 	    	var reportContent = null;
 	    	var likeCount = null;	//좋아요 취소시 ajax로 뿌린 값은 못가져와서 그대로 준다
 	    	var result = null;	//첫 댓글수 값은 가져올 수 있어서 좋아요 누를 시 여기서 +1
-	    
+	    	
+	    	//도전과제 flag
+	    	var completeResult = false;
+	    	
 	    	$(document).ready(function(){	//댓글 등록
 	    		
 	    		$('#addComment').on("click", function(){
@@ -97,6 +100,10 @@
 	    					var likeCount = data.likeCount;
 	    					var commentNo = data.commentNo;
 	    					var sessionUserId = "${user.userId}"
+	    					//도전과제 수행을 위한 추가 변수
+	    					var postNo = data.postNo;
+	    					var gatherCategoryNo = "${post.gatherCategoryNo}"
+	    					
 	    					$('#commentContent').val("");
 	    					var view1 =
 	    						"<tr class="+commentNo+">"
@@ -143,6 +150,50 @@
 	    					}
 			    			var lastView = view1+view2+view3;
 	    					$('#forAppend').append(lastView);
+	    					
+		    				//도전과제 수행하고 충족시키기 위한 조건 넘기는 부분
+    					    $.ajax({
+	    						url : "/challenge/rest/completeCommentChallenge",
+	    	    				method : "POST",
+	    	    				dataType : "json",
+	    	    				
+	    	    				data : JSON.stringify({
+	    	    					userId : userId,
+	    	    					postNo : postNo,
+	    	    					gatherCategoryNo : gatherCategoryNo
+	    	    				}),
+	    	    				headers : {
+	    		    				"Accept" : "application/json",
+	    		    				"content-Type" : "application/json"
+	    		    			},
+	    		    			success : function(data){
+	    		    				
+	    		    				var challReward = data.challenge.challReward;
+	    		    				completeResult = data.completeResult;
+	    		    				
+										//alert(userId + ":: " + challReward + "<<="  + "boolean : " +  completeResult)
+	    		    				if (completeResult == true) {
+										//alert("축하합니다! 댓글 활동을 통해" + challReward + " 점 획득!" )
+										Swal.fire({
+			    						  title: '축하합니다! ' + challReward + " 점 획득!",
+			    						  width: 600,
+			    						  padding: '3em',
+			    						  backdrop: `
+			    						    rgba(0,0,123,0.4)
+			    						    url("/images/Congratulation-cat.gif")
+			    						    center top
+			    						    no-repeat
+			    						  `
+			    						})
+									}
+	    		    				
+	    		    			},
+	    		    			error : function(){
+	    	    					//alert('댓글 포인트부여 에러');
+	    	    				}
+	    	    					
+    	    				}); //challenge 
+	    						
 	    				},
 	    				error : function(){
 	    					alert('에러 ㅋㅋ');
