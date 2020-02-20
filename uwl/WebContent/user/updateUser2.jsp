@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -257,6 +258,16 @@ font-family: 'Nanum Gothic', sans-serif;
                 $('div.updateUser > div').eq(index + 1).addClass('on');
             });
         });
+        
+     
+        $(document).on("click", "a:contains('제출')", function() {
+			
+			$("form#updateProfile")
+			.attr("method", "post")
+			.attr("action", "/user/updateProfile")
+			.submit();
+		});
+        
     </script>
 </head>
 
@@ -272,6 +283,7 @@ font-family: 'Nanum Gothic', sans-serif;
         
         
         <div class="updateProfile on">
+           <form id="updateProfile">
             <table>
                 <colgroup>
                     <col width="35%">
@@ -280,12 +292,16 @@ font-family: 'Nanum Gothic', sans-serif;
                 <tr>
                     <td>
                         <div class="profileImage">
-                            <img src="img/bonobono.jpg" alt="">
+                            <img src="/images/${user.profileName}" alt="">
+                            <input type="file" name="file" style="display : none">
+                            <input type="hidden" name="profileName" value="${user.profileName}">
                         </div>
                     </td>
                     <td>
                         <div>
-                            sonjaei_
+                            ${user.userId}
+                            <input type="hidden" name="userId" value="${user.userId }">
+                            <input type="hidden" name="publicStatus" value="${user.publicStatus}">
                         </div>
                         <div>
                             <a href="#">프로필 사진 바꾸기</a>
@@ -294,20 +310,18 @@ font-family: 'Nanum Gothic', sans-serif;
                 </tr>
                 <tr>
                     <td>이름</td>
-                    <td><input type="text" value="손재이"></td>
+                    <td><input type="text" name="name" value="${user.name}"></td>
                 </tr>
                 <tr>
                     <td>사용자 이름</td>
-                    <td><input type="text" value="sonjaei_"></td>
+                    <td><input type="text" name="nickname" value="${user.nickname}"></td>
                 </tr>
-                <tr>
-                    <td>웹사이트</td>
-                    <td><input type="text" value="https://youtu.be/UEDvqL-zVDA"></td>
+                <tr style="display :none;">
                 </tr>
                 <tr>
                     <td>소개</td>
                     <td>
-                        <textarea name="" id="" cols="30" rows="10">[VLOG]제주도민의 가평 캠프통 아일랜드 우당탕 정복기 feat.건대 막걸리🍶</textarea>
+                        <textarea name="selfIntroduction" id="selfIntroduction" cols="30" rows="10">${user.selfIntroduction}</textarea>
                     </td>
                 </tr>
                 <tr>
@@ -316,21 +330,27 @@ font-family: 'Nanum Gothic', sans-serif;
                 </tr>
                 <tr>
                     <td>이메일</td>
-                    <td><input type="text" value="wo2ek8@gmail.com"></td>
+                    <td><input type="text" name="mail" value="${user.mail}"></td>
                 </tr>
                 <tr>
                     <td>전화번호</td>
-                    <td><input type="text"></td>
+                    <td><input type="text" name="phone" value="${user.phone}"></td>
                 </tr>
                 <tr>
                     <td>성별</td>
-                    <td><input type="text" placeholder="성별"></td>
+                    <c:if test="${user.gender == 1 }">
+                    	<c:set var="gender" value="여성"/>
+                    </c:if>
+                    <c:if test="${user.gender == 2 }">
+                    	<c:set var="gender" value="남성"/>
+                    </c:if>
+                    <td>${gender}</td>
                 </tr>
                 <tr>
                     <td>비슷한 계정 추천</td>
                     <td>
-                        <div><input type="checkbox"></div>
-                        <div>팔로우할 만한 비슷한 계정을 추천할 때 회원님의 계정을 포함합니다. <a href="#">[?]</a></div>
+                    <input type="text" value="${user.schoolName}" readonly>
+                    <input type="hidden" name="schoolNo" value="${user.schoolNo}">
                     </td>
                 </tr>
                 <tr>
@@ -341,10 +361,11 @@ font-family: 'Nanum Gothic', sans-serif;
                     </td>
                 </tr>
             </table>
+           </form>
         </div>
         
-        
         <div class="updatePassword">
+       	 <form id="updatePassword">
             <table>
                 <colgroup>
                     <col width="35%">
@@ -353,22 +374,22 @@ font-family: 'Nanum Gothic', sans-serif;
                 <tr>
                     <td>
                         <div class="profileImage">
-                            <img src="img/bonobono.jpg" alt="">
+                            <img src="/images/${user.profileName}" alt="">
                         </div>
                     </td>
                     <td>sonjaei_</td>
                 </tr>
                 <tr>
                     <td>이전 비밀번호</td>
-                    <td><input type="password"></td>
+                    <td><input type="password" name="exPassword"></td>
                 </tr>
                 <tr>
                     <td>새 비밀번호</td>
-                    <td><input type="password"></td>
+                    <td><input type="password" name="password"></td>
                 </tr>
                 <tr>
                     <td>새 비밀번호 확인</td>
-                    <td><input type="password"></td>
+                    <td><input type="password" name="password2"></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -379,6 +400,7 @@ font-family: 'Nanum Gothic', sans-serif;
                     <td><a href="#">비밀번호를 잊으셨나요?</a></td>
                 </tr>
             </table>
+        </form>
         </div>
         
         <div class="publicStatus">

@@ -179,7 +179,7 @@ public class UserController2 {
 		// Model 과 View 연결
 		model.addAttribute("user", user);
 
-		return "forward:/user/updateUser.jsp";
+		return "forward:/user/updateUser2.jsp";
 	}
 
 	// 회원정보 수정
