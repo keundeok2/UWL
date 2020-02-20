@@ -18,12 +18,15 @@
 	            scrollbars: true
 	        });
 	        
+	        setTimeout(function() {
+        		myScroll.refresh();
+        	}, 0);
 	        
 	        
-	        $('div.section ul li a').on('click', function() {
+	        $('div.sectionList ul.sectionNav li a').on('click', function() {
 	        	setTimeout(function() {
 	        		myScroll.refresh();
-	        	}, 100);
+	        	}, 0);
 	        	
 	        });
 	        
@@ -242,13 +245,13 @@
             font-weight: bold;
         }
 
-        div.innerSection {
+        div.innerSectionList {
 
             border-top: 1px solid #dddddd;
 
         }
 
-        div.section ul {
+        div.sectionList ul.sectionNav {
 
             width: 55%;
             margin: 0 auto;
@@ -257,7 +260,7 @@
 
         }
 
-        div.section ul li {
+        div.sectionList ul.sectionNav li {
 
             float: left;
             width: 25%;
@@ -268,18 +271,18 @@
             font-weight: bold;
         }
 
-        div.section ul li.on {
+        div.sectionList ul.sectionNav li.on {
             color: #333;
         }
 
-        div.section ul li a {
+        div.sectionList ul.sectionNav li a {
 
             display: block;
             position: relative;
 
         }
 
-        div.section ul li a:after {
+        div.sectionList ul.sectionNav li a:after {
             content: '';
             width: 45%;
             height: 1px;
@@ -293,41 +296,41 @@
 
         }
 
-        div.section ul li.on a:after {
+        div.sectionList ul.sectionNav li.on a:after {
             display: block;
         }
 
-        div.section ul li a i {
+        div.sectionList ul.sectionNav li a i {
 
             margin-right: 3px;
         }
 
-        section>div.list1 {
+        section.displaySection > div.list1 {
             background-color: lightblue;
         }
 
-        section>div.list2 {
+        section.displaySection > div.list2 {
             background-color: lightcoral;
         }
 
-        section>div.list3 {
+        section.displaySection > div.list3 {
             background-color: lightcyan;
         }
 
-        section>div.list4 {
+        section.displaySection > div.list4 {
             background-color: lightgray;
         }
 
-        section>div {
+        section.displaySection > div {
             display: none;
             
         }
 
-        section>div.on {
+        section.displaySection > div.on {
             display: block;
         }
 
-        section {
+        section.displaySection {
             clear: both;
         }
     </style>
@@ -788,13 +791,13 @@
 
 
             $(function() {
-                $('div.section ul li a').on('click', function() {
+                $('div.sectionList ul.sectionNav li a').on('click', function() {
                 	
                     var i = $(this).parent().index();
-                    $('div.section ul li').removeClass('on');
-                    $('div.section ul li').eq(i).addClass('on');
-                    $('section > div').removeClass('on');
-                    $('section > div').eq(i).addClass('on');
+                    $('div.sectionList ul li').removeClass('on');
+                    $('div.sectionList ul li').eq(i).addClass('on');
+                    $('section.displaySection > div').removeClass('on');
+                    $('section.displaySection > div').eq(i).addClass('on');
 
                 });
                 
@@ -1063,7 +1066,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -1072,30 +1075,32 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
             overflow: hidden;
-            
+            position: relative;
 			
         }
 
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
         }
     </style>
 </head>
@@ -1270,16 +1275,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="section">
-                    <div class="innerSection">
-                        <ul>
+                <div class="sectionList">
+                    <div class="innerSectionList">
+                        <ul class="sectionNav">
                             <li class="on"><a href="#"><i class="fas fa-th"></i> 타임라인</a></li>
                             <li><a href="#"><i class="fas fa-tv"></i> ASK</a></li>
                             <li><a href="#"><i class="far fa-bookmark"></i> 커플타임라인</a></li>
                             <li><a href="#"><i class="fas fa-user-tag"></i> 커플캘린더</a></li>
                         </ul>
                     </div>
-                    <section>
+                    <section class="displaySection">
                         <div class="list1 on">
                             <c:if test="${user.publicStatus == 2 }">
                                 비공개 계정입니다.

@@ -296,7 +296,7 @@
 		//썸머노트--------------------------------------------------------------------------------
 	$(document).ready(function() {
 			$('#summernote').summernote({
-				width : 550,
+				width : '100%',
 				height : 180,
 				minHeight : 180,
 				maxHeight : null,
@@ -341,7 +341,10 @@
 
 <style type="text/css">
 
-
+#addTimelineForm .input-group {
+	padding: 0 20px;
+	margin-bottom:10px;
+}
 ul.timeline {
     list-style-type: none;
     position: relative;
@@ -357,11 +360,11 @@ ul.timeline:before {
     z-index: 400;
 }
 ul.timeline {
-	margin-top: 60px;
+	margin-top: 70px;
 }
 ul.timeline > li {
     margin: 20px 0;
-    padding-left: 20px;
+    padding: 0 30px 0 60px;
 }
 ul.timeline > li:before {
     content: ' ';
@@ -393,6 +396,7 @@ ul.timeline > li:before {
 }
 .postUpdateBtn {
 	float: right;
+	margin-left: 10px;
 }
 .postDeleteBtn {
 	float: right;
@@ -416,14 +420,19 @@ p.commentPtag {
 }
 
 body {word-break:break-all;}
+
+div.askBody {
+	background: #fff;
+	padding-bottom: 30px;
+}
 </style>
 <title>어울림</title>
 </head>
 <body>
-	<div>
+	<div class="askBody">
 		<div>
 			<div>
-				<h4>${targetUserId}님의 Timeline</h4>
+				<h4 style="margin-left:20px">${targetUserId}님의 Timeline</h4>
 			<c:if test="${targetUserId eq user.userId }">
 				<div class="addFormDiv">
 				<form id="addTimelineForm" enctype="multipart/form-data">
@@ -432,7 +441,7 @@ body {word-break:break-all;}
 						<input type="text" class="nononotext">
 						<input type="text" class="nononotext">
 					</div>
-			            <div class="float-right" >
+			            <div class="float-right" style="padding-right: 20px;margin-left: 10px;">
 							<button class="btn btn-outline-primary btn-rt " id="addTimeline">등록</button>
 			            </div>
 					<input type="hidden" name="userId" value="${user.userId}">
