@@ -28,6 +28,16 @@
 						VALUES (#{schoolNo}, #{schoolName},#{schoolAddress})
 	 </insert>
 	 
+	 <!-- 회원가입 시 해당학교 가입자가 있다면 -->
+	 <update	id="updateSchoolTotalUser"	parameterType="schoolRank" >
+	  	 UPDATE school_rank 
+		<set>
+			total_user = total_user  + 1
+		</set>
+		WHERE school_no = #{schoolNo}
+	 </update>
+	 
+	 <!-- 도전과제를 적립하고나서 increse를 실행하고나서 그 정보를 긁어다가 ranking에 반영업데이트를 해야됨. 적용전 -->
 	 <update	id="updateSchoolRank"	parameterType="schoolRank" >
 	  	 UPDATE school_rank 
 		<set>
@@ -40,34 +50,28 @@
 	 
 	
 	<!-- SELECT LIST RANKING 조회 -->
-	<select  id="getSchoolRankingList"  parameterType="search"	resultMap="schoolRankSelectMap">
-	  	 SELECT *
-	  	FROM (	SELECT  ROWNUM AS row_seq,
-						inner_table.ranking,
-						inner_table.school_no,
-						inner_table.school_name,
-						inner_table.school_address,
-						inner_table.total_user,
-						inner_table.total_activity_point
+	<select  id="getSchoolRankingList"  parameterType="map"	resultMap="schoolRankSelectMap">
+	  	
+	  	  SELECT *
+	  	FROM (SELECT  ROWNUM AS row_seq,
+	  									inner_table.ranking ranking,
+	  									inner_table.school_no school_no,
+	  									inner_table.school_name school_name,
+	  									inner_table.school_address,
+	  									inner_table.total_user,
+	  									inner_table.total_activity_point
  					FROM ( 	SELECT RANK() OVER (ORDER BY total_activity_point DESC) ranking,
 								school_no,
 								school_name,
 								school_address,
 								total_user,
 								total_activity_point
-								FROM school_rank
-							<if test="searchCondition != null">
-								<where>
-									<if test="searchCondition == 1 and searchKeyword !='' ">
-							 			school_name LIKE '%'||#{searchKeyword}||'%'
-									</if>
-									<if test="searchCondition == 2 and searchKeyword !='' ">
-							 			school_address LIKE '%'||#{searchKeyword}||'%'
-									</if>
-								</where>
-							</if>) inner_table
-				WHERE ROWNUM &lt;= #{endRowNum:INTEGER} )
-				WHERE row_seq BETWEEN #{startRowNum:INTEGER} AND #{endRowNum:INTEGER} 
+								FROM school_rank) inner_table
+				WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER}) myschool
+				WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER}
+				ORDER BY decode(myschool.school_no, #{schoolNo},  myschool.school_no),myschool.ranking
+	  	
+				
 	 </select>
 	 
 	<!-- SELECT LIST RANKING 조회 ===> 개인 -->
@@ -76,15 +80,24 @@
 	  	FROM (SELECT  ROWNUM AS row_seq,
 						inner_table.ranking,
 						inner_table.user_id,
+						inner_table.school_name,
 						inner_table.recently_total_activity_point
- 					FROM ( 	SELECT RANK() OVER (ORDER BY individual.recently_total_activity_point DESC) ranking,
-												individual.user_id,	
+ 					FROM ( SELECT RANK() OVER (ORDER BY individual.recently_total_activity_point DESC) ranking,
+												individual.user_id,
+												name.school_name,
+												name.school_no,
 												individual.recently_total_activity_point
 									FROM (SELECT user_id,
 													sum(variable_activity_point) recently_total_activity_point
-									FROM reward 
-									GROUP BY user_id 
-									ORDER BY recently_total_activity_point DESC) individual) inner_table
+													FROM reward 
+													GROUP BY user_id 
+													ORDER BY recently_total_activity_point DESC) individual,
+													(SELECT sr.school_name school_name,
+																					u.user_id user_id,
+																					sr.school_no school_no
+														FROM users u, school_rank sr 
+														WHERE u.school_no = sr.school_no) name
+									WHERE individual.user_id = name.user_id) inner_table
 				WHERE ROWNUM &lt;= #{endRowNum:INTEGER} )
 				WHERE row_seq BETWEEN #{startRowNum:INTEGER} AND #{endRowNum:INTEGER} 
 	 </select>
@@ -103,6 +116,7 @@
 	 <!-- SQL : SELECT ONE  -->
 	 <select  id="getMySchool"  parameterType="String"	resultMap="schoolRankSelectMap">
 	  	SELECT u.user_id,
+  				sr.school_no,
 				sr.school_name,
 				total.recently_total_activity_point
 		FROM users u, school_rank sr,(SELECT sum(variable_point) recently_total_point, 
@@ -112,34 +126,28 @@
 	 </select>
 	 
 	 <!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	 <select  id="getTotalCount"  parameterType="map"	 resultType="int">
 	  	 SELECT COUNT(*)
-	  	FROM (	SELECT  ROWNUM AS row_seq,
- 									inner_table.ranking,
- 									inner_table.school_no,
- 									inner_table.school_name,
- 									inner_table.school_address,
- 									inner_table.total_user,
- 									inner_table.total_activity_point
-				FROM ( 	SELECT RANK() OVER (ORDER BY total_activity_point DESC) ranking,
-						school_no,
-						school_name,
-						school_address,
-						total_user,
-						total_activity_point
-						FROM school_rank
-					<if test="searchCondition != null">
-						<where><!-- 1:학교이름, 2: 학교주소, 3: 총활동점수가 키워드보다 높은경우 -->
-							<if test="searchCondition == 1 and searchKeyword !='' ">
-					 			school_name LIKE '%'||#{searchKeyword}||'%'
-							</if>
-							<if test="searchCondition == 2 and searchKeyword !='' ">
-					 			school_address LIKE '%'||#{searchKeyword}||'%'
-							</if>
-						</where>
-					</if>) inner_table
-		WHERE ROWNUM &lt;= #{endRowNum:INTEGER} )
-		WHERE row_seq BETWEEN #{startRowNum:INTEGER} AND #{endRowNum:INTEGER} 
+				FROM (SELECT *
+	  	FROM (SELECT  ROWNUM AS row_seq,
+	  									inner_table.ranking ranking,
+	  									inner_table.school_no school_no,
+	  									inner_table.school_name school_name,
+	  									inner_table.school_address,
+	  									inner_table.total_user,
+	  									inner_table.total_activity_point
+ 					FROM ( 	SELECT RANK() OVER (ORDER BY total_activity_point DESC) ranking,
+								school_no,
+								school_name,
+								school_address,
+								total_user,
+								total_activity_point
+								FROM school_rank) inner_table
+				WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER}) myschool
+				WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER}
+				ORDER BY decode(myschool.school_no, #{schoolNo},  myschool.school_no),myschool.ranking)
+		WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER} 
+	 
 	 </select>
 	 
 	 

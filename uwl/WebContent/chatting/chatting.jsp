@@ -359,15 +359,47 @@
 		#searchFriendByProfile{
 			border-radius: 15px; /* 이미지 반크기만큼 반경을 잡기*/
 		}
+		
+		div.chattingBoxContent{
+			height: 300px;
+			overflow-y: scroll; 
+			overflow-x: hidden; 
+		}
+		
+		/*채팅 배찌*/
+		div.chattingIcon > div{
+            position: absolute;
+            background-color: #d25412;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            top: -5px;
+            right: -5px;
+            
+        }
+        div.chattingIcon > div span {
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 12px;
+        }
     </style>
     
     <!-- 소켓연결 -->
     
-    <script type="text/javascript">
+   <script>
     
-    //--------------------위치 실험중----------------------------------------------------
-    //--------------------위치 실험중----------------------------------------------------
-    
+	    $(function(){
+	    	console.log('인클루드 성공')
+		    //--------------------매칭 실험중----------------------------------------------------
+		    	//아이디어 구상중
+		    //--------------------매칭 실험중----------------------------------------------------
+	    });
+	    
+	    
     	var socket = null;
     	var chattingRoomNo = null;
     	var enterUserId = null;	//본인의 세션
@@ -380,11 +412,49 @@
 //채팅파트--------------------------------------------------------------
 	    $(function() {
 	    	//////////////////소켓 연결되는 구간
-       		socket = io.connect("localhost:82");	//소켓연결
+	    	var newUser = "${sessionScope.user.userId}";
+       		socket = io.connect("localhost:82");	//소켓연결 
+       		console.log('node.js Server Connection...');
+       		socket.emit("new",newUser);
 	        $('div.chattingIcon a').on('click', function() {
 	            $('div.chattingList').toggleClass('on');
 	        });
 	        ///////////////////소켓 연결되는 구간
+	        
+	         ////////////////////////로그인 상태 판단(include라서 임시보관함)
+	        
+	        /* socket.on('loginUserList', function(data){
+            	for(var i=0; i<data.length; i++){
+            		console.log(data[i]);
+            	}
+	        }); */
+	        
+	         ////////////////////////로그인 상태 판단(include라서 임시보관함)
+	         
+	        
+	        ////////////////////채팅 방 폭파//////////////////////////////////
+	        $('#chattingSystemChangeButton').on('click', function(){
+	        	Swal.fire({
+	        		  title: '잠깐!!!!!!',
+	        		  text: "채팅방이 폭파되면 복구가 불가능합니다!",
+	        		  icon: 'warning',
+	        		  showCancelButton: true,
+	        		  confirmButtonColor: '#3085d6',
+	        		  cancelButtonColor: '#d33',
+	        		  cancelButtonText : '다시 생각하기',
+	        		  confirmButtonText: '히히 폭파!!!'
+	        		}).then((result) => {
+	        		  if (result.value) {
+	        		    Swal.fire(
+	        		      '폭파되었습니다!',
+	        		      '이제 채팅내용은 복구 할 수 없습니다.',
+	        		      'success'
+	        		    )
+	        		  }
+	        		})
+	        });
+	        
+	        ////////////////////채팅 방 폭파//////////////////////////////////
        		
        		
        		///////////////////유저가 채팅창을 눌렀을 때
@@ -418,7 +488,6 @@
 				
 				var sessionId = "${sessionScope.user.userId}";
 				if(clickEnterUser == sessionId){
-					console.log(clickEnterUser);
 					if(userChatting.sender == sessionId){	//본인의 채팅
 						$('#ChattingAppend').before(myView);
 					}else if(userChatting.receiver == sessionId){
@@ -440,6 +509,11 @@
 	        	if(! $('div.chattingBox').hasClass('on')){	//채팅방이 열려있지 않다면 즉, 최초실행
 	        		$(this).parent().css("backgroundColor", "#ebad7a");	//바탕 색 변경
 	        		$('div.chattingBox').toggleClass('on');	//채팅방 열기
+	        		
+	        		$('.chattingBoxContent').animate({
+		        		'scrollTop': '10000000px'
+		        	});
+	        		
 	        		chattingRoomNo = $(this).children().find('#roomNo').val();//열린 룸 넘버
 	        		enterUserId = "${sessionScope.user.userId}";	//입장자
 	        		targetId = $(this).children().find("#chattingUserId").val();	//피입장자
@@ -464,6 +538,10 @@
 						socket.emit("enterUserId", enterUserId);
 						socket.emit("targetId", targetId);
 						socket.emit("chattingRoomNo", chattingRoomNo);
+						
+						$('.chattingBoxContent').animate({
+			        		'scrollTop': '10000000px'
+			        	});
 	        		}
 	        	}
 	        });
@@ -543,6 +621,9 @@
 		        	socket.emit("receiver", receiverId);
 		        	socket.emit("msg", sendMsg);
 		        	socket.emit("chattingRoom", chattingRoomNo);
+		        	$('.chattingBoxContent').animate({
+		        		'scrollTop': '10000000px'
+		        	},1000);
 	        	}
 	        });
 	        
@@ -591,6 +672,9 @@
 	        		$('#ChattingAppend').before(myView);
 	        	}else if(receiver == sessionId){
 	        		$('#ChattingAppend').before(friendView);
+	        		$('.chattingBoxContent').animate({
+		        		'scrollTop': '10000000px'
+		        	});
 	        	}
 	        });
 	        
@@ -751,13 +835,10 @@
 	    		
 	    	});
 	    	
-	    	
-	    
-    </script>
-    
+	</script>    
 </head>
 <body>
-				<div class="popupLayer" style="overflow-y:scroll; overflow-x:scroll ">
+				<div class="popupLayer" id="popupLayer" style="overflow-y:scroll; overflow-x:scroll ">
 					<div>
 						<span onClick="closeLayer(this)"
 							style="cursor: pointer; font-size: 1.5em" title="닫기"><i class="fas fa-times"></i>
@@ -766,9 +847,14 @@
 					<br>
 					<span id="searchFriendListByName"></span>
 				</div>
-    <div class="chattingIcon"><a href="#"><i class="fas fa-comments"></i></a></div>
-
-
+    <div class="chattingIcon"><a href="#"><i class="fas fa-comments"></i></a>
+    
+		<!-- ----------------이거 배찌임 -->
+		<div><span>999</span></div>
+		<!-- -------------이거 배찌임 -->
+		
+    </div>
+	
 
     <div class="chattingList">
         <div class="chattingListTop">
@@ -810,7 +896,7 @@
  <!-- ---------------------------여기가 채팅창 상단--------------------------------------------------------- -->
  
                 <div class="chattingBoxTopRight">
-                    <a href="#"><i class="fas fa-cog"></i></a>
+                    <a href="#"><i class="fas fa-bomb" id="chattingSystemChangeButton"></i></a>
                     <a href="#" id="outOfChattingByTimes"><i class="fas fa-times"></i></a>
                 </div>
             </a>

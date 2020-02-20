@@ -359,6 +359,12 @@
  		WHERE user_id = #{userId}
  	</update>
  	
+ 	<update id="updatePublicStatus" parameterType="user">
+ 		UPDATE users
+ 		SET public_status = #{publicStatus}
+ 		WHERE user_id = #{userId}
+ 	</update>
+ 	
  	<!-- ASK 질문에 답변 등록-->
 	<insert id="replyQuestion" parameterType="ask">
 	INSERT INTO post (post_no, user_id, post_title, post_content, post_date, view_status, post_category_no, question_status) 

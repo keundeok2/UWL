@@ -165,7 +165,7 @@ public class SocialController {
 		Map<String, Object> map = socialService.getNotiList(userId, search);
 		model.addAttribute("map", map);
 		
-		return "forward:/social/listNoti.jsp";
+		return "forward:/social/toolbarListNoti.jsp";
 	}
 	
 }

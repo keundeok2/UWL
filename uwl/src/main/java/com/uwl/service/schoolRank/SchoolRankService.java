@@ -14,9 +14,12 @@ public interface SchoolRankService {
 	
 	//회원가입 시 해당 학교no가 테이블에 존재한다면 update
 	public void updateSchoolRank(SchoolRank schoolRank) throws Exception;
-
+	
+	//회원가입 시 해당학교 가입자가 있다면 토탈유저만 +1 update
+	public void updateSchoolTotalUser(SchoolRank schoolRank) throws Exception;
+		
 	//학교랭킹 리스트를 확인하기 위한 method
-	public Map<String, Object> getSchoolRankingList(Search search) throws Exception;
+	public Map<String, Object> getSchoolRankingList(Search search, int schoolNo) throws Exception;
 	
 	//개인랭킹 리스트를 확인하기 위한 method 
 	public Map<String, Object> getIndividualRankingList(Search search) throws Exception;
