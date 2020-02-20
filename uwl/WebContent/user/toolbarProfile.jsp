@@ -8,7 +8,7 @@
     <title>어울림</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
-    <script src="/javascript/jquery-3.4.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="/javascript/iscroll.js"></script>
     <script>
 	    $(function() {
@@ -18,17 +18,169 @@
 	            scrollbars: true
 	        });
 	        
+	        setTimeout(function() {
+        		myScroll.refresh();
+        	}, 0);
 	        
-	        
-	        $('div.section ul li a').on('click', function() {
+	        $('div.sectionList ul.sectionNav li a').on('click', function() {
 	        	setTimeout(function() {
 	        		myScroll.refresh();
-	        	}, 100);
-	        	
+	        	}, 0);
 	        });
 	        
 	        
+	        
+	    	//iscroll infinite scroll
+	    		myScroll.on('scrollEnd', function() {
+	    	       	var wrapperHeight = $('#wrapper').height();
+	    	       	var ulHeight = $('#wrapper ul').height();
+	    	       	var evtHeight = wrapperHeight - ulHeight;
+	    	       	
+	    			if (this.y <= evtHeight+1) {
+	    				console.log('wrapperHeight', wrapperHeight);
+	    				console.log('ulHeight', ulHeight);
+	    				console.log('evtHeight', evtHeight);
+	    				console.log('this.y', this.y);
+	    				
+	    				if ($("section.displaySection div.list1").hasClass('on')) {
+	    					timelineInfiniteScroll();
+	    				}
+	    				if ($("section.displaySection div.list2").hasClass('on')) {
+	    					askInfiniteScroll();
+	    				}
+	    				if ($("section.displaySection div.list5").hasClass('on')) {
+	    					askQuestionInfiniteScroll();
+	    				}
+	    				// list3 , list4 on 일때 추가하기
+	    			}
+	    		});
+	    	
+	    	
+	    	
+	    	
+	    		var timelinePage = 1;
+	    	    function timelineInfiniteScroll() {
+	    	    	if (timelinePage <= ${timelineMap.resultPage.maxPage}) {
+	    				timelinePage++;
+	    				console.log('timelinePage : ' + timelinePage);
+	    					
+	    				$.ajax({
+	    					url : "/social/rest/getTimelineList/",
+	    					method : "POST",
+	    					dataType : "json",
+	    					data : JSON.stringify({
+	    						currentPage : timelinePage,
+	    						targetUserId : targetUserId
+	    					}),
+	    					headers : {
+	    						"Accept" : "application/json",
+	    						"Content-Type" : "application/json"
+	    					},
+	    					success: function(data) {
+	    						for (var i = 0; i < data.list.length; i++) {
+	    							var html = "<li class='"+data.list[i].postNo+"' value='"+data.list[i].postNo+"'>"
+	    										+"<a class='float-left text-monospace text-primary'>"+data.list[i].postDate+"</a>";
+	    											if (data.list[i].viewStatus == '1') {
+	    												html += "<a class='float-right font-weight-bold text-secondary postViewStatus"+data.list[i].postNo+"'>전체공개</a><br/>"; 
+	    											}
+	    											if (data.list[i].viewStatus == '2') {
+	    												html += "<a class='float-right font-weight-bold text-secondary postViewStatus"+data.list[i].postNo+"'>나만보기</a><br/>";
+	    											}
+	    											html += "<div class='postContentDiv "+data.list[i].postNo+"'>"+data.list[i].postContent+"</div>";
+	    											html += "<button class='btn btn-outline-primary btn-sm commentBtn' value='"+data.list[i].postNo+"'>댓글</button>";
+	    											
+	    											if (sessionId == targetUserId) {
+	    												html += "<button class='btn btn-outline-secondary btn-sm postUpdateBtn' value='"+data.list[i].postNo+"' data-toggle='modal' data-target='#postUpdateModal'>수정</button>";
+	    												html += "<button class='btn btn-outline-secondary btn-sm postDeleteBtn' value='"+data.list[i].postNo+"'>삭제</button>";
+	    											}
+	    											html += "</li>";
+	    							$("ul.timeline").append(html);
+	    							setTimeout(function() {
+	    			            		myScroll.refresh();
+	    			            	}, 0);
+	    						}
+	    					}
+	    				});
+	    			}
+	    		}
+	    	    
+	    	var askPage = 1;
+	    	function askInfiniteScroll() {
+	    		if (askPage <= ${askMap.resultPage.maxPage}) {
+					askPage++;
+					console.log('askPage : ' + askPage);
+						
+					$.ajax({
+						url : "/social/rest/getAskList/",
+						method : "POST",
+						dataType : "json",
+						data : JSON.stringify({
+							currentPage : askPage,
+							targetUserId : targetUserId
+						}),
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success: function(data) {
+							console.log("hellohello");
+							for (var i = 0; i < data.list.length; i++) {
+								console.log("hello");
+								var html = "<div class='ask'>"
+								                +"<p>"+data.list[i].questionContent+"</p>"
+								                +"<p><span>익명</span> ｜ <span>"+data.list[i].questionDate+"</span></p>"
+								                +"<p>"+data.list[i].answerContent+"</p>"
+								                +"<p><span>"+data.list[i].user.name+"</span> ｜ <span>"+data.list[i].answerDate+"</span></p>"
+								            +"</div>";
+								$(html).appendTo("div.askList");
+								setTimeout(function() {
+    			            		myScroll.refresh();
+    			            	}, 0);
+							}
+						}
+					});
+				}
+			}
+	    	
+	    	var askQuestionPage = 1;
+	    	function askQuestionInfiniteScroll() {
+	    		if (askQuestionPage <= ${askQuestionMap.resultPage.maxPage}) {
+					askQuestionPage++;
+					console.log('askQuestionPage : ' + askQuestionPage);
+						
+					$.ajax({
+						url : "/social/rest/getAskQuestionList",
+						method : "POST",
+						dataType : "json",
+						data : JSON.stringify({
+							currentPage : askQuestionPage
+						}),
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success: function(data) {
+							for (var i = 0; i < data.list.length; i++) {
+								var html = "<div class='ask "+data.list[i].questionPostNo+"'>"
+							                +"<p><span>익명</span> · <span>"+data.list[i].questionDate+"</span></p>"
+							                +"<p><a href='#'><i class='fas fa-ellipsis-h'></i></a></p>"
+							                +"<p>"+data.list[i].questionContent+"</p>"
+							                +"<p><a class='rejectBtn'>거절하기</a><a class='regBtn'><i class='fas fa-pen'></i> 답하기</a></p>"
+							                +"<input type='hidden' value='"+data.list[i].questionPostNo+"'>"
+							            +"</div>";
+							            
+							    $("div.addAsk").append(html);
+							    setTimeout(function() {
+    			            		myScroll.refresh();
+    			            	}, 0);
+							}
+						}
+					});
+				}
+			}
 	    });
+	    
+	    
     </script>
     <style>
 	    
@@ -242,13 +394,13 @@
             font-weight: bold;
         }
 
-        div.innerSection {
+        div.innerSectionList {
 
             border-top: 1px solid #dddddd;
 
         }
 
-        div.section ul {
+        div.sectionList ul.sectionNav {
 
             width: 55%;
             margin: 0 auto;
@@ -257,7 +409,7 @@
 
         }
 
-        div.section ul li {
+        div.sectionList ul.sectionNav li {
 
             float: left;
             width: 25%;
@@ -268,18 +420,18 @@
             font-weight: bold;
         }
 
-        div.section ul li.on {
+        div.sectionList ul.sectionNav li.on {
             color: #333;
         }
 
-        div.section ul li a {
+        div.sectionList ul.sectionNav li a {
 
             display: block;
             position: relative;
 
         }
 
-        div.section ul li a:after {
+        div.sectionList ul.sectionNav li a:after {
             content: '';
             width: 45%;
             height: 1px;
@@ -293,45 +445,44 @@
 
         }
 
-        div.section ul li.on a:after {
+        div.sectionList ul.sectionNav li.on a:after {
             display: block;
         }
 
-        div.section ul li a i {
+        div.sectionList ul.sectionNav li a i {
 
             margin-right: 3px;
         }
 
-        section>div.list1 {
+        section.displaySection > div.list1 {
             background-color: lightblue;
         }
 
-        section>div.list2 {
+        section.displaySection > div.list2 {
             background-color: lightcoral;
         }
 
-        section>div.list3 {
+        section.displaySection > div.list3 {
             background-color: lightcyan;
         }
 
-        section>div.list4 {
+        section.displaySection > div.list4 {
             background-color: lightgray;
         }
 
-        section>div {
+        section.displaySection > div {
             display: none;
             
         }
 
-        section>div.on {
+        section.displaySection > div.on {
             display: block;
         }
 
-        section {
+        section.displaySection {
             clear: both;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
@@ -473,7 +624,7 @@
 
             //프로필수정 Btn Event
             $(document).on("click", "div.profileUpdate", function() {
-                $.redirect("/user/updateProfileView", {
+                $.redirect("/userr/updateProfileView", {
                     userId: sessionUserId
                 });
             });
@@ -487,7 +638,7 @@
 
 
             $(function() {
-                $(document).on('click', '.addMatching', function() {
+                 $(document).on('click', '.addMatching', function() {
 
                     alert('클릭ㅋㅋ');
 
@@ -788,13 +939,13 @@
 
 
             $(function() {
-                $('div.section ul li a').on('click', function() {
+                $('div.sectionList ul.sectionNav li a').on('click', function() {
                 	
                     var i = $(this).parent().index();
-                    $('div.section ul li').removeClass('on');
-                    $('div.section ul li').eq(i).addClass('on');
-                    $('section > div').removeClass('on');
-                    $('section > div').eq(i).addClass('on');
+                    $('div.sectionList ul li').removeClass('on');
+                    $('div.sectionList ul li').eq(i).addClass('on');
+                    $('section.displaySection > div').removeClass('on');
+                    $('section.displaySection > div').eq(i).addClass('on');
 
                 });
                 
@@ -804,12 +955,20 @@
                     $('div.section ul li').eq(i).addClass('on');
                 	$('section > div').removeClass('on');
                 	$('section > div').eq(i).addClass('on');
+                	setTimeout(function() {
+    	        		myScroll.refresh();
+    	        	}, 0);
 				});
                 
                 $('.listAskBtn').on("click", function() {
                 	var i = $(this).parent().index();
+                	$('div.section ul li').removeClass('on');
+                    $('div.section ul li').eq(i).addClass('on');
                 	$('section > div').removeClass('on');
                 	$('section > div').eq(i-3).addClass('on');
+                	setTimeout(function() {
+    	        		myScroll.refresh();
+    	        	}, 0);
 				});
             });
         });
@@ -998,37 +1157,11 @@
     </script>
 
     <style>
-        div.layoutWrap {
+        
 
-            width: 100%;
-            min-height: 200vh;
-            padding: 0 20%;
-            position: relative;
-        }
+        
 
-        div.leftToolbar {
-            width: 20%;
-            height: 100vh;
-
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            background: #fff;
-            border-right: 1px solid #eee;
-        }
-
-        div.rightToolbar {
-            width: 20%;
-            height: 100vh;
-
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            background: #fff;
-            border-left: 1px solid #eee;
-        }
+        
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
@@ -1063,7 +1196,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -1072,16 +1205,17 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
             overflow: hidden;
@@ -1091,11 +1225,12 @@
 
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
         }
     </style>
 </head>
@@ -1113,40 +1248,6 @@
             <input type="hidden" id="sessionName" value="${user.name}">
             <input type="hidden" id="sessionPhone" value="${user.phone}">
             <input type="hidden" id="totalPoint" value="${reward.recentlyTotalPoint}">
-
-
-
-            <!-- Button trigger modal -->
-
-
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-
-
 
             <div>
                 <div class="profileHeader">
@@ -1270,16 +1371,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="section">
-                    <div class="innerSection">
-                        <ul>
+                <div class="sectionList">
+                    <div class="innerSectionList">
+                        <ul class="sectionNav">
                             <li class="on"><a href="#"><i class="fas fa-th"></i> 타임라인</a></li>
                             <li><a href="#"><i class="fas fa-tv"></i> ASK</a></li>
                             <li><a href="#"><i class="far fa-bookmark"></i> 커플타임라인</a></li>
                             <li><a href="#"><i class="fas fa-user-tag"></i> 커플캘린더</a></li>
                         </ul>
                     </div>
-                    <section>
+                    <section class="displaySection">
                         <div class="list1 on">
                             <c:if test="${user.publicStatus == 2 }">
                                 비공개 계정입니다.
@@ -1323,11 +1424,16 @@
                     </section>
                 </div>
             </div>
-
-
-
-            <!-- Purchase Modal -->
-            <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            </ul>
+        </div>
+        <div class="rightToolbar2">
+            <jsp:include page="/layout/right.jsp" />
+        </div>
+    </div>
+    
+    
+    <!-- Purchase Modal -->
+    <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -1355,10 +1461,25 @@
                     </div>
                 </div>
             </div>
-            </ul>
-        </div>
-        <div class="rightToolbar2">
-            <jsp:include page="/layout/right.jsp" />
-        </div>
-    </div>
+            <!-- Button trigger modal -->
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 </body></html>

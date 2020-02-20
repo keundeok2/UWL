@@ -147,7 +147,8 @@ public class RewardController {
 		
 		System.out.println("price : " + price);
 		
-		return "forward:/reward/listRewardCheck.jsp";
+//		return "forward:/reward/listRewardCheck.jsp";
+		return "forward:/reward/toolbarListRewardCheck.jsp";
 		
 	}
 	

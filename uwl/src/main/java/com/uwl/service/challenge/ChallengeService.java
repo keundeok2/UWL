@@ -7,6 +7,7 @@ import com.uwl.common.Search;
 import com.uwl.service.domain.Challenge;
 import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.SchoolRank;
+import com.uwl.service.domain.User;
 
 public interface ChallengeService {
 	
@@ -47,7 +48,7 @@ public interface ChallengeService {
 	//도전과제를 수행했을때 완료되는 method ==> Map, Vision, Post에 따라 overloading 할 것.
 	//인자에 challNo을 가지고 있어야함. int나 chall을 가지고 있을것. 
 	//단순 깬 목록만 보면되니까 int가 나아보임
-	public Reward completeChallenge(Reward reward, Challenge challenge, Map<String, Object> map) throws Exception;
+	public Reward completeChallenge(Reward reward, Challenge challenge, Map<String, Object> map, User user) throws Exception;
 	
 	//주간도전과제 user용 list method만들것(3개씩 보여주는거)
 	

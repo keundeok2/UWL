@@ -379,7 +379,6 @@
                 	비공개 계정입니다.
                 </c:if>
                 <c:if test="${user.publicStatus == 1 }">
-              	      <jsp:include page="/social/listTimeline2.jsp"/>
               	</c:if>
                 </div>
                 <div class="list2">

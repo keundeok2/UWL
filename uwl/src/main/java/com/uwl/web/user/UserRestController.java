@@ -448,27 +448,30 @@ public class UserRestController {
 		return returnMap;
 	}
 
-	// 유저컨트롤러 본체에 추가 해야함
 	@RequestMapping(value = "rest/updatePassword", method = RequestMethod.POST)
 	public Map updatePassword(@RequestBody HashMap<String, Object> reqMap, HttpSession session) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		User sessionUser = (User) session.getAttribute("user");
-		String prePassword = (String) reqMap.get("prePassword");
+		String exPassword = (String) reqMap.get("exPassword");
 		String password = (String) reqMap.get("password");
 		String sessionPassword = sessionUser.getPassword();
 
-		System.out.println("pre : " + prePassword + "\t session : " + sessionPassword);
-		System.out.println(sessionPassword.equals(prePassword));
-
-		if (sessionPassword.equals(prePassword)) {
-			sessionUser.setPassword(password);
-			userService.updatePassword(sessionUser);
-			session.setAttribute("user", sessionUser);
-			map.put("result", true);
-		} else {
-			map.put("result", false);
-		}
+		System.out.println("ex : " + exPassword + "\t session : " + sessionPassword);
+		System.out.println(sessionPassword.equals(exPassword));
+		
+		if (!exPassword.equals(password)) {
+			if (sessionPassword.equals(exPassword)) {
+				sessionUser.setPassword(password);
+				userService.updatePassword(sessionUser);
+				session.setAttribute("user", sessionUser);
+				map.put("result", "1");
+			} else {
+				map.put("result", "2");
+			}
+		} else map.put("result", "3");
+		
+		
 		System.out.println(map);
 		return map;
 	}
@@ -573,12 +576,18 @@ public class UserRestController {
 			return map;
 		}
 		
+//		FCM Token register
 		@RequestMapping(value = "rest/register", method =  RequestMethod.POST)
 		public void register(@RequestBody String token, HttpSession httpSession) throws Exception{
 			System.out.println("usercontroller register token : " + token);
 			User user = ((User)(httpSession.getAttribute("user")));
 			String userId = user.getUserId();	
 			fcmService.register(userId, token);
+		}
+		
+		@RequestMapping(value = "rest/updatePublicStatus", method = RequestMethod.POST)
+		public void updatePublicStatus(@RequestBody User user) throws Exception{
+			userService.updatePublicStatus(user);
 		}
 
 }

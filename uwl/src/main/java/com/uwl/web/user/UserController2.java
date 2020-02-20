@@ -298,7 +298,8 @@ public class UserController2 {
 		User user = userService.getUser(userId);
 		model.addAttribute("user", user);
 		
-		return "forward:/user/updateProfile3.jsp";
+//		return "forward:/user/updateUser2.jsp";
+		return "forward:/user/toolbarUpdateUser.jsp";
 	}
 	// 프로필 수정
 	@RequestMapping(value = "updateProfile", method = RequestMethod.POST)

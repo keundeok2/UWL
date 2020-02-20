@@ -275,6 +275,12 @@ public class UserServiceImpl implements UserService {
 	public void updatePassword(User user) throws Exception {
 		userDAO.updatePassword(user);
 	}
+	
+	@Override
+	public void updatePublicStatus(User user) throws Exception {
+		userDAO.updatePublicStatus(user);
+	}
+	
 	///////////////////
 	@Override
 	public void replyQuestion(Ask ask) throws Exception {

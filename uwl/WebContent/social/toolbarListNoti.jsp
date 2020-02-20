@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +17,31 @@
     <script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
+	
+	<script type="text/javascript">
+		
+	//	알림 삭제
+		$(document).on("click", "button#deleteNoti", function() {
+	  		var notiNo = $(this).next().val();
+	  		$.ajax({
+	            url: "/social/rest/deleteNoti",
+	            method: "POST",
+	            headers: {
+	                "Accept": "application/json",
+	                "Content-Type": "application/json"
+	            },
+	            data: JSON.stringify({
+	            	notiNo : notiNo
+	            }),
+	            success : function() {
+					$("."+notiNo+"").remove();
+				}
+	            });
+		});
+	
+	</script>    
+    
+    
     <title>Document</title>
     <style>
         * {
@@ -372,29 +396,42 @@
                             </div>
                             <div class="tracking-list">
                                 <c:forEach items="${map.list}" var="noti">
-                                    <div class="tracking-item">
-                                        <div class="tracking-icon status-intransit">
-                                            <img src="/images/${noti.sender.profileName}">
-                                        </div>
-                                        <div class="tracking-date">${noti.notiDate}<span>
-                                                <fmt:formatDate value="${noti.notiDate}" pattern="HH:mm" /> </span></div>
-                                        <c:if test="${noti.notiOrigin eq 1 }">
-                                            <c:if test="${noti.notiCode eq 1}">
-                                                <!--  여기서부터 작업 -->
-                                            </c:if>
-                                            <c:if test="${noti.notiCode eq 2}">
-                                            </c:if>
-                                        </c:if>
-                                        <c:if test="${noti.notiOrigin eq 2 }">
-                                        </c:if>
-                                        <c:if test="${noti.notiOrigin eq 3 }">
-                                        </c:if>
-                                        <c:if test="${noti.notiOrigin eq 4 }">
-                                        </c:if>
-                                        <c:if test="${noti.notiOrigin eq 5 }">
-                                        </c:if>
-                                        <div class="tracking-content">DESTROYEDPER SHIPPER INSTRUCTION<span>KUALA LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span></div>
-                                    </div>
+                                    <div class="tracking-item ${noti.notiNo}">
+			                  <div class="tracking-icon status-intransit">
+			                  <img src="/images/${noti.sender.profileName}">
+			                  </div>
+			                  <div class="tracking-date"><span>${noti.notiDate}</span></div>
+			                  <c:if test="${noti.notiOrigin eq 1 }">
+			                  	<c:if test="${noti.notiCode eq 1}">
+			                  		<div class="tracking-content">${noti.sender.name}님이 게시글에 댓글을 등록했습니다.<span><a href="/post/getBoard?postNo=${noti.postNo}">해당 게시글로 이동</a></span></div>
+			                  	</c:if>
+			                  </c:if>
+			                  <c:if test="${noti.notiOrigin eq 2 }">
+			                  	<c:if test="${noti.notiCode eq 5 }">
+			                  		<div class="tracking-content">${noti.sender.name}님이 Ask에 답변을 등록했습니다.<span><a href="/social/getAskList/${noti.senderId}">${noti.sender.name}님의 ask로 이동</a></span></div>
+			                  	</c:if>
+			                  </c:if>
+			                  <c:if test="${noti.notiOrigin eq 3 }">
+			                  	<c:if test="${noti.notiCode eq 1 }">
+			                  		<div class="tracking-content">${noti.sender.name}님이 타임라인에 댓글을 등록했습니다.<span><a href="/user/getProfile/${noti.senderId}">${noti.sender.name}님의 타임라인으로 이동</a></span></div>
+			                  	</c:if>
+			                  </c:if>
+			                  <c:if test="${noti.notiOrigin eq 4 }">
+			                  	<c:if test="${noti.notiCode eq 3 }">
+			                  		<div class="tracking-content">${noti.sender.name}님이 친구 요청을 보냈습니다.<span><a href="/user/getProfile/${noti.senderId}">${noti.sender.name}님의 프로필로 이동</a></span></div>
+			                  	</c:if>
+			                  	<c:if test="${noti.notiCode eq 4 }">
+			                  		<div class="tracking-content">${noti.sender.name}님이 친구 요청을 수락했습니다.<span><a href="/user/getProfile/${noti.senderId}">${noti.sender.name}님의 프로필로 이동</a></span></div>
+			                  	</c:if>
+			                  </c:if>
+			                  <c:if test="${noti.notiOrigin eq 5 }">
+			                  	<c:if test="${noti.notiCode eq 2 }">
+			                  		<div class="tracking-content">1:1 문의사항의 답변이 완료되었습니다.<span><a href="/user/getUserQuestions/${noti.senderId}">내 문의사항으로 이동</a></span></div>
+			                  	</c:if>
+			                  </c:if>
+			                  <button class="btn btn-outline-secondary btn-sm" id="deleteNoti">삭제</button>
+			                  <input type="hidden" value="${noti.notiNo}"/>
+			               </div>
                                 </c:forEach>
                             </div>
                         </div>

@@ -42,17 +42,24 @@ public class SchoolRankServiceImple implements SchoolRankService {
 		schoolRankDAO.updateSchoolRank(schoolRank);
 	}
 	
+	@Override
+	public void updateSchoolTotalUser(SchoolRank schoolRank) throws Exception {
+		schoolRankDAO.updateSchoolTotalUser(schoolRank);
+		
+	}
+	
 	//Method
 	@Override
-	public Map<String, Object> getSchoolRankingList(Search search) throws Exception {
+	public Map<String, Object> getSchoolRankingList(Search search, int schoolNo) throws Exception {
 //	public List<SchoolRank> getSchoolRankingList(Search search) throws Exception {
 		
-		List<SchoolRank> list = schoolRankDAO.getSchoolRankingList(search);
-		int totalCount = schoolRankDAO.getTotalCount(search);
+				;
+		Map<String, Object> map = schoolRankDAO.getSchoolRankingList(search, schoolNo);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);
+		int totalCount = schoolRankDAO.getTotalCount(map);
+		System.out.println("schoolRankServiceImpl의 getSchoolRankingList() map : " + map);
 		map.put("totalCount", totalCount);
+		map.put("list", map.get("list"));
 		
 		return map;
 	}
@@ -79,6 +86,8 @@ public class SchoolRankServiceImple implements SchoolRankService {
 	public SchoolRank getMySchool(String userId) throws Exception {
 		return schoolRankDAO.getMySchool(userId);
 	}
+
+	
 
 	
 
