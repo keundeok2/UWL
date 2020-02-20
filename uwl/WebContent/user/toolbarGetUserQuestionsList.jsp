@@ -14,7 +14,9 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
+    
     <title>Insert title here</title>
 
     <style>
@@ -39,7 +41,7 @@
         }
 
         body {
-            font-size: 12px;
+            font-size: 16px;
             color: #333;
             font-family: 'Roboto', sans-serif;
             font-family: 'Nanum Gothic', sans-serif;
@@ -239,7 +241,7 @@
                 
                 
                 $('div.questionList table').find('.admin').parent().remove();
-                var displayValue = '<tr>' +
+                var displayValue = '<tr class = "append">' +
                 '<td colspan="1" class="admin" style="text-align: right;">' +
                 '<span>A</span>' +
                 ' <i class="fas fa-angle-right"></i>' +
@@ -248,7 +250,8 @@
                 '<div class="commentForm">'
 			       + '<textarea name="" id="" cols="70" rows="10" placeholder="답변입력" class="comment">'
 			        + '</textarea>'
-			        + '<p><a class="replyBtn"><i class="fas fa-pen"></i> 답변하기</a></p>'
+			        + '<p><a class="replyBtn"><i class="fas fa-pen"></i> 답변하기</a>'
+			        + '<a class="closeBtn"><i class="far fa-hand-point-up"></i> 닫기</a></p>'
 			    + '</div>';
                 $(this).parent().after(displayValue);
                 
@@ -259,9 +262,10 @@
         
         $(document).on("click", "a.replyBtn", function() {
 			var content = $("textarea.comment").val();
-			var questionPostNo = $("#postNo").val();
-			console.log("content", content);
-			console.log("questionPostNo", questionPostNo);
+			var questionPostNo = $(this).parent().parent().parent().parent().prev().find('input.postNo').val();
+			
+			console.log("content : " + content);
+			console.log("번호  : " + questionPostNo);
 			
 			if (content.length < 1 || content == null || content == "") {
 				var pureAlert = $.pureAlert.alert({
@@ -290,12 +294,56 @@
 				}),
 				success : function(d) {
 					$("div."+questionPostNo+"").remove();
-					alert("답변등록완료");
+					//alert("답변등록완료");
+					swal({
+    			    title: "답변입력완료 !",
+    			    icon: "success" //"info,success,warning,error" 중 택1
+    			});
+					$('tr.append').remove();
+					
 				}
 			})
 		})
+		
+		
+		$(function() {
+    	$(document).on('click', 'a.closeBtn', function() {
+    		$('tr.append').remove();
+    		
+    	})
+    	
+    })
         
         
+    //=============    검색 / page 두가지 경우 모두  Event  처리 =============	
+		function fncGetList(currentPage) {
+			$("#currentPage").val(currentPage)
+			$("form").attr("method","POST").attr("action","/user/getUserQuestionsList").submit();
+		}
+		
+		
+		//============= "검색"  Event  처리 =============	
+		 $(function() {
+			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 
+			 $("input[name=searchKeyword]").focus();
+			 	
+				$("input[name=searchKeyword]").keydown(function(key){
+			    	if(key.keyCode == 13){
+		    			fncGetList(1);
+			    	}
+			    } );
+			 $( ".btn-default:contains('검색')" ).on("click" , function() {
+					//Debug..
+					//alert(  $( "td.ct_btn01:contains('검색')" ).html() );
+					fncGetList(1);
+				});
+			 
+			 
+		 });
+		
+		
+		
     </script>
 
     <style>
@@ -387,7 +435,7 @@
             float: left;
             overflow: hidden;
             overflow-y: scroll;
-
+			font-size: 12px;
         }
 
         div.rightToolbar2 {
@@ -397,6 +445,9 @@
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+        }
+        h6 {
+        	font-size: 16px;
         }
     </style>
 </head>
@@ -453,10 +504,13 @@
 					<c:set var="i" value="0"/>
 						<c:forEach var="post" items="${ list }">
 							<c:set var ="i" value="${i}"/>
-								<c:if test="${post.postCategoryNo == '5' and post.postTitle !='문의사항답변등록'}">
+								<c:if test="${post.postCategoryNo == '5' and post.postTitle !='문의사항답변등록' and post.viewStatus =='1'}">
 						<tr>
-								<td><input type="hidden" id="postNo" name="postNo" value="${post.postNo}"/>
-								<a href="/user/getQuestions?postNo=${post.postNo}">${post.postNo}</a></td>
+								<td>
+								<a class="postNo" href="/user/getQuestions?postNo=${post.postNo}">${post.postNo}</a>
+								<input type="hidden" class="postNo" value="${post.postNo }"/>
+								<%-- <input type="hidden" id="postNo" name="postNo" value="${post.postNo}"/> --%>
+								</td>
 					 <c:if test="${post.gatherCategoryNo == '101'}">
                     <td>매칭</td>
                     </c:if>
@@ -513,26 +567,19 @@
     	</div>
             
         </div>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#"><i class="fas fa-angle-left"></i></a>
-                        </li>
-                        <li class="page-item on"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#"><i class="fas fa-angle-right"></i></a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a>
-                        </li>
-                    </ul>
-                </nav>
+                <form class="form-inline" name="detailForm">
+                
+			    
+				  
+                <!-- PageNavigation Start... -->
+					<jsp:include page="../common/pageNavigator_new.jsp"/>
+				<!-- PageNavigation End... -->
+				  
+				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+				  
+	    	
+				</form>
         </div>
             </div>
         </div>

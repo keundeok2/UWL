@@ -36,7 +36,7 @@
         }
 
         body {
-            font-size: 12px;
+            font-size: 16px;
             color: #333;
             font-family: 'Roboto', sans-serif;
             font-family: 'Nanum Gothic', sans-serif;
@@ -134,6 +134,9 @@
         div.work div.ul {
             text-align: center;
         }
+        div.form-inline{
+        	text-align: center;
+        	}
     </style>
 
     <style>
@@ -225,7 +228,10 @@
             float: left;
             overflow: hidden;
             overflow-y: scroll;
-
+			font-size: 12px;
+        }
+        h6 {
+        	font-size: 16px;
         }
 
         div.rightToolbar2 {
@@ -269,6 +275,36 @@
             vertical-align: middle;
         }
     </style>
+    
+    <script type="text/javascript">
+    //=============    검색 / page 두가지 경우 모두  Event  처리 =============	
+		function fncGetList(currentPage) {
+			$("#currentPage").val(currentPage)
+			$("form").attr("method","POST").attr("action","/post/listNotice").submit();
+		}
+		
+		
+		//============= "검색"  Event  처리 =============	
+		 $(function() {
+			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 
+			 $("input[name=searchKeyword]").focus();
+			 	
+				$("input[name=searchKeyword]").keydown(function(key){
+			    	if(key.keyCode == 13){
+		    			fncGetList(1);
+			    	}
+			    } );
+			 $( ".btn-default:contains('검색')" ).on("click" , function() {
+					//Debug..
+					//alert(  $( "td.ct_btn01:contains('검색')" ).html() );
+					fncGetList(1);
+				});
+			 
+			 
+		 });
+		 
+		 </script>
 </head>
 
 <body>
@@ -322,10 +358,10 @@
                             <colgroup>
                                 <col width="10%">
                                 <col width="10%">
-                                <col width="50%">
-                                <col width="10%">
-                                <col width="10%">
-                                <col width="10%">
+                                <col width="40%">
+                                <col width="15%">
+                                <col width="20%">
+                                <col width="5%">
                             </colgroup>
                             <tr>
                                 <td>번호</td>
@@ -379,43 +415,30 @@
                             </c:forEach>
 
                         </table>
-                        <br>
-
-                        
-                        <br>
-
+                       
                     </div>
-                
-                    <nav aria-label="Page navigation example" style="text-align: center">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-angle-left"></i></a>
-                            </li>
-                            <li class="page-item on"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-angle-right"></i></a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
+			    <form class="form-inline" name="detailForm">
+			    
+                 <!-- PageNavigation Start... -->
+					<jsp:include page="../common/pageNavigator_new.jsp"/>
+				<!-- PageNavigation End... -->
+				  
+				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+				  </form>
+                    
                 </div>
-            </div>
+            </div>	
 
 
 
 
-            </form>
+           
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
         </div>
+        
+        
     </div>
 </body></html>

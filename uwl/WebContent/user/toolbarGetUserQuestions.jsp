@@ -18,7 +18,10 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
+	<!--  스위트 알랏또 -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	    <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
+	
 
 
 
@@ -43,7 +46,29 @@
     		
     		
     		if(postNo == '0'){
-    			var answer = "<<<   처리중인 문의사항입니다.   >>>"
+    			
+    			swal({
+    			    title: "현재 처리중인 문의사항입니다",
+    			    
+    			    icon: "info" //"info,success,warning,error" 중 택1
+    			});
+    			
+    			
+    		
+    						
+    						
+    						
+    						
+    						
+    						
+    				
+    			    
+    			    
+    				
+    			
+    			
+    			
+    			/* var answer = "<<<   처리중인 문의사항입니다.   >>>"
     			
     			var displayValue = '<tr class="append">' +
 	                '<td colspan="1" class="admin" style="text-align: right;">' +
@@ -56,8 +81,7 @@
 	                '<td></td>'+
 	                '</tr>';
 	                
-	                
-	                $('.' + postNo).parent().parent().after(displayValue); 
+	                $('.' + postNo).parent().parent().after(displayValue);  */
 	                
 	                
     		}else{
@@ -75,6 +99,7 @@
     			}),
     			success : function(data) {
     				//alert(data.post.postContent);
+    				
     				var answer = data.post.postContent;
     				var date = data.post.postDate
     				
@@ -179,6 +204,36 @@
             });
         });  */
  
+        
+        //=============    검색 / page 두가지 경우 모두  Event  처리 =============	
+		function fncGetList(currentPage) {
+			$("#currentPage").val(currentPage)
+			$("form").attr("method","GET").attr("action","/user/getUserQuestions").submit();
+		}
+		
+		
+		//============= "검색"  Event  처리 =============	
+		 $(function() {
+			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 
+			 $("input[name=searchKeyword]").focus();
+			 	
+				$("input[name=searchKeyword]").keydown(function(key){
+			    	if(key.keyCode == 13){
+		    			fncGetList(1);
+			    	}
+			    } );
+			 $( ".btn-default:contains('검색')" ).on("click" , function() {
+					//Debug..
+					//alert(  $( "td.ct_btn01:contains('검색')" ).html() );
+					fncGetList(1);
+				});
+			 
+			 
+		 });
+        
+        
+        
           
     </script>
     <style>
@@ -223,7 +278,7 @@
         }
 
         body {
-            font-size: 12px;
+            font-size: 16px;
             color: #333;
             font-family: 'Roboto', sans-serif;
             font-family: 'Nanum Gothic', sans-serif;
@@ -342,6 +397,9 @@
             background: #fff;
             border-left: 1px solid #eee;
         }
+        div.form-inline{
+        	text-align: center;
+        	}
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
@@ -399,7 +457,7 @@
             float: left;
             overflow: hidden;
             overflow-y: scroll;
-
+			font-size: 12px;
         }
 
         div.rightToolbar2 {
@@ -410,7 +468,9 @@
             background-color: #fff;
             border-left: 1px solid #eee;
         }
-        
+        h6 {
+        	font-size: 16px;
+        }
         div.wrap nav {
 
             padding: 15px 0;
@@ -476,8 +536,8 @@
                             </div>
                             <colgroup>
                                 <col width="15%">
-                                <col width="60%">
-                                <col width="10%">
+                                <col width="55%">
+                                <col width="15%">
                                 <col width="15%">
                             </colgroup>
                             <tr>
@@ -507,28 +567,21 @@
                         </table>
                     </div>
                 </div>
-            <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#"><i class="fas fa-angle-left"></i></a>
-                        </li>
-                        <li class="page-item on"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#"><i class="fas fa-angle-right"></i></a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a>
-                        </li>
-                    </ul>
-                </nav>
+                
+            <form class="form-inline" name="detailForm">
+                
+				  
+                <!-- PageNavigation Start... -->
+					<jsp:include page="../common/pageNavigator_new.jsp"/>
+				<!-- PageNavigation End... -->
+				  
+				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+				  </form>
+                
             </div>
         </div>
+        
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
         </div>

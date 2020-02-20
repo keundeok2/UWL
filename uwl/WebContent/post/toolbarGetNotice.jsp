@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
     <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
+    
     <style>
         * {
             margin: 0;
@@ -32,7 +34,7 @@
         }
 
         body {
-            font-size: 12px;
+            font-size: 16px;
             color: #333;
             font-family: 'Roboto', sans-serif;
             font-family: 'Nanum Gothic', sans-serif;
@@ -235,7 +237,7 @@
             float: left;
             overflow: hidden;
             overflow-y: scroll;
-
+			font-size: 12px;
         }
 
         div.rightToolbar2 {
@@ -245,6 +247,9 @@
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+        }
+        h6 {
+        	font-size: 16px;
         }
     </style>
 </head>
@@ -311,6 +316,9 @@
                                 <c:if test="${post.gatherCategoryNo == '111'}">
                                     <td>기타</td>
                                 </c:if>
+                                <c:if test="${post.gatherCategoryNo == null}">
+                                    <td>문의사항답변</td>
+                                </c:if>
                             </tr>
                             <tr>
                                 <td>작성자</td>
@@ -345,7 +353,7 @@
                                 <c:if test="${post2.prePostNo ne '0'}">
                                     <td><a href="/post/getNotice?postNo=${post2.prePostNo }">${post2.prePostTitle}</a></td>
                                 </c:if>
-                                <c:if test="${post2.prePostNo eq '0'}">
+                                <c:if test="${post2.prePostNo eq '0' || post2.nextPostNo eq null}">
                                     <td><a href="#">이전글이 없습니다.</a></td>
                                 </c:if>
                             </tr>
@@ -354,7 +362,7 @@
                                 <c:if test="${post2.nextPostNo ne '0'}">
                                     <td><a href="/post/getNotice?postNo=${post2.nextPostNo }">${post2.nextPostTitle}</a></td>
                                 </c:if>
-                                <c:if test="${post2.nextPostNo eq '0'}">
+                                <c:if test="${post2.nextPostNo eq '0' || post2.nextPostNo eq null}">
                                     <td><a href="#">다음글이 없습니다.</a></td>
                                 </c:if>
                             </tr>

@@ -254,23 +254,37 @@ public class UserController2 {
 		Friend checkFriend2 = friendService.checkRequest(friend);
 		model.addAttribute("checkFriend2",checkFriend2); // return 1 => 친구신청버튼(로직은 수락) 만들기
 		
+		// Matching
 		Matching matching = matchingService.getMatching(sessionUser.getUserId());
 		model.addAttribute("matching", matching);
 		int totalMatching = matchingService.getTotalMatching(search, targetUserId);
 		model.addAttribute("totalMatching", totalMatching);
 		
-		Map<String, Object> timelineMap = socialService.getTimelineList(sessionUser.getUserId(), search);
+		//Timeline
+		Search timelineSearch = new Search();
+		if (timelineSearch.getCurrentPage() == 0) {
+			timelineSearch.setCurrentPage(1);
+		}
+		timelineSearch.setPageSize(pageSize);
+		
+		if (sessionUser.getUserId().equals(targetUserId)) {
+			timelineSearch.setSearchCondition("1");
+		} else timelineSearch.setSearchCondition("0");
+		
+		
+		Map<String, Object> timelineMap = socialService.getTimelineList(targetUserId, timelineSearch);
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) timelineMap.get("totalCount")).intValue(), pageUnit,
 				pageSize);
 		timelineMap.put("search", search);
 		timelineMap.put("resultPage", resultPage);
 		model.addAttribute("timelineMap", timelineMap);
 		
+		//AskQuestion
 		Map<String,Object> askQuestionMap = socialService.getAskQuestionList(sessionUser.getUserId(), search, "1" );
 		resultPage = new Page(search.getCurrentPage(), ((Integer) askQuestionMap.get("totalCount")).intValue(), pageUnit,
 				pageSize);
 		askQuestionMap.put("resultPage", resultPage);
-		
+		//Ask
 		Map<String,Object> askMap = socialService.getAskList(sessionUser.getUserId(), search, "2" );
 		resultPage = new Page(search.getCurrentPage(), ((Integer) askMap.get("totalCount")).intValue(), pageUnit,
 				pageSize);

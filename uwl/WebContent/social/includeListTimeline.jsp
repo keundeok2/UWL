@@ -65,6 +65,9 @@
 				}
 							
 				$("li."+postNo).append(html);
+				setTimeout(function() {
+	        		myScroll.refresh();
+	        	}, 0);
 			}
 		})
 	});
@@ -89,12 +92,14 @@
 				data : JSON.stringify({commentContent : content, userId : sessionId, postNo : postNo}),
 				success : function(d) {
 					var html ="<div class='c"+d.commentNo+"'><i class='fas fa-times deleteCommentBtn'><input type='hidden' value='"+d.postNo+"' id='postNoini'><input type='hidden' value='"+d.commentNo+"' id='commentNoini'></i>"
-							+"<hr/><img src='/images/"+d.user.profileName+"' class='commentProfileName'>"
+							+"<hr/><a href='#'><img src='/images/"+d.user.profileName+"' class='commentProfileName'></a>"
 							+"<p class='commentPtag'>"+d.user.name+" &nbsp; "+d.commentContent+"</p>"
 							+"<input type='hidden' value='"+d.commentNo+"'></div>"
-					
 					$(".addCommentDiv").prepend(html);
 					$("input.regCommentText").val("");
+					setTimeout(function() {
+    	        		myScroll.refresh();
+    	        	}, 0);
 				}
 			})
 			}
@@ -185,6 +190,7 @@
 	//게시글 삭제
 	$(document).on("click", "button.postDeleteBtn", function() {
 		var postNo = $(this).val();
+		console.log("postNo",postNo);
 		
 		var pureAlert = $.pureAlert.confirm({
 			title : "알림",
@@ -405,6 +411,10 @@ div.askBody {
 	background: #fff;
 	padding-bottom: 30px;
 }
+
+p.commentPtag {
+	display : inline;
+}
 </style>
 <title>어울림</title>
 </head>
@@ -459,31 +469,6 @@ div.askBody {
 			</div>
 		</div>
 	</div>
-	
-<!-- Modal -->
-<div class="modal fade" id="postUpdateModal" tabindex="-1" role="dialog" aria-labelledby="postUpdateModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="postUpdateModalLabel">수정</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      <textarea class="form-control textareaInModal" rows="6"></textarea>
-      </div>
-      <div class="modal-footer">
-      	<select class="custom-select float-right viewStatusInModal" name="viewStatus">
-	        <option value="1" selected="selected">전체공개</option>
-	        <option value="2">나만보기</option>
-		</select>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-        <button type="button" class="btn btn-primary confirmUpdateBtn">수정</button>
-      </div>
-    </div>
-  </div>
-</div>
 	
 </body>
 </html>

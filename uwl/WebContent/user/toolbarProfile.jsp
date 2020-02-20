@@ -11,9 +11,12 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="/javascript/iscroll.js"></script>
     <script>
+    
+		var myScroll = null;    
+    
 	    $(function() {
 	    	
-	        var myScroll = new IScroll('#wrapper', {
+	        myScroll = new IScroll('#wrapper', {
 	            mouseWheel: true,
 	            scrollbars: true
 	        });
@@ -27,6 +30,7 @@
 	        		myScroll.refresh();
 	        	}, 0);
 	        });
+	        
 	        
 	        
 	        
@@ -123,9 +127,7 @@
 							"Content-Type" : "application/json"
 						},
 						success: function(data) {
-							console.log("hellohello");
 							for (var i = 0; i < data.list.length; i++) {
-								console.log("hello");
 								var html = "<div class='ask'>"
 								                +"<p>"+data.list[i].questionContent+"</p>"
 								                +"<p><span>익명</span> ｜ <span>"+data.list[i].questionDate+"</span></p>"
@@ -1219,7 +1221,7 @@
             height: 100vh;
             float: left;
             overflow: hidden;
-            
+            position: relative;
 			
         }
 
@@ -1482,4 +1484,29 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Modal -->
+			<div class="modal fade" id="postUpdateModal" tabindex="-1" role="dialog" aria-labelledby="postUpdateModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="postUpdateModalLabel">수정</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			      <textarea class="form-control textareaInModal" rows="6"></textarea>
+			      </div>
+			      <div class="modal-footer">
+			      	<select class="custom-select float-right viewStatusInModal" name="viewStatus">
+				        <option value="1" selected="selected">전체공개</option>
+				        <option value="2">나만보기</option>
+					</select>
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+			        <button type="button" class="btn btn-primary confirmUpdateBtn">수정</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
 </body></html>
