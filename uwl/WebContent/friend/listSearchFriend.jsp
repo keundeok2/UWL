@@ -15,7 +15,6 @@
 	<script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>    
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
-  	<script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
     <title>Document</title>
     
     <script type="text/javascript">

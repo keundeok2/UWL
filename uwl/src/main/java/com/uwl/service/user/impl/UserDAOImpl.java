@@ -189,6 +189,11 @@ public class UserDAOImpl implements UserDAO {
 		sqlSession.update("UserMapper.updatePassword", user);
 	}
 	
+	@Override
+	public void updatePublicStatus(User user) throws Exception {
+		sqlSession.update("UserMapper.updatePublicStatus", user);
+	}
+	
 	////////////////
 	
 	@Override

@@ -7,26 +7,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!--  jQuery CDN -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<!-- bootstrap 4.4 CDN -->
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<!-- jQuery Redirect CDN     https://github.com/mgalante/jquery.redirect  -->
-<script
-	src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
-<!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
-<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
-<!-- 썸머노트 -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
-<!-- Font Awesome CDN -->
-<script src="https://kit.fontawesome.com/376450b3c6.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	var postNo = null;
 	var targetUserId = "${targetUserId}";
@@ -234,11 +214,10 @@
 	});
 		
 		
-		
 	//스크롤 페이징
-	var page = 1;
+	//var timelinePage = 1;
 
-	 $(function() {
+	/*  $(function() {
 			$(window).data('ajaxready', true).scroll(function() {
 				var maxHeight = $(document).height();
 				var currentScroll = $(window).scrollTop() + $(window).height();
@@ -248,17 +227,18 @@
 				
 				if($(window).data('ajaxready') == false) return;
 				if (maxHeight <= currentScroll) {
-				if (page <= ${timelineMap.resultPage.maxPage}) {
+					
+				if (timelinePage <= ${timelineMap.resultPage.maxPage}) {
 					$(window).data('ajaxready', false);
-					page++;
-					console.log('page : ' + page);
+					timelinePage++;
+					console.log('timelinePage : ' + timelinePage);
 						
 					$.ajax({
 						url : "/social/rest/getTimelineList/",
 						method : "POST",
 						dataType : "json",
 						data : JSON.stringify({
-							currentPage : page,
+							currentPage : timelinePage,
 							targetUserId : targetUserId
 						}),
 						headers : {
@@ -285,18 +265,18 @@
 												html += "</li>";
 								$("ul.timeline").append(html);
 							}
-							$(window).data('ajaxready', true);
+							$(window).data('ajaxready', true); 
 						}
 					});
 				}
 				}
 			})
-		});
+		}); */
 	
 		//썸머노트--------------------------------------------------------------------------------
 	$(document).ready(function() {
 			$('#summernote').summernote({
-				width : 550,
+				width : '100%',
 				height : 180,
 				minHeight : 180,
 				maxHeight : null,
@@ -341,7 +321,10 @@
 
 <style type="text/css">
 
-
+#addTimelineForm .input-group {
+	padding: 0 20px;
+	margin-bottom:10px;
+}
 ul.timeline {
     list-style-type: none;
     position: relative;
@@ -357,11 +340,11 @@ ul.timeline:before {
     z-index: 400;
 }
 ul.timeline {
-	margin-top: 60px;
+	margin-top: 70px;
 }
 ul.timeline > li {
     margin: 20px 0;
-    padding-left: 20px;
+    padding: 0 30px 0 60px;
 }
 ul.timeline > li:before {
     content: ' ';
@@ -393,6 +376,7 @@ ul.timeline > li:before {
 }
 .postUpdateBtn {
 	float: right;
+	margin-left: 10px;
 }
 .postDeleteBtn {
 	float: right;
@@ -416,14 +400,19 @@ p.commentPtag {
 }
 
 body {word-break:break-all;}
+
+div.askBody {
+	background: #fff;
+	padding-bottom: 30px;
+}
 </style>
 <title>어울림</title>
 </head>
 <body>
-	<div>
+	<div class="askBody">
 		<div>
 			<div>
-				<h4>${targetUserId}님의 Timeline</h4>
+				<h4 style="margin-left:20px">${targetUserId}님의 Timeline</h4>
 			<c:if test="${targetUserId eq user.userId }">
 				<div class="addFormDiv">
 				<form id="addTimelineForm" enctype="multipart/form-data">
@@ -432,7 +421,7 @@ body {word-break:break-all;}
 						<input type="text" class="nononotext">
 						<input type="text" class="nononotext">
 					</div>
-			            <div class="float-right" >
+			            <div class="float-right" style="padding-right: 20px;margin-left: 10px;">
 							<button class="btn btn-outline-primary btn-rt " id="addTimeline">등록</button>
 			            </div>
 					<input type="hidden" name="userId" value="${user.userId}">

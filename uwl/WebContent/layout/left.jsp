@@ -283,7 +283,7 @@
             });
 
             $("#home").on("click", function() { // 홈
-                $(location).attr('href', "/user/main");
+                $(location).attr('href', "/");
             });
 
             $("#myProfile").on("click", function() { //내 프로필
@@ -377,7 +377,22 @@
             </a>
         </h4>
 
+		        <!-- 알림 아이콘 -->
+        <h4>
+            <a id="notiIcon" href="#">
+                <i class="far fa-bell"></i>
+                <span>알림</span>
+            </a>
+        </h4>
 
+        <script type="text/javascript">
+            $(function() {
+                $("#notiIcon").on("click", function() {
+                    $.redirect("/social/getNotiList");
+                });
+            });
+
+        </script>
 
         <h4 class="img">
             <a id="myProfile" href="#">
@@ -469,8 +484,6 @@
                 </li>
             </ul>
         </div>
-
-
 
         <h4>
             <a id="more" href="#">

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
@@ -247,12 +246,14 @@ font-family: 'Nanum Gothic', sans-serif;
         }
     </style>
     <script>
+    
+		var sessionUserId = "${user.userId}";
+    
         $(function() {
             $('div.leftNavigation li a').on('click', function() {
                 $('div.leftNavigation li').removeClass('on');
                 $(this).parent().addClass('on');
                 var index = $(this).parent().index();
-                alert(index);
                 
                 $('div.updateUser > div').removeClass('on');
                 $('div.updateUser > div').eq(index + 1).addClass('on');
@@ -265,7 +266,96 @@ font-family: 'Nanum Gothic', sans-serif;
 			$("form#updateProfile")
 			.attr("method", "post")
 			.attr("action", "/user/updateProfile")
+			.attr("enctype", "multipart/form-data")
 			.submit();
+		});
+        
+        $(document).on("click", "a:contains('프로필 사진 바꾸기')", function() {
+			$("input[type='file']").click();
+		});
+        
+        $(document).on("click", "td a:contains('비밀번호 변경')", function() {
+			var exPassword = $("input#exPassword").val();
+			var password = $("input#password").val();
+			var password2 = $("input#password2").val();
+			var sessionPassword = "${user.password}";
+			
+			if (exPassword.length < 1 || exPassword == null) {
+				alert("이전 비밀번호를 입력하세요.");
+				return;
+			}
+			
+			if (password.length < 1 || password == null) {
+				alert("새 비밀먼호를 입력하세요.");
+				return;
+			}
+			
+			if (password2.length < 1 || password2 == null) {
+				alert("새 비밀먼호 확인을  입력하세요.");
+				return;
+			}
+			
+			if (password != password2) {
+				alert("두 비밀번호가 일치하는지 확인하세요.");
+				return;
+			}
+			
+			
+			$.ajax({
+				url : "/user/rest/updatePassword",
+				method : "POST",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				dataType : "json",
+				data : JSON.stringify({
+					exPassword : exPassword,
+					password : password
+				}),
+				success : function(data) {
+					var result = data.result;
+					console.log(result);
+					if (data.result == "1") {
+						alert("수정이 완료되었습니다.");
+						$("input[type='password']").val("");
+					} else if(data.result == "2"){
+						alert("이전 비밀번호가 일치하지 않습니다.");
+						$("input[type='password']").val("");
+					} else if (data.result == "3") {
+						alert("새 비밀번호를 이전 비밀번호와 다르게 입력하세요.");
+						$("input[type='password']").val("");
+					}
+				}
+			});
+		});
+        
+        $(document).on("change", "input[type='checkbox']", function() {
+			var ps = null;
+			console.log($(this).is(":checked"));
+			
+			if($(this).is(":checked")) {
+				ps = "2";
+			} else {
+				ps = "1";
+			}
+			
+			$.ajax({
+				url : "/user/rest/updatePublicStatus",
+				method : "POST",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				dataType : "json",
+				data : JSON.stringify({
+					userId : sessionUserId,
+					publicStatus : ps
+				}),
+				success : function() {
+					console.log("update ps success");
+				}
+			});
 		});
         
     </script>
@@ -330,11 +420,11 @@ font-family: 'Nanum Gothic', sans-serif;
                 </tr>
                 <tr>
                     <td>이메일</td>
-                    <td><input type="text" name="mail" value="${user.mail}"></td>
+                    <td><input type="text" name="mail" value="${user.mail}" readonly></td>
                 </tr>
                 <tr>
                     <td>전화번호</td>
-                    <td><input type="text" name="phone" value="${user.phone}"></td>
+                    <td><input type="text" name="phone" value="${user.phone}" readonly></td>
                 </tr>
                 <tr>
                     <td>성별</td>
@@ -347,7 +437,7 @@ font-family: 'Nanum Gothic', sans-serif;
                     <td>${gender}</td>
                 </tr>
                 <tr>
-                    <td>비슷한 계정 추천</td>
+                    <td>학교</td>
                     <td>
                     <input type="text" value="${user.schoolName}" readonly>
                     <input type="hidden" name="schoolNo" value="${user.schoolNo}">
@@ -381,15 +471,15 @@ font-family: 'Nanum Gothic', sans-serif;
                 </tr>
                 <tr>
                     <td>이전 비밀번호</td>
-                    <td><input type="password" name="exPassword"></td>
+                    <td><input type="password" id="exPassword"></td>
                 </tr>
                 <tr>
                     <td>새 비밀번호</td>
-                    <td><input type="password" name="password"></td>
+                    <td><input type="password" id="password"></td>
                 </tr>
                 <tr>
                     <td>새 비밀번호 확인</td>
-                    <td><input type="password" name="password2"></td>
+                    <td><input type="password" id="password2"></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -406,14 +496,12 @@ font-family: 'Nanum Gothic', sans-serif;
         <div class="publicStatus">
             <div>
                 <div>계정 공개 범위</div>
-                <div><input type="checkbox">비공개 계정</div>
+                <div>
+                <input type="checkbox" ${ ! empty user.publicStatus && user.publicStatus==2 ? "checked" : "" }>
+                
+                
+                	비공개 계정</div>
                 <div>계정이 비공개 상태인 경우 회원님이 승인한 사람만 어울림에서 회원님의 사진과 동영상을 볼 수 있습니다. 기존 팔로워는 영향을 받지 않습니다.</div>
-            </div>
-            
-            <div>
-                <div>활동 상태</div>
-                <div><input type="checkbox">활동 상태 표시</div>
-                <div>어울림 앱에서 최근 활동한 시간 정보가 회원님이 팔로우하는 계정 및 메시지를 보낸 모든 사람에게 표시됩니다. 이 설정을 해제하면 다른 계정의 활동 상태를 볼 수 없습니다.</div>
             </div>
         </div>
     </div>
