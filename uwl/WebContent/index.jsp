@@ -283,6 +283,11 @@
 <title>어울림</title>
 </head>
 <body>
+
+	<c:if test="${! empty user}">
+		<jsp:forward page="/user/main"/>
+	</c:if>
+
 <form>
      <div class="index">
         <div class="left">

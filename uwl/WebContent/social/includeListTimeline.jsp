@@ -7,26 +7,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!--  jQuery CDN -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<!-- bootstrap 4.4 CDN -->
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<!-- jQuery Redirect CDN     https://github.com/mgalante/jquery.redirect  -->
-<script
-	src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
-<!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
-<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
-<!-- 썸머노트 -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
-<!-- Font Awesome CDN -->
-<script src="https://kit.fontawesome.com/376450b3c6.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	var postNo = null;
 	var targetUserId = "${targetUserId}";
@@ -234,11 +214,10 @@
 	});
 		
 		
-		
 	//스크롤 페이징
-	var page = 1;
+	//var timelinePage = 1;
 
-	 $(function() {
+	/*  $(function() {
 			$(window).data('ajaxready', true).scroll(function() {
 				var maxHeight = $(document).height();
 				var currentScroll = $(window).scrollTop() + $(window).height();
@@ -248,17 +227,18 @@
 				
 				if($(window).data('ajaxready') == false) return;
 				if (maxHeight <= currentScroll) {
-				if (page <= ${timelineMap.resultPage.maxPage}) {
+					
+				if (timelinePage <= ${timelineMap.resultPage.maxPage}) {
 					$(window).data('ajaxready', false);
-					page++;
-					console.log('page : ' + page);
+					timelinePage++;
+					console.log('timelinePage : ' + timelinePage);
 						
 					$.ajax({
 						url : "/social/rest/getTimelineList/",
 						method : "POST",
 						dataType : "json",
 						data : JSON.stringify({
-							currentPage : page,
+							currentPage : timelinePage,
 							targetUserId : targetUserId
 						}),
 						headers : {
@@ -285,13 +265,13 @@
 												html += "</li>";
 								$("ul.timeline").append(html);
 							}
-							$(window).data('ajaxready', true);
+							$(window).data('ajaxready', true); 
 						}
 					});
 				}
 				}
 			})
-		});
+		}); */
 	
 		//썸머노트--------------------------------------------------------------------------------
 	$(document).ready(function() {

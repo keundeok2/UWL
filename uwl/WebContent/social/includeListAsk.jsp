@@ -81,7 +81,7 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
 	});
 
 //스크롤 페이징
-var page = 1;
+/* var page = 1;
 
  $(function() {
 		$(window).data('ajaxready', true).scroll(function() {
@@ -127,7 +127,7 @@ var page = 1;
 			}
 			}
 		});
-	});
+	}); */
 
 </script>
 

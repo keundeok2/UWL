@@ -244,6 +244,7 @@
         td .wrap.right.on {
             left: 90px;
             opacity: 1;
+            
         }
 
         td .wrap.left.on {
@@ -478,7 +479,7 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            z-index: 1;
+            z-index: 9999;
             padding: 5px 20px 10px;
             width: 450px;
             background-color: #fff;
@@ -499,7 +500,9 @@
             width: 35px;
             text-align: center;
             border-radius: 50%;
+            
         }
+        
         div.getSchedule div.getScheduleHeader a:hover {
             background-color: lightcoral;
         }
@@ -821,7 +824,7 @@
 
             //var postDay = postDate.substring(8, 10);
 
-            for (var i = 0; i <= 31; i++) {
+            for (var i = 0; i <= 45; i++) {
 
                 if ($('div.cal-day').eq(i).text() == postDate.substring(8, 10) || '0' + $('div.cal-day').eq(i).text() == postDate.substring(8, 10)) {
                     
@@ -1141,6 +1144,13 @@
                                 $('div.getSchedule').css({
                                     'left': '-460px'
                                 });
+                            }
+                            
+                            alert($('a.' + postNo).parent().parent().parent().index());
+                            if($('a.' + postNo).parent().parent().parent().index() == 6) {
+                            	$('div.getSchedule').css({
+                            		'transform' : 'translateY(-100%)'
+                            	});
                             }
                             
                             $('div.getSchedule').on('click', function(e) {

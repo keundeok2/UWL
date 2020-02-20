@@ -14,7 +14,6 @@
     <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
     <script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
     <title>Document</title>
 
@@ -60,17 +59,17 @@
                     secondUserId: userId
                 }),
                 success: function() {
-                    var html = "<button type='button' class='btn btn-secondary " + userId + "' id='cancelBtn'>신청취소</button>" +
+                    var html = "<button type='button' class='btn btn-outline-secondary " + userId + "' id='cancelBtn'>신청취소</button>" +
                         "<input type='hidden' value='" + userId + "'>";
                     $("." + userId + "").remove();
                     $(html).appendTo("#" + userId + "");
 
                     //socket push msg = (senderId,receiverId,senderName,notiOrigin,notiCode); 하나라도 빼먹으면 안됨. 해당하는 인자값 없으면 1이라도 넣어야함
-                    socketMsg = sessionId + "," + userId + "," + sessionName + "," + "friend,requestFriend";
+                    socketMsg = sessionId + "," + userId + "," + sessionName + "," + "4,3";
                     console.log(socketMsg)
                     socket.send(socketMsg);
 
-                    addNoti(sessionId, userId, "4", "4");
+                    addNoti(sessionId, userId, "4", "3");
                 }
             })
         })
@@ -92,7 +91,7 @@
                     secondUserId: userId
                 }),
                 success: function() {
-                    var html = "<button type='button' class='btn btn-primary " + userId + "' id='applyBtn'>친구신청</button>" +
+                    var html = "<button type='button' class='btn btn-outline-primary " + userId + "' id='applyBtn'>친구신청</button>" +
                         "<input type='hidden' value='" + userId + "'>"
                     $("." + userId + "").remove();
                     $(html).appendTo("#" + userId + "");
@@ -116,10 +115,7 @@
                 }),
                 success: function(d) {
                     for (var i = 0; i < d.list.length; i++) {
-
-                        var html = "<button type='button' class='btn btn-success'>친구</button>";
                         $("." + d.list[i].userId + "").remove();
-                        $(html).appendTo("#" + d.list[i].userId + "");
                     }
                 }
             })
@@ -138,8 +134,7 @@
                 success: function(d) {
                     console.log("askedBtn");
                     for (var i = 0; i < d.list.length; i++) {
-                        var html = "<button type='button' class='btn btn-primary " + d.list[i].userId + "' id='acceptButton'>수락</button>" +
-                            "<button type='button' class='btn btn-danger " + d.list[i].userId + "' id='deleteButton'>거절</button>" +
+                        var html = "<button type='button' class='btn btn-outline-primary " + d.list[i].userId + "' id='acceptButton'>친구신청</button>" +
                             "<input type='hidden' value='" + d.list[i].userId + "'/>";
                         $("." + d.list[i].userId + "").remove();
                         $(html).appendTo("#" + d.list[i].userId + "");
@@ -150,6 +145,7 @@
             })
         }
 
+        //	이미 친구신청한 유저 친구신청버튼
         function requestBtn() {
             var sessionId = $("input#sessionId").val();
             $.ajax({
@@ -164,7 +160,7 @@
                 }),
                 success: function(d) {
                     for (var i = 0; i < d.list.length; i++) {
-                        var html = "<button type='button' class='btn btn-secondary " + d.list[i].userId + "' id='cancelBtn'>신청취소</button>" +
+                        var html = "<button type='button' class='btn btn-outline-secondary " + d.list[i].userId + "' id='cancelBtn'>신청취소</button>" +
                             "<input type='hidden' value='" + d.list[i].userId + "'/>";
                         $("." + d.list[i].userId + "").remove();
                         $(html).appendTo("#" + d.list[i].userId + "");
@@ -316,6 +312,10 @@
             background-color: #fff;
             border-left: 1px solid #eee;
         }
+        
+        div.searchList {
+        	margin-bottom : 30px;
+        }
     </style>
 </head>
 
@@ -325,26 +325,20 @@
             <jsp:include page="/layout/left.jsp" />
         </div>
         <div class="work2">
-            <div>
+            <div class="container">
                 <input type="hidden" name="sessionId" id="sessionId" value="${user.userId}">
-                <div class="page-header text-second">
-                    <h3>검색 결과</h3>
-                </div>
                 <br />
-                <div class="row">
+                <div class="row justify-content-center">
                     <c:forEach var="friendUser" items="${map.list}">
-                        <div class="col-sm-1"></div>
-                        <div class="col-sm-10">
-                            <div id="${friendUser.userId}">
+                        <div class="col-sm-8 col-md-8">
+                            <div id="${friendUser.userId}" class="searchList">
                                 <img src="../../images/${friendUser.profileName}" id="searchProfileName" />&nbsp;
-                                <span id="userId">${friendUser.userId}</span> &nbsp;
-                                <span id="name">${friendUser.name}</span> &nbsp;
-                                <span>${friendUser.schoolName}</span> &nbsp;
-                                <button type="button" class="btn btn-primary ${friendUser.userId}" id="applyBtn">친구신청</button>
+                                <span id="name" style="margin-right:20px;">${friendUser.name}</span>
+                                <span style="margin-right:20px;">${friendUser.schoolName}</span>
+                                <button type="button" class="btn btn-outline-primary ${friendUser.userId}" id="applyBtn">친구신청</button>
                                 <input type="hidden" value="${friendUser.userId}" />
                             </div>
                         </div>
-                        <div class="col-sm-1"></div>
                     </c:forEach>
                     <c:if test="${empty map.list}">
                         검색된 회원이 없습니다.

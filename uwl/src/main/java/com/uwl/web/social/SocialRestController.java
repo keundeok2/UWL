@@ -130,9 +130,10 @@ public class SocialRestController {
 
 	@RequestMapping(value = "rest/getAskList", method = RequestMethod.POST)
 	public Map getAskList(@RequestBody HashMap<String, Object> hashmap) throws Exception {
-		String currPage = (String)hashmap.get("currentPage");
+//		String currPage = (String)hashmap.get("currentPage");
 		Search search = new Search();
-		search.setCurrentPage(Integer.parseInt(currPage));
+//		search.setCurrentPage(Integer.parseInt(currPage));
+		search.setCurrentPage((Integer)hashmap.get("currentPage"));
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}

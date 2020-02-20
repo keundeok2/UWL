@@ -17,6 +17,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-messaging.js"></script>
     <title>Document</title>
     <style>
         * {
@@ -342,15 +344,67 @@
     </style>
 
     <script type="text/javascript">
+    	
+	//////////////// FCM /////////////////
+	const firebaseModule = (function () {
+	    async function init() {
+	        // Your web app's Firebase configuration
+	        if ('serviceWorker' in navigator) {
+	            window.addEventListener('load', function() {
+	                navigator.serviceWorker.register('/javascript/firebase-messaging-sw.js')
+	                    .then(registration => {
+	                        var firebaseConfig = {
+	                        		apiKey: "AIzaSyCP7-9lifICjBrXx38qVaYolWTYChiy9nU",
+	                        	    authDomain: "webuwl.firebaseapp.com",
+	                        	    databaseURL: "https://webuwl.firebaseio.com",
+	                        	    projectId: "webuwl",
+	                        	    storageBucket: "webuwl.appspot.com",
+	                        	    messagingSenderId: "379855395449",
+	                        	    appId: "1:379855395449:web:ef47774cfc1627f914d2a8",
+	                        	    measurementId: "G-YJ4JNNVF8T"
+	                        };
+	                        // Initialize Firebase
+	                        firebase.initializeApp(firebaseConfig);
+
+
+	                        // Show Notificaiton Dialog
+	                        const messaging = firebase.messaging();
+	                        messaging.requestPermission()
+	                        .then(function() {
+	                        	console.log('Have permission.');
+	                            return messaging.getToken();
+	                        })
+	                        .then(async function(token) {
+	                            await fetch('/user/rest/register', { method: 'post', body: token })
+	                            messaging.onMessage(payload => {
+	                                const title = payload.notification.title
+	                                const options = {
+	                                    body : payload.notification.body
+	                                }
+	                                navigator.serviceWorker.ready.then(registration => {
+	                                    registration.showNotification(title, options);
+	                                })
+	                            })
+	                        })
+	                        .catch(function(err) {
+	                            console.log("Error Occured");
+	                        })
+	                        
+	                    })
+	            })
+	        }
+	    }      
+
+	    return {
+	        init: function () {
+	            init()
+	        }
+	    }
+	})()
+
+	firebaseModule.init();
+    
         $(document).ready(function() {
-
-            $('.a').on("click", function() {
-                var gatherCategoryNo = $ {
-                    gatherCategoryNo
-                };
-                self.location = "/post/addBoard?gatherCategoryNo=" + gatherCategoryNo;
-            });
-
             $('.post').on("click", function() {
                 var postNo = $(this).children().find('.postNo').val();
                 self.location = "/post/getBoard?postNo=" + postNo;
