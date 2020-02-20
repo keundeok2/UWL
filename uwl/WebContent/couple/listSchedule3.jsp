@@ -74,6 +74,11 @@
             position: relative;
             width: calc(100% / 7);
         }
+        #cal_tab td:nth-child(1),
+        #cal_tab td:nth-child(7) {
+        	border-right: none;
+        	border-left: none;
+        }
 
         #cal_tab tr:nth-child(7) td {
             border-bottom: none;
@@ -113,7 +118,7 @@
 
             top: 50%;
             transform: translateY(-50%);
-            left: 10%;
+            left: 30px;
         }
 
         .cal_top div div {
@@ -468,6 +473,89 @@
             display: inline-block;
             padding: 0 10px;
         }
+        
+        div.getSchedule {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            padding: 5px 20px 10px;
+            width: 450px;
+            background-color: #fff;
+            border: 1px solid #c2c2c2;
+            box-shadow: 1px 1px 1px #eee;
+            border-radius: 5px;
+        }
+        div.getSchedule div.getScheduleHeader {
+            
+            font-size: 17px;
+            text-align: right;
+        }
+        div.getSchedule div.getScheduleHeader a {
+            
+            display: inline-block;
+            line-height: 35px;
+            height: 35px;
+            width: 35px;
+            text-align: center;
+            border-radius: 50%;
+        }
+        div.getSchedule div.getScheduleHeader a:hover {
+            background-color: lightcoral;
+        }
+        div.getSchedule div.getScheduleHeader a + a {
+            margin-left: 5px;
+        }
+        div.getSchedule div.getScheduleMain {
+            
+            padding-top: 10px;
+        }
+        div.getSchedule div.getScheduleMain div.postTitle {
+            margin-bottom: 20px;
+        }
+        div.getSchedule div.getScheduleMain > div:nth-child(n + 2) {
+            
+            margin-bottom: 10px;
+        }
+        div.getSchedule div.getScheduleMain div.postTitle > div:nth-child(1) {
+            width: 15px;
+            height: 15px;
+            background-color: rebeccapurple;
+            border-radius: 3px;
+            display: inline-block;
+            vertical-align: 25px;
+            margin-right: 15px;
+        }
+        div.getSchedule div.getScheduleMain div.postTitle > div:nth-child(2) div:nth-child(1) {
+            font-size: 20px;
+        }
+        div.getSchedule div.getScheduleMain div.postTitle > div:nth-child(2) {
+            
+            display: inline-block;
+        }
+        div.getSchedule div.getScheduleMain div.postTitle div.postDate {
+            font-size: 14px;
+        }
+        div.getSchedule div.getScheduleMain > div:nth-child(n + 2) > div:nth-child(1) {
+            
+            font-size: 17px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 15px;
+        }
+        div.getSchedule div.getScheduleMain > div:nth-child(n + 2) > div:nth-child(2) {
+            
+            font-size: 14px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        div.getSchedule div.getScheduleMain div.postTitle div:nth-child()
+        div.getSchedule div.getScheduleMain > div:nth-child(n + 2) > div:nth-child(2) a {
+            font-weight: bold;
+        }
+        div.getSchedule div.getScheduleMain > div:nth-child(n + 2) > div:nth-child(2) a:hover {
+            text-decoration: underline;
+        }
     </style>
 
 
@@ -683,8 +771,8 @@
         	var userId = $('input[name="userId"]').val();
         	var postDate = $('#cal_top_year').text() + '-' + $('#cal_top_month').text() + '-01';
         	
-        	alert('userId : ' + userId);
-        	alert('postDate : ' + postDate);
+        	//alert('userId : ' + userId);
+        	//alert('postDate : ' + postDate);
         	$.ajax({
         		url: '/couple/rest/getScheduleList2/' + userId + '/' + postDate,
         		method: 'GET',
@@ -953,16 +1041,16 @@
             $(document).on('click', 'td div.cal-schedule a', function(e) {
             
                 e.stopPropagation();
-                $('div.getScheduleModal').remove();
+                $('div.getSchedulel').remove();
                 $('div.wrap').remove();
-                if ($(this).parent().children().hasClass('getScheduleModal')) {
+                if ($(this).parent().children().hasClass('getSchedulel')) {
                     alert('^0^');
-                    $('div.getScheduleModal').remove();
+                    $('div.getSchedulel').remove();
                 } else {
 
 
                     
-                    $('div.getScheduleModal').remove();
+                    $('div.getSchedulel').remove();
 					
                     var userId = $('input[name="userId"]').val();
                     var postNo = $(this).find('input.postNo').val();
@@ -1003,37 +1091,69 @@
                             '<a href="#">스케줄 수정</a> <a href="#">스케줄 삭제</a>' +
                             '</div>';
                             
+                            var getSchedule = '<div class="getSchedule">' +
+                            '<div class="getScheduleHeader">' +
+                            '<a href="#"><i class="fas fa-pencil-alt"></i></a>' +
+                            '<a href="#"><i class="far fa-trash-alt"></i></a>' +
+                            '<a href="#"><i class="fas fa-times"></i></a>' +
+                            '</div>' +
+                            '<div class="getScheduleMain">' +
+                            '<div class="postTitle">' +
+                            '<div></div>' +
+                            '<div>' +
+                            '<div>' + postTitle + '</div>' +
+                            '<div class="postDate">' + postDate + '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="place">' +
+                            '<div><i class="fas fa-map-marker-alt"></i></div>' +
+                            '<div>' +
+                            '<div><a href="#">' + place + '</a></div>' +
+                            '<div>' + place + '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="postContent">' +
+                            '<div><i class="fas fa-align-left"></i></div>' +
+                            '<div>' + postContent + '</div>' +
+                            '</div>' +
+                            '<div class="postUserName">' +
+                            '<div><i class="far fa-calendar-minus"></i></div>' +
+                            '<div>' + data.post.userId + '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                            
                             //alert('getScheduleModal : ' + getScheduleModal);
                             
                     		
                             
                             
-                            alert('getScheduleModal : ' + getScheduleModal);
+                            //alert('getScheduleModal : ' + getScheduleModal);
                                 
                             
                             
-                            $('a.' + postNo).parent().append(getScheduleModal);
+                            $('a.' + postNo).parent().append(getSchedule);
                             if ($('a.' + postNo).parent().parent().index() == 0 || $('a.' + postNo).parent().parent().index() == 1 || $('a.' + postNo).parent().parent().index() == 2) {
-                                $('div.getScheduleModal').css({
-                                    'right': '-310px'
+                                $('div.getSchedule').css({
+                                    'right': '-460px'
                                 });
                             } else {
-                                $('div.getScheduleModal').css({
-                                    'left': '-310px'
+                                $('div.getSchedule').css({
+                                    'left': '-460px'
                                 });
                             }
                             
-                            $('div.getScheduleModal').on('click', function(e) {
+                            $('div.getSchedule').on('click', function(e) {
                                 e.stopPropagation();
                             });
 
 
                             $('html').click(function(e) {
-                                if ($('html').find('div').hasClass('getScheduleModal')) {
-                                    if (!$(e.target).hasClass("getScheduleModal")) {
+                                if ($('html').find('div').hasClass('getSchedule')) {
+                                    if (!$(e.target).hasClass("getSchedule")) {
                                     	e.stopPropagation();
                                         alert('영역 밖입니다.');
-                                        $('div.getScheduleModal').remove();
+                                        $('div.getSchedule').remove();
                                         $('div.wrap').remove();
 
                                     }
