@@ -62,6 +62,8 @@ public interface UserService {
 	
 	public void updatePassword(User user) throws Exception;
 	
+	public void updatePublicStatus(User user) throws Exception;
+	
 	//
 	
 	public void replyQuestion(Ask ask) throws Exception;
