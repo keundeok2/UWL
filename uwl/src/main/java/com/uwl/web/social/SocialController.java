@@ -149,7 +149,7 @@ public class SocialController {
 		
 		String sessionId = ((User)session.getAttribute("user")).getUserId();
 		
-		return "redirect:/social/getTimelineList/"+sessionId;
+		return "redirect:/userr/getProfile/"+sessionId;
 	}
 	
 	

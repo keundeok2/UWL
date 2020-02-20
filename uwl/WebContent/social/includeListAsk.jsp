@@ -64,7 +64,6 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
 			data : JSON.stringify({
 			}),
 			success : function(d) {
-				console.log("d", d);
 				$("div.addAsk").html("");
 				for (var i = 0; i < d.list.length; i++) {
 				var html = "<div class='ask "+d.list[i].questionPostNo+"'>"
@@ -75,6 +74,9 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
 				                +"<input type='hidden' value='"+d.list[i].questionPostNo+"'>"
 				            +"</div>";
 				$(html).appendTo("div.addAsk");
+				setTimeout(function() {
+	        		myScroll.refresh();
+	        	}, 0);
 				}
 			}
 		});

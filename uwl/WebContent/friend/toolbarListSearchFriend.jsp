@@ -316,6 +316,10 @@
         div.searchList {
         	margin-bottom : 30px;
         }
+        
+        div.searchList span a {
+        	display : inline-block;
+        }
     </style>
 </head>
 
@@ -333,7 +337,7 @@
                         <div class="col-sm-8 col-md-8">
                             <div id="${friendUser.userId}" class="searchList">
                                 <img src="../../images/${friendUser.profileName}" id="searchProfileName" />&nbsp;
-                                <span id="name" style="margin-right:20px;">${friendUser.name}</span>
+                                <span id="name" style="margin-right:20px;"><a href="#">${friendUser.name}</a></span>
                                 <span style="margin-right:20px;">${friendUser.schoolName}</span>
                                 <button type="button" class="btn btn-outline-primary ${friendUser.userId}" id="applyBtn">친구신청</button>
                                 <input type="hidden" value="${friendUser.userId}" />

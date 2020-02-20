@@ -27,10 +27,10 @@ public class FriendServiceTest {
 	@Qualifier("friendServiceImpl")
 	private FriendService friendService;
 	
-//	@Test
+	@Test
 	public void requestFriend() throws Exception{
 		Friend friend = new Friend();
-		friend.setFirstUserId("user1");
+		friend.setFirstUserId("user40");
 		friend.setSecondUserId("user01");
 		
 		friendService.requestFriend(friend);
@@ -133,7 +133,7 @@ public class FriendServiceTest {
 		friendService.checkRequest(friend);
 	}
 	
-	@Test
+//	@Test
 	public void getFriendListByName() throws Exception{
 		Search search = new Search();
 		search.setCurrentPage(1);

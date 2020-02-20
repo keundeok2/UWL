@@ -516,44 +516,6 @@
             </ul>
         </div>
 
-        <!-- 알림 아이콘 -->
-        <h4>
-            <a id="notiIcon" href="#">
-                <i class="far fa-bell"></i>
-                <span>알림</span>
-            </a>
-        </h4>
-
-        <script type="text/javascript">
-            $(function() {
-                $("#notiIcon").on("click", function() {
-                    $.redirect("/social/getNotiList");
-                });
-            });
-
-        </script>
-        <!-- 알림 아이콘 -->
-
-        <!-- 결제 내역 -->
-        <h4>
-            <a id="purchaseListIcon" href="#">
-                <i class="fas fa-bell"></i>
-                <span>결제 내역</span>
-            </a>
-        </h4>
-        <script type="text/javascript">
-            $(function() {
-                $("#purchaseListIcon").on("click", function() {
-                    $.redirect("/purchase/getPurchaseList", {
-                        userId: sessionUserId
-                    });
-                });
-            });
-
-        </script>
-
-        <!-- 결제 내역 -->
-
 
         <!-- Right AskedFriend Modal -->
         <div class="modal fade" id="askedFriendModal" tabindex="-1" role="dialog" aria-labelledby="askedFriendModalLabel" aria-hidden="true">
