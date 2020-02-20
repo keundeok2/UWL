@@ -281,15 +281,23 @@ public class UserController {
 	}
 	// 프로필 수정
 	@RequestMapping(value = "updateProfile", method = RequestMethod.POST)
-	public String updateProfile(@ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
+	public String updateProfile(@ModelAttribute("user") User user,@RequestParam MultipartFile file, Model model, HttpSession session) throws Exception {
 		System.out.println("UserController : updateProfile() 호출");
 		
-		System.out.println("/user/updateProfile : POST");
-		// Business Logic
-		userService.updateProfile(user);
+		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
+		String name = "";
 		
-		String sessionId = ((User) session.getAttribute("user")).getUserId();
-		if (sessionId.equals(user.getUserId())) {
+		if(!file.getOriginalFilename().isEmpty()) {
+			file.transferTo(new File(path, file.getOriginalFilename()));
+			name = file.getOriginalFilename();
+			user.setProfileName(name);
+			userService.updateProfile(user);
+			session.setAttribute("user", user);
+			return "forward:/user/getUser.jsp";
+		}else {
+			User originalUser = (User)session.getAttribute("user");
+			user.setProfileName(originalUser.getProfileName());
+			userService.updateProfile(user);
 			session.setAttribute("user", user);
 		}
 		
@@ -462,7 +470,7 @@ public class UserController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
-		return "forward:/main.jsp";
+		return "forward:/toolbarMain.jsp";
 	}
 
 	// 로그아웃

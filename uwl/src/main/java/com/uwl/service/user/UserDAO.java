@@ -62,6 +62,8 @@ public interface UserDAO {
 	public int getTotalCount(Search search) throws Exception; // 전체 회원수
 	
 	public void updatePassword(User user) throws Exception;
+	
+	public void updatePublicStatus(User user) throws Exception;
 	/////////////
 	public void replyQuestion(Ask post) throws Exception;
 	
