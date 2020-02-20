@@ -209,6 +209,7 @@ font-family: 'Nanum Gothic', sans-serif;
 			  </div> <!-- end of card -->
 		    </c:forEach>
         </div>
+        </div>
         
         
         <!--두번째 탭에 나오는 부분-->
@@ -237,30 +238,34 @@ font-family: 'Nanum Gothic', sans-serif;
 			        <h5 class="card-title">
 			        	<!-- 카테고리가 Map 일 때 -->
 			    		<c:if test="${purchase.purchaseItem.itemCategory eq '1'}">
-				    		<div class="col-sm-3">
-				    			<img  src="../images/spear.png" style="width: 50px; height: 50px; align-content: right;" >
+				    		<div class="col-sm-9">
+				    			사용아이템 : <img  src="../images/spear.png" style="width: 50px; height: 50px; align-content: right;" >
 				    		</div>
 			    		</c:if>
 			    		
 			    		<!-- 카테고리가 Vsion 일 때 -->
 			    		<c:if test="${purchase.purchaseItem.itemCategory eq '2'}">
-				    		<div class="col-sm-3">
-				    			<img  src="../images/shield.png" style="width: 50px; height: 50px; align-content: right;" >
+				    		<div class="col-sm-9">
+				    			사용아이템 : <img  src="../images/shield.png" style="width: 50px; height: 50px; align-content: right;" >
 				    		</div>
 			    		</c:if>
 			    		<br>
 			        </h5>
 			        <p class="card-text">
-			        	<i class="fas fa-coins col-sm-3" style="font-size: 25px; text-align: center;" ><font size="4px" color="black">  ${purchase.variablePoint}</font></i> 
-			    		<i class="fas fa-piggy-bank col-sm-3"  style="font-size: 25px; text-align: center;"><font size="4px"; color="black"; > ${purchase.totalPoint}</font></i>  
-			    		<i class="far fa-calendar-check col-sm-3"  style="font-size: 25px; text-align: left;"><font size="3px"; color="black"; > ${purchase.variableDate}</font></i>  
+			        	<i class="fas fa-coins col-sm-4" style="font-size: 25px; text-align: center;" ><font size="4px" color="black">  ${purchase.variablePoint}</font></i> 
+			    		<i class="fas fa-piggy-bank col-sm-4"  style="font-size: 25px; text-align: center;"><font size="4px"; color="black"; > ${purchase.totalPoint}</font></i>  
+			        </p>
+			        <p class="card-text" style="text-align: right;">
+			    		<i class="far fa-calendar-check col-sm-4"  style="font-size: 25px; text-align: left;"><font size="3px"; color="black"; > 
+			    		<fmt:formatDate var="variableDate" value="${purchase.variableDate}" pattern="yy-MM-dd"/>${variableDate}</font></i>  
 			        </p>
 			      </div>
 			    </div>
 			    
 			<br>
 			  </div> <!-- end of card -->
-		    </c:forEach></div>
+		    </c:forEach>
+		    </div>
         </div>
         
         <div class="publicStatus">
