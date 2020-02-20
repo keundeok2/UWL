@@ -201,7 +201,7 @@
         }
 
         div.friendList ul li:nth-child(n + 2) a span:nth-child(3) {
-            background-color: green;
+            background-color: #AAA;
             width: 10px;
             height: 10px;
             display: inline-block;
@@ -585,6 +585,10 @@
             font-size: 12px;
         }
 /*================================= 채팅  css ===================================================================*/
+
+		#loginColor.on {
+			background: green;
+		}
 	</style>
 	
 <!--  ================================== 채팅 CDN =============================================================== -->
@@ -763,7 +767,6 @@
         var sessionUserId = null;
         var sessionUserName = "${user.name}";
         
-        var userList = [];
         var socket = null;
     	var chattingRoomNo = null;
     	var enterUserId = null;	//본인의 세션
@@ -772,6 +775,7 @@
     	var sender = null;
     	var receiver = null;
     	var chattingRoom = null;
+    	
         $(function() {
         	
   
@@ -1038,19 +1042,53 @@
 	        });
         	
         	
+            //////로그인 유저 정보////////////////
+	        socket.on('loginUserList', function(data){
+	        	var loginUserList = [];
+	        	for(var i=0; i<data.length; i++){
+	        		loginUserList.push(data[i]);
+	        	}
+	            var countLi = $('div.friendList ul').find('input[id="hiddenUserId"]').length;
+	            var friendList = [];
+	            for(var i=0; i<countLi; i++){
+					friendList.push($('div.friendList ul').find('input[id="hiddenUserId"]').eq(i).val());	//내친구목록
+	            }
+	            var loginFriendList = [];
+	            for(var login=0; login<loginUserList.length; login++){
+	            	for(var friend=0; friend<friendList.length; friend++){
+	            		if(loginUserList[login] == friendList[friend]){
+	            			loginFriendList.push(loginUserList[login]);	//로그인된 친구목록
+	            		}
+	            	}
+	            }
+	            console.log(loginFriendList);
+	            
+	            /* if(loginFriendList.length == 0){
+	            	for(var i=0; i<countLi; i++){
+	            		$('div.friendList ul li').find('span.' + friendList[i]).removeClass('on');
+	            	}
+	            } */
+	            
+	            for(var i=0; i<loginFriendList.length; i++){
+	            	for(var j=0; j<countLi; j++){
+	            		if(loginFriendList[i] == $('div.friendList ul li').find('input[id="hiddenUserId"]').eq(j).val()){
+	            			$('div.friendList ul li').find('span.' + loginFriendList[i]).addClass('on');
+	            		}else{
+	            			//if문 넣어서 프렌드 리스트에서 불꺼준다.ㅋㅋ
+	            			//$('div.friendList ul li').find('span.' + loginFriendList[i]).removeClass('on');
+	            		}
+	            	}
+	            }
+	        });
+            
+            //////로그인 유저 정보////////////////
+            
+            
             rightLoad();
             connectWS();
             notiIconLoad();
             
             
-            //////로그인 유저 정보////////////////
-            //////로그인 유저 정보////////////////
-	        socket.on('loginUserList', function(data){
-	        	for(var i=0; i<data.length; i++){
-	        		userList.push(data[i]);
-	        	}
-	        	console.log(userList);
-	        });
 	        
 	        
         });
@@ -1101,9 +1139,9 @@
                             '<a href="#" class="rightProfileName">' +
                             '<span><img src="/images/' + d.list[i].profileName + '" alt=""></span>' +
                             '<span>' + d.list[i].name + '</span>' +
-                            '<span></span>' +
+                            '<span class="'+d.list[i].userId+'" id="loginColor"></span>' +
                             '</a>' +
-                            '<input type="hidden" value="' + d.list[i].userId + '">' +
+                            '<input type="hidden" id="hiddenUserId" value="' + d.list[i].userId + '">' +
                             '</li>';
                         /*재이가 고침!!*/
 
