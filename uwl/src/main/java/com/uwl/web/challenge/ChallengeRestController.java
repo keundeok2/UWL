@@ -36,6 +36,7 @@ import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.User;
 import com.uwl.service.post.PostService;
 import com.uwl.service.reward.RewardService;
+import com.uwl.service.schoolRank.SchoolRankService;
 
 import sun.security.util.PropertyExpander.ExpandException;
 
@@ -57,6 +58,11 @@ public class ChallengeRestController {
 	@Autowired
 	@Qualifier("rewardServiceImpl")
 	private RewardService rewardService;
+	
+	@Autowired
+	@Qualifier("schoolRankServiceImpl")
+	private SchoolRankService schoolRankService;
+	
 	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -188,6 +194,7 @@ public class ChallengeRestController {
 		
 		User user = (User) session.getAttribute("user");
 		System.out.println("======================user.userId session으로 가져옴 : " + user.getUserId());
+		System.out.println("======================user.userId session으로 가져옴 : " + user.getSchoolNo());
 		
 		System.out.println("ChallengeRestController Post : " + post);
 		//post.setUser(user);
@@ -246,7 +253,6 @@ public class ChallengeRestController {
 			
 			System.out.println("/rest/completeChallenge completeChallenge() reward : " + reward + "chall : " + challenge);
 			challengeService.completeChallenge(reward, challenge, map);
-			
 			System.out.println("challengeReward : " + reward.getChallenge().getChallReward());
 		}
 		

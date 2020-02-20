@@ -18,6 +18,7 @@ import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.SchoolRank;
 import com.uwl.service.post.PostDAO;
 import com.uwl.service.reward.RewardDAO;
+import com.uwl.service.schoolRank.SchoolRankDAO;
 
 @Service("challengeServiceImpl")
 public class ChallengeServiceImpl implements ChallengeService{
@@ -34,6 +35,11 @@ public class ChallengeServiceImpl implements ChallengeService{
 	@Autowired
 	@Qualifier("postDAOImpl")
 	private PostDAO postDAO;
+	
+	@Autowired
+	@Qualifier("schoolRankDAOImpl")
+	private SchoolRankDAO schoolRankDAO;
+	
 	
 	//Setter
 	public void setChallengeDAO(ChallengeDAO challengeDAO) {
@@ -136,7 +142,7 @@ public class ChallengeServiceImpl implements ChallengeService{
 
 
 	@Override
-	public Reward completeChallenge(Reward reward, Challenge challenge, Map<String, Object> map) throws Exception {
+	public Reward completeChallenge(Reward reward, Challenge challenge, Map<String, Object> map ) throws Exception {
 		
 		boolean completeResult = true;
 		List<Challenge> list = (List<Challenge>)(map.get("list"));
@@ -164,7 +170,7 @@ public class ChallengeServiceImpl implements ChallengeService{
 					//통과하면 true를 set
 					reward.setCompleteResult(completeResult);
 					rewardDAO.increasePoint(reward);
-					
+					//schoolRankDAO.updateSchoolRank(schoolRank);
 					
 					System.out.println("게시글작성 도전과제 조건이 충족되었음.");
 					return reward;

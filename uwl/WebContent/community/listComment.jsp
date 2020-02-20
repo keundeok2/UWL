@@ -80,6 +80,7 @@
 		  				});
 		    			return 0;
 	    			}
+	    			
 	    			$.ajax({
 	    				url : "/community/rest/addComment",
 	    				method : "POST",
@@ -173,8 +174,8 @@
 	    		    				
 										//alert(userId + ":: " + challReward + "<<="  + "boolean : " +  completeResult)
 	    		    				if (completeResult == true) {
-										//alert("축하합니다! 댓글 활동을 통해" + challReward + " 점 획득!" )
-										Swal.fire({
+										alert("축하합니다! 댓글 활동을 통해" + challReward + " 점 획득!" )
+										 Swal.fire({
 			    						  title: '축하합니다! ' + challReward + " 점 획득!",
 			    						  width: 600,
 			    						  padding: '3em',
@@ -184,19 +185,21 @@
 			    						    center top
 			    						    no-repeat
 			    						  `
-			    						})
+			    						}) 
 									}
 	    		    				
 	    		    			},
 	    		    			error : function(){
-	    	    					//alert('댓글 포인트부여 에러');
+	    	    					alert('댓글 포인트부여 에러');
 	    	    				}
 	    	    					
     	    				}); //challenge 
 	    						
 	    				},
 	    				error : function(){
-	    					alert('에러 ㅋㅋ');
+	    					alert('에러');
+	    					//request, status, error
+	    					//console.log('code='+request.status+' message='+request.responseText+' error='+error);
 	    				}
 	    			});
 	    		});

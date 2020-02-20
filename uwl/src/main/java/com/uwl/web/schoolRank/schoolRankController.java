@@ -21,8 +21,11 @@ import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.challenge.ChallengeService;
 import com.uwl.service.domain.Challenge;
+import com.uwl.service.domain.Purchase;
+import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.SchoolRank;
 import com.uwl.service.domain.User;
+import com.uwl.service.reward.RewardService;
 import com.uwl.service.schoolRank.SchoolRankService;
 
 import sun.security.util.PropertyExpander.ExpandException;
@@ -35,6 +38,10 @@ public class schoolRankController {
 	@Autowired
 	@Qualifier("schoolRankServiceImpl")
 	private SchoolRankService schoolRankService;
+	
+	@Autowired
+	@Qualifier("rewardServiceImpl")
+	private RewardService rewardService;
 	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -56,11 +63,12 @@ public class schoolRankController {
 		System.out.println(this.getClass());
 	}
 	@RequestMapping( value = "listSchoolRanking")
-	public String getSchoolRankingList(@ModelAttribute("search")Search search, 
+	public String getSchoolRankingList(@ModelAttribute("search")Search search,@ModelAttribute("schoolRank") SchoolRank schoolRank, 
 										Model model, HttpServletRequest request, HttpSession session) throws Exception{
 		
 		
 		user = (User)session.getAttribute("user");
+		
 		
 		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
 		if (user.getUserId() == null) {
@@ -73,26 +81,37 @@ public class schoolRankController {
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
+		if(search.getSearchCondition() == null) {	//searchCondition은 신고처리 유무 없다면 디폴트 신고처리안됨목록
+			search.setSearchCondition("1");
+		}
 		
 		//flag 1 : 학교이름, 2: 주소
 		search.setPageSize(pageSize);
-		search.setSearchCondition(request.getParameter("searchCondition"));
-		search.setSearchKeyword(request.getParameter("searchKeyword"));
+//		search.setSearchCondition(request.getParameter("searchCondition"));
+//		search.setSearchKeyword(request.getParameter("searchKeyword"));
 		
-		Map<String, Object> map = schoolRankService.getSchoolRankingList(search);
+		Map<String, Object> map = schoolRankService.getSchoolRankingList(search, schoolRank.getSchoolNo());
+		
+		Map<String, Object> individualMap = schoolRankService.getIndividualRankingList(search);
 		
 		SchoolRank mySchool = schoolRankService.getMySchool(user.getUserId());
 		
 		System.out.println("schoolRankController getSchoolRankingList()의 map : " + map);
 		
+		System.out.println("search : " + search + "=====================");
+		
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageSize, pageUnit);
 		System.out.println("schoolRankController getSchoolRankingList()의 resultPage : " + resultPage);
 		System.out.println("map.get(\"list\") : " + map.get("list"));
+		
+		System.out.println("individualMap : " + individualMap);
+		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("mySchool", mySchool);
-		
+		model.addAttribute("individualRank", individualMap.get("list"));
+		//recentlyTotalPoint를 가져오기위한 정보
 		return "forward:/schoolRank/listSchoolRanking.jsp";
 	}
 	

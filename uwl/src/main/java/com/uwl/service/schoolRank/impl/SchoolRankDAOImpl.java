@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.sun.org.apache.bcel.internal.generic.LSTORE;
 import com.uwl.common.Search;
 import com.uwl.service.domain.Reward;
 import com.uwl.service.domain.SchoolRank;
@@ -42,10 +43,31 @@ public class SchoolRankDAOImpl implements SchoolRankDAO {
 		sqlSession.update("SchoolRankMapper.updateSchoolRank",schoolRank);
 		
 	}
+	
+	@Override
+	public void updateSchoolTotalUser(SchoolRank schoolRank) throws Exception {
+		sqlSession.update("SchoolRankMapper.updateSchoolTotalUser",schoolRank);
+		
+	}
 
 	@Override
-	public List<SchoolRank> getSchoolRankingList(Search search) throws Exception {
-		return sqlSession.selectList("SchoolRankMapper.getSchoolRankingList", search);
+	public Map<String, Object> getSchoolRankingList(Search search, int schoolNo) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		
+		System.out.println("SchoolRankDAO getSchoolRankingList search : " + search);
+		System.out.println("SchoolRankDAO getSchoolRankingList schoolNo : " + schoolNo);
+		
+		map.put("search", search);
+		map.put("schoolNo", schoolNo);
+		
+		List<SchoolRank> list = sqlSession.selectList("SchoolRankMapper.getSchoolRankingList", map);
+		
+		map.put("totalCount", sqlSession.selectOne("ChallengeMapper.getTotalCount", map));
+		map.put("list", list);
+		
+		return map;
+		
 	}
 	
 	@Override
@@ -65,14 +87,18 @@ public class SchoolRankDAOImpl implements SchoolRankDAO {
 	}
 
 	@Override
-	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("SchoolRankMapper.getTotalCount", search);
+	public int getTotalCount(Map<String, Object> map) throws Exception {
+		//맵으로 변경
+		System.out.println("SchoolRankDAO의 getTotalCount() map : " + map);
+		return sqlSession.selectOne("SchoolRankMapper.getTotalCount", map);
 	}
 	
 	@Override
 	public int getTotalCountIndividual(Search search) throws Exception {
 		return sqlSession.selectOne("SchoolRankMapper.getTotalCountIndividual", search);
 	}
+
+	
 
 	
 

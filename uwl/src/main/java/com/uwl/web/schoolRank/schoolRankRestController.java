@@ -50,9 +50,8 @@ public class schoolRankRestController {
 	}
 	
 	@RequestMapping( value = "rest/getSchoolRankingList", method = RequestMethod.GET)
-	public Map getSchoolRankingList() throws Exception{
+	public Map getSchoolRankingList(@RequestBody SchoolRank schoolRank, @RequestBody Search search) throws Exception{
 		
-		Search search = new Search();
 		
 		System.out.println("rest/schoolRank/getSchoolRankingList : GET ");
 		
@@ -62,7 +61,7 @@ public class schoolRankRestController {
 		//flag 1 : 학교이름, 2: 주소
 		search.setPageSize(pageSize);
 		
-		Map<String, Object> map = schoolRankService.getSchoolRankingList(search);
+		Map<String, Object> map = schoolRankService.getSchoolRankingList(search, schoolRank.getSchoolNo());
 		
 		System.out.println("schoolRankController getSchoolRankingList()의 map : " + map);
 		
@@ -75,39 +74,17 @@ public class schoolRankRestController {
 		return map;
 	}
 	
-	@RequestMapping( value = "rest/getSchoolRankingList", method = RequestMethod.POST)
-	public Map getSchoolRankingList(@RequestBody Search search) throws Exception{
+	@RequestMapping( value = "rest/getIndividualRankingList", method = RequestMethod.POST)
+	public Map getIndividualRankingList(@RequestBody SchoolRank schoolRank) throws Exception{
 		
-		System.out.println("schoolRank/rest/getSchoolRankingList : POST ");
+		System.out.println("schoolRank/rest/getIndividualRankingList : POST ");
 		
-		if (search.getCurrentPage() == 0) {
-			search.setCurrentPage(1);
-		}
-		//flag 1 : 학교이름, 2: 주소
-		search.setPageSize(pageSize);
+		Search search = new Search();
 		
-		Map<String, Object> map = schoolRankService.getSchoolRankingList(search);
 		
-		System.out.println("schoolRankController getSchoolRankingList()의 map : " + map);
+		Map<String, Object> map = schoolRankService.getIndividualRankingList(search);
 		
-		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageSize, pageUnit);
-		
-		search.setPageSize((Integer)map.get("totalCount"));
-		
-		List<String> rankingNameList = new ArrayList<String>();
-		List<SchoolRank> list = (List<SchoolRank>) schoolRankService.getSchoolRankingList(search).get("list");
-		
-		for (int i = 0; i < list.size(); i++) {
-			if (!rankingNameList.contains(list.get(i).getSchoolName())) {
-				rankingNameList.add(list.get(i).getSchoolName());
-			}
-		}
-		
-		System.out.println("schoolRankController getSchoolRankingList()의 resultPage : " + resultPage);
-		
-		map.put("rankingNameList", rankingNameList);
-		map.put("resultPage", resultPage);
-		map.put("search", search);
+		System.out.println("schoolRankController getIndividualRankingList()의 map : " + map);
 		
 		return map;
 	}

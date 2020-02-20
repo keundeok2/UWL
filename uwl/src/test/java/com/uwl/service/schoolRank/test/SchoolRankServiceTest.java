@@ -50,14 +50,17 @@ public class SchoolRankServiceTest {
 	private SchoolRankService schoolRankService;
 	
 	
-	//@Test
+	@Test
 	public void testGetSchoolRankingList() throws Exception{
 		
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(4);
+		search.setStartRowNum(1);
+		search.setEndRowNum(3);
+		int schoolNo = 1438;
 		
-		Map<String, Object> map = schoolRankService.getSchoolRankingList(search);
+		Map<String, Object> map = schoolRankService.getSchoolRankingList(search, schoolNo);
 		
 //		System.out.println("ddd : " + map);
 		
