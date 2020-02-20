@@ -281,9 +281,7 @@
         $(document).ready(function() {
 
             $('.a').on("click", function() {
-                var gatherCategoryNo = $ {
-                    gatherCategoryNo
-                };
+                var gatherCategoryNo = ${gatherCategoryNo};
                 self.location = "/post/addBoard?gatherCategoryNo=" + gatherCategoryNo;
             });
 
@@ -501,7 +499,7 @@
 
 
                 <div class="a"><i class="fas fa-pencil-alt"></i></div>
-        </div>
+        
 
 
 

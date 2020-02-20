@@ -342,7 +342,7 @@ public class UserController {
 		userService.updateQuestions(post);
 		
 
-		return "redirect:/user/toolbarGetQuestions?postNo=" + post.getPostNo();
+		return "redirect:/user/getQuestions?postNo=" + post.getPostNo();
 	}
 
 	// 문의사항 내용
@@ -462,7 +462,7 @@ public class UserController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
-		return "forward:/main.jsp";
+		return "forward:/toolbarMain.jsp";
 	}
 
 	// 로그아웃

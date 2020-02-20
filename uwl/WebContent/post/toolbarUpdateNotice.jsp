@@ -14,6 +14,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
     <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
 
 
     <style>
@@ -33,10 +34,13 @@
         }
 
         body {
-            font-size: 12px;
+            font-size: 16px;
             color: #333;
             font-family: 'Roboto', sans-serif;
             font-family: 'Nanum Gothic', sans-serif;
+        }
+        h6 {
+        	font-size: 16px;
         }
 
 
@@ -247,7 +251,7 @@
             float: left;
             overflow: hidden;
             overflow-y: scroll;
-
+			font-size: 12px;
         }
 
         div.rightToolbar2 {
@@ -332,27 +336,6 @@
 
                     </div>
                     <div class="notice">
-                        <table>
-                            <tr>
-                                <td>이전글</td>
-                                <c:if test="${post2.prePostNo ne '0'">
-                                    <td><a href="/post/getNotice?postNo=${post2.prePostNo }">${post2.prePostTitle}</a></td>
-                                </c:if>
-                                <c:if test="${post2.prePostNo eq '0' and post2.prePostTitle = null}}">
-                                    <td><a href="#">이전글이 없습니다.</a></td>
-                                </c:if>
-                            </tr>
-                            <tr>
-                                <td>다음글</td>
-                                <c:if test="${post2.nextPostNo ne '0' and post2.nextPostTitle = null}">
-                                    <td><a href="/post/getNotice?postNo=${post2.nextPostNo }">${post2.nextPostTitle}</a></td>
-                                </c:if>
-                                <c:if test="${post2.nextPostNo eq '0'}">
-                                    <td><a href="#">다음글이 없습니다.</a></td>
-                                </c:if>
-                            </tr>
-
-                        </table>
                         <div class="list">
                             <a href="/post/listNotice">목록</a>
                             <a href="/post/deleteNotice?postNo=${post.postNo }">삭제</a>
