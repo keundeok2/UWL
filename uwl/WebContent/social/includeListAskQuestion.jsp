@@ -151,7 +151,7 @@
 	
 
 	//스크롤 페이징
-	var page = 1;
+	/* var page = 1;
 
 	 $(function() {
 			$(window).data('ajaxready', true).scroll(function() {
@@ -197,7 +197,7 @@
 				}
 				}
 			})
-		})
+		}) */
 
 </script>
 

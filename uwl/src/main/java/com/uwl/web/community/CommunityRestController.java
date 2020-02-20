@@ -128,18 +128,6 @@ public class CommunityRestController {
 		comment.setUserId(user.getUserId()); //session 처리해야해
 		communityService.addComment(comment);
 		
-		//	FCM push
-		String notiCode = "post";
-		Post post = postService.getBoard(comment.getPostNo());
-		if (post.getPostCategoryNo().equals("2")) {
-			notiCode = "post";
-		} else if (post.getPostCategoryNo().equals("4")) {
-			notiCode = "timeline";
-		} else if (post.getPostCategoryNo().equals("6")) {
-			notiCode = "coupleTimelineComment";
-		}
-		
-		fcmService.createReceiveNotification(comment.getUserId(), post.getUserId(), notiCode);
 		
 		//get해서 다시 붙여주는 용도
 		comment = communityService.getComment(comment.getUserId(), comment.getPostNo());

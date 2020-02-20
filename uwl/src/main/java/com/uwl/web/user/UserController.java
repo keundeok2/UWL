@@ -470,7 +470,7 @@ public class UserController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
-		return "forward:/main.jsp";
+		return "forward:/toolbarMain.jsp";
 	}
 
 	// 로그아웃
