@@ -21,6 +21,7 @@ import com.uwl.service.domain.Commentt;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.Purchase;
 import com.uwl.service.domain.Reward;
+import com.uwl.service.domain.SchoolRank;
 import com.uwl.service.domain.User;
 import com.uwl.service.reward.RewardDAO;
 import com.uwl.service.reward.RewardService;
@@ -247,6 +248,9 @@ public class ChallengeServiceTest {
 			
 			Purchase purchaseItem = new Purchase();
 			
+			User user = new User();
+			user.setUserId("user01");
+			
 			Reward reward = new Reward();
 			reward.setUserId("user01");
 			reward.setChallenge(challenge);
@@ -256,7 +260,7 @@ public class ChallengeServiceTest {
 			reward.setTotalActivityPoint(12000);
 			
 			System.out.println("JunitTest reward : " + reward + "ㅇㄴㅇㄴㅇchall : " + challenge + "map의 get : " + map.get("list"));
-			challengeService.completeChallenge(reward, challenge, map);
+			challengeService.completeChallenge(reward, challenge, map,user);
 			
 			}
 		}

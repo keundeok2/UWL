@@ -17,6 +17,7 @@
             });
         });
     </script>
+    <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
 
     <style>
         * {
@@ -35,7 +36,7 @@
         }
 
         body {
-            font-size: 12px;
+            font-size: 16px;
             color: #333;
             font-family: 'Roboto', sans-serif;
             font-family: 'Nanum Gothic', sans-serif;
@@ -214,9 +215,11 @@
             float: left;
             overflow: hidden;
             overflow-y: scroll;
-
+			font-size: 12px;
         }
-
+		h6 {
+        	font-size: 16px;
+        }
         div.rightToolbar2 {
 
             width: 300px;

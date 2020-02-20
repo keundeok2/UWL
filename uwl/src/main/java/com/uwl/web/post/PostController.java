@@ -69,7 +69,7 @@ public class PostController {
 		
 		
 		model.addAttribute("post", post);
-		return "forward:/post/getBoard.jsp";
+		return "forward:/post/toolbarGetBoard.jsp";
 	}
 	
 	@RequestMapping(value ="addBoard", method=RequestMethod.GET)	//------------------------------------------------테스트 종료
@@ -79,7 +79,7 @@ public class PostController {
 		
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
 		
-		return "forward:/post/addBoard.jsp";
+		return "forward:/post/toolbarAddBoard.jsp";
 	}
 	
 	//원본
@@ -150,7 +150,7 @@ public class PostController {
 		System.out.println("updateBoard.GET");
 		Post post = postService.getBoard(postNo);
 		model.addAttribute("post", post);
-		return "forward:/post/updateBoard.jsp";
+		return "forward:/post/toolbarUpdateBoard.jsp";
 	}
 	
 	@RequestMapping(value="updateBoard", method=RequestMethod.POST)	//------------------------------------------------테스트 종료
@@ -178,13 +178,13 @@ public class PostController {
 			postService.updateBoard(post);
 			post = postService.getBoard(post.getPostNo());
 			model.addAttribute("post", post);
-			return "forward:/post/getBoard.jsp";
+			return "forward:/post/toolbarGetBoard.jsp";
 		}else { 	//썸네일을 안올렸을 때
 			post.setUploadFileName("empty.jpg");
 			postService.updateBoard(post);
 			post = postService.getBoard(post.getPostNo());
 			model.addAttribute("post", post);
-			return "forward:/post/getBoard.jsp";
+			return "forward:/post/toolbarGetBoard.jsp";
 			}
 		}
 
@@ -212,7 +212,7 @@ public class PostController {
 		model.addAttribute("search", search);
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
 		model.addAttribute("postChallenge", postChallenge);
-		return "forward:/post/listBoard.jsp";
+		return "forward:/post/toolbarListBoard.jsp";
 	}
 	
 	

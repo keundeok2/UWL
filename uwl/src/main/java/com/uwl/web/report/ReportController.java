@@ -62,7 +62,7 @@ public class ReportController {
 			model.addAttribute("comment", comment);
 		}
 		model.addAttribute("report", report);
-		return "forward:/report/getReport.jsp";
+		return "forward:/report/toolbarGetReport.jsp";
 	}
 	
 	@RequestMapping(value="addReport", method=RequestMethod.POST)	//게시글 신고
@@ -110,6 +110,6 @@ public class ReportController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-		return "forward:/report/listReport.jsp";
+		return "forward:/report/toolbarListReport.jsp";
 	}
 }

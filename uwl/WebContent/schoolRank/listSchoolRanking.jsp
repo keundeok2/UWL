@@ -31,38 +31,13 @@
 	
 	//document가 열린다면
 	$(document).ready(function(){
-		//session의 userId를 가져옴
-		var userId = "${user.userId}";
-		
-		/*  $.ajax({
-				url : "/schoolRank/rest/getMySchool",
-				method : "POST",
-				headers : {
-					"Accept" : "application/json",
-					"Content-Type" : "application/json"
-				},
-				data : JSON.stringify({
-					userId : userId
-				}),
-				success : function(school) {
-					//alert(school)
-					var userId = school.userId;
-					var schoolName = school.schoolName;
-					
-					alert("회원아이디 : " + userId + "학교이름 : " + schoolName);
-					console.log("회원아이디 : " + userId + "학교이름 : " + schoolName);
-					
-					 for (var i = 0; i < schoolCount; i++) {
-						schoolListName = ${schoolRank.schoolName}
-						 alert(schoolListName);
-					} 
-				 	
-				 	
-				}
+
+		$(':button').on("click",function(){
+			
+			//self.location = "/schoolRank/getSchoolRankingList"
+			$('form').attr("method","POST").attr("action", "/schoolRank/listSchoolRanking").submit();
 				
-				
-			}); //end of ajax */
-		
+		});
 		
 	});
 	
@@ -79,7 +54,7 @@
 </head>
 <body>
 
-	<form class="form-signin">
+	<form class="form-signin" name="testForm">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -93,15 +68,26 @@
 							<div class="text-center">
 								<h3 style="color: #2C3E50"><i class="fas fa-school"></i> Ranking List</h3>
 								
-										<input type="radio" name="searchCondition" value="1" checked="checked"/>학교랭킹
+										<!-- <input type="radio" name="searchCondition" value="1" checked="checked"/>학교랭킹
 										<input type="radio" name="searchCondition" value="2"/>개인랭킹
+										 &emsp; -->
+										 
+										<c:if test="${search.searchCondition eq 1 }">
+											<input type="radio" name="searchCondition" value="1" checked="checked"/>학교랭킹
+											<input type="radio" name="searchCondition" value="2"/>개인랭킹
+										</c:if>
+										<c:if test="${search.searchCondition eq 2 }">
+											<input type="radio" name="searchCondition" value="1"/>학교랭킹
+											<input type="radio" name="searchCondition" value="2" checked="checked"/>개인랭킹
+										</c:if>		
 										 &emsp;
 									<br>
 									<br>
-								<button type="button" class="btn btn-danger btn-lg btn3d" style="padding: 5px 30px" id="searchReportButton">
+								<button type="button" class="btn btn-danger btn-lg btn3d" style="padding: 5px 30px" >
 									<i class="fas fa-search"></i>
 								</button>
 							</div>
+							<c:if test="${search.searchCondition eq 1 }">
 								<h5 style="text-align: right;">
 									<label>
 										<i class="fas fa-school"></i> ${mySchool.schoolName} 
@@ -124,36 +110,95 @@
 									</thead>
 									<tbody>
 
-
-										<c:set var="i" value="0" />
-										<c:forEach var="schoolRank" items="${list}">
-											<c:set var="i" value="${i+1 }" />
-											<tr>
-												
-												<td class="text-center" width="70px">
-													<c:if test="${schoolRank.ranking == 1}">
-														<i class="fas fa-medal" style="color: #ffd700;"></i>
-													</c:if>
-													<c:if test="${schoolRank.ranking == 2}">
-														<i class="fas fa-medal" style="color: #c0c0c0;"></i>
-													</c:if>
-													<c:if test="${schoolRank.ranking == 3}">
-														<i class="fas fa-medal" style="color: #800000;"></i>
-													</c:if>
-													${schoolRank.ranking}
-												</td> 
-												<td class="text-center" width="100px"> ${schoolRank.schoolName}</td>
-												<td class="text-center" width="150px">${schoolRank.schoolAddress}</td>
-												<td class="text-center" width="90px"> <i class="fas fa-running"></i> 
-													<fmt:formatNumber value="${schoolRank.totalActivityPoint}" pattern="#,###" /> 점
-												</td>
-											</tr>
-										</c:forEach>
-
+										<c:if test="${search.searchCondition == 1}">
+											<c:set var="i" value="0" />
+											<c:forEach var="schoolRank" items="${list}">
+												<c:set var="i" value="${i+1 }" />
+												<tr>
+														
+													<td class="text-center" width="70px">
+														<c:if test="${schoolRank.ranking == 1}">
+															<i class="fas fa-medal" style="color: #ffd700;"></i>
+														</c:if>
+														<c:if test="${schoolRank.ranking == 2}">
+															<i class="fas fa-medal" style="color: #c0c0c0;"></i>
+														</c:if>
+														<c:if test="${schoolRank.ranking == 3}">
+															<i class="fas fa-medal" style="color: #800000;"></i>
+														</c:if>
+														${schoolRank.ranking}
+													</td> 
+													<td class="text-center" width="100px"> ${schoolRank.schoolName}</td>
+													<td class="text-center" width="150px">${schoolRank.schoolAddress}</td>
+													<td class="text-center" width="90px"> <i class="fas fa-running"></i> 
+														<fmt:formatNumber value="${schoolRank.totalActivityPoint}" pattern="#,###" /> 점
+	
+													</td>
+												</tr>
+											</c:forEach>
+										</c:if>
+										
 									</tbody>
 								</table>
 								<!-- 이제부터 무한스크롤 구현 -->
+							</c:if>	<!-- end of search eq 1 -->
+							
+							<c:if test="${search.searchCondition eq 2 }">
+								<h5 style="text-align: right;">
+									<label>
+										내 점수 : <i class="fas fa-running"></i> 
+									<%-- <fmt:formatNumber value="${reward.recentlyTotalActivityPoint}" pattern="#,###" />점 --%>
+									
+									</label>
+								</h5>
+							<br />
+							<div class="panel-body">
+
+								<table class="table table-striped table-condensed">
+									<thead>
+										<tr>
+											<th class="text-center" width="70px"><i class="fas fa-medal"></i> Rank</th>
+											<th class="text-center" width="100px"><i class="fas fa-school"></i> 유저아이디</th>
+											<th class="text-center" width="150px"><i class="fas fa-map-marker-alt"></i> 소속학교</th>
+											<th class="text-center" width="90px">총 점수</th>
+										</tr>
+									</thead>
+									<tbody>
+
+										<c:if test="${search.searchCondition == 2}">
+											<c:set var="i" value="0" />
+											<c:forEach var="schoolRank" items="${individualRank}">
+												<c:set var="i" value="${i+1 }" />
+												<tr>
+														
+													<td class="text-center" width="70px">
+														<c:if test="${schoolRank.ranking eq '1'}">
+															<i class="fas fa-medal" style="color: #ffd700;"></i>
+														</c:if>
+														<c:if test="${schoolRank.ranking eq '2'}">
+															<i class="fas fa-medal" style="color: #c0c0c0;"></i>
+														</c:if>
+														<c:if test="${schoolRank.ranking eq '3'}">
+															<i class="fas fa-medal" style="color: #800000;"></i>
+														</c:if>
+														${schoolRank.ranking}
+													</td> 
+													<td class="text-center" width="100px"> ${schoolRank.userId}</td>
+													<td class="text-center" width="150px">${schoolRank.schoolName}</td>
+													<td class="text-center" width="90px"> <i class="fas fa-running"></i> 
+														<fmt:formatNumber value="${schoolRank.recentlyTotalActivityPoint}" pattern="#,###" /> 점
+	
+													</td>
+												</tr>
+											</c:forEach>
+										</c:if>
+										
+									</tbody>
+								</table>
+								<!-- 이제부터 무한스크롤 구현 -->
+							</c:if>	<!-- end of search eq 2 -->
 							</div>
+							
 						</div>
 					</div>
 				</div>
