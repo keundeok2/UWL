@@ -32,10 +32,10 @@
 			$('form.form-signin').attr("method","POST").attr("action", "/report/listReport").submit();
 		});
 		
-		/* $("tr").on("click",function(){
-			var reportNo = $(this).find(".reportNo").val();
-			self.location = "/report/getReport?reportNo="+reportNo;
-		}); */
+		 $("tr").on("click",function(){     ////////셀렉터 바꿔서 누른 신고게시글 가져오기....바꿔야댐 < 2020 02 21 >
+			var reportNo = $(this).find(".reportNo").val();  
+			self.location = "/report/getReport?reportNo="+reportNo; 
+		}); 
 	});
 	
 	

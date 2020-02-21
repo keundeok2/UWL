@@ -131,6 +131,11 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 		return sqlSession.selectList("ChallengeMapper.getDetailCategoryList", detailCategory);
 	}
 
+	@Override
+	public Challenge getWeeklyStart() throws Exception {
+		return sqlSession.selectOne("ChallengeMapper.getWeeklyStart");
+	}
+
 	
 	
 	

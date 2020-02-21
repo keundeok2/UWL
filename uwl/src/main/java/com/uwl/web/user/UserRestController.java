@@ -480,6 +480,7 @@ public class UserRestController {
 	//네이버로그인
 		@RequestMapping( value = "rest/naverLoginUrlMake" )
 		public Map naverLogin( HttpSession session ) throws Exception {
+			System.out.println("들어왔다 ");
 			// 네이버 아이디로 로그인(회원가입) 절차 
 			// 네이버 아이디로 인증 요청 => 접근 토큰 발급 => 접근 토큰을 이용해 네이버 회원 프로필 조회
 			// 해당 부분은 네이버 아이디로 인증 요청을 위한 URL 작성 구간

@@ -177,7 +177,7 @@
 	 </select>
 	 
 	 <!-- SQL : SELECT ONE  -->
-	 <select  id="weeklyStart"  	resultMap="challengSelectMap">
+	 <select  id="getWeeklyStart" resultMap="challengSelectMap">
 	  	
 	  	SELECT the_latest.weekly_start weekly_start,
 					weekly_end.	weekly_end	weekly_end		FROM
@@ -201,7 +201,7 @@
 	 
 	 <!-- SQL : SELECT LIST- USER용(3개 랜덤 추출) 파라미터타입 필요없지만 검색을 위해 남겨둠 -->
 	 <select  id="getChallengeList" parameterType="challenge" resultMap="challengSelectMap">
-	 	 SELECT * FROM  (SELECT * FROM challenge WHERE weekly_start IS NULL
+	 	 SELECT * FROM  (SELECT * FROM challenge WHERE weekly_start IS NULL AND view_status = '1'
                     		 	 ORDER BY dbms_random.value)
 		WHERE ROWNUM &lt;= 3
 	 </select> 
@@ -236,7 +236,7 @@
 									chall_reward,
 									view_status,
 									weekly_start FROM challenge
-									WHERE weekly_start IS NULL
+									WHERE weekly_start IS NULL AND view_status = '1'
 			 				<if test="searchCondition != null">
 								<where>
 									<if test="searchCondition == 1 and searchKeyword !='' ">

@@ -15,7 +15,22 @@
     <script src="https://kit.fontawesome.com/fb8ae6e812.js" crossorigin="anonymous"></script>
     <!-- 나눔고딕 -->
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Noto+Sans+KR&display=swap" rel="stylesheet">
-
+	<script src="/javascript/iscroll.js"></script>
+	<script type="text/javascript">
+	var myScroll = null;
+    
+    $(function() {
+    	
+        myScroll = new IScroll('#wrapper', {
+            mouseWheel: true,
+            scrollbars: true
+        });
+        
+        setTimeout(function() {
+    		myScroll.refresh();
+    		}, 0);
+	});
+	</script>
     <style>
         div.challDate {
             text-align: right;
@@ -37,67 +52,6 @@
         }
     </style>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        li {
-            list-style: none;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        a:hover {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        body {
-            color: #333;
-            font-size: 16px;
-            font-family: 'Roboto', sans-serif;
-            font-family: 'Nanum Gothic', sans-serif;
-
-        }
-
-        div.layoutWrap {
-
-            width: 100%;
-            min-height: 200vh;
-            padding: 0 20%;
-            position: relative;
-        }
-
-        div.leftToolbar {
-            width: 20%;
-            height: 100vh;
-
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            background: #fff;
-            border-right: 1px solid #eee;
-        }
-
-        div.rightToolbar {
-            width: 20%;
-            height: 100vh;
-
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            background: #fff;
-            border-left: 1px solid #eee;
-        }
-    </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
         * {
@@ -131,7 +85,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -140,31 +94,35 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
-            overflow: hidden;
-            overflow-y: scroll;
-
+            
+            position: relative;
+			
         }
 
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
         }
+        
+        
     </style>
 </head>
 
@@ -173,7 +131,8 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        	<ul>
             <div>
 
                 <div>
@@ -266,6 +225,7 @@
 
 
             </div>
+            </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />

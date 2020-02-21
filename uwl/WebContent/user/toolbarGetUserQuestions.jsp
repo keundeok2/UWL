@@ -30,6 +30,20 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
     <script type="text/javascript">
+    
+    var myScroll = null;
+    
+    $(function() {
+    	
+        myScroll = new IScroll('#wrapper', {
+            mouseWheel: true,
+            scrollbars: true
+        });
+        
+        setTimeout(function() {
+    		myScroll.refresh();
+    	}, 0);
+    })
         // 	$(function() {
         // 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
         // 		$("button").on("click", function() {
@@ -47,7 +61,7 @@
     		
     		if(postNo == '0'){
     			
-    			swal({
+    			swal.fire({
     			    title: "현재 처리중인 문의사항입니다",
     			    
     			    icon: "info" //"info,success,warning,error" 중 택1
@@ -432,7 +446,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -441,72 +455,34 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
-            overflow: hidden;
-            overflow-y: scroll;
-			font-size: 12px;
+            
+            position: relative;
+			
         }
 
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
         }
-        h6 {
-        	font-size: 16px;
-        }
-        div.wrap nav {
-
-            padding: 15px 0;
-            border-bottom: 1px solid #EBAD7A;
-            margin-top: 50px;
-            text-align: center;
-            
-        }
-
-
-        div.wrap nav ul li a {
-
-            padding: 10px 15px;
-            color: #333;
-            font-weight: bold;
-            
-        }
-
-        div.wrap nav ul li.on a {
-            background-color: #eee;
-            
-
-            color: #e9a064;
-
-        }
-
-        div.wrap nav ul li a:hover {
-            background-color: #eee;
-            
-
-            color: #e9a064;
-        }
-
-        div.wrap nav ul li a:hover i {
-            background-color: #eee;
-
-            color: #333;
-        }
+        
     </style>
 </head>
 
@@ -515,9 +491,10 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        <ul>
             <div class="wrap">
-
+	
                 <div class="main">
                     <div class="mainHeader">
                         <span>내가올린 문의사항</span>
@@ -578,6 +555,7 @@
 				  </form>
                 
             </div>
+            </ul>
         </div>
         
         <div class="rightToolbar2">
