@@ -33,6 +33,9 @@ public interface ChallengeService {
 	//등록된 도전과제를 삭제하는 method (플래그만 해서 지울것? 아니면 진짜로 db에서 delete??)
 	public void deleteChallenge(Challenge challenge) throws Exception;
 	
+	//주간으로 진행되는 도전과제의 시작날짜와 끝의 시간을 가져오는 method
+	public Challenge getWeeklyStart() throws Exception;
+	
 	//user들이 보는 도전과제 list (주간 도전과제 수행 전)
 	public Map<String, Object> getChallengeList() throws Exception;
 	

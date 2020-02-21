@@ -8,6 +8,7 @@
     <title>Insert title here</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="/javascript/iscroll.js"></script>
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
 
@@ -144,6 +145,21 @@
 
 
     <script type="text/javascript">
+    	
+	    var myScroll = null;
+	    
+	    $(function() {
+	    	
+	        myScroll = new IScroll('#wrapper', {
+	            mouseWheel: true,
+	            scrollbars: true
+	        });
+	        
+	        setTimeout(function() {
+	    		myScroll.refresh();
+	    		}, 0);
+		});
+    
         function fncAddChallenge() {
 
             //Form 유효성 검증
@@ -544,7 +560,7 @@
             border-left: 1px solid #eee;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -577,7 +593,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -586,31 +602,35 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
-            overflow: hidden;
-            overflow-y: scroll;
-
+            
+            position: relative;
+			
         }
 
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
         }
+        
+        
     </style>
 </head>
 
@@ -619,7 +639,8 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        	<ul>
             <form enctype="multipart/form-data">
                 <div>
                     <div></div>
@@ -686,6 +707,7 @@
                     </div>
                 </div>
             </form>
+            </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />

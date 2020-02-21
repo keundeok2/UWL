@@ -210,7 +210,7 @@
 		});
 		
 		/* update event */
-		$( "div.wrap > div:nth-child(4) a:contains('수정')" ).on("click" , function() {
+		$( "#updateButton" ).on("click" , function() {
 			var challNo = ${challenge.challNo};
 			console.log("challNo : " + challNo);
 			self.location ="/challenge/updateChallenge/" + challNo;   
@@ -224,7 +224,7 @@
 		}); */
 		
 	/* delete event */
-	 $( "div.wrap > div:nth-child(4) a:contains('삭제')" ).on("click" , function() {
+	 $( "#deleteButton" ).on("click" , function() {
 	 	
 		Swal.fire({
 			  title: '삭제하시겠습니까?',
@@ -335,8 +335,8 @@
         </div>
         <div class="bottom">
 	        <div class="list" >
-	             <a href="#">수정</a>
-	             <a href="#">삭제</a>
+	             <a href="#" id="updateButton">수정</a>
+	             <a href="#" id="deleteButton">삭제</a>
 	        </div>
         </div>
          

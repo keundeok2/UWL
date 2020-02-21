@@ -226,6 +226,11 @@ public class ChallengeServiceImpl implements ChallengeService{
 		return list;
 	}
 
+	@Override
+	public Challenge getWeeklyStart() throws Exception {
+		return challengeDAO.getWeeklyStart();
+	}
+
 	
 
 }

@@ -208,7 +208,7 @@ public class ChallengeServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testCompleteChallenge() throws Exception{
 		
 		
@@ -273,6 +273,12 @@ public class ChallengeServiceTest {
 		challenge = challengeService.getNextOrPrePost(challenge.getChallNo());
 		
 		
+	}
+	
+	//@Test
+	public void testGetWeeklyStart() throws Exception{
+		
+		Challenge challenge = challengeService.getWeeklyStart();
 	}
 		
 		
