@@ -55,7 +55,7 @@
 	    				if ($("section.displaySection div.list5").hasClass('on')) {
 	    					askQuestionInfiniteScroll();
 	    				}
-	    				// list3 , list4 on 일때 추가하기
+	    				// list3 , list4 on 일때 추가하기 커플타임라인, 커플캘린더
 	    			}
 	    		});
 	    	
@@ -1407,7 +1407,7 @@
                                 비공개 계정입니다.
                             </c:if>
                             <c:if test="${user.publicStatus == 1 }">
-                                저장됨ㅋㅋ
+                            <%-- <jsp:include page="/couple/listCoupleTimelinePost2.jsp" /> --%>
                             </c:if>
                         </div>
                         <div class="list4">

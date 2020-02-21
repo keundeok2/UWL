@@ -15,9 +15,28 @@
     <script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
+    <script src="/javascript/iscroll.js"></script>
     <title>Document</title>
+    
 
     <script type="text/javascript">
+    
+    var myScroll = null;
+    
+    $(function() {
+    	
+        myScroll = new IScroll('#wrapper', {
+            mouseWheel: true,
+            scrollbars: true
+        });
+        
+        setTimeout(function() {
+    		myScroll.refresh();
+    	}, 0);
+    })
+    
+    
+    
         var sessionName = "${user.name}";
 
         $(function() {
@@ -320,7 +339,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -329,40 +348,35 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
-            overflow: hidden;
-            overflow-y: scroll;
-
+            
+            position: relative;
+			
         }
 
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
         }
         
-        div.searchList {
-        	margin-bottom : 30px;
-        }
         
-        div.searchList span a {
-        	display : inline-block;
-        	font-weight: bold;
-        }
     </style>
 </head>
 
@@ -371,16 +385,17 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        <ul>
             <div class="container">
                 <input type="hidden" name="sessionId" id="sessionId" value="${user.userId}">
                 <br />
                 <div class="row justify-content-center">
                     <c:forEach var="friendUser" items="${map.list}">
                         <div class="col-sm-8 col-md-8">
-                            <div id="${friendUser.userId}" class="searchList">
+                            <div id="${friendUser.userId}" class="searchList" style="margin-bottom : 30px;">
                                 <img src="../../images/${friendUser.profileName}" class="searchProfileName" id="searchProfileName" />&nbsp;
-                                <span class="searchName" style="margin-right:20px;"><a href="#">${friendUser.name}</a></span>
+                                <span class="searchName" style="margin-right:20px; font-weight : bold"><a href="#">${friendUser.name}</a></span>
                                 <span style="margin-right:20px;">${friendUser.schoolName}</span>
                                 <button type="button" class="btn btn-outline-primary ${friendUser.userId}" id="applyBtn">친구신청</button>
                                 <input type="hidden" value="${friendUser.userId}" />
@@ -393,6 +408,7 @@
                 </div>
 
             </div>
+            </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />

@@ -480,7 +480,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -489,32 +489,35 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
-            overflow: hidden;
-            overflow-y: scroll;
-
+            
+            position: relative;
+			
         }
 
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
         }
-
+        
+        
     </style>
 </head>
 

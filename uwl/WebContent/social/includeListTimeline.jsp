@@ -33,7 +33,16 @@
 		.submit();
 	})
 	
+	
+	//	댓글 버튼
 	$(document).on("click", ".commentBtn", function() {
+		$(".addCommentDiv").remove();
+		if ($(this).hasClass('commentDivOn')) {
+			$(this).removeClass('commentDivOn');
+		} else if (!$(this).hasClass('commentDivOn')) {
+			$(".commentDivOn").removeClass("commentDivOn");
+			$(this).addClass('commentDivOn');
+		
 		postNo = $(this).val();
 		console.log("postNo", postNo);
 		
@@ -46,17 +55,17 @@
 			},
 			data : JSON.stringify({searchCondition : "1", userId : "", postNo : postNo, searchKeyword : postNo}),
 			success : function(d) {
-				$(".addCommentDiv").remove();
 				
 				var html = "<div class='addCommentDiv'>";
 				if (d.list.length != 0) {
 					
 					for (var i = 0; i < d.list.length; i++) {
 						if (targetUserId == sessionId) {
-							html += "<div class='c"+d.list[i].commentNo+"'><i class='fas fa-times deleteCommentBtn'><input type='hidden' value='"+d.list[i].postNo+"' id='postNoini'><input type='hidden' value='"+d.list[i].commentNo+"' id='commentNoini'></i>";
+							html += "<div class='c"+d.list[i].commentNo+"'>";
 						}
 						
-						html += "<hr/><img src='/images/"+d.list[i].user.profileName+"' class='commentProfileName'><p class='commentPtag'>"+d.list[i].user.name+" &nbsp; "+d.list[i].commentContent+"</p></div>";
+						html += "<hr/><div class='commentPtag'><img src='/images/"+d.list[i].user.profileName+"' class='commentProfileName'><p class='commentUserName'>"+d.list[i].user.name+"</p> &nbsp; <p class='commentUserContent cc"+d.list[i].commentNo+"'>"+d.list[i].commentContent+"</p>";
+						html += "<input type='hidden' value='"+d.list[i].postNo+"' id='postNoini'><input type='hidden' value='"+d.list[i].commentNo+"' id='commentNoini'><i class='fas fa-pen updateCommentBtn'></i><i class='far fa-trash-alt deleteCommentBtn'></i></div></div>";
 					}
 					
 					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글입력 후 Enter'>";
@@ -70,8 +79,10 @@
 	        	}, 0);
 			}
 		})
+	}
 	});
 	
+	// 댓글작성 enter
 	$(document).on("keypress", ".regCommentText", function(e) {
 		var content = $(this).val();
 		
@@ -91,10 +102,10 @@
 				},
 				data : JSON.stringify({commentContent : content, userId : sessionId, postNo : postNo}),
 				success : function(d) {
-					var html ="<div class='c"+d.commentNo+"'><i class='fas fa-times deleteCommentBtn'><input type='hidden' value='"+d.postNo+"' id='postNoini'><input type='hidden' value='"+d.commentNo+"' id='commentNoini'></i>"
-							+"<hr/><a href='#'><img src='/images/"+d.user.profileName+"' class='commentProfileName'></a>"
-							+"<p class='commentPtag'>"+d.user.name+" &nbsp; "+d.commentContent+"</p>"
-							+"<input type='hidden' value='"+d.commentNo+"'></div>"
+					var html ="<div class='c"+d.commentNo+"'>"
+							+"<hr/><div class='commentPtag'><img src='/images/"+d.user.profileName+"' class='commentProfileName'>"
+							+"<p class='commentUserName'>"+d.user.name+"</p> &nbsp; <p class='commentUserContent' cc"+d.commentNo+"'>" + d.commentContent+"</p>"
+							+"<input type='hidden' value='"+d.postNo+"' id='postNoini'><input type='hidden' value='"+d.commentNo+"' id='commentNoini'><i class='fas fa-pen updateCommentBtn'></i><i class='far fa-trash-alt deleteCommentBtn'></i></div>";
 					$(".addCommentDiv").prepend(html);
 					$("input.regCommentText").val("");
 					setTimeout(function() {
@@ -106,12 +117,12 @@
 		}
 	});
 		
+	//	댓글삭제
 	$(document).on("click", ".deleteCommentBtn", function() {
-		//var commentNo = $(this).next().next().next().val();
-		var commentNo = $(this).children("#commentNoini").val();
+		var commentNo = $(this).parent().children("#commentNoini").val();
 		console.log("commentNo", commentNo);
-		var postNo = $(this).children("#postNoini").val();
-		console.log("postNo", postNo)
+		var postNo = $(this).parent().children("#postNoini").val();
+		console.log("postNo", postNo);
 		
 		var pureAlert = $.pureAlert.confirm({
 			title : "알림",
@@ -139,6 +150,51 @@
 		});
 		});
 	});
+	
+	// 댓글 수정 버튼 
+	$(document).on("click", ".updateCommentBtn", function() {
+		$(".updateCommentText").remove();
+		if ($(this).hasClass('updateTextOn')) {
+			$(this).removeClass('updateTextOn');
+		} else if (!$(this).hasClass('updateTextOn')) {
+			$(".updateTextOn").removeClass("updateTextOn");
+			$(this).addClass('updateTextOn');
+			var html = "<input type='text' class='form-control updateCommentText' name='commentContent' placeholder='입력 후 Enter'>";
+			$(this).next().after(html);
+		}
+		
+		
+	});
+	
+		// 댓글수정 enter
+		$(document).on("keypress", ".updateCommentText", function(e) {
+			var content = $(this).val();
+			var commentNo = $(this).prev().prev().prev().val();
+			if (e.which == 13) {
+				
+				console.log("content", content);
+				console.log("commentNo", commentNo);
+				
+				$.ajax({
+					url : "/community/rest/updateComment",
+					method : "POST",
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					data : JSON.stringify({
+						commentContent : content,
+						commentNo : commentNo
+					}),
+					success : function() {
+						$(".cc"+commentNo+"").html(content);
+						$(".updateCommentText").remove();
+					}
+				});
+			}
+		});
+	
+	
 	
 	$(document).on("click", ".postUpdateBtn", function() {
 		var postContent = $(this).prev().prev().html();
@@ -418,11 +474,10 @@ ul.timeline > li:before {
 .regCommentText {
 	margin-top: 5px; 
 }
-.deleteCommentBtn {
-	margin-top : 22px;
-	float: right;
+.deleteCommentBtn,
+.updateCommentBtn {
+	margin-left : 10px;
 	cursor: url;
-	
 }
 .postUpdateBtn {
 	float: right;
@@ -440,12 +495,15 @@ ul.timeline > li:before {
 }
 
 .commentProfileName {
+	display : inline-block;
 	width : 30px;
 	height : 30px;
 	border-radius: 30px;
 }
-
-p.commentPtag {
+div.commentPtag p {
+	display: inline;
+}
+div.commentPtag p i{
 	display: inline-block;
 }
 
@@ -469,7 +527,6 @@ div.modal-backdrop.show {
 	<div class="askBody">
 		<div>
 			<div>
-				<h4 style="margin-left:20px">${targetUserId}님의 Timeline</h4>
 			<c:if test="${targetUserId eq user.userId }">
 				<div class="addFormDiv">
 				<form id="addTimelineForm" enctype="multipart/form-data">
