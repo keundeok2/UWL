@@ -1328,108 +1328,118 @@
 				    			}//listChattingRoom end
 						  }); 						
 					}			//유저의 채팅방이 하나도 없을때 if 종료
-					for(var i=0; i<data.length; i++){				//-----------------유저의 채팅방 목록을 불러올 수 있을때
-						console.log('난 채팅방이 여러개다');				//확인완료
-						if((data[i].master == sessionUserId && data[i].enterUser == targetId) || (data[i].master == targetId && data[i].enterUser == sessionUserId)){	//이미 하고있는 채팅?
-							console.log('기존에 채팅중이었던 유저다');
-							chattingRoomNo = data[i].roomNo;
-							socket.emit("enterUserId", data[i].master);
-							socket.emit("targetId", data[i].enterUser);
-							socket.emit("chattingRoomNo", chattingRoomNo);
-							$('div.chattingBox').toggleClass('on');
-							$('.chattingBoxContent').animate({
-				        		'scrollTop': '10000000px'
-				        	});
-							$('div.chattingBox').css({
-								'bottom': '30px',
-								'right': '160px',
-								"z-index": '9'
-							});			//-------------------------------------------------------확인완료
-							break;
-						}else{			//--------------------------------------------------첫 채팅의 시작 여기로 엄청빠짐
-							console.log('채팅 중이 아니었네!');		//------------------확인완료
-							$.ajax({
-								 url : "/chatting/rest/addChattingRoom",
-								 method : "POST",
-								 dataType : 'json',
-								 data : JSON.stringify({
-									 master : sessionUserId,
-									 enterUser : targetId
-								 }),
-								 headers : {
-					    				"Accept" : "application/json",
-					    				"content-Type" : "application/json"
-					    			},
-					    		success : function(data){
-					    				//console.log('채팅방 생성을 완료했다.')		--------------------확인완료
-					    				if(data == true){ //만들어졌다면 룸너버 가져오기
-					    					///console.log('진짜로 채팅방이 만들어졌다');	//-------------확인완료
-					    					$.ajax({
-					    						url : "/chatting/rest/getChattingRoomList",
-					    						method : "POST",
-					    						headers : {
-					    							"Accept" : "application/json",
-					    							"Content-Type" : "application/json"
-					    						},
-					    						data : JSON.stringify({
-					    							master : sessionUserId
-					    						}),
-					    						success : function(data){
-					    							for(var i=0; i<data.length; i++){
-					    								//console.log(data[i]);	///------------------------ 잘 가져옴 확인완료
-					    								if((data[i].master == sessionUserId && data[i].enterUser == targetId) || (data[i].master == targetId && data[i].enterUser == sessionUserId)){
-					    									//console.log('기존에 채팅중이었던 방이다.'); -----------------확인완료 (for문 제어 잘해주길)
-					    									chattingRoomNo = data[i].roomNo;
-					    									socket.emit("enterUserId", data[i].master);
-					    									socket.emit("targetId", data[i].enterUser);
-					    									socket.emit("chattingRoomNo", chattingRoomNo);
-					    									
-					    									var view = "<li><a href='#'>"
-							                    				+"<div class='profileImage'>"
-											                        +"<img src='/images/bonobono.jpg' alt=''>&emsp;"
-											                    +"</div>"
-											                    +"<div class='chattingInfo'>"
-											                        +"<div class='chattingUser'>"
-											                            +"<p>"+data[i].enterUserName+"</p>"
-											                            +"<p>오전 10:13</p>"
-											                            +"<input type='hidden' id='chattingUserId' value='"+sessionUserId+"'>"
-													                    +"<input type='hidden' id='roomNo' value='"+chattingRoomNo+"'>"
-											                        +"</div>"
-											                        "<div class='chattingContent'>"
-											                            +"줄여서 테마"
-											                        +"</div>"
-											                    +"</div>"
-											                +"</a></li>";
-											      		 $('#forFriendListAppend').after(view);
-					    									
-					    									$('div.chattingBox').addClass('on');
-					    									$('.chattingBoxContent').animate({
-					    						        		'scrollTop': '10000000px'
-					    						        	});
-					    									$('div.chattingBox').css({
-					    										'bottom': '30px',
-					    										'right': '160px',
-					    										"z-index": '9'
-					    									});	
-					    									break;
-					    								}
-					    								console.log('for control');
-					    							//break;             -----------------------존재의 이유 다시 생각
-					    							} //for end
-					    						},	//success 끝
-					    						error : function(){
-					    							console.log('새로운 채팅방 갱신 실패 ㅋㅋ');
-					    						}
-					    					});
-					    				}	//채팅방이 잘 만들어졌다의 if end
-					    			},  //getChattingRoomList end-----------
-					    			error : function(){
-					    				console.log('에러당 ㅋㅋ')
-					    			}
-							  });
-							break;
-						} 	//채팅방이 없는 유저가 아니라면 else end
-					}		//유저 채팅방 목록 찾을 수 있게 해주는 for end
+					
+					else{		//유저의 채팅방이 기존에 몇개 있을때
+						var cnt = 0;
+						for(var i=0; i<data.length; i++){				//-----------------유저의 채팅방 목록을 불러올 수 있을때
+							console.log('난 채팅방이 여러개다');				//확인완료
+							if((data[i].master == sessionUserId && data[i].enterUser == targetId) || (data[i].master == targetId && data[i].enterUser == sessionUserId)){	//이미 하고있는 채팅?
+								cnt = cnt+1;
+								console.log('기존에 채팅중이었던 유저다');
+								chattingRoomNo = data[i].roomNo;
+								socket.emit("enterUserId", data[i].master);
+								socket.emit("targetId", data[i].enterUser);
+								socket.emit("chattingRoomNo", chattingRoomNo);
+								$('div.chattingBox').toggleClass('on');
+								$('.chattingBoxContent').animate({
+					        		'scrollTop': '10000000px'
+					        	});
+								$('div.chattingBox').css({
+									'bottom': '30px',
+									'right': '160px',
+									"z-index": '9'
+								});			//-------------------------------------------------------확인완료
+							}
+						}		//유저 채팅방 목록 찾을 수 있게 해주는 for end//--------------------------------------------------첫 채팅의 시작 여기로 엄청빠짐
+							if(cnt == 0){
+								
+							
+								console.log('채팅 중이 아니었네!');		//------------------확인완료
+								$.ajax({
+									 url : "/chatting/rest/addChattingRoom",
+									 method : "POST",
+									 dataType : 'json',
+									 data : JSON.stringify({
+										 master : sessionUserId,
+										 enterUser : targetId
+									 }),
+									 headers : {
+						    				"Accept" : "application/json",
+						    				"content-Type" : "application/json"
+						    			},
+						    		success : function(data){
+						    				//console.log('채팅방 생성을 완료했다.')		--------------------확인완료
+						    				if(data == true){ //만들어졌다면 룸너버 가져오기
+						    					///console.log('진짜로 채팅방이 만들어졌다');	//-------------확인완료
+						    					$.ajax({
+						    						url : "/chatting/rest/getChattingRoomList",
+						    						method : "POST",
+						    						headers : {
+						    							"Accept" : "application/json",
+						    							"Content-Type" : "application/json"
+						    						},
+						    						data : JSON.stringify({
+						    							master : sessionUserId
+						    						}),
+						    						success : function(data){
+						    							for(var i=0; i<data.length; i++){
+						    								//console.log(data[i]);	///------------------------ 잘 가져옴 확인완료
+						    								if((data[i].master == sessionUserId && data[i].enterUser == targetId) || (data[i].master == targetId && data[i].enterUser == sessionUserId)){
+						    									//console.log('기존에 채팅중이었던 방이다.'); -----------------확인완료 (for문 제어 잘해주길)
+						    									chattingRoomNo = data[i].roomNo;
+						    									socket.emit("enterUserId", data[i].master);
+						    									socket.emit("targetId", data[i].enterUser);
+						    									socket.emit("chattingRoomNo", chattingRoomNo);
+						    									
+						    									var view = "<li><a href='#'>"
+								                    				+"<div class='profileImage'>"
+												                        +"<img src='/images/bonobono.jpg' alt=''>&emsp;"
+												                    +"</div>"
+												                    +"<div class='chattingInfo'>"
+												                        +"<div class='chattingUser'>"
+												                            +"<p>"+data[i].enterUserName+"</p>"
+												                            +"<p>오전 10:13</p>"
+												                            +"<input type='hidden' id='chattingUserId' value='"+sessionUserId+"'>"
+														                    +"<input type='hidden' id='roomNo' value='"+chattingRoomNo+"'>"
+												                        +"</div>"
+												                        "<div class='chattingContent'>"
+												                            +"줄여서 테마"
+												                        +"</div>"
+												                    +"</div>"
+												                +"</a></li>";
+												      		 $('#forFriendListAppend').after(view);
+						    									
+						    									$('div.chattingBox').addClass('on');
+						    									$('.chattingBoxContent').animate({
+						    						        		'scrollTop': '10000000px'
+						    						        	});
+						    									$('div.chattingBox').css({
+						    										'bottom': '30px',
+						    										'right': '160px',
+						    										"z-index": '9'
+						    									});	
+						    									//break;
+						    								}
+						    								console.log('for control');
+						    							//break;             -----------------------존재의 이유 다시 생각
+						    							} //for end
+						    						},	//success 끝
+						    						error : function(){
+						    							console.log('새로운 채팅방 갱신 실패 ㅋㅋ');
+						    						}
+						    					});
+						    				}	//채팅방이 잘 만들어졌다의 if end
+						    			},  //getChattingRoomList end-----------
+						    			error : function(){
+						    				console.log('에러당 ㅋㅋ')
+						    			}
+								  });
+								//break;
+								
+							}	
+								
+					}	//유저 채팅방에 기존에 몇개있을때 else 종료
+					
 				},				//총괄 success 끝
 				error : function(){
 					alert('채팅방 찾기 에러');
