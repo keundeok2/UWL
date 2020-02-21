@@ -205,7 +205,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -214,69 +214,55 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
-            overflow: hidden;
-            overflow-y: scroll;
-			font-size: 12px;
-        }
-        h6 {
-        	font-size: 16px;
+            
+            position: relative;
+			
         }
 
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
         }
         
-         div.search {
-            width: 50%;
-            float: right;
-
-            text-align: right;
-        }
-
-        div.search select {
-
-            line-height: 30px;
-            height: 30px;
-        }
-
-        div.search input {
-
-            border: none;
-            border: 1px solid #898989;
-            line-height: 30px;
-            height: 30px;
-            text-indent: 5px;
-        }
-
-        div.search a {
-
-            display: inline-block;
-            height: 30px;
-            line-height: 30px;
-            padding: 0 10px;
-            border: 1px solid;
-            vertical-align: middle;
-        }
+        
     </style>
     
+    
     <script type="text/javascript">
+    
+    
+    var myScroll = null;
+    
+    $(function() {
+    	
+        myScroll = new IScroll('#wrapper', {
+            mouseWheel: true,
+            scrollbars: true
+        });
+        
+        setTimeout(function() {
+    		myScroll.refresh();
+    	}, 0);
+    });
+    
     //=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
@@ -286,6 +272,8 @@
 		
 		//============= "검색"  Event  처리 =============	
 		 $(function() {
+			 
+			 
 			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 
 			 $("input[name=searchKeyword]").focus();
@@ -312,7 +300,8 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        <ul>
             <div class="wrap">
 
                 <div class="main">
@@ -433,7 +422,7 @@
 
 
 
-           
+         </ul>  
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />

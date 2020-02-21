@@ -230,13 +230,7 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
             margin-bottom: 0;
         }
 
-        section div.list2 div.wrap>div:last-child {
-            background-color: #fff;
-            line-height: 60px;
-            border-radius: 20px;
-            text-align: center;
-            margin-top: 10px;
-        }
+        
 
     </style>
 <title>어울림</title>
@@ -272,7 +266,7 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
             </div>
             </c:forEach>
         </div>
-        <div><a href="#">맨 위로 <i class="fas fa-caret-up"></i></a></div>
+        
     </div>
 </body>
 </html>
