@@ -37,6 +37,7 @@
 					$("."+notiNo+"").remove();
 				}
 	            });
+	  		notiIconLoad();
 		});
 	
 	</script>    

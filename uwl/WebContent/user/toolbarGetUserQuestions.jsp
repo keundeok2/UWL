@@ -397,9 +397,7 @@
             background: #fff;
             border-left: 1px solid #eee;
         }
-        div.form-inline{
-        	text-align: center;
-        	}
+        
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>

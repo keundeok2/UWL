@@ -91,7 +91,7 @@
             padding: 0 15px;
             font-size: 17px;
             border-radius: 10px 0 0 10px;
-            width: 15%;
+            width: 20%;
         }
 
         div.search2 input {
@@ -103,12 +103,13 @@
 
             font-size: 16px;
             color: #919191;
-            padding-right: 35px;
-            width: 60%;
+            padding-right: 10px;
+            width: 50%;
+            
         }
         
         div.search2 select {
-            width: 25%;
+            width: 30%;
             line-height: 40px;
             height: 40px;
             border: none;

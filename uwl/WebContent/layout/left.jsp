@@ -42,6 +42,7 @@
 
             font-size: 20px;
             font-weight: bold;
+            margin-bottom: 0;
         }
 
         div.leftLayout h4 a {
@@ -102,6 +103,11 @@
             overflow: hidden;
             font-weight: bold;
             transition: all 0.1s;
+            
+            
+        }
+        div.leftLayout > div:nth-child(n + 2) h6 {
+        	font-size: 16px;
         }
 
         div.leftLayout>div.on {
@@ -326,6 +332,9 @@
             $("#logout").on("click", function() { //로그아웃
                 $(location).attr('href', "/user/logout");
             });
+            $("#notiIcon").on("click", function() { //알림
+                $.redirect("/social/getNotiList");
+            });
         });
     </script>
 </head>
@@ -378,21 +387,15 @@
         </h4>
 
 		        <!-- 알림 아이콘 -->
+		        
         <h4>
             <a id="notiIcon" href="#">
-                <i class="far fa-bell"></i>
+                <i class="fas fa-bell"></i>
                 <span>알림</span>
+                <span class="badge badge-light notiBadge"></span>
             </a>
         </h4>
 
-        <script type="text/javascript">
-            $(function() {
-                $("#notiIcon").on("click", function() {
-                    $.redirect("/social/getNotiList");
-                });
-            });
-
-        </script>
 
         <h4 class="img">
             <a id="myProfile" href="#">
@@ -512,5 +515,4 @@
             </ul>
         </div>
     </div>
-
 </body></html>
