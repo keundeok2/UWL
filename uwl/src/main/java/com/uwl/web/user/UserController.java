@@ -208,64 +208,100 @@ public class UserController {
 	}
 
 	// 프로필 보기
-	@RequestMapping(value = "getProfile/{targetUserId}", method = RequestMethod.GET)
-	public String getProfile(@PathVariable String targetUserId, HttpSession session ,Model model) throws Exception {
-		System.out.println("UserController : getProfile() 호출");
-		User sessionUser = (User)session.getAttribute("user");
-		
-		System.out.println("sessionUserId : " + sessionUser.getUserId() + "\t\t targetUserId : " + targetUserId);
-		Search search = new Search();
-		search.setCurrentPage(1);
-		search.setPageSize(pageSize);
-		
-		//  활동점수, 포인트 
-		Reward reward = rewardService.getTotalPoint(targetUserId);
-		model.addAttribute("reward", reward);
-		
-		
-		//targetUserId : 프로필 주인
-		User user = userService.getUser(targetUserId);
-		model.addAttribute("targetUser", user);
-		// getItemList에 search 아무렇게 넣어도 됨
-		Map<String, Object> mapOfSpear = matchingService.getItemList(search, targetUserId, "1");
-		Map<String, Object> mapOfShield = matchingService.getItemList(search, targetUserId, "2");
-		
-		// 창 개수, 방패 개수
-		int totalSpear = (Integer)mapOfSpear.get("totalItem");
-		int totalShield = (Integer)mapOfShield.get("totalItem");
-		model.addAttribute("totalSpear", totalSpear);
-		model.addAttribute("totalShield", totalShield);
-		
-		//	session의 유저와 프로필의 유저가 친구인지 확인
-		// Friend에 fristUserId, secondUserId만 넣어주면 됨
-		//	checkFriend() => return 1: 친구 0: 친구아님
-		Friend friend = new Friend();
-		friend.setFirstUserId(sessionUser.getUserId());
-		friend.setSecondUserId(targetUserId);
-		int isFriend =friendService.checkFriend(friend);
-		model.addAttribute("isFriend", isFriend);
-		
-		// 친구신청관계 확인
-		//	1 : 친구신청, 2 : 친구, null : 신청안함
-		Friend checkFriend1 = friendService.checkRequest(friend);
-		model.addAttribute("checkFriend1", checkFriend1); // return 1 => 신청취소 버튼 만들기 2 => 친구끊기 버튼 만들기
-		//	반대확인
-		friend.setFirstUserId(targetUserId);
-		friend.setSecondUserId(sessionUser.getUserId());
-		Friend checkFriend2 = friendService.checkRequest(friend);
-		model.addAttribute("checkFriend2",checkFriend2); // return 1 => 친구신청버튼(로직은 수락) 만들기
-		
-		
-		
-		Matching matching = matchingService.getMatching(sessionUser.getUserId());
-		model.addAttribute("matching", matching);
-		int totalMatching = matchingService.getTotalMatching(search, targetUserId);
-		model.addAttribute("totalMatching", totalMatching);
-		
-		
-		
-		return "forward:/user/profile.jsp";
-	}
+		@RequestMapping(value = "getProfile/{targetUserId}", method = RequestMethod.GET)
+		public String getProfile(@PathVariable String targetUserId, HttpSession session ,Model model) throws Exception {
+			System.out.println("UserController : getProfile() 호출");
+			User sessionUser = (User)session.getAttribute("user");
+			
+			System.out.println("sessionUserId : " + sessionUser.getUserId() + "\t\t targetUserId : " + targetUserId);
+			Search search = new Search();
+			search.setCurrentPage(1);
+			search.setPageSize(pageSize);
+			
+			//  활동점수, 포인트 
+			Reward reward = rewardService.getTotalPoint(targetUserId);
+			model.addAttribute("reward", reward);
+			
+			
+			//targetUserId : 프로필 주인
+			User user = userService.getUser(targetUserId);
+			model.addAttribute("targetUser", user);
+			// getItemList에 search 아무렇게 넣어도 됨
+			Map<String, Object> mapOfSpear = matchingService.getItemList(search, targetUserId, "1");
+			Map<String, Object> mapOfShield = matchingService.getItemList(search, targetUserId, "2");
+			
+			// 창 개수, 방패 개수
+			int totalSpear = (Integer)mapOfSpear.get("totalItem");
+			int totalShield = (Integer)mapOfShield.get("totalItem");
+			model.addAttribute("totalSpear", totalSpear);
+			model.addAttribute("totalShield", totalShield);
+			
+			//	session의 유저와 프로필의 유저가 친구인지 확인
+			// Friend에 fristUserId, secondUserId만 넣어주면 됨
+			//	checkFriend() => return 1: 친구 0: 친구아님
+			Friend friend = new Friend();
+			friend.setFirstUserId(sessionUser.getUserId());
+			friend.setSecondUserId(targetUserId);
+			int isFriend =friendService.checkFriend(friend);
+			model.addAttribute("isFriend", isFriend);
+			
+			// 친구신청관계 확인
+			//	1 : 친구신청, 2 : 친구, null : 신청안함
+			Friend checkFriend1 = friendService.checkRequest(friend);
+			model.addAttribute("checkFriend1", checkFriend1); // return 1 => 신청취소 버튼 만들기 2 => 친구끊기 버튼 만들기
+			//	반대확인
+			friend.setFirstUserId(targetUserId);
+			friend.setSecondUserId(sessionUser.getUserId());
+			Friend checkFriend2 = friendService.checkRequest(friend);
+			model.addAttribute("checkFriend2",checkFriend2); // return 1 => 친구신청버튼(로직은 수락) 만들기
+			
+			// Matching
+			Matching matching = matchingService.getMatching(sessionUser.getUserId());
+			model.addAttribute("matching", matching);
+			int totalMatching = matchingService.getTotalMatching(search, targetUserId);
+			model.addAttribute("totalMatching", totalMatching);
+			
+			//Timeline
+			Search timelineSearch = new Search();
+			if (timelineSearch.getCurrentPage() == 0) {
+				timelineSearch.setCurrentPage(1);
+			}
+			timelineSearch.setPageSize(pageSize);
+			
+			if (sessionUser.getUserId().equals(targetUserId)) {
+				timelineSearch.setSearchCondition("1");
+			} else timelineSearch.setSearchCondition("0");
+			
+			
+			Map<String, Object> timelineMap = socialService.getTimelineList(targetUserId, timelineSearch);
+			Page resultPage = new Page(search.getCurrentPage(), ((Integer) timelineMap.get("totalCount")).intValue(), pageUnit,
+					pageSize);
+			timelineMap.put("search", search);
+			timelineMap.put("resultPage", resultPage);
+			model.addAttribute("timelineMap", timelineMap);
+			
+			//AskQuestion
+			Map<String,Object> askQuestionMap = socialService.getAskQuestionList(sessionUser.getUserId(), search, "1" );
+			resultPage = new Page(search.getCurrentPage(), ((Integer) askQuestionMap.get("totalCount")).intValue(), pageUnit,
+					pageSize);
+			askQuestionMap.put("resultPage", resultPage);
+			//Ask
+			Map<String,Object> askMap = socialService.getAskList(sessionUser.getUserId(), search, "2" );
+			resultPage = new Page(search.getCurrentPage(), ((Integer) askMap.get("totalCount")).intValue(), pageUnit,
+					pageSize);
+			
+			User targetUser = userService.getUser(targetUserId);
+			
+			askMap.put("targetUser", targetUser);
+			askMap.put("resultPage", resultPage);
+			
+			
+			model.addAttribute("askMap", askMap);
+			model.addAttribute("askQuestionMap", askQuestionMap);
+			model.addAttribute("askMap", askMap);
+			
+			return "forward:/user/toolbarProfile.jsp";
+		}
 
 	
 	
@@ -277,7 +313,7 @@ public class UserController {
 		User user = userService.getUser(userId);
 		model.addAttribute("user", user);
 		
-		return "forward:/user/updateProfile3.jsp";
+		return "forward:/user/updateUser2.jsp";
 	}
 	// 프로필 수정
 	@RequestMapping(value = "updateProfile", method = RequestMethod.POST)

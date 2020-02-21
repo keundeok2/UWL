@@ -339,6 +339,37 @@
 	    		self.location = "/post/getBoard?postNo="+postNo;
 	    	});
 	    });
+	    
+	  //=============    검색 / page 두가지 경우 모두  Event  처리 =============	
+		function fncGetList(currentPage) {
+			$("#currentPage").val(currentPage)
+			$("form").attr("method","POST").attr("action","/post/listBoard").submit();
+		}
+		
+		
+		//============= "검색"  Event  처리 =============	
+		 $(function() {
+			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 
+			 $("input[name=searchKeyword]").focus();
+			 	
+				$("input[name=searchKeyword]").keydown(function(key){
+			    	if(key.keyCode == 13){
+		    			fncGetList(1);
+			    	}
+			    } );
+			 $( ".btn-default:contains('검색')" ).on("click" , function() {
+					//Debug..
+					//alert(  $( "td.ct_btn01:contains('검색')" ).html() );
+					fncGetList(1);
+				});
+			 
+			 
+		 });
+	    
+	    
+	    
+	    
     </script>
 
     <style>
@@ -472,6 +503,8 @@
                         <c:if test="${gatherCategoryNo eq '206' }">
                             <h1><i class="fas fa-bullhorn"></i> 대나무 숲</h1>
                         </c:if>
+                        <input type="hidden" class="gatherCategoryNo" name="gatherCategoryNo" value="" id="gatherCategoryNo">
+                        <input type="hidden" class="postChallenge" name="postChallenge" value="2" id="postChallenge">
                     </div>
                     <div class="right2">
                         <a href="#"><i class="far fa-star"></i></a>
@@ -548,11 +581,25 @@
 
 
                 <div class="a"><i class="fas fa-pencil-alt"></i></div>
-        
-
-
-
+                
+				<!-- PageNavigation Start... -->
+			<div>
+					<jsp:include page="../common/pageNavigator_new.jsp"/>
+				  
+				<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+				  
+			</div>
+				<!-- PageNavigation End... -->
+				
         </form>
+        
+        
+        <form class="nav">
+        <!--  페이징처리 ??  -->
+        </form>
+        
+        
     </div>
     <div class="rightToolbar2">
         <jsp:include page="/layout/right.jsp" />

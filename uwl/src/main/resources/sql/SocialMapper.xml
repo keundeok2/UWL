@@ -214,11 +214,11 @@
 		VALUES (SEQ_NOTIFICATION_NOTI_NO.NEXTVAL, 
 		#{senderId}, 
 		#{receiverId}, 
-		<if test="postNo == 0">null</if>
-		<if test="postNo != 0">#{postNo:NUMERIC}</if>
-		,#{notiOrigin}, 
+		SYSDATE,
+		#{notiOrigin}, 
 		#{notiCode}, 
-		SYSDATE)
+		<if test="postNo == 0">null</if>
+		<if test="postNo != 0">#{postNo:NUMERIC}</if>)
 	</insert>
 	
 	<select id="getNotiList" parameterType="map" resultMap="notificationSelectMap">
