@@ -18,8 +18,7 @@
 
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
-	
-	<script src="/javascript/iscroll.js"></script>
+
 
     <style>
         * {
@@ -206,21 +205,7 @@
         }
     </style>
     <script type="text/javascript">
-    
-	    var myScroll = null;
-	    
-	    $(function() {
-	    	
-	        myScroll = new IScroll('#wrapper', {
-	            mouseWheel: true,
-	            scrollbars: true
-	        });
-	        
-	        setTimeout(function() {
-	    		myScroll.refresh();
-	    		}, 0);
-		});	
-	        
+        
     
     	//$(function() {
    		$(document).ready(function(){
@@ -297,6 +282,67 @@
         }); //end of function
     </script>
 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        body {
+            color: #333;
+            font-size: 16px;
+            font-family: 'Roboto', sans-serif;
+            font-family: 'Nanum Gothic', sans-serif;
+
+        }
+
+        div.layoutWrap {
+
+            width: 100%;
+            min-height: 200vh;
+            padding: 0 20%;
+            position: relative;
+        }
+
+        div.leftToolbar {
+            width: 20%;
+            height: 100vh;
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            background: #fff;
+            border-right: 1px solid #eee;
+        }
+
+        div.rightToolbar {
+            width: 20%;
+            height: 100vh;
+
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            border-left: 1px solid #eee;
+        }
+    </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
         * {
@@ -330,7 +376,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1280px;
+            width: 1500px;
             height: 100vh;
 
             margin: 0 auto;
@@ -339,35 +385,31 @@
 
         div.leftToolbar2 {
 
-            width: 240px;
+            width: 300px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
-            padding: 15px 0 0 15px;
         }
 
         div.work2 {
 
-            width: 770px;
+            width: 900px;
             height: 100vh;
             float: left;
-            
-            position: relative;
-			
+            overflow: hidden;
+            overflow-y: scroll;
+
         }
 
         div.rightToolbar2 {
 
-            width: 270px;
+            width: 300px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
-            padding: 15px 15px 0 15px;
         }
-        
-        
     </style>
 </head>
 
@@ -376,8 +418,7 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2" id="wrapper">
-        	<ul>
+        <div class="work2">
             <div class="wrap">
 
                 <div class="challengeTop">
@@ -442,34 +483,27 @@
                         <tr><!-- 3번째 tr -->
                         	<td>키워드</td>
                             <td>
-                            
-                             <c:if test="${challenge.challCategory != '3'}">
-                            	 ${challenge.detailCategory}	
+                             <c:if test="${challenge.detailCategory == '201'}">
+                             	진학상담
                              </c:if>
-                             
-                             <c:if test="${challenge.challCategory == '3'}">
-	                             <c:if test="${challenge.detailCategory == '201'}">
-	                             	진학상담
-	                             </c:if>
-	                             <c:if test="${challenge.detailCategory == '202'}">
-	                             	사랑과 이별
-	                             </c:if>
-	                             <c:if test="${challenge.detailCategory == '203'}">
-	                             	남자끼리
-	                             </c:if>
-	                             <c:if test="${challenge.detailCategory == '204'}">
-	                             	여자끼리
-	                             </c:if>
-	                             <c:if test="${challenge.detailCategory == '205'}">
-	                             	데이트자랑
-	                             </c:if>
-	                             <c:if test="${challenge.detailCategory == '206'}">
-	                             	대나무숲
-	                             </c:if>
+                             <c:if test="${challenge.detailCategory == '202'}">
+                             	사랑과 이별
                              </c:if>
-                             
+                             <c:if test="${challenge.detailCategory == '203'}">
+                             	남자끼리
+                             </c:if>
+                             <c:if test="${challenge.detailCategory == '204'}">
+                             	여자끼리
+                             </c:if>
+                             <c:if test="${challenge.detailCategory == '205'}">
+                             	데이트자랑
+                             </c:if>
+                             <c:if test="${challenge.detailCategory == '206'}">
+                             	대나무숲
+                             </c:if>
+                             ${challenge.detailCategory}
                             </td>
-                            <td>포인트</td>
+                            <td><i class="fas fa-coins" style="font-size: 25px; text-align: right;"></i>포인트</td>
                             <td>&nbsp; + ${challenge.challReward} </td>
                             
                         </tr>
@@ -511,7 +545,6 @@
                 </div>
                 </c:if>
             </div>
-            </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />

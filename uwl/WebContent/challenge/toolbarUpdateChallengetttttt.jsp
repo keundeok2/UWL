@@ -6,11 +6,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
 
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -167,8 +168,8 @@
             if (challReward == null || challReward.length < 1) {
                 alert("점수 입력하셈 (^오^)/ ");
                 return;
-            } else if (challReward.length > 4) {
-                alert("점수가 너무커요! 최대 천단위까지 가능합니다.");
+            } else if (challReward.length >= 5) {
+                alert("점수가 너무커요! 최대 천단위까지 가능합니다. (^오^)/ ");
                 return;
             }
 
@@ -240,7 +241,6 @@
 
         $(document).ready(function() {
 
-
             $('#complete').on('click', function() {
 
                 //Form 유효성 검증
@@ -257,7 +257,7 @@
                 if (challTitle == null || challTitle.length < 1) {
                     Swal.fire({
                         icon: 'error',
-                        title: '제목을 입력해주세요!'
+                        title: '제목을 입력해주세요!',
                     })
                     return;
                 }
@@ -305,20 +305,20 @@
 
                 Swal.fire({
                     icon: 'success',
-                    title: '등록이 완료 되었습니다.',
+                    title: '수정이 완료 되었습니다.',
                     showConfirmButton: false,
-                    timer: 700
+                    confirmButtonColor: '#cb4414',
+                    timer: 1200
                 }).then((result) => {
-                    $('form').attr('method', 'POST').attr('action', '/challenge/addChallenge').submit();
+                    $('form').attr('method', 'POST').attr('action', '/challenge/updateChallenge').submit();
                 })
             });
-
 
             $('#cancle').on('click', function() {
 
                 Swal.fire({
                     title: '작성을 중단하시겠습니까?',
-                    text: "작성중인 글은 초기화 됩니다.",
+                    text: "작성중인 글은 저장되지 않습니다.",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#cb4414',
@@ -328,7 +328,7 @@
                     if (result.value) {
                         Swal.fire({
                             icon: 'success',
-                            title: '목록으로 돌아갑니다.',
+                            title: '게시글로 돌아갑니다.',
                             showConfirmButton: false,
                             timer: 800
                         }).then((result) => {
@@ -340,90 +340,20 @@
             }); //end of cancle
 
 
-            // 직접 index 값을 주어 selected 속성 주기
-            /* $("#셀렉트ID option:eq(1)").attr("selected", "selected"); */
-
-            /* if ( $( "#challCategory option: eq (3)" )) { }*/
-
-            /* alert($("#challCategory option:selected").val());
-			if ($("#challCategory option:selected").val() == "게시판활동") {
-				
-			alert($("#challCategory option:selected").val());
-			}
-			
-		 $( test ).appendTo("#reward");  */
 
             $('#challCategory').on("change", function() {
                 console.log($(this).val())
-                var detailCategory = $(this).val();
                 var complete = null;
-                alert("dsa : " + detailCategory);
-                
-                $.ajax({
-    				url : "/challenge/rest/listDetailCetegory",
-    				method : "POST",
-    				headers : {
-    					"Accept" : "application/json",
-    					"Content-Type" : "application/json"
-    				},
-    				data : JSON.stringify({
-    					detailCategory : detailCategory
-    				}),
-    				success : function(data) {
-    					alert("여기 성공임 ㅋㅋ");
-    					
-    					var detailSelect = null;
-    					var detailView = null;
-    					var challCategory = null;
-    					var detailCategory = null;
-    					var appendDetail = null;
-    					var startSelect = "&emsp;<select class='custom-select col-2' name='detailCategory' id='detailCategory'>"
-											+ "<option selected>세부카테고리</option>";
-    					
-    					for (var i = 0; i < data.length; i++) {
-	    					//challCategory 1: map, 2: vision, 3: 게시판활동
-	    					challCategory = data[i].challCategory;
-	    					detailCategory = data[i].detailCategory;
-	    					appendDetail = "<option value=" + detailCategory  + ">" +  detailView +"</option>";
-	    					
-	    					//해당 카테고리에 해당하면 view를 바꿔줌 
-	    					if (detailCategory == '201') {
-	    						detailView = '진학상담';
-							}else if(detailCategory == '202') {
-								detailView = '사랑과이별';
-							}else if(detailCategory == '203') {
-								detailView = '남자끼리';
-							}else if(detailCategory == '204') {
-								detailView = '여자끼리';
-							}else if(detailCategory == '205') {
-								detailView = '데이트자랑';
-							}else if(detailCategory == '206') {
-								detailView = '대나무숲';
-							}else if(detailCategory == '댓글') {
-								detailView = '댓글';
-							}
-	    					
-	    					//append해줌
-  							startSelect += appendDetail;
-  							
-    						alert("detailCategory : " + detailCategory + "challCategory : " + challCategory);
-						} //end of for 
-						
-						//긁어온 정보를 최종 append
-						startSelect += "</select>";
-						
-    					 $("#reward").append(startSelect);
-    				}
-    				
-    			}); //end of ajax
-                
+
 
                 if ($(this).val() == 3) {
                     complete = "<div class='input-group col-3' id='postCommentComplete'>" +
                         "<div class='input-group-prepend'>" +
                         "<span class='input-group-text' style='width: 35px;'><i class='fas fa-trophy'></i></span>" +
                         "</div>" +
-                        "<input type='text' class='form-control' name='postCommentComplete' placeholder='완성조건'>" +
+                        "<input type='text' class='form-control' name='postCommentComplete' value=" + $ {
+                            challenge.postCommentComplete
+                        } + ">" +
                         "<div class='input-group-append'>" +
                         "<span class='input-group-text' style='width: 35px'>회</span>" +
                         "</div>" +
@@ -438,7 +368,6 @@
             });
 
 
-            /*  $( "#challCategory option:eq(3)" ).append("33433");  */
 
 
             /* 		$( "#challCategory option:eq(3)" ).on('click',function(){
@@ -452,7 +381,6 @@
 
         });
     </script>
-
 
     <style>
         * {
@@ -598,32 +526,44 @@
 
                         <br>
                         <br>
-                        <h2>도전과제 작성
-                            <span class="badge badge-danger">New</span>
+                        <h2>도전과제 업데이트
+                            <span class="badge badge-danger">Update</span>
                         </h2>
 
                         <br>
 
+                        <!-- hidden -->
+                        <input type="hidden" name="challNo" value="${challenge.challNo}" />
                         <!-- 카테고리 -->
                         <div class="row" id="reward">
                             &emsp;<select class="custom-select col-3" name="challCategory" id="challCategory">
                                 <option selected>카테고리</option>
-                                <option value="1" id="map">Map</option>
-                                <option value="2" id="vison">Vision</option>
-                                <option value="3" id="post">게시판활동</option>
+                                <option value="1" ${!empty challenge.challCategory && challenge.challCategory=="1" ? "selected" : "" }>Map</option>
+                                <option value="2" ${!empty challenge.challCategory && challenge.challCategory=="2" ? "selected" : "" }>Vision</option>
+                                <option value="3" ${!empty challenge.challCategory && challenge.challCategory=="3" ? "selected" : "" }>게시판활동</option>
                             </select>
-                           
 
                             <!-- 보상점수 -->
                             <div class="input-group col-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" style="width: 35px;"><i class="fas fa-coins"></i></span>
+                                    <span class="input-group-text" style="width: 35px;height: 38px"><i class="fas fa-coins"></i></span>
                                 </div>
-                                <input type="text" class="form-control" name="challReward" placeholder="점수를 입력하세요" ;>
+                                <input type="text" class="form-control" name="challReward" value="${challenge.challReward}">
                                 <div class="input-group-append">
-                                    <span class="input-group-text" style="width: 35px;">점</span>
+                                    <span class="input-group-text" style="width: 35px;height: 38px">점</span>
                                 </div>
                             </div>
+
+                            <c:if test="${challenge.challCategory == '3'}">
+                                <div class="input-group col-6" id="postCommentComplete">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 35px;"><i class="fas fa-trophy" aria-hidden="true"></i></span>
+                                    </div><input type="text" class="form-control" name="postCommentComplete" value="${challenge.postCommentComplete}">
+                                    <div class="input-group-append"><span class="input-group-text" style="width: 35px">회</span>
+                                    </div>
+                                </div>
+                            </c:if>
+
                         </div>
                         <br>
 
@@ -631,14 +571,14 @@
                             <table class="table">
                                 <tr>
                                     <th class="success">
-                                        <input type="text" name="challTitle" id="challTitle" placeholder="제목을 입력하세요" style="width:570px" />
+                                        <input type="text" name="challTitle" id="challTitle" value="${challenge.challTitle}" style="width:570px" />
                                     </th>
                                 </tr>
                                 <tr>
                                     <td colspan="3"></td>
                                 </tr>
                             </table>
-                            <textarea id="summernote" name="challContent"></textarea>
+                            <textarea id="summernote" name="challContent">${challenge.challContent}</textarea>
                             <br>
 
 
@@ -648,7 +588,7 @@
 
                         <div style="text-align:right;width:100%">
                             <div class="form-group">
-                                <button type="button" class="btn btn-outline-secondary" id="complete" style="width:150px">등록</button>
+                                <button type="button" class="btn btn-outline-secondary" id="complete" style="width:150px">수정</button>
                                 <button type="button" class="btn btn-outline-secondary" id="cancle" style="width:150px">취소</button>
                             </div>
                         </div>
@@ -661,3 +601,13 @@
         </div>
     </div>
 </body></html>
+
+
+
+
+
+
+
+	
+	
+	

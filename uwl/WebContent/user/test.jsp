@@ -91,8 +91,7 @@ integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXy
 	<i class='far fa-snowflake'  id='PTY3'> 눈</i> <br><br>
 	<i class='fas fa-cloud-sun-rain'  id='PTY4'> 소나기</i> <br><br>
  
- 	<br><br>
-	
+	<hr/>
 	<div class="weather"></div>
 	
 </body>

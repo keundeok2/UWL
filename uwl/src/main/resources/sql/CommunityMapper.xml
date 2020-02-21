@@ -233,7 +233,6 @@
 		WHERE 
 			master = #{master}
 			OR target = #{master}
-		
 	</select>
 	
 	<!-- 채팅! -->

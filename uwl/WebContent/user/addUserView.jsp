@@ -6,8 +6,6 @@
 
 <head>
 
-
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--  jQuery CDN -->
@@ -28,6 +26,7 @@
 	<!--     datePicker -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     
     <script type="text/javascript">
 
@@ -208,6 +207,8 @@
         p.level {
             text-align: left;
         }
+        
+        
     </style>
 
     <script type="text/javascript">
@@ -223,26 +224,35 @@
     </script>
 
 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#login').on("click", function() {
-                $("form").attr("method", "POST").attr("action", "/user/login").submit();
-            });
-        });
-    </script>
-    
-    
-    
+<!--     <script type="text/javascript"> 
+//         $(document).ready(function() {
+//             $('#login').on("click", function() {
+//                 $("form").attr("method", "POST").attr("action", "/user/login").submit();
+//             });
+//         });
+   </script> -->
     
      <script type="text/javascript">
-    
+     
+//      $(function(){
+//     	    //값 초기화. 회원가입 버튼 비활성화
+//     	    $("#btnConfirm").prop("disabled",true);
+//     	    var idOk = false;
+//     	    var nameOk = false;
+//     	    var mailOk = false;
+//     	    var isOk = false;   
+    	    
+//     	    $("a[name='signUp']").prop("disabled", true);
+//             $("a[name='signUp']").css("background-color", "#aaaaaa"); //회색
+     
+     
     		//============= "가입"  Event 연결 =============
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$( '#signUp' ).on("click" , function() {
 				fncAddUser();
 			});
-		});	
+		 });	//
 		
 		//============= "취소"  Event 처리 및  연결 =============
 		$(function() {
@@ -382,14 +392,14 @@
 			return false;
 		}
 		
-		if(mail == null || mail.length <1){
+		 if(mail == null || mail.length <1){
 			$('#not').remove();
 			var view = "<span id='not' style='color:red'> 메일은 반드시 입력하셔야 합니다.</span>";
 			$('#mail').after(view);
 			$('#mail').focus();
 			return false;
 		}
-		
+		 
 		var value = "";	
 		if( $("input[name='phone2']").val() != ""  &&  $("input[name='phone3']").val() != "") {
 			var value = $("option:selected").val() + "-" 
@@ -399,8 +409,17 @@
 
 		$("input:hidden[name='phone']").val( value );
 		
+		
+		
+		Swal.fire({
+					  icon: 'success',
+					  title: 'Your work has been saved',
+					  text : '어어어어어울리리리리리리림'
+					})
+		
+		
 		$("form").attr("method" , "POST").attr("action" , "/user/addUser").submit();
-	}
+	} //
     
 		
 		
@@ -420,7 +439,7 @@
 		
 		
 	
-// 		===================================================================== test test test test test test test test test
+// 		===================================================================== 
     //==>"ID중복확인" Event 처리 및 연결
 			var checkId = false;
 		    //아이디 체크하여 가입버튼 비활성화, 중복확인.
@@ -434,12 +453,13 @@
 		            url : "/user/rest/checkDuplicationUserId",
 		            method : 'GET',
 		            success : function(data) {
+		            	$('#not').remove();
 		                if(data == true) {
 		                    $("#userId").css("background-color", "#B0F6AC"); //초록
-		                    $("a[name='signUp']").prop("disabled", false);
-	                         $("a[name='signUp']").css("background-color", "#4CAF50"); //초록
+		                    $("a[nCname='signUp']").css("background-color", "#4CAF50"); //초록
 		                    checkId = true;
-// 	                         isOk = allOk(checkId, checkNick);
+// 		                    idOk = true;
+// 	                         isOk = allOk(idOk, nickOk, mailOk);
 // 	                         if(isOk == true){
 // 	                        	 $("a[name='signUp']").prop("disabled", false);
 // 	                         }
@@ -447,7 +467,11 @@
 		                    $("#userId").css("background-color", "#FFCECE"); //빨강
 		                    $("a[name='signUp']").prop("disabled", true);
 		                    $("a[name='signUp']").css("background-color", "#aaaaaa"); //회색
+			   				 var view = "<span id='not' class='mailNot' style='color:red'> 이미 사용 중인 아이디입니다.</span>";
+			   				 $('#userId').after(view);
+			   				 $('#userId').focus();
 		                    checkId = false;
+// 		                    idOk = false;
 // 		                    $("#userId").remove();
 	                         signupCheck();
 		                }
@@ -472,20 +496,28 @@
 		            url : "/user/rest/checkDuplicationNickname",
 		            method : 'GET',
 		            success : function(data) {
+		            	 $('#not').remove();
 		                if(data == true) {
 		                    $("#nickname").css("background-color", "#B0F6AC"); //초록
 		                    $("a[name='signUp']").prop("disabled", false);
 	                         $("a[name='signUp']").css("background-color", "#4CAF50"); //초록
 	                         checkNick = true;
-// 	                         isOk = allOk(checkId, checkNick);
+// 	                         nickOk = true;
+// 	                         isOk = allOk(idOk, nickOk, mailOk);
 // 	                         if(isOk == true){
 // 	                        	 $("a[name='signUp']").prop("disabled", false);
 // 	                         }
 		                }else {
 		                    $("#nickname").css("background-color", "#FFCECE"); //빨강
-		                    $("a[name='signUp']").prop("disabled", true);
-		                    $("a[name='signUp']").css("background-color", "#aaaaaa"); //회색
+// 		                    $("a[name='signUp']").prop("disabled", true);
+// 		                    $("a[name='signUp']").css("background-color", "#aaaaaa"); //회색
+		                    
+		                    var view = "<span id='not' class='mailNot' style='color:red'> 이미 사용 중인 닉네임입니다.</span>";
+			   				$('#nickname').after(view);
+			   				$('#nickname').focus();
+		                    
 		                    checkNick = false;
+// 		                    nickOk = false;
 	                         signupCheck();
 		                }
 		            },
@@ -510,16 +542,29 @@
 		            url : "/user/rest/checkDuplicationMail",
 		            method : 'GET',
 		            success : function(data) {
+		            	$('#not').remove();
 		                if(data == true) {
 		                    $("#mail").css("background-color", "#B0F6AC"); //초록
 		                    $("a[name='signUp']").prop("disabled", false);
 	                         $("a[name='signUp']").css("background-color", "#4CAF50"); //초록
 	                         mail = true;
+// 	                         mailOk = true;
+// 	                         isOk = allOk(idOk, nickOk, mailOk);
+// 	                         if(isOk == true){
+// 	                        	 $("a[name='signUp']").prop("disabled", false);
+// 	                         }
+	                         
 		                }else {
 		                    $("#mail").css("background-color", "#FFCECE"); //빨강
-		                    $("a[name='signUp']").prop("disabled", true);
-		                    $("a[name='signUp']").css("background-color", "#aaaaaa"); //회색
+// 		                    $("a[name='signUp']").prop("disabled", true);
+// 		                    $("a[name='signUp']").css("background-color", "#aaaaaa"); //회색
+		                    
+		                    var view = "<span id='not' class='mailNot' style='color:red'> 동일한 이메일이 있습니다.</span>";
+			   				$('#mail').after(view);
+			   				$('#mail').focus();
+		                    
 		                    mail = false;
+// 		                    mailOk = false;
 	                         signupCheck();
 		                }
 		            },
@@ -528,10 +573,10 @@
 		            }
 		        });
 		    }		
-		    
+//      });	    
 		    
 		 	
-//	 		//==>"Modal 학교 주소찾기" Event 처리 및 연결 test================================ Error Error Error Error Error Error Error Error Error
+//	 		//==>"Modal 학교 주소찾기" Event 처리 및 연결 test================================ 
 
 		 	$(function() {
 				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -582,7 +627,6 @@
 		 				//이렇게 DB에 저장하면 될듯..?
 		 				var secondView = "<span id='school2'><span>"+schoolName+adres+seq+"</span><br/><br/></span>"
 		 				
-		 				
 		 				$("#append2").append(secondView);
 		 				console.log($("#school1"));
 		 				console.log($("#school2"));
@@ -597,12 +641,14 @@
 
 						var schoolSplit = $(this).text();
 						var split = schoolSplit.split(',');
-						var trimSplit = split[0].trim();
-						var trimSplit2 = split[2].trim();
-// 						alert(trimSplit2);
-// 						alert(trimSplit.length);
-
-		 				$("input[name='schoolName']").val(trimSplit);
+						var schoolName = split[0].trim();
+						var schoolAddress = split[1].trim();
+						var schoolNo = split[2].trim();	
+						
+		 				//$("input[name='totalSchoolName']").val(totalSchoolName);
+		 				$("input[name='schoolName']").val(schoolName);
+		 				$("input[name='schoolAddress']").val(schoolAddress);
+		 				$("input[name='schoolNo']").val(schoolNo);
 		 				$('#schoolModal').modal('hide');
 			 		});
 		 		});
@@ -682,7 +728,6 @@
 			$("input:contains('인증번호')").hide();
 		})
 		
-		
 		$(document).on("click" ,"a#sendMail", function() {
 			var mail = $("input[name='mail']").val();
 			console.log(mail);
@@ -725,26 +770,36 @@
 // 								$("input[name='mail']").removeAttr("name");
 								$("input[name='confirmNo']").attr("placeholder", "인증번호 입력");
 								$("input[name='confirmNo']").removeAttr("name");
-								
 							} 
 						}
 					}
 			)
 		});
 		
+		
 		$(document).on("click" ,"a:contains('인증번호확인')", function() {
 			var mailValue = $("input#confirmNo").val();
 			var mailCheck = $("input[name='mailCheck']").val();
 			console.log("비교대상 값 : " + mailCheck);
 			console.log("입력 값 : " + mailValue);
-			
+					
 			// mailCheck는 이메일 인증 문자열 state이며 
 			// mailValue는 이메일 인증 유무를 판단하는 Flag이다 
 			
-			// mailCheck의 default는 null String이므로 
+			// 메일 인증 안하고 주소만 적으면 가입이 가능 !!!!!!!!!!!!! errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+			if ( mailValue == "" || mailValue != "1" || mailValue == null) { 
+				$("h6").text("메일 인증을 진행해주세요.");
+				return;
+			}
+
+// 			if ( mailValue == "" ) {
+// 				$("h6").text("인증번호를 입력해주세요.");
+// 			}
+			
 			if ( mailCheck == "" ) {
 				$("h6").text("메일이 발송되지 않았습니다.");
 			}
+			// mailCheck의 default는 null String이므로 
 			
 			if ( mailCheck != "" ) {
 				if ( mailCheck == mailValue ) {
@@ -764,11 +819,7 @@
 			}
 		});
 	
-	$(function() {
-		 $( "a[id='cancel']" ).on("click" , function() {
-			$("form")[0].reset();
-		});
-	});	
+	
 	
 	//==>"mail 본인인증" Event 처리 및 연결  ================================ 끝					
 				
@@ -784,8 +835,6 @@
     });
   });
   
-  
-  
 //   사진 첨부 ===============================================================================
  	$(document).ready(function(){
 		 $("#fileInput").on('change', function(){  // 값이 변경되면
@@ -799,17 +848,41 @@
 			 $("#userfile").val(profileName);
 		 });
 	});	    
-		    
-		    
+	
+ 	$(document).ready(function(){
+        $("#userfile").on('change', function(){
+            readURL(this);
+        });
+    });
 
-    
+ 	function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#foo').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#userfile").change(function() {
+        readURL(this);
+    });
+	
+	
+
+$(function() {
+	 $( "a[id='cancel']" ).on("click" , function() {
+		$("form")[0].reset();
+	});
+});	
+	
 	</script>   
 
     <title>어울림</title>
 </head>
 
 <body>	
-<!-- <body onkeydown="javascript:if(event.keyCode==13)"> -->
 
 
     <form class="form-horizontal" enctype="multipart/form-data">
@@ -841,14 +914,14 @@
                 </div>
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>학교</p>
-                    <p><input type="text" name="schoolName" id="schoolName" data-toggle="modal" data-target="#schoolModal" readonly="readonly"></p>
+                    <p>
+                    	<input type="text" name="schoolName" id="schoolName" data-toggle="modal" data-target="#schoolModal" readonly="readonly">
+                    	<!-- <input type="hidden" name="schoolName" value=""> -->
+                    	<input type="hidden" name="schoolNo" value="">
+                    	<input type="hidden" name="schoolAddress" value="">
+                    
+                    </p>
                 </div>
-<!--                 <p class="level"> -->
-<!--                     <input type="radio" name="level" value="element">초등학교 -->
-<!--                     <input type="radio" name="level" value="middle">중학교 -->
-<!--                     <input type="radio" name="level" value="high">고등학교 -->
-<!--                     <input type="radio" name="level" value="college">대학교 -->
-<!--                 </p> -->
                 <p><a href="#" data-toggle="modal" data-target="#schoolModal">주소찾기</a></p>
 
                 <div class="id" id="phoneCheckAppend">
@@ -885,19 +958,22 @@
                     <p>사진</p>
                     <p><input type="file" name="file" id="fileInput" data-class-input="form-control" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);"></p>
                     <div class="bootstrap-filestyle input-group">
-						<input type="text" id="userfile" class="form-control" name="userfile" disabled="">
+						<input type="file" id="userfile" class="form-control" name="userfile" readonly="readonly">
+<!-- 						<input type="text" id="userfile" class="form-control" name="userfile" disabled=""> -->
 						<span class="group-span-filestyle input-group-btn" tabindex="0">
 							<label for="fileInput" class="btn btn-default ">
 								<span class="glyphicon fa fa-upload"></span>
 							</label>
 						</span>
+<!-- 						<input type="file" id="imgInp"/> -->
+						<img id="foo" src="#" alt="" style="width: 30%; height: 30%;"/>
 					</div>
                 </div>
                 
                 
                 <div>
-                    <a href="#" name="signUp" id="signUp">가입</a>
-                    <a href="#" name="cancel" id="cancel">취소</a>
+                    <a href="#" name="signUp" id="signUp" >가 입</a>
+                    <a href="#" name="cancel" id="cancel">취 소</a>
                 </div>
             </div>
         </div>
