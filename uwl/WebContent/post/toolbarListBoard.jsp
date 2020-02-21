@@ -278,18 +278,67 @@
         }
     </style>
     <script type="text/javascript">
-        $(document).ready(function() {
+	    $(document).ready(function(){
+	    	
+	    	var userId = "${user.userId}";
+	    	var gatherCategoryNo = "${gatherCategoryNo}";
+	    	var postChallenge = "${postChallenge}";
 
-            $('.a').on("click", function() {
-                var gatherCategoryNo = ${gatherCategoryNo};
-                self.location = "/post/addBoard?gatherCategoryNo=" + gatherCategoryNo;
-            });
-
-            $('.post').on("click", function() {
-                var postNo = $(this).children().find('.postNo').val();
-                self.location = "/post/getBoard?postNo=" + postNo;
-            });
-        });
+		 	//도전과제 수행하고 충족시키기 위한 조건 넘기는 부분
+		     $.ajax({
+				url : "/challenge/rest/completePostChallenge",
+				method : "POST",
+				dataType : "json",
+				// postCategoryNo 는 사실 challenge 판단이었던거임 ㅋㅋ 1이면 레프트에서 2면 add에서
+				data : JSON.stringify({
+					userId: userId,
+					gatherCategoryNo : gatherCategoryNo,
+					postCategoryNo : postChallenge
+				}),
+				headers : {
+    				"Accept" : "application/json",
+    				"content-Type" : "application/json"
+    			},
+    			success : function(data){
+    				
+    				var challReward = data.challenge.challReward;
+    				completeResult = data.completeResult;
+    				//alert("ajax가동중")
+    				if (postChallenge == '2') {
+	    				if (completeResult == true) {
+		    							Swal.fire({
+			    						  title: '축하합니다! ' + challReward + " 점 획득!",
+			    						  width: 600,
+			    						  padding: '3em',
+			    						  backdrop: `
+			    						    rgba(0,0,123,0.4)
+			    						    url("/images/Congratulation-cat.gif")
+			    						    center top
+			    						    no-repeat
+			    						  `
+			    						})
+						}
+					}
+    				
+    				
+    			},
+    			error : function(){
+    				//alert("에러가 발생");
+    				//alert("님아 에러임 ㅋㅋuserID : " + userId+ "gatherCategoryNo : " + gatherCategoryNo+" postChallenge: " + postChallenge);
+    			}
+					
+			}) //challenge   
+	    	
+	    	$('.a').on("click", function(){
+	    		var gatherCategoryNo = ${gatherCategoryNo};
+	    		self.location = "/post/addBoard?gatherCategoryNo="+gatherCategoryNo + "&postChallenge=2";
+	    	});
+	    	
+	    	$('.post').on("click", function(){
+	    		var postNo = $(this).children().find('.postNo').val();
+	    		self.location = "/post/getBoard?postNo="+postNo;
+	    	});
+	    });
     </script>
 
     <style>
