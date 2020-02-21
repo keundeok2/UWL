@@ -246,19 +246,6 @@ font-family: 'Nanum Gothic', sans-serif;
         }
     </style>
     <script>
-    var myScroll = null;
-    
-    $(function() {
-    	
-        myScroll = new IScroll('#wrapper', {
-            mouseWheel: true,
-            scrollbars: true
-        });
-        
-        setTimeout(function() {
-    		myScroll.refresh();
-    	}, 0);
-    });
     
 		var sessionUserId = "${user.userId}";
     
@@ -579,7 +566,7 @@ font-family: 'Nanum Gothic', sans-serif;
                 <tr>
                     <td></td>
                     <td><a href="#">비밀번호를 잊으셨나요?</a></td>
-                </tr>
+                </tr>	
             </table>
         </form>
         </div>
