@@ -626,7 +626,7 @@
 
             //프로필수정 Btn Event
             $(document).on("click", "div.profileUpdate", function() {
-                $.redirect("/userr/updateProfileView", {
+                $.redirect("/user/updateProfileView", {
                     userId: sessionUserId
                 });
             });

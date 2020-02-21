@@ -593,6 +593,7 @@
 	
 <!--  ================================== 채팅 CDN =============================================================== -->
     <script src="http://localhost:82/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
 <!-- ================================== 채팅 CDN =============================================================== -->
  <script>
     
@@ -777,8 +778,7 @@
     	var chattingRoom = null;
     	
         $(function() {
-        	
-  
+  			
         	var newUser = "${sessionScope.user.userId}";
        		socket = io.connect("localhost:82");	//소켓연결 
        		console.log('node.js Server Connection...');
@@ -1068,14 +1068,13 @@
 	            		$('div.friendList ul li').find('span.' + friendList[i]).removeClass('on');
 	            	}
 	            } */
-	            
+	            for(var i=0; i<friendList.length; i++){
+	            	$('div.friendList ul li').find('span.' + friendList[i]).removeClass('on');
+	            }
 	            for(var i=0; i<loginFriendList.length; i++){
 	            	for(var j=0; j<countLi; j++){
 	            		if(loginFriendList[i] == $('div.friendList ul li').find('input[id="hiddenUserId"]').eq(j).val()){
 	            			$('div.friendList ul li').find('span.' + loginFriendList[i]).addClass('on');
-	            		}else{
-	            			//if문 넣어서 프렌드 리스트에서 불꺼준다.ㅋㅋ
-	            			//$('div.friendList ul li').find('span.' + loginFriendList[i]).removeClass('on');
 	            		}
 	            	}
 	            }
@@ -1241,7 +1240,7 @@
                     //	socket push msg = (senderId,receiverId,senderName,notiOrigin,notiCode,postNo); 하나라도 빼먹으면 안됨.
                     //	해당하는 인자값 없으면 1이라도 넣어야함. CSV = ','임  ,앞뒤로 띄어쓰기 하면 안됨.
                     socketMsg = sessionUserId + "," + userId + "," + sessionUserName + "," + "4,4";
-                    socket.send(socketMsg);
+                    wsocket.send(socketMsg);
                     
                     addNoti(sessionUserId, userId, "4", "4");
 
@@ -1297,11 +1296,11 @@
         }
 
         //////////////// WebSocket //////////////////
-        var socket = null;
+        var wsocket = null;
 
         function connectWS() {
             var ws = new WebSocket("ws://localhost:8080/replyEcho");
-            socket = ws;
+            wsocket = ws;
 
             ws.onopen = function() {
                 console.log('Info: connection opened.');
