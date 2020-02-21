@@ -142,196 +142,219 @@
 
 
     <script type="text/javascript">
-        var gatherCategoryNo = null;
+	
+	var gatherCategoryNo = null;
+	
+	$(document).ready(function(){
+		  $(".dropdownbox").click(function(){
+			  $('#choiceCategory').removeClass();
+		    $(".menu").toggleClass("showMenu");
+		      $(".menu > li").click(function(){
+		        $(".dropdownbox > p").html($(this).html());
+		        $(".menu").removeClass("showMenu");
+		      });
+		  });
+		});
+	
+	
+	
+	
+	
+	//썸머노트--------------------------------------------------------------------------------
+	$(document).ready(function() {
+			$('#summernote').summernote({
+				height : 300,
+				minHeight : 370,
+				maxHeight : null,
+				focus : true,
+				toolbar: [
+				    // [groupName, [list of button]]
+				    ['toolbar', ['picture','video','bold']],	
+				    ['size',['fontsize']],
+				    ['color',['color']],
+				    ['remove',['clear']]
+				  ],
+				placeholder : '내용을 입력하세요',
+				lang : 'ko-KR',
+				callbacks : {
+					onImageUpload : function(files, editor, welEditable) {
+						sendFile(files[0], editor, welEditable);
+						//editor가 누군지 welEditable이 누군지 알아보자 ㅅㅂㅋㅋ
+					}
+				}
+			});
+		});
+	function sendFile(file, editor, welEditable) {
+				data = new FormData();
+				data.append("file", file);
+				$.ajax({
+					data : data,
+					url : '/post/rest/addSummerNoteFile',	//리턴을 url로 해줘야함 ㅋㅋ
+					type : "POST",
+					cache : false,
+					contentType : false,
+					enctype : 'multipart/form-data',
+					processData : false,
+					success : function(data) {
+						let timerInterval
+						Swal.fire({
+						  title: '잠시만 기다려주세요!!',
+						  html: '<b></b>',
+						  timer: 3000,
+						  timerProgressBar: true,
+						  onBeforeOpen: () => {
+						    Swal.showLoading()
+						    timerInterval = setInterval(() => {
+						      const content = Swal.getContent()
+						      if (content) {
+						        const b = content.querySelector('b')
+						        if (b) {
+						          b.textContent = Swal.getTimerLeft()
+						        }
+						      }
+						    }, 100)
+						  },
+						  onClose: () => {
+						    clearInterval(timerInterval)
+						  }
+						}).then((result) => {
+						  /* Read more about handling dismissals below */
+						  if (result.dismiss === Swal.DismissReason.timer) {
+							var file = "/images/"+data;
+							$('#summernote').summernote('insertImage',file);
+						  }
+						})
+						
+					},
+					error : function(){
+						alert("에러냐 ㅋㅋ");
+					}
+				});
+			}
+	//썸머노트--------------------------------------------------------------------
+	
+	$(document).ready(function(){
+		$('#complete').on('click',function(){
+			
+			var gatherCategoryNo = $('#gatherCategoryNo').val();
+			var postTitle = $('#inputPostTitle').val();
+			var postContent = $('#summernote').val();
+			var thumbNail = $('#fileInput').val();
+			
+			//도전과제 수행을 위해 추가된 변수
+			var postChallenge = $('#postChallenge').val();
+			var userId = "${user.userId}"
+			
+			
+			/* alert("gatherCategoryNo : " + gatherCategoryNo + " postTitle : " + postTitle + 
+					" postContent : " + postContent + " thumbNail : " + thumbNail + " postChallenge : " + postChallenge
+					+ " userId : " + userId) */
+			console.log(gatherCategoryNo, postTitle, postContent, thumbNail,postChallenge,userId)
+			if(gatherCategoryNo == '' || gatherCategoryNo == null){
+				Swal.fire({
+					  icon: 'error',
+					  title: '카테고리를 정해주시죠?',
+					  showConfirmButton: false,
+					  timer: 800
+					});
+				return 0;
+			}
+			else if(postTitle == '' || postTitle == null){
+				Swal.fire({
+					  icon: 'error',
+					  title: '제목을 적어주시죠?',
+					  showConfirmButton: false,
+					  timer: 800
+					});
+				return 0;
+			}
+			else if(postContent == '' || postContent == null){
+				Swal.fire({
+					  icon: 'error',
+					  title: '내용을 적어주시죠??',
+					  showConfirmButton: false,
+					  timer: 800
+					});
+				return 0;
+			}
+			else if(thumbNail == '' || thumbNail == null){
+				Swal.fire({
+					  title: '정말?',
+					  text: "썸네일을 등록 안하셨는데.. 등록하실래요?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#cb4414',
+					  cancelButtonColor: '#3c3c3c',
+					  cancelButtonText : '아 맞다!',
+					  confirmButtonText: '그냥 올릴래!',
+					}).then((result) => {
+					  if (result.value) {
+						  Swal.fire({
+							  icon: 'success',
+							  title: '등록완료!',
+							  showConfirmButton: false,
+							  timer: 800
+							}).then((result) => {
+								$('form').attr('method','POST').attr('action','/post/addBoard').submit();
+								
+							});
+					  }
+					});
+				return 0;
+				}
+			  Swal.fire({
+				  icon: 'success',
+				  title: '등록완료!',
+				  showConfirmButton: false,
+				  timer: 800
+				}).then((result) => {
+					$('form').attr('method','POST').attr('action','/post/addBoard').submit();
+				})
+			})
+		
+		 
+		$('li').on('click',function(){
+			gatherCategoryNo = $(this).val();
+			$('#gatherCategoryNo').val(gatherCategoryNo);
+		});	 
+	});
+	
+	
+	
+	$(document).ready(function(){
 
-        $(document).ready(function() {
-            $(".dropdownbox").click(function() {
-                $('#choiceCategory').removeClass();
-                $(".menu").toggleClass("showMenu");
-                $(".menu > li").click(function() {
-                    $(".dropdownbox > p").html($(this).html());
-                    $(".menu").removeClass("showMenu");
-                });
-            });
-        });
+		 $("#fileInput").on('change', function(){  // 값이 변경되면
+
+		 if(window.FileReader){  // modern browser
+
+		 var filename = $(this)[0].files[0].name;
+
+		 } else {  // old IE
+
+		 var filename = $(this).val().split('/').pop().split('\\').pop();  // 파일명만 추출
+
+		 }
+
+		 
+
+		 // 추출한 파일명 삽입
+
+		 $("#userfile").val(filename);
+		 });
+		
+	});
+	
+	
 
 
 
-
-
-        //썸머노트--------------------------------------------------------------------------------
-        $(document).ready(function() {
-            $('#summernote').summernote({
-                height: 300,
-                minHeight: 370,
-                maxHeight: null,
-                focus: true,
-                toolbar: [
-                    // [groupName, [list of button]]
-                    ['toolbar', ['picture', 'video', 'bold']],
-                    ['size', ['fontsize']],
-                    ['color', ['color']],
-                    ['remove', ['clear']]
-                ],
-                placeholder: '내용을 입력하세요',
-                lang: 'ko-KR',
-                callbacks: {
-                    onImageUpload: function(files, editor, welEditable) {
-                        sendFile(files[0], editor, welEditable);
-                        //editor가 누군지 welEditable이 누군지 알아보자 ㅅㅂㅋㅋ
-                    }
-                }
-            });
-        });
-
-        function sendFile(file, editor, welEditable) {
-            data = new FormData();
-            data.append("file", file);
-            $.ajax({
-                data: data,
-                url: '/post/rest/addSummerNoteFile', //리턴을 url로 해줘야함 ㅋㅋ
-                type: "POST",
-                cache: false,
-                contentType: false,
-                enctype: 'multipart/form-data',
-                processData: false,
-                success: function(data) {
-                    let timerInterval
-                    Swal.fire({
-                        title: '잠시만 기다려주세요!!',
-                        html: '<b></b>',
-                        timer: 3000,
-                        timerProgressBar: true,
-                        onBeforeOpen: () => {
-                            Swal.showLoading()
-                            timerInterval = setInterval(() => {
-                                const content = Swal.getContent()
-                                if (content) {
-                                    const b = content.querySelector('b')
-                                    if (b) {
-                                        b.textContent = Swal.getTimerLeft()
-                                    }
-                                }
-                            }, 100)
-                        },
-                        onClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    }).then((result) => {
-                        /* Read more about handling dismissals below */
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            var file = "/images/" + data;
-                            $('#summernote').summernote('insertImage', file);
-                        }
-                    })
-
-                },
-                error: function() {
-                    alert("에러냐 ㅋㅋ");
-                }
-            });
-        }
-        //썸머노트--------------------------------------------------------------------
-
-        $(document).ready(function() {
-            $('#complete').on('click', function() {
-                var gatherCategoryNo = $('#gatherCategoryNo').val();
-                var postTitle = $('#inputPostTitle').val();
-                var postContent = $('#summernote').val();
-                var thumbNail = $('#fileInput').val();
-
-
-                console.log(gatherCategoryNo, postTitle, postContent, thumbNail)
-                if (gatherCategoryNo == '' || gatherCategoryNo == null) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: '카테고리를 정해주시죠?',
-                        showConfirmButton: false,
-                        timer: 800
-                    });
-                    return 0;
-                } else if (postTitle == '' || postTitle == null) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: '제목을 적어주시죠?',
-                        showConfirmButton: false,
-                        timer: 800
-                    });
-                    return 0;
-                } else if (postContent == '' || postContent == null) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: '내용을 적어주시죠??',
-                        showConfirmButton: false,
-                        timer: 800
-                    });
-                    return 0;
-                } else if (thumbNail == '' || thumbNail == null) {
-                    Swal.fire({
-                        title: '정말?',
-                        text: "썸네일을 등록 안하셨는데.. 등록하실래요?",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#cb4414',
-                        cancelButtonColor: '#3c3c3c',
-                        cancelButtonText: '아 맞다!',
-                        confirmButtonText: '그냥 올릴래!',
-                    }).then((result) => {
-                        if (result.value) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: '등록완료!',
-                                showConfirmButton: false,
-                                timer: 800
-                            }).then((result) => {
-                                $('form').attr('method', 'POST').attr('action', '/post/addBoard').submit();
-                            });
-                        }
-                    });
-                    return 0;
-                }
-                Swal.fire({
-                    icon: 'success',
-                    title: '등록완료!',
-                    showConfirmButton: false,
-                    timer: 800
-                }).then((result) => {
-                    $('form').attr('method', 'POST').attr('action', '/post/addBoard').submit();
-                })
-            })
-
-
-            $('li').on('click', function() {
-                gatherCategoryNo = $(this).val();
-                $('#gatherCategoryNo').val(gatherCategoryNo);
-            });
-        });
-
-
-
-        $(document).ready(function() {
-
-            $("#fileInput").on('change', function() { // 값이 변경되면
-
-                if (window.FileReader) { // modern browser
-
-                    var filename = $(this)[0].files[0].name;
-
-                } else { // old IE
-
-                    var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
-
-                }
-
-
-
-                // 추출한 파일명 삽입
-
-                $("#userfile").val(filename);
-            });
-
-        });
-    </script>
+	
+	
+	
+	
+	
+	
+	</script>
 
     <style>
         * {
@@ -493,6 +516,7 @@
                                 <li value="206"><i class="fas fa-bullhorn"></i> 대나무 숲</li>
                             </ul>
                             <input type="hidden" name="gatherCategoryNo" value="" id="gatherCategoryNo">
+                            <input type="hidden" name="postChallenge" value="2" id="postChallenge">
                         </div>
                         <div class="table table-responsive">
                             <table class="table">
@@ -549,10 +573,10 @@
                         </div>
                     </div>
                 </div>
-            </form>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
         </div>
     </div>
+            </form>
 </body></html>
