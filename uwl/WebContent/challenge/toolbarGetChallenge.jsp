@@ -88,20 +88,16 @@
         div.challenge table tr:nth-child(2) td:nth-child(1),
         div.challenge table tr:nth-child(2) td:nth-child(3),
         div.challenge table tr:nth-child(3) td:nth-child(1),
-        div.challenge table tr:nth-child(3) td:nth-child(3) {
+        div.challenge table tr:nth-child(3) td:nth-child(3), 
+        div.challenge table tr:nth-child(4) td:nth-child(1) {
             background-color: #fdfdfd;
-
+			
             font-weight: bold;
         }
 
         div.challenge table tr td {
 
             padding-left: 15px;
-        }
-
-        div.challenge table tr:nth-child(4) td {
-            padding: 0;
-            padding: 10px;
         }
 
         div.challenge table tr td img {
@@ -209,23 +205,24 @@
         }
     </style>
     <script type="text/javascript">
-        $(function() {
+        
+    
+    	//$(function() {
+   		$(document).ready(function(){
             ////////////////////////////////////////////
             //수정할것 삭제를 해서 챌린지넘버가 중간에 비면 오류가남
             ///////////////////////////////////////////
 
             //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
             $("#prePost").on("click", function() {
-                var preChallNo = $ {
-                    preNextPost.preChallNo
-                };
+                var preChallNo = ${ preNextPost.preChallNo};
                 console.log("preChallNo : " + preChallNo);
                 alert("preChallNo : " + preChallNo);
                 self.location = "/challenge/getChallengeAdmin?challNo=" + preChallNo;
             });
 
             $("#nextPost").on("click", function() {
-                var nextChallNo = $ {
+                var nextChallNo = ${
                     preNextPost.nextChallNo
                 }
                 console.log("nextChallNo" + nextChallNo);
@@ -234,8 +231,10 @@
             });
 
             /* update event */
-            $("div.wrap > div:nth-child(4) a:contains('수정')").on("click", function() {
-                var challNo = $ {
+            
+            $("#updateButton").on("click", function() {
+            	//alert("작동됨")
+                var challNo = ${
                     challenge.challNo
                 };
                 console.log("challNo : " + challNo);
@@ -248,9 +247,11 @@
             	console.log("challNo : " + challNo);
              	self.location ="/challenge/deleteChallenge/" + challNo;
             }); */
+            
 
             /* delete event */
-            $("div.wrap > div:nth-child(4) a:contains('삭제')").on("click", function() {
+            $("#deleteButton").on("click", function() {
+            	//alert("작동됨")
 
                 Swal.fire({
                     title: '삭제하시겠습니까?',
@@ -260,9 +261,9 @@
                     confirmButtonColor: '#cb4414',
                     cancelButtonColor: '#3c3c3c',
                     confirmButtonText: '삭제',
-                }).then((result) => {
-                    if (result.value) {
-                        var challNo = $ {
+                }).then((result) =>{
+                    if (result.value){
+                        var challNo = ${
                             challenge.challNo
                         };
                         console.log("challNo : " + challNo);
@@ -271,7 +272,7 @@
                             title: '삭제가 완료 되었습니다.',
                             showConfirmButton: false,
                             timer: 1200
-                        }).then((result) => {
+                        }).then((result) =>{
                             self.location = "/challenge/deleteChallenge/" + challNo;
                         })
                     }
@@ -456,11 +457,11 @@
                             <col width="10%">
                             <col width="40%">
                         </colgroup>
-                        <tr>
+                        <tr><!-- 1번째 tr -->
                             <td>제목</td>
                             <td colspan="3" style="font-size: 25px">${challenge.challTitle}</td>
                         </tr>
-                        <tr>
+                        <tr><!-- 2번째 tr -->
                             <td>카테고리</td>
 
                             <td>
@@ -476,16 +477,44 @@
                             </td>
                             <td>작성일</td>
                             <td>${challenge.challDate}</td>
+                            
+                            
                         </tr>
-                        <tr>
+                        <tr><!-- 3번째 tr -->
+                        	<td>키워드</td>
+                            <td>
+                             <c:if test="${challenge.detailCategory == '201'}">
+                             	진학상담
+                             </c:if>
+                             <c:if test="${challenge.detailCategory == '202'}">
+                             	사랑과 이별
+                             </c:if>
+                             <c:if test="${challenge.detailCategory == '203'}">
+                             	남자끼리
+                             </c:if>
+                             <c:if test="${challenge.detailCategory == '204'}">
+                             	여자끼리
+                             </c:if>
+                             <c:if test="${challenge.detailCategory == '205'}">
+                             	데이트자랑
+                             </c:if>
+                             <c:if test="${challenge.detailCategory == '206'}">
+                             	대나무숲
+                             </c:if>
+                            </td>
                             <td><i class="fas fa-coins" style="font-size: 25px; text-align: right;"></i>포인트</td>
                             <td>&nbsp; + ${challenge.challReward} </td>
+                            
+                        </tr>
+                        <tr><!-- 4번째 tr -->
                             <c:if test="${challenge.challCategory == '3'}">
                                 <td>달성조건</td>
-                                <td>${challenge.postCommentComplete}</td>
+                                <td>${challenge.postCommentComplete} 회 작성</td>
                             </c:if>
+                            <td></td>
+                            <td></td>
                         </tr>
-                        <tr>
+                        <tr><!-- 5번째 tr -->
                             <td colspan="4">
                                 ${challenge.challContent}
                             </td>
@@ -496,8 +525,8 @@
                 </div>
                 <div class="bottom">
                     <div class="list">
-                        <a href="#">수정</a>
-                        <a href="#">삭제</a>
+                        <a href="#" id="updateButton">수정</a>
+	            		<a href="#" id="deleteButton">삭제</a>
                     </div>
                 </div>
 

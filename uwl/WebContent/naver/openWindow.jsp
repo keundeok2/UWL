@@ -53,6 +53,6 @@
 	</script>
 </head>
 <body>
-$.ajax로 인해 바로 페이지가 변환되어 출력되지 않는 구간입니다.
+abcd
 </body>
 </html>
