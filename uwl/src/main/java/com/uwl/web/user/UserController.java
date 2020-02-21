@@ -18,6 +18,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.junit.runners.Parameterized.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.uwl.common.Page;
@@ -165,6 +167,21 @@ public class UserController {
 
 
 	// 회원정보 보기
+	@RequestMapping(value = "getUser", method = RequestMethod.GET)
+	public String getUser(@RequestParam("userId") String userId, Model model) throws Exception {
+		System.out.println("UserController : getUser() GET 호출");
+
+		System.out.println("/user/getUser : GET");
+//		 Business Logic
+		
+		User user = userService.getUser(userId);
+		model.addAttribute("user", user);
+
+		return "forward:/user/getUser.jsp";
+	}
+	
+	
+	// 회원정보 보기
 	@RequestMapping(value = "getUser", method = RequestMethod.POST)
 	public String getUser(@ModelAttribute("user") User user) throws Exception {
 		System.out.println("UserController : getUser() POST 호출");
@@ -293,7 +310,7 @@ public class UserController {
 					pageSize);
 			askQuestionMap.put("resultPage", resultPage);
 			//Ask
-			Map<String,Object> askMap = socialService.getAskList(sessionUser.getUserId(), search, "2" );
+			Map<String,Object> askMap = socialService.getAskList(targetUserId, search, "2" );
 			resultPage = new Page(search.getCurrentPage(), ((Integer) askMap.get("totalCount")).intValue(), pageUnit,
 					pageSize);
 			
