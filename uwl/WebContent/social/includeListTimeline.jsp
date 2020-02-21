@@ -24,7 +24,7 @@
 			
 			pureAlert.pureAlert('show');
 			
-			return;
+			return false;
 		}
 		
 		$("form#addTimelineForm")
@@ -141,12 +141,30 @@
 	});
 	
 	$(document).on("click", ".postUpdateBtn", function() {
-		var postContent = $(this).prev().prev().text();
+		var postContent = $(this).prev().prev().html();
 		console.log("postContent", postContent);
 		postNo = $(this).parent().val();
 		console.log("postNo", postNo);
-		
-		$(".textareaInModal").text(postContent);
+		$("textarea#summernote2").val(postContent);
+		$('#summernote2').summernote({
+			width : '100%',
+			height : 180,
+			minHeight : 180,
+			maxHeight : null,
+			focus : true,
+			toolbar: [
+			    // [groupName, [list of button]]
+			    ['toolbar', ['picture','bold']],	
+			    ['remove',['clear']]
+			  ],
+			lang : 'ko-KR',
+			callbacks : {
+				onImageUpload : function(files, editor, welEditable) {
+					sendFile2(files[0], editor, welEditable);
+					//editor가 누군지 welEditable이 누군지 알아보자 ㅅㅂㅋㅋ
+				}
+			}
+		});
 	});
 	
 		$(document).on("click", ".confirmUpdateBtn", function() {
@@ -180,8 +198,11 @@
 					
 					$("div."+postNo+"").html(newContent);
 					$("a.postViewStatus"+postNo+"").html(view);
-					$(".textareaInModal").text("");
 					$("#postUpdateModal").modal("hide");
+					setTimeout(function() {
+		        		myScroll.refresh();
+						$("textarea#summernote2").val("");
+		        	}, 0);
 				}
 			});
 			
@@ -301,6 +322,8 @@
 					}
 				}
 			});
+			
+			
 		});
 	function sendFile(file, editor, welEditable) {
 				data = new FormData();
@@ -316,6 +339,27 @@
 					success : function(data) {
 						var file = "/images/"+data;
 						$('#summernote').summernote('insertImage',file);
+					},
+					error : function(){
+						alert("에러냐 ㅋㅋ");
+					}
+				});
+			}
+	
+	function sendFile2(file, editor, welEditable) {
+				data = new FormData();
+				data.append("file", file);
+				$.ajax({
+					data : data,
+					url : '/post/rest/addSummerNoteFile',	//리턴을 url로 해줘야함 ㅋㅋ
+					type : "POST",
+					cache : false,
+					contentType : false,
+					enctype : 'multipart/form-data',
+					processData : false,
+					success : function(data) {
+						var file = "/images/"+data;
+						$('#summernote2').summernote('insertImage',file);
 					},
 					error : function(){
 						alert("에러냐 ㅋㅋ");
@@ -414,6 +458,9 @@ div.askBody {
 
 p.commentPtag {
 	display : inline;
+}
+div.modal-backdrop.show {
+	display: none;
 }
 </style>
 <title>어울림</title>

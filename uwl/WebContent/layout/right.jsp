@@ -6,7 +6,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="/javascript/iscroll.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
+    <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
+    <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+    <script src="http://192.168.0.23:82/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
         <style type="text/css">
         /* 일단 여기에 박았음 */
         div.addAskedFriendData img {
@@ -78,7 +91,7 @@
             padding: 0 15px;
             font-size: 17px;
             border-radius: 10px 0 0 10px;
-            width: 15%;
+            width: 20%;
         }
 
         div.search2 input {
@@ -90,12 +103,13 @@
 
             font-size: 16px;
             color: #919191;
-            padding-right: 35px;
-            width: 60%;
+            padding-right: 10px;
+            width: 50%;
+            
         }
         
         div.search2 select {
-            width: 25%;
+            width: 30%;
             line-height: 40px;
             height: 40px;
             border: none;
@@ -247,8 +261,8 @@
 
             display: inline-block;
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 25px;
+            right: 90px;
         }
 
         div.chattingIcon a {
@@ -286,6 +300,7 @@
             bottom: 110px;
             transition: max-height 0.3s;
             border: none;
+            z-index: 9;
 
         }
 
@@ -542,9 +557,10 @@
 			display: none;
 			background-color: #ffffff;
 			border: solid 2px #d0d0d0;
-			width: 350px;
-			height: 150px;
+			width: 200px;
+			height: 80px;
 			padding: 10px;
+			
 			
 			z-index: 1;
 		}
@@ -592,7 +608,7 @@
 	</style>
 	
 <!--  ================================== 채팅 CDN =============================================================== -->
-    <script src="http://localhost:82/socket.io/socket.io.js"></script>
+
 <!-- ================================== 채팅 CDN =============================================================== -->
  <script>
     
@@ -777,14 +793,25 @@
     	var chattingRoom = null;
     	
         $(function() {
-        	
-  
+  			
         	var newUser = "${sessionScope.user.userId}";
-       		socket = io.connect("localhost:82");	//소켓연결 
+       		socket = io.connect("192.168.0.23:82");	//소켓연결 
        		console.log('node.js Server Connection...');
        		socket.emit("new",newUser);
 	        $('div.chattingIcon a').on('click', function() {
 	            $('div.chattingList').toggleClass('on');
+	            $('div.chattingBox').css({
+	            	"bottom": "110px",
+	            	"right": "440px",
+					"z-index": '9'
+				});
+	            if(!$('div.chattingList').hasClass('on')){
+	            	 $('div.chattingBox').css({
+	            		'bottom': '30px',
+						'right': '160px',
+						"z-index": '9'
+	 				});
+	            }
 	        });
 	        ///////////////////소켓 연결되는 구간
 	        
@@ -1068,14 +1095,13 @@
 	            		$('div.friendList ul li').find('span.' + friendList[i]).removeClass('on');
 	            	}
 	            } */
-	            
+	            for(var i=0; i<friendList.length; i++){
+	            	$('div.friendList ul li').find('span.' + friendList[i]).removeClass('on');
+	            }
 	            for(var i=0; i<loginFriendList.length; i++){
 	            	for(var j=0; j<countLi; j++){
 	            		if(loginFriendList[i] == $('div.friendList ul li').find('input[id="hiddenUserId"]').eq(j).val()){
 	            			$('div.friendList ul li').find('span.' + loginFriendList[i]).addClass('on');
-	            		}else{
-	            			//if문 넣어서 프렌드 리스트에서 불꺼준다.ㅋㅋ
-	            			//$('div.friendList ul li').find('span.' + loginFriendList[i]).removeClass('on');
 	            		}
 	            	}
 	            }
@@ -1109,9 +1135,7 @@
 					console.log("notiTotalCount", d.totalCount);
 					
 					if (d.totalCount != 0) {
-						$("#notiIcon").children("i").remove();
-						var html = "<i class='fas fa-bell'></i>"
-						$("#notiIcon").prepend(html);
+						$(".notiBadge").html(d.totalCount +"개");
 					}
 				}
         	});
@@ -1153,14 +1177,271 @@
         }
 
 
-        //	우측툴바 프로필 이동 event
-        $(document).on("click", "div.friendList ul li a.rightProfileName", function() {
+  //	우측툴바 프로필 이동 event 근덕이형꺼
+        $(document).on("click", "div.friendList ul li a.rightProfileName", function() {	//팝업 레이어 누른 칸만 색깔 들어오기
             var targetUserId = $(this).next().val();
-            console.log("targetUserId", targetUserId);
-
-            $.redirect("/user/getProfile/" + targetUserId + "", {}, "GET");
+            $('.friendList ul li a').css('backgroundColor','#efefef');
+            $(this).css('backgroundColor','#ebad7a');
         });
+  		$(document).on("click", "#friendListPopUpTimes", function(){	//팝업 레이어 x 눌렀을때 색깔 다 빼기
+  			$('.friendList ul li a').css('backgroundColor','#efefef');
+  		});
 
+ /////형진이가 수정중///////////////////////////////////////////       
+        $(document).on("click", "div.friendList ul li a.rightProfileName", function(e) {
+        	$('#searchFriendListByName').children().empty();
+        	var sWidth = window.innerWidth;
+    		var sHeight = window.innerHeight;
+
+    		var oWidth = $('.popupLayer').width();
+    		var oHeight = $('.popupLayer').height();
+
+    		// 레이어가 나타날 위치를 셋팅한다.
+    		var divLeft = e.clientX + 10;
+    		var divTop = e.clientY + 5;
+
+    		// 레이어가 화면 크기를 벗어나면 위치를 바꾸어 배치한다.
+    		if( divLeft + oWidth > sWidth ) divLeft -= oWidth;
+    		if( divTop + oHeight > sHeight ) divTop -= oHeight;
+
+    		// 레이어 위치를 바꾸었더니 상단기준점(0,0) 밖으로 벗어난다면 상단기준점(0,0)에 배치하자.
+    		if( divLeft < 0 ) divLeft = 0;
+    		if( divTop < 0 ) divTop = 0;
+
+    		$('.popupLayer').css({
+    			"top": divTop,
+    			"left": divLeft,
+    			"position": "absolute",
+    			"z-index": 9,
+    			"overflow-x":"hidden",
+				"overflow-y":"hidden"
+    		}).show();
+    		var friendName = $(this).parent().find('span').text();
+    		var userId = $(this).parent().find('#hiddenUserId').val();
+    		var view = "<span style='color:#cb4414; font-size:1em; font-weight:bold'>"+friendName+"</br>"
+    						+"<input class='btn btn-secondary' style='background-color:#ebad7a; color:black; font-weight:bold' type='submit' value='프로필' id='goToProfile'> &nbsp;"
+    						+"<input class='btn btn-secondary' style='background-color:#ebad7a; color:black; font-weight:bold' type='submit' value='채팅창' id='goToChatting'>"
+    						+"<input type='hidden' class='userIdForProfile' value='"+userId+"'>" 
+    					+"</span>";
+    		$('#searchFriendListByName').append(view);
+        });
+ 		$(document).on("click", "#goToProfile", function(){	//프로필 가기
+ 			$('.friendList ul li a').css('backgroundColor','#efefef');
+ 			var targetUserId = $(this).parent().find('.userIdForProfile').val();
+ 			$.redirect("/user/getProfile/" + targetUserId + "", {}, "GET");
+ 		});
+ 		$(document).on("click", '#goToChatting', function(){	//채팅창으로 가기
+ 			$('.friendList ul li a').css('backgroundColor','#efefef');
+ 			$('.popupLayer').hide();
+ 			$('div.chattingBox').removeClass('on');
+ 			$('div.chattingList li').css("backgroundColor", "#fff");
+         	$('.chatFromMe').remove();
+			$('.chatFromUser').remove();
+			$('div.chattingList').removeClass('on');
+			var sessionUserId = "${sessionScope.user.userId}";
+			targetId = $(this).parent().find(".userIdForProfile").val();
+			$.ajax({
+	    		url : "/chatting/rest/getChattingRoomList",
+	    		method : "POST",
+	    		headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				data : JSON.stringify({
+					master : sessionUserId
+				}),
+				success : function(data){
+					if(data.length == 0){															//해당 유저가 채팅방이 하나도 없을때
+						$.ajax({
+							 url : "/chatting/rest/addChattingRoom",
+							 method : "POST",
+							 dataType : 'json',
+							 data : JSON.stringify({
+								 master : sessionUserId,
+								 enterUser : targetId
+							 }),
+							 headers : {
+				    				"Accept" : "application/json",
+				    				"content-Type" : "application/json"
+				    			},
+				    		success : function(data){
+				    				if(data == true){ //만들어졌다면 룸너버 가져오기
+				    					$.ajax({
+				    						url : "/chatting/rest/getChattingRoomList",
+				    						method : "POST",
+				    						headers : {
+				    							"Accept" : "application/json",
+				    							"Content-Type" : "application/json"
+				    						},
+				    						data : JSON.stringify({
+				    							master : sessionUserId
+				    						}),
+				    						success : function(data){
+				    							for(var i=0; i<data.length; i++){		
+				    								//console.log(data[i]);											//확인완료--------------------------
+				    								if((data[i].master == sessionUserId && data[i].enterUser == targetId) || (data[i].master == targetId && data[i].enterUser == sessionUserId)){
+				    									console.log('일치하는 채팅방이 있다1');							//확인완료
+				    									chattingRoomNo = data[i].roomNo;
+				    									socket.emit("enterUserId", data[i].master);
+				    									socket.emit("targetId", data[i].enterUser);
+				    									socket.emit("chattingRoomNo", chattingRoomNo);
+				    									//-----------------------------------------------------확인완료
+				    									var view = "<li><a href='#'>"
+						                    				+"<div class='profileImage'>"
+										                        +"<img src='/images/bonobono.jpg' alt=''>&emsp;"
+										                    +"</div>"
+										                    +"<div class='chattingInfo'>"
+										                        +"<div class='chattingUser'>"
+										                            +"<p>"+data[i].enterUserName+"</p>"
+										                            +"<p>오전 10:13</p>"
+										                            +"<input type='hidden' id='chattingUserId' value='"+sessionUserId+"'>"
+												                    +"<input type='hidden' id='roomNo' value='"+chattingRoomNo+"'>"
+										                        +"</div>"
+										                        "<div class='chattingContent'>"
+										                            +"줄여서 테마"
+										                        +"</div>"
+										                    +"</div>"
+										                +"</a></li>";
+										      		 $('#forFriendListAppend').after(view);
+				    									//----------------------------------------------------확인완료
+				    									$('div.chattingBox').addClass('on');
+				    									$('.chattingBoxContent').animate({
+				    						        		'scrollTop': '10000000px'
+				    						        	});
+				    									$('div.chattingBox').css({
+				    										'bottom': '30px',
+				    										'right': '160px',
+				    										"z-index": '9'
+				    									});							
+				    								}
+				    							} //for end
+				    							
+				    						},
+				    						error : function(){
+				    							console.log('새로운 채팅방 갱신 실패 ㅋㅋ');
+				    						}
+				    					});
+				    				}
+				    			},
+				    			error : function(){
+				    				console.log('에러당 ㅋㅋ')
+				    			}//listChattingRoom end
+						  }); 						
+					}			//유저의 채팅방이 하나도 없을때 if 종료
+					for(var i=0; i<data.length; i++){				//-----------------유저의 채팅방 목록을 불러올 수 있을때
+						console.log('난 채팅방이 여러개다');				//확인완료
+						if((data[i].master == sessionUserId && data[i].enterUser == targetId) || (data[i].master == targetId && data[i].enterUser == sessionUserId)){	//이미 하고있는 채팅?
+							console.log('기존에 채팅중이었던 유저다');
+							chattingRoomNo = data[i].roomNo;
+							socket.emit("enterUserId", data[i].master);
+							socket.emit("targetId", data[i].enterUser);
+							socket.emit("chattingRoomNo", chattingRoomNo);
+							$('div.chattingBox').toggleClass('on');
+							$('.chattingBoxContent').animate({
+				        		'scrollTop': '10000000px'
+				        	});
+							$('div.chattingBox').css({
+								'bottom': '30px',
+								'right': '160px',
+								"z-index": '9'
+							});			//-------------------------------------------------------확인완료
+							break;
+						}else{			//--------------------------------------------------첫 채팅의 시작 여기로 엄청빠짐
+							console.log('채팅 중이 아니었네!');		//------------------확인완료
+							$.ajax({
+								 url : "/chatting/rest/addChattingRoom",
+								 method : "POST",
+								 dataType : 'json',
+								 data : JSON.stringify({
+									 master : sessionUserId,
+									 enterUser : targetId
+								 }),
+								 headers : {
+					    				"Accept" : "application/json",
+					    				"content-Type" : "application/json"
+					    			},
+					    		success : function(data){
+					    				//console.log('채팅방 생성을 완료했다.')		--------------------확인완료
+					    				if(data == true){ //만들어졌다면 룸너버 가져오기
+					    					///console.log('진짜로 채팅방이 만들어졌다');	//-------------확인완료
+					    					$.ajax({
+					    						url : "/chatting/rest/getChattingRoomList",
+					    						method : "POST",
+					    						headers : {
+					    							"Accept" : "application/json",
+					    							"Content-Type" : "application/json"
+					    						},
+					    						data : JSON.stringify({
+					    							master : sessionUserId
+					    						}),
+					    						success : function(data){
+					    							for(var i=0; i<data.length; i++){
+					    								//console.log(data[i]);	///------------------------ 잘 가져옴 확인완료
+					    								if((data[i].master == sessionUserId && data[i].enterUser == targetId) || (data[i].master == targetId && data[i].enterUser == sessionUserId)){
+					    									//console.log('기존에 채팅중이었던 방이다.'); -----------------확인완료 (for문 제어 잘해주길)
+					    									chattingRoomNo = data[i].roomNo;
+					    									socket.emit("enterUserId", data[i].master);
+					    									socket.emit("targetId", data[i].enterUser);
+					    									socket.emit("chattingRoomNo", chattingRoomNo);
+					    									
+					    									var view = "<li><a href='#'>"
+							                    				+"<div class='profileImage'>"
+											                        +"<img src='/images/bonobono.jpg' alt=''>&emsp;"
+											                    +"</div>"
+											                    +"<div class='chattingInfo'>"
+											                        +"<div class='chattingUser'>"
+											                            +"<p>"+data[i].enterUserName+"</p>"
+											                            +"<p>오전 10:13</p>"
+											                            +"<input type='hidden' id='chattingUserId' value='"+sessionUserId+"'>"
+													                    +"<input type='hidden' id='roomNo' value='"+chattingRoomNo+"'>"
+											                        +"</div>"
+											                        "<div class='chattingContent'>"
+											                            +"줄여서 테마"
+											                        +"</div>"
+											                    +"</div>"
+											                +"</a></li>";
+											      		 $('#forFriendListAppend').after(view);
+					    									
+					    									$('div.chattingBox').addClass('on');
+					    									$('.chattingBoxContent').animate({
+					    						        		'scrollTop': '10000000px'
+					    						        	});
+					    									$('div.chattingBox').css({
+					    										'bottom': '30px',
+					    										'right': '160px',
+					    										"z-index": '9'
+					    									});	
+					    									break;
+					    								}
+					    								console.log('for control');
+					    							//break;             -----------------------존재의 이유 다시 생각
+					    							} //for end
+					    						},	//success 끝
+					    						error : function(){
+					    							console.log('새로운 채팅방 갱신 실패 ㅋㅋ');
+					    						}
+					    					});
+					    				}	//채팅방이 잘 만들어졌다의 if end
+					    			},  //getChattingRoomList end-----------
+					    			error : function(){
+					    				console.log('에러당 ㅋㅋ')
+					    			}
+							  });
+							break;
+						} 	//채팅방이 없는 유저가 아니라면 else end
+					}		//유저 채팅방 목록 찾을 수 있게 해주는 for end
+				},				//총괄 success 끝
+				error : function(){
+					alert('채팅방 찾기 에러');
+				}
+			});
+			
+ 		});
+ /////형진이가 수정중///////////////////////////////////////////       
+		
+        
+        
+        
         //	우측툴바 검색 event
         $(document).on("keypress", "div.search2 input", function(e) {
             var searchKeyword = $(this).val();
@@ -1241,7 +1522,7 @@
                     //	socket push msg = (senderId,receiverId,senderName,notiOrigin,notiCode,postNo); 하나라도 빼먹으면 안됨.
                     //	해당하는 인자값 없으면 1이라도 넣어야함. CSV = ','임  ,앞뒤로 띄어쓰기 하면 안됨.
                     socketMsg = sessionUserId + "," + userId + "," + sessionUserName + "," + "4,4";
-                    socket.send(socketMsg);
+                    wsocket.send(socketMsg);
                     
                     addNoti(sessionUserId, userId, "4", "4");
 
@@ -1297,11 +1578,11 @@
         }
 
         //////////////// WebSocket //////////////////
-        var socket = null;
+        var wsocket = null;
 
         function connectWS() {
             var ws = new WebSocket("ws://localhost:8080/replyEcho");
-            socket = ws;
+            wsocket = ws;
 
             ws.onopen = function() {
                 console.log('Info: connection opened.');
@@ -1347,10 +1628,9 @@
 	<div class="popupLayer" id="popupLayer" style="overflow-y:scroll; overflow-x:scroll ">
 					<div>
 						<span onClick="closeLayer(this)"
-							style="cursor: pointer; font-size: 1.5em" title="닫기"><i class="fas fa-times"></i>
+							style="cursor: pointer; font-size: 1.5em" title="닫기"><i class="fas fa-times" id="friendListPopUpTimes"></i>
 						</span>
 					</div>
-					<br>
 					<span id="searchFriendListByName"></span>
 				</div>
     <div class="chattingIcon"><a href="#"><i class="fas fa-comments"></i></a>
@@ -1372,10 +1652,10 @@
             
 				
 				
-				<div class="ui-widget">
+				<!-- <div class="ui-widget">
 	 				<label for="tags"><i class="fas fa-search" id="findFriendByName"></i> </label>
 	  				<input id="tags" style="width: 100px">
-				</div>
+				</div> -->
 			</div>
 		</div>
 		

@@ -18,7 +18,6 @@ import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.domain.Friend;
 import com.uwl.service.domain.User;
-import com.uwl.service.fcm.FcmService;
 import com.uwl.service.friend.FriendService;
 import com.uwl.service.user.UserService;
 
@@ -28,9 +27,6 @@ public class FriendRestController {
 
 	@Autowired
 	private FriendService friendService;
-	
-	@Autowired
-	private FcmService fcmService;
 	
 	@Autowired
 	private UserService userService;
@@ -53,7 +49,6 @@ public class FriendRestController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		friendService.acceptFriend(friend);
 		map.put("success", true);
-		fcmService.createReceiveNotification((userService.getUser(friend.getFirstUserId())).getName(), friend.getSecondUserId(),"acceptFriend");
 		return map;
 	}
 

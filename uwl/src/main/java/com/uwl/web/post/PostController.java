@@ -111,11 +111,13 @@ public class PostController {
 			post.setUploadFileName(name);
 			postService.addBoard(post);
 			//return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo();
+			System.out.println("PostController addBoard()에 도착함 ====== 썸네일 올렸을떄");
 			return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo()+"&postChallenge=" + postChallenge;
 			//+"&challenge=" + challenge
 		}else { 	//썸네일을 안올렸을 때
 			post.setUploadFileName("empty.jpg");
 			postService.addBoard(post);
+			System.out.println("PostController addBoard()에 도착함 ====== 썸네일 안 올렸을떄");
 			return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo()+"&postChallenge=" + postChallenge;
 		}
 	}
@@ -212,10 +214,11 @@ public class PostController {
 		model.addAttribute("search", search);
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
 		model.addAttribute("postChallenge", postChallenge);
+		System.out.println("게더카테 :: " +  gatherCategoryNo +"포스트 어쩌구 :: " + postChallenge);
 		return "forward:/post/toolbarListBoard.jsp";
 	}
 	
-	
+	 
 	
 	
 	
