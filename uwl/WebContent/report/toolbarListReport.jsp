@@ -20,11 +20,42 @@
                 $('form').attr("method", "POST").attr("action", "/report/listReport").submit();
             });
 
-            $("tr").on("click", function() {
+            /* $("tr").on("click", function() {
                 var reportNo = $(this).find(".reportNo").val();
                 self.location = "/report/getReport?reportNo=" + reportNo;
-            });
+            }); */
         });
+        
+        
+        //=============    검색 / page 두가지 경우 모두  Event  처리 =============	
+    		function fncGetList(currentPage) {
+    			$("#currentPage").val(currentPage)
+    			$("form").attr("method","POST").attr("action","/report/listReport").submit();
+    		}
+    		
+    		
+    		//============= "검색"  Event  처리 =============	
+    		 $(function() {
+    			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+    			 
+    			 $("input[name=searchKeyword]").focus();
+    			 	
+    				$("input[name=searchKeyword]").keydown(function(key){
+    			    	if(key.keyCode == 13){
+    		    			fncGetList(1);
+    			    	}
+    			    } );
+    			 $( ".btn-default:contains('검색')" ).on("click" , function() {
+    					//Debug..
+    					//alert(  $( "td.ct_btn01:contains('검색')" ).html() );
+    					fncGetList(1);
+    				});
+    			 
+    			 
+    		 });
+        
+        
+        
     </script>
 
     <style>
@@ -264,6 +295,15 @@
                             </div>
                         </div>
                     </div>
+                    
+                     <!-- PageNavigation Start... -->
+					<jsp:include page="../common/pageNavigator_new.jsp"/>
+				<!-- PageNavigation End... -->
+				  
+				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+				  
+				  
                 </div>
             </form>
         </div>
