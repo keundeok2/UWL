@@ -214,10 +214,11 @@ public class PostController {
 		model.addAttribute("search", search);
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
 		model.addAttribute("postChallenge", postChallenge);
+		System.out.println("게더카테 :: " +  gatherCategoryNo +"포스트 어쩌구 :: " + postChallenge);
 		return "forward:/post/toolbarListBoard.jsp";
 	}
 	
-	
+	 
 	
 	
 	
