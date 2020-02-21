@@ -377,7 +377,7 @@
 
         div.askQuestionList div.commentForm {
             background-color: #fff;
-            height: 160px;
+            
             padding-top: 15px;
         }
 

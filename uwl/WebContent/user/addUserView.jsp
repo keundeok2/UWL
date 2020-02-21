@@ -26,7 +26,8 @@
 	<!--     datePicker -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
+<!--     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script> -->
     
     <script type="text/javascript">
 
@@ -274,8 +275,17 @@
 			var birth=$("input[name='birth']").val();
 			var schoolName=$("input[name='schoolName']").val();
 			var mail=$("input[name='mail']").val();
+			var mailValue=$("input[name='mailValue']").val();
 			
 			
+		if(mailValue != '1'){
+			$('#not').remove();
+			var view = "<span id='not' style='color:red'> 메일 인증을 해주세요.</span>";
+			$('#mail').after(view);
+			$('#mail').focus();
+			alert(mailValue);
+			return false;
+		}	
 
 	    if(id == null || id.length <1){
 			$('#not').remove();
@@ -412,13 +422,15 @@
 		
 		
 		Swal.fire({
-					  icon: 'success',
-					  title: 'Your work has been saved',
-					  text : '어어어어어울리리리리리리림'
-					})
+			  icon: 'success',
+			  title: 'Your work has been saved',
+			  text : '어어어어어울리리리리리리림',
+			  timer: 3000
+		});
 		
-		
+		setTimeout(function() {
 		$("form").attr("method" , "POST").attr("action" , "/user/addUser").submit();
+		},3000);
 	} //
     
 		
@@ -769,7 +781,6 @@
 // 								$("input[name='mail']").attr("placeholder", "인증번호 입력");
 // 								$("input[name='mail']").removeAttr("name");
 								$("input[name='confirmNo']").attr("placeholder", "인증번호 입력");
-								$("input[name='confirmNo']").removeAttr("name");
 							} 
 						}
 					}
@@ -777,7 +788,7 @@
 		});
 		
 		
-		$(document).on("click" ,"a:contains('인증번호확인')", function() {
+		$(document).on("click" ,"a#checkMailBtn", function() {
 			var mailValue = $("input#confirmNo").val();
 			var mailCheck = $("input[name='mailCheck']").val();
 			console.log("비교대상 값 : " + mailCheck);
@@ -787,11 +798,10 @@
 			// mailValue는 이메일 인증 유무를 판단하는 Flag이다 
 			
 			// 메일 인증 안하고 주소만 적으면 가입이 가능 !!!!!!!!!!!!! errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
-			if ( mailValue == "" || mailValue != "1" || mailValue == null) { 
+		/* 	if ( mailValue == "" || mailValue != "1" || mailValue == null) { 
 				$("h6").text("메일 인증을 진행해주세요.");
 				return;
-			}
-
+			}*/
 // 			if ( mailValue == "" ) {
 // 				$("h6").text("인증번호를 입력해주세요.");
 // 			}
@@ -809,6 +819,7 @@
 // 					$("h6").text("인증되었습니다.");
 					$("h6").text("메일 발송이 완료되었습니다.").remove();
 					$("input[name='confirmNo']").attr("readonly", true);
+					$("input[name='mail']").attr("readonly", true);
 					$("a:contains('인증번호확인')").remove();
 					$("a:contains('인증완료!')").show();
 				}
@@ -849,6 +860,7 @@
 		 });
 	});	    
 	
+//  사진 미리보기 ===============================================================================
  	$(document).ready(function(){
         $("#userfile").on('change', function(){
             readURL(this);
@@ -870,6 +882,8 @@
     });
 	
 	
+    
+    
 
 $(function() {
 	 $( "a[id='cancel']" ).on("click" , function() {
@@ -946,7 +960,7 @@ $(function() {
                     <p><input type="text" id="confirmNo" name="confirmNo" placeholder="인증번호"></p>
                     <h6></h6>
                     <p><a href="#" id="sendMail">메일전송</a></p>
-                    <p><a href="#" >인증번호확인</a></p>
+                    <p><a href="#" id="checkMailBtn">인증번호확인</a></p>
                     <p><a href="#" >인증완료!</a></p>
                     
                     <p><input type="hidden" name="mailValue" value=""></p>
