@@ -39,8 +39,39 @@
             requestBtn();
 
         })
+        
+        $(document).on("click", "#acceptButton", function() {
+			var sessionId = $("input#sessionId").val();
+			var userId = $(this).next().val();
+			var sessionUserName = "${user.name}";
+			
+			$.ajax({
+				 url: "/friend/rest/acceptFriend",
+	                method: "POST",
+	                headers: {
+	                    "Accept": "application/json",
+	                    "Content-Type": "application/json"
+	                },
+	                data: JSON.stringify({
+	                    firstUserId: sessionId,
+	                    secondUserId: userId
+	                }),
+	                success : function(d) {
+						if (d.success) {
+							alert(userId + "님과 친구가 되었습니다.");
+							socketMsg = sessionId + "," + userId + "," + sessionUserName + "," + "4,4";
+		                    wsocket.send(socketMsg);
+		                    addNoti(sessionId, userId, "4", "4");
+		                    $("button."+userId+"").remove();
+		                    rightLoad();
+		                    
+						}
+					}
+			});
+		});
 
-
+		
+        //	친구신청 버튼
         $(document).on("click", "#applyBtn", function() {
             var sessionId = $("input#sessionId").val();
             console.log("sessionId", sessionId);
@@ -67,13 +98,14 @@
                     //socket push msg = (senderId,receiverId,senderName,notiOrigin,notiCode); 하나라도 빼먹으면 안됨. 해당하는 인자값 없으면 1이라도 넣어야함
                     socketMsg = sessionId + "," + userId + "," + sessionName + "," + "4,3";
                     console.log(socketMsg)
-                    socket.send(socketMsg);
+                    wsocket.send(socketMsg);
 
                     addNoti(sessionId, userId, "4", "3");
                 }
             })
         })
-
+		
+        //	친구신청 취소버튼
         $(document).on("click", "#cancelBtn", function() {
             var sessionId = $("input#sessionId").val();
             console.log("sessionId", sessionId);
@@ -120,7 +152,9 @@
                 }
             })
         }
-
+		
+        
+        //	친구신청 온 유저 버튼
         function askedBtn() {
             var sessionId = $("input#sessionId").val();
             $.ajax({
@@ -169,6 +203,14 @@
                 }
             })
         }
+        
+        
+        $(document).on("click", "span.searchName", function() {
+			var targetUserId = $(this).parent().children("input:hidden").val();
+			console.log("targetUserId", targetUserId);
+			$.redirect("/user/getProfile/"+targetUserId, {}, "GET");
+		});
+        
     </script>
 
 
@@ -319,6 +361,7 @@
         
         div.searchList span a {
         	display : inline-block;
+        	font-weight: bold;
         }
     </style>
 </head>
@@ -336,8 +379,8 @@
                     <c:forEach var="friendUser" items="${map.list}">
                         <div class="col-sm-8 col-md-8">
                             <div id="${friendUser.userId}" class="searchList">
-                                <img src="../../images/${friendUser.profileName}" id="searchProfileName" />&nbsp;
-                                <span id="name" style="margin-right:20px;"><a href="#">${friendUser.name}</a></span>
+                                <img src="../../images/${friendUser.profileName}" class="searchProfileName" id="searchProfileName" />&nbsp;
+                                <span class="searchName" style="margin-right:20px;"><a href="#">${friendUser.name}</a></span>
                                 <span style="margin-right:20px;">${friendUser.schoolName}</span>
                                 <button type="button" class="btn btn-outline-primary ${friendUser.userId}" id="applyBtn">친구신청</button>
                                 <input type="hidden" value="${friendUser.userId}" />

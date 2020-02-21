@@ -12,7 +12,7 @@
     <script src="/javascript/iscroll.js"></script>
     <script>
     
-		var myScroll = null;    
+		var myScroll = null;
     
 	    $(function() {
 	    	
@@ -40,7 +40,7 @@
 	    	       	var ulHeight = $('#wrapper ul').height();
 	    	       	var evtHeight = wrapperHeight - ulHeight;
 	    	       	
-	    			if (this.y <= evtHeight+1) {
+	    			if (this.y <= evtHeight+100) {
 	    				console.log('wrapperHeight', wrapperHeight);
 	    				console.log('ulHeight', ulHeight);
 	    				console.log('evtHeight', evtHeight);
@@ -237,14 +237,14 @@
             padding: 50px 0;
         }
 
-        div.profileImage {
+        div.profileImage2 {
 
             width: 35%;
             text-align: center;
             float: left;
         }
 
-        div.profileImage a {
+        div.profileImage2 a {
 
             display: inline-block;
             width: 150px;
@@ -254,7 +254,7 @@
             position: relative;
         }
 
-        div.profileImage a img {
+        div.profileImage2 a img {
             height: 100%;
             position: absolute;
             top: 50%;
@@ -547,9 +547,10 @@
                         $("div.addFriend").remove();
 
                         //socket push
-                        socketMsg = sessionUserId + "," + targetUserId + "," + sessionName + "," + "friend,add";
+                        socketMsg = sessionUserId + "," + targetUserId + "," + sessionName + "," + "4,3";
                         console.log(socketMsg)
-                        socket.send(socketMsg);
+                        wsocket.send(socketMsg);
+                        addNoti(sessionUserId, targetUserId, "4", "3");
 
                     }
                 });
@@ -1220,7 +1221,7 @@
             width: 770px;
             height: 100vh;
             float: left;
-            overflow: hidden;
+            
             position: relative;
 			
         }
@@ -1234,6 +1235,8 @@
             border-left: 1px solid #eee;
             padding: 15px 15px 0 15px;
         }
+        
+        
     </style>
 </head>
 
@@ -1253,7 +1256,7 @@
 
             <div>
                 <div class="profileHeader">
-                    <div class="profileImage">
+                    <div class="profileImage2">
                         <a href="#">
                             <c:if test="${empty user.profileName}">
 
@@ -1496,7 +1499,7 @@
 			        </button>
 			      </div>
 			      <div class="modal-body">
-			      <textarea class="form-control textareaInModal" rows="6"></textarea>
+			      <textarea class="form-control textareaInModal" id="summernote2"></textarea>
 			      </div>
 			      <div class="modal-footer">
 			      	<select class="custom-select float-right viewStatusInModal" name="viewStatus">

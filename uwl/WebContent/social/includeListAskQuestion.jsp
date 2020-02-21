@@ -52,10 +52,9 @@
 				                +"<input type='hidden' value='"+d.list[0].questionPostNo+"'>"
 				            +"</div>"
 				$("div.addAsk").prepend(html);
-				var myScroll = new IScroll('#wrapper', {
-		            mouseWheel: true,
-		            scrollbars: true
-		        });
+				setTimeout(function() {
+	        		myScroll.refresh();
+	        	}, 0);
 			}
 		});
 	});
@@ -109,12 +108,8 @@
 							    + '</div>';
                 $(this).parent().parent().append(displayValue);
                 setTimeout(function() {
-            		var myScroll = new IScroll('#wrapper', {
-			            mouseWheel: true,
-			            scrollbars: true
-			        });
-	        		myScroll.refresh();
-	        	}, 0);
+            		myScroll.refresh();
+            	}, 0);
             });
 	
                 $(document).on("click", "a.replyBtn", function() {
