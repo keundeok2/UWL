@@ -295,7 +295,7 @@
 				success : function(d) {
 					$("div."+questionPostNo+"").remove();
 					//alert("답변등록완료");
-					swal({
+					swal.fire({
     			    title: "답변입력완료 !",
     			    icon: "success" //"info,success,warning,error" 중 택1
     			});

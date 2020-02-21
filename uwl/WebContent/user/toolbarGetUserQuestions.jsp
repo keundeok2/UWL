@@ -47,7 +47,7 @@
     		
     		if(postNo == '0'){
     			
-    			swal({
+    			swal.fire({
     			    title: "현재 처리중인 문의사항입니다",
     			    
     			    icon: "info" //"info,success,warning,error" 중 택1

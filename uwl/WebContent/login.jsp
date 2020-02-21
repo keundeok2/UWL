@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
@@ -22,7 +23,7 @@
 	<!-- Modal Alert https://github.com/PureOpenSource/pureAlert  -->
 	<script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
     
-    <link rel="stylesheet" href="/css/jaeiCommon.css">
+    
         <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
