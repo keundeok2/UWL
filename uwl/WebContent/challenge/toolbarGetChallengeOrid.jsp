@@ -89,7 +89,7 @@
         div.challenge table tr:nth-child(2) td:nth-child(3),
         div.challenge table tr:nth-child(3) td:nth-child(1),
         div.challenge table tr:nth-child(3) td:nth-child(3), 
-        div.challenge table tr:nth-child(4) td:nth-child(1) {
+        div.challenge table tr:nth-child(4) td:nth-child(3) {
             background-color: #fdfdfd;
 			
             font-weight: bold;
@@ -475,13 +475,8 @@
                                     <i class="far fa-clipboard" style="font-size: 25px; "></i>&nbsp;&nbsp;게시판활동&nbsp;&nbsp;
                                 </c:if>
                             </td>
-                            <td>작성일</td>
-                            <td>${challenge.challDate}</td>
                             
-                            
-                        </tr>
-                        <tr><!-- 3번째 tr -->
-                        	<td>키워드</td>
+                            <td>키워드</td>
                             <td>
                              <c:if test="${challenge.detailCategory == '201'}">
                              	진학상담
@@ -502,17 +497,21 @@
                              	대나무숲
                              </c:if>
                             </td>
-                            <td><i class="fas fa-coins" style="font-size: 25px; text-align: right;"></i>포인트</td>
-                            <td>&nbsp; + ${challenge.challReward} </td>
                             
                         </tr>
-                        <tr><!-- 4번째 tr -->
+                        <tr><!-- 3번째 tr -->
+                            <td><i class="fas fa-coins" style="font-size: 25px; text-align: right;"></i>포인트</td>
+                            <td>&nbsp; + ${challenge.challReward} </td>
                             <c:if test="${challenge.challCategory == '3'}">
                                 <td>달성조건</td>
-                                <td>${challenge.postCommentComplete} 회 작성</td>
+                                <td>${challenge.postCommentComplete}</td>
                             </c:if>
+                        </tr>
+                        <tr><!-- 4번째 tr -->
                             <td></td>
                             <td></td>
+                            <td>작성일</td>
+                            <td>${challenge.challDate}</td>
                         </tr>
                         <tr><!-- 5번째 tr -->
                             <td colspan="4">
