@@ -39,6 +39,7 @@ import com.uwl.service.domain.Matching;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.Report;
 import com.uwl.service.domain.Reward;
+import com.uwl.service.domain.SchoolRank;
 import com.uwl.service.domain.User;
 import com.uwl.service.friend.FriendService;
 import com.uwl.service.matching.MatchingService;
@@ -109,41 +110,47 @@ public class UserController {
 	}
 
 	// 회원가입
-	@RequestMapping(value = "addUser", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute("user") User user, @RequestParam("file") MultipartFile file) throws Exception {
-		System.out.println("UserController : addUser() 호출");
-		System.out.println(user);
-		System.out.println("/user/addUser : POST");
-		
-		// Business Logic
-		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
-		String name = "";
-		
-		if(!file.getOriginalFilename().isEmpty()) {
-			file.transferTo(new File(path, file.getOriginalFilename()));
-			name = file.getOriginalFilename();
-			user.setProfileName(name);
+		@RequestMapping(value = "addUser", method = RequestMethod.POST)
+		public String addUser(@ModelAttribute("user") User user, @RequestParam("file") MultipartFile file, @ModelAttribute SchoolRank schoolRank) throws Exception {
+			System.out.println("UserController : addUser() 호출");
+			System.out.println(user);
+			System.out.println("/user/addUser : POST");
+			System.out.println("UserController : addUser() schoolRank  : " + schoolRank);
+			
+			// Business Logic
+			String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
+			String name = "";
+			
+			if(!file.getOriginalFilename().isEmpty()) {
+				file.transferTo(new File(path, file.getOriginalFilename()));
+				name = file.getOriginalFilename();
+				user.setProfileName(name);
+				
+			}else {
+				user.setProfileName("empty.jpg");
+				
+			}
+			
 			userService.addUser(user);
-			return "forward:/user/loginView.jsp";
-		}else {
-			user.setProfileName("empty.jpg");
-			userService.addUser(user);
+			System.out.println("userController의  addUser완료");
+			
+			//db안 학교정보가 있는지 확인
+			SchoolRank schoolNoCheck = schoolRankService.getSearchRank(user.getSchoolNo());
+			System.out.println("schoolNoCheck : " + schoolNoCheck);
+			
+			//if (user.getSchoolNo() != schoolNoCheck.getSchoolNo() || schoolNoCheck == null) {
+			if (schoolNoCheck == null) {
+				//학교정보가 없다면 새로이 add
+				schoolRankService.addSchoolRank(schoolRank);
+				System.out.println("userController의 addUser()에 기존에 학교가 없다면 addSchoolRank() 실행");
+			}else if(user.getSchoolNo() == schoolNoCheck.getSchoolNo()) {
+				schoolRankService.updateSchoolTotalUser(schoolRank);
+				System.out.println("userController의 addUser()에 기존에 학교가있다면 updateSchoolTotalUser() 실행");
+			}
+			
+			
 			return "forward:/user/loginView.jsp";
 		}
-
-		// ======================================= 채 팅
-		// ===========================================
-		// 있으면 update , 없으면 insert 이거 방법뭐임? 이 메서드 돌릴때 다른 패키지에 있는 .java 파일 실행시키고싶음
-
-//		OracleToMongo oracleToMongo = new OracleToMongo();
-//		oracleToMongo.startOracleToMongo();
-		// ======================================= 채 팅
-		// ===========================================
-
-		// SchoolRank 추가하기!!!!!!!!!!!!!!!
-
-	}
-
 	// 실명인증여부
 	@RequestMapping(value = "addRealname", method = RequestMethod.POST)
 	public String addRealname(@ModelAttribute("user") User user) throws Exception {

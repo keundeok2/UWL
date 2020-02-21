@@ -379,6 +379,7 @@ public class UserRestController {
 				while ((line = bufferedReader.readLine()) != null)
 					inputStream.close();
 			}
+			System.out.println("send SMS success");
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getLocalizedMessage());
 		} finally {
