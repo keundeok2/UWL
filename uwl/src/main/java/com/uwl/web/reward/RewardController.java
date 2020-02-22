@@ -75,8 +75,9 @@ public class RewardController {
 	
 	//GET / POST 둘 다
 	//@RequestMapping(value = "getUserBothPointList/{reward}")
-	@RequestMapping(value = "listRewardCheck")
-	public String getUserBothPointList(@ModelAttribute("search") Search search, @ModelAttribute("user") User user, 
+	//@ModelAttribute("user") User user
+ 	@RequestMapping(value = "listRewardCheck")
+	public String getUserBothPointList(@ModelAttribute("search") Search search,
 										Model model, HttpServletRequest request, HttpSession session ) throws Exception{
 		
 		
