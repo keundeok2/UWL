@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,11 +29,16 @@
         }
 
         /* 아이콘 색 지정*/
-        .fa-coins {
+        
+        .fa-crown {
+            color: #ffc811;
+        }
+        
+        div.work2 .fa-coins {
             color: #ffc811;
         }
 
-        .fa-running {
+        div.work2 .fa-running {
             color: #28aa10;
         }
 
@@ -93,7 +98,7 @@
             border-color: #f4cdad;
         }
 
-        img {
+        div.work2 img {
             display: none;
         }
 
@@ -261,16 +266,17 @@
                                 <small class="text-muted">
                                     <c:if test="${challenge.challCategory == '1'}">
                                         <i class="fas fa-map-marked-alt" style="font-size: 25px; "></i>&nbsp;&nbsp;Map&nbsp;&nbsp;
-
                                     </c:if>
                                     <c:if test="${challenge.challCategory == '2'}">
                                         <i class="fas fa-camera" style="font-size: 25px; "></i>&nbsp;&nbsp;Vision&nbsp;&nbsp;
-                                        <i class="fas fa-coins" style="font-size: 25px; text-align: right;"></i>&nbsp;&nbsp; + ${challenge.challReward}
                                     </c:if>
                                     <c:if test="${challenge.challCategory == '3'}">
                                         <i class="far fa-clipboard" style="font-size: 25px; "></i>&nbsp;&nbsp;게시판활동&nbsp;&nbsp;
-                                        <i class="fas fa-coins" style="font-size: 25px; text-align: right;"></i>&nbsp;&nbsp; + ${challenge.challReward}
                                     </c:if>
+                                    
+                                     <i class="fas fa-coins" style="font-size: 25px; text-align: right;"></i>
+                                     &nbsp;&nbsp;+ 
+                                      <fmt:formatNumber value="${challenge.challReward}" pattern="#,###" />점 
                                 </small>
                             </a>
                             <br>
@@ -291,11 +297,11 @@
 
 			</ul>
         </div>
-    </div>
+    
     <div class="rightToolbar2">
         <jsp:include page="/layout/right.jsp" />
     </div>
-  
+  </div>
 </body>
 
 </html>

@@ -344,6 +344,32 @@
     </style>
 
     <script type="text/javascript">
+    var myScroll = null;
+    var myScroll2 = null;
+    
+    $(function() {
+    	
+        myScroll = new IScroll('#wrapper', {
+            mouseWheel: true,
+            scrollbars: true
+        });
+        
+        setTimeout(function() {
+    		myScroll.refresh();
+    	}, 0);
+        
+        myScroll2 = new IScroll('#wrapper2', {
+            mouseWheel: true,
+            scrollbars: true
+        });
+        
+        setTimeout(function() {
+        	console.log("myScroll2 refresh");
+    		myScroll2.refresh();
+    	}, 0);
+    });
+    
+    
     	
 	//////////////// FCM /////////////////
 	const firebaseModule = (function () {
@@ -526,7 +552,8 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        <ul>
             <form>
                 <div class="mainHeader">
                     <div class="left2" style="color: #d75e0f;">
@@ -622,6 +649,7 @@
                     </c:forEach>
                 </div>
             </form>
+            </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />

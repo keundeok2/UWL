@@ -122,6 +122,11 @@
             padding: 15px 15px 0 15px;
         }
         
+        /* 도전과제 탭 접근시 초록색으로 변함 */
+        .fa-running {
+            color: #28aa10;
+        }
+        
         
     </style>
 </head>
@@ -156,14 +161,15 @@
                                 <div class="card-body">
                                     <h5 class="card-title">${challenge.challTitle}
                                         <c:if test="${challenge.challCategory == '1'}">
-                                            <span class="badge badge-success">Map</span></h5>
+                                            <span class="badge badge-success">Map</span>
                                     </c:if>
+                                    
                                     <c:if test="${challenge.challCategory == '2'}">
-                                        <span class="badge badge-primary">Vision</span></h5>
+                                        <span class="badge badge-primary">Vision</span>
                                     </c:if>
                                     <c:if test="${challenge.challCategory == '3'}">
-                                        <span class="badge badge-warning">게시판활동</span></h5>
-                                    </c:if>
+                                        <span class="badge badge-warning">게시판활동</span>
+                                        </c:if></h5>
                                     <p class="card-text">${challenge.challContent}</p>
                                 </div>
                                 <div class="card-footer">

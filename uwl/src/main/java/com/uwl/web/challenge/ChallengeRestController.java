@@ -28,6 +28,7 @@ import org.springframework.web.portlet.ModelAndView;
 import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.challenge.ChallengeService;
+import com.uwl.service.community.CommunityService;
 import com.uwl.service.domain.Challenge;
 import com.uwl.service.domain.Commentt;
 import com.uwl.service.domain.Post;
@@ -62,6 +63,10 @@ public class ChallengeRestController {
 	@Autowired
 	@Qualifier("schoolRankServiceImpl")
 	private SchoolRankService schoolRankService;
+	
+	@Autowired
+	@Qualifier("communityServiceImpl")
+	private CommunityService communityService;
 	
 	
 	@Value("#{commonProperties['pageUnit']}")
@@ -124,6 +129,11 @@ public class ChallengeRestController {
 		Commentt comment = new Commentt();
 		comment.setUserId(user.getUserId());
 		
+		System.out.println("challengeRestController의 complete() 의 postNo : " + post.getPostNo());
+		
+		comment = communityService.getComment(user.getUserId(), post.getPostNo());
+		
+		System.out.println("challengeRestController의 complete() 의 comment : " + comment);
 		
 		Challenge challenge = new Challenge();
 		challenge.setChallNo(list.get(i).getChallNo());
@@ -169,7 +179,7 @@ public class ChallengeRestController {
 		}
 		
 		System.out.println("/rest/completeChallenge completeChallenge() reward : " + reward + "chall : " + challenge);
-		challengeService.completeChallenge(reward, challenge, map, user);
+		challengeService.completeConmentChallenge(reward, challenge, map, user);
 		
 		System.out.println("challengeReward : " + reward.getChallenge().getChallReward());
 		}
@@ -253,7 +263,7 @@ public class ChallengeRestController {
 			}
 			
 			System.out.println("/rest/completeChallenge completeChallenge() reward : " + reward + "chall : " + challenge);
-			challengeService.completeChallenge(reward, challenge, map, user);
+			challengeService.completePostChallenge(reward, challenge, map, user);
 			System.out.println("challengeReward : " + reward.getChallenge().getChallReward());
 		}
 		

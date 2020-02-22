@@ -41,7 +41,8 @@
         } */
 
         /* 아이콘 색 지정*/
-        .fa-coins {
+        /*도전과제 완료목록안에만 있는 코인에 색을 입힘*/
+         div.work2 .fa-coins {
             color: #ffc811;
         }
 
@@ -110,7 +111,7 @@
             font-size: 30px;
         }
 
-        img {
+        div.work2 img {
             display: none;
         }
     </style>
@@ -279,6 +280,7 @@
                     </div>
                     <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
                     <input type="hidden" id="currentPage" name="currentPage" value="" />
+                    </div>
             </form>
 
             <br>
@@ -289,8 +291,9 @@
             <!-- PageNavigation End... -->
 
 
-			</ul>
-        </div>
+			
+        
+        </ul>
     </div>
     <div class="rightToolbar2">
         <jsp:include page="/layout/right.jsp" />
