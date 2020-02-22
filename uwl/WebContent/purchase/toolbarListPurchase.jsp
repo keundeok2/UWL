@@ -257,11 +257,14 @@
                                 <td align="left" id="${p.purchaseNo}">
                                     <c:if test="${p.refundOption == 1}">
                                         <c:if test="${today_N-purchaseDate_N<8}">
-                                            <button class="btn btn-outline-primary ${p.purchaseNo}" id="refundBtn" value="${p.importId}">환불하기</button>
+                                            <button class="btn btn-outline-primary ${p.purchaseNo} btn-sm" id="refundBtn" value="${p.importId}">환불하기</button>
                                         </c:if>
                                     </c:if>
                                     <c:if test="${p.refundOption == 2 }">
-                                        <button class="btn btn-outline-secondary">환불완료</button>
+                                        <button class="btn btn-outline-secondary btn-sm">환불완료</button>
+                                    </c:if>
+                                    <c:if test="${p.refundOption == 3 || today_N-purchaseDate_N>=8}">
+                                        <button class="btn btn-outline-danger btn-sm">환불불가</button>
                                     </c:if>
                                     <input type="hidden" value="${p.purchaseNo}" />
                                     <input type="hidden" value="${p.paymentOption}">
