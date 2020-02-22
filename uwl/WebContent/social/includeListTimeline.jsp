@@ -539,7 +539,7 @@ div.modal-backdrop.show {
 							<button class="btn btn-outline-primary btn-rt " id="addTimeline">등록</button>
 			            </div>
 					<input type="hidden" name="userId" value="${user.userId}">
-			           	<select class="custom-select float-right viewStatus" name="viewStatus">
+			           	<select class="custom-select float-right viewStatus" name="viewStatus" style="width: 100px">
 			              <option value="1" selected="selected">전체공개</option>
 			              <option value="2">나만보기</option>
 			            </select>
