@@ -41,7 +41,8 @@
         } */
 
         /* 아이콘 색 지정*/
-        .fa-coins {
+        /*도전과제 완료목록안에만 있는 코인에 색을 입힘*/
+         div.work2 .fa-coins {
             color: #ffc811;
         }
 
@@ -110,7 +111,7 @@
             font-size: 30px;
         }
 
-        img {
+        div.work2 img {
             display: none;
         }
     </style>

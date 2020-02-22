@@ -113,8 +113,18 @@ public class RewardController {
 		
 		reward.setUserId(user.getUserId());
 		reward.setPurchaseItem(purchaseItem);
-		reward.setRecentlyTotalPoint(totalList.get(0).getRecentlyTotalPoint());
-		reward.setRecentlyTotalActivityPoint(totalList.get(0).getRecentlyTotalActivityPoint());
+		
+		//List에 담긴정보가 아예 없다면
+		if (totalList.size() == 0) {
+			System.out.println("totalList.size()가 0인 if문에 접근함 ");
+			reward.setRecentlyTotalPoint(0);
+			reward.setRecentlyTotalActivityPoint(0);
+		}else {
+			System.out.println("totalList null이 아닌 if문에 접근함 ");
+			reward.setRecentlyTotalPoint(totalList.get(0).getRecentlyTotalPoint());
+			reward.setRecentlyTotalActivityPoint(totalList.get(0).getRecentlyTotalActivityPoint());
+		}
+		
 		
 		System.out.println("===============================================");
 		System.out.println("RewardController의 reward : " + reward);
