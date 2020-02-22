@@ -210,17 +210,16 @@
 	 <select  id="getCompleteChallengeList"  parameterType="map"	resultMap="challengSelectMap">
 		SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT 
+	  					FROM		(SELECT 
 											c.chall_no,
 											c.chall_category,
 											c.chall_title,
 											c.chall_content,
-											c.chall_date,
 											c.chall_reward,
 											r.user_id,
-											c.detail_category
-										FROM reward r, challenge c  
-										WHERE r.chall_no = c.chall_no AND r.user_id = #{userId} ORDER BY  r.variable_date DESC) inner_table
+											c.view_status
+											FROM reward r, challenge c  
+WHERE r.chall_no = c.chall_no AND r.user_id = #{userId} ORDER BY r.variable_date) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER} )
 						WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER} 	
 	 </select>
@@ -282,7 +281,7 @@
 																											from challenge c WHERE c.weekly_start IS NOT NULL ORDER BY c.weekly_start DESC) weekly_end
 															WHERE ROWNUM = 1) week
 					WHERE TO_DATE(p.post_date, 'yyyy-mm-dd HH24:MI:SS') BETWEEN TO_DATE(week.weekly_start, 'yyyy-mm-dd HH24:MI:SS') AND TO_DATE(week.weekly_end , 'yyyy-mm-dd HH24:MI:SS')
-								AND p.user_id = #{post.userId:VARCHAR}
+								AND p.user_id = #{post.user.userId:VARCHAR}
 								  <if test="challCategory == 3 ">
 										<!-- 진학상담 -->
 										<if test="detailCategory == 201 ">

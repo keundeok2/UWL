@@ -134,6 +134,7 @@ public class UserController {
 			}
 			
 			userService.addUser(user);
+			System.out.println("유저 뭐나오냐 @(#*)(#$ :: " + user );
 			System.out.println("userController의  addUser완료");
 			
 			//db안 학교정보가 있는지 확인
@@ -151,7 +152,7 @@ public class UserController {
 			}
 			
 			
-			return "forward:/user/loginView.jsp";
+			return "forward:/login.jsp";
 		}
 	// 실명인증여부
 	@RequestMapping(value = "addRealname", method = RequestMethod.POST)
@@ -868,13 +869,13 @@ public class UserController {
 			user.setNickname("마태");
 			user.setSchoolNo(1716);
 			
-			userService.addUser(user);
+			//userService.addUser(user);
 			System.out.println("유저는 ? : " + user);
 			
 			User dbUser = userService.getUser(userId);
 			
 			// 로그인 처리 
-			session.setAttribute("user", dbUser);
+			session.setAttribute("naver", user);
 		}
 		// checkDuplication return false :: 존재하는 아이디 => userService.getUser
 		else {
