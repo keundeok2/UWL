@@ -29,11 +29,16 @@
         }
 
         /* 아이콘 색 지정*/
-        .fa-coins {
+        
+        .fa-crown {
+            color: #ffc811;
+        }
+        
+        div.work2 .fa-coins {
             color: #ffc811;
         }
 
-        .fa-running {
+        div.work2 .fa-running {
             color: #28aa10;
         }
 
@@ -93,7 +98,7 @@
             border-color: #f4cdad;
         }
 
-        img {
+        div.work2 img {
             display: none;
         }
 

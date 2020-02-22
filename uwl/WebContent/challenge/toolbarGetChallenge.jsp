@@ -164,7 +164,7 @@
         }
 
         /* 아이콘 색 지정*/
-        .fa-coins {
+        div.work2 .fa-coins {
             color: #ffc811;
         }
 
