@@ -18,7 +18,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.junit.runners.Parameterized.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.uwl.common.Page;
@@ -37,6 +35,7 @@ import com.uwl.common.Search;
 import com.uwl.service.couple.CoupleService;
 import com.uwl.service.domain.Ask;
 import com.uwl.service.domain.Friend;
+import com.uwl.service.domain.Item;
 import com.uwl.service.domain.Matching;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.Report;
@@ -52,7 +51,6 @@ import com.uwl.service.reward.RewardService;
 import com.uwl.service.schoolRank.SchoolRankService;
 import com.uwl.service.social.SocialService;
 import com.uwl.service.user.UserService;
-import com.uwl.service.weather.WeatherService;
 
 @Controller
 @RequestMapping("/user/*")
@@ -151,6 +149,13 @@ public class UserController {
 				System.out.println("userController의 addUser()에 기존에 학교가있다면 updateSchoolTotalUser() 실행");
 			}
 			
+			//Default Item Insert
+			Item item = new Item();
+			item.setFirstUserId(user.getUserId());
+			item.setItemCategory("1");
+			socialService.addDefaultItem(item);
+			item.setItemCategory("2");
+			socialService.addDefaultItem(item);
 			
 			return "forward:/login.jsp";
 		}
@@ -354,7 +359,7 @@ public class UserController {
 			user.setProfileName(name);
 			userService.updateProfile(user);
 			session.setAttribute("user", user);
-			return "forward:/user/getUser.jsp";
+			return "redirect:/user/getProfile/"+user.getUserId();
 		}else {
 			User originalUser = (User)session.getAttribute("user");
 			user.setProfileName(originalUser.getProfileName());
