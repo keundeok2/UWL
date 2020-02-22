@@ -588,6 +588,10 @@
                             $("div.useSpear").remove();
                             var html = "<div class='addFriend'><a href='#'>친구신청</a></div>"
                             $("div.user").after(html);
+                            
+                            setTimeout(function() {
+								$("input[value='"+targetUserId+"']").parent().remove();			
+							}, 0);
                         }
                     });
                 })
@@ -1151,12 +1155,6 @@
 
         });
 
-
-        $(document).on("click", "#listPurchase", function() {
-            $.redirect("/purchase/getPurchaseList", {
-                userId: sessionId
-            });
-        });
     </script>
 
     <style>
@@ -1450,7 +1448,14 @@
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-sm-12 pointTextDiv">
-                                    <p>현재 포인트 : ${reward.recentlyTotalPoint}</p> <!-- //////////////////////////// 유저포인트로 수정하기 -->
+                                    <p>현재 포인트 : 
+                                    <c:if test="${!empty reward.recentlyTotalPoint}">
+                                    ${reward.recentlyTotalPoint}
+                                    </c:if>
+                                    <c:if test="${empty reward.recentlyTotalPoint}">
+                                    0
+                                    </c:if>
+                                    </p> <!-- //////////////////////////// 유저포인트로 수정하기 -->
                                 </div>
                                 <div class="col-sm-6">
                                     <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="cardBtn" value="1">현금 구매<br />99,000원</button>
