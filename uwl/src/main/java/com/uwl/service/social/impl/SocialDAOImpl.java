@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.uwl.common.Search;
 import com.uwl.service.domain.Ask;
+import com.uwl.service.domain.Item;
 import com.uwl.service.domain.Notification;
 import com.uwl.service.domain.Post;
 import com.uwl.service.social.SocialDAO;
@@ -133,6 +134,9 @@ public class SocialDAOImpl implements SocialDAO{
 		sqlSession.delete("SocialMapper.deleteNotiAll", userId);
 	}
 	
-	
+	@Override
+	public void addDefaultItem(Item item) throws Exception {
+		sqlSession.insert("SocialMapper.addDefaultItem", item);
+	}
 	
 }

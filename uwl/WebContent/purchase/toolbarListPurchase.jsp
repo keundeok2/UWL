@@ -55,7 +55,7 @@
                         itemNo: itemNo
                     }),
                     success: function(d) {
-                        var html = "<button class='btn btn-outline-secondary' type='button'>환불완료</button>";
+                        var html = "<button class='btn btn-outline-secondary btn-sm' type='button'>환불완료</button>";
                         $("." + purchaseNo + "").remove();
                         $(html).appendTo("#" + purchaseNo + "");
                     }
