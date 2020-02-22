@@ -44,6 +44,6 @@ public class PurchaseController {
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		map.put("resultPage", resultPage);
 		model.addAttribute("map", map);
-		return "forward:/purchase/listPurchase.jsp";
+		return "forward:/purchase/toolbarListPurchase.jsp";
 	}
 }

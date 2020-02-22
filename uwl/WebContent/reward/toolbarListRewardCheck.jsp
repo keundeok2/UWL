@@ -21,6 +21,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
 
     <script>
+    	var sessionUserId = "${user.userId}";
         var myScroll = null;
 
         $(function() {
@@ -43,6 +44,10 @@
                 $('div.updateUser > div').removeClass('on');
                 $('div.updateUser > div').eq(index + 1).addClass('on');
             });
+            
+            $(".listPurchaseBtn").on("click", function() {
+				$.redirect("/purchase/getPurchaseList",{userId : sessionUserId});
+			});
         });
 
     </script>
@@ -372,14 +377,14 @@
                                                 <!-- 카테고리가 Map 일 때 -->
                                                 <c:if test="${purchase.purchaseItem.itemCategory eq '1'}">
                                                     <div class="col-sm-9">
-                                                        사용아이템 : <img src="/images/spear.png" style="width: 50px; height: 50px; align-content: right;">
+                                                        구매아이템 : <img src="/images/spear.png" style="width: 50px; height: 50px; align-content: right;">
                                                     </div>
                                                 </c:if>
 
                                                 <!-- 카테고리가 Vsion 일 때 -->
                                                 <c:if test="${purchase.purchaseItem.itemCategory eq '2'}">
                                                     <div class="col-sm-9">
-                                                        사용아이템 : <img src="/images/shield.png" style="width: 50px; height: 50px; align-content: right;">
+                                                        구매아이템 : <img src="/images/shield.png" style="width: 50px; height: 50px; align-content: right;">
                                                     </div>
                                                 </c:if>
                                                 <br>
@@ -409,6 +414,7 @@
 
                     <div class="publicStatus">
                         <!--세번째 탭에 나오는 부분-->
+                        
                     </div>
                 </div>
             </ul>
