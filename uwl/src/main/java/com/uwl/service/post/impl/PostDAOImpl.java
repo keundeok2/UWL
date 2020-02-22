@@ -77,6 +77,7 @@ public class PostDAOImpl implements PostDAO{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("search", search);
 		map.put("gatherCategoryNo", gatherCategoryNo);
+		System.out.println("DAO 임쁠탄다");
 		return sqlSession.selectList("PostMapper.getBoardList", map);
 	}
 
