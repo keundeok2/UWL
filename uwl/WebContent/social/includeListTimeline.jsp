@@ -65,7 +65,11 @@
 						}
 						
 						html += "<hr/><div class='commentPtag'><img src='/images/"+d.list[i].user.profileName+"' class='commentProfileName'><p class='commentUserName'>"+d.list[i].user.name+"</p> &nbsp; <p class='commentUserContent cc"+d.list[i].commentNo+"'>"+d.list[i].commentContent+"</p>";
-						html += "<input type='hidden' value='"+d.list[i].postNo+"' id='postNoini'><input type='hidden' value='"+d.list[i].commentNo+"' id='commentNoini'><i class='fas fa-pen updateCommentBtn'></i><i class='far fa-trash-alt deleteCommentBtn'></i></div></div>";
+						html += "<input type='hidden' value='"+d.list[i].postNo+"' id='postNoini'>"
+						if (d.list[i].userId == sessionId) {
+							html += "<input type='hidden' value='"+d.list[i].commentNo+"' id='commentNoini'><i class='fas fa-pen updateCommentBtn'></i><i class='far fa-trash-alt deleteCommentBtn'></i></div>"
+						}
+						html += "</div>"
 					}
 					
 					html += "<input type='text' class='form-control regCommentText' name='commentContent' placeholder='댓글입력 후 Enter'>";
@@ -104,7 +108,7 @@
 				success : function(d) {
 					var html ="<div class='c"+d.commentNo+"'>"
 							+"<hr/><div class='commentPtag'><img src='/images/"+d.user.profileName+"' class='commentProfileName'>"
-							+"<p class='commentUserName'>"+d.user.name+"</p> &nbsp; <p class='commentUserContent' cc"+d.commentNo+"'>" + d.commentContent+"</p>"
+							+"<p class='commentUserName'>"+d.user.name+"</p> &nbsp; <p class='commentUserContent cc"+d.commentNo+"'>" + d.commentContent+"</p>"
 							+"<input type='hidden' value='"+d.postNo+"' id='postNoini'><input type='hidden' value='"+d.commentNo+"' id='commentNoini'><i class='fas fa-pen updateCommentBtn'></i><i class='far fa-trash-alt deleteCommentBtn'></i></div>";
 					$(".addCommentDiv").prepend(html);
 					$("input.regCommentText").val("");

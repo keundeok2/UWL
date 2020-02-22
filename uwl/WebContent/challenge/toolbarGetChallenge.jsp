@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -164,7 +165,7 @@
         }
 
         /* 아이콘 색 지정*/
-        .fa-coins {
+        div.work2 .fa-coins {
             color: #ffc811;
         }
 
@@ -470,7 +471,9 @@
                              
                             </td>
                             <td>포인트</td>
-                            <td>&nbsp; + ${challenge.challReward} </td>
+                            <td>+
+                           	 <fmt:formatNumber value="${challenge.challReward}" pattern="#,###" /> 점 
+                            </td>
                             
                         </tr>
                         <tr><!-- 4번째 tr -->

@@ -71,8 +71,9 @@
 		WHERE purchase_no = #{value}
  	</delete>
  	
- 	<delete id="deleteItem" parameterType="int">
- 		DELETE item
+ 	<update id="deleteItem" parameterType="int">
+ 		UPDATE item
+ 		SET second_user_id = 'user01'
  		WHERE item_no = #{value}
- 	</delete>
+ 	</update>
 </mapper>
