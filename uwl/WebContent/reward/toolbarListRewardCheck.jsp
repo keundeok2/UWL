@@ -100,9 +100,7 @@
         .fa-coins {
         	color: #ffc811;
         }
-        .fa-running {
-        	color: #28aa10;
-        }
+        
         .fa-credit-card {
         	color: #1e291b;
         }
@@ -227,7 +225,7 @@
 				</div>
 				<div class="col-2">
 		            <br>
-					<h3 class="total" align="right"><i class="fas fa-running"></i>  ${reward.recentlyTotalActivityPoint}</h3>
+					<h3 class="total" align="right"><i class="fas fa-running" style="color: #28aa10;"></i>  ${reward.recentlyTotalActivityPoint}</h3>
 				</div>
 			</div>
 			<br>

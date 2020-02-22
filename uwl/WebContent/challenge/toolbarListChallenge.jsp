@@ -122,6 +122,11 @@
             padding: 15px 15px 0 15px;
         }
         
+        /* 도전과제 탭 접근시 초록색으로 변함 */
+        .fa-running {
+            color: #28aa10;
+        }
+        
         
     </style>
 </head>
