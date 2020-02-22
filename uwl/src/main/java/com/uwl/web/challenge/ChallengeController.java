@@ -291,6 +291,7 @@ public class ChallengeController {
 		
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize );
 		System.out.println("완료된 도전과제목록 resultPage : " + resultPage);
+		System.out.println("완료된 도전과제목록 map.get(\"list\") : " + map.get("list"));
 		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);

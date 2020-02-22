@@ -201,6 +201,7 @@ public class PostController {
 	public String getBoardList(@ModelAttribute("search") Search search, @RequestParam("gatherCategoryNo") String gatherCategoryNo,
 								Model model, @RequestParam("postChallenge") String postChallenge) throws Exception{
 		System.out.println("getBoardList.POST or GET");
+		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
@@ -214,7 +215,7 @@ public class PostController {
 		model.addAttribute("search", search);
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
 		model.addAttribute("postChallenge", postChallenge);
-		System.out.println("게더카테 :: " +  gatherCategoryNo +"포스트 어쩌구 :: " + postChallenge);
+		System.out.println("컨트롤러탄다");
 		return "forward:/post/toolbarListBoard.jsp";
 	}
 	

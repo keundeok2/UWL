@@ -288,12 +288,20 @@
                 $(location).attr('href', "/report/listReport");
             });
 
+            $("#logo").on("click", function() { // 홈
+                $(location).attr('href', "/");
+            });
+            
             $("#home").on("click", function() { // 홈
                 $(location).attr('href', "/");
             });
 
             $("#myProfile").on("click", function() { //내 프로필
                 $(location).attr('href', "/user/getProfile/" + sessionUserId);
+            });
+            
+            $("#point").on("click", function() { //내 프로필
+                $(location).attr('href', "/reward/listRewardCheck/");
             });
 
             $("#201").on("click", function() { //진학상담
@@ -332,6 +340,9 @@
             $("#logout").on("click", function() { //로그아웃
                 $(location).attr('href', "/user/logout");
             });
+            $("#listPurchase").on("click", function() { //결제내역
+                $.redirect("/purchase/getPurchaseList", {userId : sessionUserId});
+            });
             $("#notiIcon").on("click", function() { //알림
                 $.redirect("/social/getNotiList");
             });
@@ -344,7 +355,7 @@
     <div class="leftLayout">
         <div class="logo">
             <img src="/images/twitter_header_photo_1-removebg-preview.png" width="100px" class="hiddenLogo" alt="">
-            <a href="#">
+            <a href="#" id="logo">
                 <img src="/images/twitter_header_photo_1-removebg-preview.png" width="100px" alt="">
             </a>
         </div>
@@ -408,6 +419,12 @@
                     </c:if>
                 </span>
                 <span>내 프로필</span>
+            </a>
+        </h4>
+        
+        <h4 class="point">
+            <a id="point" href="#">
+                <span><i class="fas fa-coins" style="font-size: 25px; text-align: right;"></i>포인트</span>
             </a>
         </h4>
 
@@ -505,6 +522,11 @@
                 <li>
                     <h6>
                         <a href="#" id="question">문의사항</a>
+                    </h6>
+                </li>
+                <li>
+                    <h6>
+                        <a href="#" id="listPurchase">결제내역</a>
                     </h6>
                 </li>
                 <li>

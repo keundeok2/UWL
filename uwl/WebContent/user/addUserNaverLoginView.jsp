@@ -212,17 +212,7 @@
         
     </style>
 
-    <script type="text/javascript">
-        $(function() {
-            // 네이버 아이디로 로그인 이미지 클릭 시 
-            $("div[name='naverLogin']").on("click", function() {
-                // 새로 팝업창에서 네이버 로그인을 진행하기 위해 아무 의미없는 jsp로 연결
-                window.open("/naver/openWindow.jsp",
-                    "popWin",
-                    "left=700, top=90, width=537, height=750, marginwidth=0, marginheight=0, fullscreen=no, scrollbars=yes, scrolling=yes, menubar=no, resizable=no");
-            })
-        })
-    </script>
+    
 
 
 <!--     <script type="text/javascript"> 
@@ -278,14 +268,14 @@
 			var mailValue=$("input[name='mailValue']").val();
 			
 			
-		if(mailValue != '1'){
+		/* if(mailValue != '1'){
 			$('#not').remove();
 			var view = "<span id='not' style='color:red'> 메일 인증을 해주세요.</span>";
 			$('#mail').after(view);
 			$('#mail').focus();
 			alert(mailValue);
 			return false;
-		}	
+		}	 */
 
 	    if(id == null || id.length <1){
 			$('#not').remove();
@@ -423,8 +413,8 @@
 		
 		Swal.fire({
 			  icon: 'success',
-			  title: '어 울림',
-			  text : '회원가입이 완료되었습니다.',
+			  title: 'Your work has been saved',
+			  text : '어어어어어울리리리리리리림',
 			  timer: 3000
 		});
 		
@@ -452,7 +442,7 @@
 		
 	
 // 		===================================================================== 
-    //==>"ID중복확인" Event 처리 및 연결
+   /*  //==>"ID중복확인" Event 처리 및 연결
 			var checkId = false;
 		    //아이디 체크하여 가입버튼 비활성화, 중복확인.
 		    function checkDuplicationUserId() {
@@ -492,11 +482,11 @@
 		            	alert("실패");
 		            }
 		        });
-		    }		
+		    } */		
     
 		    
 		  //==>"Nickname 중복확인" Event 처리 및 연결
-		    var checkNick = false;
+		/*     var checkNick = false;
 		    // 체크하여 가입버튼 비활성화, 중복확인.
 		    function checkDuplicationNickname() {
 		        var inputed = $('#nickname').val();
@@ -537,12 +527,12 @@
 		            	alert("실패");
 		            }
 		        });
-		    }		
+		    } */		
 		    
 		    
 		    
 		  //==>"mail 중복확인" Event 처리 및 연결
-		    var mail = 0;
+	/* 	    var mail = 0;
 		    // 체크하여 가입버튼 비활성화, 중복확인.
 		    function checkDuplicationMail() {
 		        var inputed = $('#mail').val();
@@ -577,14 +567,14 @@
 		                    
 		                    mail = false;
 // 		                    mailOk = false;
-// 	                         signupCheck();
+	                         signupCheck();
 		                }
 		            },
 		            error : function(){
 		            	alert("실패");
 		            }
 		        });
-		    }		
+		    }	 */	
 //      });	    
 		    
 		 	
@@ -671,7 +661,7 @@
 			});	
 				
 			//==>"phone 본인인증" Event 처리 및 연결  ================================
-			$(function() {
+			/* $(function() {
 			 $("a[id='checkPhone']").on("click" , function() {
 				 var phone = $('#phone').val();
 				 if(isNaN(phone) || phone==''){
@@ -704,8 +694,8 @@
 					 }
 				});
 			});
-			
-			
+			 */
+			/* 
 				 $(document).on("click",'#codeNumberCheck', function(){
 					 var code = $('#code').val();
 					 $.ajax({
@@ -730,10 +720,10 @@
 								console.log('error');
 							}
 						});
-				 });
+				 }); */
 	
 		//==>"mail 본인인증" Event 처리 및 연결  ================================시작
-		$(function() {
+		/* $(function() {
 			// 이메일 입력 시 인증번호확인 버튼이 보이지 않도록 hide 
 			$("a:contains('인증번호확인')").hide();
 			$("a:contains('인증완료!')").hide();
@@ -785,47 +775,50 @@
 						}
 					}
 			)
-		});
+		}); */
 		
 		
-		$(document).on("click" ,"a#checkMailBtn", function() {
-			var mailValue = $("input#confirmNo").val();
-			var mailCheck = $("input[name='mailCheck']").val();
-			console.log("비교대상 값 : " + mailCheck);
-			console.log("입력 값 : " + mailValue);
-					
-			// mailCheck는 이메일 인증 문자열 state이며 
-			// mailValue는 이메일 인증 유무를 판단하는 Flag이다 
-			
-			if ( mailCheck == "" ) {
-				$("h6").text("메일이 발송되지 않았습니다.");
-			}
-			
-			// mailCheck의 default는 null String이므로 
-			
-			if ( mailCheck != "" ) {
-				if ( mailCheck == mailValue ) {
-					$('#not').remove();
-					$("a:contains('메일전송')").remove();
-					$("span.mailNot").remove();
-					$("input[name='mailValue']").val("1");
-// 					$("h6").text("인증되었습니다.");
-					$("h6").text("메일 발송이 완료되었습니다.").remove();
-					$("input[name='confirmNo']").attr("readonly", true);
-					$("input[name='mail']").attr("readonly", true);
-					$("a:contains('인증번호확인')").remove();
-					$("a:contains('인증완료!')").show();
-				}
-				
-				if ( mailCheck != mailValue ) {
-					 $('#not').remove();
-					var view = "<span id='not' style='color:red'>인증번호가 틀렸습니다. 다시 확인해주세요.</span>"
-					$('#mail').after(view);
-					$('#mail').focus();
-				
-				}
-			}
-		});
+	//	$(document).on("click" ,"a#checkMailBtn", function() {
+	//		var mailValue = $("input#confirmNo").val();
+	//		var mailCheck = $("input[name='mailCheck']").val();
+	//		console.log("비교대상 값 : " + mailCheck);
+	//		console.log("입력 값 : " + mailValue);
+	//				
+	//		// mailCheck는 이메일 인증 문자열 state이며 
+	//		// mailValue는 이메일 인증 유무를 판단하는 Flag이다 
+	//		
+	//		// 메일 인증 안하고 주소만 적으면 가입이 가능 !!!!!!!!!!!!! errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+	//	/* 	if ( mailValue == "" || mailValue != "1" || mailValue == null) { 
+	//			$("h6").text("메일 인증을 진행해주세요.");
+	//			return;
+	//		}*/
+// 	//		if ( mailValue == "" ) {
+// 	//			$("h6").text("인증번호를 입력해주세요.");
+// 	//		}
+	//		
+	//		if ( mailCheck == "" ) {
+	//			$("h6").text("메일이 발송되지 않았습니다.");
+	//		}
+	//		// mailCheck의 default는 null String이므로 
+	//		
+	//		if ( mailCheck != "" ) {
+	//			if ( mailCheck == mailValue ) {
+	//				$("a:contains('메일전송')").remove();
+	//				$("span.mailNot").remove();
+	//				$("input[name='mailValue']").val("1");
+// 	//				$("h6").text("인증되었습니다.");
+	//				$("h6").text("메일 발송이 완료되었습니다.").remove();
+	//				$("input[name='confirmNo']").attr("readonly", true);
+	//				$("input[name='mail']").attr("readonly", true);
+	//				$("a:contains('인증번호확인')").remove();
+	//				$("a:contains('인증완료!')").show();
+	//			}
+	//			
+	//			if ( mailCheck != mailValue ) {
+	//				$("h6").text("인증 문자가 틀렸습니다. 다시 확인해주세요.");
+	//			}
+	//		}
+	//	});
 	
 	
 	
@@ -905,7 +898,7 @@ $(function() {
             <div class="loginForm">
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>아이디</p>
-                    <p><input type="text" name="userId" id="userId" oninput="checkDuplicationUserId()" placeholder="영문자로 시작하는 6~10자 영문자 또는 숫자"></p>
+                    <p><input type="text" name="userId" id="userId" oninput="checkDuplicationUserId()" value="${naver.userId }"></p>
                 </div>
                 <div class="password">
                     <p><i class="fas fa-star-of-life"></i>비밀번호</p>
@@ -917,11 +910,11 @@ $(function() {
                 </div>
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>이름</p>
-                    <p><input type="text" name="name" id="name" ></p>
+                    <p><input type="text" name="name" id="name"  value="${naver.name }" ></p>
                 </div>
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>닉네임</p>
-                    <p><input type="text" name="nickname" id="nickname" oninput="checkDuplicationNickname()" placeholder="10자 이하 한글, 영문자, 숫자"></p>
+                    <p><input type="text" name="nickname" id="nickname" oninput="checkDuplicationNickname()" value="${naver.nickname }" ></p>
                 </div>
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>학교</p>
@@ -953,13 +946,13 @@ $(function() {
 	                </p>
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>이메일</p>
-                    <p><input type="text" id="mail" name="mail"  oninput="checkDuplicationMail()"></p>
-                    <p><input type="text" id="confirmNo" name="confirmNo" placeholder="인증번호"></p>
+                    <p><input type="text" id="mail" name="mail"  oninput="checkDuplicationMail()" value="${naver.mail }"></p>
+                   <!--  <p><input type="text" id="confirmNo" name="confirmNo" placeholder="인증번호"></p>
                     <h6></h6>
                     <p><a href="#" id="sendMail">메일전송</a></p>
                     <p><a href="#" id="checkMailBtn">인증번호확인</a></p>
                     <p><a href="#" >인증완료!</a></p>
-                    
+                     -->
                     <p><input type="hidden" name="mailValue" value=""></p>
 			    	<p><input type="hidden" name="mailCheck" value=""></p>
 			    	<p><input type="hidden" name="mail1" value=""></p>
@@ -989,11 +982,7 @@ $(function() {
             </div>
         </div>
         
-        <div name="naverLogin" class="text-center">
-            <!-- 네이버 아이디로 로그인 이미지 -->
-            <img src="/images/naverImage.png" width="180" height="40" />
-            <br />
-        </div>
+        
         
         
         

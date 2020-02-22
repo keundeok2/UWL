@@ -143,11 +143,12 @@ public class ChallengeServiceImpl implements ChallengeService{
 
 
 	@Override
-	public Reward completeChallenge(Reward reward, Challenge challenge, Map<String, Object> map, User user) throws Exception {
+	public Reward completePostChallenge(Reward reward, Challenge challenge, Map<String, Object> map, User user) throws Exception {
 		
-		boolean completeResult = true;
+		boolean completeResult = false;
 		List<Challenge> list = (List<Challenge>)(map.get("list"));
 		Post challpost = challenge.getPost();
+		challpost.setUser(user);
 		Commentt commentt = challenge.getCommentt();
 		System.out.println("challpost : " + challpost);
 		System.out.println("commentt : " + commentt);
@@ -168,22 +169,65 @@ public class ChallengeServiceImpl implements ChallengeService{
 			//게시판활동 조건 중 게시글 등록 조건을 수행한다면
 			System.out.println("list.get(i).getDetailCategory() : " + list.get(i).getDetailCategory());
 			System.out.println("challpost.getGatherCategoryNo() : " + challpost.getGatherCategoryNo());
+			
 			if (list.get(i).getChallCategory().equals("3") && list.get(i).getDetailCategory().equals(challpost.getGatherCategoryNo())) {
 				if (challengeDAO.getChallPostCompleteCount(list.get(i)) == list.get(i).getPostCommentComplete()) {
 					System.out.println("challengeDAO.getChallPostCompleteCount(challenge) : " + challengeDAO.getChallPostCompleteCount(challenge) );
+					System.out.println("challengeDAO.getChallPostCompleteCount(challenge)====> : " + challenge );
 					reward.setChallenge(list.get(i)); 
 					//통과하면 true를 set
+					completeResult = true;
 					reward.setCompleteResult(completeResult);
 					//보상을 주는 method
 					rewardDAO.increasePoint(reward);
 					//실시간 ranking을 update해주는 method
 					schoolRankDAO.updateSchoolRank(schoolRank);
 					
+					
 					System.out.println("게시글작성 도전과제 조건이 충족되었음.");
 					return reward;
 					
 				}
 			}//end of if
+			
+				
+			
+			else {System.out.println("다른 도전과제를 검증하세요");}
+			System.out.println("======================끝========================");
+		} //end of for
+		
+		//조건이 충족되지않으면 false
+		return reward;
+	}
+	
+	@Override
+	public Reward completeConmentChallenge(Reward reward, Challenge challenge, Map<String, Object> map, User user) throws Exception {
+		
+		boolean completeResult = false;
+		List<Challenge> list = (List<Challenge>)(map.get("list"));
+		Post challpost = challenge.getPost();
+		challpost.setUser(user);
+		Commentt commentt = challenge.getCommentt();
+		System.out.println("challpost : " + challpost);
+		System.out.println("commentt : " + commentt);
+		
+		//도전과제 수행후 점수를 획득하고나서 랭크를 바로 업데이트 시켜줌
+		SchoolRank schoolRank = new SchoolRank();
+		schoolRank.setSchoolNo(user.getSchoolNo());
+		
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println("challengeServiceImpl의 completeChallenge() list: " + list.get(i));
+			System.out.println("======================시작========================");
+			list.get(i).setPost(challpost);
+			list.get(i).setCommentt(commentt);
+			System.out.println("challengeServiceImpl의 completeChallenge()의 주간도전과제 list("+i+") : " + list.get(i));
+			
+			//게시판활동 도전과제를 수행한다면 카테고리 3: 게시판활동 도전과제
+//			if (list.get(i).getChallCategory().equals("3")) {
+			//게시판활동 조건 중 게시글 등록 조건을 수행한다면
+			System.out.println("list.get(i).getDetailCategory() : " + list.get(i).getDetailCategory());
+			System.out.println("challpost.getGatherCategoryNo() : " + challpost.getGatherCategoryNo());
+			
 			
 			//게시판활동 조건 중 댓글 등록 조건을 수행한다면
 			System.out.println("list.get(i).getDetailCategory() : " + list.get(i).getDetailCategory());
@@ -195,7 +239,7 @@ public class ChallengeServiceImpl implements ChallengeService{
 					System.out.println("challengeDAO.list.get(i).getPostCommentComplete() : " + list.get(i).getPostCommentComplete() );
 					reward.setChallenge(list.get(i));
 					//통과하면 true를 set
-					
+					completeResult = true;
 					reward.setCompleteResult(completeResult);
 					//보상을 주는 method
 					rewardDAO.increasePoint(reward);
@@ -203,12 +247,14 @@ public class ChallengeServiceImpl implements ChallengeService{
 					//실시간 ranking을 update해주는 method
 					schoolRankDAO.updateSchoolRank(schoolRank);
 					
+					
+					
 					System.out.println("코멘트작성 도전과제 조건이 충족되었음.");
 					
 					return reward;
 				}
 			}
-				
+			
 			
 			else {System.out.println("다른 도전과제를 검증하세요");}
 			System.out.println("======================끝========================");
