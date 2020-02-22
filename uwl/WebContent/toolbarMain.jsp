@@ -366,7 +366,7 @@
         setTimeout(function() {
         	console.log("myScroll2 refresh");
     		myScroll2.refresh();
-    	}, 100);
+    	}, 0);
     });
     
     
@@ -651,7 +651,7 @@
             </form>
             </ul>
         </div>
-        <div class="rightToolbar2" id="wrapper2">
+        <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
         </div>
     </div>
