@@ -215,13 +215,13 @@
 	<update id="enterChattingRoom" parameterType="chatting"> <!-- 채팅방 입장(1:1) -->
 		UPDATE chatting_room
  		SET target = #{chatting.enterUser}
- 		WHERE room_no = #{chatting.roomNo}
+ 		WHERE room_no = #{roomNo}
 	</update>
 	
 	<delete id="outChattingRoom" parameterType="chatting">	<!-- 채팅방 폭파 -->
 		DELETE 
 		FROM chatting_room
-		WHERE room_no = #{chatting.roomNo}
+		WHERE room_no = #{roomNo}
 	</delete>
 	
 	<select id="getChattingRoomList" parameterType="chatting" resultMap="chattingSelectMap">

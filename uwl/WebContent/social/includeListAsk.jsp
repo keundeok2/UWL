@@ -74,6 +74,7 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
 				                +"<input type='hidden' value='"+d.list[i].questionPostNo+"'>"
 				            +"</div>";
 				$(html).appendTo("div.addAsk");
+				$("p:contains('새 질문')").html("새 질문 : " + d.totalCount +"개");
 				setTimeout(function() {
 	        		myScroll.refresh();
 	        	}, 0);

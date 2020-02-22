@@ -340,6 +340,9 @@
             $("#logout").on("click", function() { //로그아웃
                 $(location).attr('href', "/user/logout");
             });
+            $("#listPurchase").on("click", function() { //결제내역
+                $.redirect("/purchase/getPurchaseList", {userId : sessionUserId});
+            });
             $("#notiIcon").on("click", function() { //알림
                 $.redirect("/social/getNotiList");
             });
@@ -519,6 +522,11 @@
                 <li>
                     <h6>
                         <a href="#" id="question">문의사항</a>
+                    </h6>
+                </li>
+                <li>
+                    <h6>
+                        <a href="#" id="listPurchase">결제내역</a>
                     </h6>
                 </li>
                 <li>
