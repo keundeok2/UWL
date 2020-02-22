@@ -346,7 +346,7 @@
                                         &nbsp;&nbsp;
                                         <span><i class="fas fa-comment-alt"></i> ${post.commentCount }</span>
                                     </th>
-                                    <td colspan="3">
+                                    <td colspan="3" style="text-align: right">
                                         &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                         <c:if test="${user.userId eq post.userId or user.role eq '4'}">
                                             <span><button type="button" class="btn btn-primary" id="updatePost"><i class="fas fa-pencil-alt"></i> 수정</button></span>
@@ -378,7 +378,7 @@
                 </div>
             </form>
 
-            <jsp:include page="../community/listComment.jsp"></jsp:include>
+            <jsp:include page="../community/includeListComment.jsp"></jsp:include>
 
             <form method="POST" action="/report/addReport">
                 <input type="hidden" name="refPostNo" value="${post.postNo }">
