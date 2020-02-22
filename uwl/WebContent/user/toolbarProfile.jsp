@@ -588,6 +588,10 @@
                             $("div.useSpear").remove();
                             var html = "<div class='addFriend'><a href='#'>친구신청</a></div>"
                             $("div.user").after(html);
+                            
+                            setTimeout(function() {
+								$("input[value='"+targetUserId+"']").parent().remove();			
+							}, 0);
                         }
                     });
                 })
