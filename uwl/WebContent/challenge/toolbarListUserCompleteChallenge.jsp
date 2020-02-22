@@ -279,6 +279,7 @@
                     </div>
                     <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
                     <input type="hidden" id="currentPage" name="currentPage" value="" />
+                    </div>
             </form>
 
             <br>
@@ -289,8 +290,9 @@
             <!-- PageNavigation End... -->
 
 
-			</ul>
-        </div>
+			
+        
+        </ul>
     </div>
     <div class="rightToolbar2">
         <jsp:include page="/layout/right.jsp" />
