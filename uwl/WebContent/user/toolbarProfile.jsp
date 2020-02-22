@@ -643,10 +643,10 @@
             $(function() {
                  $(document).on('click', '.addMatching', function() {
 
-                    alert('클릭ㅋㅋ');
+                    //alert('클릭ㅋㅋ');
 
-                    alert('userId : ' + sessionUserId);
-                    alert('secondUserId : ' + targetUserId);
+                    //alert('userId : ' + sessionUserId);
+                    //alert('secondUserId : ' + targetUserId);
                     $.ajax({
                         url: '/matching/rest/addMatching2/' + sessionUserId + '/' + targetUserId,
                         method: 'GET',
@@ -660,32 +660,38 @@
                             'Content-Type': 'application/json'
                         },
                         success: function(data) {
-                            alert('성공ㅋㅋ');
+                            //alert('성공ㅋㅋ');
 
                             var secondUserId2 = data.secondUserId;
-                            alert('secondUserId2 : ' + secondUserId2);
+                            //alert('secondUserId2 : ' + secondUserId2);
+                            
+                            var secondUserName = data.secondUserName;
+                            //alert('secondUserName : ' + secondUserName);
                             var displayValue = '';
                             if (targetUserId == secondUserId2) {
 
-                                displayValue = '<form action="">' +
-                                    ' <h3>꽃 보내는거 확인</h3>' +
-                                    ' <input type="text" name="userId" value="' + sessionUserId + '">' +
-                                    ' <input type="text" name="secondUserId" value="' + targetUserId + '"><br><br>' +
-                                    ' <input type="text" name="secondUserId" value="' + targetUserId + '">님에게 꽃을 보내시겠습니까? 30일 후 취소가 가능합니다.<br>' +
-                                    ' <a href="#" class="check">확인</a>' +
+                                displayValue = '<form action="" style="font-weight:bold;text-align:center">' +
+                                    ' <input type="hidden" name="userId" value="' + sessionUserId + '">' +
+                                    ' <input type="hidden" name="secondUserId" value="' + targetUserId + '">' +
+                                    ' <input type="hidden" name="secondUserId" value="' + secondUserName + '">' + '보낸 꽃은 한달 뒤에 취소할 수 있습니다.<br>🌹🌹' + secondUserName + '님에게 꽃을 보내시겠습니까?🌹🌹' +
                                     ' </form>';
-                                alert(displayValue);
+                                //alert(displayValue);
+                                
+                                $('div.modal-footer').find('button:nth-child(2)').addClass('check');
                             } else {
                                 displayValue = '<form action="">' +
-                                    ' <h3>꽃 보내기 취소 확인</h3>' +
-                                    ' <input type="text" name="userId" value="' + sessionUserId + '">' +
-                                    ' <input type="text" name="secondUserId"value="' + secondUserId2 + '"><br><br>' +
-                                    ' <input type="text" name="secondUserId" value="' + secondUserId2 + '">님에게 보낸 꽃을 취소하시겠습니까?<br>' +
-                                    ' <a href="#" class="check2">확인</a>' +
+                                    ' <input type="hidden" name="userId" value="' + sessionUserId + '">' +
+                                    ' <input type="hidden" name="secondUserId"value="' + secondUserName + '">' +
+                                    ' <input type="hidden" name="secondUserId" value="' + secondUserName + '">' + secondUserName + '님에게 보낸 꽃을 취소하시겠습니까?😥' +
                                     ' </form>';
-                                alert(displayValue);
+                                //alert(displayValue);
+                                $('div.modal-footer').find('button:nth-child(2)').addClass('check2');
                             }
                             $('div.modal-body').html(displayValue);
+                            $('div.modal-footer').find('button:nth-child(2)').css({
+                            	'display' : 'block'
+                            });
+                            $('div.modal-footer').find('button:nth-child(1)').text('취소');
                         },
                         error: function(request, status, error) {
                             alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -706,10 +712,11 @@
 
 
             $(document).on('click', '.check', function() {
-                alert('클릭ㅋㅋ');
+            	$(this).removeClass('check');
+                //alert('클릭ㅋㅋ');
 
-                alert('userId : ' + sessionUserId);
-                alert('secondUserId : ' + targetUserId);
+                //alert('userId : ' + sessionUserId);
+                //alert('secondUserId : ' + targetUserId);
                 $.ajax({
                     url: '/matching/rest/addMatching3/' + sessionUserId + '/' + targetUserId,
                     method: 'GET',
@@ -723,15 +730,18 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                        alert('성공ㅋㅋ');
-                        var displayValue = '<h3>꽃 보냄</h3>' +
-                            '꽃을 보냈습니다.';
+                        //alert('성공ㅋㅋ');
+                        var displayValue = '🌹🌹꽃을 보냈습니다🌹🌹';
 
                         $('div.modal-body').html(displayValue);
                         $('div.totalFlower span').text(data);
-                        alert($('div.totalFlower span').text());
+                        //alert($('div.totalFlower span').text());
                         $('.addMatching').text('꽃보내기취소');
                         $('.addMatching').removeClass('addMatching').addClass('deleteMatching');
+                        $('div.modal-footer').find('button:nth-child(2)').css({
+                        	'display' : 'none'
+                        });
+                        $('div.modal-footer').find('button:nth-child(1)').text('확인');
                     },
                     error: function(request, status, error) {
                         alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -745,10 +755,10 @@
 
             $(document).on('click', '.deleteMatching', function() {
 
-                alert('클릭ㅋㅋ');
+                //alert('클릭ㅋㅋ');
 
-                alert('userId : ' + sessionUserId);
-                alert('secondUserId : ' + targetUserId);
+                //alert('userId : ' + sessionUserId);
+                //alert('secondUserId : ' + targetUserId);
                 $.ajax({
                     url: '/matching/rest/deleteMatching/' + sessionUserId + '/' + targetUserId,
                     method: 'GET',
@@ -762,15 +772,19 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                        alert('성공ㅋㅋ');
+                        //alert('성공ㅋㅋ');
+                        var secondUserName = data.secondUserName;
                         var displayValue = '<form action="">' +
-                            '<h3>꽃 보내기 취소 확인</h3>' +
-                            '<input type="text" name="userId" value="' + sessionUserId + '">' +
-                            '<input type="text" name="secondUserId"value="' + targetUserId + '"><br><br>' +
-                            '<input type="text" name="secondUserId" value="' + targetUserId + '">님에게 보낸 꽃을 취소하시겠습니까?<br>' +
-                            '<a href="#" class="check2">확인</a>' +
+                            '<input type="hidden" name="userId" value="' + sessionUserId + '">' +
+                            '<input type="hidden" name="secondUserId"value="' + targetUserId + '">' +
+                            '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' + secondUserName + '님에게 보낸 꽃을 취소하시겠습니까?😥' +
                             '</form>';
                         $('div.modal-body').html(displayValue);
+                        $('div.modal-footer').find('button:nth-child(2)').addClass('check2');
+                        $('div.modal-footer').find('button:nth-child(2)').css({
+                        	'display' : 'block'
+                        });
+                        $('div.modal-footer').find('button:nth-child(1)').text('취소');
                     },
                     error: function(request, status, error) {
                         alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -781,10 +795,11 @@
 
 
             $(document).on('click', '.check2', function() {
-                alert('클릭ㅋㅋ');
+            	$(this).removeClass('check2');
+                //alert('클릭ㅋㅋ');
 
-                alert('userId : ' + sessionUserId);
-                alert('secondUserId : ' + targetUserId);
+                //alert('userId : ' + sessionUserId);
+                //alert('secondUserId : ' + targetUserId);
                 $.ajax({
                     url: '/matching/rest/deleteMatching2/' + sessionUserId + '/' + targetUserId,
                     method: 'GET',
@@ -798,25 +813,23 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                        alert('성공ㅋㅋ');
+                        //alert('성공ㅋㅋ');
                         var displayValue = '';
-                        alert('data.result : ' + data.result);
+                        //alert('data.result : ' + data.result);
                         if (data.result == false) {
-                            displayValue = '<h3>꽃 보내고 30일 안 지남</h3>' +
-                                '꽃 보내기 30일 후 취소가 가능합니다.';
+                            displayValue = '꽃 보내기 30일 후 취소가 가능합니다.';
 
 
 
                         } else {
-                            displayValue = '<h3>꽃 보내기 취소함</h3>' +
-                                '보낸 꽃을 취소했습니다.';
+                            displayValue = '보낸 꽃을 취소했습니다.';
 
 
 
 
 
                             var totalMatching = data.totalMatching;
-                            alert('totalMatching : ' + totalMatching);
+                            //alert('totalMatching : ' + totalMatching);
                             $('div.totalFlower span').text(totalMatching);
                             $('.deleteMatching').text('꽃보내기');
                             $('.deleteMatching').removeClass('deleteMatching').addClass('addMatching');
@@ -824,7 +837,10 @@
                         }
 
                         $('div.modal-body').html(displayValue);
-
+                        $('div.modal-footer').find('button:nth-child(2)').css({
+                        	'display' : 'none'
+                        });
+                        $('div.modal-footer').find('button:nth-child(1)').text('확인');
 
                     },
                     error: function(request, status, error) {
@@ -840,10 +856,10 @@
             $(document).on('click', 'div.useSpear a', function() {
 
 
-                alert('클릭ㅋㅋ');
+                //alert('클릭ㅋㅋ');
 
-                alert('userId : ' + sessionUserId);
-                alert('secondUserId : ' + targetUserId);
+                //alert('userId : ' + sessionUserId);
+                //alert('secondUserId : ' + targetUserId);
                 $.ajax({
                     url: '/matching/rest/updateItem/' + sessionUserId + '/' + targetUserId,
                     method: 'GET',
@@ -857,19 +873,30 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                        alert('성공ㅋㅋ');
+                        //alert('성공ㅋㅋ');
+                        var secondUserName = data.secondUserName;
                         var displayValue = '';
                         if (data.result == true) {
                             displayValue = '<form action="">' +
-                                '<h3>창 사용 확인</h3>' +
-                                '<input type="text" name="userId" value="' + sessionUserId + '">' +
-                                '<input type="text" name="secondUserId" value="' + targetUserId + '"><br><br>' +
-                                '<input type="text" name="secondUserId" value="' + targetUserId + '">님에게 창을 사용하시겠습니까?<br>' +
-                                '<a href="#" class="check3">확인</a>' +
+                                '<input type="hidden" name="userId" value="' + sessionUserId + '">' +
+                                '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' +
+                                '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' + secondUserName + '님에게 창을 사용하시겠습니까?' +
                                 '</form>';
+                                
+                            $('div.modal-footer').find('button:nth-child(2)').css({
+                            	'display' : 'block'
+                            });
+                            $('div.modal-footer').find('button:nth-child(2)').addClass('check3');
+                            $('div.modal-footer').find('button:nth-child(1)').text('취소');
                         } else {
-                            displayValue = '<h3>창 없음</h3>' +
-                                '창이 없습니다.';
+                            displayValue = '사용 가능한 창이 없습니다😥'
+                            + secondUserName + '님의 마음을 알고 싶으신가요? 지금 바로 구매하세요😉';
+                            
+                            $('div.modal-footer').find('button:nth-child(2)').css({
+                            	'display' : 'block'
+                            });
+                            $('div.modal-footer').find('button:nth-child(1)').text('취소');
+                            $('div.modal-footer').find('button:nth-child(2)').addClass('purchaseBtn');
                         }
 
 
@@ -884,10 +911,11 @@
 
 
 
-            $(document).on('click', 'a.check3', function() {
+            $(document).on('click', '.check3', function() {
 
 
                 alert('클릭ㅋㅋ');
+                $(this).removeClass('check3');
 
                 alert('userId : ' + sessionUserId);
                 alert('secondUserId : ' + targetUserId);
@@ -905,33 +933,35 @@
                     },
                     success: function(data) {
                         alert('성공ㅋㅋ');
+                        var secondUserName = data.secondUserName;
                         var displayValue = '';
                         alert('data.useResult : ' + data.useResult);
                         if (data.useResult == '1') {
                             displayValue = '<form action="">' +
-                                '<h3>창 사용 결과 : 꽃 보냄</h3>' +
-                                '<input type="text" name="userId" value="' + sessionUserId + '">' +
-                                '<input type="text" name="secondUserId" value="' + targetUserId + '"><br><br>' +
-                                '<input type="text" name="secondUserId" value="' + targetUserId + '">님이 꽃을 보냈습니다.' +
+                                '<input type="hidden" name="userId" value="' + sessionUserId + '">' +
+                                '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' +
+                                '<input type="hidden" name="secondUserId" value="' + targetUserId + '">🌹🌹' + secondUserName + '님이 회원님에게 꽃을 보냈습니다🌹🌹' +
                                 '</form>';
                         } else if (data.useResult == '2') {
                             displayValue = '<form action="">' +
-                                '<h3>창 사용 결과 : 꽃 안 보냄</h3>' +
-                                '<input type="text" name="userId" value="' + sessionUserId + '">' +
-                                '<input type="text" name="secondUserId" value="' + targetUserId + '"><br><br>' +
-                                '<input type="text" name="secondUserId" value="' + targetUserId + '">님이 꽃을 보내지 않았습니다.' +
+                                '<input type="hidden" name="userId" value="' + sessionUserId + '">' +
+                                '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' +
+                                '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' + secondUserName + '님은 꽃을 보내지 않았습니다😥' +
                                 '</form>';
                         } else {
                             displayValue = '<form action="">' +
-                                '<h3>창 사용 결과 : 방패 씀</h3>' +
-                                '<input type="text" name="userId" value="' + sessionUserId + '">' +
-                                '<input type="text" name="secondUserId" value="' + targetUserId + '"><br><br>' +
-                                '방패가 자동 사용되었습니다.' +
+                                '<input type="hidden" name="userId" value="' + sessionUserId + '">' +
+                                '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' +
+                                '😇' + secondUserName + '님의 방패가 자동 사용되었습니다😇' +
                                 '</form>';
                         }
 
 
                         $('div.modal-body').html(displayValue);
+                        $('div.modal-footer').find('button:nth-child(2)').css({
+                        	'display' : 'none'
+                        });
+                        $('div.modal-footer').find('button:nth-child(1)').text('확인');
                     },
                     error: function(request, status, error) {
                         alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -1000,6 +1030,7 @@
 
 
         $(document).on("click", ".purchaseBtn", function() {
+        	$('div.modal-footer').find('button:nth-child(2)').removeClass('purchaseBtn');
             var currPoint = $("input#totalPoint").val();
             itemCategory = $(this).children("input[type='hidden']").val();
             itemCount = $(this).children("span").html();
@@ -1471,18 +1502,18 @@
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <div class="modal-header" style="border:none">
+                            
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" style="font-weight:bold;text-align:center">
 
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                        <div class="modal-footer" style="border:none">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            <button type="button" class="btn btn-primary">확인</button>
                         </div>
                     </div>
                 </div>

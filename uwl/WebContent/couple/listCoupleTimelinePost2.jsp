@@ -45,8 +45,9 @@
 
         div.listCoupleTimelinePost {
             padding-top: 10px;
-            width: 740px;
+            width: 100%;
             margin: 0 auto;
+            background: #fff;
         }
 
         div.listCoupleTimelinePost div.coupleTimelineHeader {
@@ -416,7 +417,7 @@
 
             
 
-            $(document).on('click', 'div.coupleTimelineMain div.coupleTimelinePost a') {
+            $(document).on('click', 'div.coupleTimelineMain div.coupleTimelinePost a', function() {
                 alert('클릭ㅋㅋ');
                 $('div.backgroundOverlay').addClass('on');
                 var postNo = $(this).find('input[name="postNo"]').val();
@@ -435,10 +436,14 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
+                    	alert(성공ㅋㅋ);
                         appendCoupleTimelinePost(data);
+                    },
+                    error: function(request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
-                })
-            }
+                });
+            });
 
             function appendCoupleTimelinePost(post) {
                 var postNo = post.postNo;
@@ -475,7 +480,7 @@
 
             $(document).ready(function() {
 
-                alert('userId : ' + userId);
+                //alert('userId : ' + userId);
                 $.ajax({
                     url: '/couple/rest/getCoupleTimelinePostList/' + userId,
                     method: 'GET',
@@ -604,7 +609,7 @@
         <div class="coupleTimelineHeader">
             <div class="firstUser">
                 <div class="userProfileImage">
-                    <img src="img/bonobono.jpg" alt="">
+                    <img src="/images/bonobono.jpg" alt="">
                 </div>
                 <div class="weather">
                     <i class="fas fa-smog"></i>
@@ -623,7 +628,7 @@
                     <i class="fas fa-sun"></i>
                 </div>
                 <div class="userProfileImage">
-                    <img src="img/bonobono.jpg" alt="">
+                    <img src="/images/bonobono.jpg" alt="">
                 </div>
             </div>
         </div>
@@ -631,7 +636,7 @@
             <div class="coupleTimelinePost">
                 <a href="#">
                     <div class="uploadImage">
-                        <img src="img/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="">
+                        <img src="/images/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="">
                     </div>
                     <div class="imageHover">
                         <div class="uploadDate">
@@ -644,7 +649,7 @@
             <div class="coupleTimelinePost">
                 <a href="#">
                     <div class="uploadImage">
-                        <img src="img/75586249_215873686083699_2609154030926987378_n.jpg" alt="">
+                        <img src="/images/75586249_215873686083699_2609154030926987378_n.jpg" alt="">
                     </div>
                     <div class="imageHover">
                         <div class="uploadDate">
@@ -657,7 +662,7 @@
             <div class="coupleTimelinePost">
                 <a href="#">
                     <div class="uploadImage">
-                        <img src="img/79366246_186468522524707_4331720126046688510_n.jpg" alt="">
+                        <img src="/images/79366246_186468522524707_4331720126046688510_n.jpg" alt="">
                     </div>
                     <div class="imageHover">
                         <div class="uploadDate">
@@ -670,7 +675,7 @@
             <div class="coupleTimelinePost">
                 <a href="#">
                     <div class="uploadImage">
-                        <img src="img/80338524_165631637981527_6322626174459999431_n.jpg" alt="">
+                        <img src="/images/80338524_165631637981527_6322626174459999431_n.jpg" alt="">
                     </div>
                     <div class="imageHover">
                         <div class="uploadDate">
@@ -683,7 +688,7 @@
             <div class="coupleTimelinePost">
                 <a href="#">
                     <div class="uploadImage">
-                        <img src="img/80639752_2566781766943900_7436097228326880724_n.jpg" alt="">
+                        <img src="/images/80639752_2566781766943900_7436097228326880724_n.jpg" alt="">
                     </div>
                     <div class="imageHover">
                         <div class="uploadDate">
@@ -698,6 +703,6 @@
     </div>
 
     
-    <div class="backgroundOverlay"></div>
+    <!-- <div class="backgroundOverlay"></div> -->
 </body></html>
 
