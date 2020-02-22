@@ -112,7 +112,7 @@ public class schoolRankController {
 		model.addAttribute("mySchool", mySchool);
 		model.addAttribute("individualRank", individualMap.get("list"));
 		//recentlyTotalPoint를 가져오기위한 정보
-		return "forward:/schoolRank/listSchoolRanking.jsp";
+		return "forward:/schoolRank/toolbarListSchoolRanking.jsp";
 	}
 	
 	@RequestMapping(value = "getSearchRank")
