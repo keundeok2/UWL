@@ -423,8 +423,8 @@
 		
 		Swal.fire({
 			  icon: 'success',
-			  title: 'Your work has been saved',
-			  text : '어어어어어울리리리리리리림',
+			  title: '어 울림',
+			  text : '회원가입이 완료되었습니다.',
 			  timer: 3000
 		});
 		
@@ -577,7 +577,7 @@
 		                    
 		                    mail = false;
 // 		                    mailOk = false;
-	                         signupCheck();
+// 	                         signupCheck();
 		                }
 		            },
 		            error : function(){
@@ -797,22 +797,15 @@
 			// mailCheck는 이메일 인증 문자열 state이며 
 			// mailValue는 이메일 인증 유무를 판단하는 Flag이다 
 			
-			// 메일 인증 안하고 주소만 적으면 가입이 가능 !!!!!!!!!!!!! errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
-		/* 	if ( mailValue == "" || mailValue != "1" || mailValue == null) { 
-				$("h6").text("메일 인증을 진행해주세요.");
-				return;
-			}*/
-// 			if ( mailValue == "" ) {
-// 				$("h6").text("인증번호를 입력해주세요.");
-// 			}
-			
 			if ( mailCheck == "" ) {
 				$("h6").text("메일이 발송되지 않았습니다.");
 			}
+			
 			// mailCheck의 default는 null String이므로 
 			
 			if ( mailCheck != "" ) {
 				if ( mailCheck == mailValue ) {
+					$('#not').remove();
 					$("a:contains('메일전송')").remove();
 					$("span.mailNot").remove();
 					$("input[name='mailValue']").val("1");
@@ -825,7 +818,11 @@
 				}
 				
 				if ( mailCheck != mailValue ) {
-					$("h6").text("인증 문자가 틀렸습니다. 다시 확인해주세요.");
+					 $('#not').remove();
+					var view = "<span id='not' style='color:red'>인증번호가 틀렸습니다. 다시 확인해주세요.</span>"
+					$('#mail').after(view);
+					$('#mail').focus();
+				
 				}
 			}
 		});
