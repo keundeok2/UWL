@@ -268,8 +268,8 @@
         div.chattingIcon a {
 
             display: block;
-            width: 70px;
-            height: 70px;
+            width: 62px;
+            height: 62px;
             text-align: center;
             border-radius: 50%;
 
@@ -281,7 +281,7 @@
             vertical-align: middle;
 
             line-height: 70px;
-            font-size: 35px;
+            font-size: 30px;
             text-shadow: 1px 1px 1px #333;
         }
 
@@ -584,8 +584,8 @@
 		div.chattingIcon > div{
             position: absolute;
             background-color: #d25412;
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             top: -5px;
             right: -5px;
@@ -631,6 +631,8 @@
 	    
 	    $(document).ready(function(){
     		var sessionUserId = "${sessionScope.user.userId}";
+    		var roomNos = [];
+			var userIds = [];
 	    	$.ajax({
 	    		url : "/chatting/rest/getChattingRoomList",
 	    		method : "POST",
@@ -643,8 +645,8 @@
 				}),
 				success : function(data){
 					var length = data.length;
+					
 					for(var i=0; i<data.length; i++){
-						var roomNo = data[i].roomNo;
 						if(sessionUserId == data[i].master){
 							var userName = data[i].enterUserName;
 							var userId = data[i].enterUser;
@@ -652,26 +654,46 @@
 							var userName = data[i].masterName;
 							var userId = data[i].master;
 						}
-						var view = "<li><a href='#'>"
-                    				+"<div class='profileImage'>"
-				                        +"<img src='/images/bonobono.jpg' alt=''>&emsp;"
+						roomNos.push(data[i].roomNo);
+						userIds.push(userId);
+				       
+				       var howManyView = "채팅("+length+")";
+				       $('#howManyChattingRoom').text(howManyView);
+					}
+					for(var i=0; i<roomNos.length; i++){
+						console.log(userIds[i])	//저장됨
+						$.ajax({
+							url : "/user/rest/getUser/"+userIds[i],
+							method : "GET",
+							async: false,
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(data){
+								console.log(data);
+								var view = "<li><a href='#'>"
+	                				+"<div class='profileImage'>"
+				                        +"<img src='/images/"+data.profileName+"' alt=''>&emsp;"
 				                    +"</div>"
 				                    +"<div class='chattingInfo'>"
 				                        +"<div class='chattingUser'>"
-				                            +"<p>"+userName+"</p>"
+				                            +"<p>"+data.name+"</p>"
 				                            +"<p>오전 10:13</p>"
-				                            +"<input type='hidden' id='chattingUserId' value='"+userId+"'>"
-						                    +"<input type='hidden' id='roomNo' value='"+roomNo+"'>"
+				                            +"<input type='hidden' id='chattingUserId' value='"+data.userId+"'>"
+						                    +"<input type='hidden' id='roomNo' value='"+roomNos[i]+"'>"
 				                        +"</div>"
 				                        "<div class='chattingContent'>"
 				                            +"줄여서 테마"
 				                        +"</div>"
 				                    +"</div>"
 				                +"</a></li>";
-				       $('#forFriendListAppend').after(view);
-				       
-				       var howManyView = "채팅("+length+")";
-				       $('#howManyChattingRoom').text(howManyView);
+				      		 $('#forFriendListAppend').after(view);
+							},
+							error : function(){
+								alert("유저레스트 컨트롤 에러 ㅋㅋ")
+							}
+						});
 					}
 				},
 				error : function(){
@@ -840,6 +862,26 @@
 	        		      '이제 채팅내용은 복구 할 수 없습니다.',
 	        		      'success'
 	        		    )
+	        		    $.ajax({
+	        		    	url : "/chatting/rest/outChattingRoom",
+	        		    	method : "POST",
+	        		    	dataType : 'json',
+	        		    	data : JSON.stringify({
+	        		    			roomNo : chattingRoomNo
+	        		    	}),
+	        		    	headers : {
+			    				"Accept" : "application/json",
+			    				"content-Type" : "application/json"
+			    			},
+			    			success : function(){
+			    				var roomNo = chattingRoomNo;
+			    				$('div.chattingBox').removeClass('on');
+			    				$('input[value="'+roomNo+'"]').parent().parent().parent().parent().remove();
+			    			},
+			    			error : function(){
+								    				
+			    			}
+	        		    });
 	        		  }
 	        		})
 	        });
@@ -911,6 +953,31 @@
 	        		socket.emit("targetId", targetId);
 	        		socket.emit("chattingRoomNo", chattingRoomNo);
 	        		//true
+	        		$.ajax({
+						url : "/user/rest/getUser/"+targetId,
+						method : "GET",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(data){
+							$('#chattingRoomBoxTopLeftForAppend').empty();
+							var view = '<div class="chattingBoxTopLeft">'
+		    		                    	+'<div class="userProfileImage">'
+		    		                        	+'<img src="/images/'+data.profileName+'" alt="">'
+		    		                    	+'</div>'
+		    		                    	+'&nbsp;'
+		    		                    	+'<div class="chattingUserName">'
+		    		                        	+data.name
+		    		                    	+'</div>'
+		    		                	+'</div>';
+		    		        $('#chattingRoomBoxTopLeftForAppend').append(view);
+						},
+						error : function(){
+							alert("유저레스트 컨트롤 에러 ㅋㅋ")
+						}
+					});
+	        		
 	        	}else{	//채팅방이 열려있다면
 	        		var roomNo = $(this).children().find('#roomNo').val();
 	        		if(chattingRoomNo == roomNo){	//기존에 열려있던 채팅방과 동일하다면
@@ -928,6 +995,31 @@
 						socket.emit("enterUserId", enterUserId);
 						socket.emit("targetId", targetId);
 						socket.emit("chattingRoomNo", chattingRoomNo);
+						
+						$.ajax({
+							url : "/user/rest/getUser/"+targetId,
+							method : "GET",
+							headers : {
+    							"Accept" : "application/json",
+    							"Content-Type" : "application/json"
+    						},
+    						success : function(data){
+    							$('#chattingRoomBoxTopLeftForAppend').empty();
+    							var view = '<div class="chattingBoxTopLeft">'
+			    		                    	+'<div class="userProfileImage">'
+			    		                        	+'<img src="/images/'+data.profileName+'" alt="">'
+			    		                    	+'</div>'
+			    		                    	+'&nbsp;'
+			    		                    	+'<div class="chattingUserName">'
+			    		                        	+data.name
+			    		                    	+'</div>'
+			    		                	+'</div>';
+			    		        $('#chattingRoomBoxTopLeftForAppend').append(view);
+    						},
+    						error : function(){
+    							alert("유저레스트 컨트롤 에러 ㅋㅋ")
+    						}
+						});
 						
 						$('.chattingBoxContent').animate({
 			        		'scrollTop': '10000000px'
@@ -960,23 +1052,37 @@
 		    			},
 		    			success : function(data){
 		    				if(data == true){
-		    					var view = "<li><a href='#'>"
-                    				+"<div class='profileImage'>"
-				                        +"<img src='/images/bonobono.jpg' alt=''>&emsp;"
-				                    +"</div>"
-				                    +"<div class='chattingInfo'>"
-				                        +"<div class='chattingUser'>"
-				                            +"<p>"+enterUserName+"</p>"
-				                            +"<p>오전 10:13</p>"
-				                            +"<input type='hidden' id='chattingUserId' value='"+masterId+"'>"
-						                    +"<input type='hidden' id='roomNo' value='"+roomNo+"'>"
-				                        +"</div>"
-				                        "<div class='chattingContent'>"
-				                            +"줄여서 테마"
-				                        +"</div>"
-				                    +"</div>"
-				                +"</a></li>";
-				       $('#forFriendListAppend').after(view);
+		    					$.ajax({
+									url : "/user/rest/getUser/"+enterUser,
+									method : "GET",
+									headers : {
+		    							"Accept" : "application/json",
+		    							"Content-Type" : "application/json"
+		    						},
+		    						success : function(data){
+		    							var view = "<li><a href='#'>"
+		                    				+"<div class='profileImage'>"
+						                        +"<img src='/images/"+data.profileName+"' alt=''>&emsp;"
+						                    +"</div>"
+						                    +"<div class='chattingInfo'>"
+						                        +"<div class='chattingUser'>"
+						                            +"<p>"+data.name+"</p>"
+						                            +"<p>오전 10:13</p>"
+						                            +"<input type='hidden' id='chattingUserId' value='"+enterUser+"'>"
+								                    +"<input type='hidden' id='roomNo' value='"+chattingRoomNo+"'>"
+						                        +"</div>"
+						                        "<div class='chattingContent'>"
+						                            +"줄여서 테마"
+						                        +"</div>"
+						                    +"</div>"
+						                +"</a></li>";
+						      		 $('#forFriendListAppend').after(view);
+		    						},
+		    						error : function(){
+		    							alert("유저레스트 컨트롤 에러 ㅋㅋ")
+		    						}
+								});
+
 		    				}
 		    			},
 		    			error : function(){
@@ -1028,6 +1134,7 @@
 	        	chattingRoom = room
 	        });
 	        socket.on('msg', function(sendMsg){
+	        	
 	        	//////////////////////채팅 뷰///////////////////////////////////////
 		        var top = 	"<div class='userProfileImage'>"
 	            				+"<img src='/images/bonobono.jpg' alt=''>"
@@ -1286,23 +1393,38 @@
 				    									socket.emit("targetId", data[i].enterUser);
 				    									socket.emit("chattingRoomNo", chattingRoomNo);
 				    									//-----------------------------------------------------확인완료
-				    									var view = "<li><a href='#'>"
-						                    				+"<div class='profileImage'>"
-										                        +"<img src='/images/bonobono.jpg' alt=''>&emsp;"
-										                    +"</div>"
-										                    +"<div class='chattingInfo'>"
-										                        +"<div class='chattingUser'>"
-										                            +"<p>"+data[i].enterUserName+"</p>"
-										                            +"<p>오전 10:13</p>"
-										                            +"<input type='hidden' id='chattingUserId' value='"+sessionUserId+"'>"
-												                    +"<input type='hidden' id='roomNo' value='"+chattingRoomNo+"'>"
-										                        +"</div>"
-										                        "<div class='chattingContent'>"
-										                            +"줄여서 테마"
-										                        +"</div>"
-										                    +"</div>"
-										                +"</a></li>";
-										      		 $('#forFriendListAppend').after(view);
+				    										$.ajax({
+						    										url : "/user/rest/getUser/"+data[i].enterUser,
+						    										method : "GET",
+						    										headers : {
+						    			    							"Accept" : "application/json",
+						    			    							"Content-Type" : "application/json"
+						    			    						},
+						    			    						success : function(data){
+						    			    							var view = "<li><a href='#'>"
+										                    				+"<div class='profileImage'>"
+														                        +"<img src='/images/"+data.profileName+"' alt=''>&emsp;"
+														                    +"</div>"
+														                    +"<div class='chattingInfo'>"
+														                        +"<div class='chattingUser'>"
+														                            +"<p>"+data.name+"</p>"
+														                            +"<p>오전 10:13</p>"
+														                            +"<input type='hidden' id='chattingUserId' value='"+targetId+"'>"
+																                    +"<input type='hidden' id='roomNo' value='"+chattingRoomNo+"'>"
+														                        +"</div>"
+														                        "<div class='chattingContent'>"
+														                            +"줄여서 테마"
+														                        +"</div>"
+														                    +"</div>"
+														                +"</a></li>";
+														      		 $('#forFriendListAppend').after(view);
+						    			    						},
+						    			    						error : function(){
+						    			    							alert("유저레스트 컨트롤 에러 ㅋㅋ")
+						    			    						}
+						    									});
+
+				    									
 				    									//----------------------------------------------------확인완료
 				    									$('div.chattingBox').addClass('on');
 				    									$('.chattingBoxContent').animate({
@@ -1312,7 +1434,31 @@
 				    										'bottom': '30px',
 				    										'right': '160px',
 				    										"z-index": '9'
-				    									});							
+				    									});
+				    									$.ajax({
+				    										url : "/user/rest/getUser/"+data[i].enterUser,
+				    										method : "GET",
+				    										headers : {
+								    							"Accept" : "application/json",
+								    							"Content-Type" : "application/json"
+								    						},
+								    						success : function(data){
+								    							$('#chattingRoomBoxTopLeftForAppend').empty();
+								    							var view = '<div class="chattingBoxTopLeft">'
+											    		                    	+'<div class="userProfileImage">'
+											    		                        	+'<img src="/images/'+data.profileName+'" alt="">'
+											    		                    	+'</div>'
+											    		                    	+'&nbsp;'
+											    		                    	+'<div class="chattingUserName">'
+											    		                        	+data.name
+											    		                    	+'</div>'
+											    		                	+'</div>';
+											    		        $('#chattingRoomBoxTopLeftForAppend').append(view);
+								    						},
+								    						error : function(){
+								    							alert("유저레스트 컨트롤 에러 ㅋㅋ")
+								    						}
+				    									});
 				    								}
 				    							} //for end
 				    							
@@ -1337,8 +1483,17 @@
 								cnt = cnt+1;
 								console.log('기존에 채팅중이었던 유저다');
 								chattingRoomNo = data[i].roomNo;
-								socket.emit("enterUserId", data[i].master);
-								socket.emit("targetId", data[i].enterUser);
+								if("${sessionScope.user.userId}" == data[i].master){
+									var ifMasterUserId = targetId;
+									var ifEnterUserId = sessionUserId;
+								}else{
+									var ifMasterUserId = sessionUserId;
+									var ifEnterUserId = targetId;									//////채팅 에러잡기
+								}
+//								socket.emit("enterUserId", data[i].master);
+								socket.emit("enterUserId", ifMasterUserId);
+//								socket.emit("targetId", data[i].enterUser);
+								socket.emit("targetId", ifEnterUserId);
 								socket.emit("chattingRoomNo", chattingRoomNo);
 								$('div.chattingBox').toggleClass('on');
 								$('.chattingBoxContent').animate({
@@ -1349,6 +1504,32 @@
 									'right': '160px',
 									"z-index": '9'
 								});			//-------------------------------------------------------확인완료
+								
+								$.ajax({
+									url : "/user/rest/getUser/"+data[i].enterUser,
+									method : "GET",
+									headers : {
+		    							"Accept" : "application/json",
+		    							"Content-Type" : "application/json"
+		    						},
+		    						success : function(data){
+		    							$('#chattingRoomBoxTopLeftForAppend').empty();
+		    							var view = '<div class="chattingBoxTopLeft">'
+					    		                    	+'<div class="userProfileImage">'
+					    		                        	+'<img src="/images/'+data.profileName+'" alt="">'
+					    		                    	+'</div>'
+					    		                    	+'&nbsp;'
+					    		                    	+'<div class="chattingUserName">'
+					    		                        	+data.name
+					    		                    	+'</div>'
+					    		                	+'</div>';
+					    		        $('#chattingRoomBoxTopLeftForAppend').append(view);
+		    						},
+		    						error : function(){
+		    							alert("유저레스트 컨트롤 에러 ㅋㅋ")
+		    						}
+								});
+								
 							}
 						}		//유저 채팅방 목록 찾을 수 있게 해주는 for end//--------------------------------------------------첫 채팅의 시작 여기로 엄청빠짐
 							if(cnt == 0){
@@ -1391,23 +1572,38 @@
 						    									socket.emit("targetId", data[i].enterUser);
 						    									socket.emit("chattingRoomNo", chattingRoomNo);
 						    									
-						    									var view = "<li><a href='#'>"
-								                    				+"<div class='profileImage'>"
-												                        +"<img src='/images/bonobono.jpg' alt=''>&emsp;"
-												                    +"</div>"
-												                    +"<div class='chattingInfo'>"
-												                        +"<div class='chattingUser'>"
-												                            +"<p>"+data[i].enterUserName+"</p>"
-												                            +"<p>오전 10:13</p>"
-												                            +"<input type='hidden' id='chattingUserId' value='"+sessionUserId+"'>"
-														                    +"<input type='hidden' id='roomNo' value='"+chattingRoomNo+"'>"
-												                        +"</div>"
-												                        "<div class='chattingContent'>"
-												                            +"줄여서 테마"
-												                        +"</div>"
-												                    +"</div>"
-												                +"</a></li>";
-												      		 $('#forFriendListAppend').after(view);
+						    									$.ajax({
+						    										url : "/user/rest/getUser/"+data[i].enterUser,
+						    										method : "GET",
+						    										headers : {
+						    			    							"Accept" : "application/json",
+						    			    							"Content-Type" : "application/json"
+						    			    						},
+						    			    						success : function(data){
+						    			    							var view = "<li><a href='#'>"
+										                    				+"<div class='profileImage'>"
+														                        +"<img src='/images/"+data.profileName+"' alt=''>&emsp;"
+														                    +"</div>"
+														                    +"<div class='chattingInfo'>"
+														                        +"<div class='chattingUser'>"
+														                            +"<p>"+data.name+"</p>"
+														                            +"<p>오전 10:13</p>"
+														                            +"<input type='hidden' id='chattingUserId' value='"+targetId+"'>"
+																                    +"<input type='hidden' id='roomNo' value='"+chattingRoomNo+"'>"
+														                        +"</div>"
+														                        "<div class='chattingContent'>"
+														                            +"줄여서 테마"
+														                        +"</div>"
+														                    +"</div>"
+														                +"</a></li>";
+														      		 $('#forFriendListAppend').after(view);
+						    			    						},
+						    			    						error : function(){
+						    			    							alert("유저레스트 컨트롤 에러 ㅋㅋ")
+						    			    						}
+						    									});
+						    									
+						    									
 						    									
 						    									$('div.chattingBox').addClass('on');
 						    									$('.chattingBoxContent').animate({
@@ -1417,7 +1613,32 @@
 						    										'bottom': '30px',
 						    										'right': '160px',
 						    										"z-index": '9'
-						    									});	
+						    									});
+						    									
+						    									$.ajax({
+						    										url : "/user/rest/getUser/"+data[i].enterUser,
+						    										method : "GET",
+						    										headers : {
+						    			    							"Accept" : "application/json",
+						    			    							"Content-Type" : "application/json"
+						    			    						},
+						    			    						success : function(data){
+						    			    							$('#chattingRoomBoxTopLeftForAppend').empty();
+						    			    							var view = '<div class="chattingBoxTopLeft">'
+						    						    		                    	+'<div class="userProfileImage">'
+						    						    		                        	+'<img src="/images/'+data.profileName+'" alt="">'
+						    						    		                    	+'</div>'
+						    						    		                    	+'&nbsp;'
+						    						    		                    	+'<div class="chattingUserName">'
+						    						    		                        	+data.name
+						    						    		                    	+'</div>'
+						    						    		                	+'</div>';
+						    						    		        $('#chattingRoomBoxTopLeftForAppend').append(view);
+						    			    						},
+						    			    						error : function(){
+						    			    							alert("유저레스트 컨트롤 에러 ㅋㅋ")
+						    			    						}
+						    									});
 						    									//break;
 						    								}
 						    								console.log('for control');
@@ -1525,7 +1746,7 @@
                     $(".btn" + userId + "").remove();
                     $("div.friendList ul").html("");
 
-                    var li = "<li>친구 목록<a href='#'><i class='fas fa-cog'></i></a></li>";
+                    var li = "<li>친구 목록<a href='#'><i class='fa-user-plus'></i></a></li>";
                     $(li).appendTo("div.friendList ul");
                     rightLoad();
 
@@ -1607,14 +1828,8 @@
 				var html = "<i class='fas fa-bell'></i>"
 				$("#notiIcon").prepend(html);
 				
-                /* let $socketAlert = $("div#socketAlert");
-                $socketAlert.html(event.data);
-                $socketAlert.css("display", "block");
+                notiIconLoad();
                 
-                
-                setTimeout(function() {
-					$socketAlert.css('display', 'none');
-				},5000); */
             };
 
             ws.onclose = function(event) {
@@ -1680,26 +1895,24 @@
         <div class="chattingBoxTop">
             <a href="#">
             
- <!-- ---------------------------여기가 채팅창 상단--------------------------------------------------------- -->
-                <div class="chattingBoxTopLeft">
-                    <div class="userProfileImage">
-                        <img src="/images/bonobono.jpg" alt="">
-                    </div>
-                    <div class="chattingUserName">
-                        	🎀주주장님🎀
-                    </div>
+ <!-- ---------------------------여기가 채팅창 상단 좌측--------------------------------------------------------- -->
+ 				<div id="chattingRoomBoxTopLeftForAppend">
+ 				
+ 					<!-- 프로필 사진이랑 이름 나오는 공간 -->
+                
                 </div>
- <!-- ---------------------------여기가 채팅창 상단--------------------------------------------------------- -->
- 
+ <!-- ---------------------------여기가 채팅창 상단 좌측--------------------------------------------------------- -->
+ <!-- -------------------------  여긴 채팅방 상단 우측 ---------------------------------------------------------->
                 <div class="chattingBoxTopRight">
                     <a href="#"><i class="fas fa-bomb" id="chattingSystemChangeButton"></i></a>
                     <a href="#" id="outOfChattingByTimes"><i class="fas fa-times"></i></a>
                 </div>
             </a>
         </div>
-        
+ <!-- -------------------------  여긴 채팅방 상단 우측 ---------------------------------------------------------->
         
         <div class="chattingBoxContent">
+        
  <!-- --------------------------여긴 채팅 날짜------------------------------------------------------------ -->       
             <div class="chatDate">
                 <p>2020년 2월 17일 월요일</p>
@@ -1707,7 +1920,9 @@
  <!-- --------------------------여긴 채팅 날짜------------------------------------------------------------ -->       
             
             
+<!-- ---------------------------채팅방 내용--------------------------------------------------------------- -->        
             <div id="ChattingAppend"></div>
+<!-- ---------------------------채팅방 내용--------------------------------------------------------------- -->
             
             
             
