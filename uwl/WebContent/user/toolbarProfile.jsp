@@ -622,10 +622,12 @@
                     success: function() {
 
                         //socket push
-                        socketMsg = sessionUserId + "," + targetUserId + "," + sessionName + "," + "friend,add," + postNo;
+                        socketMsg = sessionUserId + "," + targetUserId + "," + sessionName + "," + "4,4,";
                         console.log(socketMsg)
-                        socket.send(socketMsg);
-
+                        wsocket.send(socketMsg);
+                        addNoti(sessionUserId, targetUserId, "4", "4");
+						rightLoad();
+                        
                         $("div.acceptFriend").remove();
                         var html = "<div class='deleteFriend'><a href='#'>친구끊기</a></div>" +
                             "<div class='sendFlower'><a href=''#' class='addMatching' data-toggle='modal' data-target='#exampleModal'>꽃보내기</a></div>" +

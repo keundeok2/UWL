@@ -151,7 +151,6 @@
 							                +"<p><span>"+d.list[0].user.name+"</span> ｜ <span>"+d.list[0].answerDate+"</span></p>"
 							            +"</div>";
 							$("div.askList").prepend(html);
-							
 						}
 					})
 				})

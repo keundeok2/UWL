@@ -417,7 +417,7 @@
 			                  </c:if>
 			                  <c:if test="${noti.notiOrigin eq 3 }">
 			                  	<c:if test="${noti.notiCode eq 1 }">
-			                  		<div class="tracking-content">${noti.sender.name}님이 타임라인에 댓글을 등록했습니다.<span><a href="/user/getProfile/${noti.senderId}">${noti.sender.name}님의 타임라인으로 이동</a></span></div>
+			                  		<div class="tracking-content">${noti.sender.name}님이 타임라인에 댓글을 등록했습니다.<span><a href="/user/getProfile/${user.userId}">내 타임라인으로 이동</a></span></div>
 			                  	</c:if>
 			                  </c:if>
 			                  <c:if test="${noti.notiOrigin eq 4 }">
