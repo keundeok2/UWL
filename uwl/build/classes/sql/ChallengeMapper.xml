@@ -308,7 +308,7 @@ WHERE r.chall_no = c.chall_no AND r.user_id = #{userId} ORDER BY r.variable_date
 	 <!-- SQL : SELECT ROW Count -->	 <!-- 파라미터를 map으로 가져올것. -->
 	 <select  id="getChallCommentCompleteCount"  parameterType="challenge"	 resultType="int">
 	  	SELECT COUNT(*) FROM(			
-								 SELECT  DISTINCT c.user_id,
+								 SELECT  c.user_id,
 												c.comment_date
 											FROM commentt c, (SELECT the_latest.weekly_start weekly_start,
 																												weekly_end.	weekly_end	weekly_end		FROM
