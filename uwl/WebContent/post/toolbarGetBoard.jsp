@@ -40,6 +40,14 @@
     
         $(document).ready(function() {
         	
+        	var gatherCategoryNo = ${post.gatherCategoryNo};
+        	//alert(gatherCategoryNo);
+        	console.log(gatherCategoryNo);
+        	
+        	$("#boardList").on("click", function() {
+                self.location = "/post/listBoard?gatherCategoryNo=" + gatherCategoryNo + "&postChallenge=1";
+            });
+        	
             var refPostNo = ${post.postNo};
             
           	console.log("refPostNo", refPostNo);
@@ -295,6 +303,18 @@
             padding: 15px 15px 0 15px;
         }
         
+        div.back{
+        	float:right;
+        	border-radius : 10px;
+        	background-color: #EBAD7A;
+            display: inline-block;
+            line-height: 25px;
+            padding: 0 40px;
+            color: #fff;
+            font-weight: bold;
+            margin: 20px 0;
+        	
+        }
         
     </style>
     
@@ -370,6 +390,9 @@
                                         <div style="text-align:center;width:100%">
                                             <div id="forHeartAppend"></div>
                                         </div>
+                                        <div class="back">
+							          	  <a href="#" id="boardList">목록으로</a>
+							            </div>
                                     </td>
                                 </tr>
                             </table>
@@ -381,6 +404,10 @@
             <jsp:include page="../community/includeListComment.jsp"></jsp:include>
 
             </ul>
+            <!-- <div class="back">
+            <a href="#" id="boardList">목록으로</a>
+            </div> -->
+                            
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
@@ -421,4 +448,32 @@
 
 
             </form>
+            	<form>
+      
+      <div class="container">
+		 			<div class="modal fade" id="updateCommentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			            <div class="modal-dialog" role="document">
+			                <div class="modal-content">
+			                    <div class="modal-header">
+			                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			                        <h4 class="modal-title" id="myModalLabel"></h4>
+			                    </div>
+		                    <div class="modal-body">
+		                        	<h1>&nbsp;&nbsp;&emsp;&emsp;&emsp;댓글 수정</h1>
+		                    </div>
+		                    <div class="modal-footer">
+								<textarea cols="75" rows="10" name="updateCommentContent" id="updateCommentContent"></textarea>
+								<br>
+								<span>
+								<button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" id="updateComment"><span aria-hidden="true">수정</span></button>
+		                        </span>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		 	</div>
+      
+      
+	</form>
+            
 </body></html>

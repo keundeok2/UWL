@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,7 +77,7 @@
 	                }),
 	                success : function(d) {
 						if (d.success) {
-							alert(userId + "´Ô°ú Ä£±¸°¡ µÇ¾ú½À´Ï´Ù.");
+							alert(userId + "ë‹˜ê³¼ ì¹œêµ¬ê°€ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 							socketMsg = sessionId + "," + userId + "," + sessionUserName + "," + "4,4";
 		                    wsocket.send(socketMsg);
 		                    addNoti(sessionId, userId, "4", "4");
@@ -90,7 +90,7 @@
 		});
 
 		
-        //	Ä£±¸½ÅÃ» ¹öÆ°
+        //	ì¹œêµ¬ì‹ ì²­ ë²„íŠ¼
         $(document).on("click", "#applyBtn", function() {
             var sessionId = $("input#sessionId").val();
             console.log("sessionId", sessionId);
@@ -109,12 +109,12 @@
                     secondUserId: userId
                 }),
                 success: function() {
-                    var html = "<button type='button' class='btn btn-outline-secondary " + userId + "' id='cancelBtn'>½ÅÃ»Ãë¼Ò</button>" +
+                    var html = "<button type='button' class='btn btn-outline-secondary " + userId + "' id='cancelBtn'>ì‹ ì²­ì·¨ì†Œ</button>" +
                         "<input type='hidden' value='" + userId + "'>";
                     $("." + userId + "").remove();
                     $(html).appendTo("#" + userId + "");
 
-                    //socket push msg = (senderId,receiverId,senderName,notiOrigin,notiCode); ÇÏ³ª¶óµµ »©¸ÔÀ¸¸é ¾ÈµÊ. ÇØ´çÇÏ´Â ÀÎÀÚ°ª ¾øÀ¸¸é 1ÀÌ¶óµµ ³Ö¾î¾ßÇÔ
+                    //socket push msg = (senderId,receiverId,senderName,notiOrigin,notiCode); í•˜ë‚˜ë¼ë„ ë¹¼ë¨¹ìœ¼ë©´ ì•ˆë¨. í•´ë‹¹í•˜ëŠ” ì¸ìê°’ ì—†ìœ¼ë©´ 1ì´ë¼ë„ ë„£ì–´ì•¼í•¨
                     socketMsg = sessionId + "," + userId + "," + sessionName + "," + "4,3";
                     console.log(socketMsg)
                     wsocket.send(socketMsg);
@@ -124,7 +124,7 @@
             })
         })
 		
-        //	Ä£±¸½ÅÃ» Ãë¼Ò¹öÆ°
+        //	ì¹œêµ¬ì‹ ì²­ ì·¨ì†Œë²„íŠ¼
         $(document).on("click", "#cancelBtn", function() {
             var sessionId = $("input#sessionId").val();
             console.log("sessionId", sessionId);
@@ -142,7 +142,7 @@
                     secondUserId: userId
                 }),
                 success: function() {
-                    var html = "<button type='button' class='btn btn-outline-primary " + userId + "' id='applyBtn'>Ä£±¸½ÅÃ»</button>" +
+                    var html = "<button type='button' class='btn btn-outline-primary " + userId + "' id='applyBtn'>ì¹œêµ¬ì‹ ì²­</button>" +
                         "<input type='hidden' value='" + userId + "'>"
                     $("." + userId + "").remove();
                     $(html).appendTo("#" + userId + "");
@@ -173,7 +173,7 @@
         }
 		
         
-        //	Ä£±¸½ÅÃ» ¿Â À¯Àú ¹öÆ°
+        //	ì¹œêµ¬ì‹ ì²­ ì˜¨ ìœ ì € ë²„íŠ¼
         function askedBtn() {
             var sessionId = $("input#sessionId").val();
             $.ajax({
@@ -187,7 +187,7 @@
                 success: function(d) {
                     console.log("askedBtn");
                     for (var i = 0; i < d.list.length; i++) {
-                        var html = "<button type='button' class='btn btn-outline-primary " + d.list[i].userId + "' id='acceptButton'>Ä£±¸½ÅÃ»</button>" +
+                        var html = "<button type='button' class='btn btn-outline-primary " + d.list[i].userId + "' id='acceptButton'>ì¹œêµ¬ì‹ ì²­</button>" +
                             "<input type='hidden' value='" + d.list[i].userId + "'/>";
                         $("." + d.list[i].userId + "").remove();
                         $(html).appendTo("#" + d.list[i].userId + "");
@@ -198,7 +198,7 @@
             })
         }
 
-        //	ÀÌ¹Ì Ä£±¸½ÅÃ»ÇÑ À¯Àú Ä£±¸½ÅÃ»¹öÆ°
+        //	ì´ë¯¸ ì¹œêµ¬ì‹ ì²­í•œ ìœ ì € ì¹œêµ¬ì‹ ì²­ë²„íŠ¼
         function requestBtn() {
             var sessionId = $("input#sessionId").val();
             $.ajax({
@@ -213,7 +213,7 @@
                 }),
                 success: function(d) {
                     for (var i = 0; i < d.list.length; i++) {
-                        var html = "<button type='button' class='btn btn-outline-secondary " + d.list[i].userId + "' id='cancelBtn'>½ÅÃ»Ãë¼Ò</button>" +
+                        var html = "<button type='button' class='btn btn-outline-secondary " + d.list[i].userId + "' id='cancelBtn'>ì‹ ì²­ì·¨ì†Œ</button>" +
                             "<input type='hidden' value='" + d.list[i].userId + "'/>";
                         $("." + d.list[i].userId + "").remove();
                         $(html).appendTo("#" + d.list[i].userId + "");
@@ -397,13 +397,13 @@
                                 <img src="../../images/${friendUser.profileName}" class="searchProfileName" id="searchProfileName" />&nbsp;
                                 <span class="searchName" style="margin-right:20px; font-weight : bold"><a href="#">${friendUser.name}</a></span>
                                 <span style="margin-right:20px;">${friendUser.schoolName}</span>
-                                <button type="button" class="btn btn-outline-primary ${friendUser.userId}" id="applyBtn">Ä£±¸½ÅÃ»</button>
+                                <button type="button" class="btn btn-outline-primary ${friendUser.userId}" id="applyBtn">ì¹œêµ¬ì‹ ì²­</button>
                                 <input type="hidden" value="${friendUser.userId}" />
                             </div>
                         </div>
                     </c:forEach>
                     <c:if test="${empty map.list}">
-                        °Ë»öµÈ È¸¿øÀÌ ¾ø½À´Ï´Ù.
+                        ê²€ìƒ‰ëœ íšŒì›ì´ ì—†ìŠµë‹ˆë‹¤.
                     </c:if>
                 </div>
 

@@ -286,14 +286,6 @@
 			var mailValue=$("input[name='mailValue']").val();
 			
 			
-		if(mailValue != '1'){
-			$('#not').remove();
-			var view = "<span id='not' style='color:red'> 메일 인증을 해주세요.</span>";
-			$('#mail').after(view);
-			$('#mail').focus();
-			alert(mailValue);
-			return false;
-		}	
 
 	    if(id == null || id.length <1){
 			$('#not').remove();
@@ -417,6 +409,15 @@
 			$('#mail').focus();
 			return false;
 		}
+		 
+		 if(mailValue != '1'){
+				$('#not').remove();
+				var view = "<span id='not' style='color:red'> 메일 인증을 해주세요.</span>";
+				$('#mail').after(view);
+				$('#mail').focus();
+				alert(mailValue);
+				return false;
+			}	
 		 
 		var value = "";	
 		if( $("input[name='phone2']").val() != ""  &&  $("input[name='phone3']").val() != "") {
@@ -723,6 +724,7 @@
 								if(data == true){
 									//인증완료 시
 									$('#codeNumberCheck').remove();
+									$('#code').remove();
 									var view = "<span id='yes'>인증이 완료되었습니다</span>"
 									$('#phone').after(view);
 								}else{
@@ -852,6 +854,8 @@
 //   사진 첨부 ===============================================================================
  	$(document).ready(function(){
 		 $("#fileInput").on('change', function(){  // 값이 변경되면
+			 
+			 alert("fileInput 변경");
 			 if(window.FileReader){  // modern browser
 				var profileName = $(this)[0].files[0].name;
 			 }else {  // old IE
@@ -866,7 +870,8 @@
 //  사진 미리보기 ===============================================================================
  	$(document).ready(function(){
         $("#userfile").on('change', function(){
-            readURL(this);
+            
+        	readURL(this);
         });
     });
 
@@ -975,14 +980,13 @@ $(function() {
                     <p>사진</p>
                     <p><input type="file" name="file" id="fileInput" data-class-input="form-control" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);"></p>
                     <div class="bootstrap-filestyle input-group">
-						<input type="file" id="userfile" class="form-control" name="userfile" readonly="readonly">
-<!-- 						<input type="text" id="userfile" class="form-control" name="userfile" disabled=""> -->
+						<input type="text" id="userfile" class="form-control" name="userfile" disabled>
 						<span class="group-span-filestyle input-group-btn" tabindex="0">
 							<label for="fileInput" class="btn btn-default ">
 								<span class="glyphicon fa fa-upload"></span>
 							</label>
 						</span>
-<!-- 						<input type="file" id="imgInp"/> -->
+						<!-- <input type="file" id="imgInp"/> -->
 						<img id="foo" src="#" alt="" style="width: 30%; height: 30%;"/>
 					</div>
                 </div>

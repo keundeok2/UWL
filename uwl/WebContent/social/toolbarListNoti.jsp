@@ -412,12 +412,12 @@
 			                  </c:if>
 			                  <c:if test="${noti.notiOrigin eq 2 }">
 			                  	<c:if test="${noti.notiCode eq 5 }">
-			                  		<div class="tracking-content">${noti.sender.name}님이 Ask에 답변을 등록했습니다.<span><a href="/social/getAskList/${noti.senderId}">${noti.sender.name}님의 ask로 이동</a></span></div>
+			                  		<div class="tracking-content">Ask에 질문이 등록되었습니다.<span><a href="/user/getProfile/${user.userId }">내 ask로 이동</a></span></div>
 			                  	</c:if>
 			                  </c:if>
 			                  <c:if test="${noti.notiOrigin eq 3 }">
 			                  	<c:if test="${noti.notiCode eq 1 }">
-			                  		<div class="tracking-content">${noti.sender.name}님이 타임라인에 댓글을 등록했습니다.<span><a href="/user/getProfile/${noti.senderId}">${noti.sender.name}님의 타임라인으로 이동</a></span></div>
+			                  		<div class="tracking-content">${noti.sender.name}님이 타임라인에 댓글을 등록했습니다.<span><a href="/user/getProfile/${user.userId}">내 타임라인으로 이동</a></span></div>
 			                  	</c:if>
 			                  </c:if>
 			                  <c:if test="${noti.notiOrigin eq 4 }">

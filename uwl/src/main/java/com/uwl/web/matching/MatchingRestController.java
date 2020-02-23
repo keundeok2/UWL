@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uwl.common.Search;
+import com.uwl.service.couple.CoupleService;
+import com.uwl.service.domain.Couple;
 import com.uwl.service.domain.Item;
 import com.uwl.service.domain.Matching;
 import com.uwl.service.domain.User;
@@ -38,6 +40,10 @@ public class MatchingRestController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("coupleServiceImpl")
+	private CoupleService coupleService;
 	
 	
 	
@@ -117,6 +123,10 @@ public class MatchingRestController {
 				matching2.setMatchingStatus("2");
 				matchingService.updateMatching(matching);
 				matchingService.updateMatching(matching2);
+				Couple couple = new Couple();
+				couple.setFirstUserId(userId);
+				couple.setSecondUserId(secondUserId);
+				coupleService.addCouple(couple);
 			}
 		}
 		Search search = new Search();

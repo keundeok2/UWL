@@ -144,37 +144,6 @@
 
 
     <script type="text/javascript">
-        function fncAddChallenge() {
-
-            //Form 유효성 검증
-            var challTitle = $("#challTitle").val();
-            var challCategory = $("input[name='challCategory']").val();
-            var challContent = $("input[name='challContent']").val();
-            var challReward = $("#challReward").val();
-            console.log("challNo : " + challNo + "challCategory : " + challCategory +
-                "challTitle : " + challTitle + "challContent : " + challContent);
-
-            if (challTitle == null || challTitle.length < 1) {
-                alert("제목 입력하셈 (^오^)/ ");
-                return;
-            }
-
-            if (challContent == null || challContent.length < 1) {
-                alert("내용 입력하셈 (^오^)/ ");
-                return;
-            }
-
-            if (challReward == null || challReward.length < 1) {
-                alert("점수 입력하셈 (^오^)/ ");
-                return;
-            } else if (challReward.length > 4) {
-                alert("점수가 너무커요! 최대 천단위까지 가능합니다.");
-                return;
-            }
-
-
-            $("form").attr("method", "POST").attr("action", "/challenge/addChallenge").submit();
-        }
 
 
         var gatherCategoryNo = null;
@@ -354,6 +323,18 @@
 		 $( test ).appendTo("#reward");  */
 
             $('#challCategory').on("change", function() {
+            	
+            	$("select#detailCategory option").remove();
+            	
+            	if ($(this).val() != 3) {
+					setTimeout(function(){
+						//alert("카테고리 번호가 3이 아닐때 #postCommentComplete 제거 조건")
+						console.log("카테고리 번호가 3이 아닐때 #postCommentComplete 제거 조건")
+	                    console.log("if문에 들어왔습니다.");
+	                    $("#postCommentComplete").remove();
+						}, 17);
+                } 
+            	 
                 console.log($(this).val())
                 var detailCategory = $(this).val();
                 var complete = null;
@@ -374,36 +355,17 @@
     					//alert("여기 성공임 ㅋㅋ");
     					
     					var detailSelect = null;
+    					var challCategory = null;
+    					var detailCategory = null;
     					var detailView = null;
-    					var challCategory = ${challenge.challCategory};
-    					var detailCategory = ${challenge.detailCategory};
+    					var startView = "세부카테고리";
     					
-    					//update시 처음 view되는것 
-    					//var updateDetailCategory = ${challenge.detailCategory};
-    					//var updateDetailView = null;
-						
-    					//해당 카테고리에 해당하면 view를 바꿔줌 
-    					if (detailCategory == '201') {
-    						detailView = '진학상담';
-						}else if(detailCategory == '202') {
-							detailView = '사랑과이별';
-						}else if(detailCategory == '203') {
-							detailView = '남자끼리';
-						}else if(detailCategory == '204') {
-							detailView = '여자끼리';
-						}else if(detailCategory == '205') {
-							detailView = '데이트자랑';
-						}else if(detailCategory == '206') {
-							detailView = '대나무숲';
-						}else if(detailCategory == '댓글') {
-							detailView = '댓글';
-						}
-    					
+    					//alert(challCategory + detailCategory + startView);
     					
     					var appendDetail = null;
     					
-    					var	startSelect = "<select class='custom-select col-2' name='detailCategory' id='detailCategory'>"
-											+ "<option value='" + detailCategory + "' selected>" + detailView + "</option>";
+    					//세부카테고리 ==> update는 처음 선택한거를 보여주게 만들기
+    					var	startSelect = "<option selected=''>" + startView + "</option>"
     					
     					
     					for (var i = 0; i < data.length; i++) {
@@ -417,7 +379,7 @@
 		    					//해당 카테고리에 해당하면 view를 바꿔줌 
 		    					if (detailCategory == '201') {
 		    						detailView = '진학상담';
-			    					appendDetail = "<option value=" + detailCategory  + ">" +  detailView +"</option>";
+			    					//appendDetail = "<option value=" + detailCategory  + ">" +  detailView +"</option>";
 								}else if(detailCategory == '202') {
 									detailView = '사랑과이별';
 								}else if(detailCategory == '203') {
@@ -441,8 +403,25 @@
 						} //end of for 
 						
 						//긁어온 정보를 최종 append
-						startSelect += "</select>";
-   					 	$("#reward").append(startSelect);
+						//startSelect += "</select>";
+   					 	$("#detailCategory").append(startSelect);
+   					 	
+   					 if (challCategory == '3') {
+ 						setTimeout(function(){
+ 		                    complete = "<div class='input-group col-6' id='postCommentComplete'>" +
+ 		                        "<div class='input-group-prepend'>" +
+ 		                        "<span class='input-group-text' style='width: 35px; height: 38px;'><i class='fas fa-trophy'></i></span>" +
+ 		                        "</div>" +
+ 		                        "<input type='text' class='form-control' name='postCommentComplete' placeholder='완성조건'>" +
+ 		                        "<div class='input-group-append'>" +
+ 		                        "<span class='input-group-text' style='width: 35px; height:38px;'>회</span>" +
+ 		                        "</div>" +
+ 		                        "</div>"
+ 		                    console.log("if문에 들어왔습니다.");
+ 		
+ 		                    $("#changeReward").append(complete);
+ 							}, 17);
+ 		                }
    					 	
    					 	
    					}
@@ -450,9 +429,11 @@
     				
     			}); //end of ajax
     			
-   				 $("#detailCategory").remove();
+   				 //$("#detailCategory").remove();
+   				
     			
-   				 setTimeout(function(){
+    			//클릭하면 생기는 걸 update는 업데이트할 떄 가져오는걸로 
+   				/*  setTimeout(function(){
 	    			challReward = "<div class='input-group col-3' id='challReward'>"
 	                     		+	"<div class='input-group-prepend'>"
 	                       		+  "<span class='input-group-text' style='width: 35px;'><i class='fas fa-coins'></i></span>"
@@ -464,44 +445,15 @@
 	                 			+"</div>";
 	                 			
             		$("#reward").append(challReward);
-   				 }, 15)
+   				 }, 15) */
    				 
-   				 	 $("#challReward").remove();
+ 				$("#challReward").remove();
                 
-	                 if ($(this).val() == 3) {
-						setTimeout(function(){
-		                    complete = "<div class='input-group col-3' id='postCommentComplete'>" +
-		                        "<div class='input-group-prepend'>" +
-		                        "<span class='input-group-text' style='width: 35px;'><i class='fas fa-trophy'></i></span>" +
-		                        "</div>" +
-		                        "<input type='text' class='form-control' name='postCommentComplete' value='" + ${challenge.postCommentComplete} + "'>" +
-		                        "<div class='input-group-append'>" +
-		                        "<span class='input-group-text' style='width: 35px'>회</span>" +
-		                        "</div>" +
-		                        "</div>"
-		                    console.log("if문에 들어왔습니다.");
-		
-		                    $("#reward").append(complete);
-							}, 17);
-		                } else {
-		                    console.log("else if문에 들어왔습니다.");
-		                    $("#postCommentComplete").remove();
-		                } //end of if 
-					
+		                
+	                 
                 
             });
 
-
-            /*  $( "#challCategory option:eq(3)" ).append("33433");  */
-
-
-            /* 		$( "#challCategory option:eq(3)" ).on('click',function(){
-            			var selectValue = $(this).val();
-            			console.log("selectValue",selectValue);
-            			if (selectValue == 3) {
-            				console.log("hello world!");
-            			}
-            		}); */
 
 
         });
@@ -668,31 +620,96 @@
                                 <option value="3" ${!empty challenge.challCategory && challenge.challCategory=="3" ? "selected" : "" }>게시판활동</option>
                             </select>
                             <br>&emsp;
-                           
-
-                            <%-- <!-- 보상점수 -->
-                            <div class="input-group col-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" style="width: 35px;"><i class="fas fa-coins"></i></span>
-                                </div>
-                                <input type="text" class="form-control" name="challReward" value="${challenge.challReward}">
-                                <div class="input-group-append">
-                                    <span class="input-group-text" style="width: 35px;">점</span>
-                                </div>
-                            </div>
                             
-                            <!-- 달성조건 -->
-                            <c:if test="${challenge.challCategory == '3'}">
-                                <div class="input-group col-3" id="postCommentComplete">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" style="width: 35px;"><i class="fas fa-trophy" aria-hidden="true"></i></span>
-                                    </div><input type="text" class="form-control" name="postCommentComplete" value="${challenge.postCommentComplete}">
-                                    <div class="input-group-append"><span class="input-group-text" style="width: 35px">회</span>
-                                    </div>
-                                </div>
-                            </c:if> --%>
+                            <!-- 여기다가 세부카테고리 넣을것. -->
+                             <select class="custom-select col-2" name="detailCategory" id="detailCategory">
+						        <!-- 선택된 정보를 view해줌 -->
+						        <option selected="${challenge.detailCategory}">
+						        	<!-- 카테고리가 1번이면 -->
+						       		<c:if test="${challenge.challCategory == '1'}">
+						       			${challenge.detailCategory}
+						       		</c:if>
+						       		
+						        	<!-- 카테고리가 2번이면 -->
+						       		<c:if test="${challenge.challCategory == '2'}">
+						       			${challenge.detailCategory}
+						       		</c:if>
+						       		
+						        	<!-- 카테고리가 3번이면 -->
+						       		<c:if test="${challenge.challCategory == '3'}">
+							       		<c:if test="${challenge.detailCategory == '201'}">
+							       			진학상담
+							       		</c:if>
+							       		<c:if test="${challenge.detailCategory == '202'}">
+							       			사랑과이별
+							       		</c:if>
+							       		<c:if test="${challenge.detailCategory == '203'}">
+							       			남자끼리
+							       		</c:if>
+							       		<c:if test="${challenge.detailCategory == '204'}">
+							       			여자끼리
+							       		</c:if>
+							       		<c:if test="${challenge.detailCategory == '205'}">
+							       			데이트자랑
+							       		</c:if>
+							       		<c:if test="${challenge.detailCategory == '206'}">
+							       			대나무숲
+							       		</c:if>
+							       		<c:if test="${challenge.detailCategory == '댓글'}">
+							       			댓글
+							       		</c:if>
+						       		</c:if>
+						        </option>
+						    </select>
+                            <!--  <div class="row col-3">
+                            	<div class="input-group">
+	                                <div class="input-group-prepend">
+	                                    <span class="input-group-text" style="width: 35px; height: 38px;"><i class="fas fa-coins"></i></span>
+	                                </div>
+	                                <input type="text" class="form-control" name="challReward" value="베베베베">
+	                                <div class="input-group-append">
+	                                    <span class="input-group-text" style="width: 35px; height: 38px;">점</span>
+	                                </div>
+	                            </div>
+                            </div> --> 
+                            &emsp;
                             
-                        </div>
+                            <!-- 여기서 구분 -->
+                            
+                            <div class="row col-6" id="changeReward">
+	                             <!-- 보상점수 -->
+	                            <div class="input-group col-5">
+	                                <div class="input-group-prepend">
+	                                    <span class="input-group-text" style="width: 35px; height: 38px;"><i class="fas fa-coins"></i></span>
+	                                </div>
+	                                <input type="text" class="form-control" name="challReward" value="${challenge.challReward}">
+	                                <div class="input-group-append">
+	                                    <span class="input-group-text" style="width: 35px; height: 38px;">점</span>
+	                                </div>
+	                            </div>
+	                            
+	                            <!-- 달성조건 -->
+	                            <c:if test="${challenge.challCategory == '3' && !empty challenge.postCommentComplete}">
+	                                <div class="input-group col-5" id="postCommentComplete">
+	                                    <div class="input-group-prepend">
+	                                        <span class="input-group-text" style="width: 35px; height: 38px;"><i class="fas fa-trophy" aria-hidden="true"></i></span>
+	                                    </div><input type="text" class="form-control" name="postCommentComplete" value="${challenge.postCommentComplete}">
+	                                    <div class="input-group-append"><span class="input-group-text" style="width: 35px; height: 38px;">회</span>
+	                                    </div>
+	                                </div>
+	                            </c:if> 
+	                            
+	                            <c:if test="${challenge.challCategory == '3' && empty challenge.postCommentComplete}">
+	                                <div class="input-group col-5" id="postCommentComplete">
+	                                    <div class="input-group-prepend">
+	                                        <span class="input-group-text" style="width: 35px; height: 38px;"><i class="fas fa-trophy" aria-hidden="true"></i></span>
+	                                    </div><input type="text" class="form-control" name="postCommentComplete" placeholder="완성조건" >
+	                                    <div class="input-group-append"><span class="input-group-text" style="width: 35px; height: 38px;">회</span>
+	                                    </div>
+	                                </div>
+	                            </c:if> 
+                            </div> <!-- end of row -->
+                        </div><!--  end of #rewad -->
                         <br>
 
                         <div class="table table-responsive">

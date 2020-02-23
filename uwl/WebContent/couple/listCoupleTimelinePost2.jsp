@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
 
@@ -527,7 +527,7 @@
             line-height: 30px;
             
             
-            background: orange;
+            
 			display: block;
 			width: 100%;
 
@@ -549,7 +549,7 @@
             
             $('form button[type="submit"]').on('click', function() {
             	
-                alert('클릭ㅋㅋ');
+                //alert('클릭ㅋㅋ');
                 $.ajax({
                     url: '/couple/rest/addCoupleTimelinePost2/' + userId,
                     method: 'POST',
@@ -562,8 +562,8 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                        alert('성공ㅋㅋ');
-                        getImage($('input[type="file"]').val());
+                        //alert('성공ㅋㅋ');
+                        
                         prependCoupleTimelinePost(data.post);
                     },
                     error: function(request, status, error) {
@@ -572,27 +572,10 @@
                 });
             });
             
-            function getImage(uploadFileName) {
-            	$.ajax({
-            		url: '/post/rest/addSummerNoteFile',
-            		method: 'POST',
-            		dataType: 'json',
-            		headers: {
-            			'Accept': 'application/json',
-            			'Content-Type': 'application/json'
-            		},
-            		success: function(data) {
-            			alert('성공ㅋㅋ');
-            			$('input[type="file"]').val(data);
-            		},
-            		error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                    }
-            	})
-            }
+            
 
             $(document).on('click', 'div.coupleTimelineMain div.coupleTimelinePost a', function() {
-                alert('클릭ㅋㅋ');
+                //alert('클릭ㅋㅋ');
                 $('div.backgroundOverlay').addClass('on');
                 var postNo = $(this).find('input[name="postNo"]').val();
                 $.ajax({
@@ -610,7 +593,7 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                        alert(성공ㅋㅋ);
+                        //alert(성공ㅋㅋ);
                         afterCoupleTimelinePost(data);
                     },
                     error: function(request, status, error) {
@@ -646,14 +629,10 @@
                 $('div.coupleTimelineMain').prepend(post);
             }
 
-            $('div.backgroundOverlay').on('click', function() {
-                alert('클릭클릭ㅋㅋ');
-                $('div.getCoupleTimelinePost').remove();
-                $('div.backgroundOverlay').removeClass('on');
-            });
+            
 
             $(document).ready(function() {
-
+				//alert('온로드ㅋㅋ');
                 //alert('userId : ' + userId);
                 $.ajax({
                     url: '/couple/rest/getCoupleTimelinePostList/' + userId,
@@ -667,8 +646,10 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
+                    	//alert('성공ㅋㅋ');
                         for (var i = 0; i < data.list.length; i++) {
                             prependCoupleTimelinePost(data.list[i]);
+                            //alert(data.list[i].postNo);
                         }
                     },
                     error: function(request, status, error) {
@@ -773,15 +754,15 @@
             }
 
 
-            $('#myModal').on('shown.bs.modal', function() {
-                $('#myInput').trigger('focus')
-            });
+            
         });
 
         var sel_file;
 
         $(document).ready(function() {
-            $("#input_img").on("change", handleImgFileSelect);
+        	$("#input_img").on("change", handleImgFileSelect);
+        	
+            
         });
 
         function handleImgFileSelect(e) {
@@ -800,13 +781,17 @@
                 reader.onload = function(e) {
                     $("#img").attr("src", e.target.result);
                 }
+                
+                
                 reader.readAsDataURL(f);
             });
         }
 
         $(function() {
             $('div.addCoupleTimelinePost a.uploadFileName').on('click', function() {
-                $('input[type="file"]').click();
+            	$('input[type="file"]').click();
+                
+                
             });
 
             /*$("#datepicker").datepicker({
@@ -837,6 +822,12 @@
             $('input[name="place"]').on('focusout', function() {
                 var place = $('input[name="place"]').val();
                 $('p.place').text(place);
+            });
+            
+            
+            $('div.postContent textarea').on('focusout', function() {
+            	var postContent = $('div.postContent textarea').text();
+            	$('input[name="postContent"]').val(postContent);
             });
 
 
@@ -943,7 +934,7 @@
                 </a>
             </div>
         </div>
-        <a href="#" class="addCoupleTimelinePostFixedButton" data-toggle="modal" data-target="#exampleModal" style="background: red">
+        <a href="#" class="addCoupleTimelinePostFixedButton" data-toggle="modal" data-target="#exampleModal2">
             <i class="fas fa-plus"></i> 게시글 등록
         </a>
     </div>
@@ -952,11 +943,11 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
             <div class="modal-content addCoupleTimelinePost">
-                <div class="modal-header" style="background: yellow">
-                    <div class="postDate" style="background: red; width: 100%">
+                <div class="modal-header">
+                    <div class="postDate" style="width: 100%">
                         <input type="text" value="" name="postDate" id="datepicker">
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -964,7 +955,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/couple/rest/addCoupleTimelinePost2" method="post">
+                    <form action="" method="">
 
 
 
@@ -1008,7 +999,8 @@
                                 </div>
                                 <div class="postContent">
 
-                                    <textarea name="" id="" cols="30" rows="3" placeholder="문구 입력..."></textarea>
+                                    <textarea name="" id="" cols="30" rows="3" placeholder="문구 입력..." ></textarea>
+                                    <input type="hidden" name="postContent">
                                 </div>
 
                             </div>

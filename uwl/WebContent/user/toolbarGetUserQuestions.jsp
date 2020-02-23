@@ -544,7 +544,7 @@
                                 <col width="15%">
                             </colgroup>
                             <tr>
-                                <td>문의사항 수정</td>
+                                <td>수정 여부</td>
                                 <td>제목</td>
                                 <td>작성일</td>
                                 <td>처리여부</td>
@@ -552,7 +552,12 @@
                             <c:forEach var="notice" items="${list }">
                             <c:if test="${notice.postTitle ne '문의사항답변등록'}">
                                 <tr class="questionBox">
-                                    <td><a href="/user/getQuestions?postNo=${notice.postNo }">수정하기</a></td>
+                                 <c:if test="${notice.questionStatus eq '1' or notice.questionStatus == null}">
+                                    <td><a href="/user/getQuestions?postNo=${notice.postNo }">수정가능</a></td>
+                                    </c:if>
+                                     <c:if test="${notice.questionStatus eq '2'}">
+                                        <td>수정불가</td>
+                                    </c:if>
 	                                    <td>${notice.postTitle }
 	                                    <input type="hidden" id="anserPostNo" name="anserPostNo" value="${notice.replyPostNo}" class="${notice.replyPostNo }"/>
                                     </td>
