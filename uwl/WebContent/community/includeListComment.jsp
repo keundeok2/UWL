@@ -507,33 +507,6 @@
 		</form>
 		
 	<!-- 수정 모달 -->
-	<form>
-      
-      <div class="container">
-		 			<div class="modal fade" id="updateCommentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			            <div class="modal-dialog" role="document">
-			                <div class="modal-content">
-			                    <div class="modal-header">
-			                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			                        <h4 class="modal-title" id="myModalLabel"></h4>
-			                    </div>
-		                    <div class="modal-body">
-		                        	<h1>&nbsp;&nbsp;&emsp;&emsp;&emsp;댓글 수정</h1>
-		                    </div>
-		                    <div class="modal-footer">
-								<textarea cols="75" rows="10" name="updateCommentContent" id="updateCommentContent"></textarea>
-								<br>
-								<span>
-								<button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" id="updateComment"><span aria-hidden="true">수정</span></button>
-		                        </span>
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-		 	</div>
-      
-      
-	</form>
     
    
  	
