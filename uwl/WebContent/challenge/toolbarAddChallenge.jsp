@@ -448,14 +448,14 @@
 	                     		+	"<div class='input-group-prepend'>"
 	                       		+  "<span class='input-group-text' style='width: 35px; height: 38px;'><i class='fas fa-coins'></i></span>"
 	                   			+  "</div>"
-	                     		+	"<input type='text' class='form-control' name='challReward' placeholder='점수를 입력하세요';>"
+	                     		+	"<input type='text' class='form-control' name='challReward' placeholder='점수';>"
 	                     		+	"<div class='input-group-append'>"
 	                      		+   "<span class='input-group-text' style='width: 35px; height: 38px;'>점</span>"
 	                    		+ "</div>"
 	                 			+"</div>";
 	                 			
             		$("#reward").append(challReward);
-   				 }, 15)
+   				 }, 30)
    				 
    				 	 $("#challReward").remove();
                 
@@ -473,7 +473,7 @@
 		                    console.log("if문에 들어왔습니다.");
 		
 		                    $("#reward").append(complete);
-							}, 17);
+							}, 40);
 		                } else {
 		                    console.log("else if문에 들어왔습니다.");
 		                    $("#postCommentComplete").remove();
