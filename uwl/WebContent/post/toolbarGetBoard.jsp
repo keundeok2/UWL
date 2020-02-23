@@ -40,6 +40,14 @@
     
         $(document).ready(function() {
         	
+        	var gatherCategoryNo = ${post.gatherCategoryNo};
+        	//alert(gatherCategoryNo);
+        	console.log(gatherCategoryNo);
+        	
+        	$("#boardList").on("click", function() {
+                self.location = "/post/listBoard?gatherCategoryNo=" + gatherCategoryNo + "&postChallenge=1";
+            });
+        	
             var refPostNo = ${post.postNo};
             
           	console.log("refPostNo", refPostNo);
@@ -382,6 +390,9 @@
                                         <div style="text-align:center;width:100%">
                                             <div id="forHeartAppend"></div>
                                         </div>
+                                        <div class="back">
+							          	  <a href="#" id="boardList">목록으로</a>
+							            </div>
                                     </td>
                                 </tr>
                             </table>
@@ -393,9 +404,9 @@
             <jsp:include page="../community/includeListComment.jsp"></jsp:include>
 
             </ul>
-            <div class="back">
-            <a href="javascript:history.go(-1)">목록으로</a>
-            </div>
+            <!-- <div class="back">
+            <a href="#" id="boardList">목록으로</a>
+            </div> -->
                             
         </div>
         <div class="rightToolbar2">
