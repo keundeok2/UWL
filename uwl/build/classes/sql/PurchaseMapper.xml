@@ -15,6 +15,8 @@
  		<result property="refundOption" column="refund_option" jdbcType="VARCHAR"/>
  		<result property="price" column="price" jdbcType="NUMERIC"/>
  		<result property="itemNo" column="item_no" jdbcType="NUMERIC"/>
+ 		<result property="item.itemNo" column="item_no" jdbcType="NUMERIC"/>
+ 		<result property="item.secondUserId" column="second_user_id" jdbcType="NUMERIC"/>
  	</resultMap>
  	
  	<insert id="addPurchase" parameterType="purchase">
@@ -30,8 +32,10 @@
  	<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
  		SELECT * 
 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
-				FROM (	SELECT * FROM purchase  
-						WHERE user_id = #{userId} 
+				FROM (	SELECT p.purchase_no, p.payment_option, p.user_id, p.item_category, p.import_id, p.purchase_date, p.refund_option, p.price, p.item_no, i.second_user_id
+						FROM purchase p, item i
+						WHERE user_id = #{userId}
+						AND p.item_no = i.item_no
 				) inner_table 
 				WHERE ROWNUM &lt; = #{search.endRowNum} ) 
 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}

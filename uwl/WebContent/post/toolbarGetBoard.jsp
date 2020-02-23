@@ -380,7 +380,13 @@
 
             <jsp:include page="../community/includeListComment.jsp"></jsp:include>
 
-            <form method="POST" action="/report/addReport">
+            </ul>
+        </div>
+        <div class="rightToolbar2">
+            <jsp:include page="/layout/right.jsp" />
+        </div>
+    </div>
+    <form method="POST" action="/report/addReport">
                 <input type="hidden" name="refPostNo" value="${post.postNo }">
                 <input type="hidden" name="userId02" value="${post.userId }">
 
@@ -415,10 +421,4 @@
 
 
             </form>
-            </ul>
-        </div>
-        <div class="rightToolbar2">
-            <jsp:include page="/layout/right.jsp" />
-        </div>
-    </div>
 </body></html>

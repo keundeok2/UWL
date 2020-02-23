@@ -1287,12 +1287,12 @@
                 <div class="profileHeader">
                     <div class="profileImage2">
                         <a href="#">
-                            <c:if test="${empty user.profileName}">
+                            <c:if test="${empty askMap.targetUser.profileName}">
 
                                 <img src="/images/bonobono.jpg" alt="">
                             </c:if>
-                            <c:if test="${!empty user.profileName}">
-                                <img src="/images/${user.profileName}" alt="">
+                            <c:if test="${!empty askMap.targetUser.profileName}">
+                                <img src="/images/${askMap.targetUser.profileName}" alt="">
                             </c:if>
 
                         </a>
