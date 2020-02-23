@@ -9,7 +9,6 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="/javascript/iscroll.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
@@ -518,7 +517,7 @@
             padding: 0 5px;
             border-radius: 10px;
             font-size: 12px;
-            color: #aaaaaa;
+            color: #353535;
         }
         div.chattingBoxContent > div {
             padding: 5px 10px;
@@ -813,6 +812,7 @@
     	var sender = null;
     	var receiver = null;
     	var chattingRoom = null;
+    	var nodeDate = null;
     	
         $(function() {
   			
@@ -888,30 +888,59 @@
 	        
 	        ////////////////////채팅 방 폭파//////////////////////////////////
        		
+	        	//userChatting.chat_date 2020-02-23T13:34:41.764Z
        		
        		///////////////////유저가 채팅창을 눌렀을 때
 	        socket.on('userChatting', function(userChatting){
-	        	var top = 	"<div class='userProfileImage'>"
-			    				+"<img src='/images/bonobono.jpg' alt=''>"
-			    			+"</div>"
-			    			+"<div class='chattingUserName'>"
-			       				 +"🎀주주장님🎀"
-			    			+"</div>";
+	        	var compareDate = null;
+	        	var chattingContentSenderName = null;
+	        	var chattingContentSenderProfileName = null;
+	        	
+	        	
+	        	var date = userChatting.chat_date;
+	        	var chatDate = date.substring(0,10);	//채팅 날짜
+	        	if(compareDate == chatDate){
+	        	}else{
+	        		compareDate = chatDate;
+		        	var chattingDateView = "<div class='chatDate'>"
+	                							+"<p>"+chatDate+"</p>"
+	               			 			   +"</div>";
+		        	$('#ChattingAppend').before(chattingDateView);
+	        	}
+	        	var chattingTime = date.substring(11,16);
+	        	$.ajax({
+					url : "/user/rest/getUser/"+userChatting.sender,
+					method : "GET",
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(data){
+						chattingContentSenderName = data.name;
+						chattingContentSenderProfileName = data.profileName;
+					},
+					async : false,
+					error : function(){
+						alert("유저레스트 컨트롤 에러 ㅋㅋ 여긴 채팅내용 어펜드파트 ")
+					}
+				});
 			    var friendView = "<div class='chatFromUser'>"
 									+"<div class='chattingBoxProfileImage'>"
-										+"<img src='/images/bonobono.jpg' alt=''>"
+										+"<img src='/images/"+chattingContentSenderProfileName+"' alt=''>"
 										+"</div>"
 									+"<div class='chattingMessage'>"
 										+"<div class='userInfo'>"
-			    							+userChatting.sender
+			    							+chattingContentSenderName
 										+"</div>"
 										+"<div class='message'>"
 			    							+userChatting.msg
 										+"</div>"
+										+"<span style='font-size:8px;color:#353535;'>"+chattingTime+"</span>"
 									+"</div>"
 								+"</div>";
 			   var myView = "<div class='chatFromMe'>"
 									+"<div class='chattingMessage'>"
+									+"<span style='font-size:8px;color:#353535;'>"+chattingTime+"</span>"
 									+"<div class='message'>"
 										+userChatting.msg
 							    	+"</div>"
@@ -922,7 +951,7 @@
 				if(clickEnterUser == sessionId){
 					if(userChatting.sender == sessionId){	//본인의 채팅
 						$('#ChattingAppend').before(myView);
-					}else if(userChatting.receiver == sessionId){
+					}else{
 						$('#ChattingAppend').before(friendView);
 					}
 				}
@@ -949,9 +978,16 @@
 	        		chattingRoomNo = $(this).children().find('#roomNo').val();//열린 룸 넘버
 	        		enterUserId = "${sessionScope.user.userId}";	//입장자
 	        		targetId = $(this).children().find("#chattingUserId").val();	//피입장자
+	        		
+	        		
+	        		
+	        		
 	        		socket.emit("enterUserId", enterUserId);
 	        		socket.emit("targetId", targetId);
 	        		socket.emit("chattingRoomNo", chattingRoomNo);
+	        		
+	        		
+	        		
 	        		//true
 	        		$.ajax({
 						url : "/user/rest/getUser/"+targetId,
@@ -984,17 +1020,27 @@
 	        			$('div.chattingBox').removeClass('on');	//채팅방 닫아버리기
 	        			$('.chatFromMe').remove();
 						$('.chatFromUser').remove();
+						$('.chatDate').remove();
 	        		}else{	//기존에 열려있던 채팅방이랑 다른 채팅방이면
 	        			$('.chatFromMe').remove();
 						$('.chatFromUser').remove();
+						$('.chatDate').remove();
 	        			$(this).parent().css("backgroundColor", "#ebad7a");
 	        			//새로운 채팅방 세팅
 	        			chattingRoomNo = $(this).children().find("#roomNo").val();
 						enterUserId = "${sessionScope.user.userId}";
 						targetId = $(this).children().find('#chattingUserId').val();
+						
+						
+						
+						
 						socket.emit("enterUserId", enterUserId);
 						socket.emit("targetId", targetId);
 						socket.emit("chattingRoomNo", chattingRoomNo);
+						
+						
+						
+						
 						
 						$.ajax({
 							url : "/user/rest/getUser/"+targetId,
@@ -1032,6 +1078,7 @@
 	        	$('div.chattingList li').css("backgroundColor", "#fff");
 	         	$('.chatFromMe').remove();
 				$('.chatFromUser').remove();
+				$('.chatDate').remove();
 	        });
 	        
 	        $(document).on("click", "#startChattingButton", function(){	//채팅방 개설
@@ -1097,6 +1144,7 @@
 					$('div.chattingList li').css("backgroundColor", "#fff");
 					$('.chatFromMe').remove();
 					$('.chatFromUser').remove();
+					$('.chatDate').remove();
 				}
 			});	        
 	        $("#msg").keydown(function(key){
@@ -1131,32 +1179,70 @@
 	        	receiver = receiverId;
 	        });
 	        socket.on('chattingRoomNo', function(room){
-	        	chattingRoom = room
+	        	chattingRoom = room;
+	        });
+	        socket.on('date', function(nowChatDate){
+	        	nodeDate = nowChatDate;
+	        	var strnodeDate = new Date(nowChatDate);
+	        	var existDate = $('.chatDate').children().last().text();	//현재까지 대화한 마지막 날짜
+	        	var year = strnodeDate.getFullYear();
+	        	var month = strnodeDate.getMonth()+1;
+	        	var day = strnodeDate.getDate();
+	        	var existYear = existDate.substring(0,4)
+	        	var existMonth = existDate.substring(5,7);
+	        	var existDay = existDate.substring(8,10);
+	        	if((month*=1) == (existMonth*=1) && ((year*=1) == (existYear*=1)) && ((day*=1) == (existDay*=1))){
+	        	}else{
+	        		if((month.toString()).length == 1){
+	        			month = "0"+month;
+	        		}
+	        		if((day.toString()).length == 1){
+	        			day = "0"+day;
+	        		}
+	        		var chattingDateView = "<div class='chatDate'>"
+												+"<p>"+year+"-"+month+"-"+day+"</p>"
+			 			   					+"</div>";
+	        		$('#ChattingAppend').before(chattingDateView);
+	        	}
+	        	nodeDate = nodeDate.substring(16,21);
 	        });
 	        socket.on('msg', function(sendMsg){
-	        	
+	        	var chattingContentSenderName = null;
+	        	var chattingContentSenderProfileName = null;
+	        	$.ajax({
+					url : "/user/rest/getUser/"+sender,
+					method : "GET",
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(data){
+						chattingContentSenderName = data.name;
+						chattingContentSenderProfileName = data.profileName;
+					},
+					async : false,
+					error : function(){
+						alert("유저레스트 컨트롤 에러 ㅋㅋ 여긴 채팅내용 어펜드파트 ")
+					}
+				});
 	        	//////////////////////채팅 뷰///////////////////////////////////////
-		        var top = 	"<div class='userProfileImage'>"
-	            				+"<img src='/images/bonobono.jpg' alt=''>"
-		        			+"</div>"
-		        			+"<div class='chattingUserName'>"
-		           				 +"🎀주주장님🎀"
-		        			+"</div>";
 		        var friendView = "<div class='chatFromUser'>"
 	        						+"<div class='chattingBoxProfileImage'>"
-	        							+"<img src='/images/bonobono.jpg' alt=''>"
+	        							+"<img src='/images/"+chattingContentSenderProfileName+"' alt=''>"
 	   								+"</div>"
 	    							+"<div class='chattingMessage'>"
 	        							+"<div class='userInfo'>"
-	            							+sender
+	            							+chattingContentSenderName
 	        							+"</div>"
 	        							+"<div class='message'>"
 	            							+sendMsg
 	        							+"</div>"
+	        							+"<span style='font-size:8px;color:#353535;'>"+nodeDate+"</span>"
 	    							+"</div>"
 								+"</div>";
 		       var myView = "<div class='chatFromMe'>"
 	       						+"<div class='chattingMessage'>"
+	       						+"<span style='font-size:8px;color:#353535;'>"+nodeDate+"</span>"
 	    							+"<div class='message'>"
 	        							+sendMsg
 							    	+"</div>"
@@ -1167,7 +1253,8 @@
 	        	var sessionId = "${sessionScope.user.userId}";
 	        	if(sender == sessionId){	//본인의 채팅
 	        		$('#ChattingAppend').before(myView);
-	        	}else if(receiver == sessionId){
+	        	}else if((receiver == sessionId && sender == targetId) || (receiver == targetId && sender == sessionId)){
+	        		
 	        		$('#ChattingAppend').before(friendView);
 	        		$('.chattingBoxContent').animate({
 		        		'scrollTop': '10000000px'
@@ -1243,6 +1330,8 @@
 					
 					if (d.totalCount != 0) {
 						$(".notiBadge").html(d.totalCount +"개");
+					} else if (d.totalCount == 0) {
+						$(".notiBadge").html("");
 					}
 				}
         	});
@@ -1344,6 +1433,7 @@
  			$('div.chattingList li').css("backgroundColor", "#fff");
          	$('.chatFromMe').remove();
 			$('.chatFromUser').remove();
+			$('.chatDate').remove();
 			$('div.chattingList').removeClass('on');
 			var sessionUserId = "${sessionScope.user.userId}";
 			targetId = $(this).parent().find(".userIdForProfile").val();
@@ -1389,9 +1479,15 @@
 				    								if((data[i].master == sessionUserId && data[i].enterUser == targetId) || (data[i].master == targetId && data[i].enterUser == sessionUserId)){
 				    									console.log('일치하는 채팅방이 있다1');							//확인완료
 				    									chattingRoomNo = data[i].roomNo;
+				    									
+				    									
+				    									
 				    									socket.emit("enterUserId", data[i].master);
 				    									socket.emit("targetId", data[i].enterUser);
 				    									socket.emit("chattingRoomNo", chattingRoomNo);
+				    									
+				    									
+				    									
 				    									//-----------------------------------------------------확인완료
 				    										$.ajax({
 						    										url : "/user/rest/getUser/"+data[i].enterUser,
@@ -1483,18 +1579,26 @@
 								cnt = cnt+1;
 								console.log('기존에 채팅중이었던 유저다');
 								chattingRoomNo = data[i].roomNo;
-								if("${sessionScope.user.userId}" == data[i].master){
-									var ifMasterUserId = targetId;
-									var ifEnterUserId = sessionUserId;
+								
+								var ifMasterUserId;
+								var ifEnterUserId;
+								if(sessionUserId == data[i].master && targetId == data[i].enterUser){
+									ifMasterUserId = sessionUserId;
+									ifEnterUserId = targetId;
 								}else{
-									var ifMasterUserId = sessionUserId;
-									var ifEnterUserId = targetId;									//////채팅 에러잡기
+									ifMasterUserId = data[i].enterUser;
+									ifEnterUserId = data[i].master;
 								}
+								
+								
 //								socket.emit("enterUserId", data[i].master);
 								socket.emit("enterUserId", ifMasterUserId);
 //								socket.emit("targetId", data[i].enterUser);
 								socket.emit("targetId", ifEnterUserId);
 								socket.emit("chattingRoomNo", chattingRoomNo);
+								
+								
+								
 								$('div.chattingBox').toggleClass('on');
 								$('.chattingBoxContent').animate({
 					        		'scrollTop': '10000000px'
@@ -1568,9 +1672,13 @@
 						    								if((data[i].master == sessionUserId && data[i].enterUser == targetId) || (data[i].master == targetId && data[i].enterUser == sessionUserId)){
 						    									//console.log('기존에 채팅중이었던 방이다.'); -----------------확인완료 (for문 제어 잘해주길)
 						    									chattingRoomNo = data[i].roomNo;
+						    									
+						    									
 						    									socket.emit("enterUserId", data[i].master);
 						    									socket.emit("targetId", data[i].enterUser);
 						    									socket.emit("chattingRoomNo", chattingRoomNo);
+						    									
+						    									
 						    									
 						    									$.ajax({
 						    										url : "/user/rest/getUser/"+data[i].enterUser,
@@ -1914,9 +2022,7 @@
         <div class="chattingBoxContent">
         
  <!-- --------------------------여긴 채팅 날짜------------------------------------------------------------ -->       
-            <div class="chatDate">
-                <p>2020년 2월 17일 월요일</p>
-            </div>
+ 
  <!-- --------------------------여긴 채팅 날짜------------------------------------------------------------ -->       
             
             

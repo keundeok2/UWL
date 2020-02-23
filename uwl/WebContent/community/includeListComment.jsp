@@ -90,6 +90,11 @@
 		    				"content-Type" : "application/json"
 		    			},
 	    				success : function(data){
+	    					
+	    					setTimeout(function() {
+	    			    		myScroll.refresh();
+	    			    	}, 0);
+	    					
 	    					var nickname = data.user.nickname;
 	    					var userId = data.userId
 	    					var commentDate = data.commentDate;
@@ -188,7 +193,7 @@
 	    		    				
 	    		    			},
 	    		    			error : function(){
-	    	    					alert('댓글 포인트부여 에러');
+	    	    					//alert('댓글 포인트부여 에러');
 	    	    				}
 	    	    					
     	    				}); //challenge 
