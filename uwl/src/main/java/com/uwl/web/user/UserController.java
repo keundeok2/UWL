@@ -519,8 +519,8 @@ public class UserController {
 			session.setAttribute("user", dbUser);
 			System.out.println(dbUser);
 			System.out.println("session scope 저장");
-		}
-		return "forward:/user/main";
+			return "forward:/user/main";
+		} else return "redirect:/index.jsp";
 	}
 	
 	@RequestMapping("main")
