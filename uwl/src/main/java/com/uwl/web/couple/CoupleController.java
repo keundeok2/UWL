@@ -3,6 +3,9 @@ package com.uwl.web.couple;
 import java.sql.Date;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +21,7 @@ import com.uwl.service.domain.Commentt;
 import com.uwl.service.domain.Couple;
 import com.uwl.service.domain.Matching;
 import com.uwl.service.domain.Post;
+import com.uwl.service.domain.User;
 import com.uwl.service.matching.MatchingService;
 
 
@@ -73,20 +77,23 @@ public class CoupleController {
 	}
 	
 	@RequestMapping(value = "addCoupleTimelinePost")
-	public String addCoupleTimelinePost(@RequestParam("userId") String userId, Model model) throws Exception {
+	public String addCoupleTimelinePost(Model model, HttpServletRequest request) throws Exception {
 		System.out.println("/couple/addCoupleTimelinePost");
-		
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		String userId = user.getUserId();
 		model.addAttribute("userId", userId);
 		return "forward:/couple/addCoupleTimelinePost.jsp";
 	}
 	
 	@RequestMapping(value = "addCoupleTimelinePost2")
-	public String addCoupleTimelinePost(@RequestParam("userId") String userId, @ModelAttribute("post") Post post) throws Exception {
+	public String addCoupleTimelinePost(@ModelAttribute("post") Post post) throws Exception {
 		System.out.println("/couple/addCoupleTimelinePost2");
+		
 		
 		coupleService.addCoupleTimelinePost(post);
 		
-		return "forward:/couple/getCoupleTimelinePostList";
+		return "forward:/couple/addCoupleTimelinePost2.jsp";
 	}
 	
 	@RequestMapping(value = "getCoupleTimelinePost")

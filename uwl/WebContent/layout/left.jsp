@@ -102,17 +102,18 @@
             max-height: 0;
             overflow: hidden;
             font-weight: bold;
-            transition: all 0.1s;
+            transition: max-height 0.1s;
             
             
         }
         div.leftLayout > div:nth-child(n + 2) h6 {
         	font-size: 16px;
         }
-
+		
         div.leftLayout>div.on {
-            transition: all 1s;
+            transition: max-height 1s;
             max-height: 500px;
+            padding-top: 10px;
         }
 
         div.leftLayout>div ul li h6 a {
@@ -422,9 +423,12 @@
             </a>
         </h4>
         
+        
+        
         <h4 class="point">
             <a id="point" href="#">
-                <span><i class="fas fa-coins" style="font-size: 25px; text-align: right;"></i>포인트</span>
+                <i class="fas fa-coins"></i>
+                <span>포인트</span>
             </a>
         </h4>
 

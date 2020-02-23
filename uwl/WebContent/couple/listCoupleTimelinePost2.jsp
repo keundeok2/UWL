@@ -8,11 +8,14 @@
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
     <style>
         * {
             margin: 0;
@@ -45,8 +48,9 @@
 
         div.listCoupleTimelinePost {
             padding-top: 10px;
-            width: 740px;
+            width: 100%;
             margin: 0 auto;
+            background: #fff;
         }
 
         div.listCoupleTimelinePost div.coupleTimelineHeader {
@@ -177,9 +181,9 @@
             color: #fff;
         }
 
-        
 
-        
+
+
 
         div.getCoupleTimelinePost div.coupleTimelinePost {
 
@@ -401,22 +405,193 @@
             bottom: 0;
             display: none;
         }
+
         div.backgroundOverlay.on {
-        	display: block;
+            display: block;
         }
+
         div.listCoupleTimelineComment {
             background-color: lavender;
             height: calc((935px * 0.6) - 230px);
             overflow-y: scroll;
         }
+
+        a.addCoupleTimelinePostFixedButton {
+            position: fixed;
+            right: 10px;
+            top: 10px;
+            background-color: #eee;
+            line-height: 35px;
+            padding: 0 10px;
+            border-radius: 30px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        a.uploadFileName {
+            display: block;
+            position: relative;
+
+            overflow: hidden;
+
+            height: 300px;
+        }
+
+        a.uploadFileName img {
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        a.uploadFileName>div {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #fff;
+        }
+
+
+
+        div.addCoupleTimelinePost a.uploadFileName div.postDate div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+			
+        }
+
+        div.addCoupleTimelinePost div.postContent textarea {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            resize: none;
+            padding: 4px 8px;
+            border: 1px solid #898989;
+            border-radius: 5px;
+
+        }
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        div.addCoupleTimelinePost div.place {
+            margin-top: 10px;
+
+
+        }
+
+        div.addCoupleTimelinePost div.place i {
+            display: inline-block;
+            width: 30px;
+            text-align: center;
+            background-color: #fff;
+            line-height: 30px;
+            float: left;
+            vertical-align: middle;
+            border-top: 1px solid #898989;
+            border-left: 1px solid #898989;
+            border-bottom: 1px solid #898989;
+
+            border-radius: 5px 0 0 5px;
+        }
+		
+        div.addCoupleTimelinePost div.place input {
+            line-height: 30px;
+            float: left;
+            vertical-align: middle;
+            border: none;
+            border-top: 1px solid #898989;
+            border-right: 1px solid #898989;
+            border-bottom: 1px solid #898989;
+            margin-bottom: 10px;
+            width: calc(100% - 30px);
+            border-radius: 0 5px 5px 0;
+            
+        }
+
+        div.addCoupleTimelinePost div.postDate input {
+
+
+            border: none;
+
+            
+            line-height: 30px;
+            
+            
+            background: orange;
+			display: block;
+			width: 100%;
+
+        }
+        
+
+        *:focus {
+            outline: none;
+        }
+
     </style>
     <script>
         $(function() {
             var userId = $('input[name="userId"]').val();
-
+			
+            $('button.addPost').on('click', function() {
+            	$('form button[type="submit"]').click();
+            });
             
+            $('form button[type="submit"]').on('click', function() {
+            	
+                alert('클릭ㅋㅋ');
+                $.ajax({
+                    url: '/couple/rest/addCoupleTimelinePost2/' + userId,
+                    method: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        userId: userId
+                    }),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(data) {
+                        alert('성공ㅋㅋ');
+                        getImage($('input[type="file"]').val());
+                        prependCoupleTimelinePost(data.post);
+                    },
+                    error: function(request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            });
+            
+            function getImage(uploadFileName) {
+            	$.ajax({
+            		url: '/post/rest/addSummerNoteFile',
+            		method: 'POST',
+            		dataType: 'json',
+            		headers: {
+            			'Accept': 'application/json',
+            			'Content-Type': 'application/json'
+            		},
+            		success: function(data) {
+            			alert('성공ㅋㅋ');
+            			$('input[type="file"]').val(data);
+            		},
+            		error: function(request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+            	})
+            }
 
-            $(document).on('click', 'div.coupleTimelineMain div.coupleTimelinePost a') {
+            $(document).on('click', 'div.coupleTimelineMain div.coupleTimelinePost a', function() {
                 alert('클릭ㅋㅋ');
                 $('div.backgroundOverlay').addClass('on');
                 var postNo = $(this).find('input[name="postNo"]').val();
@@ -435,12 +610,16 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                        appendCoupleTimelinePost(data);
+                        alert(성공ㅋㅋ);
+                        afterCoupleTimelinePost(data);
+                    },
+                    error: function(request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
-                })
-            }
+                });
+            });
 
-            function appendCoupleTimelinePost(post) {
+            function prependCoupleTimelinePost(post) {
                 var postNo = post.postNo;
                 var userId = post.userId;
                 var uploadFileName = post.uploadFileName;
@@ -475,7 +654,7 @@
 
             $(document).ready(function() {
 
-                alert('userId : ' + userId);
+                //alert('userId : ' + userId);
                 $.ajax({
                     url: '/couple/rest/getCoupleTimelinePostList/' + userId,
                     method: 'GET',
@@ -498,7 +677,7 @@
                 });
             });
 
-            function prependCoupleTimelinePost(post) {
+            function afterCoupleTimelinePost(post) {
                 var postNo = post.postNo;
                 var userId = post.userId;
                 var uploadFileName = post.uploadFileName;
@@ -594,7 +773,77 @@
             }
 
 
+            $('#myModal').on('shown.bs.modal', function() {
+                $('#myInput').trigger('focus')
+            });
         });
+
+        var sel_file;
+
+        $(document).ready(function() {
+            $("#input_img").on("change", handleImgFileSelect);
+        });
+
+        function handleImgFileSelect(e) {
+            var files = e.target.files;
+            var filesArr = Array.prototype.slice.call(files);
+
+            filesArr.forEach(function(f) {
+                if (!f.type.match("image.*")) {
+                    alert("확장자는 이미지 확장자만 가능합니다.");
+                    return;
+                }
+
+                sel_file = f;
+
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $("#img").attr("src", e.target.result);
+                }
+                reader.readAsDataURL(f);
+            });
+        }
+
+        $(function() {
+            $('div.addCoupleTimelinePost a.uploadFileName').on('click', function() {
+                $('input[type="file"]').click();
+            });
+
+            /*$("#datepicker").datepicker({
+            dateFormat: 'yy년 m월 d일 DD',
+            onClose: function(e) {
+                var postDate = $('#datepicker').val();
+                $('p.postDate').text(postDate);
+                
+
+            }
+
+        });*/
+        
+        $("#datepicker").datepicker({
+            dateFormat: 'yy-mm-dd',
+            onClose: function(e) {
+                var postDate = $('#datepicker').val();
+                $('p.postDate').text(postDate);
+                
+
+            }
+
+        });
+            $('#datepicker').datepicker('setDate', 'today');
+            
+            $('p.postDate').text($('#datepicker').val());
+
+            $('input[name="place"]').on('focusout', function() {
+                var place = $('input[name="place"]').val();
+                $('p.place').text(place);
+            });
+
+
+
+
+        });
+
     </script>
 </head>
 
@@ -604,7 +853,7 @@
         <div class="coupleTimelineHeader">
             <div class="firstUser">
                 <div class="userProfileImage">
-                    <img src="img/bonobono.jpg" alt="">
+                    <img src="/images/bonobono.jpg" alt="">
                 </div>
                 <div class="weather">
                     <i class="fas fa-smog"></i>
@@ -623,7 +872,7 @@
                     <i class="fas fa-sun"></i>
                 </div>
                 <div class="userProfileImage">
-                    <img src="img/bonobono.jpg" alt="">
+                    <img src="/images/bonobono.jpg" alt="">
                 </div>
             </div>
         </div>
@@ -631,7 +880,7 @@
             <div class="coupleTimelinePost">
                 <a href="#">
                     <div class="uploadImage">
-                        <img src="img/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="">
+                        <img src="/images/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="">
                     </div>
                     <div class="imageHover">
                         <div class="uploadDate">
@@ -644,7 +893,7 @@
             <div class="coupleTimelinePost">
                 <a href="#">
                     <div class="uploadImage">
-                        <img src="img/75586249_215873686083699_2609154030926987378_n.jpg" alt="">
+                        <img src="/images/75586249_215873686083699_2609154030926987378_n.jpg" alt="">
                     </div>
                     <div class="imageHover">
                         <div class="uploadDate">
@@ -657,7 +906,7 @@
             <div class="coupleTimelinePost">
                 <a href="#">
                     <div class="uploadImage">
-                        <img src="img/79366246_186468522524707_4331720126046688510_n.jpg" alt="">
+                        <img src="/images/79366246_186468522524707_4331720126046688510_n.jpg" alt="">
                     </div>
                     <div class="imageHover">
                         <div class="uploadDate">
@@ -670,7 +919,7 @@
             <div class="coupleTimelinePost">
                 <a href="#">
                     <div class="uploadImage">
-                        <img src="img/80338524_165631637981527_6322626174459999431_n.jpg" alt="">
+                        <img src="/images/80338524_165631637981527_6322626174459999431_n.jpg" alt="">
                     </div>
                     <div class="imageHover">
                         <div class="uploadDate">
@@ -683,7 +932,7 @@
             <div class="coupleTimelinePost">
                 <a href="#">
                     <div class="uploadImage">
-                        <img src="img/80639752_2566781766943900_7436097228326880724_n.jpg" alt="">
+                        <img src="/images/80639752_2566781766943900_7436097228326880724_n.jpg" alt="">
                     </div>
                     <div class="imageHover">
                         <div class="uploadDate">
@@ -694,10 +943,92 @@
                 </a>
             </div>
         </div>
-
+        <a href="#" class="addCoupleTimelinePostFixedButton" data-toggle="modal" data-target="#exampleModal" style="background: red">
+            <i class="fas fa-plus"></i> 게시글 등록
+        </a>
     </div>
 
-    
-    <div class="backgroundOverlay"></div>
-</body></html>
+    <!-- Button trigger modal -->
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+            <div class="modal-content addCoupleTimelinePost">
+                <div class="modal-header" style="background: yellow">
+                    <div class="postDate" style="background: red; width: 100%">
+                        <input type="text" value="" name="postDate" id="datepicker">
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/couple/rest/addCoupleTimelinePost2" method="post">
+
+
+
+
+
+
+
+
+
+
+                        
+
+
+
+                            
+                            <a href="#" class="uploadFileName">
+
+
+
+
+
+
+                                <img src="/images/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="" id="img">
+
+                                <div class="postDate">
+                                    <div>
+                                        <p class="postDate"></p>
+                                        <p class="place"></p>
+                                    </div>
+                                </div>
+                            </a>
+                            <div>
+                                <input type="file" id="input_img" name="uploadFileName" style="display: none"/>
+
+                                <div class="place">
+
+                                    <p>
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <input type="text" value="" name="place" placeholder="위치 추가">
+                                    </p>
+                                </div>
+                                <div class="postContent">
+
+                                    <textarea name="" id="" cols="30" rows="3" placeholder="문구 입력..."></textarea>
+                                </div>
+
+                            </div>
+                        
+
+
+
+						<button type="submit" style="display:none"></button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary addPost">등록</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <div class="backgroundOverlay"></div> -->
+</body>
+
+</html>

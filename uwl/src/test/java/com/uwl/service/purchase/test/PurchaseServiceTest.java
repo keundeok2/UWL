@@ -27,7 +27,7 @@ public class PurchaseServiceTest {
 		this.purchaseService = purchaseService;
 	}
 
-	@Test
+//	@Test
 	public void addPurchase() throws Exception {
 		Purchase purchase = new Purchase();
 		purchase.setUserId("user01");
@@ -45,13 +45,14 @@ public class PurchaseServiceTest {
 		System.out.println(purchaseService.getPurchase(purchaseNo));
 	}
 
-	//@Test
+	@Test
 	public void getPurchaseList() throws Exception {
 		String userId = "user01";
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(10);
 		search.setSearchCondition("1");
+		search.setSearchKeyword("2");
 
 		Map<String, Object> map = purchaseService.getPurchaseList(userId, search);
 		System.out.println(map);

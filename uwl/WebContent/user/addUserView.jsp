@@ -80,6 +80,14 @@
             width: 540px;
             margin: 0 auto;
             text-align: center;
+            overflow: hidden;
+        }
+        
+        @media (max-width: 539.98px) {
+            
+            div.wrap {
+                width: 100%;
+            }
         }
 
         div.logo {
@@ -430,7 +438,7 @@
 		
 		setTimeout(function() {
 		$("form").attr("method" , "POST").attr("action" , "/user/addUser").submit();
-		},3000);
+		},1000);
 	} //
     
 		
@@ -687,7 +695,7 @@
 						"<div class='id' id='phoneNumberCheckBox'>"
 						+"<p>인증번호 입력</p>"
 						+ "<p><input type='text' name='code' id='code' placeholder='인증번호를 입력해주세요.'></p>"
-          		        + "<p><a href='#' id='codeNumberCheck'>인증번호확인</a></p>"
+          		        + "<p><a href='#' id='codeNumberCheck' onclick='return false'>인증번호확인</a></p>"
           		        +"</div>";
 						$('#phone').after(view);
 						$.ajax({
@@ -713,10 +721,8 @@
 							data : {code : code},
 							success : function(data){
 								if(data == true){
-									$("a:contains('인증번호확인')").remove();
-									$("a:contains('인증완료!')").show();
 									//인증완료 시
-									$('#yes').remove();
+									$('#codeNumberCheck').remove();
 									var view = "<span id='yes'>인증이 완료되었습니다</span>"
 									$('#phone').after(view);
 								}else{
@@ -735,7 +741,7 @@
 		//==>"mail 본인인증" Event 처리 및 연결  ================================시작
 		$(function() {
 			// 이메일 입력 시 인증번호확인 버튼이 보이지 않도록 hide 
-			$("a:contains('인증번호확인')").hide();
+			$("a#checkMailBtn").hide();
 			$("a:contains('인증완료!')").hide();
 			$("input:contains('인증번호')").hide();
 		})
@@ -938,7 +944,7 @@ $(function() {
                 <div class="id" id="phoneCheckAppend">
                     <p>휴대전화번호</p>
                     <p><input type="text" name="phone" id="phone" placeholder=" - 는 제외하고 입력해주세요."></p>
-                    <p><a href="#" id="checkPhone">본인인증</a></p>
+                    <p><a href="#" id="checkPhone" onclick="return false">본인인증</a></p>
                 </div>
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>생일</p>
@@ -956,8 +962,8 @@ $(function() {
                     <p><input type="text" id="mail" name="mail"  oninput="checkDuplicationMail()"></p>
                     <p><input type="text" id="confirmNo" name="confirmNo" placeholder="인증번호"></p>
                     <h6></h6>
-                    <p><a href="#" id="sendMail">메일전송</a></p>
-                    <p><a href="#" id="checkMailBtn">인증번호확인</a></p>
+                    <p><a href="#" id="sendMail" onclick="return false">메일전송</a></p>
+                    <p><a href="#" id="checkMailBtn" onclick="return false">인증번호확인</a></p>
                     <p><a href="#" >인증완료!</a></p>
                     
                     <p><input type="hidden" name="mailValue" value=""></p>
