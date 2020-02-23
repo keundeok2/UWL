@@ -45,16 +45,7 @@
  		SELECT COUNT(*)
 		FROM (
 				SELECT * FROM purchase  
-						WHERE user_id = #{userId} 
-								<if test="search.searchCondition == 1">
-									AND item_category = #{search.searchKeyword}
-								</if>
-								<if test="search.searchCondition != 2">
-									AND refund_option = '1'
-								</if>
-								<if test="search.searchCondition == 2">
-									AND refund_option = '2'
-								</if>
+				WHERE user_id = #{userId} 
 		) countTable
  	</select>
  	
