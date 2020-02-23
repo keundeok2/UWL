@@ -27,6 +27,21 @@
 <title>Insert title here</title>
 
 <script type="text/javascript">
+
+	var myScroll = null;
+	
+	$(function() {
+		
+	    myScroll = new IScroll('#wrapper', {
+	        mouseWheel: true,
+	        scrollbars: true
+	    });
+	    
+	    setTimeout(function() {
+			myScroll.refresh();
+		}, 0);
+	});
+
 	$(document).ready(function(){
 		$('#searchReportButton').on("click",function(){
 			$('form.form-signin').attr("method","POST").attr("action", "/report/listReport").submit();
@@ -162,7 +177,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -171,36 +186,35 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
-            overflow: hidden;
-            overflow-y: scroll;
-
+            
+            position: relative;
+			
         }
 
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
         }
         
         
-        div.navnav{
-        
-        }
     </style>
 
 
@@ -210,7 +224,8 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        <ul>
             <form class="form-signin">
 		<div class="container">
 			<div class="row">
@@ -326,6 +341,7 @@
 				  
 			</div>
 	</form>
+	</ul>
 	</div>
 	 <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
