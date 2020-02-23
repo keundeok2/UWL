@@ -295,6 +295,18 @@
             padding: 15px 15px 0 15px;
         }
         
+        div.back{
+        	float:right;
+        	border-radius : 10px;
+        	background-color: #EBAD7A;
+            display: inline-block;
+            line-height: 25px;
+            padding: 0 40px;
+            color: #fff;
+            font-weight: bold;
+            margin: 20px 0;
+        	
+        }
         
     </style>
     
@@ -381,6 +393,10 @@
             <jsp:include page="../community/includeListComment.jsp"></jsp:include>
 
             </ul>
+            <div class="back">
+            <a href="javascript:history.go(-1)">목록으로</a>
+            </div>
+                            
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />

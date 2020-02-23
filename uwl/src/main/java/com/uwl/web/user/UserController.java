@@ -443,7 +443,7 @@ public class UserController {
 		// Business Logic
 //				userService.getQuestions(post);
 
-		return "forward:/user/toolbarGetQuestions?postNo" + post.getPostNo();
+		return "redirect:/user/getQuestions?postNo=" + post.getPostNo();
 	}
 
 	// 나의 문의사항 내역
