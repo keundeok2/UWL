@@ -65,9 +65,7 @@
             var timelinePage = 1;
 
             function timelineInfiniteScroll() {
-                if (timelinePage <= $ {
-                        timelineMap.resultPage.maxPage
-                    }) {
+                if (timelinePage <= ${timelineMap.resultPage.maxPage}) {
                     timelinePage++;
                     console.log('timelinePage : ' + timelinePage);
 
@@ -114,9 +112,7 @@
             var askPage = 1;
 
             function askInfiniteScroll() {
-                if (askPage <= $ {
-                        askMap.resultPage.maxPage
-                    }) {
+                if (askPage <= ${askMap.resultPage.maxPage}) {
                     askPage++;
                     console.log('askPage : ' + askPage);
 
@@ -153,9 +149,7 @@
             var askQuestionPage = 1;
 
             function askQuestionInfiniteScroll() {
-                if (askQuestionPage <= $ {
-                        askQuestionMap.resultPage.maxPage
-                    }) {
+                if (askQuestionPage <= ${askQuestionMap.resultPage.maxPage}) {
                     askQuestionPage++;
                     console.log('askQuestionPage : ' + askQuestionPage);
 
