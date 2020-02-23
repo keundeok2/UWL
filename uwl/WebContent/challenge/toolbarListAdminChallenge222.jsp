@@ -12,14 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	<!-- datepicker -->
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	
-	<!-- sweetalert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
-	
+
     <!-- fontawesome -->
     <script src="https://kit.fontawesome.com/fb8ae6e812.js" crossorigin="anonymous"></script>
     <!-- 나눔고딕 -->
@@ -119,30 +112,6 @@
     
 	    var myScroll = null;
 	    
-	    $(document).ready(function() {
-	    	 //alert("왜안돼")
-	    	$("#startChallenge").empty();
-	    	 
-	    	$.ajax({
-				url : "/challenge/rest/getWeeklyStart",
-				method : "POST",
-				headers : {
-					"Accept" : "application/json",
-					"Content-Type" : "application/json"
-				},
-				success : function(data) {
-					console.log("data ; " + data.weeklyStart);
-					var weeklyStart = "관리자라면 등록자 상관없이 내용을 수정할 수 있습니다. <br>"
-									+ "<b>도전과제 시작날짜: " + data.weeklyStart + "</b>"
-					$("#startChallenge").append(weeklyStart);
-					
-					/* var weeklyStart = "<br>도전과제 시작날짜: " + data.weeklyStart; 
-					alert("된다된다 ㅋㅋ : " + weeklyStart)
-					$("#startChallenge").append(weeklyStart); */
-					}
-			}); //end of ajax 
-        });
-	    
 	    $(function() {
 	    	
 	        myScroll = new IScroll('#wrapper', {
@@ -154,10 +123,6 @@
 	    		myScroll.refresh();
 	    		}, 0);
 		});	
-	    
-		
-        
-
     
         $(function() {
 
@@ -177,50 +142,6 @@
                 /* alert("등록되는거임 ㅋㅋ") */
                 self.location = "/challenge/addChallenge"
             });
-            $("#addWeeklyStart").on("click", function() {
-                var weeklyStart = $("input[name='weeklyStart']").val();
-					//alert("weeklyStart : " + weeklyStart);
-				$("#startChallenge").empty();
-				
-                 $.ajax({
-    				url : "/challenge/rest/addWeeklyStart",
-    				method : "POST",
-    				headers : {
-    					"Accept" : "application/json",
-    					"Content-Type" : "application/json"
-    				},
-    				data : JSON.stringify({
-    					weeklyStart : weeklyStart
-    				}),
-    				success : function(data) {
-    					Swal.fire({
-    	                    icon: 'success',
-    	                    title: '등록이 완료 되었습니다.',
-    	                    showConfirmButton: false,
-    	                    timer: 700
-    	                })
-    					//alert("data : " + data.weeklyStart)
-    					var weeklyStart = "관리자라면 등록자 상관없이 내용을 수정할 수 있습니다. <br>"
-							+ "<b>도전과제 시작날짜: " + data.weeklyStart + "</b>"
-    					//alert("weeklyStart : " + weeklyStart)
-						$("#startChallenge").append(weeklyStart);
-   					}
-    			}); //end of ajax
-    			
-            });
-            
-            //datepicker 옵션 설정
-            $("#datepicker").datepicker({
-                dateFormat: 'yy-mm-dd' //Input Display Format 변경
-                ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
-                ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
-                ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
-                ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-            });                    
-            
-            
-            //주간도전과제 날짜 설정
-            $("#datepicker").datepicker();
 
 
         });
@@ -322,8 +243,7 @@
                     <h2>주간 도전과제 목록 (관리자용) </h2>
                     <br>
                     <div class="alert alert-secondary" role="alert">
-                        <font style="font-size: 20px" id="startChallenge"></font><br>
-                        	
+                        <font style="font-size: 20px">관리자라면 등록자 상관없이 내용을 수정할 수 있습니다. </font>
                         <div class="addChallenge">
                             <div class="list">
                                 <a href="#" id="addChall">과제등록</a>
@@ -396,29 +316,21 @@
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
-
     <!-- Modal content-->
-		    <div class="modal-content" >
-		      <div class="modal-header">
-		        <h4 class="modal-title">도전과제 시작</h4>
-		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		      </div>
-		      <div class="modal-body">
-		      	주간도전과제의 시작날짜를 설정할 수 있습니다.
-		      	<br>
-		        <br>
-		    	시작날짜 : <input type="text" name="weeklyStart" id="datepicker" placeholder="여기를 클릭">
-		    	<br>
-		    	<br>
-		        <small>
-		        	*<b style="color: red;">설정된 날짜</b>에서 <b style="color: red;">00시00분</b>에 시작되며,<b style="color: red;">일주일동안</b> 주간 도전과제를 실행합니다.<br>
-		       	</small>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" id="addWeeklyStart"  data-dismiss="modal">적용</button>
-		        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-		      </div>
-		    </div><!-- class modal -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">도전과제 시작</h4>
+      </div>
+      <div class="modal-body">
+        <small>주간도전과제의 시작날짜를 설정할 수 있습니다.<br>
+        		설정된 날짜에서 일주일동안 주간 도전과제를 실행합니다.
+        </small>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
 
   </div>
 </div>

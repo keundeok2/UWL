@@ -18,6 +18,23 @@
 	<script src="/javascript/iscroll.js"></script>
 	<script type="text/javascript">
 	var myScroll = null;
+	
+	$(document).ready(function() {
+		
+		var strDate = $("input[name='strDate']").val();
+		console.log("strDate : " + strDate);
+		var arr1 = strDate.split('-'); 
+		var dat1 = new Date(arr1[0], arr1[1], arr1[2]); 
+		var weeklyStart = dat1.getFullYear() + "-" + dat1.getMonth() + "-" + dat1.getDate();
+		var weeklyEnd = dat1.getFullYear() + "-" + dat1.getMonth() + "-" + (dat1.getDate() + 7);
+		
+		//alert("weeklyStart : " + weeklyStart + "weeklyEnd : " + weeklyEnd);
+		
+		//$(".alert .text-muted").text(weeklyStart + "시작하여 " + weeklyEnd + "에 끝납니다.")
+		$(".alert .text-muted").html("<b style='color: #1881af;'>" + weeklyStart + " 시작하여 " + weeklyEnd + " 에 끝납니다.</b>")
+		//$("#detailWeeklyEnd").val( weeklyEnd + " 00:00분에 종료")
+   	 
+   });
     
     $(function() {
     	
@@ -150,7 +167,8 @@
                     <div class="alert alert-secondary" role="alert">
                         <b>주간도전과제를 수행하고 포인트(활동점수)를 획득하세요!</b> <br>
                         획득한 점수는 아이템을 구매하거나 학교랭킹에 반영됩니다.<br>
-                        <small class="text-muted">주간도전과제는 매주 월요일 초기화됩니다.<br /></small>
+                        <small class="text-muted"><br /></small>
+                   		<input type="hidden" value="${strDate}" name="strDate">
                     </div>
                 </div>
 
@@ -175,7 +193,7 @@
                                 <div class="card-footer">
                                     <h5><span class="badge badge-info">${challenge.challReward} 점 획득</span></h5>
                                     <div class="challDate">
-                                        <small class="text-muted">(어차피 같으니 뺴서 하나로?)남은시간 - 03:00:28 고정값 수정되어야 합니다<br /></small>
+                                        <small class="text-muted" ><br/></small>
                                     </div>
                                 </div>
                             </div>

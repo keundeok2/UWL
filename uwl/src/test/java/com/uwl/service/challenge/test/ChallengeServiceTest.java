@@ -1,7 +1,10 @@
 package com.uwl.service.challenge.test;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -14,18 +17,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.uwl.common.Search;
-import com.uwl.service.challenge.ChallengeDAO;
 import com.uwl.service.challenge.ChallengeService;
 import com.uwl.service.domain.Challenge;
 import com.uwl.service.domain.Commentt;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.Purchase;
 import com.uwl.service.domain.Reward;
-import com.uwl.service.domain.SchoolRank;
 import com.uwl.service.domain.User;
-import com.uwl.service.reward.RewardDAO;
 import com.uwl.service.reward.RewardService;
-import com.uwl.service.user.UserService;
 
 
 
@@ -278,8 +277,30 @@ public class ChallengeServiceTest {
 	//@Test
 	public void testGetWeeklyStart() throws Exception{
 		
-		Challenge challenge = challengeService.getWeeklyStart();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//Calendar cal = Calendar.getInstance();
+		Calendar cal = new GregorianCalendar(2020,Calendar.FEBRUARY,23);
+		System.out.println("도전과제 시작날짜: "+sdf.format(cal.getTime()));
+		
+		cal.add(Calendar.DAY_OF_WEEK, 7);
+		System.out.println("오늘로 부터 일주일 후: "+sdf.format(cal.getTime()));
+		
+		Challenge challenge = new Challenge();
+		challenge = challengeService.getWeeklyStart();
+		System.out.println("challenge : " + challenge);
+		
 	}
+	
+	//@Test
+//	public void testInsertAddWeeklyStart() throws Exception{
+//		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+//		Challenge challenge = new Challenge();
+//		challenge.setWeeklyStart(date);
+//		
+//		challengeService.addWeeklyStart(challenge);
+//	}
+	
 		
 		
 	}
