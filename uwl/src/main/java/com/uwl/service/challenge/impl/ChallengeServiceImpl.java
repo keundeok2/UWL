@@ -175,9 +175,25 @@ public class ChallengeServiceImpl implements ChallengeService{
 					System.out.println("challengeDAO.getChallPostCompleteCount(challenge) : " + challengeDAO.getChallPostCompleteCount(challenge) );
 					System.out.println("challengeDAO.getChallPostCompleteCount(challenge)====> : " + challenge );
 					reward.setChallenge(list.get(i)); 
+					
+					Reward totalReward = rewardDAO.getTheLatestTotalPoint(user.getUserId());
+					System.out.println("totalReward : " + totalReward);
 					//통과하면 true를 set
 					completeResult = true;
 					reward.setCompleteResult(completeResult);
+					
+					if (totalReward == null) {
+						System.out.println("totalReward가 null일때 if문에 진입함");
+						reward.setTotalActivityPoint(0);
+						reward.setTotalPoint(0);
+					}else {
+						System.out.println("totalReward에 포인트가 있을때 else문에 진입함");
+						reward.setTotalActivityPoint(totalReward.getTotalActivityPoint());
+						reward.setTotalPoint(totalReward.getTotalPoint());
+					}
+					
+					
+					System.out.println("challengeDAO.getChallPostCompleteCount(reward)====> : " + reward);
 					//보상을 주는 method
 					rewardDAO.increasePoint(reward);
 					//실시간 ranking을 update해주는 method
@@ -238,9 +254,23 @@ public class ChallengeServiceImpl implements ChallengeService{
 					System.out.println("challengeDAO.getChallCommentCompleteCount(challenge) : " + challengeDAO.getChallPostCompleteCount(challenge) );
 					System.out.println("challengeDAO.list.get(i).getPostCommentComplete() : " + list.get(i).getPostCommentComplete() );
 					reward.setChallenge(list.get(i));
+					
+					Reward totalReward = rewardDAO.getTheLatestTotalPoint(user.getUserId());
+					System.out.println("totalReward : " + totalReward);
 					//통과하면 true를 set
 					completeResult = true;
 					reward.setCompleteResult(completeResult);
+					
+					if (totalReward == null) {
+						System.out.println("totalReward가 null일때 if문에 진입함");
+						reward.setTotalActivityPoint(0);
+						reward.setTotalPoint(0);
+					}else {
+						System.out.println("totalReward에 포인트가 있을때 else문에 진입함");
+						reward.setTotalActivityPoint(totalReward.getTotalActivityPoint());
+						reward.setTotalPoint(totalReward.getTotalPoint());
+					}
+					
 					//보상을 주는 method
 					rewardDAO.increasePoint(reward);
 					

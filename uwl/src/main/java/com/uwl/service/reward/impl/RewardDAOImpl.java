@@ -77,8 +77,11 @@ public class RewardDAOImpl implements RewardDAO{
 		
 		map.put("search", search);
 		map.put("reward", reward);
+		System.out.println("RewardDAOImpl의 Map : " + map);
+		System.out.println("RewardDAOImpl의 Map.get() : " + map.get("reward"));
 		
 		List<Reward> list = sqlSession.selectList("RewardMapper.getUserPurchaseList", map);
+		System.out.println("RewardDAOImpl list : " + list);
 		
 		map.put("totalCount", sqlSession.selectOne("RewardMapper.getTotalCountOne", reward));
 		map.put("list", list);
@@ -92,6 +95,11 @@ public class RewardDAOImpl implements RewardDAO{
 	@Override
 	public Reward getTotalPoint(String userId) throws Exception {
 		return sqlSession.selectOne("RewardMapper.getTotalPoint", userId);
+	}
+	
+	@Override
+	public Reward getTheLatestTotalPoint(String userId) throws Exception {
+		return sqlSession.selectOne("RewardMapper.getTheLatestTotalPoint", userId);
 	}
 	
 	@Override
@@ -111,6 +119,8 @@ public class RewardDAOImpl implements RewardDAO{
 	public int getTotalCountOne(Reward reward) throws Exception {
 		return sqlSession.selectOne("RewardMapper.getTotalCountOne", reward);
 	}
+
+	
 
 	
 
