@@ -149,7 +149,7 @@ public class SocialController {
 		
 		String sessionId = ((User)session.getAttribute("user")).getUserId();
 		
-		return "redirect:/userr/getProfile/"+sessionId;
+		return "redirect:/user/getProfile/"+sessionId;
 	}
 	
 	

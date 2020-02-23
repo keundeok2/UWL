@@ -63,7 +63,7 @@
  	
  	<update id="deleteItem" parameterType="int">
  		UPDATE item
- 		SET second_user_id = 'user01'
+ 		SET second_user_id = 'admin'
  		WHERE item_no = #{value}
  	</update>
 </mapper>

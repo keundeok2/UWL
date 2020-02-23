@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +29,7 @@ import com.uwl.service.domain.Commentt;
 import com.uwl.service.domain.Couple;
 import com.uwl.service.domain.Matching;
 import com.uwl.service.domain.Post;
+import com.uwl.service.domain.User;
 import com.uwl.service.matching.MatchingService;
 
 @RestController
@@ -76,6 +78,7 @@ public class CoupleRestController {
 		map2.put("resultPage", resultPage);
 		map2.put("search", search);
 		map2.put("userId", userId);
+		System.out.println("list : " + map.get("list"));
 		System.out.println("rest/getCoupleTimelinePostList/{userId} 끝");
 		return map2;
 	}
@@ -89,11 +92,13 @@ public class CoupleRestController {
 	
 	private static final String UPLOAD_PATH = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images";
 	
-	@RequestMapping(value = "rest/addCoupleTimelinePost2/{userId}")
-	public Map addCoupleTimelinePost2(@PathVariable String userId, @RequestBody Post post, HttpServletRequest request) throws Exception {
+	@RequestMapping(value = "rest/addCoupleTimelinePost2")
+	public Map addCoupleTimelinePost2(@RequestBody Post post, HttpServletRequest request) throws Exception {
 		System.out.println("rest/addCoupleTimelinePost2/{userId} 시작");
-		
-		
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		String userId = user.getUserId();
+		post.setUserId(userId);
 		
 		
 		

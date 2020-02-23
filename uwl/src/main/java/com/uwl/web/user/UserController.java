@@ -34,6 +34,7 @@ import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.couple.CoupleService;
 import com.uwl.service.domain.Ask;
+import com.uwl.service.domain.Couple;
 import com.uwl.service.domain.Friend;
 import com.uwl.service.domain.Item;
 import com.uwl.service.domain.Matching;
@@ -329,6 +330,14 @@ public class UserController {
 		model.addAttribute("askMap", askMap);
 		model.addAttribute("askQuestionMap", askQuestionMap);
 		model.addAttribute("askMap", askMap);
+		
+		//Couple회원인지 판별
+		
+			
+		Couple couple = coupleService.getCouple(targetUserId);
+		model.addAttribute("couple", couple);
+			
+		
 
 		return "forward:/user/toolbarProfile.jsp";
 	}

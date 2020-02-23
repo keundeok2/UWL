@@ -588,7 +588,7 @@
             border-radius: 50%;
             top: -5px;
             right: -5px;
-            
+            display: none;
         }
         div.chattingIcon > div span {
             font-weight: bold;
@@ -821,6 +821,10 @@
        		console.log('node.js Server Connection...');
        		socket.emit("new",newUser);
 	        $('div.chattingIcon a').on('click', function() {
+	        	$('div.chattingIcon > div').css({
+	        		"display" : "none"
+	        	});
+	        	chattingCount = 0;
 	            $('div.chattingList').toggleClass('on');
 	            $('div.chattingBox').css({
 	            	"bottom": "110px",
@@ -845,6 +849,10 @@
 	         
 	        
 	        ////////////////////채팅 방 폭파//////////////////////////////////
+	        
+	        
+	        
+	        
 	        $('#chattingSystemChangeButton').on('click', function(){
 	        	Swal.fire({
 	        		  title: '잠깐!!!!!!',
@@ -876,6 +884,7 @@
 			    			success : function(){
 			    				var roomNo = chattingRoomNo;
 			    				$('div.chattingBox').removeClass('on');
+			    				compareDate = null;
 			    				$('input[value="'+roomNo+'"]').parent().parent().parent().parent().remove();
 			    			},
 			    			error : function(){
@@ -888,11 +897,10 @@
 	        
 	        ////////////////////채팅 방 폭파//////////////////////////////////
        		
-	        	//userChatting.chat_date 2020-02-23T13:34:41.764Z
        		
        		///////////////////유저가 채팅창을 눌렀을 때
+	        var compareDate = null;
 	        socket.on('userChatting', function(userChatting){
-	        	var compareDate = null;
 	        	var chattingContentSenderName = null;
 	        	var chattingContentSenderProfileName = null;
 	        	
@@ -900,12 +908,15 @@
 	        	var date = userChatting.chat_date;
 	        	var chatDate = date.substring(0,10);	//채팅 날짜
 	        	if(compareDate == chatDate){
+	        		compareDate = chatDate; 
 	        	}else{
 	        		compareDate = chatDate;
 		        	var chattingDateView = "<div class='chatDate'>"
 	                							+"<p>"+chatDate+"</p>"
 	               			 			   +"</div>";
-		        	$('#ChattingAppend').before(chattingDateView);
+	               	if(clickEnterUser == "${sessionScope.user.userId}"){
+			        	$('#ChattingAppend').before(chattingDateView);
+	               	}
 	        	}
 	        	var chattingTime = date.substring(11,16);
 	        	$.ajax({
@@ -1018,10 +1029,12 @@
 	        		var roomNo = $(this).children().find('#roomNo').val();
 	        		if(chattingRoomNo == roomNo){	//기존에 열려있던 채팅방과 동일하다면
 	        			$('div.chattingBox').removeClass('on');	//채팅방 닫아버리기
+	        			compareDate = null;
 	        			$('.chatFromMe').remove();
 						$('.chatFromUser').remove();
 						$('.chatDate').remove();
 	        		}else{	//기존에 열려있던 채팅방이랑 다른 채팅방이면
+	        			compareDate = null;
 	        			$('.chatFromMe').remove();
 						$('.chatFromUser').remove();
 						$('.chatDate').remove();
@@ -1075,6 +1088,7 @@
 	        });
 	        $(document).on("click","#outOfChattingByTimes",function(){	//x눌렀을때
 	        	$('div.chattingBox').removeClass('on');
+	        	compareDate = null;
 	        	$('div.chattingList li').css("backgroundColor", "#fff");
 	         	$('.chatFromMe').remove();
 				$('.chatFromUser').remove();
@@ -1141,6 +1155,7 @@
 				if(key.keyCode == 27){		//esc 눌렀을때
 					$('div.chattingList').removeClass('on');
 					$('div.chattingBox').removeClass('on');
+					compareDate = null;
 					$('div.chattingList li').css("backgroundColor", "#fff");
 					$('.chatFromMe').remove();
 					$('.chatFromUser').remove();
@@ -1170,16 +1185,37 @@
 		        	},1000);
 	        	}
 	        });
-	        
+	        var chattingCount = 0;
 	      ////////////////////////노드에서 데이터 받는 파트///////////////////////////  	
             socket.on('sender', function(senderId){
         		sender = senderId; 
 	        });
 	        socket.on('receiver', function(receiverId){
+	        	chattingCount = chattingCount+1;
 	        	receiver = receiverId;
+	        	if(receiverId == "${sessionScope.user.userId}"){
+	        		
+	        		
+	        		
+	        		console.log(chattingRoom);
+///////////////////////////////////////여기에서 해당 채팅방에 new라는 메시지를 띄워주고싶다 이말이야!//////////////////////////////////
+	        		/*  alert($('#roomNo').find('input[value="'+chattingRoom+'"]').val());
+	        		$("input[id='roomNo']:input[value='"+chattingRoom+"']")
+	        		 */
+	        		
+	        		
+	        		
+	        		$('div.chattingIcon > div').css({
+	        			"display" : 'block'
+	        		});
+	        		$('div.chattingIcon > div span').text(chattingCount);
+	        	}else{
+	        	}
 	        });
 	        socket.on('chattingRoomNo', function(room){
 	        	chattingRoom = room;
+	        	
+	        	
 	        });
 	        socket.on('date', function(nowChatDate){
 	        	nodeDate = nowChatDate;
@@ -1202,11 +1238,14 @@
 	        		var chattingDateView = "<div class='chatDate'>"
 												+"<p>"+year+"-"+month+"-"+day+"</p>"
 			 			   					+"</div>";
-	        		$('#ChattingAppend').before(chattingDateView);
+			 		if("${sessionScope.user.userId}" == receiver || "${sessionScope.user.userId}" == sender){
+		        		$('#ChattingAppend').before(chattingDateView);
+			 		}
 	        	}
 	        	nodeDate = nodeDate.substring(16,21);
 	        });
 	        socket.on('msg', function(sendMsg){
+	        	
 	        	var chattingContentSenderName = null;
 	        	var chattingContentSenderProfileName = null;
 	        	$.ajax({
@@ -1291,6 +1330,7 @@
 	            } */
 	            for(var i=0; i<friendList.length; i++){
 	            	$('div.friendList ul li').find('span.' + friendList[i]).removeClass('on');
+	            	compareDate = null;
 	            }
 	            for(var i=0; i<loginFriendList.length; i++){
 	            	for(var j=0; j<countLi; j++){
@@ -1430,6 +1470,7 @@
  			$('.friendList ul li a').css('backgroundColor','#efefef');
  			$('.popupLayer').hide();
  			$('div.chattingBox').removeClass('on');
+ 			compareDate = null;
  			$('div.chattingList li').css("backgroundColor", "#fff");
          	$('.chatFromMe').remove();
 			$('.chatFromUser').remove();
@@ -1969,7 +2010,7 @@
     <div class="chattingIcon"><a href="#"><i class="fas fa-comments"></i></a>
     
 		<!-- ----------------이거 배찌임 -->
-		<div><span>999</span></div>
+		<div><span></span></div>
 		<!-- -------------이거 배찌임 -->
 		
     </div>
