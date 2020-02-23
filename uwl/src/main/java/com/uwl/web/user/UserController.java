@@ -415,7 +415,7 @@ public class UserController {
 		// Business Logic
 		userService.updateQuestions(post);
 
-		return "redirect:/user/toolbarGetQuestions?postNo=" + post.getPostNo();
+		return "redirect:/user/getQuestions?postNo=" + post.getPostNo();
 	}
 
 	// 문의사항 내용
