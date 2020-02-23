@@ -478,14 +478,18 @@
         div.getSchedule {
             position: absolute;
             top: 50%;
-            transform: translateY(-50%);
+            transform: translate(-50%, -50%);
             z-index: 9999;
             padding: 5px 20px 10px;
-            width: 450px;
+            width: 400px;
             background-color: #fff;
-            border: 1px solid #c2c2c2;
+            border: 1px solid #eee;
             box-shadow: 1px 1px 1px #eee;
             border-radius: 5px;
+            opacity: 0;
+            transition: all 0.3s;
+            font-size: 13px;
+            left: 50%;
         }
         div.getSchedule div.getScheduleHeader {
             
@@ -504,7 +508,7 @@
         }
         
         div.getSchedule div.getScheduleHeader a:hover {
-            background-color: lightcoral;
+            background-color: rgba(235, 173, 122, 0.3);
         }
         div.getSchedule div.getScheduleHeader a + a {
             margin-left: 5px;
@@ -523,7 +527,7 @@
         div.getSchedule div.getScheduleMain div.postTitle > div:nth-child(1) {
             width: 15px;
             height: 15px;
-            background-color: rebeccapurple;
+            background-color: #de7527;
             border-radius: 3px;
             display: inline-block;
             vertical-align: 25px;
@@ -558,6 +562,14 @@
         }
         div.getSchedule div.getScheduleMain > div:nth-child(n + 2) > div:nth-child(2) a:hover {
             text-decoration: underline;
+        }
+        
+        div.getSchedule div.getScheduleMain > div.place.on {
+        	display: none;
+        }
+        
+        div.getSchedule div.getScheduleMain > div.postContent.on {
+        	display: none;
         }
     </style>
 
@@ -1049,7 +1061,7 @@
                 $('div.getSchedulel').remove();
                 $('div.wrap').remove();
                 if ($(this).parent().children().hasClass('getSchedulel')) {
-                    alert('^0^');
+                    //alert('^0^');
                     $('div.getSchedulel').remove();
                 } else {
 
@@ -1059,7 +1071,7 @@
 					
                     var userId = $('input[name="userId"]').val();
                     var postNo = $(this).find('input.postNo').val();
-                    alert('postNo : ' + postNo);
+                    //alert('postNo : ' + postNo);
                     var getScheduleModal = '';
                     $.ajax({
                     	url: '/couple/rest/getSchedule/' + userId + '/' + postNo,
@@ -1128,6 +1140,8 @@
                             '</div>' +
                             '</div>';
                             
+                            
+                            
                             //alert('getScheduleModal : ' + getScheduleModal);
                             
                     		
@@ -1138,17 +1152,42 @@
                             
                             
                             $('a.' + postNo).parent().append(getSchedule);
-                            if ($('a.' + postNo).parent().parent().index() == 0 || $('a.' + postNo).parent().parent().index() == 1 || $('a.' + postNo).parent().parent().index() == 2) {
-                                $('div.getSchedule').css({
-                                    'right': '-460px'
-                                });
-                            } else {
-                                $('div.getSchedule').css({
-                                    'left': '-460px'
-                                });
+                            
+                            
+                            //alert(place);
+                            if(place == null) {
+                            	//alert('place null임ㅋㅋ');
+                            	$('div.getSchedule div.getScheduleMain > div.place').addClass('on');
+                            }
+                            if(postContent == null) {
+                            	alert('place null임ㅋㅋ');
+                            	$('div.getSchedule div.getScheduleMain > div.postContent').addClass('on');
                             }
                             
-                            alert($('a.' + postNo).parent().parent().parent().index());
+                            
+                            if ($('a.' + postNo).parent().parent().index() == 0 || $('a.' + postNo).parent().parent().index() == 1 || $('a.' + postNo).parent().parent().index() == 2) {
+                            	$('div.getSchedule').css({
+                                    'left': '300px'
+                                });
+                                setTimeout(function() {
+                                	$('div.getSchedule').css({
+                                        'left': '320px',
+                                        'opacity' : 1
+                                    });
+                                }, 10);
+                            } else {
+                            	$('div.getSchedule').css({
+                                    'left': '-200px'
+                                });
+                                setTimeout(function() {
+                                	$('div.getSchedule').css({
+                                        'left': '-220px',
+                                        'opacity' : 1
+                                    });
+                                }, 10);
+                            }
+                            
+                            //alert($('a.' + postNo).parent().parent().parent().index());
                             if($('a.' + postNo).parent().parent().parent().index() == 6) {
                             	$('div.getSchedule').css({
                             		'transform' : 'translateY(-100%)'
@@ -1164,7 +1203,7 @@
                                 if ($('html').find('div').hasClass('getSchedule')) {
                                     if (!$(e.target).hasClass("getSchedule")) {
                                     	e.stopPropagation();
-                                        alert('영역 밖입니다.');
+                                        //alert('영역 밖입니다.');
                                         $('div.getSchedule').remove();
                                         $('div.wrap').remove();
 
