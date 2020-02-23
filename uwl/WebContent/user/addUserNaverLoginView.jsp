@@ -486,7 +486,7 @@
     
 		    
 		  //==>"Nickname 중복확인" Event 처리 및 연결
-		/*     var checkNick = false;
+		     var checkNick = false;
 		    // 체크하여 가입버튼 비활성화, 중복확인.
 		    function checkDuplicationNickname() {
 		        var inputed = $('#nickname').val();
@@ -527,7 +527,7 @@
 		            	alert("실패");
 		            }
 		        });
-		    } */		
+		    } 		
 		    
 		    
 		    
@@ -898,7 +898,8 @@ $(function() {
             <div class="loginForm">
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>아이디</p>
-                    <p><input type="text" name="userId" id="userId" oninput="checkDuplicationUserId()" value="${naver.userId }"></p>
+                    <p><input type="text" name="userId" id="userId" oninput="checkDuplicationUserId()" disabled value="${naver.userId }">
+                    <input type="hidden" name="userId" value="${naver.userId }"></p>
                 </div>
                 <div class="password">
                     <p><i class="fas fa-star-of-life"></i>비밀번호</p>
@@ -910,7 +911,8 @@ $(function() {
                 </div>
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>이름</p>
-                    <p><input type="text" name="name" id="name"  value="${naver.name }" ></p>
+                    <p><input type="text" name="name" id="name" disabled value="${naver.name }" >
+                    <input type="hidden" name="name" value="${naver.name }"></p>
                 </div>
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>닉네임</p>
@@ -946,7 +948,8 @@ $(function() {
 	                </p>
                 <div class="id">
                     <p><i class="fas fa-star-of-life"></i>이메일</p>
-                    <p><input type="text" id="mail" name="mail"  oninput="checkDuplicationMail()" value="${naver.mail }"></p>
+                    <p><input type="text" id="mail" name="mail" disabled oninput="checkDuplicationMail()" value="${naver.mail }">
+                    <input type="hidden" name="mail" value="${naver.mail }"></p>
                    <!--  <p><input type="text" id="confirmNo" name="confirmNo" placeholder="인증번호"></p>
                     <h6></h6>
                     <p><a href="#" id="sendMail">메일전송</a></p>

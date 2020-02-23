@@ -11,6 +11,7 @@
 	var postNo = null;
 	var targetUserId = "${targetUserId}";
 	var sessionId = "${user.userId}";
+	var sessionUserName = "${user.name}";
 	
 	$(document).on("click", "button#addTimeline", function() {
 		var timelinePostContent =$(".timelinePostContent").val();
@@ -106,6 +107,10 @@
 				},
 				data : JSON.stringify({commentContent : content, userId : sessionId, postNo : postNo}),
 				success : function(d) {
+					socketMsg = sessionId + "," + targetUserId + "," + sessionUserName + "," + "3,1";
+	                wsocket.send(socketMsg);
+	                addNoti(sessionId, targetUserId, "3", "1");
+					
 					var html ="<div class='c"+d.commentNo+"'>"
 							+"<hr/><div class='commentPtag'><img src='/images/"+d.user.profileName+"' class='commentProfileName'>"
 							+"<p class='commentUserName'>"+d.user.name+"</p> &nbsp; <p class='commentUserContent cc"+d.commentNo+"'>" + d.commentContent+"</p>"
