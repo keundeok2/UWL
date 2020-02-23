@@ -21,6 +21,8 @@ import com.uwl.service.domain.Item;
 import com.uwl.service.domain.Matching;
 import com.uwl.service.domain.User;
 import com.uwl.service.matching.MatchingService;
+import com.uwl.service.user.UserService;
+import com.uwl.web.user.UserRestController;
 
 @RestController
 @RequestMapping("/matching/*")
@@ -33,6 +35,12 @@ public class MatchingRestController {
 		
 	}
 	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
+	
+	
+	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 	
@@ -42,15 +50,22 @@ public class MatchingRestController {
 	@RequestMapping(value = "rest/addMatching2/{userId}/{secondUserId}")
 	public Map addMatching2(@PathVariable String userId, @PathVariable String secondUserId) throws Exception {
 		System.out.println("rest/addMatching2/{userId}/{secondUserId} 시작");
+		User user = userService.getUser(secondUserId);
+		String secondUserName = user.getName();
 		Map<String, Object> map = new HashMap();
 		if(matchingService.getMatching(userId) == null) {
 			map.put("userId", userId);
 			map.put("secondUserId", secondUserId);
+			map.put("secondUserName", secondUserName);
 		} else {
 			map.put("userId", userId);
 			Matching matching = matchingService.getMatching(userId);
 			String secondUserId2 = matching.getSecondUserId();
+			User user2 = userService.getUser(secondUserId2);
+			String secondUserName2 = user2.getName();
 			map.put("secondUserId", secondUserId2);
+			map.put("secondUserName", secondUserName2);
+			
 		}
 		System.out.println("rest/addMatching2/{userId}/{secondUserId} 끝");
 		return map;
@@ -59,9 +74,12 @@ public class MatchingRestController {
 	@RequestMapping(value = "rest/deleteMatching/{userId}/{secondUserId}")
 	public Map deleteMatching(@PathVariable String userId, @PathVariable String secondUserId) throws Exception {
 		System.out.println("rest/deleteMatching/{userId}/{secondUserId} 시작");
+		User user = userService.getUser(secondUserId);
+		String secondUserName = user.getName();
 		Map<String, Object> map = new HashMap();
 		map.put("userId", userId);
 		map.put("secondUserId", secondUserId);
+		map.put("secondUserName", secondUserName);
 		System.out.println("rest/deleteMatching/{userId}/{secondUserId} 끝");
 		return map;
 	}
@@ -69,10 +87,13 @@ public class MatchingRestController {
 	@RequestMapping(value = "rest/updateItem/{userId}/{secondUserId}")
 	public Map updateItem(@PathVariable String userId, @PathVariable String secondUserId) throws Exception {
 		System.out.println("rest/updateItem/{userId}/{secondUserId} 시작");
+		User user = userService.getUser(secondUserId);
+		String secondUserName = user.getName();
 		Map<String, Object> map = new HashMap();
 		if(matchingService.getItem(userId, "1") != null) {
 			map.put("userId", userId);
 			map.put("secondUserId", secondUserId);
+			map.put("secondUserName", secondUserName);
 			map.put("result", true);
 		} else {
 			map.put("result", false);
@@ -169,6 +190,8 @@ public class MatchingRestController {
 	@RequestMapping(value = "rest/updateItem3/{userId}/{secondUserId}")
 	public Map updateItem3(@PathVariable String userId, @PathVariable String secondUserId) throws Exception {
 		System.out.println("rest/updateItem3/{userId}/{secondUserId} 시작");
+		User user = userService.getUser(secondUserId);
+		String secondUserName = user.getName();
 		
 		
 		
@@ -218,7 +241,7 @@ public class MatchingRestController {
 			matchingService.updateItem(item2);
 			map.put("useResult", "3");
 		}
-		
+		map.put("secondUserName", secondUserName);
 		System.out.println("rest/updateItem3/{userId}/{secondUserId} 끝");
 		return map;
 	}

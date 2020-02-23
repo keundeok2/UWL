@@ -25,7 +25,7 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
 	// Connection 연결 되었을 때 => Client가 서버에 접속했을 때 실행
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-//		System.out.println("afterConnectionEstablished : " + session);
+		System.out.println("afterConnectionEstablished : " + session);
 //		sessions.add(session);
 		String senderId = getId(session);
 		userSessions.put(senderId, session);
@@ -34,7 +34,7 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
 	// Socket에 Message를 보냈을 때 실행
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-//		System.out.println("handleTextMessage  : " + session + "   :   " + message);
+		System.out.println("handleTextMessage  : " + session + "   :   " + message);
 		String senderId = getId(session);
 
 //		protocol : sender, receiver, notiOrigin, notiCode 
@@ -51,8 +51,8 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
 
 				WebSocketSession receiverSession = userSessions.get(receiver);
 				WebSocketSession senderSession = userSessions.get(sender);
-//				System.out.println("receiver : " + receiverSession.getId() + "\t sender : " + senderSession.getId());
-//				System.out.println(receiverSession.equals(senderSession));
+				System.out.println("receiver : " + receiverSession.getId() + "\t sender : " + senderSession.getId());
+				System.out.println(receiverSession.equals(senderSession));
 				
 				//	자신에게 메시지 보내지 않기 위한 조건문
 				if (!receiverSession.equals(senderSession)) {
@@ -110,7 +110,7 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
 		// WebSocketSesssion에 있는 httpSession을 Map에 저장
 		Map<String, Object> httpSession = session.getAttributes();
 		User loginUser = (User) httpSession.get("user");
-//		System.out.println("user : " + loginUser);
+		System.out.println("user : " + loginUser);
 		if (loginUser == null) {
 			// Login이 안된 유저는 WebSocekt Session Id로 저장
 			return session.getId();

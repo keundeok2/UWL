@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.uwl.common.Search;
 import com.uwl.service.domain.Ask;
+import com.uwl.service.domain.Item;
 import com.uwl.service.domain.Notification;
 import com.uwl.service.domain.Post;
 
@@ -44,4 +45,6 @@ public interface SocialDAO {
 	public void deleteNoti(int notiNo) throws Exception;
 	
 	public void deleteNotiAll(String userId) throws Exception;
+	
+	public void addDefaultItem(Item item) throws Exception;
 }

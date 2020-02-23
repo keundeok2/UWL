@@ -51,6 +51,7 @@ public class PostServiceImpl implements PostService{
 		Map<String, Object> map = new HashMap<String , Object>();
 		map.put("list", list);
 		map.put("totalCount", new Integer(totalCount));
+		System.out.println("서비스임쁠탄다");
 		return map;
 	}
 

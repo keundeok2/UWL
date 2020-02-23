@@ -252,5 +252,14 @@
 		) countTable
 	</select>
 	
+	<insert id="addDefaultItem" parameterType="item">
+		insert
+ 		into item(item_no, first_user_id, item_category, item_default)
+ 		values(seq_item_item_no.nextval,
+ 		#{firstUserId:VARCHAR},
+ 		#{itemCategory:VARCHAR},
+ 		1)	
+	</insert>
+	
 	
 </mapper>

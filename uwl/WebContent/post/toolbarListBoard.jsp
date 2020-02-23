@@ -359,12 +359,13 @@
 	    
 	  //=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
+			var gatherCategoryNo = ${gatherCategoryNo};
 			$("#currentPage").val(currentPage)
 			$("form").attr("method","POST").attr("action","/post/listBoard").submit();
 		}
 		
 		
-		//============= "검색"  Event  처리 =============	
+		//============= "검색"  Event  처리 =============	이 위에꺼
 		 $(function() {
 			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 
@@ -526,7 +527,7 @@
                         <c:if test="${gatherCategoryNo eq '206' }">
                             <h1><i class="fas fa-bullhorn"></i> 대나무 숲</h1>
                         </c:if>
-                        <input type="hidden" class="gatherCategoryNo" name="gatherCategoryNo" value="" id="gatherCategoryNo">
+                        <input type="hidden" class="gatherCategoryNo" name="gatherCategoryNo" value="${gatherCategoryNo }" id="gatherCategoryNo">
                         <input type="hidden" class="postChallenge" name="postChallenge" value="2" id="postChallenge">
                     </div>
                     <div class="right2">
@@ -552,7 +553,7 @@
                 </div>
 
                 <div class="postList">
-
+					
                     <c:forEach var="post" items="${list }">
                         <div class="post">
                             <a href="#">
@@ -566,22 +567,22 @@
                                             <p>${post.user.nickname }</p>
                                         </div>
                                         <div class="postCategory">
-                                            <c:if test="${gatherCategoryNo eq '201' }">
+                                            <c:if test="${post.gatherCategoryNo eq '201' }">
                                                 <i class="fas fa-graduation-cap"></i> 진학상담
                                             </c:if>
-                                            <c:if test="${gatherCategoryNo eq '202' }">
+                                            <c:if test="${post.gatherCategoryNo eq '202' }">
                                                 <i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i>
                                             </c:if>
-                                            <c:if test="${gatherCategoryNo eq '203' }">
+                                            <c:if test="${post.gatherCategoryNo eq '203' }">
                                                 <i class="fas fa-male"></i> 남자끼리
                                             </c:if>
-                                            <c:if test="${gatherCategoryNo eq '204' }">
+                                            <c:if test="${post.gatherCategoryNo eq '204' }">
                                                 <i class="fas fa-female"></i> 여자끼리
                                             </c:if>
-                                            <c:if test="${gatherCategoryNo eq '205' }">
+                                            <c:if test="${post.gatherCategoryNo eq '205' }">
                                                 <i class="far fa-kiss-wink-heart"></i>데이트 자랑
                                             </c:if>
-                                            <c:if test="${gatherCategoryNo eq '206' }">
+                                            <c:if test="${post.gatherCategoryNo eq '206' }">
                                                 <i class="fas fa-bullhorn"></i> 대나무 숲
                                             </c:if>
                                             <p>${post.postDate }</p>
@@ -597,6 +598,7 @@
                                     </div>
                                 </div>
                                 <input type="hidden" class="postNo" value="${post.postNo }">
+                                
                             </a>
                         </div>
                     </c:forEach>
@@ -611,16 +613,15 @@
 				  
 				<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-				  
 			</div>
 				<!-- PageNavigation End... -->
 				
         </form>
         
         
-        <form class="nav">
-        <!--  페이징처리 ??  -->
-        </form>
+<!--         <form class="nav">
+         페이징처리 ?? 
+        </form> -->
         
         </ul>
     </div>
