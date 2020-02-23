@@ -44,9 +44,9 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
 		success : function() {
 			$("textarea").val("");
 			//socket push
-			socketMsg = sessionId + "," + targetUserId +"," + sessionName +"," + "ask,add";
-			console.log(socketMsg)
-			socket.send(socketMsg);
+			socketMsg = sessionId + "," + targetUserId + "," + sessionUserName + "," + "2,5";
+            wsocket.send(socketMsg);
+            addNoti(sessionId, targetUserId, "2", "5");
 		}
 	});
 

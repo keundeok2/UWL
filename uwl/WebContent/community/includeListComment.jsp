@@ -52,7 +52,7 @@
 	    </style>
 	    
 	    <script type="text/javascript">
-	    	
+	    
 	    	var postNo = null;
 	    	var commentContent = null;
 	    	var commentNo = null;
@@ -64,9 +64,15 @@
 	    	var result = null;	//첫 댓글수 값은 가져올 수 있어서 좋아요 누를 시 여기서 +1
 	    
 	    	$(document).ready(function(){	//댓글 등록
+	    		var sessionUserId = "${user.userId}";
+				var sessionUserName = "${user.name}";
+				var sessionUserNickname = "${user.nickname}";
+				var postUserId = "${post.userId}";
 	    		
 	    		$('#addComment').on("click", function(){
-	    			postNo = ${post.postNo}
+	    			postNo = ${post.postNo};
+	    			console.log("postUserId", postUserId);
+	    			console.log("sessionUserId", sessionUserId);
 	    			commentContent = $('#commentContent').val();
 	    			if(commentContent == '' || commentContent == null){
 		    			Swal.fire({
@@ -77,6 +83,11 @@
 		  				});
 		    			return 0;
 	    			}
+	    			
+	    			socketMsg = sessionUserId + "," + postUserId + "," + sessionUserNickname + "," + "1,1";
+	    			wsocket.send(socketMsg);
+	                addNoti(sessionUserId, postUserId, "1", "1", postNo);
+	                
 	    			$.ajax({
 	    				url : "/community/rest/addComment",
 	    				method : "POST",
@@ -90,6 +101,7 @@
 		    				"content-Type" : "application/json"
 		    			},
 	    				success : function(data){
+	    					
 	    					
 	    					setTimeout(function() {
 	    			    		myScroll.refresh();
