@@ -20,6 +20,26 @@
     <script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
     <title>Document</title>
     <script type="text/javascript">
+	    var myScroll = null;
+	    
+	    $(function() {
+	    	
+	        myScroll = new IScroll('#wrapper', {
+	            mouseWheel: true,
+	            scrollbars: true
+	        });
+	        
+	        setTimeout(function() {
+	    		myScroll.refresh();
+	    	}, 0);
+	    });
+    	
+	    function fncGetList(currentPage) {
+            $("#currentPage").val(currentPage);
+            $("form").attr("method", "POST").attr("action", "/purchase/getPurchaseList").submit();
+        }
+    
+    
         $(document).on("click", "#refundBtn", function() {
             var importId = $(this).val();
             var purchaseNo = $(this).next().val();
@@ -172,7 +192,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -181,31 +201,35 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
-            overflow: hidden;
-            overflow-y: scroll;
-
+            
+            position: relative;
+			
         }
 
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
         }
+        
+        
     </style>
 </head>
 
@@ -214,11 +238,16 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
-            <div>
-                <div class="page-header text-info">
-                    <h2>아이템 구매내역</h2>
+        <div class="work2" id="wrapper">
+        <ul>
+            <div class="container">
+                <div class="page-header text-center">
+					<h3 style="color: #2C3E50">나의 구매내역</h3>
+					<h4>
+						<label for="Choose Report" style="color: #E74C3C">Choose Report</label>
+					</h4>
                 </div>
+                <br/>
                 <table class="table table-hover">
 
                     <thead>
@@ -257,14 +286,16 @@
                                 <td align="left" id="${p.purchaseNo}">
                                     <c:if test="${p.refundOption == 1}">
                                         <c:if test="${today_N-purchaseDate_N<8}">
+                                        	<c:if test="${empty p.item.secondUserId }">
                                             <button class="btn btn-outline-primary ${p.purchaseNo} btn-sm" id="refundBtn" value="${p.importId}">환불하기</button>
+                                        	</c:if>
                                         </c:if>
+                                        <c:if test="${!empty p.item.secondUserId || today_N-purchaseDate_N>=8}">
+	                                        <button class="btn btn-outline-danger btn-sm">환불불가</button>
+	                                    </c:if>
                                     </c:if>
                                     <c:if test="${p.refundOption == 2 }">
                                         <button class="btn btn-outline-secondary btn-sm">환불완료</button>
-                                    </c:if>
-                                    <c:if test="${p.refundOption == 3 || today_N-purchaseDate_N>=8}">
-                                        <button class="btn btn-outline-danger btn-sm">환불불가</button>
                                     </c:if>
                                     <input type="hidden" value="${p.purchaseNo}" />
                                     <input type="hidden" value="${p.paymentOption}">
@@ -274,7 +305,12 @@
                         </c:forEach>
                     </tbody>
                 </table>
+            <form>
+            <input type="hidden" id="currentPage" name="currentPage" value="" />
+            <jsp:include page="../common/pageNavigator_new.jsp" />
+            </form>
             </div>
+            </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
