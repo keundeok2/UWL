@@ -323,18 +323,6 @@
 		 $( test ).appendTo("#reward");  */
 
             $('#challCategory').on("change", function() {
-            	
-            	$("select#detailCategory option").remove();
-            	
-            	if ($(this).val() != 3) {
-					setTimeout(function(){
-						//alert("카테고리 번호가 3이 아닐때 #postCommentComplete 제거 조건")
-						console.log("카테고리 번호가 3이 아닐때 #postCommentComplete 제거 조건")
-	                    console.log("if문에 들어왔습니다.");
-	                    $("#postCommentComplete").remove();
-						}, 17);
-                } 
-            	 
                 console.log($(this).val())
                 var detailCategory = $(this).val();
                 var complete = null;
@@ -355,17 +343,36 @@
     					//alert("여기 성공임 ㅋㅋ");
     					
     					var detailSelect = null;
-    					var challCategory = null;
-    					var detailCategory = null;
     					var detailView = null;
-    					var startView = "세부카테고리";
+    					var challCategory = ${challenge.challCategory};
+    					var detailCategory = ${challenge.detailCategory};
     					
-    					//alert(challCategory + detailCategory + startView);
+    					//update시 처음 view되는것 
+    					//var updateDetailCategory = ${challenge.detailCategory};
+    					//var updateDetailView = null;
+						
+    					//해당 카테고리에 해당하면 view를 바꿔줌 
+    					if (detailCategory == '201') {
+    						detailView = '진학상담';
+						}else if(detailCategory == '202') {
+							detailView = '사랑과이별';
+						}else if(detailCategory == '203') {
+							detailView = '남자끼리';
+						}else if(detailCategory == '204') {
+							detailView = '여자끼리';
+						}else if(detailCategory == '205') {
+							detailView = '데이트자랑';
+						}else if(detailCategory == '206') {
+							detailView = '대나무숲';
+						}else if(detailCategory == '댓글') {
+							detailView = '댓글';
+						}
+    					
     					
     					var appendDetail = null;
     					
-    					//세부카테고리 ==> update는 처음 선택한거를 보여주게 만들기
-    					var	startSelect = "<option selected=''>" + startView + "</option>"
+    					var	startSelect = "<select class='custom-select col-2' name='detailCategory' id='detailCategory'>"
+											+ "<option value='" + detailCategory + "' selected>" + detailView + "</option>";
     					
     					
     					for (var i = 0; i < data.length; i++) {
@@ -379,7 +386,7 @@
 		    					//해당 카테고리에 해당하면 view를 바꿔줌 
 		    					if (detailCategory == '201') {
 		    						detailView = '진학상담';
-			    					//appendDetail = "<option value=" + detailCategory  + ">" +  detailView +"</option>";
+			    					appendDetail = "<option value=" + detailCategory  + ">" +  detailView +"</option>";
 								}else if(detailCategory == '202') {
 									detailView = '사랑과이별';
 								}else if(detailCategory == '203') {
@@ -403,25 +410,8 @@
 						} //end of for 
 						
 						//긁어온 정보를 최종 append
-						//startSelect += "</select>";
-   					 	$("#detailCategory").append(startSelect);
-   					 	
-   					 if (challCategory == '3') {
- 						setTimeout(function(){
- 		                    complete = "<div class='input-group col-6' id='postCommentComplete'>" +
- 		                        "<div class='input-group-prepend'>" +
- 		                        "<span class='input-group-text' style='width: 35px; height: 38px;'><i class='fas fa-trophy'></i></span>" +
- 		                        "</div>" +
- 		                        "<input type='text' class='form-control' name='postCommentComplete' placeholder='완성조건'>" +
- 		                        "<div class='input-group-append'>" +
- 		                        "<span class='input-group-text' style='width: 35px; height:38px;'>회</span>" +
- 		                        "</div>" +
- 		                        "</div>"
- 		                    console.log("if문에 들어왔습니다.");
- 		
- 		                    $("#changeReward").append(complete);
- 							}, 17);
- 		                }
+						startSelect += "</select>";
+   					 	$("#reward").append(startSelect);
    					 	
    					 	
    					}
@@ -429,8 +419,7 @@
     				
     			}); //end of ajax
     			
-   				 //$("#detailCategory").remove();
-   				
+   				 $("#detailCategory").remove();
     			
     			//클릭하면 생기는 걸 update는 업데이트할 떄 가져오는걸로 
    				/*  setTimeout(function(){
@@ -447,10 +436,35 @@
             		$("#reward").append(challReward);
    				 }, 15) */
    				 
- 				$("#challReward").remove();
+   				 	 $("#challReward").remove();
                 
+	                /*  if ($(this).val() == 3) {
+						setTimeout(function(){
+		                    complete = "<div class='input-group col-3' id='postCommentComplete'>" +
+		                        "<div class='input-group-prepend'>" +
+		                        "<span class='input-group-text' style='width: 35px;'><i class='fas fa-trophy'></i></span>" +
+		                        "</div>" +
+		                        "<input type='text' class='form-control' name='postCommentComplete' value='" + ${challenge.postCommentComplete} + "'>" +
+		                        "<div class='input-group-append'>" +
+		                        "<span class='input-group-text' style='width: 35px'>회</span>" +
+		                        "</div>" +
+		                        "</div>"
+		                    console.log("if문에 들어왔습니다.");
+		
+		                    $("#reward").append(complete);
+							}, 17);
+		                } else {
+		                    console.log("else if문에 들어왔습니다.");
+		                    $("#postCommentComplete").remove();
+		                } //end of if */ 
 		                
-	                 
+	                 if ($(this).val() != 3) {
+						setTimeout(function(){
+							alert("카테고리 번호가 3이 아닐때 #postCommentComplete 제거 조건")
+		                    console.log("if문에 들어왔습니다.");
+		                    $("#postCommentComplete").remove();
+							}, 17);
+		                } 
                 
             });
 
@@ -623,31 +637,9 @@
                             
                             <!-- 여기다가 세부카테고리 넣을것. -->
                              <select class="custom-select col-2" name="detailCategory" id="detailCategory">
-						        <!-- 선택된 정보를 view해줌 -->
-						        <option selected="${challenge.detailCategory}">
-						       		<c:if test="${challenge.detailCategory == '201'}">
-						       			진학상담
-						       		</c:if>
-						       		<c:if test="${challenge.detailCategory == '202'}">
-						       			사랑과이별
-						       		</c:if>
-						       		<c:if test="${challenge.detailCategory == '203'}">
-						       			남자끼리
-						       		</c:if>
-						       		<c:if test="${challenge.detailCategory == '204'}">
-						       			여자끼리
-						       		</c:if>
-						       		<c:if test="${challenge.detailCategory == '205'}">
-						       			데이트자랑
-						       		</c:if>
-						       		<c:if test="${challenge.detailCategory == '206'}">
-						       			대나무숲
-						       		</c:if>
-						       		<c:if test="${challenge.detailCategory == '댓글'}">
-						       			댓글
-						       		</c:if>
-						       		${challenge.detailCategory}
-						        </option>
+						        <option selected="">세부카테고리</option>
+						        <option value="happy">happy</option>
+						        <option value="bag">bag</option>
 						    </select>
                             <!--  <div class="row col-3">
                             	<div class="input-group">
@@ -664,7 +656,7 @@
                             
                             <!-- 여기서 구분 -->
                             
-                            <div class="row col-6" id="changeReward">
+                            <div class="row col-6">
 	                             <!-- 보상점수 -->
 	                            <div class="input-group col-5">
 	                                <div class="input-group-prepend">
