@@ -87,6 +87,12 @@ public class RewardServiceImpl implements RewardService{
 	public Reward getTotalPoint(String userId) throws Exception {
 		return rewardDAO.getTotalPoint(userId);
 	}
+	
+	@Override
+	public Reward getTheLatestTotalPoint(String userId) throws Exception {
+		return rewardDAO.getTheLatestTotalPoint(userId);
+	}
+
 
 	@Override
 	public void increasePoint(Reward reward) throws Exception {
@@ -94,13 +100,13 @@ public class RewardServiceImpl implements RewardService{
 	}
 
 
-
-
 	@Override
 	public void decreasePoint(Purchase purchase) throws Exception {
 		rewardDAO.decreasePoint(purchase);
 	}
 
+
+	
 
 	
 

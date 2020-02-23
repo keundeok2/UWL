@@ -246,8 +246,6 @@
                         <ul>
                             <li class="on"><a href="#"><i class="fas fa-coins"></i> 포인트 적립내역</a></li>
                             <li><a href="#"><i class="fas fa-credit-card"></i> 포인트 사용내역</a></li>
-                            <li><a href="#"> <i class="fas fa-won-sign"></i> 구매내역</a></li>
-                           
                         </ul>
                     </div>
 
@@ -263,14 +261,24 @@
                                 <br>
                                 <h4 class="total" align="right">
                                     <i class="fas fa-coins"></i>
-                                    <fmt:formatNumber value="${reward.recentlyTotalPoint}" pattern="#,###,###" /> 점
+                                     <c:if test="${totalPointReward eq null}">
+                                     	0 점
+                                     </c:if>
+                                     <c:if test="${totalPointReward ne null}">
+                                    	<fmt:formatNumber value="${totalPointReward.recentlyTotalPoint}" pattern="#,###,###" /> 점
+                                     </c:if>
 
                                 </h4>
                             </div>
                             <div class="col-4">
                                 <br>
                                 <h4 class="total" align="right"><i class="fas fa-running" style="color: #28aa10;"></i>
-                                    <fmt:formatNumber value="${reward.recentlyTotalActivityPoint}" pattern="#,###,###" /> 점
+                                	<c:if test="${totalPointReward eq null}">
+                                     	0 점
+                                     </c:if>
+                                     <c:if test="${totalPointReward ne null}">
+                                  	  <fmt:formatNumber value="${totalPointReward.recentlyTotalActivityPoint}" pattern="#,###,###" /> 점
+                                     </c:if>
                                 </h4>
                             </div>
                         </div>
@@ -278,7 +286,7 @@
 
 
                         <!-- 총 포인트가 0이라면 보이는 것 -->
-                        <c:if test="${reward.recentlyTotalPoint eq 0}">
+                        <c:if test="${totalPointReward eq null}">
                             <div class="row">
                                 <div class="col-sm-8" style="text-align: center;">
                                     <h3>적립한 내용이 없습니다.</h3>
@@ -287,7 +295,7 @@
                         </c:if>
 
                         <!-- 토탈포인트가 0이 아니라면 작동 -->
-                        <c:if test="${reward.recentlyTotalPoint ne 0}">
+                        <c:if test="${totalPointReward ne null}">
                             <div class="row">
                                 <c:forEach var="reward" items="${list}">
                                     <div class="col-sm-10">
@@ -319,7 +327,7 @@
                                                         </font>
                                                     </i>
                                                     <i class="fas fa-piggy-bank col-sm-5" style="font-size: 25px;">
-                                                        <font size="4px" ; color="black" ;>
+                                                        <font size="4px" ; color="black" ;>총:  
                                                             <fmt:formatNumber value="${reward.totalPoint}" pattern="#,###,###" />
 
                                                         </font>
@@ -352,28 +360,41 @@
                                 <br>
                                 <h4 class="total" align="right">
                                     <i class="fas fa-coins"></i>
-                                    <fmt:formatNumber value="${reward.recentlyTotalPoint}" pattern="#,###,###" /> 점
+                                     <c:if test="${totalPointReward eq null}">
+                                     	0 점
+                                     </c:if>
+                                     <c:if test="${totalPointReward ne null}">
+                                  	  <fmt:formatNumber value="${totalPointReward.recentlyTotalPoint}" pattern="#,###,###" /> 점
+                                     </c:if>
 
                                 </h4>
                             </div>
                             <div class="col-4">
                                 <br>
                                 <h4 class="total" align="right"><i class="fas fa-running" style="color: #28aa10;"></i>
-                                    <fmt:formatNumber value="${reward.recentlyTotalActivityPoint}" pattern="#,###,###" /> 점
+                                	 <c:if test="${totalPointReward eq null}">
+                                     	0 점
+                                     </c:if>
+                                     <c:if test="${totalPointReward ne null}">
+                                 	   <fmt:formatNumber value="${totalPointReward.recentlyTotalActivityPoint}" pattern="#,###,###" /> 점
+                                     </c:if>
                                 </h4>
                             </div>
                         </div>
                         <br>
                         
-                        <!-- 총 포인트가 0이라면 보이는 것 -->
-                        <c:if test="${reward.recentlyTotalActivityPoint eq 0}">
+                        
+                        <!-- 구매한게 아무것도 없다면 -->
+                        <c:if test="${purchaseList eq '[]'}">
                             <div class="row">
                                 <div class="col-sm-8" style="text-align: center;">
                                     <h3>적립한 내용이 없습니다.</h3>
                                 </div>
                             </div>
                         </c:if>
-
+						
+						 <!-- 토탈포인트가 0이 아니라면 작동 -->
+                      <%--   <c:if test="${totalPointReward ne null}"> --%>
                         <div class="row">
                             <c:forEach var="purchase" items="${purchaseList}">
                                 <div class="col-sm-10">
@@ -416,7 +437,8 @@
                                     <br>
                                 </div> <!-- end of card -->
                             </c:forEach>
-                        </div>
+                        </div> <!-- end of class row -->
+                       <%--  </c:if> --%>
                     </div>
 
                     <div class="publicStatus">

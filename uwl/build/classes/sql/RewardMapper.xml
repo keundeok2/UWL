@@ -42,6 +42,7 @@
 						r.purchase_no,
 						r.user_id,
 						r.variable_date,
+						r.variable_activity_point,
 						r.total_activity_point,
 						r.total_point
 			FROM challenge c, reward r 
@@ -59,7 +60,9 @@
 												r.purchase_no ,
 												p.item_category,
 												r.variable_point,
+												r.variable_activity_point,
 												r.total_point,
+												r.total_activity_point,
 												r.variable_date,
 												ranking.ranking_point
 											   FROM purchase p, reward r, (SELECT sum(variable_point) ranking_point
@@ -72,9 +75,22 @@
 	 
 	 <!-- 프로필에 쓸 토탈포인트 조회 -->
 	 <select  id="getTotalPoint"  parameterType="String"	resultMap="rewardSelectMap">
-	  	SELECT sum(variable_point) recently_total_point, 
+	  	SELECT 
+	  			user_id,
+	  			sum(variable_point) recently_total_point, 
 				sum(variable_activity_point) recently_total_activity_point 
 		FROM reward WHERE user_id= #{value}
+		GROUP BY user_id
+	 </select>
+	 
+	 <!-- 프로필에 쓸 토탈포인트 조회 -->
+	 <select  id="getTheLatestTotalPoint"  parameterType="String"	resultMap="rewardSelectMap">
+	  	SELECT the_latest.total_point,
+				the_latest.total_activity_point
+		FROM (SELECT total_point,
+					total_activity_point 
+			FROM reward WHERE user_id = #{userId} ORDER BY reward_no DESC) the_latest
+		WHERE ROWNUM = 1
 	 </select>
 	 
 	 <!-- Reward -->
@@ -97,7 +113,6 @@
 							<if test="totalActivityPoint == 0">
 								#{challenge.challReward},
 								#{challenge.challReward},
-								
 							</if>
 							<if test="totalActivityPoint != 0">
 								(SELECT the_latest.total_point  FROM (SELECT total_point  FROM reward WHERE user_id = #{userId} ORDER BY reward_no DESC) the_latest
@@ -105,7 +120,6 @@
 								(SELECT the_latest.total_activity_point  FROM (SELECT total_activity_point  FROM reward WHERE user_id = #{userId} ORDER BY reward_no DESC) the_latest
 								WHERE ROWNUM = 1) + #{challenge.challReward},
 							</if>
-							
 							SYSDATE)
 	
 	 </insert>
