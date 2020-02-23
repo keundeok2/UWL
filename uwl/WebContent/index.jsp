@@ -352,6 +352,26 @@
 
     </style>
     <script type="text/javascript">
+    	
+	$(function() {
+		var wrongPw = "${wrongPw}";
+		console.log("wrongPw", wrongPw)
+		
+		if (wrongPw) {
+			Swal.fire({
+                icon: 'error',
+                title: '비밀번호가 틀렸습니다.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                confirmButtonColor: '#FF0000'
+            }).then((result) => {
+                delete reportDate;
+                delete reportStatus;
+            });
+		}
+	});
+    
+    
         $(document).ready(function() {
             $('#login').on("click", function() {
                 /*	var userId = $('#userId').val();
@@ -486,7 +506,7 @@
                     </div>
                     <div>
                         <a href="/user/addUser" id="addUser">가입하기</a>
-                        <a href="login.jsp" id="login2">로그인</a>
+                        <a href="/user/login" id="login2">로그인</a>
                     </div>
                 </div>
             </div>

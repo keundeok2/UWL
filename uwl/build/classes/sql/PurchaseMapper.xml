@@ -36,6 +36,7 @@
 						FROM purchase p, item i
 						WHERE user_id = #{userId}
 						AND p.item_no = i.item_no
+						ORDER BY p.purchase_no DESC
 				) inner_table 
 				WHERE ROWNUM &lt; = #{search.endRowNum} ) 
 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
@@ -45,16 +46,7 @@
  		SELECT COUNT(*)
 		FROM (
 				SELECT * FROM purchase  
-						WHERE user_id = #{userId} 
-								<if test="search.searchCondition == 1">
-									AND item_category = #{search.searchKeyword}
-								</if>
-								<if test="search.searchCondition != 2">
-									AND refund_option = '1'
-								</if>
-								<if test="search.searchCondition == 2">
-									AND refund_option = '2'
-								</if>
+				WHERE user_id = #{userId} 
 		) countTable
  	</select>
  	
@@ -62,12 +54,6 @@
  		UPDATE purchase
 		SET refund_option = '2'
 		WHERE purchase_no = #{value}
- 	</update>
- 	
- 	<update id="updateRefundOptionByItemNo" parameterType="int">
- 		UPDATE purchase
-		SET refund_option = '3'
-		WHERE item_no = #{value}
  	</update>
  	
  	<delete id="deletePoint" parameterType="int">
