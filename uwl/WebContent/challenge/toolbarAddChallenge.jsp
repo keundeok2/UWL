@@ -446,11 +446,11 @@
    				 setTimeout(function(){
 	    			challReward = "<div class='input-group col-3' id='challReward'>"
 	                     		+	"<div class='input-group-prepend'>"
-	                       		+  "<span class='input-group-text' style='width: 35px;'><i class='fas fa-coins'></i></span>"
+	                       		+  "<span class='input-group-text' style='width: 35px; height: 38px;'><i class='fas fa-coins'></i></span>"
 	                   			+  "</div>"
 	                     		+	"<input type='text' class='form-control' name='challReward' placeholder='점수를 입력하세요';>"
 	                     		+	"<div class='input-group-append'>"
-	                      		+   "<span class='input-group-text' style='width: 35px;'>점</span>"
+	                      		+   "<span class='input-group-text' style='width: 35px; height: 38px;'>점</span>"
 	                    		+ "</div>"
 	                 			+"</div>";
 	                 			
@@ -463,11 +463,11 @@
 						setTimeout(function(){
 		                    complete = "<div class='input-group col-3' id='postCommentComplete'>" +
 		                        "<div class='input-group-prepend'>" +
-		                        "<span class='input-group-text' style='width: 35px;'><i class='fas fa-trophy'></i></span>" +
+		                        "<span class='input-group-text' style='width: 35px; height: 38px;'><i class='fas fa-trophy'></i></span>" +
 		                        "</div>" +
 		                        "<input type='text' class='form-control' name='postCommentComplete' placeholder='완성조건'>" +
 		                        "<div class='input-group-append'>" +
-		                        "<span class='input-group-text' style='width: 35px'>회</span>" +
+		                        "<span class='input-group-text' style='width: 35px; height:38px;'>회</span>" +
 		                        "</div>" +
 		                        "</div>"
 		                    console.log("if문에 들어왔습니다.");
