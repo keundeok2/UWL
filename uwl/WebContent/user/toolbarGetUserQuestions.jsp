@@ -63,7 +63,6 @@
     			
     			swal.fire({
     			    title: "현재 처리중인 문의사항입니다",
-    			    
     			    icon: "info" //"info,success,warning,error" 중 택1
     			});
     			
@@ -129,14 +128,30 @@
    	                '<td>'+date+'</td>'+
    	                '</tr>';
    	                
-   	                $('.' + postNo).parent().parent().after(displayValue);
+   	             //$('.' + postNo).parent().parent().after(displayValue);
+   	             	//alert("넣는값 :: " + displayValue);
+   	             
+   	             
+   	                if($('tr.append2').hasClass('on')){
+   	                	//alert("이프탄다");
+   	                	$('tr.append2').removeClass('on');
+   	                	$('tr.append2').remove();
    	                
-    				}
-    			});
-       		}
-    		
-    	});
-    });
+   	                }else {
+   	                	//alert("엘스탄다");
+   	                 $('.' + postNo).parent().parent().after(displayValue);
+   	                	$('tr.append2').removeClass('on');
+   	                    $('tr.append2').addClass('on');
+   	                	//$(this).remove();
+   	                }
+   	                
+    				}  // 에이작스 성공시 호출하는 콜백함수
+    			
+    			});      // 에이작스
+       		}    // 엘스 
+    		  
+    	});   // 클릭펑션
+    });  // 전체펑션 
     
     
     $(function() {
@@ -251,6 +266,19 @@
           
     </script>
     <style>
+    
+    tr.append2 on{
+          display: none;
+           /*  display: block;  */
+            
+        }
+
+    tr.append2 on {
+            /* display: none;  */
+            display: block;
+        }
+        
+        
         td.admin {
 
             vertical-align: top;
@@ -511,12 +539,12 @@
                             </div>
                             <colgroup>
                                 <col width="15%">
-                                <col width="55%">
+                                <col width="35%">
                                 <col width="15%">
                                 <col width="15%">
                             </colgroup>
                             <tr>
-                                <td>번호</td>
+                                <td>수정 여부</td>
                                 <td>제목</td>
                                 <td>작성일</td>
                                 <td>처리여부</td>
@@ -524,8 +552,13 @@
                             <c:forEach var="notice" items="${list }">
                             <c:if test="${notice.postTitle ne '문의사항답변등록'}">
                                 <tr class="questionBox">
-                                    <td>${notice.postNo }</td>
-	                                    <td><a href="/user/getQuestions?postNo=${notice.postNo }">${notice.postTitle }</a>
+                                 <c:if test="${notice.questionStatus eq '1' or notice.questionStatus == null}">
+                                    <td><a href="/user/getQuestions?postNo=${notice.postNo }">수정가능</a></td>
+                                    </c:if>
+                                     <c:if test="${notice.questionStatus eq '2'}">
+                                        <td>수정불가</td>
+                                    </c:if>
+	                                    <td>${notice.postTitle }
 	                                    <input type="hidden" id="anserPostNo" name="anserPostNo" value="${notice.replyPostNo}" class="${notice.replyPostNo }"/>
                                     </td>
                                     <td>${notice.postDate }</td>

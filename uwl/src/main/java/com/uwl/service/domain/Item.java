@@ -71,6 +71,14 @@ public class Item {
 	public void setItemDefault(String itemDefault) {
 		this.itemDefault = itemDefault;
 	}
+
+	@Override
+	public String toString() {
+		return "Item [itemNo=" + itemNo + ", firstUserId=" + firstUserId + ", secondUserId=" + secondUserId
+				+ ", itemCategory=" + itemCategory + ", useResult=" + useResult + ", useDate=" + useDate
+				+ ", itemDefault=" + itemDefault + "]";
+	}
+	
 	
 	
 }

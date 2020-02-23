@@ -558,7 +558,7 @@ font-family: 'Nanum Gothic', sans-serif;
                             <img src="/images/${user.profileName}" alt="">
                         </div>
                     </td>
-                    <td>${user.name}</td>
+                    <td>${user.userId}</td>
                 </tr>
                 <tr>
                     <td>이전 비밀번호</td>
@@ -569,7 +569,7 @@ font-family: 'Nanum Gothic', sans-serif;
                     <td><input type="password" id="password"></td>
                 </tr>
                 <tr>
-                    <td>새 비밀번호 확인</td>
+                    <td>비밀번호 확인</td>
                     <td><input type="password" id="password2"></td>
                 </tr>
                 <tr>

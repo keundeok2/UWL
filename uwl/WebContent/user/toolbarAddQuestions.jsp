@@ -171,7 +171,7 @@
         function fncAddQuestions() {
 
             var postTitle = $("input[name='postTitle']").val();
-            var postContent = $("input[name='postContent']").val();
+            var postContent = $('#postContent').val()
 
             if (postTitle == null || postTitle.length < 1) {
                 alert("제목을 입력하세요.");
@@ -322,6 +322,7 @@
                             <tr>
                                 <td>제목</td>
                                 <td><input type="text" id="postTitle" name="postTitle" placeholder="제목 입력" style="line-height : 1"></td>
+                                
 
                                 <td>카테고리</td>
                                 <td><select name="gatherCategoryNo">
@@ -348,8 +349,8 @@
 
                             </tr>
                             <td colspan="4">
-                                <div><input type="text" id="postContent" name="postContent" placeholder="내용입력" name="postContent" style="resize:none ; width:100% ; height: 350px" /></div>
-
+                                <!-- <div><input type="text" id="postContent" name="postContent" placeholder="내용입력" name="postContent" style="resize:none ; width:100% ; height: 350px" /></div> -->
+							<div><textarea cols="50" rows="10" placeholder="내용입력" id="postContent" name="postContent" style="resize:none ; width:100% "></textarea></div>
                                 <br>
                             </td>
 

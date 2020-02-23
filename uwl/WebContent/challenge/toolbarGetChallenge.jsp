@@ -444,7 +444,11 @@
                         	<td>키워드</td>
                             <td>
                             
-                             <c:if test="${challenge.challCategory != '3'}">
+                             <c:if test="${challenge.challCategory == '1'}">
+                            	 ${challenge.detailCategory}	
+                             </c:if>
+                             
+                             <c:if test="${challenge.challCategory == '2'}">
                             	 ${challenge.detailCategory}	
                              </c:if>
                              

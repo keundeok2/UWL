@@ -65,6 +65,7 @@ public class PostController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		model.addAttribute("post", post);
 		
 		
 		

@@ -413,8 +413,8 @@
 		
 		Swal.fire({
 			  icon: 'success',
-			  title: 'Your work has been saved',
-			  text : '어어어어어울리리리리리리림',
+			  title: '네이버 회원가입 완료',
+			  text : '어울림에 오신것을 환영합니다!',
 			  timer: 3000
 		});
 		

@@ -136,16 +136,24 @@ public class RewardController {
 		
 		//getUserPurchaseList()로직을 돌리기전에 purchase Id를 세팅해줘서 getUserBothPointList과 다른 쿼리가 나오게 설정
 		purchaseItem.setUserId(user.getUserId());
+		
 		/////////////////////////////////////////////////////////////////////////////
 		Map<String, Object> purchaseMap = rewardService.getUserPurchaseList(search, reward);
+		System.out.println("=============>>>>" + purchaseMap);
 		System.out.println("RewardController getUserPurchaseList()의 Map : " + map);
 		Page purchaseResultPage = new Page(search.getCurrentPage(), ((Integer)purchaseMap.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("포인트목록보기 purchaseResultPage : " + purchaseResultPage);
+		
+		System.out.println("RewardController reward 토탈카운트 전 ===>" + reward);
+		Reward totalPointReward = rewardService.getTotalPoint(user.getUserId());
+		//reward.setUserId(user.getUserId());
+		System.out.println("RewardController totalPointReward 토탈카운트 후 ===>" + totalPointReward);
 		
 		model.addAttribute("list",map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("reward", reward);
+		model.addAttribute("totalPointReward", totalPointReward);
 		
 		System.out.println("rewardController map.get(\"list\") : " + map.get("list"));
 		System.out.println("rewardController Reward : " + reward);

@@ -292,7 +292,7 @@
             <form method="post" action="/post/addNotice">
                 <!--if문 넣어서 selected 지정해주기-->
 
-                <input type="hidden" name="userId" value="user13">
+                <input type="hidden" name="userId" value=${user.userId }>
 
                 <div class="wrap">
                     <div class="navigation">
