@@ -625,28 +625,40 @@
                              <select class="custom-select col-2" name="detailCategory" id="detailCategory">
 						        <!-- 선택된 정보를 view해줌 -->
 						        <option selected="${challenge.detailCategory}">
-						       		<c:if test="${challenge.detailCategory == '201'}">
-						       			진학상담
+						        	<!-- 카테고리가 1번이면 -->
+						       		<c:if test="${challenge.challCategory == '1'}">
+						       			${challenge.detailCategory}
 						       		</c:if>
-						       		<c:if test="${challenge.detailCategory == '202'}">
-						       			사랑과이별
+						       		
+						        	<!-- 카테고리가 2번이면 -->
+						       		<c:if test="${challenge.challCategory == '2'}">
+						       			${challenge.detailCategory}
 						       		</c:if>
-						       		<c:if test="${challenge.detailCategory == '203'}">
-						       			남자끼리
+						       		
+						        	<!-- 카테고리가 3번이면 -->
+						       		<c:if test="${challenge.challCategory == '3'}">
+							       		<c:if test="${challenge.detailCategory == '201'}">
+							       			진학상담
+							       		</c:if>
+							       		<c:if test="${challenge.detailCategory == '202'}">
+							       			사랑과이별
+							       		</c:if>
+							       		<c:if test="${challenge.detailCategory == '203'}">
+							       			남자끼리
+							       		</c:if>
+							       		<c:if test="${challenge.detailCategory == '204'}">
+							       			여자끼리
+							       		</c:if>
+							       		<c:if test="${challenge.detailCategory == '205'}">
+							       			데이트자랑
+							       		</c:if>
+							       		<c:if test="${challenge.detailCategory == '206'}">
+							       			대나무숲
+							       		</c:if>
+							       		<c:if test="${challenge.detailCategory == '댓글'}">
+							       			댓글
+							       		</c:if>
 						       		</c:if>
-						       		<c:if test="${challenge.detailCategory == '204'}">
-						       			여자끼리
-						       		</c:if>
-						       		<c:if test="${challenge.detailCategory == '205'}">
-						       			데이트자랑
-						       		</c:if>
-						       		<c:if test="${challenge.detailCategory == '206'}">
-						       			대나무숲
-						       		</c:if>
-						       		<c:if test="${challenge.detailCategory == '댓글'}">
-						       			댓글
-						       		</c:if>
-						       		${challenge.detailCategory}
 						        </option>
 						    </select>
                             <!--  <div class="row col-3">
