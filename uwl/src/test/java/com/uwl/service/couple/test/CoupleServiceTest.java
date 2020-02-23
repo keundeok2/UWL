@@ -31,11 +31,11 @@ public class CoupleServiceTest {
 	@Qualifier("coupleServiceImpl")
 	private CoupleService coupleService;
 	
-	//@Test
+	@Test
 	public void testAddCouple() throws Exception {
 		Couple couple = new Couple();
 		couple.setFirstUserId("user02");
-		couple.setSecondUserId("user03");
+		couple.setSecondUserId("user01");
 		
 		coupleService.addCouple(couple);
 	}
@@ -321,7 +321,7 @@ public class CoupleServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testDeleteCoupleTimeline() throws Exception {
 		String firstUserId = "user01";
 		String secondUserId = "user02";
