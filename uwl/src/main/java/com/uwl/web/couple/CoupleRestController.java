@@ -1,8 +1,13 @@
 package com.uwl.web.couple;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,7 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.uwl.common.Page;
 import com.uwl.common.Search;
@@ -80,15 +87,42 @@ public class CoupleRestController {
 		return userId;
 	}
 	
+	private static final String UPLOAD_PATH = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images";
+	
 	@RequestMapping(value = "rest/addCoupleTimelinePost2/{userId}")
-	public Map addCoupleTimelinePost2(@PathVariable String userId, @RequestBody Post post) throws Exception {
+	public Map addCoupleTimelinePost2(@PathVariable String userId, @RequestBody Post post, HttpServletRequest request) throws Exception {
 		System.out.println("rest/addCoupleTimelinePost2/{userId} 시작");
+		
+		
+		
+		
+		
+		
 		coupleService.addCoupleTimelinePost(post);
 		Map<String, Object> map = new HashMap();
 		map.put("userId", userId);
 		map.put("post", post);
 		System.out.println("rest/addCoupleTimelinePost2/{userId} 끝");
 		return map;
+	}
+	
+	private String saveFile(MultipartFile file) {
+		
+		UUID uuid = UUID.randomUUID();
+		String saveName = uuid + "_" + file.getOriginalFilename();
+		
+		System.out.println("saveName : " + saveName);
+		
+		File saveFile = new File(UPLOAD_PATH, saveName);
+		
+		try {
+			file.transferTo(saveFile);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return saveName;
 	}
 	
 	@RequestMapping(value = "rest/getCoupleTimelinePost/{userId}/{postNo}")
