@@ -14,6 +14,7 @@ public class Purchase {
 	private Date purchaseDate;
 	private String refundOption; // 1 : 구매 2 : 환불
 	private int itemNo;
+	private Item item;
 
 	// 추가된 변수명
 	// itemCategory, importId
@@ -95,13 +96,20 @@ public class Purchase {
 	public void setItemNo(int itemNo) {
 		this.itemNo = itemNo;
 	}
+	
+	public Item getItem() {
+		return item;
+	}
+	
+	public void setItem(Item item) {
+		this.item = item;
+	}
 
 	@Override
 	public String toString() {
 		return "Purchase [userId=" + userId + ", purchaseNo=" + purchaseNo + ", itemCategory=" + itemCategory
 				+ ", price=" + price + ", paymentOption=" + paymentOption + ", importId=" + importId + ", purchaseDate="
-				+ purchaseDate + ", refundOption=" + refundOption + ", itemNo=" + itemNo + "]";
+				+ purchaseDate + ", refundOption=" + refundOption + ", itemNo=" + itemNo + ", item=" + item + "]";
 	}
 
-	
 }
