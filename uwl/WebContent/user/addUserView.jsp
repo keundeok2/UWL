@@ -80,6 +80,14 @@
             width: 540px;
             margin: 0 auto;
             text-align: center;
+            overflow: hidden;
+        }
+        
+        @media (max-width: 539.98px) {
+            
+            div.wrap {
+                width: 100%;
+            }
         }
 
         div.logo {
