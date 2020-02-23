@@ -36,25 +36,17 @@
 	 <select  id="getUserBothPointList"  parameterType="map"	resultMap="rewardSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT DISTINCT r.reward_no,
-														r.user_id,
-														r.purchase_no,
-														r.chall_no,
-														c.chall_category,
-														c.chall_title,
-														r.variable_point,
-														r.variable_activity_point,
-														r.variable_date,
-														r.total_point,
-														r.total_activity_point,
-														p.item_category,
-														ranking.ranking_point AS recently_total_point,
-														ranking.ranking_activity_point AS recently_total_activity_point
-												FROM challenge c,purchase p,reward r, (SELECT sum(variable_point) ranking_point, 
-																							sum(variable_activity_point) ranking_activity_point 
-																				FROM reward WHERE user_id= #{reward.userId}) ranking
-													WHERE r.chall_no = c.chall_no   AND r.user_id = #{reward.userId}
-												ORDER BY variable_date DESC) inner_table
+	  					FROM		( SELECT c.chall_no,
+						c.chall_title,
+						r.reward_no,
+						r.purchase_no,
+						r.user_id,
+						r.variable_date,
+						r.total_activity_point,
+						r.total_point
+			FROM challenge c, reward r 
+			WHERE r.chall_no = c.chall_no 
+			AND r.user_id = #{reward.userId} AND r.purchase_no IS NULL ORDER BY r.variable_date DESC) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER} )
 		WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER} 	
 	 </select>
@@ -71,8 +63,8 @@
 												r.variable_date,
 												ranking.ranking_point
 											   FROM purchase p, reward r, (SELECT sum(variable_point) ranking_point
-																			FROM reward WHERE user_id=#{reward.userId}) ranking
-				WHERE p.purchase_no = r.purchase_no AND r.purchase_no IS NOT NULL ORDER BY variable_date DESC) inner_table
+																			FROM reward WHERE user_id= #{reward.userId}) ranking
+				WHERE p.purchase_no = r.purchase_no AND r.purchase_no IS NOT NULL AND r.user_id = #{reward.userId} ORDER BY variable_date DESC) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER} )
 		WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER} 	
 	 </select>
@@ -80,8 +72,8 @@
 	 
 	 <!-- 프로필에 쓸 토탈포인트 조회 -->
 	 <select  id="getTotalPoint"  parameterType="String"	resultMap="rewardSelectMap">
-	  	SELECT sum(variable_point) AS recently_total_point, 
-				sum(variable_activity_point) AS recently_total_activity_point 
+	  	SELECT sum(variable_point) recently_total_point, 
+				sum(variable_activity_point) recently_total_activity_point 
 		FROM reward WHERE user_id= #{value}
 	 </select>
 	 

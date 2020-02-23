@@ -276,7 +276,6 @@
                         </div>
                         <br>
 
-                        <!-- 카드모양으로 바꿔봄 -->
 
                         <!-- 총 포인트가 0이라면 보이는 것 -->
                         <c:if test="${reward.recentlyTotalPoint eq 0}">
@@ -365,8 +364,16 @@
                             </div>
                         </div>
                         <br>
+                        
+                        <!-- 총 포인트가 0이라면 보이는 것 -->
+                        <c:if test="${reward.recentlyTotalActivityPoint eq 0}">
+                            <div class="row">
+                                <div class="col-sm-8" style="text-align: center;">
+                                    <h3>적립한 내용이 없습니다.</h3>
+                                </div>
+                            </div>
+                        </c:if>
 
-                        <!-- 카드모양으로 바꿔봄 -->
                         <div class="row">
                             <c:forEach var="purchase" items="${purchaseList}">
                                 <div class="col-sm-10">

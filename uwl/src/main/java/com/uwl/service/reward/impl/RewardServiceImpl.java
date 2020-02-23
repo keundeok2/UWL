@@ -70,6 +70,8 @@ public class RewardServiceImpl implements RewardService{
 		
 		System.out.println("RewardServiceImple getUserPurchaseList() 작동 중");
 		
+		System.out.println("RewardServiceImple getUserPurchaseList() reward : " + reward);
+		
 		int totalCount = rewardDAO.getTotalCountOne(reward);
 		
 		Map<String, Object> map = rewardDAO.getUserPurchaseList(search, reward);
