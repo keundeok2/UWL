@@ -63,7 +63,6 @@
     			
     			swal.fire({
     			    title: "현재 처리중인 문의사항입니다",
-    			    
     			    icon: "info" //"info,success,warning,error" 중 택1
     			});
     			
@@ -129,14 +128,30 @@
    	                '<td>'+date+'</td>'+
    	                '</tr>';
    	                
-   	                $('.' + postNo).parent().parent().after(displayValue);
+   	             //$('.' + postNo).parent().parent().after(displayValue);
+   	             	//alert("넣는값 :: " + displayValue);
+   	             
+   	             
+   	                if($('tr.append2').hasClass('on')){
+   	                	//alert("이프탄다");
+   	                	$('tr.append2').removeClass('on');
+   	                	$('tr.append2').remove();
    	                
-    				}
-    			});
-       		}
-    		
-    	});
-    });
+   	                }else {
+   	                	//alert("엘스탄다");
+   	                 $('.' + postNo).parent().parent().after(displayValue);
+   	                	$('tr.append2').removeClass('on');
+   	                    $('tr.append2').addClass('on');
+   	                	//$(this).remove();
+   	                }
+   	                
+    				}  // 에이작스 성공시 호출하는 콜백함수
+    			
+    			});      // 에이작스
+       		}    // 엘스 
+    		  
+    	});   // 클릭펑션
+    });  // 전체펑션 
     
     
     $(function() {
@@ -251,6 +266,19 @@
           
     </script>
     <style>
+    
+    tr.append2 on{
+          display: none;
+           /*  display: block;  */
+            
+        }
+
+    tr.append2 on {
+            /* display: none;  */
+            display: block;
+        }
+        
+        
         td.admin {
 
             vertical-align: top;
