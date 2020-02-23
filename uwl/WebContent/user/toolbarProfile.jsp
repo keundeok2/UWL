@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,182 +12,187 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="/javascript/iscroll.js"></script>
     <script>
-    
-		var myScroll = null;
-    
-	    $(function() {
-	    	
-	        myScroll = new IScroll('#wrapper', {
-	            mouseWheel: true,
-	            scrollbars: true
-	        });
-	        
-	        setTimeout(function() {
-        		myScroll.refresh();
-        	}, 0);
-	        
-	        $('div.sectionList ul.sectionNav li a').on('click', function() {
-	        	setTimeout(function() {
-	        		myScroll.refresh();
-	        	}, 0);
-	        });
-	        
-	        
-	        
-	        
-	    	//iscroll infinite scroll
-	    		myScroll.on('scrollEnd', function() {
-	    	       	var wrapperHeight = $('#wrapper').height();
-	    	       	var ulHeight = $('#wrapper ul').height();
-	    	       	var evtHeight = wrapperHeight - ulHeight;
-	    	       	
-	    			if (this.y <= evtHeight+100) {
-	    				console.log('wrapperHeight', wrapperHeight);
-	    				console.log('ulHeight', ulHeight);
-	    				console.log('evtHeight', evtHeight);
-	    				console.log('this.y', this.y);
-	    				
-	    				if ($("section.displaySection div.list1").hasClass('on')) {
-	    					timelineInfiniteScroll();
-	    				}
-	    				if ($("section.displaySection div.list2").hasClass('on')) {
-	    					askInfiniteScroll();
-	    				}
-	    				if ($("section.displaySection div.list5").hasClass('on')) {
-	    					askQuestionInfiniteScroll();
-	    				}
-	    				// list3 , list4 on 일때 추가하기 커플타임라인, 커플캘린더
-	    			}
-	    		});
-	    	
-	    	
-	    	
-	    	
-	    		var timelinePage = 1;
-	    	    function timelineInfiniteScroll() {
-	    	    	if (timelinePage <= ${timelineMap.resultPage.maxPage}) {
-	    				timelinePage++;
-	    				console.log('timelinePage : ' + timelinePage);
-	    					
-	    				$.ajax({
-	    					url : "/social/rest/getTimelineList/",
-	    					method : "POST",
-	    					dataType : "json",
-	    					data : JSON.stringify({
-	    						currentPage : timelinePage,
-	    						targetUserId : targetUserId
-	    					}),
-	    					headers : {
-	    						"Accept" : "application/json",
-	    						"Content-Type" : "application/json"
-	    					},
-	    					success: function(data) {
-	    						for (var i = 0; i < data.list.length; i++) {
-	    							var html = "<li class='"+data.list[i].postNo+"' value='"+data.list[i].postNo+"'>"
-	    										+"<a class='float-left text-monospace text-primary'>"+data.list[i].postDate+"</a>";
-	    											if (data.list[i].viewStatus == '1') {
-	    												html += "<a class='float-right font-weight-bold text-secondary postViewStatus"+data.list[i].postNo+"'>전체공개</a><br/>"; 
-	    											}
-	    											if (data.list[i].viewStatus == '2') {
-	    												html += "<a class='float-right font-weight-bold text-secondary postViewStatus"+data.list[i].postNo+"'>나만보기</a><br/>";
-	    											}
-	    											html += "<div class='postContentDiv "+data.list[i].postNo+"'>"+data.list[i].postContent+"</div>";
-	    											html += "<button class='btn btn-outline-primary btn-sm commentBtn' value='"+data.list[i].postNo+"'>댓글</button>";
-	    											
-	    											if (sessionId == targetUserId) {
-	    												html += "<button class='btn btn-outline-secondary btn-sm postUpdateBtn' value='"+data.list[i].postNo+"' data-toggle='modal' data-target='#postUpdateModal'>수정</button>";
-	    												html += "<button class='btn btn-outline-secondary btn-sm postDeleteBtn' value='"+data.list[i].postNo+"'>삭제</button>";
-	    											}
-	    											html += "</li>";
-	    							$("ul.timeline").append(html);
-	    							setTimeout(function() {
-	    			            		myScroll.refresh();
-	    			            	}, 0);
-	    						}
-	    					}
-	    				});
-	    			}
-	    		}
-	    	    
-	    	var askPage = 1;
-	    	function askInfiniteScroll() {
-	    		if (askPage <= ${askMap.resultPage.maxPage}) {
-					askPage++;
-					console.log('askPage : ' + askPage);
-						
-					$.ajax({
-						url : "/social/rest/getAskList/",
-						method : "POST",
-						dataType : "json",
-						data : JSON.stringify({
-							currentPage : askPage,
-							targetUserId : targetUserId
-						}),
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						success: function(data) {
-							for (var i = 0; i < data.list.length; i++) {
-								var html = "<div class='ask'>"
-								                +"<p>"+data.list[i].questionContent+"</p>"
-								                +"<p><span>익명</span> ｜ <span>"+data.list[i].questionDate+"</span></p>"
-								                +"<p>"+data.list[i].answerContent+"</p>"
-								                +"<p><span>"+data.list[i].user.name+"</span> ｜ <span>"+data.list[i].answerDate+"</span></p>"
-								            +"</div>";
-								$(html).appendTo("div.askList");
-								setTimeout(function() {
-    			            		myScroll.refresh();
-    			            	}, 0);
-							}
-						}
-					});
-				}
-			}
-	    	
-	    	var askQuestionPage = 1;
-	    	function askQuestionInfiniteScroll() {
-	    		if (askQuestionPage <= ${askQuestionMap.resultPage.maxPage}) {
-					askQuestionPage++;
-					console.log('askQuestionPage : ' + askQuestionPage);
-						
-					$.ajax({
-						url : "/social/rest/getAskQuestionList",
-						method : "POST",
-						dataType : "json",
-						data : JSON.stringify({
-							currentPage : askQuestionPage
-						}),
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						success: function(data) {
-							for (var i = 0; i < data.list.length; i++) {
-								var html = "<div class='ask "+data.list[i].questionPostNo+"'>"
-							                +"<p><span>익명</span> · <span>"+data.list[i].questionDate+"</span></p>"
-							                +"<p><a href='#'><i class='fas fa-ellipsis-h'></i></a></p>"
-							                +"<p>"+data.list[i].questionContent+"</p>"
-							                +"<p><a class='rejectBtn'>거절하기</a><a class='regBtn'><i class='fas fa-pen'></i> 답하기</a></p>"
-							                +"<input type='hidden' value='"+data.list[i].questionPostNo+"'>"
-							            +"</div>";
-							            
-							    $("div.addAsk").append(html);
-							    setTimeout(function() {
-    			            		myScroll.refresh();
-    			            	}, 0);
-							}
-						}
-					});
-				}
-			}
-	    });
-	    
-	    
+        var myScroll = null;
+
+        $(function() {
+
+            myScroll = new IScroll('#wrapper', {
+                mouseWheel: true,
+                scrollbars: true
+            });
+
+            setTimeout(function() {
+                myScroll.refresh();
+            }, 0);
+
+            $('div.sectionList ul.sectionNav li a').on('click', function() {
+                setTimeout(function() {
+                    myScroll.refresh();
+                }, 0);
+            });
+
+
+
+
+            //iscroll infinite scroll
+            myScroll.on('scrollEnd', function() {
+                var wrapperHeight = $('#wrapper').height();
+                var ulHeight = $('#wrapper ul').height();
+                var evtHeight = wrapperHeight - ulHeight;
+
+                if (this.y <= evtHeight + 100) {
+                    console.log('wrapperHeight', wrapperHeight);
+                    console.log('ulHeight', ulHeight);
+                    console.log('evtHeight', evtHeight);
+                    console.log('this.y', this.y);
+
+                    if ($("section.displaySection div.list1").hasClass('on')) {
+                        timelineInfiniteScroll();
+                    }
+                    if ($("section.displaySection div.list2").hasClass('on')) {
+                        askInfiniteScroll();
+                    }
+                    if ($("section.displaySection div.list5").hasClass('on')) {
+                        askQuestionInfiniteScroll();
+                    }
+                    // list3 , list4 on 일때 추가하기 커플타임라인, 커플캘린더
+                }
+            });
+
+
+
+
+            var timelinePage = 1;
+
+            function timelineInfiniteScroll() {
+                if (timelinePage <= $ {
+                        timelineMap.resultPage.maxPage
+                    }) {
+                    timelinePage++;
+                    console.log('timelinePage : ' + timelinePage);
+
+                    $.ajax({
+                        url: "/social/rest/getTimelineList/",
+                        method: "POST",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            currentPage: timelinePage,
+                            targetUserId: targetUserId
+                        }),
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                        success: function(data) {
+                            for (var i = 0; i < data.list.length; i++) {
+                                var html = "<li class='" + data.list[i].postNo + "' value='" + data.list[i].postNo + "'>" +
+                                    "<a class='float-left text-monospace text-primary'>" + data.list[i].postDate + "</a>";
+                                if (data.list[i].viewStatus == '1') {
+                                    html += "<a class='float-right font-weight-bold text-secondary postViewStatus" + data.list[i].postNo + "'>전체공개</a><br/>";
+                                }
+                                if (data.list[i].viewStatus == '2') {
+                                    html += "<a class='float-right font-weight-bold text-secondary postViewStatus" + data.list[i].postNo + "'>나만보기</a><br/>";
+                                }
+                                html += "<div class='postContentDiv " + data.list[i].postNo + "'>" + data.list[i].postContent + "</div>";
+                                html += "<button class='btn btn-outline-primary btn-sm commentBtn' value='" + data.list[i].postNo + "'>댓글</button>";
+
+                                if (sessionId == targetUserId) {
+                                    html += "<button class='btn btn-outline-secondary btn-sm postUpdateBtn' value='" + data.list[i].postNo + "' data-toggle='modal' data-target='#postUpdateModal'>수정</button>";
+                                    html += "<button class='btn btn-outline-secondary btn-sm postDeleteBtn' value='" + data.list[i].postNo + "'>삭제</button>";
+                                }
+                                html += "</li>";
+                                $("ul.timeline").append(html);
+                                setTimeout(function() {
+                                    myScroll.refresh();
+                                }, 0);
+                            }
+                        }
+                    });
+                }
+            }
+
+            var askPage = 1;
+
+            function askInfiniteScroll() {
+                if (askPage <= $ {
+                        askMap.resultPage.maxPage
+                    }) {
+                    askPage++;
+                    console.log('askPage : ' + askPage);
+
+                    $.ajax({
+                        url: "/social/rest/getAskList/",
+                        method: "POST",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            currentPage: askPage,
+                            targetUserId: targetUserId
+                        }),
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                        success: function(data) {
+                            for (var i = 0; i < data.list.length; i++) {
+                                var html = "<div class='ask'>" +
+                                    "<p>" + data.list[i].questionContent + "</p>" +
+                                    "<p><span>익명</span> ｜ <span>" + data.list[i].questionDate + "</span></p>" +
+                                    "<p>" + data.list[i].answerContent + "</p>" +
+                                    "<p><span>" + data.list[i].user.name + "</span> ｜ <span>" + data.list[i].answerDate + "</span></p>" +
+                                    "</div>";
+                                $(html).appendTo("div.askList");
+                                setTimeout(function() {
+                                    myScroll.refresh();
+                                }, 0);
+                            }
+                        }
+                    });
+                }
+            }
+
+            var askQuestionPage = 1;
+
+            function askQuestionInfiniteScroll() {
+                if (askQuestionPage <= $ {
+                        askQuestionMap.resultPage.maxPage
+                    }) {
+                    askQuestionPage++;
+                    console.log('askQuestionPage : ' + askQuestionPage);
+
+                    $.ajax({
+                        url: "/social/rest/getAskQuestionList",
+                        method: "POST",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            currentPage: askQuestionPage
+                        }),
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                        success: function(data) {
+                            for (var i = 0; i < data.list.length; i++) {
+                                var html = "<div class='ask " + data.list[i].questionPostNo + "'>" +
+                                    "<p><span>익명</span> · <span>" + data.list[i].questionDate + "</span></p>" +
+                                    "<p><a href='#'><i class='fas fa-ellipsis-h'></i></a></p>" +
+                                    "<p>" + data.list[i].questionContent + "</p>" +
+                                    "<p><a class='rejectBtn'>거절하기</a><a class='regBtn'><i class='fas fa-pen'></i> 답하기</a></p>" +
+                                    "<input type='hidden' value='" + data.list[i].questionPostNo + "'>" +
+                                    "</div>";
+
+                                $("div.addAsk").append(html);
+                                setTimeout(function() {
+                                    myScroll.refresh();
+                                }, 0);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
     </script>
     <style>
-	    
-	    
         * {
             margin: 0;
             padding: 0;
@@ -406,20 +412,25 @@
 
             width: 55%;
             margin: 0 auto;
-
-
+            text-align: center;
+            
 
         }
 
         div.sectionList ul.sectionNav li {
 
-            float: left;
+            /*float: left;*/
             width: 25%;
             text-align: center;
             line-height: 50px;
             font-size: 12px;
             color: #898989;
             font-weight: bold;
+            display: inline-block;
+        }
+        
+        ul.sectionNav.on li {
+            float: left;
         }
 
         div.sectionList ul.sectionNav li.on {
@@ -456,34 +467,35 @@
             margin-right: 3px;
         }
 
-        section.displaySection > div.list1 {
+        section.displaySection>div.list1 {
             background-color: lightblue;
         }
 
-        section.displaySection > div.list2 {
+        section.displaySection>div.list2 {
             background-color: lightcoral;
         }
 
-        section.displaySection > div.list3 {
+        section.displaySection>div.list3 {
             background-color: lightcyan;
         }
 
-        section.displaySection > div.list4 {
+        section.displaySection>div.list4 {
             background-color: lightgray;
         }
 
-        section.displaySection > div {
+        section.displaySection>div {
             display: none;
-            
+
         }
 
-        section.displaySection > div.on {
+        section.displaySection>div.on {
             display: block;
         }
 
         section.displaySection {
             clear: both;
         }
+
     </style>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
@@ -588,10 +600,10 @@
                             $("div.useSpear").remove();
                             var html = "<div class='addFriend'><a href='#'>친구신청</a></div>"
                             $("div.user").after(html);
-                            
+
                             setTimeout(function() {
-								$("input[value='"+targetUserId+"']").parent().remove();			
-							}, 0);
+                                $("input[value='" + targetUserId + "']").parent().remove();
+                            }, 0);
                         }
                     });
                 })
@@ -645,7 +657,7 @@
 
 
             $(function() {
-                 $(document).on('click', '.addMatching', function() {
+                $(document).on('click', '.addMatching', function() {
 
                     //alert('클릭ㅋㅋ');
 
@@ -668,7 +680,7 @@
 
                             var secondUserId2 = data.secondUserId;
                             //alert('secondUserId2 : ' + secondUserId2);
-                            
+
                             var secondUserName = data.secondUserName;
                             //alert('secondUserName : ' + secondUserName);
                             var displayValue = '';
@@ -680,7 +692,7 @@
                                     ' <input type="hidden" name="secondUserId" value="' + secondUserName + '">' + '보낸 꽃은 한달 뒤에 취소할 수 있습니다.<br>🌹🌹' + secondUserName + '님에게 꽃을 보내시겠습니까?🌹🌹' +
                                     ' </form>';
                                 //alert(displayValue);
-                                
+
                                 $('div.modal-footer').find('button:nth-child(2)').addClass('check');
                             } else {
                                 displayValue = '<form action="">' +
@@ -693,7 +705,7 @@
                             }
                             $('div.modal-body').html(displayValue);
                             $('div.modal-footer').find('button:nth-child(2)').css({
-                            	'display' : 'block'
+                                'display': 'block'
                             });
                             $('div.modal-footer').find('button:nth-child(1)').text('취소');
                         },
@@ -716,7 +728,7 @@
 
 
             $(document).on('click', '.check', function() {
-            	$(this).removeClass('check');
+                $(this).removeClass('check');
                 //alert('클릭ㅋㅋ');
 
                 //alert('userId : ' + sessionUserId);
@@ -743,7 +755,7 @@
                         $('.addMatching').text('꽃보내기취소');
                         $('.addMatching').removeClass('addMatching').addClass('deleteMatching');
                         $('div.modal-footer').find('button:nth-child(2)').css({
-                        	'display' : 'none'
+                            'display': 'none'
                         });
                         $('div.modal-footer').find('button:nth-child(1)').text('확인');
                     },
@@ -786,7 +798,7 @@
                         $('div.modal-body').html(displayValue);
                         $('div.modal-footer').find('button:nth-child(2)').addClass('check2');
                         $('div.modal-footer').find('button:nth-child(2)').css({
-                        	'display' : 'block'
+                            'display': 'block'
                         });
                         $('div.modal-footer').find('button:nth-child(1)').text('취소');
                     },
@@ -799,7 +811,7 @@
 
 
             $(document).on('click', '.check2', function() {
-            	$(this).removeClass('check2');
+                $(this).removeClass('check2');
                 //alert('클릭ㅋㅋ');
 
                 //alert('userId : ' + sessionUserId);
@@ -842,7 +854,7 @@
 
                         $('div.modal-body').html(displayValue);
                         $('div.modal-footer').find('button:nth-child(2)').css({
-                        	'display' : 'none'
+                            'display': 'none'
                         });
                         $('div.modal-footer').find('button:nth-child(1)').text('확인');
 
@@ -886,18 +898,18 @@
                                 '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' +
                                 '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' + secondUserName + '님에게 창을 사용하시겠습니까?' +
                                 '</form>';
-                                
+
                             $('div.modal-footer').find('button:nth-child(2)').css({
-                            	'display' : 'block'
+                                'display': 'block'
                             });
                             $('div.modal-footer').find('button:nth-child(2)').addClass('check3');
                             $('div.modal-footer').find('button:nth-child(1)').text('취소');
                         } else {
-                            displayValue = '사용 가능한 창이 없습니다😥'
-                            + secondUserName + '님의 마음을 알고 싶으신가요? 지금 바로 구매하세요😉';
-                            
+                            displayValue = '사용 가능한 창이 없습니다😥' +
+                                secondUserName + '님의 마음을 알고 싶으신가요? 지금 바로 구매하세요😉';
+
                             $('div.modal-footer').find('button:nth-child(2)').css({
-                            	'display' : 'block'
+                                'display': 'block'
                             });
                             $('div.modal-footer').find('button:nth-child(1)').text('취소');
                             $('div.modal-footer').find('button:nth-child(2)').addClass('purchaseBtn');
@@ -963,7 +975,7 @@
 
                         $('div.modal-body').html(displayValue);
                         $('div.modal-footer').find('button:nth-child(2)').css({
-                        	'display' : 'none'
+                            'display': 'none'
                         });
                         $('div.modal-footer').find('button:nth-child(1)').text('확인');
                     },
@@ -977,7 +989,7 @@
 
             $(function() {
                 $('div.sectionList ul.sectionNav li a').on('click', function() {
-                	
+
                     var i = $(this).parent().index();
                     $('div.sectionList ul li').removeClass('on');
                     $('div.sectionList ul li').eq(i).addClass('on');
@@ -985,30 +997,31 @@
                     $('section.displaySection > div').eq(i).addClass('on');
 
                 });
-                
+
                 $('.replyQuestionBtn').on("click", function() {
-                	var i = $(this).parent().index();
-                	$('div.section ul li').removeClass('on');
+                    var i = $(this).parent().index();
+                    $('div.section ul li').removeClass('on');
                     $('div.section ul li').eq(i).addClass('on');
-                	$('section > div').removeClass('on');
-                	$('section > div').eq(i).addClass('on');
-                	setTimeout(function() {
-    	        		myScroll.refresh();
-    	        	}, 0);
-				});
-                
+                    $('section > div').removeClass('on');
+                    $('section > div').eq(i).addClass('on');
+                    setTimeout(function() {
+                        myScroll.refresh();
+                    }, 0);
+                });
+
                 $('.listAskBtn').on("click", function() {
-                	var i = $(this).parent().index();
-                	$('div.section ul li').removeClass('on');
+                    var i = $(this).parent().index();
+                    $('div.section ul li').removeClass('on');
                     $('div.section ul li').eq(i).addClass('on');
-                	$('section > div').removeClass('on');
-                	$('section > div').eq(i-3).addClass('on');
-                	setTimeout(function() {
-    	        		myScroll.refresh();
-    	        	}, 0);
-				});
+                    $('section > div').removeClass('on');
+                    $('section > div').eq(i - 3).addClass('on');
+                    setTimeout(function() {
+                        myScroll.refresh();
+                    }, 0);
+                });
             });
         });
+
     </script>
     <script type="text/javascript">
         // profile.js에 있는데 안되어서 넣었음
@@ -1034,7 +1047,7 @@
 
 
         $(document).on("click", ".purchaseBtn", function() {
-        	$('div.modal-footer').find('button:nth-child(2)').removeClass('purchaseBtn');
+            $('div.modal-footer').find('button:nth-child(2)').removeClass('purchaseBtn');
             var currPoint = $("input#totalPoint").val();
             itemCategory = $(this).children("input[type='hidden']").val();
             itemCount = $(this).children("span").html();
@@ -1185,15 +1198,21 @@
             })
 
         });
+        
+        $(function() {
+        	if($('ul.sectionNav').find('li').hasClass('coupleTimeline')) {
+        		$('ul.sectionNav').addClass('on');
+        	}
+        });
 
     </script>
 
     <style>
-        
 
-        
 
-        
+
+
+
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
@@ -1242,7 +1261,8 @@
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
-            padding: 15px 0 0 15px;
+            padding: 15px 0 0 15px;d
+            position: relative;
         }
 
         div.work2 {
@@ -1250,9 +1270,9 @@
             width: 770px;
             height: 100vh;
             float: left;
-            
+
             position: relative;
-			
+
         }
 
         div.rightToolbar2 {
@@ -1264,8 +1284,7 @@
             border-left: 1px solid #eee;
             padding: 15px 15px 0 15px;
         }
-        
-        
+
     </style>
 </head>
 
@@ -1275,277 +1294,292 @@
             <jsp:include page="/layout/left.jsp" />
         </div>
         <div class="work2" id="wrapper">
-        <ul>
-            <input type="hidden" id="sessionUserId" value="${user.userId}">
-            <input type="hidden" id="targetUserId" value="${targetUserId}">
-            <input type="hidden" id="sessionMail" value="${user.mail}">
-            <input type="hidden" id="sessionName" value="${user.name}">
-            <input type="hidden" id="sessionPhone" value="${user.phone}">
-            <input type="hidden" id="totalPoint" value="${reward.recentlyTotalPoint}">
+            <ul>
+                <input type="hidden" id="sessionUserId" value="${user.userId}">
+                <input type="hidden" id="targetUserId" value="${targetUserId}">
+                <input type="hidden" id="sessionMail" value="${user.mail}">
+                <input type="hidden" id="sessionName" value="${user.name}">
+                <input type="hidden" id="sessionPhone" value="${user.phone}">
+                <input type="hidden" id="totalPoint" value="${reward.recentlyTotalPoint}">
 
-            <div>
-                <div class="profileHeader">
-                    <div class="profileImage2">
-                        <a href="#">
-                            <c:if test="${empty askMap.targetUser.profileName}">
+                <div>
+                    <div class="profileHeader">
+                        <div class="profileImage2">
+                            <a href="#">
+                                <c:if test="${empty askMap.targetUser.profileName}">
 
-                                <img src="/images/bonobono.jpg" alt="">
-                            </c:if>
-                            <c:if test="${!empty askMap.targetUser.profileName}">
-                                <img src="/images/${askMap.targetUser.profileName}" alt="">
-                            </c:if>
-
-                        </a>
-                    </div>
-                    <div class="profile">
-                        <div class="userId">
-                            <div class="user">${targetUser.userId}</div>
-                            <%-- ${checkFriend1.friendStatus} ${checkFriend2.friendStatus} --%>
-                            <c:if test="${user.userId eq targetUserId }">
-                                <div class="profileUpdate"><a href="#">프로필 편집</a></div>
-                                <div class="setting"><a href="#"><i class="fas fa-cog"></i></a></div>
-                            </c:if>
-                            <c:if test="${user.userId ne targetUserId }">
-                                <c:if test="${checkFriend1.friendStatus == 2 }">
-                                    <!-- 친구끊기/친구신청취소, 친구신청(수락) div 추가했음 -->
-                                    <div class="deleteFriend"><a href="#">친구끊기</a></div>
+                                    <img src="/images/bonobono.jpg" alt="">
                                 </c:if>
-                                <c:if test="${checkFriend1.friendStatus == 1 }">
-                                    <div class="deleteFriend"><a href="#">친구신청취소</a></div>
-                                </c:if>
-                                <c:if test="${checkFriend2.friendStatus == 1 }">
-                                    <div class="acceptFriend"><a href="#">친구신청</a></div>
-                                </c:if>
-                                <c:if test="${empty checkFriend1.friendStatus and empty checkFriend2.friendStatus}">
-                                    <div class="addFriend"><a href="#">친구신청</a></div>
+                                <c:if test="${!empty askMap.targetUser.profileName}">
+                                    <img src="/images/${askMap.targetUser.profileName}" alt="">
                                 </c:if>
 
-                                <!--////////////////// 매칭여부 / 꽃보냈는지 여부 추가바람/////////////////////////// -->
-                                <c:if test="${checkFriend1.friendStatus == 2 }">
-
-
-
-
-
-
-
-
-                                    <!-- <div class="sendFlower"><a href="#">꽃보내기</a></div> -->
-
-
-
-                                    <c:if test="${matching.secondUserId ne targetUserId}">
-
-                                        <div class="sendFlower"><a href="#" class="addMatching" data-toggle="modal" data-target="#exampleModal">
-                                                꽃보내기
-                                            </a></div>
-                                    </c:if>
-
-                                    <c:if test="${matching.secondUserId eq targetUserId}">
-                                        <div class="sendFlower"><a href="#" class="deleteMatching" data-toggle="modal" data-target="#exampleModal">
-                                                꽃보내기취소
-                                            </a></div>
-                                    </c:if>
-
-
-
-
-
-                                    <div class="useSpear"><a href="#" data-toggle="modal" data-target="#exampleModal">찔러보기</a></div>
-                                </c:if>
-                            </c:if>
+                            </a>
                         </div>
-                        <div class="post">
-                            <div class="totalFlower">
-                                <!-- /////////////// totalFlower 추가바람/////////////// -->
-                                <img src="/images/love-and-romance.png" width="30px" alt=""> <span>${totalMatching }</span>
-                            </div>
-                            <!-- /////////////// 활동점수, 포인트 추가바람/////////////// -->
-
-
-                            <div class="activityPoint"> 활동점수 <span>
-                                    <c:if test="${empty reward.recentlyTotalActivityPoint}">
-                                        0
+                        <div class="profile">
+                            <div class="userId">
+                                <div class="user">${targetUser.userId}</div>
+                                <%-- ${checkFriend1.friendStatus} ${checkFriend2.friendStatus} --%>
+                                <c:if test="${user.userId eq targetUserId }">
+                                    <div class="profileUpdate"><a href="#">프로필 편집</a></div>
+                                    <div class="setting"><a href="#"><i class="fas fa-cog"></i></a></div>
+                                </c:if>
+                                <c:if test="${user.userId ne targetUserId }">
+                                    <c:if test="${checkFriend1.friendStatus == 2 }">
+                                        <!-- 친구끊기/친구신청취소, 친구신청(수락) div 추가했음 -->
+                                        <div class="deleteFriend"><a href="#">친구끊기</a></div>
                                     </c:if>
-                                    <c:if test="${!empty reward.recentlyTotalActivityPoint}">
-                                        ${reward.recentlyTotalActivityPoint}
+                                    <c:if test="${checkFriend1.friendStatus == 1 }">
+                                        <div class="deleteFriend"><a href="#">친구신청취소</a></div>
+                                    </c:if>
+                                    <c:if test="${checkFriend2.friendStatus == 1 }">
+                                        <div class="acceptFriend"><a href="#">친구신청</a></div>
+                                    </c:if>
+                                    <c:if test="${empty checkFriend1.friendStatus and empty checkFriend2.friendStatus}">
+                                        <div class="addFriend"><a href="#">친구신청</a></div>
                                     </c:if>
 
-                                </span>
+                                    <!--////////////////// 매칭여부 / 꽃보냈는지 여부 추가바람/////////////////////////// -->
+                                    <c:if test="${checkFriend1.friendStatus == 2 }">
+
+
+
+
+
+
+
+
+                                        <!-- <div class="sendFlower"><a href="#">꽃보내기</a></div> -->
+
+
+
+                                        <c:if test="${matching.secondUserId ne targetUserId}">
+
+                                            <div class="sendFlower"><a href="#" class="addMatching" data-toggle="modal" data-target="#exampleModal">
+                                                    꽃보내기
+                                                </a></div>
+                                        </c:if>
+
+                                        <c:if test="${matching.secondUserId eq targetUserId}">
+                                            <div class="sendFlower"><a href="#" class="deleteMatching" data-toggle="modal" data-target="#exampleModal">
+                                                    꽃보내기취소
+                                                </a></div>
+                                        </c:if>
+
+
+
+
+
+                                        <div class="useSpear"><a href="#" data-toggle="modal" data-target="#exampleModal">찔러보기</a></div>
+                                    </c:if>
+                                </c:if>
                             </div>
-                            <c:if test="${targetUserId eq user.userId }">
-                                <!-- point div 추가했음 -->
-                                <div class="point"> 포인트 <span>
-                                        <c:if test="${empty reward.recentlyTotalPoint}">
+                            <div class="post">
+                                <div class="totalFlower">
+                                    <!-- /////////////// totalFlower 추가바람/////////////// -->
+                                    <img src="/images/love-and-romance.png" width="30px" alt=""> <span>${totalMatching }</span>
+                                </div>
+                                <!-- /////////////// 활동점수, 포인트 추가바람/////////////// -->
+
+
+                                <div class="activityPoint"> 활동점수 <span>
+                                        <c:if test="${empty reward.recentlyTotalActivityPoint}">
                                             0
                                         </c:if>
-                                        <c:if test="${!empty reward.recentlyTotalPoint}">
-                                            ${reward.recentlyTotalPoint}
+                                        <c:if test="${!empty reward.recentlyTotalActivityPoint}">
+                                            ${reward.recentlyTotalActivityPoint}
                                         </c:if>
+
                                     </span>
                                 </div>
+                                <c:if test="${targetUserId eq user.userId }">
+                                    <!-- point div 추가했음 -->
+                                    <div class="point"> 포인트 <span>
+                                            <c:if test="${empty reward.recentlyTotalPoint}">
+                                                0
+                                            </c:if>
+                                            <c:if test="${!empty reward.recentlyTotalPoint}">
+                                                ${reward.recentlyTotalPoint}
+                                            </c:if>
+                                        </span>
+                                    </div>
 
-                                <div class="totalItem purchaseBtn">
-                                    <img src="/images/spear.png" width="30px" alt=""> <span>${totalSpear}</span>
-                                    <input type=hidden class="itemCategory" value="1">
-                                </div>
-                                <div class="totalItem2 purchaseBtn">
-                                    <img src="/images/shield.png" width="30px" alt=""> <span>${totalShield}</span>
-                                    <input type=hidden class="itemCategory" value="2">
-                                </div>
-                            </c:if>
-                        </div>
-                        <div class="name">
-                            <div class="userName">
-                                ${targetUser.name}
+                                    <div class="totalItem purchaseBtn">
+                                        <img src="/images/spear.png" width="30px" alt=""> <span>${totalSpear}</span>
+                                        <input type=hidden class="itemCategory" value="1">
+                                    </div>
+                                    <div class="totalItem2 purchaseBtn">
+                                        <img src="/images/shield.png" width="30px" alt=""> <span>${totalShield}</span>
+                                        <input type=hidden class="itemCategory" value="2">
+                                    </div>
+                                </c:if>
                             </div>
-                            <div class="introduction">
-                                ${targetUser.selfIntroduction }<br>
+                            <div class="name">
+                                <div class="userName">
+                                    ${targetUser.name}
+                                </div>
+                                <div class="introduction">
+                                    ${targetUser.selfIntroduction }<br>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="sectionList">
-                    <div class="innerSectionList">
-                        <ul class="sectionNav">
-                            <li class="on"><a href="#"><i class="fas fa-th"></i> 타임라인</a></li>
-                            <li><a href="#"><i class="fas fa-tv"></i> ASK</a></li>
-                            <li><a href="#"><i class="far fa-bookmark"></i> 커플타임라인</a></li>
-                            <li><a href="#"><i class="fas fa-user-tag"></i> 커플캘린더</a></li>
-                        </ul>
+                    <div class="sectionList">
+                        <div class="innerSectionList">
+                            <ul class="sectionNav">
+                                <li class="on"><a href="#"><i class="fas fa-th"></i> 타임라인</a></li>
+                                <li><a href="#"><i class="fas fa-tv"></i> ASK</a></li>
+                                
+                                
+                                <c:if test="${user.userId eq targetUserId }">
+                                
+                                    <c:if test="${!empty couple}">
+                                    
+                                    	<li class="coupleTimeline"><a href="#"><i class="far fa-bookmark"></i> 커플타임라인</a></li>
+                                		<li><a href="#"><i class="fas fa-user-tag"></i> 커플캘린더</a></li>
+                                	</c:if>
+                                </c:if>
+                                
+                                
+                                
+                                
+                                
+                            </ul>
+                        </div>
+                        <section class="displaySection">
+                            <div class="list1 on">
+                                <c:if test="${user.publicStatus == 2 }">
+                                    비공개 계정입니다.
+                                </c:if>
+                                <c:if test="${user.publicStatus == 1 }">
+                                    <jsp:include page="/social/includeListTimeline.jsp" />
+                                </c:if>
+                            </div>
+                            <div class="list2">
+                                <c:if test="${user.publicStatus == 2 }">
+                                    비공개 계정입니다.
+                                </c:if>
+                                <c:if test="${user.publicStatus == 1 }">
+                                    <jsp:include page="/social/includeListAsk.jsp" />
+                                </c:if>
+                            </div>
+                            <div class="list3">
+                                <c:if test="${user.publicStatus == 2 }">
+                                    비공개 계정입니다.
+                                </c:if>
+                                <c:if test="${user.publicStatus == 1 }">
+                                    <%-- <jsp:include page="/couple/listCoupleTimelinePost2.jsp" /> --%>
+                                </c:if>
+                            </div>
+                            <div class="list4">
+                                <c:if test="${user.publicStatus == 2 }">
+                                    비공개 계정입니다.
+                                </c:if>
+                                <c:if test="${user.publicStatus == 1 }">
+                                    <jsp:include page="/couple/listSchedule3.jsp" />
+                                </c:if>
+                            </div>
+                            <div class="list5">
+                                <c:if test="${user.publicStatus == 2 }">
+                                    비공개 계정입니다.
+                                </c:if>
+                                <c:if test="${user.publicStatus == 1 }">
+                                    <jsp:include page="/social/includeListAskQuestion.jsp" />
+                                </c:if>
+                            </div>
+                        </section>
                     </div>
-                    <section class="displaySection">
-                        <div class="list1 on">
-                            <c:if test="${user.publicStatus == 2 }">
-                                비공개 계정입니다.
-                            </c:if>
-                            <c:if test="${user.publicStatus == 1 }">
-                                <jsp:include page="/social/includeListTimeline.jsp" />
-                            </c:if>
-                        </div>
-                        <div class="list2">
-                            <c:if test="${user.publicStatus == 2 }">
-                                비공개 계정입니다.
-                            </c:if>
-                            <c:if test="${user.publicStatus == 1 }">
-                                <jsp:include page="/social/includeListAsk.jsp" />
-                            </c:if>
-                        </div>
-                        <div class="list3">
-                            <c:if test="${user.publicStatus == 2 }">
-                                비공개 계정입니다.
-                            </c:if>
-                            <c:if test="${user.publicStatus == 1 }">
-                            <jsp:include page="/couple/listCoupleTimelinePost2.jsp" />
-                            </c:if>
-                        </div>
-                        <div class="list4">
-                            <c:if test="${user.publicStatus == 2 }">
-                                비공개 계정입니다.
-                            </c:if>
-                            <c:if test="${user.publicStatus == 1 }">
-                            	<jsp:include page="/couple/listSchedule3.jsp" />
-                            </c:if>
-                        </div>
-                        <div class="list5">
-                            <c:if test="${user.publicStatus == 2 }">
-                           	     비공개 계정입니다.
-                            </c:if>
-                            <c:if test="${user.publicStatus == 1 }">
-                            	<jsp:include page="/social/includeListAskQuestion.jsp" />
-                            </c:if>
-                        </div>
-                    </section>
                 </div>
-            </div>
             </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
         </div>
     </div>
-    
-    
+
+
     <!-- Purchase Modal -->
     <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <p class="modal-title" id="exampleModalLabel">아이템 구매</p>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-sm-12 pointTextDiv">
-                                    <p>현재 포인트 : 
-                                    <c:if test="${!empty reward.recentlyTotalPoint}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title" id="exampleModalLabel">아이템 구매</p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 pointTextDiv">
+                            <p>현재 포인트 :
+                                <c:if test="${!empty reward.recentlyTotalPoint}">
                                     ${reward.recentlyTotalPoint}
-                                    </c:if>
-                                    <c:if test="${empty reward.recentlyTotalPoint}">
+                                </c:if>
+                                <c:if test="${empty reward.recentlyTotalPoint}">
                                     0
-                                    </c:if>
-                                    </p> <!-- //////////////////////////// 유저포인트로 수정하기 -->
-                                </div>
-                                <div class="col-sm-6">
-                                    <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="cardBtn" value="1">현금 구매<br />99,000원</button>
-                                </div>
-                                <div class="col-sm-6">
-                                    <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="pointBtn" value="2">포인트 구매<br />99,000포인트</button>
-                                </div>
-                            </div>
+                                </c:if>
+                            </p> <!-- //////////////////////////// 유저포인트로 수정하기 -->
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="cardBtn" value="1">현금 구매<br />99,000원</button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="pointBtn" value="2">포인트 구매<br />99,000포인트</button>
                         </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                </div>
             </div>
-            <!-- Button trigger modal -->
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header" style="border:none">
-                            
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body" style="font-weight:bold;text-align:center">
+        </div>
+    </div>
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="border:none">
 
-                        </div>
-                        <div class="modal-footer" style="border:none">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                            <button type="button" class="btn btn-primary">확인</button>
-                        </div>
-                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="font-weight:bold;text-align:center">
+
+                </div>
+                <div class="modal-footer" style="border:none">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary">확인</button>
                 </div>
             </div>
-            
-            <!-- Modal -->
-			<div class="modal fade" id="postUpdateModal" tabindex="-1" role="dialog" aria-labelledby="postUpdateModalLabel" aria-hidden="true">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <h5 class="modal-title" id="postUpdateModalLabel">수정</h5>
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			          <span aria-hidden="true">&times;</span>
-			        </button>
-			      </div>
-			      <div class="modal-body">
-			      <textarea class="form-control textareaInModal" id="summernote2"></textarea>
-			      </div>
-			      <div class="modal-footer">
-			      	<select class="custom-select float-right viewStatusInModal" name="viewStatus">
-				        <option value="1" selected="selected">전체공개</option>
-				        <option value="2">나만보기</option>
-					</select>
-			        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-			        <button type="button" class="btn btn-primary confirmUpdateBtn">수정</button>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-</body></html>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="postUpdateModal" tabindex="-1" role="dialog" aria-labelledby="postUpdateModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postUpdateModalLabel">수정</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control textareaInModal" id="summernote2"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <select class="custom-select float-right viewStatusInModal" name="viewStatus">
+                        <option value="1" selected="selected">전체공개</option>
+                        <option value="2">나만보기</option>
+                    </select>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary confirmUpdateBtn">수정</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

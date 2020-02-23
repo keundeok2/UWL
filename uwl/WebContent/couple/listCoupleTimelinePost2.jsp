@@ -549,7 +549,7 @@
             
             $('form button[type="submit"]').on('click', function() {
             	
-                alert('클릭ㅋㅋ');
+                //alert('클릭ㅋㅋ');
                 $.ajax({
                     url: '/couple/rest/addCoupleTimelinePost2/' + userId,
                     method: 'POST',
@@ -562,8 +562,8 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                        alert('성공ㅋㅋ');
-                        getImage($('input[type="file"]').val());
+                        //alert('성공ㅋㅋ');
+                        
                         prependCoupleTimelinePost(data.post);
                     },
                     error: function(request, status, error) {
@@ -572,27 +572,10 @@
                 });
             });
             
-            function getImage(uploadFileName) {
-            	$.ajax({
-            		url: '/post/rest/addSummerNoteFile',
-            		method: 'POST',
-            		dataType: 'json',
-            		headers: {
-            			'Accept': 'application/json',
-            			'Content-Type': 'application/json'
-            		},
-            		success: function(data) {
-            			alert('성공ㅋㅋ');
-            			$('input[type="file"]').val(data);
-            		},
-            		error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                    }
-            	})
-            }
+            
 
             $(document).on('click', 'div.coupleTimelineMain div.coupleTimelinePost a', function() {
-                alert('클릭ㅋㅋ');
+                //alert('클릭ㅋㅋ');
                 $('div.backgroundOverlay').addClass('on');
                 var postNo = $(this).find('input[name="postNo"]').val();
                 $.ajax({
@@ -610,7 +593,7 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                        alert(성공ㅋㅋ);
+                        //alert(성공ㅋㅋ);
                         afterCoupleTimelinePost(data);
                     },
                     error: function(request, status, error) {
@@ -646,15 +629,11 @@
                 $('div.coupleTimelineMain').prepend(post);
             }
 
-            $('div.backgroundOverlay').on('click', function() {
-                alert('클릭클릭ㅋㅋ');
-                $('div.getCoupleTimelinePost').remove();
-                $('div.backgroundOverlay').removeClass('on');
-            });
+            
 
             $(document).ready(function() {
-				alert('온로드ㅋㅋ');
-                alert('userId : ' + userId);
+				//alert('온로드ㅋㅋ');
+                //alert('userId : ' + userId);
                 $.ajax({
                     url: '/couple/rest/getCoupleTimelinePostList/' + userId,
                     method: 'GET',
@@ -667,10 +646,10 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                    	alert('성공ㅋㅋ');
+                    	//alert('성공ㅋㅋ');
                         for (var i = 0; i < data.list.length; i++) {
                             prependCoupleTimelinePost(data.list[i]);
-                            alert(data.list[i].postNo);
+                            //alert(data.list[i].postNo);
                         }
                     },
                     error: function(request, status, error) {
@@ -775,9 +754,7 @@
             }
 
 
-            $('#myModal').on('shown.bs.modal', function() {
-                $('#myInput').trigger('focus')
-            });
+            
         });
 
         var sel_file;
