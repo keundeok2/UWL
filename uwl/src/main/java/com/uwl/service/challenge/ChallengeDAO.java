@@ -44,7 +44,7 @@ public interface ChallengeDAO {
 	public Map<String, Object> getCompleteChallengeList(Search search, String userId) throws Exception;
 	
 	//addChallenge 시 세부 카테고리를 선택창의 값을 불러오는 method
-	public List<Challenge> getDetailCategoryList(String detailCategory) throws Exception;
+	public List<Challenge> getDetailCategoryList(String challCategory) throws Exception;
 	
 	public int getTotalCount(Search search) throws Exception ;
 	

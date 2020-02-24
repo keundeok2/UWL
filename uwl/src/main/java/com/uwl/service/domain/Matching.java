@@ -65,6 +65,14 @@ public class Matching {
 	public void setDeleteDate(Date deleteDate) {
 		this.deleteDate = deleteDate;
 	}
+
+	@Override
+	public String toString() {
+		return "Matching [matchingNo=" + matchingNo + ", firstUserId=" + firstUserId + ", secondUserId=" + secondUserId
+				+ ", sendDate=" + sendDate + ", matchingStatus=" + matchingStatus + ", deleteDate=" + deleteDate + "]";
+	}
+	
+	
 	
 	
 }

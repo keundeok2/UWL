@@ -482,6 +482,7 @@ public class UserController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		System.out.println("@##@#@#@맵 @#@#@#@#" + map);
 		return "forward:/user/toolbarGetUserQuestions.jsp";
 	}
 

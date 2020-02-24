@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
 		System.out.println("UserServiceImpl : getUserQuestions() 호출");
 
 		List<Post> list= userDAO.getUserQuestions(search, userId);
-		int totalCount = userDAO.getTotalCount(search);
+		int totalCount = userDAO.getTotalCount(search,userId);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );
@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
 		System.out.println("UserServiceImpl : getUserList() 호출");
 		
 		List<User> list= userDAO.getUserList(search);
-		int totalCount = userDAO.getTotalCount(search);
+		int totalCount = userDAO.getTotalCountUser(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );
@@ -156,20 +156,20 @@ public class UserServiceImpl implements UserService {
 		
 		return map;
 	}
-		
-	@Override
-	public  Map<String, Object> getUserQuestionsList(Search search) throws Exception {
-		System.out.println("UserServiceImpl : getUserQuestionsList() 호출");
-		
-		List<User> list= userDAO.getUserQuestionsList(search);
-		int totalCount = userDAO.getTotalCount(search);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list );
-		map.put("totalCount", new Integer(totalCount));
-		
-		return map;
-	}
+//		
+//	@Override
+//	public  Map<String, Object> getUserQuestionsList(Search search) throws Exception {
+//		System.out.println("UserServiceImpl : getUserQuestionsList() 호출");
+//		
+//		List<User> list= userDAO.getUserQuestionsList(search);
+//		int totalCount = userDAO.getTotalCount(search);
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("list", list );
+//		map.put("totalCount", new Integer(totalCount));
+//		
+//		return map;
+//	}
 
 //	@Override
 //	public Map<String, Object> getUserList(Search search) throws Exception {
@@ -183,17 +183,17 @@ public class UserServiceImpl implements UserService {
 //		return map;
 //	}
 
-//	@Override
-//	public Map<String, Object> getUserQuestionsList(Search search) throws Exception {
-//		List<User> list = userDAO.getUserQuestionsList(search);
-//		int totalCount = userDAO.getTotalCount(search);
-//
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("list", list);
-//		map.put("totalCount", new Integer(totalCount));
-//
-//		return map;
-//	}
+	@Override
+	public Map<String, Object> getUserQuestionsList(Search search) throws Exception {
+		List<User> list = userDAO.getUserQuestionsList(search);
+		int totalCount = userDAO.getTotalCount2(search);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+
+		return map;
+	}
 
 //	@Override
 //	public Map<String, Object> getActivityList(Search search) throws Exception {
@@ -294,5 +294,12 @@ public class UserServiceImpl implements UserService {
 		System.out.println("유저 서비스 임쁠 탄다 답변내용가져오기");
 		return userDAO.getAnswer(postNo);
 	}
+
+	
+
+	
+
+	
+
 	
 }

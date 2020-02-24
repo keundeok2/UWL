@@ -1,5 +1,6 @@
 package com.uwl.web.matching;
 
+import java.math.MathContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -126,6 +127,8 @@ public class MatchingRestController {
 				Couple couple = new Couple();
 				couple.setFirstUserId(userId);
 				couple.setSecondUserId(secondUserId);
+				matchingService.updateCoupleRoleOther(secondUserId);
+				matchingService.updateCoupleRoleOther(userId);
 				coupleService.addCouple(couple);
 			}
 		}
@@ -134,6 +137,21 @@ public class MatchingRestController {
 		System.out.println("rest/addMatching3/{userId}/{secondUserId} 끝");
 		return totalMatching;
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "rest/updateCoupleRole/{userId}")		//둘 다 수락을 눌러서 진짜 커플 매칭
+	public void updateCoupleRole(@PathVariable String userId) throws Exception{
+		System.out.println("coupleMatching 시작");
+		
+		matchingService.updateCoupleRole(userId);
+	}
+	
+	
+	
+	
 	
 	@RequestMapping(value = "rest/deleteMatching2/{userId}/{secondUserId}")
 	public Map deleteMatching2(@PathVariable String userId, @PathVariable String secondUserId) throws Exception {
@@ -289,11 +307,11 @@ public class MatchingRestController {
 	}
 	
 	@RequestMapping(value = "rest/getMatching/{userId}")
-	public String getMatching(@PathVariable String userId) throws Exception {
+	public Matching getMatching(@PathVariable String userId) throws Exception {
 		System.out.println("rest/getMatching/{userId} 시작");
 		System.out.println("userId : " + userId);
-		System.out.println("rest/getMatching/{userId} 끝");
-		return userId;
+		Matching matching = matchingService.getMatching(userId);
+		return matching;
 	}
 	
 	@RequestMapping(value = "rest/updateMatching/{userId}")

@@ -1,5 +1,6 @@
 package com.uwl.service.matching.impl;
 
+import java.math.MathContext;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +139,21 @@ public class MatchingServiceImpl implements MatchingService{
 	public int getTotalItem(Search search, String userId, String itemCategory) throws Exception {
 		// TODO Auto-generated method stub
 		return matchingDAO.getTotalItem(search, userId, itemCategory);
+	}
+
+	
+	
+	
+	@Override
+	public void updateCoupleRole(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		matchingDAO.updateCoupleRole(userId);
+	}
+
+	@Override
+	public void updateCoupleRoleOther(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		matchingDAO.updateCoupleRoleOther(userId);
 	}
 
 	

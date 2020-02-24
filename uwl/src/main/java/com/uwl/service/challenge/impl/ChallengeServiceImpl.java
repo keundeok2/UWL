@@ -295,9 +295,9 @@ public class ChallengeServiceImpl implements ChallengeService{
 	}
 
 	@Override
-	public List<Challenge> getDetailCategoryList(String detailCategory) throws Exception {
+	public List<Challenge> getDetailCategoryList(String challCategory) throws Exception {
 		
-		List<Challenge> list = challengeDAO.getDetailCategoryList(detailCategory);
+		List<Challenge> list = challengeDAO.getDetailCategoryList(challCategory);
 		System.out.println("ChallengeService의 getDetailCategoryList()의 list값 : " + list);
 		return list;
 	}

@@ -274,21 +274,28 @@ public class ChallengeServiceTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void testGetWeeklyStart() throws Exception{
 		
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		//Calendar cal = Calendar.getInstance();
-		Calendar cal = new GregorianCalendar(2020,Calendar.FEBRUARY,23);
-		System.out.println("도전과제 시작날짜: "+sdf.format(cal.getTime()));
+//		//Calendar cal = Calendar.getInstance();
+//		Calendar cal = new GregorianCalendar(2020,Calendar.FEBRUARY,23);
+//		System.out.println("도전과제 시작날짜: "+sdf.format(cal.getTime()));
+//		
+//		cal.add(Calendar.DAY_OF_WEEK, 7);
+//		System.out.println("오늘로 부터 일주일 후: "+sdf.format(cal.getTime()));
 		
-		cal.add(Calendar.DAY_OF_WEEK, 7);
-		System.out.println("오늘로 부터 일주일 후: "+sdf.format(cal.getTime()));
 		
 		Challenge challenge = new Challenge();
 		challenge = challengeService.getWeeklyStart();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = challenge.getWeeklyStart();
+		
+		String format = sdf.format(date);
+		
 		System.out.println("challenge : " + challenge);
+		System.out.println("format : " + format);
 		
 	}
 	

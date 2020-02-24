@@ -23,6 +23,24 @@
  		<result property="itemDefault" column="item_default" jdbcType="VARCHAR"/>
  	</resultMap>
  	
+ 	<update id="updateCoupleRole" parameterType="string">
+ 		update
+ 		users
+ 		<set>
+ 			role = '3'
+ 		</set>
+ 		where user_id = #{value}
+ 	</update>
+ 	
+ 	<update id="updateCoupleRoleOther" parameterType="string">
+ 		update
+ 		users
+ 		<set>
+ 			role = '2'
+ 		</set>
+ 		where user_id = #{value}
+ 	</update>
+ 	
  	<insert id="addMatching" parameterType="matching">
  		insert
  		into matching (matching_no, first_user_id, second_user_id, send_date, matching_status)
@@ -33,13 +51,7 @@
  		'1')
  	</insert>
  	
- 	<select id="getMatching" parameterType="string" resultMap="matchingSelectMap">
- 		select
- 		matching_no, first_user_id, second_user_id, send_date, matching_status
- 		from matching
- 		where first_user_id = #{value}
- 		and matching_status != '4'
- 	</select>
+ 	
  	
  	<update id="updateMatching" parameterType="matching">
 		update
@@ -49,6 +61,18 @@
 		</set>
 		where matching_no = #{matchingNo}
  	</update>
+ 	
+ 	
+ 	<select id="getMatching" parameterType="string" resultMap="matchingSelectMap">
+ 		select
+ 		matching_no, first_user_id, second_user_id, send_date, matching_status
+ 		from matching
+ 		where first_user_id = #{value}
+ 		and matching_status != '4'
+ 	</select>
+ 	
+ 	
+ 	
  	
  	<update id="deleteMatching" parameterType="matching">
  		update

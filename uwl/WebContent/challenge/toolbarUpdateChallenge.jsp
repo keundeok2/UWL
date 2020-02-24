@@ -148,7 +148,7 @@
 
         var gatherCategoryNo = null;
 
-        $(document).ready(function() {
+        /* $(document).ready(function() {
             $(".dropdownbox").click(function() {
                 $('#choiceCategory').removeClass();
                 $(".menu").toggleClass("showMenu");
@@ -157,7 +157,7 @@
                     $(".menu").removeClass("showMenu");
                 });
             });
-        });
+        }); */
 
 
         //썸머노트--------------------------------------------------------------------------------
@@ -660,6 +660,49 @@
 							       		</c:if>
 						       		</c:if>
 						        </option>
+						        <!-- 선택된 정보 이외의 정보목록을 view -->
+						        <c:forEach var="detailList" items="${detailList}">
+							       		<!-- 디테일카테고리 정보가 이미 1번째라인에 있다면 출력을 X -->
+							       		<c:if test="${challenge.detailCategory != detailList.detailCategory}">
+							       			<!-- option 시작지점 -->
+							       			<option value="${detailList.detailCategory}">
+							       			<!-- 카테고리가 1번이면 -->
+								       		<c:if test="${detailList.challCategory == '1'}">
+								       			${detailList.detailCategory}
+								       		</c:if>
+								       		
+								        	<!-- 카테고리가 2번이면 -->
+								       		<c:if test="${detailList.challCategory == '2'}">
+								       			${detailList.detailCategory}
+								       		</c:if>
+								       		
+								        	<!-- 카테고리가 3번이면 -->
+								       		<c:if test="${detailList.challCategory == '3'}">
+									       		<c:if test="${detailList.detailCategory == '201'}">
+									       			진학상담
+									       		</c:if>
+									       		<c:if test="${detailList.detailCategory == '202'}">
+									       			사랑과이별
+									       		</c:if>
+									       		<c:if test="${detailList.detailCategory == '203'}">
+									       			남자끼리
+									       		</c:if>
+									       		<c:if test="${detailList.detailCategory == '204'}">
+									       			여자끼리
+									       		</c:if>
+									       		<c:if test="${detailList.detailCategory == '205'}">
+									       			데이트자랑
+									       		</c:if>
+									       		<c:if test="${detailList.detailCategory == '206'}">
+									       			대나무숲
+									       		</c:if>
+									       		<c:if test="${detailList.detailCategory == '댓글'}">
+									       			댓글
+									       		</c:if>
+								       		</c:if>
+								         	 </option>
+							       		</c:if>
+						         </c:forEach>
 						    </select>
                             <!--  <div class="row col-3">
                             	<div class="input-group">

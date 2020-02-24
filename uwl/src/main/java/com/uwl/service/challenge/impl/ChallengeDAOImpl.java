@@ -120,9 +120,9 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 	}
 
 	@Override
-	public List<Challenge> getDetailCategoryList(String detailCategory) throws Exception {
-		System.out.println("ChallengeDAOImpl의  getDetailCategoryList()" + detailCategory );
-		return sqlSession.selectList("ChallengeMapper.getDetailCategoryList", detailCategory);
+	public List<Challenge> getDetailCategoryList(String challCategory) throws Exception {
+		System.out.println("ChallengeDAOImpl의  getDetailCategoryList()" + challCategory );
+		return sqlSession.selectList("ChallengeMapper.getDetailCategoryList", challCategory);
 	}
 
 	@Override
