@@ -175,12 +175,15 @@
 	 </select>
 	 
 	 <!-- SQL : SELECT ONE  -->
+	 <!-- 엔드데이를 하루로 설정 -->
 	 <select  id="getWeeklyStart" parameterType="challenge" resultMap="challengSelectMap">
-	  	SELECT the_latest.weekly_start AS weekly_start
-		FROM (SELECT weekly_start AS weekly_start
-				FROM challenge 
-				WHERE weekly_start IS NOT NULL
-				ORDER BY chall_no DESC) the_latest
+	  	SELECT the_latest.weekly_start,
+				 the_latest.weekly_end
+		FROM (SELECT weekly_start,
+									(weekly_start +1) weekly_end
+						FROM challenge 
+						WHERE weekly_start IS NOT NULL
+						ORDER BY chall_no DESC) the_latest
 		WHERE ROWNUM = 1
 	 </select>
 	 
@@ -283,7 +286,7 @@ WHERE r.chall_no = c.chall_no AND r.user_id = #{userId} ORDER BY r.variable_date
 								<if test="detailCategory == 201 ">
 								 	AND	p.gather_category_no = '201'
 								</if>
-								<!-- 사랑 -->
+								<!-- 사랑과 이별 -->
 								<if test="detailCategory == 202 ">
 								 	AND p.gather_category_no = '202'
 								</if>
@@ -302,20 +305,23 @@ WHERE r.chall_no = c.chall_no AND r.user_id = #{userId} ORDER BY r.variable_date
 	 
 	 <!-- SQL : SELECT ROW Count -->	 <!-- 파라미터를 map으로 가져올것. -->
 	 <select  id="getChallCommentCompleteCount"  parameterType="challenge"	 resultType="int">
-	  	SELECT COUNT(*) FROM(			
-								 SELECT  c.user_id,
-												c.comment_date
-											FROM commentt c, (SELECT the_latest.weekly_start weekly_start,
-																												weekly_end.	weekly_end	weekly_end		FROM
-																										(SELECT weekly_start  
-																										FROM challenge 
-																										WHERE weekly_start IS NOT NULL 
-																										ORDER BY weekly_start DESC) the_latest, (SELECT 
-																																															to_char(weekly_start+7,'yyyy-mm-dd HH24:MI:SS') weekly_end
-																																															from challenge c WHERE c.weekly_start IS NOT NULL ORDER BY c.weekly_start DESC) weekly_end
-																								WHERE ROWNUM = 1) week
-					WHERE TO_DATE(c.comment_date, 'yyyy-mm-dd HH24:MI:SS') BETWEEN TO_DATE(week.weekly_start, 'yyyy-mm-dd HH24:MI:SS') AND TO_DATE(week.weekly_end , 'yyyy-mm-dd HH24:MI:SS')
-					AND c.user_id = #{commentt.userId} ) countTable
+	  	SELECT COUNT(*) 
+		FROM(SELECT  c.user_id,
+					p.gather_category_no,
+					c.comment_date,
+					week.weekly_start,
+					week.weekly_end
+	FROM commentt c, post p, (SELECT the_latest.weekly_start,
+																		the_latest.weekly_end
+														FROM (SELECT weekly_start,
+																	(weekly_start + 7) weekly_end
+																		FROM challenge 
+																		WHERE weekly_start IS NOT NULL 
+																		ORDER BY chall_no DESC) the_latest
+														WHERE ROWNUM = 1) week
+	WHERE  c.user_id = p.user_id AND c.post_no = p.post_no
+	AND c.comment_date  BETWEEN week.weekly_start  AND week.weekly_end
+	AND p.user_id = #{commentt.userId}) countTable
 	 </select>
 	 
 	 <!-- 이전글 이후글보기 추가 -->

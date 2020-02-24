@@ -359,57 +359,45 @@ public class ChallengeController {
 		
 		System.out.println("ChallengeController의 getChallengeList() /challenge/listChallenge : GET / POST");
 		
-		Map<String, Object> map = challService.getChallengeList();
 		
-		//List<Challenge> list = challService.getChallengeList();
-		List<Challenge> list = (List<Challenge>)(map.get("list"));
+		///도전과제 끝시간에 도착했을때 한번 더 실행 ==> 다시 set도 해줘야됨. 끝난시간 = 새로운 시작시간
+		
+		
 		//challService.addWeeklyStart(challenge);
 		
-		System.out.println("ChallengeController getChallengeList()의 map에 담긴 list : " + list);
+		//System.out.println("======%%%%%>>>ChallengeController getChallengeList()의 map에 담긴 list : " + list);
 		
 		//////////////// 주간도전과제 시작과 끝을 세팅 ////////////////
 
 
 		Challenge challenge = challService.getWeeklyStart();
+		System.out.println("======%%%%%>>>ChallengeController challenge() : " + challenge);
 		
-		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String strDate = transFormat.format(challenge.getWeeklyStart());
+		//SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy:MM:dd-hh:mm:ss");
+		//"yyyy:MM:dd-hh:mm:ss"
 		
-		System.out.println("============================>>>>>strDate : " + strDate);
-		//String[] fullDate = parse.split("-");
+		//끝시간 알기
+		String weeklyEnd = transFormat.format(challenge.getWeeklyEnd());
 		
-		//int yyyy = Integer.parseInt(fullDate[0]);
-		//String mm = fullDate[1];
-		//int dd = Integer.parseInt(fullDate[2]);
+		Calendar cal = Calendar.getInstance();
+		//현재시각 알기
+		String sysdate = transFormat.format(cal.getTime());
+
+		System.out.println("----------> " + weeklyEnd);
+		System.out.println("ddsadsa : " + sysdate);
 		
-		//무슨달인지 담아줄 변수
-		int parameterMonth = 0;
-		
-//		if (mm.equals("01")) {
-//			parameterMonth = Calendar.JANUARY;
-//		}else if(mm.equals("02")){
-//			parameterMonth = Calendar.FEBRUARY;
-//		}else if(mm.equals("03")){
-//			parameterMonth = Calendar.MARCH;
-//		}else if(mm.equals("04")){
-//			parameterMonth = Calendar.APRIL;
-//		}else if(mm.equals("05")){
-//			parameterMonth = Calendar.MAY;
-//		}else if(mm.equals("06")){
-//			parameterMonth = Calendar.JUNE;
-//		}else if(mm.equals("07")){
-//			parameterMonth = Calendar.JULY;
-//		}else if(mm.equals("08")){
-//			parameterMonth = Calendar.AUGUST;
-//		}else if(mm.equals("09")){
-//			parameterMonth = Calendar.SEPTEMBER;
-//		}else if(mm.equals("10")){
-//			parameterMonth = Calendar.OCTOBER;
-//		}else if(mm.equals("11")){
-//			parameterMonth = Calendar.NOVEMBER;
-//		}else if(mm.equals("12")){
-//			parameterMonth = Calendar.DECEMBER;
+		//종료시간이 현재시각과 같다면
+//		if (weeklyEnd.equals(sysdate)) {
+//			System.out.println("==========>>>>종료시간 if문에 접속함");
+//			//그러면 주간도전과제를 실행
 //		}
+		Map<String, Object> map = challService.getChallengeList();
+		
+		List<Challenge> list = (List<Challenge>)(map.get("list"));
+		
+		
+		
 		
 		//변환된 정보들을 넣어줌
 		//Calendar weeklyStart = new GregorianCalendar(yyyy,parameterMonth,dd);
@@ -427,9 +415,10 @@ public class ChallengeController {
 //		
 		
 	//	System.out.println("ChallengeController getWeeklyStart : " +weeklyStart );
-		model.addAttribute("list", list);
+		
 		model.addAttribute("challenge", challenge);
-		model.addAttribute("strDate", strDate);
+		model.addAttribute("list", list);
+		//model.addAttribute("strDate", strDate);
 		
 		//return "forward:/challenge/listChallenge.jsp";
 		return "forward:/challenge/toolbarListChallenge.jsp";
@@ -437,25 +426,5 @@ public class ChallengeController {
 	
 	
 	
-	//내부에서 로그인 세션검증을 하는 method ==> ModelAndView 전략같은데..?
-//	private String loginCheck(User user, HttpSession session, String forward) throws Exception {
-//		
-//		user = (User)session.getAttribute("user");
-//		
-//		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
-//		if (user.getUserId() == null) {
-//			System.out.println("ChallengeController loginCheck() : GET ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
-//			return "forward:/user/login";
-//			
-//		//관리자가 아니라면 메인페이지로 이동하게끔 만든다.
-//		}else if(!(user.getRole().equals("4"))) {
-//			System.out.println("ChallengeController loginCheck() : GET role이 관리자(\"4\")가 아니면 main.jsp로 이동");
-//			return "forward:/main.jsp";
-//		}
-//		
-//		//forward에 각각 다른 위치를 지정함
-//		return null;
-//		
-//	}
 	
 }
