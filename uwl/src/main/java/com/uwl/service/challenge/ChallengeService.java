@@ -46,7 +46,7 @@ public interface ChallengeService {
 	public Map<String, Object> getCompleteChallengeList(Search search, String userId) throws Exception;
 	
 	//addChallenge 시 세부 카테고리를 선택창의 값을 불러오는 method
-	public List<Challenge> getDetailCategoryList(String detailCategory) throws Exception;
+	public List<Challenge> getDetailCategoryList(String challCategory) throws Exception;
 	
 	//도전과제를 수행했을떄 ==> 게시판작성
 	public Reward completePostChallenge(Reward reward, Challenge challenge, Map<String, Object> map, User user) throws Exception;

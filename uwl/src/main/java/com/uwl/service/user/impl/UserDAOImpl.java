@@ -179,10 +179,26 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	@Override
-	public int getTotalCount(Search search) throws Exception {
+	public int getTotalCount(Search search, String userId) throws Exception {
 		System.out.println("UserDAOImpl : getTotalCount() 호출");
-		return sqlSession.selectOne("UserMapper.getTotalCount", search);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("userId", userId);
+		System.out.println("유저디에이오 맵 :: "  + map);
+		return sqlSession.selectOne("UserMapper.getTotalCount", map);
 	}
+	
+	@Override
+	public int getTotalCount2(Search search) throws Exception {
+		System.out.println("UserDAOImpl : getTotalCount() 호출");
+		return sqlSession.selectOne("UserMapper.getTotalCount2", search);
+	}
+	@Override
+	public int getTotalCountUser(Search search) throws Exception {
+		System.out.println("UserDAOImpl : getTotalCount() 호출");
+		return sqlSession.selectOne("UserMapper.getTotalCountUser", search);
+	}
+	
 
 	@Override
 	public void updatePassword(User user) throws Exception {

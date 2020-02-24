@@ -175,25 +175,34 @@
  	
  	
  	
- 	
+ 	<!-- 공지사항  -->
  	<select  id="getTotalCount"  parameterType="search"	 resultType="int">
-	  	SELECT COUNT(*)
-	  	FROM(	SELECT *
-						FROM post
-						<!-- <if test="searchCondition != null">
-							<where>
-								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 			and prod_no = #{searchKeyword}
-								</if>
-								<if test="searchCondition == 2 and searchKeyword !='' ">
-						 			and prod_name = #{searchKeyword}
-								</if>
-								<if test="searchCondition == 3 and searchKeyword !='' ">
-						 			and price = #{searchKeyword}
-								</if>
-							</where>
-						</if> --> ) countTable						
+	  	select count(*) from (SELECT * 
+        FROM (  SELECT inner_table.* , ROWNUM AS row_seq
+                  FROM ( SELECT post_no , post_title, post_content, post_date , QUESTION_STATUS, reply_post_no
+                            FROM post
+							WHERE post_category_no = '1'
+							ORDER BY post_date DESC) 
+				inner_table)
+		)
 	 </select>
+	 
+	 <!-- 각각 게시판  -->
+ 	<select  id="getTotalCount2"  parameterType="String" resultType="int">
+	  	
+SELECT count(*)
+ 		FROM ( SELECT inner_table.*
+ 			FROM ( SELECT post_no, p.user_id, post_title, post_content, post_date, hit_count, like_count, comment_count, view_status, post_category_no, gather_category_no, uploadfile_name, u.name, u.nickname, u.profile_name
+ 						FROM post p, users u
+ 						WHERE post_category_no = '2'
+ 						AND view_status = '1'
+ 						AND gather_category_no = #{gatherCategoryNo}
+	 					AND p.user_id = u.user_id
+ 						ORDER BY post_date DESC) inner_table
+                        )
+	 </select>
+	 
+	 
  	
  	<!-- 조회수든 뭐든 ㅅㅂ ㅋㅋ -->
  	<insert id="updateHitStatus" parameterType="map">
