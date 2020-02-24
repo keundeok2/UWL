@@ -114,9 +114,14 @@ public class PostDAOImpl implements PostDAO{
 	
 	
 	
-	@Override
+	@Override // 공지사항
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("PostMapper.getTotalCount",search);
+	}
+	
+	@Override // 각각 게시판
+	public int getTotalCount2(String gatherCategoryNo) throws Exception {
+		return sqlSession.selectOne("PostMapper.getTotalCount2", gatherCategoryNo);
 	}
 
 

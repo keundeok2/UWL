@@ -10,7 +10,13 @@ public class Search {
 	private int pageSize;
 	private int endRowNum;
 	private int startRowNum;
+	private String postCategoryNo; // 추가
+	private String postChallenge; // 추가
+	////////////////////////////////////////////////////
+	private String userId;
 	
+	
+
 	///Constructor
 	public Search() {
 	}
@@ -58,12 +64,40 @@ public class Search {
 	public void setStartRowNum(int startRowNum) {
 		this.startRowNum = startRowNum;
 	}
+	
+	public String getPostCategoryNo() {
+		return postCategoryNo;
+	}
+
+	public void setPostCategoryNo(String postCategoryNo) {
+		this.postCategoryNo = postCategoryNo;
+	}
+
+	public String getPostChallenge() {
+		return postChallenge;
+	}
+
+	public void setPostChallenge(String postChallenge) {
+		this.postChallenge = postChallenge;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
 	@Override
 	public String toString() {
-		return "Search [currentPage=" + currentPage + ", searchCondition="
-				+ searchCondition + ", searchKeyword=" + searchKeyword
-				+ ", pageSize=" + pageSize + ", endRowNum=" + endRowNum
-				+ ", startRowNum=" + startRowNum + "]";
+		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
+				+ searchKeyword + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
+				+ ", postCategoryNo=" + postCategoryNo + ", postChallenge=" + postChallenge + ", userId=" + userId
+				+ "]";
 	}
+
+	
+
+	
 }

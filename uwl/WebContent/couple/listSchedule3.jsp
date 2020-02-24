@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,19 +9,212 @@
     <link rel="stylesheet" href="/css/jquery-ui.css">
     <script src="/javascript/jquery-ui.js"></script>
     <script>
+    
+    function refrechCalender() {
+    	var userId = $('input[name="userId"]').val();
+        var postDate = $('#cal_top_year').text() + '-' + $('#cal_top_month').text() + '-01';
+
+        //alert('userId : ' + userId);
+        //alert('postDate : ' + postDate);
+        $.ajax({
+            url: '/couple/rest/getScheduleList2/' + userId + '/' + postDate,
+            method: 'GET',
+            dataType: 'json',
+            data: JSON.stringify({
+                userId: userId,
+                postDate: postDate
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            success: function(data) {
+                for (var i = 0; i < data.list.length; i++) {
+                    //alert('postDate : ' + data.list[i].postDate + ' postTitle : ' + data.list[i].postTitle);
+                    getPostDateAndAddPostTitle(data.list[i].postDate, data.list[i].postTitle, data.list[i].postNo);
+                }
+            },
+            error: function(request, status, error) {
+                //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+        });
+    }
         $(function() {
             $("#datepicker").datepicker({
-                dateFormat: 'yy≥‚ mmø˘ dd¿œ',
-                monthNames: ['1ø˘', '2ø˘', '3ø˘', '4ø˘', '5ø˘', '6ø˘', '7ø˘', '8ø˘', '9ø˘', '10ø˘', '11ø˘', '12ø˘'] //¥ﬁ∑¬¿« ø˘ ∫Œ∫– Tooltip ≈ÿΩ∫∆Æ
+                dateFormat: 'yyÎÖÑ mmÏõî ddÏùº',
+                monthNames: ['1Ïõî', '2Ïõî', '3Ïõî', '4Ïõî', '5Ïõî', '6Ïõî', '7Ïõî', '8Ïõî', '9Ïõî', '10Ïõî', '11Ïõî', '12Ïõî'] //Îã¨Î†•Ïùò Ïõî Î∂ÄÎ∂Ñ Tooltip ÌÖçÏä§Ìä∏
                     ,
-                dayNamesMin: ['¿œ', 'ø˘', '»≠', 'ºˆ', '∏Ò', '±›', '≈‰'] //¥ﬁ∑¬¿« ø‰¿œ ∫Œ∫– ≈ÿΩ∫∆Æ
+                dayNamesMin: ['Ïùº', 'Ïõî', 'Ìôî', 'Ïàò', 'Î™©', 'Í∏à', 'ÌÜ†'] //Îã¨Î†•Ïùò ÏöîÏùº Î∂ÄÎ∂Ñ ÌÖçÏä§Ìä∏
                     ,
                 showMonthAfterYear: true,
-                yearSuffix: "≥‚"
+                yearSuffix: "ÎÖÑ"
             });
-1
+
+
+            /* updateSchedule */
+
+
         });
+
     </script>
+    <script>
+        $(function() {
+            //flexibleInputBox();
+
+            function flexibleInputBox() {
+                var value = $('div.updateSchedule table tr:nth-child(2) td:nth-child(2) input').val();
+                //alert(value);
+                $('div.updateSchedule table tr:nth-child(2) td:nth-child(2) div').append('<div id="virtual_dom">' + value + '</div>');
+                //Ïã§Ï†ú ÏΩîÎìúÏóêÎäî ÏÉÅÏúÑÎèîÏóê ÏßëÏñ¥ÎÑ£Ïñ¥Ï£ºÏÑ∏Ïöî.
+
+                var inputWidth = $('#virtual_dom').width(); // Í∏ÄÏûê ÌïòÎÇòÏùò ÎåÄÎûµÏ†ÅÏù∏ ÌÅ¨Í∏∞ 
+
+                $('div.updateSchedule table tr:nth-child(2) td:nth-child(2) input').css('width', inputWidth);
+                $('#virtual_dom').remove();
+            }
+
+            $('div.updateSchedule table tr:nth-child(2) td:nth-child(2) input').on('keydown', function(e) {
+                flexibleInputBox();
+            });
+
+            $("#updateScheduleDatepicker").datepicker({
+                dateFormat: 'yy-mm-dd',
+                monthNames: ['1Ïõî', '2Ïõî', '3Ïõî', '4Ïõî', '5Ïõî', '6Ïõî', '7Ïõî', '8Ïõî', '9Ïõî', '10Ïõî', '11Ïõî', '12Ïõî'] //Îã¨Î†•Ïùò Ïõî Î∂ÄÎ∂Ñ Tooltip ÌÖçÏä§Ìä∏
+                    ,
+                dayNamesMin: ['Ïùº', 'Ïõî', 'Ìôî', 'Ïàò', 'Î™©', 'Í∏à', 'ÌÜ†'] //Îã¨Î†•Ïùò ÏöîÏùº Î∂ÄÎ∂Ñ ÌÖçÏä§Ìä∏
+                    ,
+                showMonthAfterYear: true,
+                yearSuffix: "ÎÖÑ"
+            });
+
+
+
+        });
+
+    </script>
+    <style>
+        div.list4 .modal-dialog {
+            max-width: 760px;
+        }
+
+        div.list4 div.modal-content {
+            width: 760px;
+        }
+
+        div.updateSchedule {
+
+            padding: 15px 10px;
+        }
+
+        div.updateSchedule table {
+
+            width: 100%;
+
+        }
+
+        div.updateSchedule table tr {
+            line-height: 30px;
+        }
+
+        div.updateSchedule table td:nth-child(1) {
+            text-align: center;
+            font-size: 19px;
+
+        }
+
+        div.updateSchedule table tr:nth-child(1) td:nth-child(2) {
+            font-size: 25px;
+            padding-right: 30px;
+            padding-bottom: 20px;
+        }
+
+        div.updateSchedule table tr:nth-child(1) td:nth-child(2) input {
+            width: 100%;
+
+            border: none;
+            border-bottom: 1px solid;
+            line-height: 50px;
+        }
+
+        div.updateSchedule table tr:nth-child(n + 2) td:nth-child(2) {
+            padding-right: 30px;
+            padding-bottom: 8px;
+        }
+
+        div.updateSchedule table tr:nth-child(n + 2) td:nth-child(2) input {
+            background-color: #eee;
+            border: none;
+            border-radius: 4px;
+            padding: 0 8px;
+            font-size: 13px;
+
+        }
+
+        div.updateSchedule table tr:nth-child(2) td:nth-child(2) input {
+            background-color: #eee;
+            padding: 0;
+            text-indent: 8px;
+
+        }
+
+        div.updateSchedule table tr:nth-child(2) td:nth-child(2) div {
+            display: inline-block;
+
+        }
+
+        div.updateSchedule table tr:nth-child(3) td:nth-child(2) input {
+            width: 100%;
+        }
+
+        div.updateSchedule table tr:nth-child(4) td:nth-child(2) {
+
+            font-size: 13px;
+
+        }
+
+        div.updateSchedule table tr:nth-child(1) td:nth-child(1) {
+            vertical-align: baseline;
+            line-height: 50px;
+        }
+
+        div.updateSchedule table tr:nth-child(n + 3) td:nth-child(1) {
+            vertical-align: baseline;
+        }
+
+        div.updateSchedule table tr:nth-child(5) td:nth-child(2) textarea {
+            width: 100%;
+            resize: none;
+            height: 200px;
+            padding: 8px;
+            font-size: 13px;
+            background-color: #eee;
+            border: none;
+            border-radius: 4px;
+        }
+
+        div.updateSchedule table tr:nth-child(1) td:nth-child(3) a {
+            display: inline-block;
+
+            line-height: 35px;
+            padding: 0 25px;
+            border-radius: 5px;
+            vertical-align: 25px;
+            background-color: #EBAD7A;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        div.updateSchedule table tr:nth-child(1) td:nth-child(3) a+a {
+            margin-left: 8px;
+            background-color: #eee;
+            color: #000;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+    </style>
     <style>
         * {
             margin: 0;
@@ -56,7 +249,7 @@
 
             height: calc(100vh - 70px);
             background: #fff;
-            
+
         }
 
         #cal_tab table {
@@ -74,10 +267,11 @@
             position: relative;
             width: calc(100% / 7);
         }
+
         #cal_tab td:nth-child(1),
         #cal_tab td:nth-child(7) {
-        	border-right: none;
-        	border-left: none;
+            border-right: none;
+            border-left: none;
         }
 
         #cal_tab tr:nth-child(7) td {
@@ -91,6 +285,7 @@
             vertical-align: bottom;
 
         }
+
         #cal_tab tr:nth-child(n + 2) {
             height: calc(100% / 7);
         }
@@ -211,7 +406,7 @@
             background-color: #fff;
             width: 400px;
             padding: 10px 20px 15px 10px;
-			border: 1px solid #eee;
+            border: 1px solid #eee;
             border-radius: 5px;
             box-shadow: 1px 1px 1px #eee;
             position: absolute;
@@ -228,7 +423,7 @@
             background-color: #fff;
             width: 400px;
             padding: 10px 20px 15px 10px;
-			border: 1px solid #eee;
+            border: 1px solid #eee;
             border-radius: 5px;
             box-shadow: 1px 1px 1px #eee;
             position: absolute;
@@ -244,7 +439,7 @@
         td .wrap.right.on {
             left: 90px;
             opacity: 1;
-            
+
         }
 
         td .wrap.left.on {
@@ -447,16 +642,17 @@
             position: relative;
             text-align: left;
             white-space: normal;
-            
+
         }
 
-        div.cal-schedule > a {
+        div.cal-schedule>a {
             display: block;
             padding: 5px;
             margin-bottom: 2px;
             background-color: #EBAD7A;
             border-radius: 3px;
         }
+
         div.cal-schedule div.getScheduleModal {
             position: absolute;
             /*right: -310px;*/
@@ -468,97 +664,128 @@
             border: 1px solid;
             padding: 10px;
         }
+
         div.getScheduleModal a {
             border: 1px solid;
             line-height: 25px;
             display: inline-block;
             padding: 0 10px;
         }
-        
+
         div.getSchedule {
             position: absolute;
             top: 50%;
-            transform: translateY(-50%);
+            transform: translate(-50%, -50%);
             z-index: 9999;
             padding: 5px 20px 10px;
-            width: 450px;
+            width: 400px;
             background-color: #fff;
-            border: 1px solid #c2c2c2;
+            border: 1px solid #eee;
             box-shadow: 1px 1px 1px #eee;
             border-radius: 5px;
+            opacity: 0;
+            transition: all 0.3s;
+            font-size: 13px;
+            left: 50%;
         }
+
         div.getSchedule div.getScheduleHeader {
-            
+
             font-size: 17px;
             text-align: right;
         }
+
         div.getSchedule div.getScheduleHeader a {
-            
+
             display: inline-block;
             line-height: 35px;
             height: 35px;
             width: 35px;
             text-align: center;
             border-radius: 50%;
-            
+
         }
-        
+
         div.getSchedule div.getScheduleHeader a:hover {
-            background-color: lightcoral;
+            background-color: rgba(235, 173, 122, 0.3);
         }
-        div.getSchedule div.getScheduleHeader a + a {
+
+        div.getSchedule div.getScheduleHeader a+a {
             margin-left: 5px;
         }
+
         div.getSchedule div.getScheduleMain {
-            
+
             padding-top: 10px;
         }
+
         div.getSchedule div.getScheduleMain div.postTitle {
             margin-bottom: 20px;
         }
-        div.getSchedule div.getScheduleMain > div:nth-child(n + 2) {
-            
+
+        div.getSchedule div.getScheduleMain>div:nth-child(n + 2) {
+
             margin-bottom: 10px;
         }
-        div.getSchedule div.getScheduleMain div.postTitle > div:nth-child(1) {
+
+        div.getSchedule div.getScheduleMain div.postTitle>div:nth-child(1) {
             width: 15px;
             height: 15px;
-            background-color: rebeccapurple;
+            background-color: #de7527;
             border-radius: 3px;
             display: inline-block;
             vertical-align: 25px;
             margin-right: 15px;
         }
-        div.getSchedule div.getScheduleMain div.postTitle > div:nth-child(2) div:nth-child(1) {
+
+        div.getSchedule div.getScheduleMain div.postTitle>div:nth-child(2) div:nth-child(1) {
             font-size: 20px;
         }
-        div.getSchedule div.getScheduleMain div.postTitle > div:nth-child(2) {
-            
+
+        div.getSchedule div.getScheduleMain div.postTitle>div:nth-child(2) {
+
             display: inline-block;
         }
+
         div.getSchedule div.getScheduleMain div.postTitle div.postDate {
             font-size: 14px;
         }
-        div.getSchedule div.getScheduleMain > div:nth-child(n + 2) > div:nth-child(1) {
-            
+
+        div.getSchedule div.getScheduleMain>div:nth-child(n + 2)>div:nth-child(1) {
+
             font-size: 17px;
             display: inline-block;
             vertical-align: middle;
             margin-right: 15px;
         }
-        div.getSchedule div.getScheduleMain > div:nth-child(n + 2) > div:nth-child(2) {
-            
+
+        div.getSchedule div.getScheduleMain>div:nth-child(n + 2)>div:nth-child(2) {
+
             font-size: 14px;
             display: inline-block;
             vertical-align: middle;
         }
-        div.getSchedule div.getScheduleMain div.postTitle div:nth-child()
-        div.getSchedule div.getScheduleMain > div:nth-child(n + 2) > div:nth-child(2) a {
+
+        div.getSchedule div.getScheduleMain div.postTitle div:nth-child() div.getSchedule div.getScheduleMain>div:nth-child(n + 2)>div:nth-child(2) a {
             font-weight: bold;
         }
-        div.getSchedule div.getScheduleMain > div:nth-child(n + 2) > div:nth-child(2) a:hover {
+
+        div.getSchedule div.getScheduleMain>div:nth-child(n + 2)>div:nth-child(2) a:hover {
             text-decoration: underline;
         }
+
+        div.getSchedule div.getScheduleMain>div.place.on {
+            display: none;
+        }
+
+        div.getSchedule div.getScheduleMain>div.postContent.on {
+            display: none;
+        }
+
+        #updateScheduleModalBtn {
+            display: none;
+        }
+
     </style>
 
 
@@ -578,7 +805,7 @@
             <a href="#"><i class="fas fa-times"></i></a>
         </div>
         <div>
-            <input type="text" placeholder="¡¶∏Ò π◊ Ω√∞£ √ﬂ∞°">
+            <input type="text" placeholder="Ï†úÎ™© Î∞è ÏãúÍ∞Ñ Ï∂îÍ∞Ä">
             <span></span>
         </div>
         <div>
@@ -586,22 +813,22 @@
             <span></span>
         </div>
         <div>
-            <i class="fas fa-map-marker-alt"></i> <input type="text" placeholder="¿ßƒ° ∂«¥¬ »∏¿« √ﬂ∞°">
+            <i class="fas fa-map-marker-alt"></i> <input type="text" placeholder="ÏúÑÏπò ÎòêÎäî ÌöåÏùò Ï∂îÍ∞Ä">
             <span></span>
         </div>
         <div>
-            <i class="fas fa-align-left"></i> <input type="text" placeholder="º≥∏Ì √ﬂ∞°">
+            <i class="fas fa-align-left"></i> <input type="text" placeholder="ÏÑ§Î™Ö Ï∂îÍ∞Ä">
             <span></span>
         </div>
         <div>
-            <a href="#">¿˙¿Â</a>
+            <a href="#">Ï†ÄÏû•</a>
         </div>
     </div>-->
 
     <div class="cal_top">
         <div>
             <div>
-                <a class="today" href="#">ø¿¥√</a>
+                <a class="today" href="#">Ïò§Îäò</a>
             </div>
 
             <div>
@@ -618,8 +845,8 @@
             </div>
 
             <div>
-                <span id="cal_top_year"></span><span>≥‚</span>
-                <span id="cal_top_month"></span><span>ø˘</span>
+                <span id="cal_top_year"></span><span>ÎÖÑ</span>
+                <span id="cal_top_month"></span><span>Ïõî</span>
                 <i class="fas fa-caret-down"></i>
             </div>
 
@@ -659,11 +886,11 @@
             });
         });
 
-        //calendar ±◊∏Æ±‚
+        //calendar Í∑∏Î¶¨Í∏∞
         function drawCalendar() {
             var setTableHTML = "";
             setTableHTML += '<table class="calendar">';
-            setTableHTML += '<tr><td>¿œ</td><td>ø˘</td><td>»≠</td><td>ºˆ</td><td>∏Ò</td><td>±›</td><td>≈‰</td></tr>';
+            setTableHTML += '<tr><td>Ïùº</td><td>Ïõî</td><td>Ìôî</td><td>Ïàò</td><td>Î™©</td><td>Í∏à</td><td>ÌÜ†</td></tr>';
             for (var i = 0; i < 6; i++) {
                 setTableHTML += '<tr>';
                 for (var j = 0; j < 7; j++) {
@@ -683,7 +910,7 @@
 
         /*$(document).ready(function() {
             var dayday = $('div.cal_top_year').text() + '-' + $('div.cal_top_month').text() + '-01';
-            alert('ø¬∑ŒµÂ§ª§ª');
+            alert('Ïò®Î°úÎìú„Öã„Öã');
             alert('userId : ' + sessionUserId);
             $.ajax({
                 url: '/couple/rest/getCoupleTimelinePostList2/' + sessionUserId + '/' + dayday,
@@ -697,29 +924,29 @@
                     'Content-Type': 'application/json'
                 },
                 success: function(data) {
-                    alert('º∫∞¯§ª§ª');
+                    alert('ÏÑ±Í≥µ„Öã„Öã');
                     if(data != null) {
                         for(var i = 0; i < data.list[0].size(); i++) {
                             list[0].postDate
                         }
                     }
                     data.list.length()????
-                    ¿Ã∑∏∞‘«œ∏È ªÁ¿Ã¡Ó ≥™ø»
-                    ¿Ã∑∏∞‘ µπ∑¡º≠
+                    Ïù¥Î†áÍ≤åÌïòÎ©¥ ÏÇ¨Ïù¥Ï¶à ÎÇòÏò¥
+                    Ïù¥Î†áÍ≤å ÎèåÎ†§ÏÑú
                     list[i].postDate
                     list[i].postTitle
-                    var i ¿÷¡ˆ
-                    ±◊∞≈∏¶ forπÆ æ»ø°
-                    ±◊¥œ±Ó data.list.listSize?
-                        ¿Áπ’≥◊
-                    æ∆¥œ¥Ÿ?
-                    √§∆√... ¥ÁΩ≈... √§∆√¿Ãæﬂ.... ¥ÁΩ≈ √§∆√¿Ã∂Û±∏...
-                    jsp... ≥—±‚∏È.. «¸¡¯ø¿∫¸∞° ¥Ÿ«ÿ¡‹!!!!!!
-                    ≥°≥µ≥◊
-                    ¥Ÿ«ﬂ¥Á^0^
-                        restcontroller ∏∏µÈ±‚
-                    ∞¯¿Ø
-                    π∫∏ª¿Œ¡ˆæÀ¡ˆ
+                    var i ÏûàÏßÄ
+                    Í∑∏Í±∞Î•º forÎ¨∏ ÏïàÏóê
+                    Í∑∏ÎãàÍπå data.list.listSize?
+                        Ïû¨Î∞åÎÑ§
+                    ÏïÑÎãàÎã§?
+                    Ï±ÑÌåÖ... ÎãπÏã†... Ï±ÑÌåÖÏù¥Ïïº.... ÎãπÏã† Ï±ÑÌåÖÏù¥ÎùºÍµ¨...
+                    jsp... ÎÑòÍ∏∞Î©¥.. ÌòïÏßÑÏò§Îπ†Í∞Ä Îã§Ìï¥Ï§å!!!!!!
+                    ÎÅùÎÇ¨ÎÑ§
+                    Îã§ÌñàÎãπ^0^
+                        restcontroller ÎßåÎì§Í∏∞
+                    Í≥µÏú†
+                    Î≠îÎßêÏù∏ÏßÄÏïåÏßÄ
                     
                 }
             })
@@ -729,9 +956,9 @@
                 'secondUserId : <input type="text" name="secondUserId" value="${post.userId }"><br>' +
                 'postDate : <input type="text" name="postDate" value="${post.postDate }"><br>' +
                 'postTitle : <input type="text" name="postTitle" value="${post.postTitle }"><br>' +
-                '<a href="/couple/getSchedule?userId=${userId }&postNo=${post.postNo }">∫∏±‚</a><br>' +
+                '<a href="/couple/getSchedule?userId=${userId }&postNo=${post.postNo }">Î≥¥Í∏∞</a><br>' +
                 '</c:forEach>';
-            var test = 'ƒø«√ƒ∂∏∞¥ı≥°≥ª±‚';
+            var test = 'Ïª§ÌîåÏ∫òÎ¶∞ÎçîÎÅùÎÇ¥Í∏∞';
             $('div.cal-schedule').append(scheduleList);
             $('div.cal-schedule').append(test);
         });
@@ -739,76 +966,78 @@
         $(document).ready(function() {
             getPostDate('2020-02-03');
         });*/
-        
+
         function getThisMonthSchedule(year, month) {
-        	var userId = $('input[name="userId"]').val();
-        	var postDate = year + '-' + month + '-01';
-        	
-        	alert('userId : ' + userId);
-        	alert('postDate : ' + postDate);
-        	$.ajax({
-        		url: '/couple/rest/getScheduleList2/' + userId + '/' + postDate,
-        		method: 'GET',
-        		dataType: 'json',
-        		data: JSON.stringify({
-        			userId: userId,
-        			postDate: postDate
-        		}),
-        		headers: {
-        			'Accept': 'application/json',
-        			'Content-Type': 'application/json'
-        		},
-        		success: function(data) {
-        			for(var i = 0; i < data.list.length; i++) {
-        				alert('postDate : ' + data.list[i].postDate + ' postTitle : ' + data.list[i].postTitle);
-        				getPostDateAndAddPostTitle(data.list[i].postDate, data.list[i].postTitle, data.list[i].postNo);
-        			}
-        		},
-        		error: function (request, status, error) {
-                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            var userId = $('input[name="userId"]').val();
+            var postDate = year + '-' + month + '-01';
+
+            //alert('userId : ' + userId);
+            //alert('postDate : ' + postDate);
+            $.ajax({
+                url: '/couple/rest/getScheduleList2/' + userId + '/' + postDate,
+                method: 'GET',
+                dataType: 'json',
+                data: JSON.stringify({
+                    userId: userId,
+                    postDate: postDate
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                success: function(data) {
+                    for (var i = 0; i < data.list.length; i++) {
+                        //alert('postDate : ' + data.list[i].postDate + ' postTitle : ' + data.list[i].postTitle);
+                        getPostDateAndAddPostTitle(data.list[i].postDate, data.list[i].postTitle, data.list[i].postNo);
+                    }
+                },
+                error: function(request, status, error) {
+                    //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                 }
-        	});
+            });
         }
-        
+
         $(document).ready(function() {
-        	var userId = $('input[name="userId"]').val();
-        	var postDate = $('#cal_top_year').text() + '-' + $('#cal_top_month').text() + '-01';
-        	
-        	//alert('userId : ' + userId);
-        	//alert('postDate : ' + postDate);
-        	$.ajax({
-        		url: '/couple/rest/getScheduleList2/' + userId + '/' + postDate,
-        		method: 'GET',
-        		dataType: 'json',
-        		data: JSON.stringify({
-        			userId: userId,
-        			postDate: postDate
-        		}),
-        		headers: {
-        			'Accept': 'application/json',
-        			'Content-Type': 'application/json'
-        		},
-        		success: function(data) {
-        			for(var i = 0; i < data.list.length; i++) {
-        				//alert('postDate : ' + data.list[i].postDate + ' postTitle : ' + data.list[i].postTitle);
-        				getPostDateAndAddPostTitle(data.list[i].postDate, data.list[i].postTitle, data.list[i].postNo);
-        			}
-        		},
-        		error: function (request, status, error) {
-                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            var userId = $('input[name="userId"]').val();
+            var postDate = $('#cal_top_year').text() + '-' + $('#cal_top_month').text() + '-01';
+
+            //alert('userId : ' + userId);
+            //alert('postDate : ' + postDate);
+            $.ajax({
+                url: '/couple/rest/getScheduleList2/' + userId + '/' + postDate,
+                method: 'GET',
+                dataType: 'json',
+                data: JSON.stringify({
+                    userId: userId,
+                    postDate: postDate
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                success: function(data) {
+                    for (var i = 0; i < data.list.length; i++) {
+                        //alert('postDate : ' + data.list[i].postDate + ' postTitle : ' + data.list[i].postTitle);
+                        getPostDateAndAddPostTitle(data.list[i].postDate, data.list[i].postTitle, data.list[i].postNo);
+                    }
+                },
+                error: function(request, status, error) {
+                    //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                 }
-        	});
+            });
         });
-        
-        
+
+
+
+
         $(document).ready(function() {
-            //alert('ø¬∑ŒµÂ§ª§ª');
-            getPostDateAndAddPostTitle('2020-02-15', 'ƒ´∆‰∞°º≠∞¯∫Œ«œ±‚', '');
-            getPostDateAndAddPostTitle('2020-02-16', '«–ø¯∞°º≠∞¯∫Œ«œ±‚', '');
-            getPostDateAndAddPostTitle('2020-02-17', '«–ø¯∞°º≠∞¯∫Œ«œ±‚«–ø¯∞°º≠∞¯∫Œ«œ±‚', '');
-            getPostDateAndAddPostTitle('2020-02-17', 'ƒ´∆‰∞°º≠∞¯∫Œ«œ±‚', '');
+            //alert('Ïò®Î°úÎìú„Öã„Öã');
+            /* getPostDateAndAddPostTitle('2020-02-15', 'Ïπ¥ÌéòÍ∞ÄÏÑúÍ≥µÎ∂ÄÌïòÍ∏∞', '');
+            getPostDateAndAddPostTitle('2020-02-16', 'ÌïôÏõêÍ∞ÄÏÑúÍ≥µÎ∂ÄÌïòÍ∏∞', '');
+            getPostDateAndAddPostTitle('2020-02-17', 'ÌïôÏõêÍ∞ÄÏÑúÍ≥µÎ∂ÄÌïòÍ∏∞ÌïôÏõêÍ∞ÄÏÑúÍ≥µÎ∂ÄÌïòÍ∏∞', '');
+            getPostDateAndAddPostTitle('2020-02-17', 'Ïπ¥ÌéòÍ∞ÄÏÑúÍ≥µÎ∂ÄÌïòÍ∏∞', ''); */
         });
-        
+
 
 
         function getPostDateAndAddPostTitle(postDate, postTitle, postNo) {
@@ -827,21 +1056,25 @@
             for (var i = 0; i <= 45; i++) {
 
                 if ($('div.cal-day').eq(i).text() == postDate.substring(8, 10) || '0' + $('div.cal-day').eq(i).text() == postDate.substring(8, 10)) {
-                    
-                    $('div.cal-day').eq(i).parent().find('div.cal-schedule').append('<a href="#" class="' + postNo + '">' 
-                    		+ '<input type="hidden" class="postNo" value="' + postNo + '">' + postTitle + '</a>');
+
+                    $('div.cal-day').eq(i).parent().find('div.cal-schedule').append('<a href="#" class="' + postNo + '">' +
+                        '<input type="hidden" class="postNo" value="' + postNo + '">' + postTitle + '</a>');
                 }
             }
+            
+            
+
+
 
 
         }
 
+		
 
 
 
 
-
-        //≥Ø¬• √ ±‚»≠
+        //ÎÇ†Ïßú Ï¥àÍ∏∞Ìôî
         function initDate() {
             $tdDay = $("td div.cal-day")
             $tdSche = $("td div.cal-schedule")
@@ -850,8 +1083,8 @@
             year = today.getFullYear();
             month = today.getMonth() + 1;
             month = month >= 10 ? month : '0' + month;
-            
-            
+
+
 
 
 
@@ -859,7 +1092,7 @@
             lastDay = new Date(year, month, 0);
         }
 
-        //calendar ≥Ø¬•«•Ω√
+        //calendar ÎÇ†ÏßúÌëúÏãú
         function drawDays() {
             $("#cal_top_year").text(year);
             $("#cal_top_month").text(month);
@@ -891,35 +1124,35 @@
 
 
                 /*if ($('#cal_top_year').text() == today.getFullYear()) {
-                    console.log('º∫∞¯');
+                    console.log('ÏÑ±Í≥µ');
                     $tdDay.eq(i).css({
                         'color': 'red'
                     });
                 }*/
 
                 /*if ($('#cal_top_month').text() == a1) {
-                    console.log('º∫∞¯');
+                    console.log('ÏÑ±Í≥µ');
                     $tdDay.eq(i).css({
                         'color': 'red'
                     });
                 }*/
 
                 /*if (today.getDate() == $tdDay.eq(i).text()) {
-                    console.log('º∫∞¯');
+                    console.log('ÏÑ±Í≥µ');
                     $tdDay.eq(i).css({
                         'color': 'red'
                     });
                 }*/
 
                 /*if($('#cal_top_year').text() == today.getFullYear() && $('#cal_top_month').text() == a1) {
-                    console.log('º∫∞¯');
+                    console.log('ÏÑ±Í≥µ');
                     $tdDay.eq(i).css({
                         'color': 'red'
                     });
                 }*/
 
                 if ($('#cal_top_year').text() == today.getFullYear() && $('#cal_top_month').text() == a1 && today.getDate() == $tdDay.eq(i).text()) {
-                    console.log('º∫∞¯');
+                    console.log('ÏÑ±Í≥µ');
                     $tdDay.eq(i).css({
                         'background': 'rgba(235, 173, 122, 0.5)'
                     });
@@ -936,23 +1169,23 @@
 
 
             for (var i = 0; i < 42; i += 7) {
-                //¿œø‰¿œ
+                //ÏùºÏöîÏùº
                 $tdDay.eq(i).css("color", "red");
             }
             for (var i = 1; i < 42; i += 7) {
-                //ø˘ø‰¿œ
+                //ÏõîÏöîÏùº
             }
             for (var i = 2; i < 42; i += 7) {
-                //»≠ø‰¿œ
+                //ÌôîÏöîÏùº
             }
             for (var i = 3; i < 42; i += 7) {
-                //ºˆø‰¿œ
+                //ÏàòÏöîÏùº
             }
             for (var i = 4; i < 42; i += 7) {
-                //∏Òø‰¿œ
+                //Î™©ÏöîÏùº
             }
             for (var i = 5; i < 42; i += 7) {
-                //±›ø‰¿œ
+                //Í∏àÏöîÏùº
             }
             for (var i = 6; i < 42; i += 7) {
                 $tdDay.eq(i).css("color", "blue");
@@ -967,7 +1200,7 @@
         }
 
 
-        //calendar ø˘ ¿Ãµø
+        //calendar Ïõî Ïù¥Îèô
         function movePrevMonth() {
             month--;
             if (month <= 0) {
@@ -1007,9 +1240,15 @@
             lastDay = new Date(year, month, 0);
             drawDays();
         }
+
     </script>
     <script>
         $(document).ready(function() {
+
+
+
+
+
 
             /*$('td').on('click', function() {
 
@@ -1028,7 +1267,7 @@
                     });
 
 
-                    $('#datepicker').val(year + '≥‚ ' + month + 'ø˘ ' + day + '¿œ');
+                    $('#datepicker').val(year + 'ÎÖÑ ' + month + 'Ïõî ' + day + 'Ïùº');
 
 
 
@@ -1040,131 +1279,271 @@
 
             });*/
 
-            
-            
-            
+
+
+            /////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////// ÏñòÍ∞Ä Ïä§ÏºÄÏ§Ñ ÎàåÎ†ÄÏùÑ Îïå Ïä§ÏºÄÏ§Ñ Î≥¥Í∏∞Ìï¥ÏÑú Î≥¥Ïó¨Ï£ºÎäî Ïï†
             $(document).on('click', 'td div.cal-schedule a', function(e) {
-            
+
                 e.stopPropagation();
-                $('div.getSchedulel').remove();
+                $('div.getSchedule').remove();
                 $('div.wrap').remove();
                 if ($(this).parent().children().hasClass('getSchedulel')) {
-                    alert('^0^');
-                    $('div.getSchedulel').remove();
+                    //alert('^0^');
+                    $('div.getSchedule').remove();
                 } else {
 
 
-                    
+
                     $('div.getSchedulel').remove();
-					
+
                     var userId = $('input[name="userId"]').val();
                     var postNo = $(this).find('input.postNo').val();
-                    alert('postNo : ' + postNo);
+                    //alert('postNo : ' + postNo);
                     var getScheduleModal = '';
                     $.ajax({
-                    	url: '/couple/rest/getSchedule/' + userId + '/' + postNo,
-                    	method: 'GET',
-                    	dataType: 'json',
-                    	data: JSON.stringify({
-                    		userId: userId,
-                    		postNo: postNo
-                    	}),
-                    	headers: {
-                    		'Accept': 'application/json',
-                    		'Content-Type': 'application/json'
-                    	},
-                    	success: function(data) {
-                    		
-                    		
-                    		var postTitle = data.post.postTitle;
-                    		var postDate = data.post.postDate;
-                    		var place = data.post.place;
-                    		var postContent = data.post.postContent;
-                    		
-                    		
-                    		
-                    		
-                    		getScheduleModal = '<div class="getScheduleModal">' +
-                            '<h3>Ω∫ƒ…¡Ÿ ∫∏±‚</h3>' +
-                            '<input type="text" name="sessionUserId" value="' + userId + '"><br>' +
-                            'postNo : <input type="text" name="postNo" value="' + postNo + '"><br>' +
-                            'postTitle : <input type="text" name="postTitle" value="' + postTitle + '"><br>' +
-                            'postDate : <input type="text" name="postDate" value="' + postDate + '"><br>' +
-                            'place : <input type="text" name="place" value="' + place + '"><br>' +
-                            'postContent : <input type="text" name="postContent" value="' + postContent + '"><br>' +
-                            'userId : <input type="text" name="userId" value="' + data.post.userId + '"><br>' +
-                            '<a href="#">Ω∫ƒ…¡Ÿ ºˆ¡§</a> <a href="#">Ω∫ƒ…¡Ÿ ªË¡¶</a>' +
-                            '</div>';
-                            
+                        url: '/couple/rest/getSchedule/' + userId + '/' + postNo,
+                        method: 'GET',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            userId: userId,
+                            postNo: postNo
+                        }),
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        success: function(data) {
+
+
+                            var postTitle = data.post.postTitle;
+                            var postDate = data.post.postDate;
+                            var place = data.post.place;
+                            var postContent = data.post.postContent;
+
+
+
+
+                            getScheduleModal = '<div class="getScheduleModal">' +
+                                '<h3>Ïä§ÏºÄÏ§Ñ Î≥¥Í∏∞</h3>' +
+                                '<input type="text" name="sessionUserId" value="' + userId + '"><br>' +
+                                'postNo : <input type="text" name="postNo" value="' + postNo + '"><br>' +
+                                'postTitle : <input type="text" name="postTitle" value="' + postTitle + '"><br>' +
+                                'postDate : <input type="text" name="postDate" value="' + postDate + '"><br>' +
+                                'place : <input type="text" name="place" value="' + place + '"><br>' +
+                                'postContent : <input type="text" name="postContent" value="' + postContent + '"><br>' +
+                                'userId : <input type="text" name="userId" value="' + data.post.userId + '"><br>' +
+                                '<a href="#">Ïä§ÏºÄÏ§Ñ ÏàòÏ†ï</a> <a href="#">Ïä§ÏºÄÏ§Ñ ÏÇ≠Ï†ú</a>' +
+                                '</div>';
+
                             var getSchedule = '<div class="getSchedule">' +
-                            '<div class="getScheduleHeader">' +
-                            '<a href="#"><i class="fas fa-pencil-alt"></i></a>' +
-                            '<a href="#"><i class="far fa-trash-alt"></i></a>' +
-                            '<a href="#"><i class="fas fa-times"></i></a>' +
-                            '</div>' +
-                            '<div class="getScheduleMain">' +
-                            '<div class="postTitle">' +
-                            '<div></div>' +
-                            '<div>' +
-                            '<div>' + postTitle + '</div>' +
-                            '<div class="postDate">' + postDate + '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="place">' +
-                            '<div><i class="fas fa-map-marker-alt"></i></div>' +
-                            '<div>' +
-                            '<div><a href="#">' + place + '</a></div>' +
-                            '<div>' + place + '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="postContent">' +
-                            '<div><i class="fas fa-align-left"></i></div>' +
-                            '<div>' + postContent + '</div>' +
-                            '</div>' +
-                            '<div class="postUserName">' +
-                            '<div><i class="far fa-calendar-minus"></i></div>' +
-                            '<div>' + data.post.userId + '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>';
-                            
+                                '<input type="hidden" name="postNo" value="' + postNo + '">' +
+                                '<div class="getScheduleHeader">' +
+                                '<a href="#" class="updateScheduleBtn" style="z-index: 9999"><i class="fas fa-pencil-alt"></i></a>' +
+                                '<a href="#"><i class="far fa-trash-alt"></i></a>' +
+                                '<a href="#"><i class="fas fa-times"></i></a>' +
+                                '</div>' +
+                                '<div class="getScheduleMain">' +
+                                '<div class="postTitle">' +
+                                '<div></div>' +
+                                '<div>' +
+                                '<div>' + postTitle + '</div>' +
+                                '<div class="postDate">' + postDate + '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="place">' +
+                                '<div><i class="fas fa-map-marker-alt"></i></div>' +
+                                '<div>' +
+                                '<div><a href="#">' + place + '</a></div>' +
+                                '<div>' + place + '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="postContent">' +
+                                '<div><i class="fas fa-align-left"></i></div>' +
+                                '<div>' + postContent + '</div>' +
+                                '</div>' +
+                                '<div class="postUserName">' +
+                                '<div><i class="far fa-calendar-minus"></i></div>' +
+                                '<div>' + data.post.userId + '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
+
+
+
                             //alert('getScheduleModal : ' + getScheduleModal);
-                            
-                    		
-                            
-                            
+
+
+
+
                             //alert('getScheduleModal : ' + getScheduleModal);
-                                
-                            
-                            
+
+
+
                             $('a.' + postNo).parent().append(getSchedule);
+
+
+                            //alert(place);
+                            if (place == null) {
+                                //alert('place nullÏûÑ„Öã„Öã');
+                                $('div.getSchedule div.getScheduleMain > div.place').addClass('on');
+                            }
+                            if (postContent == null) {
+                                //alert('place nullÏûÑ„Öã„Öã');
+                                $('div.getSchedule div.getScheduleMain > div.postContent').addClass('on');
+                            }
+
+
                             if ($('a.' + postNo).parent().parent().index() == 0 || $('a.' + postNo).parent().parent().index() == 1 || $('a.' + postNo).parent().parent().index() == 2) {
                                 $('div.getSchedule').css({
-                                    'right': '-460px'
+                                    'left': '300px'
                                 });
+                                setTimeout(function() {
+                                    $('div.getSchedule').css({
+                                        'left': '320px',
+                                        'opacity': 1
+                                    });
+                                }, 10);
                             } else {
                                 $('div.getSchedule').css({
-                                    'left': '-460px'
+                                    'left': '-200px'
+                                });
+                                setTimeout(function() {
+                                    $('div.getSchedule').css({
+                                        'left': '-220px',
+                                        'opacity': 1
+                                    });
+                                }, 10);
+                            }
+
+                            //alert($('a.' + postNo).parent().parent().parent().index());
+                            if ($('a.' + postNo).parent().parent().parent().index() == 6) {
+                                $('div.getSchedule').css({
+                                    'transform': 'translateY(-100%)'
                                 });
                             }
-                            
-                            alert($('a.' + postNo).parent().parent().parent().index());
-                            if($('a.' + postNo).parent().parent().parent().index() == 6) {
-                            	$('div.getSchedule').css({
-                            		'transform' : 'translateY(-100%)'
-                            	});
-                            }
-                            
+
                             $('div.getSchedule').on('click', function(e) {
                                 e.stopPropagation();
+                                //alert('ÌÅ¥Î¶≠„Öã„Öã');
                             });
+                            $('div.getSchedule a.updateScheduleBtn').on('click', function(e) {
+                                e.stopPropagation();
+                                //alert('ÌÅ¥Î¶≠„Öã„Öã„Öã„Öã');
+
+                                var postNoForUpdateSchedule = $(this).parent().parent().find('input[name="postNo"]').val();
+                                var userId = $('input[name="userId"]').val();;
+                                console.log('postNoForUpdateSchedule : ' + postNoForUpdateSchedule);
+                                console.log('userId : ' + userId);
+                                $.ajax({
+                                    url: '/couple/rest/getSchedule/' + userId + '/' + postNoForUpdateSchedule,
+                                    method: 'GET',
+                                    dataType: 'json',
+                                    data: JSON.stringify({
+                                        userId: userId,
+                                        postNo: postNoForUpdateSchedule
+                                    }),
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    success: function(data) {
+                                        console.log('ÏÑ±Í≥µ„Öã„Öã')
+                                        var postNo = data.post.postNo;
+                                        var postTitle = data.post.postTitle;
+                                        var postDate = data.post.postDate;
+                                        var place = data.post.place;
+                                        var userId = data.post.userId;
+                                        var postContent = data.post.postContent;
+
+                                        console.log(postNo);
+                                        console.log(postTitle);
+                                        console.log(postDate);
+                                        console.log(place);
+                                        console.log(userId);
+                                        console.log(postContent);
+
+
+                                        $('div.updateSchedule input[name="postTitle"]').val(postTitle);
+                                        $('div.updateSchedule input[name="postDate"]').val(postDate);
+                                        $('div.updateSchedule input[name="place"]').val(place);
+                                        $('div.updateSchedule td.userIdForUpdateSchedule').text(userId);
+                                        $('div.updateSchedule textarea[name="postContent"]').text(postContent);
+                                        $('div.updateSchedule input[name="postNo"]').val(postNo);
+
+
+                                        $('#updateScheduleModalBtn').click();
+                                        $('#updateScheduleModalBtn').click();
+                                    }
+                                });
+
+                            });
+                            
+                            $('div.getSchedule div.getScheduleHeader > a:nth-child(2)').on('click', function() {
+                            	console.log('ÌÅ¥Î¶≠„Öã„Öã');
+                            	var postNo = $(this).parent().parent().find('input[name="postNo"]').val();
+                            	$.ajax({
+                            		url: '/couple/rest/deleteSchedule2/' + postNo,
+                            		method: 'GET',
+                            		data: JSON.stringify({
+                            			postNo: postNo
+                            		}),
+                            		headers: {
+                            			'Accept': 'application/json',
+                            			'Content-Type': 'application/json'
+                            		},
+                            		success: function(data) {
+                            			console.log('ÏÑ±Í≥µ„Öã„Öã');
+                            			$('div.getSchedule').remove();
+                            			$('.cal-schedule').empty();
+                            			refrechCalender2();
+                            		},
+                            		error: function(request, status, error) {
+                                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                    }
+                            	});
+                            });
+                            
+                            function refrechCalender2() {
+                            	var userId = $('input[name="userId"]').val();
+                                var postDate = $('#cal_top_year').text() + '-' + $('#cal_top_month').text() + '-01';
+
+                                //alert('userId : ' + userId);
+                                //alert('postDate : ' + postDate);
+                                $.ajax({
+                                    url: '/couple/rest/getScheduleList2/' + userId + '/' + postDate,
+                                    method: 'GET',
+                                    dataType: 'json',
+                                    data: JSON.stringify({
+                                        userId: userId,
+                                        postDate: postDate
+                                    }),
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    success: function(data) {
+                                        for (var i = 0; i < data.list.length; i++) {
+                                            //alert('postDate : ' + data.list[i].postDate + ' postTitle : ' + data.list[i].postTitle);
+                                            getPostDateAndAddPostTitle(data.list[i].postDate, data.list[i].postTitle, data.list[i].postNo);
+                                        }
+                                    },
+                                    error: function(request, status, error) {
+                                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                    }
+                                });
+                            }
+
+
+
 
 
                             $('html').click(function(e) {
                                 if ($('html').find('div').hasClass('getSchedule')) {
                                     if (!$(e.target).hasClass("getSchedule")) {
-                                    	e.stopPropagation();
-                                        alert('øµø™ π€¿‘¥œ¥Ÿ.');
+                                        e.stopPropagation();
+                                        //alert('ÏòÅÏó≠ Î∞ñÏûÖÎãàÎã§.');
                                         $('div.getSchedule').remove();
                                         $('div.wrap').remove();
 
@@ -1173,37 +1552,49 @@
 
                             });
 
-                        
-                    	},
-                    	error: function (request, status, error) {
-		                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-		                }
-                    })
-                    
-                    
-                    
+
+
+
+                        },
+                        error: function(request, status, error) {
+                            //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        }
+                    });
+
+
+
+
+
+
+
+
+
                     //alert('getScheduleModal2 : ' + getScheduleModal);
                     //$(this).parent().append(getScheduleModal);
 
-                    
 
 
-                    
-					
-                    
+
+
+
+
                 }
 
 
 
+
+
+
+
             });
-            
-            
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
+
+
 
             $('td:nth-child(-n + 3)').on('click', function() {
 
@@ -1219,7 +1610,7 @@
                             '<a href="#"><i class="fas fa-times"></i></a>' +
                             '</div>' +
                             '<div>' +
-                            '<input type="text" placeholder="¡¶∏Ò π◊ Ω√∞£ √ﬂ∞°" name="postTitle">' +
+                            '<input type="text" placeholder="Ï†úÎ™© Î∞è ÏãúÍ∞Ñ Ï∂îÍ∞Ä" name="postTitle">' +
                             '<span></span>' +
                             '</div>' +
                             '<div>' +
@@ -1227,15 +1618,15 @@
                             '<span></span>' +
                             '</div>' +
                             '<div>' +
-                            '<i class="fas fa-map-marker-alt"></i> <input type="text" placeholder="¿ßƒ° ∂«¥¬ »∏¿« √ﬂ∞°" name="place">' +
+                            '<i class="fas fa-map-marker-alt"></i> <input type="text" placeholder="ÏúÑÏπò ÎòêÎäî ÌöåÏùò Ï∂îÍ∞Ä" name="place">' +
                             '<span></span>' +
                             '</div>' +
                             '<div>' +
-                            '<i class="fas fa-align-left"></i> <input type="text" placeholder="º≥∏Ì √ﬂ∞°" name="postContent">' +
+                            '<i class="fas fa-align-left"></i> <input type="text" placeholder="ÏÑ§Î™Ö Ï∂îÍ∞Ä" name="postContent">' +
                             '<span></span>' +
                             '</div>' +
                             '<div>' +
-                            '<a href="#" class="addCoupleCalendarSchedule">¿˙¿Â</a>' +
+                            '<a href="#" class="addCoupleCalendarSchedule">Ï†ÄÏû•</a>' +
                             '</div>' +
                             '</div>';
                         $(this).append(wrap);
@@ -1246,14 +1637,23 @@
 
 
 
-                        $('#datepicker').val(year + '≥‚ ' + month + 'ø˘ ' + day + '¿œ');
+                        $('#datepicker').val(year + 'ÎÖÑ ' + month + 'Ïõî ' + day + 'Ïùº');
                         setTimeout(function() {
                             $('.wrap').addClass('on');
                         }, 100);
                         $('.wrap').on('click', function(e) {
-                            e.stopPropagation();
+                        	console.log('ÌÅ¥Î¶≠„Öã„Öã');
+                        	e.stopPropagation();
+                        	$('.wrap div span').css({
+                                'opacity': '0'
+                            });
+                            $('.wrap div').removeClass('on');
+                        	$('#ui-datepicker-div').css({
+                        		'display' : 'none'
+                        	});
+                        	$('.wrap input[type="text"]').blur();
                         });
-                        /*ø©±‚ø° ¥›±‚ πˆ∆∞, ¿˙¿Â πˆ∆∞, datepicker ¿Ã∫•∆Æ ∞°¡Æ¥Ÿ ≥ı±‚*/
+                        /*Ïó¨Í∏∞Ïóê Îã´Í∏∞ Î≤ÑÌäº, Ï†ÄÏû• Î≤ÑÌäº, datepicker Ïù¥Î≤§Ìä∏ Í∞ÄÏ†∏Îã§ ÎÜìÍ∏∞*/
                         $('.wrap div:nth-child(1) a').on('click', function(e) {
                             e.stopPropagation();
                             /*$('.overlay').css({
@@ -1277,51 +1677,54 @@
                             });
                             $('.wrap div:nth-child(2)').removeClass('on');*/
                             //$('td').find('.wrap').remove();
-							alert('≈¨∏Ø§ª§ª');
-							var userId = $('input[name="userId"]').val();
-							var postTitle = $('input[name="postTitle"]').val();
-							var postDate = $('input[name="postDate"]').val();
-							
-							postDate = postDate.substring(0, 4) + '-' + postDate.substring(6, 8) + '-' + postDate.substring(10, 12);
-							
-							var place = $('input[name="place"]').val();
-							var postContent = $('input[name="postContent"]').val();
-							
-							console.log('userId : ' + userId);
-							console.log('postTitle : ' + postTitle);
-							console.log('postDate : ' + postDate);
-							console.log('place : ' + place);
-							console.log('postContent : ' + postContent);
-							
-							$.ajax({
-								url: '/couple/rest/addSchedule2',
-								method: 'POST',
-								dataType: 'json',
-								data: JSON.stringify({
-									userId: userId,
-									postTitle: postTitle,
-									postDate: postDate,
-									place: place,
-									postContent: postContent
-								}),
-								headers: {
-									'Accept': 'application/json',
-									'Content-Type': 'application/json'
-								},
-								success: function(data) {
-									alert('º∫∞¯');
-									getPostDateAndAddPostTitle(data.postDate, data.postTitle, data.postNo);
-									$('td').find('.wrap').remove();
-								},
-								error: function (request, status, error) {
-				                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-				                }
-							});
+                            //alert('ÌÅ¥Î¶≠„Öã„Öã');
+                            var userId = $('input[name="userId"]').val();
+                            var postTitle = $('input[name="postTitle"]').val();
+                            var postDate = $('input[name="postDate"]').val();
+
+                            postDate = postDate.substring(0, 4) + '-' + postDate.substring(6, 8) + '-' + postDate.substring(10, 12);
+
+                            var place = $('input[name="place"]').val();
+                            var postContent = $('input[name="postContent"]').val();
+
+                            console.log('userId : ' + userId);
+                            console.log('postTitle : ' + postTitle);
+                            console.log('postDate : ' + postDate);
+                            console.log('place : ' + place);
+                            console.log('postContent : ' + postContent);
+
+                            $.ajax({
+                                url: '/couple/rest/addSchedule2',
+                                method: 'POST',
+                                dataType: 'json',
+                                data: JSON.stringify({
+                                    userId: userId,
+                                    postTitle: postTitle,
+                                    postDate: postDate,
+                                    place: place,
+                                    postContent: postContent
+                                }),
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                success: function(data) {
+                                    //alert('ÏÑ±Í≥µ');
+                                    //getPostDateAndAddPostTitle(data.postDate, data.postTitle, data.postNo);
+                                    $('td').find('.wrap').remove();
+                                    $('div.getSchedule').remove();
+                        			$('.cal-schedule').empty();
+                        			refrechCalender();
+                                },
+                                error: function(request, status, error) {
+                                    //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                }
+                            });
 
 
                         });
-                        
-                        
+
+
                         $('.wrap div:nth-child(2)').on('click', function(e) {
                             e.stopPropagation();
                             $('.wrap div span').css({
@@ -1336,6 +1739,9 @@
                         });
                         $('.wrap div:nth-child(3) input').on('click', function(e) {
                             e.stopPropagation();
+                            $('#ui-datepicker-div').css({
+                        		'display' : 'block'
+                        	});
                             $('.wrap div span').css({
                                 'opacity': '0'
                             });
@@ -1375,14 +1781,16 @@
                             $('.wrap div').removeClass('on');
                         });
                         $("#datepicker").datepicker({
-                            dateFormat: 'yy≥‚ mmø˘ dd¿œ',
-                            monthNames: ['1ø˘', '2ø˘', '3ø˘', '4ø˘', '5ø˘', '6ø˘', '7ø˘', '8ø˘', '9ø˘', '10ø˘', '11ø˘', '12ø˘'] //¥ﬁ∑¬¿« ø˘ ∫Œ∫– Tooltip ≈ÿΩ∫∆Æ
+                            dateFormat: 'yyÎÖÑ mmÏõî ddÏùº',
+                            monthNames: ['1Ïõî', '2Ïõî', '3Ïõî', '4Ïõî', '5Ïõî', '6Ïõî', '7Ïõî', '8Ïõî', '9Ïõî', '10Ïõî', '11Ïõî', '12Ïõî'] //Îã¨Î†•Ïùò Ïõî Î∂ÄÎ∂Ñ Tooltip ÌÖçÏä§Ìä∏
                                 ,
-                            dayNamesMin: ['¿œ', 'ø˘', '»≠', 'ºˆ', '∏Ò', '±›', '≈‰'] //¥ﬁ∑¬¿« ø‰¿œ ∫Œ∫– ≈ÿΩ∫∆Æ
+                            dayNamesMin: ['Ïùº', 'Ïõî', 'Ìôî', 'Ïàò', 'Î™©', 'Í∏à', 'ÌÜ†'] //Îã¨Î†•Ïùò ÏöîÏùº Î∂ÄÎ∂Ñ ÌÖçÏä§Ìä∏
                                 ,
                             showMonthAfterYear: true,
-                            yearSuffix: "≥‚"
+                            yearSuffix: "ÎÖÑ"
                         });
+                        /* $( "#datepicker" ).datepicker(); */
+                        
 
                     }
                 } else {
@@ -1404,7 +1812,7 @@
                             '<a href="#"><i class="fas fa-times"></i></a>' +
                             '</div>' +
                             '<div>' +
-                            '<input type="text" placeholder="¡¶∏Ò π◊ Ω√∞£ √ﬂ∞°" name="postTitle">' +
+                            '<input type="text" placeholder="Ï†úÎ™© Î∞è ÏãúÍ∞Ñ Ï∂îÍ∞Ä" name="postTitle">' +
                             '<span></span>' +
                             '</div>' +
                             '<div>' +
@@ -1412,15 +1820,15 @@
                             '<span></span>' +
                             '</div>' +
                             '<div>' +
-                            '<i class="fas fa-map-marker-alt"></i> <input type="text" placeholder="¿ßƒ° ∂«¥¬ »∏¿« √ﬂ∞°" name="place">' +
+                            '<i class="fas fa-map-marker-alt"></i> <input type="text" placeholder="ÏúÑÏπò ÎòêÎäî ÌöåÏùò Ï∂îÍ∞Ä" name="place">' +
                             '<span></span>' +
                             '</div>' +
                             '<div>' +
-                            '<i class="fas fa-align-left"></i> <input type="text" placeholder="º≥∏Ì √ﬂ∞°" name="postContent">' +
+                            '<i class="fas fa-align-left"></i> <input type="text" placeholder="ÏÑ§Î™Ö Ï∂îÍ∞Ä" name="postContent">' +
                             '<span></span>' +
                             '</div>' +
                             '<div>' +
-                            '<a href="#" class="addCoupleCalendarSchedule">¿˙¿Â</a>' +
+                            '<a href="#" class="addCoupleCalendarSchedule">Ï†ÄÏû•</a>' +
                             '</div>' +
                             '</div>';
                         $(this).append(wrap2);
@@ -1431,14 +1839,25 @@
 
 
 
-                        $('#datepicker').val(year + '≥‚ ' + month + 'ø˘ ' + day + '¿œ');
+                        $('#datepicker').val(year + 'ÎÖÑ ' + month + 'Ïõî ' + day + 'Ïùº');
                         setTimeout(function() {
                             $('.wrap').addClass('on');
                         }, 100);
                         $('.wrap').on('click', function(e) {
+                        	console.log('ÌÅ¥Î¶≠„Öã„Öã');
                             e.stopPropagation();
+                            $('.wrap div span').css({
+                                'opacity': '0'
+                            });
+                            $('.wrap div').removeClass('on');
+                        	$('#ui-datepicker-div').css({
+                        		'display' : 'none'
+                        	});
+                        	
+                        	
+                        	$('.wrap input[type="text"]').blur();
                         });
-                        /*ø©±‚ø° ¥›±‚ πˆ∆∞, ¿˙¿Â πˆ∆∞, datepicker ¿Ã∫•∆Æ ∞°¡Æ¥Ÿ ≥ı±‚*/
+                        /*Ïó¨Í∏∞Ïóê Îã´Í∏∞ Î≤ÑÌäº, Ï†ÄÏû• Î≤ÑÌäº, datepicker Ïù¥Î≤§Ìä∏ Í∞ÄÏ†∏Îã§ ÎÜìÍ∏∞*/
                         $('.wrap div:nth-child(1) a').on('click', function(e) {
                             e.stopPropagation();
                             /*$('.overlay').css({
@@ -1462,46 +1881,46 @@
                             });
                             $('.wrap div:nth-child(2)').removeClass('on');*/
                             //$('td').find('.wrap').remove();
-                            alert('≈¨∏Ø§ª§ª');
-							var userId = $('input[name="userId"]').val();
-							var postTitle = $('input[name="postTitle"]').val();
-							var postDate = $('input[name="postDate"]').val();
-							
-							postDate = postDate.substring(0, 4) + '-' + postDate.substring(6, 8) + '-' + postDate.substring(10, 12);
-							
-							var place = $('input[name="place"]').val();
-							var postContent = $('input[name="postContent"]').val();
-							
-							console.log('userId : ' + userId);
-							console.log('postTitle : ' + postTitle);
-							console.log('postDate : ' + postDate);
-							console.log('place : ' + place);
-							console.log('postContent : ' + postContent);
-							
-							$.ajax({
-								url: '/couple/rest/addSchedule2',
-								method: 'POST',
-								dataType: 'json',
-								data: JSON.stringify({
-									userId: userId,
-									postTitle: postTitle,
-									postDate: postDate,
-									place: place,
-									postContent: postContent
-								}),
-								headers: {
-									'Accept': 'application/json',
-									'Content-Type': 'application/json'
-								},
-								success: function(data) {
-									alert('º∫∞¯');
-									getPostDateAndAddPostTitle(data.postDate, data.postTitle, data.postNo);
-									$('td').find('.wrap').remove();
-								},
-								error: function (request, status, error) {
-				                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-				                }
-							});
+                            //alert('ÌÅ¥Î¶≠„Öã„Öã');
+                            var userId = $('input[name="userId"]').val();
+                            var postTitle = $('input[name="postTitle"]').val();
+                            var postDate = $('input[name="postDate"]').val();
+
+                            postDate = postDate.substring(0, 4) + '-' + postDate.substring(6, 8) + '-' + postDate.substring(10, 12);
+
+                            var place = $('input[name="place"]').val();
+                            var postContent = $('input[name="postContent"]').val();
+
+                            console.log('userId : ' + userId);
+                            console.log('postTitle : ' + postTitle);
+                            console.log('postDate : ' + postDate);
+                            console.log('place : ' + place);
+                            console.log('postContent : ' + postContent);
+
+                            $.ajax({
+                                url: '/couple/rest/addSchedule2',
+                                method: 'POST',
+                                dataType: 'json',
+                                data: JSON.stringify({
+                                    userId: userId,
+                                    postTitle: postTitle,
+                                    postDate: postDate,
+                                    place: place,
+                                    postContent: postContent
+                                }),
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                success: function(data) {
+                                    //alert('ÏÑ±Í≥µ');
+                                    getPostDateAndAddPostTitle(data.postDate, data.postTitle, data.postNo);
+                                    $('td').find('.wrap').remove();
+                                },
+                                error: function(request, status, error) {
+                                    //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                }
+                            });
 
 
 
@@ -1559,13 +1978,13 @@
                             $('.wrap div').removeClass('on');
                         });
                         $("#datepicker").datepicker({
-                            dateFormat: 'yy≥‚ mmø˘ dd¿œ',
-                            monthNames: ['1ø˘', '2ø˘', '3ø˘', '4ø˘', '5ø˘', '6ø˘', '7ø˘', '8ø˘', '9ø˘', '10ø˘', '11ø˘', '12ø˘'] //¥ﬁ∑¬¿« ø˘ ∫Œ∫– Tooltip ≈ÿΩ∫∆Æ
+                            dateFormat: 'yyÎÖÑ mmÏõî ddÏùº',
+                            monthNames: ['1Ïõî', '2Ïõî', '3Ïõî', '4Ïõî', '5Ïõî', '6Ïõî', '7Ïõî', '8Ïõî', '9Ïõî', '10Ïõî', '11Ïõî', '12Ïõî'] //Îã¨Î†•Ïùò Ïõî Î∂ÄÎ∂Ñ Tooltip ÌÖçÏä§Ìä∏
                                 ,
-                            dayNamesMin: ['¿œ', 'ø˘', '»≠', 'ºˆ', '∏Ò', '±›', '≈‰'] //¥ﬁ∑¬¿« ø‰¿œ ∫Œ∫– ≈ÿΩ∫∆Æ
+                            dayNamesMin: ['Ïùº', 'Ïõî', 'Ìôî', 'Ïàò', 'Î™©', 'Í∏à', 'ÌÜ†'] //Îã¨Î†•Ïùò ÏöîÏùº Î∂ÄÎ∂Ñ ÌÖçÏä§Ìä∏
                                 ,
                             showMonthAfterYear: true,
-                            yearSuffix: "≥‚"
+                            yearSuffix: "ÎÖÑ"
                         });
                     }
                 } else {
@@ -1630,7 +2049,7 @@
                 });
 
 
-                $('#datepicker').val(year + '≥‚ ' + month + 'ø˘ ' + day + '¿œ')
+                $('#datepicker').val(year + 'ÎÖÑ ' + month + 'Ïõî ' + day + 'Ïùº')
             });*/
 
 
@@ -1644,7 +2063,7 @@
                 getNewInfo();
                 $('.cal-schedule').empty();
                 getThisMonthSchedule(year, month);
-                
+
             });
 
 
@@ -1712,21 +2131,21 @@
                 $('.wrap div').removeClass('on');
             });*/
             //var setSchedule = '';
-            //setSchedule += '<p class="schedule">Ω∫ƒ…¡Ÿ1</p>';
-            //setSchedule += '<p class="schedule">Ω∫ƒ…¡Ÿ2</p>';
-            //setSchedule += '<p class="schedule">Ω∫ƒ…¡Ÿ3</p>';
+            //setSchedule += '<p class="schedule">Ïä§ÏºÄÏ§Ñ1</p>';
+            //setSchedule += '<p class="schedule">Ïä§ÏºÄÏ§Ñ2</p>';
+            //setSchedule += '<p class="schedule">Ïä§ÏºÄÏ§Ñ3</p>';
             //$('div.cal-schedule').html(setSchedule);
 
 
 
-            $('td').on('click', function() {
+            /* $('td').on('click', function() {
                 //alert($('#cal_top_year').text());
                 //alert($('#cal_top_month').text());
                 //alert($(this).find('div.cal-day').text());
                 var thisday = $(this).find('div.cal-day').text();
                 thisday = thisday >= 10 ? thisday : '0' + thisday;
-                console.log($('#cal_top_year').text() + '≥‚ ' + $('#cal_top_month').text() + 'ø˘ ' + thisday + '¿œ');
-            });
+                console.log($('#cal_top_year').text() + 'ÎÖÑ ' + $('#cal_top_month').text() + 'Ïõî ' + thisday + 'Ïùº');
+            }); */
 
             $('.wrap div:nth-child(6) a').on('click', function() {
                 console.log($('#datepicker').val());
@@ -1750,5 +2169,127 @@
 
 
         });
+
+
+        $(function() {
+            $('a.updateScheduleSaveBtn').on('click', function() {
+                console.log('ÌÅ¥Î¶≠„Öã„Öã');
+
+                var postNo = $(this).parent().find('input[name="postNo"]').val();
+                var postTitle = $('div.updateSchedule input[name="postTitle"]').val();
+                var postDate = $('#updateScheduleDatepicker').val();
+                var place = $('div.updateSchedule input[name="place"]').val();
+                var postContent = $('div.updateSchedule textarea').val();
+
+                $.ajax({
+                    url: '/couple/rest/updateSchedule',
+                    type: 'POST',
+                    dataType: 'json',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({
+                        postNo: postNo,
+                        postTitle: postTitle,
+                        postDate: postDate,
+                        place: place,
+                        postContent: postContent
+                    }),
+                    success: function(data) {
+                        console.log('ÏÑ±Í≥µ„Öã„Öã');
+                        $('#updateScheduleModalBtn').click();
+                        $('.cal-schedule').empty();
+                        refrechCalender();
+                    },
+                    error: function(request, status, error) {
+                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            });
+
+
+            
+            
+        });
+
     </script>
-</body></html>
+
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateSchedleModal" id="updateScheduleModalBtn">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="updateSchedleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <!-- <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div> -->
+                <div class="modal-body">
+                    <div class="updateSchedule">
+                        
+                            <table>
+                                <colgroup>
+                                    <col width="5%">
+                                    <col width="70%">
+                                    <col width="25%">
+                                </colgroup>
+                                <tr>
+                                    <td><i class="fas fa-times"></i></td>
+                                    <td><input type="text" value="Ïª§ÌîåÏ∫òÎ¶∞Îçî...Ïö∞Î¶¨Í∑∏ÎßåÌïòÏûê..." name="postTitle"></td>
+                                    <td>
+                                        <input type="hidden" name="postNo">
+                                        <a href="#" class="updateScheduleSaveBtn">Ï†ÄÏû•</a>
+                                        <a href="#">ÏÇ≠Ï†ú</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <div>
+
+                                            <input type="text" name="postDate" id="updateScheduleDatepicker" value="2020ÎÖÑ 2Ïõî 15Ïùº" readonly>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-map-marker-alt"></i></td>
+                                    <td><input type="text" value="Ìà¨Ïç∏ÌîåÎ†àÏù¥Ïä§ Íµ¨Î¶¨ÎèåÎã§Î¶¨Ï†ê, ÎåÄÌïúÎØºÍµ≠ Í≤ΩÍ∏∞ÎèÑ Íµ¨Î¶¨Ïãú Ïù∏Ï∞ΩÎèô Í≤ΩÏ∂òÎ°ú 223 Î™ÖÎèôÎπåÎî© 1Ï∏µ-2Ï∏µ" name="place"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="far fa-calendar-minus"></i></td>
+                                    <td class="userIdForUpdateSchedule" style="padding-left: 5px">
+                                        wo2ek8@gmail.com
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-align-left"></i></td>
+                                    <td>
+                                        <textarea name="postContent" id="" cols="30" rows="10" style="line-height: 1.5; padding-top: 10px">ÏúÑÏπòÏ∂îÍ∞Ä Í∞úÏ©åÎÑ§ Î¨¥Ïä® ÎàÑÍ∞Ä Ïä§ÏºÄÏ§Ñ Îì±Î°ù Î©îÎ™®Î•º Ïç∏ÎÖ∏Î°ú Ìï¥ ÏßÑÏßú</textarea>
+
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        
+                    </div>
+                </div>
+                <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

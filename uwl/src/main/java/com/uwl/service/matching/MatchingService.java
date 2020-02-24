@@ -24,6 +24,9 @@ public interface MatchingService {
 	
 	public int getTotalMatching(Search search, String userId) throws Exception;
 	
+	public void updateCoupleRole(String userId) throws Exception;
+	
+	public void updateCoupleRoleOther(String userId) throws Exception;
 	
 	
 	

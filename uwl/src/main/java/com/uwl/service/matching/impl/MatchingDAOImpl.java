@@ -155,6 +155,21 @@ public class MatchingDAOImpl implements MatchingDAO {
 	}
 
 	
+	
+	
+	@Override
+	public void updateCoupleRole(String userId) throws Exception {	//
+		// TODO Auto-generated method stub
+		sqlSession.update("MatchingMapper.updateCoupleRole", userId);
+	}
+
+	@Override
+	public void updateCoupleRoleOther(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update("MatchingMapper.updateCoupleRoleOther", userId);
+	}
+
+	
 
 	
 

@@ -46,7 +46,7 @@ public class PostServiceImpl implements PostService{
 	@Override
 	public Map<String, Object> getBoardList(Search search, String gatherCategoryNo) throws Exception {
 		List<Post> list = postDAO.getBoardList(search, gatherCategoryNo);
-		int totalCount = postDAO.getTotalCount(search);
+		int totalCount = postDAO.getTotalCount2(gatherCategoryNo);
 		
 		Map<String, Object> map = new HashMap<String , Object>();
 		map.put("list", list);
