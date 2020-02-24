@@ -9,6 +9,36 @@
     <link rel="stylesheet" href="/css/jquery-ui.css">
     <script src="/javascript/jquery-ui.js"></script>
     <script>
+    
+    function refrechCalender() {
+    	var userId = $('input[name="userId"]').val();
+        var postDate = $('#cal_top_year').text() + '-' + $('#cal_top_month').text() + '-01';
+
+        //alert('userId : ' + userId);
+        //alert('postDate : ' + postDate);
+        $.ajax({
+            url: '/couple/rest/getScheduleList2/' + userId + '/' + postDate,
+            method: 'GET',
+            dataType: 'json',
+            data: JSON.stringify({
+                userId: userId,
+                postDate: postDate
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            success: function(data) {
+                for (var i = 0; i < data.list.length; i++) {
+                    //alert('postDate : ' + data.list[i].postDate + ' postTitle : ' + data.list[i].postTitle);
+                    getPostDateAndAddPostTitle(data.list[i].postDate, data.list[i].postTitle, data.list[i].postNo);
+                }
+            },
+            error: function(request, status, error) {
+                //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+        });
+    }
         $(function() {
             $("#datepicker").datepicker({
                 dateFormat: 'yy년 mm월 dd일',
@@ -941,8 +971,8 @@
             var userId = $('input[name="userId"]').val();
             var postDate = year + '-' + month + '-01';
 
-            alert('userId : ' + userId);
-            alert('postDate : ' + postDate);
+            //alert('userId : ' + userId);
+            //alert('postDate : ' + postDate);
             $.ajax({
                 url: '/couple/rest/getScheduleList2/' + userId + '/' + postDate,
                 method: 'GET',
@@ -957,12 +987,12 @@
                 },
                 success: function(data) {
                     for (var i = 0; i < data.list.length; i++) {
-                        alert('postDate : ' + data.list[i].postDate + ' postTitle : ' + data.list[i].postTitle);
+                        //alert('postDate : ' + data.list[i].postDate + ' postTitle : ' + data.list[i].postTitle);
                         getPostDateAndAddPostTitle(data.list[i].postDate, data.list[i].postTitle, data.list[i].postNo);
                     }
                 },
                 error: function(request, status, error) {
-                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                 }
             });
         }
@@ -992,7 +1022,7 @@
                     }
                 },
                 error: function(request, status, error) {
-                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                 }
             });
         });
@@ -1002,10 +1032,10 @@
 
         $(document).ready(function() {
             //alert('온로드ㅋㅋ');
-            getPostDateAndAddPostTitle('2020-02-15', '카페가서공부하기', '');
+            /* getPostDateAndAddPostTitle('2020-02-15', '카페가서공부하기', '');
             getPostDateAndAddPostTitle('2020-02-16', '학원가서공부하기', '');
             getPostDateAndAddPostTitle('2020-02-17', '학원가서공부하기학원가서공부하기', '');
-            getPostDateAndAddPostTitle('2020-02-17', '카페가서공부하기', '');
+            getPostDateAndAddPostTitle('2020-02-17', '카페가서공부하기', ''); */
         });
 
 
@@ -1031,13 +1061,15 @@
                         '<input type="hidden" class="postNo" value="' + postNo + '">' + postTitle + '</a>');
                 }
             }
+            
+            
 
 
 
 
         }
 
-
+		
 
 
 
@@ -1255,11 +1287,11 @@
             $(document).on('click', 'td div.cal-schedule a', function(e) {
 
                 e.stopPropagation();
-                $('div.getSchedulel').remove();
+                $('div.getSchedule').remove();
                 $('div.wrap').remove();
                 if ($(this).parent().children().hasClass('getSchedulel')) {
                     //alert('^0^');
-                    $('div.getSchedulel').remove();
+                    $('div.getSchedule').remove();
                 } else {
 
 
@@ -1447,6 +1479,61 @@
                                 });
 
                             });
+                            
+                            $('div.getSchedule div.getScheduleHeader > a:nth-child(2)').on('click', function() {
+                            	console.log('클릭ㅋㅋ');
+                            	var postNo = $(this).parent().parent().find('input[name="postNo"]').val();
+                            	$.ajax({
+                            		url: '/couple/rest/deleteSchedule2/' + postNo,
+                            		method: 'GET',
+                            		data: JSON.stringify({
+                            			postNo: postNo
+                            		}),
+                            		headers: {
+                            			'Accept': 'application/json',
+                            			'Content-Type': 'application/json'
+                            		},
+                            		success: function(data) {
+                            			console.log('성공ㅋㅋ');
+                            			$('div.getSchedule').remove();
+                            			$('.cal-schedule').empty();
+                            			refrechCalender2();
+                            		},
+                            		error: function(request, status, error) {
+                                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                    }
+                            	});
+                            });
+                            
+                            function refrechCalender2() {
+                            	var userId = $('input[name="userId"]').val();
+                                var postDate = $('#cal_top_year').text() + '-' + $('#cal_top_month').text() + '-01';
+
+                                //alert('userId : ' + userId);
+                                //alert('postDate : ' + postDate);
+                                $.ajax({
+                                    url: '/couple/rest/getScheduleList2/' + userId + '/' + postDate,
+                                    method: 'GET',
+                                    dataType: 'json',
+                                    data: JSON.stringify({
+                                        userId: userId,
+                                        postDate: postDate
+                                    }),
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    success: function(data) {
+                                        for (var i = 0; i < data.list.length; i++) {
+                                            //alert('postDate : ' + data.list[i].postDate + ' postTitle : ' + data.list[i].postTitle);
+                                            getPostDateAndAddPostTitle(data.list[i].postDate, data.list[i].postTitle, data.list[i].postNo);
+                                        }
+                                    },
+                                    error: function(request, status, error) {
+                                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                    }
+                                });
+                            }
 
 
 
@@ -1470,7 +1557,7 @@
 
                         },
                         error: function(request, status, error) {
-                            alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                            //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                         }
                     });
 
@@ -1555,7 +1642,16 @@
                             $('.wrap').addClass('on');
                         }, 100);
                         $('.wrap').on('click', function(e) {
-                            e.stopPropagation();
+                        	console.log('클릭ㅋㅋ');
+                        	e.stopPropagation();
+                        	$('.wrap div span').css({
+                                'opacity': '0'
+                            });
+                            $('.wrap div').removeClass('on');
+                        	$('#ui-datepicker-div').css({
+                        		'display' : 'none'
+                        	});
+                        	$('.wrap input[type="text"]').blur();
                         });
                         /*여기에 닫기 버튼, 저장 버튼, datepicker 이벤트 가져다 놓기*/
                         $('.wrap div:nth-child(1) a').on('click', function(e) {
@@ -1614,11 +1710,14 @@
                                 },
                                 success: function(data) {
                                     //alert('성공');
-                                    getPostDateAndAddPostTitle(data.postDate, data.postTitle, data.postNo);
+                                    //getPostDateAndAddPostTitle(data.postDate, data.postTitle, data.postNo);
                                     $('td').find('.wrap').remove();
+                                    $('div.getSchedule').remove();
+                        			$('.cal-schedule').empty();
+                        			refrechCalender();
                                 },
                                 error: function(request, status, error) {
-                                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                    //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                                 }
                             });
 
@@ -1640,6 +1739,9 @@
                         });
                         $('.wrap div:nth-child(3) input').on('click', function(e) {
                             e.stopPropagation();
+                            $('#ui-datepicker-div').css({
+                        		'display' : 'block'
+                        	});
                             $('.wrap div span').css({
                                 'opacity': '0'
                             });
@@ -1687,6 +1789,8 @@
                             showMonthAfterYear: true,
                             yearSuffix: "년"
                         });
+                        /* $( "#datepicker" ).datepicker(); */
+                        
 
                     }
                 } else {
@@ -1740,7 +1844,18 @@
                             $('.wrap').addClass('on');
                         }, 100);
                         $('.wrap').on('click', function(e) {
+                        	console.log('클릭ㅋㅋ');
                             e.stopPropagation();
+                            $('.wrap div span').css({
+                                'opacity': '0'
+                            });
+                            $('.wrap div').removeClass('on');
+                        	$('#ui-datepicker-div').css({
+                        		'display' : 'none'
+                        	});
+                        	
+                        	
+                        	$('.wrap input[type="text"]').blur();
                         });
                         /*여기에 닫기 버튼, 저장 버튼, datepicker 이벤트 가져다 놓기*/
                         $('.wrap div:nth-child(1) a').on('click', function(e) {
@@ -1803,7 +1918,7 @@
                                     $('td').find('.wrap').remove();
                                 },
                                 error: function(request, status, error) {
-                                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                    //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                                 }
                             });
 
@@ -2081,43 +2196,21 @@
                         place: place,
                         postContent: postContent
                     }),
-                    success: function() {
+                    success: function(data) {
                         console.log('성공ㅋㅋ');
-                        var userId = $('input[name="userId"]').val();
-                        var postDate = $('#cal_top_year').text() + '-' + $('#cal_top_month').text() + '-01';
-
-                        //alert('userId : ' + userId);
-                        //alert('postDate : ' + postDate);
-                        $.ajax({
-                            url: '/couple/rest/getScheduleList2/' + userId + '/' + postDate,
-                            method: 'GET',
-                            dataType: 'json',
-                            data: JSON.stringify({
-                                userId: userId,
-                                postDate: postDate
-                            }),
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            },
-                            success: function(data) {
-                                for (var i = 0; i < data.list.length; i++) {
-                                    //alert('postDate : ' + data.list[i].postDate + ' postTitle : ' + data.list[i].postTitle);
-                                    getPostDateAndAddPostTitle(data.list[i].postDate, data.list[i].postTitle, data.list[i].postNo);
-                                }
-                            },
-                            error: function(request, status, error) {
-                                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                            }
-                        });
+                        $('#updateScheduleModalBtn').click();
+                        $('.cal-schedule').empty();
+                        refrechCalender();
                     },
                     error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
 
 
+            
+            
         });
 
     </script>
@@ -2140,7 +2233,7 @@
       </div> -->
                 <div class="modal-body">
                     <div class="updateSchedule">
-                        <form action="" method="">
+                        
                             <table>
                                 <colgroup>
                                     <col width="5%">
@@ -2187,7 +2280,7 @@
                                     <td></td>
                                 </tr>
                             </table>
-                        </form>
+                        
                     </div>
                 </div>
                 <!-- <div class="modal-footer">
