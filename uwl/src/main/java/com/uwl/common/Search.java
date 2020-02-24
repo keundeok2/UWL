@@ -12,6 +12,9 @@ public class Search {
 	private int startRowNum;
 	private String postCategoryNo; // 추가
 	private String postChallenge; // 추가
+	////////////////////////////////////////////////////
+	private String userId;
+	
 	
 
 	///Constructor
@@ -78,12 +81,23 @@ public class Search {
 		this.postChallenge = postChallenge;
 	}
 
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	@Override
 	public String toString() {
 		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
 				+ searchKeyword + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
-				+ ", postCategoryNo=" + postCategoryNo + ", postChallenge=" + postChallenge + "]";
+				+ ", postCategoryNo=" + postCategoryNo + ", postChallenge=" + postChallenge + ", userId=" + userId
+				+ "]";
 	}
+
+	
 
 	
 }

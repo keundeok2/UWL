@@ -33,6 +33,7 @@ public interface PostDAO {
 		public Post getNextOrPrePost(int postNo) throws Exception;// 추가
 		
 		//getTotalCount
-		public int getTotalCount(Search search) throws Exception;
+		public int getTotalCount(Search search) throws Exception; // 공지사항
 	
+		public int getTotalCount2(String gatherCategoryNo) throws Exception; // 각각게시판
 }

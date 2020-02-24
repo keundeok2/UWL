@@ -59,8 +59,11 @@ public interface UserDAO {
 	public User findPw(String userId) throws Exception; // pw 찾기
 
 	//
-	public int getTotalCount(Search search) throws Exception; // 전체 회원수
+	public int getTotalCount(Search search, String userId) throws Exception; // 내가쓴 문의사항 갯수
 	
+	public int getTotalCount2(Search search) throws Exception; //전체 문의사항 갯수
+	
+	public int getTotalCountUser(Search search) throws Exception; //전체 유저수 출력
 	public void updatePassword(User user) throws Exception;
 	
 	public void updatePublicStatus(User user) throws Exception;
