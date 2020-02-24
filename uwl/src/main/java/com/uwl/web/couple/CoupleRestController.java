@@ -302,11 +302,14 @@ public class CoupleRestController {
 		return map;
 	}
 	
-	@RequestMapping(value = "rest/updateSchedule/{postNo}")
-	public void updateSchedule(@PathVariable int postNo, @RequestBody Post post) throws Exception {
-		System.out.println("rest/updateSchedule/{postNo} 시작");
+	@RequestMapping(value = "rest/updateSchedule")
+	public Post updateSchedule(@RequestBody Post post) throws Exception {
+		System.out.println("rest/updateSchedule 시작");
 		coupleService.updateSchedule(post);
-		System.out.println("rest/updateSchedule/{postNo} 끝");
+		int postNo = post.getPostNo();
+		Post post2 = coupleService.getSchedule(postNo);
+		System.out.println("rest/updateSchedule 끝");
+		return post2;
 	}
 	
 	@RequestMapping(value = "rest/deleteSchedule/{userId}/{postNo}")
