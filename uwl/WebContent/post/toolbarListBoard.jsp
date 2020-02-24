@@ -597,7 +597,8 @@
                                         <p><i class="far fa-heart"></i> ${post.likeCount }</p>
                                     </div>
                                 </div>
-                                <input type="hidden" class="postNo" value="${post.postNo }">
+                                <input type="hidden" class="postNo" value="${post.postNo}">
+                                <input type="hidden" class="postNo" value="${post.postNo}">
                                 
                             </a>
                         </div>

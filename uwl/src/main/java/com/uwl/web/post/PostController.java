@@ -197,7 +197,7 @@ public class PostController {
 		postService.deleteBoard(postNo);
 		return "forward:/post/listBoard";
 	}
-	
+	//pathVariable 넣어주기
 	@RequestMapping(value="listBoard")	//----------------------------테스트 종료
 	public String getBoardList(@ModelAttribute("search") Search search, @RequestParam("gatherCategoryNo") String gatherCategoryNo,
 								Model model, @RequestParam("postChallenge") String postChallenge) throws Exception{

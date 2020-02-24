@@ -108,6 +108,8 @@ public class ChallengeController {
 		
 		user = (User)session.getAttribute("user");
 		
+		
+		
 		//login을 하지않으면 접근할 수 없다. ==> commonNullPointException.jsp로 이동
 		if (user.getUserId() == null) {
 			System.out.println("ChallengeController updateChallenge() : GET ==> 로그인이 안되어있으면 /user/login으로 이동시킴");
@@ -122,7 +124,11 @@ public class ChallengeController {
 		
 		Challenge challenge = challService.getChallengeAdmin(challNo);
 		
+		List<Challenge> list = challService.getDetailCategoryList(challenge.getChallCategory());
+		
 		model.addAttribute("challenge", challenge);
+		model.addAttribute("detailList", list);
+		System.out.println("==================>>list update : " + list);
 		
 		//return "forward:/challenge/updateChallenge.jsp";
 		return "forward:/challenge/toolbarUpdateChallenge.jsp";
@@ -135,12 +141,40 @@ public class ChallengeController {
 		
 		System.out.println("/challenge/updateChallenge : POST");
 		
+		
 		user = (User)session.getAttribute("user");
+		
+		//view에서 한글로 바꾼걸 다시 숫자로String표현으로 바꿔줌
+		if (challenge.getDetailCategory().equals("진학상담")) {
+			//진학상담  ==> 201
+			challenge.setDetailCategory("201");
+		}else if(challenge.getDetailCategory().equals("사랑과이별")) {
+			//사랑과이별  ==> 202
+			challenge.setDetailCategory("202");
+		}else if(challenge.getDetailCategory().equals("남자끼리")) {
+			//남자끼리  ==> 203
+			challenge.setDetailCategory("203");
+		}else if(challenge.getDetailCategory().equals("여자끼리")) {
+			//여자끼리  ==> 204
+			challenge.setDetailCategory("204");
+		}else if(challenge.getDetailCategory().equals("데이트자랑")) {
+			//데이트자랑  ==> 205
+			challenge.setDetailCategory("205");
+		}else if(challenge.getDetailCategory().equals("대나무숲")) {
+			//대나무숲  ==> 206
+			challenge.setDetailCategory("206");
+		}
+		
+		System.out.println("challenge.getDetailCategory : " + challenge.getDetailCategory());
+		
 		
 		challService.updateChallenge(challenge);
 		
+		
+		
 		model.addAttribute("challenge", challenge);
 		System.out.println("challenge update : " + challenge);
+		
 		
 		//role이 어드민일때만 가게끔 로직을 구성해야된다. 나중에 할 떄 참고
 		//redirect인 이유는 여기 입력됐던 정보들이 초기화되어야 하니까 redirect이다.
