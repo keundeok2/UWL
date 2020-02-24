@@ -371,6 +371,37 @@ font-family: 'Nanum Gothic', sans-serif;
 			});
 		});
         
+
+        
+        var sel_file;
+ 
+        $(document).ready(function() {
+            $("#uploadProfile").on("change", handleImgFileSelect);
+        }); 
+ 
+        function handleImgFileSelect(e) {
+            var files = e.target.files;
+            var filesArr = Array.prototype.slice.call(files);
+ 
+            filesArr.forEach(function(f) {
+                if(!f.type.match("image.*")) {
+                    alert("확장자는 이미지 확장자만 가능합니다.");
+                    return;
+                }
+ 
+                sel_file = f;
+ 
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $("#updateProfileImg").attr("src", e.target.result);
+                }
+                reader.readAsDataURL(f);
+            });
+        }
+ 
+    
+        
+        
     </script>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
@@ -458,7 +489,7 @@ font-family: 'Nanum Gothic', sans-serif;
             <ul>
                 <li class="on"><a href="#">프로필 편집</a></li>
                 <li><a href="#">비밀번호 변경</a></li>
-                <li><a href="#">공개 범위 및 보안</a></li>
+                <li><a href="#">공개 범위 </a></li>
             </ul>
         </div>
         
@@ -473,9 +504,9 @@ font-family: 'Nanum Gothic', sans-serif;
                 <tr>
                     <td>
                         <div class="profileImage">
-                            <img src="/images/${user.profileName}" alt="">
-                            <input type="file" name="file" style="display : none">
-                            <input type="hidden" name="profileName" value="${user.profileName}">
+                            <img src="/images/${user.profileName}" alt="" id="updateProfileImg">
+                            <input type="file" name="file" id="uploadProfile" style="display : none">
+                            <input type="hidden" name="profileName" id="profileName" value="${user.profileName}">
                         </div>
                     </td>
                     <td>
@@ -538,7 +569,7 @@ font-family: 'Nanum Gothic', sans-serif;
                     <td></td>
                     <td>
                         <div><a href="#">제출</a></div>
-                        <div><a href="#"></a></div>
+                        <div><a href="#">회원 탈퇴</a></div>
                     </td>
                 </tr>
             </table>

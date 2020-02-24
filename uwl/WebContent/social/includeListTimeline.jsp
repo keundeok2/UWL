@@ -568,7 +568,7 @@ div.modal-backdrop.show {
 						</c:if>
 						
 						<div class="postContentDiv ${post.postNo}">${post.postContent}</div>
-						<button class="btn btn-outline-primary btn-sm commentBtn" value="${post.postNo}">댓글</button>
+						<button class="btn btn-outline-primary btn-sm commentBtn" value="${post.postNo}">댓글 ${post.commentCount}</button>
 						<c:if test="${user.userId eq targetUserId }">
 						<button class="btn btn-outline-secondary btn-sm postUpdateBtn" value="${post.postNo}" data-toggle="modal" data-target="#postUpdateModal">수정</button>
 						<button class="btn btn-outline-secondary btn-sm postDeleteBtn" value="${post.postNo}">삭제</button>
@@ -577,7 +577,7 @@ div.modal-backdrop.show {
 				</c:forEach>
 				</ul>
 				<c:if test="${empty timelineMap.list}">
-					<h3>표시할 타임라인이 없습니다.</h3>
+					<h4 class='text-center' style="">표시할 타임라인이 없습니다.</h4>
 				</c:if>
 			</div>
 		</div>

@@ -1,5 +1,6 @@
 package com.uwl.web.community;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -136,13 +137,17 @@ public class CommunityRestController {
 	}
 	
 	@RequestMapping(value="rest/listComment")		//페이지 넘기기 용?
-	public Map<String, Object> getCommentList(@RequestBody Search search,
-			@RequestParam("postNo") int postNo, @RequestParam("userId") String userId) throws Exception{
+	public Map<String, Object> getCommentList(@RequestBody HashMap<String, Object> jsonMap) throws Exception{
 		System.out.println("rest/getCommentList.POST or GET");
-		if(search.getCurrentPage() == 0) {
-		search.setCurrentPage(1);
-		}
+		int currentPage = (Integer)jsonMap.get("currentPage");
+		int postNo = (Integer)jsonMap.get("postNo");
+		String userId = "";
+		
+		Search search = new Search();
+		search.setCurrentPage(currentPage);
 		search.setPageSize(pageSize);
+		search.setSearchCondition("1");
+		search.setSearchKeyword(postNo+"");
 		
 		Map<String, Object> map = communityService.getCommentList(search, postNo, userId);
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);

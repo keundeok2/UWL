@@ -21,6 +21,7 @@
  		<result property="postCategoryNo" column="post_category_no" jdbcType="VARCHAR"/>
  		<result property="questionStatus" column="question_status" jdbcType="VARCHAR"/>
  		<result property="replyPostNo" column="reply_post_no" jdbcType="NUMERIC"/>
+ 		<result property="commentCount" column="comment_count" jdbcType="NUMERIC"/>
  	</resultMap>
  	
  	<resultMap id="askSelectMap" type="ask">
@@ -76,7 +77,7 @@
 	<select id="getTimelineList" parameterType="map" resultMap="postSelectMap">
 		SELECT * 
 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
-				FROM (  SELECT p.post_no, p.user_id, p.uploadfile_name, p.post_title, p.post_content, p.post_date, p.view_status, p.post_category_no, u.name, u.nickname, u.profile_name 
+				FROM (  SELECT p.post_no, p.user_id, p.uploadfile_name, p.post_title, p.post_content, p.post_date, p.view_status, p.post_category_no, p.comment_count, u.name, u.nickname, u.profile_name 
 							FROM post p, users u
 		                    WHERE post_category_no = '4'
 		                    AND p.user_id = #{userId}
