@@ -1,5 +1,8 @@
 package com.uwl.web.challenge;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -16,15 +19,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.portlet.ModelAndView;
 
 import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.challenge.ChallengeService;
 import com.uwl.service.domain.Challenge;
 import com.uwl.service.domain.User;
-
-import sun.security.util.PropertyExpander.ExpandException;
 
 @Controller
 @RequestMapping("/challenge/*")
@@ -99,6 +99,7 @@ public class ChallengeController {
 		return "redirect:/challenge/listAdminChallenge";
 		//return "redirect:/challenge/toolbarListAdminChallenge.jsp";
 	}
+	
 	
 	@RequestMapping(value = "updateChallenge/{challNo}", method = RequestMethod.GET)
 	public String updateChallenge(@PathVariable int challNo, Model model, HttpSession session) throws Exception{
@@ -218,10 +219,14 @@ public class ChallengeController {
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
+		Challenge weeklyStart = challService.getWeeklyStart();
+		System.out.println("weeklyStart : " + weeklyStart);
+		
 		model.addAttribute("list", map.get("list"));
 		System.out.println("getAdminChallengeList() list : " + map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		model.addAttribute("weeklyStart", weeklyStart);
 		
 		//return "forward:/challenge/listAdminChallenge.jsp";
 		return "forward:/challenge/toolbarListAdminChallenge.jsp";
@@ -328,7 +333,69 @@ public class ChallengeController {
 		
 		System.out.println("ChallengeController getChallengeList()의 map에 담긴 list : " + list);
 		
+		//////////////// 주간도전과제 시작과 끝을 세팅 ////////////////
+
+
+		Challenge challenge = challService.getWeeklyStart();
+		
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String strDate = transFormat.format(challenge.getWeeklyStart());
+		
+		System.out.println("============================>>>>>strDate : " + strDate);
+		//String[] fullDate = parse.split("-");
+		
+		//int yyyy = Integer.parseInt(fullDate[0]);
+		//String mm = fullDate[1];
+		//int dd = Integer.parseInt(fullDate[2]);
+		
+		//무슨달인지 담아줄 변수
+		int parameterMonth = 0;
+		
+//		if (mm.equals("01")) {
+//			parameterMonth = Calendar.JANUARY;
+//		}else if(mm.equals("02")){
+//			parameterMonth = Calendar.FEBRUARY;
+//		}else if(mm.equals("03")){
+//			parameterMonth = Calendar.MARCH;
+//		}else if(mm.equals("04")){
+//			parameterMonth = Calendar.APRIL;
+//		}else if(mm.equals("05")){
+//			parameterMonth = Calendar.MAY;
+//		}else if(mm.equals("06")){
+//			parameterMonth = Calendar.JUNE;
+//		}else if(mm.equals("07")){
+//			parameterMonth = Calendar.JULY;
+//		}else if(mm.equals("08")){
+//			parameterMonth = Calendar.AUGUST;
+//		}else if(mm.equals("09")){
+//			parameterMonth = Calendar.SEPTEMBER;
+//		}else if(mm.equals("10")){
+//			parameterMonth = Calendar.OCTOBER;
+//		}else if(mm.equals("11")){
+//			parameterMonth = Calendar.NOVEMBER;
+//		}else if(mm.equals("12")){
+//			parameterMonth = Calendar.DECEMBER;
+//		}
+		
+		//변환된 정보들을 넣어줌
+		//Calendar weeklyStart = new GregorianCalendar(yyyy,parameterMonth,dd);
+//		System.out.println("도전과제 시작날짜 cal.getTime : " + weeklyStart.getTime());
+//		System.out.println("cal.getTime : " + weeklyStart.getTimeInMillis());
+//		
+//		//challenge.setWeeklyStart(weeklyStart);
+//		
+//		Calendar weeklyEnd = weeklyStart;
+//		weeklyEnd.add(Calendar.DAY_OF_WEEK, 7);
+//		System.out.println("오늘로 부터 일주일 후: "+ weeklyEnd.getTime());
+//		System.out.println("오늘로 부터 일주일 후: "+ weeklyEnd.getTimeInMillis());
+//		
+//		//////////////// 주간도전과제 시작과 끝을 세팅 ////////////////
+//		
+		
+	//	System.out.println("ChallengeController getWeeklyStart : " +weeklyStart );
 		model.addAttribute("list", list);
+		model.addAttribute("challenge", challenge);
+		model.addAttribute("strDate", strDate);
 		
 		//return "forward:/challenge/listChallenge.jsp";
 		return "forward:/challenge/toolbarListChallenge.jsp";

@@ -41,6 +41,7 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 	
 	@Override
 	public void addWeeklyStart(Challenge challenge) throws Exception {
+		System.out.println("ChallengeDAO에 접근 addWeekstart() 실행");
 		sqlSession.insert("ChallengeMapper.addWeeklyStart", challenge);
 		
 	}
@@ -75,13 +76,6 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 		return sqlSession.selectList("ChallengeMapper.getChallengeList");
 	}
 	
-//	@Override
-//	public Challenge weeklyStart(Challenge challenge) throws Exception {
-//		
-//		
-//		return sqlSession.selectOne("ChallengeMapper.weeklyStart",challenge);
-//	}
-
 	@Override
 	public Map<String, Object> getCompleteChallengeList(Search search, String userId) throws Exception {
 		
@@ -133,6 +127,7 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 
 	@Override
 	public Challenge getWeeklyStart() throws Exception {
+		System.out.println("ChallengeDAOImpl의  getWeeklyStart()");
 		return sqlSession.selectOne("ChallengeMapper.getWeeklyStart");
 	}
 
