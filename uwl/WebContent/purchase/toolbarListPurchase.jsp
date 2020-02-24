@@ -244,7 +244,7 @@
                 <div class="page-header text-center">
 					<h3 style="color: #2C3E50">나의 구매내역</h3>
 					<h4>
-						<label for="Choose Report" style="color: #E74C3C">Choose Report</label>
+						<label for="Choose Report" style="color: #E74C3C">PURCHASE HISTORY </label>
 					</h4>
                 </div>
                 <br/>
