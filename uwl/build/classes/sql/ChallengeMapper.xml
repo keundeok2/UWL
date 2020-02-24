@@ -259,49 +259,44 @@ WHERE r.chall_no = c.chall_no AND r.user_id = #{userId} ORDER BY r.variable_date
 	 
 	 <!-- SQL : SELECT ROW Count -->	<!-- 파라미터를 map으로 가져올것. --> 
 	 <select  id="getChallPostCompleteCount"  parameterType="challenge"	 resultType="int">
-	  	SELECT COUNT(*) FROM(			
-							SELECT  p.user_id,
-									p.hit_count,
-									p.comment_count,
-									p.post_category_no,
-									p.post_date FROM post p, (SELECT the_latest.weekly_start weekly_start,
-																	weekly_end.	weekly_end	weekly_end		FROM
-															(SELECT weekly_start  
-															FROM challenge 
-															WHERE weekly_start IS NOT NULL 
-															ORDER BY weekly_start DESC) the_latest, (SELECT 
-																											to_char(weekly_start+7,'yyyy-mm-dd HH24:MI:SS') weekly_end
-																											from challenge c WHERE c.weekly_start IS NOT NULL ORDER BY c.weekly_start DESC) weekly_end
-															WHERE ROWNUM = 1) week
-					WHERE TO_DATE(p.post_date, 'yyyy-mm-dd HH24:MI:SS') BETWEEN TO_DATE(week.weekly_start, 'yyyy-mm-dd HH24:MI:SS') AND TO_DATE(week.weekly_end , 'yyyy-mm-dd HH24:MI:SS')
-								AND p.user_id = #{post.user.userId:VARCHAR}
-								  <if test="challCategory == 3 ">
-										<!-- 진학상담 -->
-										<if test="detailCategory == 201 ">
-										 	AND	p.gather_category_no = '201'
-										</if>
-										<!-- 사랑 -->
-										<if test="detailCategory == 202 ">
-										 	AND p.gather_category_no = '202'
-										</if>
-										<!-- 남자끼리 -->
-										<if test="detailCategory == 203 ">
-										 	AND p.gather_category_no = '203'
-										</if>
-										<!-- 여자끼리 -->
-										<if test="detailCategory == 204 ">
-										 	AND p.gather_category_no = '204'
-										</if>
-										<!-- 데이트 -->
-										<if test="detailCategory == 205 ">
-										 	AND p.gather_category_no = '205'
-										</if>
-										<!-- 대나무숲 -->
-										<if test="detailCategory == 206 ">
-										 	AND p.gather_category_no = '206'
-										</if>
-								</if>  
-								) countTable
+	  	
+	  	SELECT COUNT(*) 
+		FROM(	SELECT  p.user_id,
+						p.hit_count,
+						p.comment_count,
+						p.post_category_no,
+						p.post_date,
+						week.weekly_start,
+						week.weekly_end
+						FROM post p, (SELECT the_latest.weekly_start,
+																	the_latest.weekly_end
+													FROM (SELECT weekly_start,
+																(weekly_start + 7) weekly_end
+																	FROM challenge 
+																	WHERE weekly_start IS NOT NULL 
+																	ORDER BY chall_no DESC) the_latest
+												WHERE ROWNUM = 1) week
+		WHERE p.post_date  BETWEEN week.weekly_start  AND week.weekly_end
+		AND p.user_id = #{post.user.userId:VARCHAR}
+						  <if test="challCategory == 3 ">
+								<!-- 진학상담 -->
+								<if test="detailCategory == 201 ">
+								 	AND	p.gather_category_no = '201'
+								</if>
+								<!-- 사랑 -->
+								<if test="detailCategory == 202 ">
+								 	AND p.gather_category_no = '202'
+								</if>
+								<!-- 데이트 -->
+								<if test="detailCategory == 205 ">
+								 	AND p.gather_category_no = '205'
+								</if>
+								<!-- 대나무숲 -->
+								<if test="detailCategory == 206 ">
+								 	AND p.gather_category_no = '206'
+								</if>
+						</if>  
+						) countTable
 	 </select>
 	 
 	 

@@ -208,6 +208,7 @@ public class PostController {
 		}
 		search.setPageSize(pageSize);		//몇개의 게시글을 노출시킬 것?
 		
+		//System.out.println("=======>>listBoard() Post로 넘어온 search.getPostChallenge의 정보 : " + search.getPostChallenge());
 		Map<String, Object> map = postService.getBoardList(search, gatherCategoryNo);
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		

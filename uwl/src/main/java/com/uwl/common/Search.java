@@ -11,6 +11,7 @@ public class Search {
 	private int endRowNum;
 	private int startRowNum;
 	private String postCategoryNo; // 추가
+	private String postChallenge; // 추가
 	
 
 	///Constructor
@@ -69,11 +70,19 @@ public class Search {
 		this.postCategoryNo = postCategoryNo;
 	}
 
+	public String getPostChallenge() {
+		return postChallenge;
+	}
+
+	public void setPostChallenge(String postChallenge) {
+		this.postChallenge = postChallenge;
+	}
+
 	@Override
 	public String toString() {
 		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
 				+ searchKeyword + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
-				+ ", postCategoryNo=" + postCategoryNo + "]";
+				+ ", postCategoryNo=" + postCategoryNo + ", postChallenge=" + postChallenge + "]";
 	}
 
 	
