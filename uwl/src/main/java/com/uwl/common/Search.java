@@ -10,7 +10,9 @@ public class Search {
 	private int pageSize;
 	private int endRowNum;
 	private int startRowNum;
+	private String postCategoryNo; // 추가
 	
+
 	///Constructor
 	public Search() {
 	}
@@ -58,12 +60,21 @@ public class Search {
 	public void setStartRowNum(int startRowNum) {
 		this.startRowNum = startRowNum;
 	}
+	
+	public String getPostCategoryNo() {
+		return postCategoryNo;
+	}
+
+	public void setPostCategoryNo(String postCategoryNo) {
+		this.postCategoryNo = postCategoryNo;
+	}
 
 	@Override
 	public String toString() {
-		return "Search [currentPage=" + currentPage + ", searchCondition="
-				+ searchCondition + ", searchKeyword=" + searchKeyword
-				+ ", pageSize=" + pageSize + ", endRowNum=" + endRowNum
-				+ ", startRowNum=" + startRowNum + "]";
+		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
+				+ searchKeyword + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
+				+ ", postCategoryNo=" + postCategoryNo + "]";
 	}
+
+	
 }

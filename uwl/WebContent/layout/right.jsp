@@ -599,10 +599,16 @@
             color: #fff;
             font-size: 12px;
         }
+        
+        .newMessage{
+        	color: red; 
+        	font-weight: bold;
+        }
 /*================================= 채팅  css ===================================================================*/
 
 		#loginColor.on {
 			background: green;
+			
 		}
 	</style>
 	
@@ -986,10 +992,17 @@
 		        		'scrollTop': '10000000px'
 		        	});
 	        		
+	        		
 	        		chattingRoomNo = $(this).children().find('#roomNo').val();//열린 룸 넘버
 	        		enterUserId = "${sessionScope.user.userId}";	//입장자
 	        		targetId = $(this).children().find("#chattingUserId").val();	//피입장자
 	        		
+	        		var roomCount = $('input[id=roomNo]').length;
+	        		for(var i=0; i<roomCount; i++){
+	        			if($('input[id=roomNo]').eq(i).val() == chattingRoomNo){
+							$('input[id=roomNo]').eq(i).parent().parent().find('.newMessage').remove();
+	        			}
+	        		}
 	        		
 	        		
 	        		
@@ -1195,15 +1208,24 @@
 	        	receiver = receiverId;
 	        	if(receiverId == "${sessionScope.user.userId}"){
 	        		
-	        		
-	        		
 	        		console.log(chattingRoom);
 ///////////////////////////////////////여기에서 해당 채팅방에 new라는 메시지를 띄워주고싶다 이말이야!//////////////////////////////////
-	        		/*  alert($('#roomNo').find('input[value="'+chattingRoom+'"]').val());
-	        		$("input[id='roomNo']:input[value='"+chattingRoom+"']")
-	        		 */
-	        		
-	        		
+//////////////////////////////////////////////////////////////////////////////////////
+	        		var roomCount = $('input[id=roomNo]').length;
+	        		for(var i=0; i<roomCount; i++){
+	        			if($('input[id=roomNo]').eq(i).val() == chattingRoom){
+							$('input[id=roomNo]').eq(i).parent().parent().find('.newMessage').remove();
+	        			}
+	        		}
+	        		//계속 어펜드된다 이거 romove안먹히는거 수정
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////	        		
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////	        		
+	        		var view = "<span class=newMessage>새로운 메시지</span>"
+	        		for(var i=0; i<roomCount; i++){
+	        			if($('input[id=roomNo]').eq(i).val() == chattingRoom){
+	        				$('input[id=roomNo]').eq(i).parent().parent().prepend(view) //chattingInfo까지 접근
+	        			}
+	        		}
 	        		
 	        		$('div.chattingIcon > div').css({
 	        			"display" : 'block'
@@ -1476,6 +1498,7 @@
 			$('.chatFromUser').remove();
 			$('.chatDate').remove();
 			$('div.chattingList').removeClass('on');
+			
 			var sessionUserId = "${sessionScope.user.userId}";
 			targetId = $(this).parent().find(".userIdForProfile").val();
 			$.ajax({
@@ -1572,8 +1595,13 @@
 				    										'right': '160px',
 				    										"z-index": '9'
 				    									});
+				    									if(data[i].enterUser == "${sessionScope.user.userId}"){
+				    										var user = data[i].master;
+				    									}else{
+				    										var user = data[i].enterUser;
+				    									}
 				    									$.ajax({
-				    										url : "/user/rest/getUser/"+data[i].enterUser,
+				    										url : "/user/rest/getUser/"+user,
 				    										method : "GET",
 				    										headers : {
 								    							"Accept" : "application/json",
@@ -1649,9 +1677,13 @@
 									'right': '160px',
 									"z-index": '9'
 								});			//-------------------------------------------------------확인완료
-								
+								if(data[i].enterUser == "${sessionScope.user.userId}"){
+									var user = data[i].master;
+								}else{
+									var user = data[i].enterUser;
+								}
 								$.ajax({
-									url : "/user/rest/getUser/"+data[i].enterUser,
+									url : "/user/rest/getUser/"+user,
 									method : "GET",
 									headers : {
 		    							"Accept" : "application/json",
@@ -1763,9 +1795,13 @@
 						    										'right': '160px',
 						    										"z-index": '9'
 						    									});
-						    									
+						    									if(data[i].enterUser == "${sessionScope.user.userId}"){
+						    										var user = data[i].master;
+						    									}else{
+						    										var user = data[i].enterUser;
+						    									}
 						    									$.ajax({
-						    										url : "/user/rest/getUser/"+data[i].enterUser,
+						    										url : "/user/rest/getUser/"+user,
 						    										method : "GET",
 						    										headers : {
 						    			    							"Accept" : "application/json",
