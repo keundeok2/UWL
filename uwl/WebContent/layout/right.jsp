@@ -635,6 +635,47 @@
 	    
 	    
 	    $(document).ready(function(){
+	    	
+	    	
+	    	////매칭////////////////////////////////////////////////////////////////////////////////////////////////////
+	    	
+	    	
+	    	
+	    	$.ajax({
+	    		url : "/user/rest/getUser/"+"${sessionScope.user.userId}",
+	    		method : "GET",
+	    		headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(data){
+					if(data.role == '2'){
+						$('#areYouCouple').modal();
+						$('#enjoyCoupleLife').on("click", function(){
+							$.ajax({
+								url : "/matching/rest/updateCoupleRole/"+"${sessionScope.user.userId}",
+								method : "GET",
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(){
+									console.log('유저3');
+								},
+								error : function(){
+									console.log('유저 실패');				
+								}
+							});
+						});
+					}
+				},
+				error : function(){
+					alert('error')
+				}
+	    	});
+	    	
+	    	
+	    	////매칭////////////////////////////////////////////////////////////////////////////////////////////////////
     		var sessionUserId = "${sessionScope.user.userId}";
     		var roomNos = [];
 			var userIds = [];
@@ -848,7 +889,76 @@
 	        ///////////////////소켓 연결되는 구간
 	        
 	         ////////////////////////로그인 상태 판단(include라서 임시보관함)
-	        
+	        var matchingSessionId = null;
+	        var matchingTargetId = null;
+	        var targetName = null;
+	        var targetProfileName = null;
+	        socket.on('matchingSession', function(matchingSession){
+	        	setTimeout(function(){
+					matchingSessionId = matchingSession
+					
+					$.ajax({
+						url : "/user/rest/getUser/"+matchingTargetId,
+						method : "GET",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(data){
+							if(data.role == '2'){
+								if("${sessionScope.user.userId}" == matchingSessionId || "${sessionScope.user.userId}" == matchingTargetId){
+									$.ajax({
+										url : "/user/rest/getUser/"+matchingSessionId,
+										method : "GET",
+										headers : {
+											"Accept" : "application/json",
+											"Content-Type" : "application/json"
+										},
+										success : function(data){
+											targetName = data.name;
+											targetProfileName = data.profileName;
+										},
+										error : function(){
+											alert('에러에러 ㅋㅋ');
+										}
+									});
+									var view = "<img src='/images/"+data.profileName+"' alt=''>"
+									
+									$('#areYouCoupleModalLabel').append(view)
+									$('#areYouCouple').modal();
+									$('#enjoyCoupleLife').on("click", function(){
+										$.ajax({
+											url : "/matching/rest/updateCoupleRole/"+"${sessionScope.user.userId}",
+											method : "GET",
+											headers : {
+												"Accept" : "application/json",
+												"Content-Type" : "application/json"
+											},
+											success : function(){
+												console.log('유저3');
+											},
+											error : function(){
+												console.log('유저 실패');				
+											}
+										});
+									});
+								}
+							}
+							
+						},
+						error : function(){
+							alert('로그인 중인 유저의 에러 ㅋㅋ')
+						}
+					});					
+					
+	        	},10);
+	        	
+	        	
+	        	
+			});
+	    	socket.on('matchingTarget', function(matchingTarget){
+	    		matchingTargetId = matchingTarget
+	    	});
 	        
 	        
 	         ////////////////////////로그인 상태 판단(include라서 임시보관함)
@@ -2199,6 +2309,35 @@
         </div>
         <div class="toast-body"></div>
     </div>
+
+
+	<div class="modal fade" id="areYouCouple" tabindex="-1" role="dialog" aria-labelledby="areYouCoupleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <p class="modal-title" id="areYouCoupleModalLabel">나 상대방</p>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body2">
+                        <div class="row">
+                            <div class="col-sm-12 areYouCoupleTarget">
+								축하드립니다<br>
+								커플 회원이 되셨습니다<br>
+								커플 타임라인을 사용 할 수 있습니다<br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="enjoyCoupleLife">확인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
 
 </body>
 
