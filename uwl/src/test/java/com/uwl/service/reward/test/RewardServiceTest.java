@@ -103,7 +103,7 @@ public class RewardServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testIncreasePoint() throws Exception{
 		
 		Challenge challenge = new Challenge();

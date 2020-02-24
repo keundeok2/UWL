@@ -17,11 +17,9 @@
 		<result property="viewStatus" 	column="view_status" 		jdbcType="VARCHAR" />
 		<result property="postCommentComplete" 	column="post_comment_complete" 		jdbcType="NUMERIC" />
 		<result property="detailCategory" 	column="detail_category" 		jdbcType="VARCHAR" />
-		
-		<!-- 가상컬럼과 바인딩 -->
 		<result property="weeklyStart" 	column="weekly_start" 		jdbcType="DATE" />
 		<result property="weeklyEnd" 	column="weekly_end" 		jdbcType="DATE" />
-		
+		<!-- 가상컬럼과 바인딩 -->
 		<!-- 이전글 이후글 가상 컬럼과 바인딩 -->
 		<result property="preChallNo" 			column="pre_chall_no" 			jdbcType="NUMERIC"/>
 		<result property="nextChallNo" 			column="next_chall_no" 			jdbcType="NUMERIC"/>
@@ -99,7 +97,7 @@
 	 </insert>
 	 
 	<insert 	id="addWeeklyStart"		parameterType="challenge" >
-	 	INSERT INTO challenge(chall_no, chall_reward, view_status ,weekly_start) VALUES(seq_challenge_chall_no.NEXTVAL, #{challReward},'3', SYSDATE)
+	 	INSERT INTO challenge(chall_no, view_status ,weekly_start) VALUES(seq_challenge_chall_no.NEXTVAL, '3', #{weeklyStart})
 	</insert>
 	 
 	 <!-- SQL : UPDATE(수정) -->
@@ -177,18 +175,13 @@
 	 </select>
 	 
 	 <!-- SQL : SELECT ONE  -->
-	 <select  id="getWeeklyStart" resultMap="challengSelectMap">
-	  	
-	  	SELECT the_latest.weekly_start weekly_start,
-					weekly_end.	weekly_end	weekly_end		FROM
-			(SELECT weekly_start  
-			FROM challenge 
-			WHERE weekly_start IS NOT NULL 
-			ORDER BY weekly_start DESC) the_latest, (SELECT 
-													to_char(weekly_start+7,'yyyy-mm-dd HH24:MI:SS') weekly_end
-													from challenge c WHERE c.weekly_start IS NOT NULL ORDER BY c.weekly_start DESC) weekly_end
+	 <select  id="getWeeklyStart" parameterType="challenge" resultMap="challengSelectMap">
+	  	SELECT the_latest.weekly_start AS weekly_start
+		FROM (SELECT weekly_start AS weekly_start
+				FROM challenge 
+				WHERE weekly_start IS NOT NULL
+				ORDER BY chall_no DESC) the_latest
 		WHERE ROWNUM = 1
-		
 	 </select>
 	 
 	 <!-- SQL : SELECT ONE  -->
@@ -315,7 +308,7 @@ WHERE r.chall_no = c.chall_no AND r.user_id = #{userId} ORDER BY r.variable_date
 	 <!-- SQL : SELECT ROW Count -->	 <!-- 파라미터를 map으로 가져올것. -->
 	 <select  id="getChallCommentCompleteCount"  parameterType="challenge"	 resultType="int">
 	  	SELECT COUNT(*) FROM(			
-								 SELECT  DISTINCT c.user_id,
+								 SELECT  c.user_id,
 												c.comment_date
 											FROM commentt c, (SELECT the_latest.weekly_start weekly_start,
 																												weekly_end.	weekly_end	weekly_end		FROM

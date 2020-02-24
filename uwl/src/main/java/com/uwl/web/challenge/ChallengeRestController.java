@@ -1,31 +1,21 @@
 package com.uwl.web.challenge;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.portlet.ModelAndView;
 
-import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.challenge.ChallengeService;
 import com.uwl.service.community.CommunityService;
@@ -38,8 +28,6 @@ import com.uwl.service.domain.User;
 import com.uwl.service.post.PostService;
 import com.uwl.service.reward.RewardService;
 import com.uwl.service.schoolRank.SchoolRankService;
-
-import sun.security.util.PropertyExpander.ExpandException;
 
 @RestController
 @RequestMapping("/challenge/*")
@@ -87,6 +75,36 @@ public class ChallengeRestController {
 		file.transferTo(new File(path, file.getOriginalFilename()));
 		name = file.getOriginalFilename();
 		return name;
+	}
+	
+	@RequestMapping(value="/rest/addWeeklyStart", method=RequestMethod.POST)
+	public Challenge addWeeklyStart(@RequestBody Challenge challenge) throws Exception{
+		System.out.println("/rest/addWeeklyStart");
+		
+		challengeService.addWeeklyStart(challenge);
+		
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+		String weeklyStart = transFormat.format(challenge.getWeeklyStart());
+
+		System.out.println("/rest/addWeeklyStart 시간 : " + weeklyStart);
+		
+		return challenge;
+	}
+	
+	@RequestMapping(value="/rest/getWeeklyStart", method=RequestMethod.POST)
+	public Challenge getWeeklyStart() throws Exception{
+		System.out.println("/rest/getWeeklyStart");
+		
+		Challenge challenge = challengeService.getWeeklyStart();
+		
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		String weeklyStart = transFormat.format(challenge.getWeeklyStart());
+		
+		System.out.println("/rest/getWeeklyStart 시간 : " + weeklyStart);
+		
+		return challenge;
 	}
 	
 	@RequestMapping(value="/rest/listDetailCetegory", method=RequestMethod.POST)
