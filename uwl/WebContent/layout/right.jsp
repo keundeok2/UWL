@@ -1213,7 +1213,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 	        		var roomCount = $('input[id=roomNo]').length;
 	        		for(var i=0; i<roomCount; i++){
-	        			if($('input[id=roomNo]').eq(i).val() == chattingRoomNo){
+	        			if($('input[id=roomNo]').eq(i).val() == chattingRoom){
 							$('input[id=roomNo]').eq(i).parent().parent().find('.newMessage').remove();
 	        			}
 	        		}
