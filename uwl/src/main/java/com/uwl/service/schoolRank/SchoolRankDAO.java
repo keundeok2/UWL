@@ -20,7 +20,7 @@ public interface SchoolRankDAO {
 	public void updateSchoolTotalUser(SchoolRank schoolRank) throws Exception;
 	
 	//학교랭킹 리스트를 확인하기 위한 method
-	public Map<String, Object> getSchoolRankingList(Search search, int schoolNo) throws Exception;
+	public List<SchoolRank> getSchoolRankingList(Search search) throws Exception;
 	
 	//개인랭킹 리스트를 확인하기 위한 method
 	public List<SchoolRank> getIndividualRankingList(Search search) throws Exception;
@@ -31,7 +31,7 @@ public interface SchoolRankDAO {
 	//내 학교검색
 	public SchoolRank getMySchool(String userId) throws Exception;
 	
-	public int getTotalCount(Map<String, Object> map) throws Exception ;
+	public int getTotalCount(Search search) throws Exception ;
 	
 	public int getTotalCountIndividual(Search search) throws Exception ;
 

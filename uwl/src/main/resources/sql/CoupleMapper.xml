@@ -122,7 +122,7 @@
  				AND (post.user_id = couple.FIRST_USER_ID 
  				OR post.user_id = couple.SECOND_USER_ID )
  				and post.post_category_no = '6'
- 				order by post_no desc
+ 				order by post_no
  			) inner_table
  			where rownum &lt;= #{search.endRowNum}
  		)

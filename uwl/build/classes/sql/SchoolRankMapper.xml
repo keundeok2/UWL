@@ -50,7 +50,7 @@
 	 
 	
 	<!-- SELECT LIST RANKING 조회 -->
-	<select  id="getSchoolRankingList"  parameterType="map"	resultMap="schoolRankSelectMap">
+	<select  id="getSchoolRankingList"  parameterType="search"	resultMap="schoolRankSelectMap">
 	  	
 	  	  SELECT *
 	  	FROM (SELECT  ROWNUM AS row_seq,
@@ -67,10 +67,8 @@
 								total_user,
 								total_activity_point
 								FROM school_rank) inner_table
-				WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER}) myschool
-				WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER}
-				ORDER BY decode(myschool.school_no, #{schoolNo},  myschool.school_no),myschool.ranking
-	  	
+				WHERE ROWNUM &lt;= #{endRowNum:INTEGER}) myschool
+				WHERE row_seq BETWEEN #{startRowNum:INTEGER} AND #{endRowNum:INTEGER}
 				
 	 </select>
 	 
@@ -118,6 +116,7 @@
 	  	SELECT u.user_id,
   				sr.school_no,
 				sr.school_name,
+				sr.total_activity_point,
 				total.recently_total_activity_point
 		FROM users u, school_rank sr,(SELECT sum(variable_point) recently_total_point, 
 																				sum(variable_activity_point) recently_total_activity_point 
@@ -126,7 +125,7 @@
 	 </select>
 	 
 	 <!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalCount"  parameterType="map"	 resultType="int">
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	 SELECT COUNT(*)
 				FROM (SELECT *
 	  	FROM (SELECT  ROWNUM AS row_seq,
@@ -143,10 +142,9 @@
 								total_user,
 								total_activity_point
 								FROM school_rank) inner_table
-				WHERE ROWNUM &lt;= #{search.endRowNum:INTEGER}) myschool
-				WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER}
-				ORDER BY decode(myschool.school_no, #{schoolNo},  myschool.school_no),myschool.ranking)
-		WHERE row_seq BETWEEN #{search.startRowNum:INTEGER} AND #{search.endRowNum:INTEGER} 
+				WHERE ROWNUM &lt;= #{endRowNum:INTEGER}) myschool
+				WHERE row_seq BETWEEN #{startRowNum:INTEGER} AND #{endRowNum:INTEGER})
+		WHERE row_seq BETWEEN #{startRowNum:INTEGER} AND #{endRowNum:INTEGER} 
 	 
 	 </select>
 	 

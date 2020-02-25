@@ -892,7 +892,7 @@
                             $('div.modal-footer').find('button:nth-child(2)').addClass('check3');
                             $('div.modal-footer').find('button:nth-child(1)').text('취소');
                         } else {
-                            displayValue = '사용 가능한 창이 없습니다😥' +
+                            displayValue = '사용 가능한 창이 없습니다😥<br>' +
                                 secondUserName + '님의 마음을 알고 싶으신가요? 지금 바로 구매하세요😉';
 
                             $('div.modal-footer').find('button:nth-child(2)').css({
@@ -1554,6 +1554,78 @@
                     </select>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                     <button type="button" class="btn btn-primary confirmUpdateBtn">수정</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- 커플타임라인모달 -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+            <div class="modal-content addCoupleTimelinePost">
+                <div class="modal-header">
+                    <div class="postDate" style="width: 100%">
+                        <input type="text" value="" name="postDate" id="addCoupleTimelinePostDatepicker">
+                        <input type="hidden" name="postNo">
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetCoupleTimelineModal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+
+
+
+
+
+
+
+
+
+
+                        
+
+
+						<form id="addCoupleTimelinePostForm" enctype="multipart/form-data" accept-charset="euc-kr">
+                            <div class="addCoupleTimelinePostModalBody">
+                            <a href="#" class="uploadFileName">
+								<img src="/images/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="" id="img">
+                                <div class="postDate">
+                                    <div>
+                                        <p class="postDate" style="margin: 0;"></p>
+                                        <p class="place" style="margin: 0;"></p>
+                                        <p class="postContent" style="margin:0;"></p>
+                                    </div>
+                                </div>
+                            </a>
+                            <div>
+                                <input type="file" id="input_img" name="file" style="display: block"/>
+                                <div class="place">
+                                    <p>
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <input type="text" value="" name="place" placeholder="위치 추가">
+                                    </p>
+                                </div>
+                                <div class="postContent">
+                                    <textarea name="postContent" id="" cols="30" rows="3" placeholder="문구 입력..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                       </form>
+
+
+
+						
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="resetCoupleTimelineModal()">취소</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="deleteCoupleTimelinePost()" style="display:none">삭제</button>
+                    <button type="button" class="btn btn-primary" onclick='createRoom()'>등록</button>
+                    <button type="button" class="btn btn-primary" onclick='updateCoupleTimelinePost()' style="display:none">수정</button>
                 </div>
             </div>
         </div>

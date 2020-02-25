@@ -112,7 +112,7 @@
         }
 
         div.work2 img {
-            display: none;
+           /*  display: none; */
         }
         
         /* div 설정 */
@@ -168,7 +168,7 @@
         
         /* 총 카운트 또르르 올라가는거*/
         .section4 {
-            background: url(../img/bg_main_row1.png) center top no-repeat;
+            /* background: url(/images/trophy_complete.png) center top no-repeat; */
             background-size: cover;
             /*height: 621px;*/
             width: 100%;
@@ -178,7 +178,6 @@
             width: 70%;
             margin: 0 auto;
             text-align: center;
-            padding-top: 60px;
         }
 
         .section4 .text p:nth-child(1) {
@@ -200,13 +199,13 @@
         .keyword {
             width: 100%;
             text-align: center;
-            padding-bottom: 50px;
+          	padding-bottom: 50px; 
         }
 
         .section4 .keyword > div {
             width: 280px;
             text-align: center;
-            border: 10px solid #a9ceed;
+            border: 10px solid #e38c48;
             height: 280px;
             
             border-radius: 50%;
@@ -216,7 +215,7 @@
         }
 
         .keyword p {
-            color: #2b8ad9;
+            /* color: #e38c48; */
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 10px;
@@ -230,6 +229,62 @@
     </style>
 
     <script type="text/javascript">
+    
+    
+    //아래 함수 call
+    scrollCounting('div.keyword strong', 10, 3000);
+    scrollCounting('div.keyword strong:eq(3)', 1, 5000);
+
+    function scrollCounting(selector, step, duration) {
+    	//도큐먼트가 시작되면 아래의 로직을 작동시켜라
+    	$(document).ready(function() {
+            var scrollTop = $(document).scrollTop();
+            var $selector = $(this);
+            var target = Number($selector.text());
+            var numNow = 0;
+            var numNowComma = '';
+            var countStep = step;
+            var timerSpeed = Math.round(duration / (target / countStep) );
+            var isCounting = false;
+
+            checkVisibility();
+
+            /* $(window).on('scroll resize', function() {
+                scrollTop = $(document).scrollTop();
+                checkVisibility();
+            }); */
+
+            function checkVisibility() {
+                var minShow = $selector.offset().top - $(window).height();
+                var maxShow = $selector.offset().top + $selector.outerHeight();
+                if (scrollTop >= minShow && scrollTop <= maxShow) {
+                    if (isCounting === false) {
+                        isCounting = true;
+                        addNumber();
+                    }
+                } else {
+                    numNow = 0;
+                }
+            }
+
+            function addNumber() {
+                numNow += countStep;
+                if (numNow >= target) {
+                    numNow = target;
+                    numNowComma = numNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    $selector.text(numNowComma);
+                    isCounting = false;
+                } else {
+                    numNowComma = numNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    $selector.text(numNowComma);
+                    setTimeout(function() {
+                        addNumber();
+                    }, timerSpeed);
+                }
+            }
+        });
+    }
+    
     
 	    var myScroll = null;
 	    
@@ -246,59 +301,7 @@
 		});
 	    
 	    
-	    //총 도전과제 갯수를 카운팅하는 function
-	    scrollCounting('div.keyword strong', 10, 3000);
-        scrollCounting('div.keyword strong:eq(3)', 1, 5000);
-
-        function scrollCounting(selector, step, duration) {
-            $(selector).each(function() {
-                var scrollTop = $(document).scrollTop();
-                var $selector = $(this);
-                var target = Number($selector.text());
-                var numNow = 0;
-                var numNowComma = '';
-                var countStep = step;
-                var timerSpeed = Math.round(duration / (target / countStep));
-                var isCounting = false;
-
-                checkVisibility();
-
-                $(window).on('scroll resize', function() {
-                    scrollTop = $(document).scrollTop();
-                    checkVisibility();
-                });
-
-                function checkVisibility() {
-                    var minShow = $selector.offset().top - $(window).height();
-                    var maxShow = $selector.offset().top + $selector.outerHeight();
-                    if (scrollTop >= minShow && scrollTop <= maxShow) {
-                        if (isCounting === false) {
-                            isCounting = true;
-                            addNumber();
-                        }
-                    } else {
-                        numNow = 0;
-                    }
-                }
-
-                function addNumber() {
-                    numNow += countStep;
-                    if (numNow >= target) {
-                        numNow = target;
-                        numNowComma = numNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        $selector.text(numNowComma);
-                        isCounting = false;
-                    } else {
-                        numNowComma = numNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        $selector.text(numNowComma);
-                        setTimeout(function() {
-                            addNumber();
-                        }, timerSpeed);
-                    }
-                }
-            });
-        }
-        //총 도전과제 갯수를 카운팅하는 function
+	    
 	    
 	    
         $(function() {
@@ -408,21 +411,56 @@
            	<div class="header out">
 			    <div class="header in" style="position:relative;">
 		        	<h3 class="forBottomline" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
-		        		<b>${user.name} 님의 완료된<br>
-		        			도전과제를&emsp;&emsp;&emsp;&emsp;<br>
-		        			확인하세요&emsp;&emsp;&emsp;&emsp;
+		        		<b>${user.name} 님이(가)<br> 
+		        		완료한 도전과제는
 		        		</b>
 		        	</h3> 
 			    </div>
 			</div>
-			<!-- 짧은 글귀 -->
-			<div class="intro introOut">
-				<div class="intro introIn">
-					<p style="font-weight: bold; text-align: center;">어떤 도전과제를 수행해서 점수를 획득했는지 아래 목록을 통해 확인하세요</p>
-					<p style="font-weight: bold; text-align: right; font-size: 30px;">총 <i class="fas fa-medal"></i> ${resultPage.totalCount} 개</p>
-				</div>
-			</div>
-                <div class="container-md">
+			
+			
+			<!-- 총 도전과제 완료 갯수 -->
+			<div class="section4">
+		        <div class="inner">
+		            
+		            <div class="keyword">
+		                <div>
+		                	<br>
+		                	<br>
+	                        <img src="/images/trophy_complete.png" style="width: 150px; height: 150px;">
+	                        <br>
+		                    <p>
+	                       		총 <strong>${resultPage.totalCount} </strong>개<br>
+		                    </p>
+		                </div>
+		            
+		            </div>
+		        </div>
+		    </div>
+		    
+		    
+		    
+             <!-- 카드형식으로 변경 -->
+             <div class="container-md">
+             	<%-- <div class="card-deck">
+             	<c:forEach var="challenge" items="${list}">
+             		 <input type="hidden" value="${challenge.challNo}">
+				  <div class="card">
+				    <div class="card-body">
+				      <h5 class="card-title">${challenge.challTitle}</h5>
+				      <p class="card-text">
+				      	 <i class="fas fa-coins" style="font-size: 25px; text-align: right;"></i>
+				      	 	&nbsp;&nbsp; + ${challenge.challReward} 점
+				      	 </p>
+				    </div>
+				    <div class="card-footer">
+				      <small class="text-muted">${challenge.reward.variableDate} 완료</small>
+				    </div>
+				  </div>
+				</c:forEach>
+				</div> --%>
+             	
+             	
                     <br>
                     <br>
                     <br>
@@ -432,9 +470,10 @@
                                 <div class="d-flex w-100 justify-content-between">
                                     <input type="hidden" value="${challenge.challNo}">
                                     <h5 class="mb-1">${challenge.challTitle}</h5>
-                                    <small class="text-muted">${challenge.challDate}</small>
+                                    <small class="text-muted">${challenge.reward.variableDate} 완료</small>
                                 </div>
-                                <p class="mb-1">${challenge.challContent}</p>
+                                <br>
+                               <%--  <p class="mb-1">${challenge.challContent}</p> --%>
                                 <small class="text-muted">
                                     <c:if test="${challenge.challCategory == '1'}">
                                         <i class="fas fa-map-marked-alt" style="font-size: 25px; "></i>&nbsp;&nbsp;Map&nbsp;&nbsp;

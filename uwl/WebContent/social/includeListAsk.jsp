@@ -255,7 +255,7 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
                 </c:if>
             </p>
         </form>
-            <p>주소 : <input type="text" value="http://localhost:8080/social/getAskList/${targetUserId}" readonly="readonly"></p>
+            <p style="display:none">주소 : <input type="text" value="http://localhost:8080/social/getAskList/${targetUserId}" readonly="readonly"></p>
         </div>
         <div class="askList">
             <c:forEach var="ask" items="${askMap.list}">

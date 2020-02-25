@@ -49,11 +49,11 @@ public class schoolRankRestController {
 		System.out.println(this.getClass());
 	}
 	
-	@RequestMapping( value = "rest/getSchoolRankingList", method = RequestMethod.GET)
-	public Map getSchoolRankingList(@RequestBody SchoolRank schoolRank, @RequestBody Search search) throws Exception{
+	@RequestMapping( value = "rest/getSchoolRankingList", method = RequestMethod.POST)
+	public Map getSchoolRankingList(@RequestBody Search search) throws Exception{
 		
 		
-		System.out.println("rest/schoolRank/getSchoolRankingList : GET ");
+		System.out.println("rest/schoolRank/getSchoolRankingList : POST ");
 		
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -61,7 +61,7 @@ public class schoolRankRestController {
 		//flag 1 : 학교이름, 2: 주소
 		search.setPageSize(pageSize);
 		
-		Map<String, Object> map = schoolRankService.getSchoolRankingList(search, schoolRank.getSchoolNo());
+		Map<String, Object> map = schoolRankService.getSchoolRankingList(search);
 		
 		System.out.println("schoolRankController getSchoolRankingList()의 map : " + map);
 		
