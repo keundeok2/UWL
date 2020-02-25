@@ -100,8 +100,7 @@ public class SocialRestController {
 		search.setCurrentPage(1);
 		search.setPageSize(1);
 		return socialService.getAskList(ask.getUserId(), search, "2");
-		
-		
+
 	}
 
 	@RequestMapping(value = "rest/rejectQuestion", method = RequestMethod.POST)
@@ -133,7 +132,7 @@ public class SocialRestController {
 //		String currPage = (String)hashmap.get("currentPage");
 		Search search = new Search();
 //		search.setCurrentPage(Integer.parseInt(currPage));
-		search.setCurrentPage((Integer)hashmap.get("currentPage"));
+		search.setCurrentPage((Integer) hashmap.get("currentPage"));
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
@@ -183,42 +182,43 @@ public class SocialRestController {
 
 	@RequestMapping(value = "rest/addNoti", method = RequestMethod.POST)
 	public void addNoti(@RequestBody Notification notification) throws Exception {
-		socialService.addNoti(notification);
-
 		User senderUser = userService.getUser(notification.getSenderId());
 		String sender = senderUser.getName();
 		String notiCode = "";
 
-		if (notification.getNotiOrigin().equals("1")) {
-			sender = senderUser.getNickname();
-			if (notification.getNotiCode().equals("1")) {
-				notiCode = "post";
-			}
-		} else if (notification.getNotiOrigin().equals("2")) {
-			if (notification.getNotiCode().equals("5")) {
-				notiCode = "ask";
-			}
-		} else if (notification.getNotiOrigin().equals("3")) {
-			if (notification.getNotiCode().equals("1")) {
-				notiCode = "timeline";
-			}
-		} else if (notification.getNotiOrigin().equals("4")) {
-			if (notification.getNotiCode().equals("3")) {
-				notiCode = "requestFriend";
-			} else
-				notiCode = "acceptFriend";
-		} else if (notification.getNotiOrigin().equals("5")) {
-			if (notification.getNotiCode().equals("2")) {
-				notiCode = "question";
-			}
-		} else if (notification.getNotiOrigin().equals("6")) {
-			if (notification.getNotiCode().equals("5")) {
-				notiCode = "coupleTimelinePost";
-			} else
-				notiCode = "coupleTimelineComment";
-		}
-		fcmService.createReceiveNotification(sender, notification.getReceiverId(), notiCode);
+		if (!notification.getSenderId().equals(notification.getReceiverId())) {
+			socialService.addNoti(notification);
 
+			if (notification.getNotiOrigin().equals("1")) {
+				sender = senderUser.getNickname();
+				if (notification.getNotiCode().equals("1")) {
+					notiCode = "post";
+				}
+			} else if (notification.getNotiOrigin().equals("2")) {
+				if (notification.getNotiCode().equals("5")) {
+					notiCode = "ask";
+				}
+			} else if (notification.getNotiOrigin().equals("3")) {
+				if (notification.getNotiCode().equals("1")) {
+					notiCode = "timeline";
+				}
+			} else if (notification.getNotiOrigin().equals("4")) {
+				if (notification.getNotiCode().equals("3")) {
+					notiCode = "requestFriend";
+				} else
+					notiCode = "acceptFriend";
+			} else if (notification.getNotiOrigin().equals("5")) {
+				if (notification.getNotiCode().equals("2")) {
+					notiCode = "question";
+				}
+			} else if (notification.getNotiOrigin().equals("6")) {
+				if (notification.getNotiCode().equals("5")) {
+					notiCode = "coupleTimelinePost";
+				} else
+					notiCode = "coupleTimelineComment";
+			}
+			fcmService.createReceiveNotification(sender, notification.getReceiverId(), notiCode);
+		}
 	}
 
 	@RequestMapping(value = "rest/deleteNoti", method = RequestMethod.POST)
@@ -236,10 +236,16 @@ public class SocialRestController {
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(pageSize);
+		search.setPageSize(10);
 
 		String userId = ((User) session.getAttribute("user")).getUserId();
-		return socialService.getNotiList(userId, search);
+		Map<String, Object> map = socialService.getNotiList(userId, search);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+				pageSize);
+		map.put("search",search);
+		map.put("resultPage", resultPage);
+		
+		return map;
 	}
 
 	///////////////////// NOTIFICATION //////////////////////

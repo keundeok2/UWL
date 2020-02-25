@@ -52,8 +52,11 @@
 	    </style>
 	    
 	    <script type="text/javascript">
-	    
-	    	var postNo = null;
+		    var sessionUserId = "${user.userId}";
+			var sessionUserName = "${user.name}";
+			var sessionUserNickname = "${user.nickname}";
+			var postUserId = "${post.userId}";
+	    	var postNo = ${post.postNo};
 	    	var commentContent = null;
 	    	var commentNo = null;
 	    	var content = null;
@@ -374,14 +377,122 @@
 	    		});
     		
 	    	});
+	    	
+	    	
+	    	$(function() {
+	    		//iscroll infinite scroll
+	            myScroll.on('scrollEnd', function() {
+	                var wrapperHeight = $('#wrapper').height();
+	                var ulHeight = $('#wrapper ul').height();
+	                var evtHeight = wrapperHeight - ulHeight;
+
+	                if (this.y <= evtHeight + 100) {
+	                    console.log('wrapperHeight', wrapperHeight);
+	                    console.log('ulHeight', ulHeight);
+	                    console.log('evtHeight', evtHeight);
+	                    console.log('this.y', this.y);
+	                    
+	                    commentScroll();
+	                }
+
+	            });
+			});
+	    	
+	    	var page = 1;
+
+            function commentScroll() {
+                if (page <= ${resultPage.maxPage}) {
+                	page++;
+                    console.log('page : ' + page);
+
+                    $.ajax({
+                        url: "/community/rest/listComment",
+                        method: "POST",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            currentPage: page,
+                            postNo : postNo
+                        }),
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                        success: function(d) {
+								
+                        	for (var i = 0; i < d.list.length; i++) {
+                        		var commentUserId = d.list[i].userId;
+                        		var sessionUserId = "${user.userId}";
+                        		var sessionUserRole = "${user.role}";
+                        		
+                        		console.log("commentUserId", commentUserId);
+                        		console.log("sessionUserId", sessionUserId);
+                        		
+		                         var html = "<tr class='"+d.list[i].commentNo+"'>"
+			            		            +"<th class='success'>"
+			            		            	+"<div class='sl-right'>"
+			            							+"<div>"
+			            								+"<span class='nickname'>"+d.list[i].user.nickname+"</span> ｜"
+			            								+"<span class='sl-date'>"
+			            									+d.list[i].commentDate
+			            								+"</span>"
+			            								+"<span style='display:inline-block;float:right;' class='commentButton'>";
+			            								
+			            									if (sessionUserId == commentUserId || sessionUserRole == '4') {
+				            									html += "<span class='updateDelete'>";
+				            										html +="<a data-toggle='modal' data-target='#updateCommentModal' href='#'>수정 ｜</a>" ;
+				            											html +="<a href='#'> 삭제</a>";
+				            												html +="<input type='hidden' class='commentNo' value='"+d.list[i].commentNo+"'>";
+				            												html +="</span>";
+															}
+			            									if (sessionUserId != commentUserId || sessionUserRole == '4') {
+			            										html +="<span class='onlyReport'>";
+			            											html +="<a data-toggle='modal' data-target='#myModalComment' href='#'> 신고</a>";
+			            												html +="<input type='hidden' class='commentNo' value='"+d.list[i].commentNo+"'>";
+			            												html +="<input type='hidden' class='userId' value='"+d.list[i].userId+"'>";
+			            												html +="</span>";
+															}
+			            									html +="</span>"            								
+			            										html +="<p class='m-t-10'>";
+			            											html +="<span id='"+d.list[i].commentNo+"'>";
+			            											html +=d.list[i].commentContent;
+			            											html +="</span>";
+			            											html +="</p>";
+			            												html +="</div>";
+			            												html +="<div class='like-comm m-t-20'>";
+			            												html +="<span id='likeButton'>";
+			            												html +="<span id='forCommentAppend"+d.list[i].commentNo+"'></span>";
+			            												html +="<span id='likeButtonClick"+d.list[i].commentNo+"'>";
+			            								if(d.list[i].likeStatus == 0){
+			            									html +="<a href='javascript:void(0)' class='link m-r-10' id='addLike"+d.list[i].commentNo+"'><i class='far fa-heart' style='color:black'></i> "+d.list[i].likeCount+"</a>";
+			            								}
+			            								if (d.list[i].likeStatus != 0) {
+			            									html +="<a href='javascript:void(0)' class='link m-r-10' id='deleteLike"+d.list[i].commentNo+"'><i class='fa fa-heart text-danger'></i> "+d.list[i].likeCount+"</a>";
+														}
+			            								html +="</span>";
+			            								html +="</span>";
+			            								html +="<input type='hidden' class='commentNo' value='"+d.list[i].commentNo+"'>";
+			            								html +="</div>";
+			            								html +="</div>";
+			            								html +="</th>";
+			            								html +="</tr>";
+                        		
+                        		$(html).appendTo("table#commentTable");
+							}
+                        	
+                        	
+                                setTimeout(function() {
+                                    myScroll.refresh();
+                                }, 0);
+                        } // end callback
+                    });
+                }
+            }
 	    </script>
 	    
 	<title>Insert title here</title>
 </head>
 
 <body>
-    <form method="POST" action="community/rest/addComment">
-	    <!--for문 돌릴것-->
 	    
 		
 		
@@ -391,9 +502,12 @@
     <div>
     <br>
 	    <div class="table table-responsive">
-	        <table class="table">
+	        <table class="table" id="commentTable">
 	        
 	        <h3><i class="fas fa-comment-alt"></i> ${resultPage.totalCount }</h3>
+	        <input type="text" style="width: calc(100% - 110px); height: 50px;vertical-align: middle;margin: none;float: left;margin-right: 10px" name="commentContent" id="commentContent">
+                            <button type="button" class="btn btn-primary" id="addComment" style="background-color: #ebad7a; color: #3c3c3c;width: 100px; height: 50px; padding: none; float: left"><i class="fas fa-pencil-alt"></i> 등록</button>
+            <div id="forAppend"></div>                
 	        <c:forEach var="comment" items="${list }">
 	        
 		        <tr class="${comment.commentNo }">
@@ -445,12 +559,8 @@
 		            </th>
 		        </tr>
 		    </c:forEach>
-			    <div id="forAppend"></div>
 	        </table>
 	        
-	        
-			    <input type="text" style="width: calc(100% - 110px); height: 50px;vertical-align: middle;margin: none;float: left;margin-right: 10px" name="commentContent" id="commentContent">
-                            <button type="button" class="btn btn-primary" id="addComment" style="background-color: #ebad7a; color: #3c3c3c;width: 100px; height: 50px; padding: none; float: left"><i class="fas fa-pencil-alt"></i> 등록</button>
 			    <br><br><br><br>
 	    	</div>
     </div>
@@ -471,7 +581,6 @@
 
 
 
-	</form>
     
     <form>
       <div class="container">

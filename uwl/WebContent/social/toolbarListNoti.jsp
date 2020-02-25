@@ -19,10 +19,113 @@
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
 	
 	<script type="text/javascript">
-		
+	var myScroll = null;
+
+    $(function() {
+
+        myScroll = new IScroll('#wrapper', {
+            mouseWheel: true,
+            scrollbars: true
+        });
+
+        setTimeout(function() {
+            myScroll.refresh();
+        }, 0);
+        
+	    //iscroll infinite scroll
+	    myScroll.on('scrollEnd', function() {
+	        var wrapperHeight = $('#wrapper').height();
+	        var ulHeight = $('#wrapper ul').height();
+	        var evtHeight = wrapperHeight - ulHeight;
+	        if (this.y <= evtHeight + 1) {
+				
+	            notiListScroll();
+	        }
+	    });
+    
+    });
+    
+    
+    var page = 1;
+
+    function notiListScroll() {
+        if (page <= ${map.resultPage.maxPage}) {
+        	page++;
+            console.log('page : ' + page);
+
+            $.ajax({
+                url: "/social/rest/getNotiList",
+                method: "POST",
+                dataType: "json",
+                data: JSON.stringify({
+                    currentPage: page
+                }),
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                success: function(data) {
+                    	console.log(data);
+                    	for (var i = 0; i < data.list.length; i++) {
+							
+                    		var html = "<div class='tracking-item "+data.list[i].notiNo+"'>"
+			                    		+"<div class='tracking-icon status-intransit'>"
+						                  +"<img src='/images/"+data.list[i].sender.profileName+"'>"
+						                  +"</div>"
+						                  +"<div class='tracking-date'><span>"+data.list[i].notiDate+"</span></div>";
+						                  
+							if (data.list[i].notiOrigin == 1 && data.list[i].notiCode == 1) {
+								html += "<div class='tracking-content'>"+data.list[i].sender.name+"님이 게시글에 댓글을 등록했습니다.<span><a href='/post/getBoard?postNo="+data.list[i].postNo+"'>해당 게시글로 이동</a></span></div>";
+							}
+							if (data.list[i].notiOrigin == 2 && data.list[i].notiCode == 5) {
+								html += "<div class='tracking-content'>Ask에 질문이 등록되었습니다.<span><a href='/user/getProfile/"+data.list[i].receiverId+"'>내 ask로 이동</a></span></div>";
+							}
+							if (data.list[i].notiOrigin == 3 && data.list[i].notiCode == 1) {
+								html += "<div class='tracking-content'>"+data.list[i].sender.name+"님이 타임라인에 댓글을 등록했습니다.<span><a href='/user/getProfile/"+data.list[i].receiverId+"'>내 타임라인으로 이동</a></span></div>";
+							}
+							if (data.list[i].notiOrigin == 4 && data.list[i].notiCode == 3) {
+								html += "<div class='tracking-content'>"+data.list[i].sender.name+"님이 친구 요청을 보냈습니다.<span><a href='/user/getProfile/"+data.list[i].senderId+"'>"+data.list[i].sender.name+"님의 프로필로 이동</a></span></div>";
+							}
+							if (data.list[i].notiOrigin == 4 && data.list[i].notiCode == 4) {
+								html += "<div class='tracking-content'>"+data.list[i].sender.name+"님이 친구 요청을 수락했습니다.<span><a href='/user/getProfile/"+data.list[i].senderId+"'>"+data.list[i].sender.name+"님의 프로필로 이동</a></span></div>";
+							}
+							if (data.list[i].notiOrigin == 5 && data.list[i].notiCode == 2) {
+								html += "<div class='tracking-content'>1:1 문의사항의 답변이 완료되었습니다.<span><a href='/user/getUserQuestions/"+data.list[i].receiverId+"'>내 문의사항으로 이동</a></span></div>";
+							}
+                    		
+                    		html += "<button class='btn btn-outline-secondary btn-sm' id='deleteNoti' style='float : right;'>삭제</button>";
+			                html += "<input type='hidden' value='"+data.list[i].notiNo+"'/>";
+                    		
+                    		$(html).appendTo("div.tracking-list");
+						}
+                    	
+                	
+                        setTimeout(function() {
+                            myScroll.refresh();
+                        }, 0);
+                }
+            });
+        }
+    }
+    
+    
+    
+	
+	
 	//	알림 삭제
 		$(document).on("click", "button#deleteNoti", function() {
-	  		var notiNo = $(this).next().val();
+			var notiNo = $(this).next().val();
+	  		deleteNoti(notiNo);
+		});
+	
+	//	링크 클릭 시 알림 삭제
+		$(document).on("click", "span a", function() {
+			var notiNo = $(this).parent().parent().next().next().val();
+			deleteNoti(notiNo);
+		});
+	
+	
+		function deleteNoti(notiNo) {
 	  		$.ajax({
 	            url: "/social/rest/deleteNoti",
 	            method: "POST",
@@ -38,7 +141,7 @@
 				}
 	            });
 	  		notiIconLoad();
-		});
+		}	
 	
 	</script>    
     
@@ -104,7 +207,10 @@
             background-color: #fbebde;
         }
 
-
+		div.tracking-content {
+			display : inline-block;
+		}
+		
         .tracking-detail {
             padding: 3rem 0
         }
@@ -358,7 +464,8 @@
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
-            padding: 15px 0 0 15px;
+            padding: 15px 0 0 15px;d
+            position: relative;
         }
 
         div.work2 {
@@ -366,9 +473,9 @@
             width: 770px;
             height: 100vh;
             float: left;
-            
+
             position: relative;
-			
+
         }
 
         div.rightToolbar2 {
@@ -380,8 +487,7 @@
             border-left: 1px solid #eee;
             padding: 15px 15px 0 15px;
         }
-        
-        
+
     </style>
 </head>
 
@@ -390,13 +496,14 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        <ul>
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-lg-12">
                         <div id="tracking">
                             <div class="text-center tracking-status-intransit">
-                                <p class="tracking-status text-tight">새로운 알림</p>
+                                <p class="tracking-status text-tight">새로운 알림 ${map.resultPage.currentPage }</p>
                             </div>
                             <div class="tracking-list">
                                 <c:forEach items="${map.list}" var="noti">
@@ -430,21 +537,22 @@
 			                  </c:if>
 			                  <c:if test="${noti.notiOrigin eq 5 }">
 			                  	<c:if test="${noti.notiCode eq 2 }">
-			                  		<div class="tracking-content">1:1 문의사항의 답변이 완료되었습니다.<span><a href="/user/getUserQuestions/${noti.senderId}">내 문의사항으로 이동</a></span></div>
+			                  		<div class="tracking-content">1:1 문의사항의 답변이 완료되었습니다.<span><a href="/user/getUserQuestions/${noti.receiverId}">내 문의사항으로 이동</a></span></div>
 			                  	</c:if>
 			                  </c:if>
-			                  <button class="btn btn-outline-secondary btn-sm" id="deleteNoti">삭제</button>
+			                  <button class="btn btn-outline-secondary btn-sm" id="deleteNoti" style="float : right;">삭제</button>
 			                  <input type="hidden" value="${noti.notiNo}"/>
 			               </div>
                                 </c:forEach>
                                 <c:if test="${empty map.list}">
-                                	<h2>새로운 소식이 없습니다.</h2>
+                                	<br><br><br><h4 class='text-center'>새로운 소식이 없습니다.</h4><br><br><br>
                                 </c:if>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
