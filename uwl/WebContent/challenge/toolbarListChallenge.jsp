@@ -18,6 +18,7 @@
 	<script src="/javascript/iscroll.js"></script>
 	<script type="text/javascript">
 	var myScroll = null;
+    //var challNo = ${challenge.challNo}
 	
     
     $(function() {
@@ -30,6 +31,15 @@
         setTimeout(function() {
     		myScroll.refresh();
     		}, 0);
+        
+        $(".work2 a").on("click", function() {
+            //var challNo = $(".work2").children(".card-group").children(".card").children("input[type='hidden']").val();
+            var challNo = $(this).parent().children("input[type='hidden']").val();
+            console.log("challNo : " + challNo);
+            //alert("challNo : " + challNo);
+            self.location = "/challenge/getChallenge?challNo=" + challNo;
+        });
+        
 	});
 	</script>
     <style>
@@ -51,6 +61,7 @@
             background-color: #ebad7a;
             border-color: #ebad7a;
         }
+        
     </style>
 
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
@@ -128,10 +139,11 @@
             color: #28aa10;
         }
         
+        /* div 설정 */
         .out{
         	width: 96%;
         	text-align: center;
-        	border: 1px solid black;
+        	/* border: 1px solid black;  */
         	padding: 20px;
         	margin: 15px;
         }
@@ -139,31 +151,50 @@
         .in{
         	display: inline-block;
         	width: 80%;
-        	border: 1px solid red;
-        	height: 300px;
+        	/* border: 1px solid red; */ 
+        	height: 200px;
         }
         
         
-       .imageOut{
+        .challDateOut{
         	width: 96%;
         	text-align: center;
-        	border: 1px solid black;
+        	/* border: 1px solid black;  */
         	padding: 20px;
         	margin: 15px;
+        	margin-bottom: 30px;
         }
         
-        .imageIn{
+        .challDatein{
         	display: inline-block;
-        	width: 80%;
-        	border: 1px solid red;
-        	height: 100px;
-        } */
+        	width: 70%;
+        	border-bottom: 3px solid #ebad7a; 
+        	height: 80px;
+        } 
         
+        h3 {
+        	background: #fff;
+        }
         
+        h3.forBottomline:after {
+        	content: '';
+        	width: 450px;
+        	height: 3px;
+        	background-color: #ebad7a;
+        	display: block;
+        	position: absolute;
+        	bottom: -30px;
+        	left: 50%;
+        	transform: translateX(-50%);
+        }
+        .card-img-top{
+        	border-bottom: 1px solid gray;
+        }
     </style>
 </head>
 
 <body>
+
     <div class="layoutWrap2">
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
@@ -172,28 +203,72 @@
         	<ul>
         	<div class="header out">
 			    <div class="header in" style="position:relative;">
-			        	<h3 style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">김명민김명민김명민김명민김명민김명민김명민김명민김명민</h3> 
+		        	<h3 class="forBottomline" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
+		        		<b>어울림 커뮤니티를<br>
+		        		활동하여&emsp;&emsp;&emsp;&emsp;<br>
+		        			도전하세요&emsp;&emsp;&emsp;
+		        		</b>
+		        	</h3> 
 			    </div>
 			</div>
 			
 			<div class="header out">
-			    <div class="header in">
-			        
-			    </div>
+				<img src="/images/list_challenge_background.jpg" style="max-width: 100%; height: auto;">
 			</div>
 			
-        	<div class="header imageOut">
-			    <div class="header imageIn">
-			        
-			    </div>
+			<!-- 시간 고지 및 상세사항 글쓰기 -->
+			<div class="mid challDateOut">
+				<div class="mid challDatein">
+					<h3><b>도전과제 목록</b></h3>
+					<span style="text-align: right;">자세한 사항은 아래 도전과제를 클릭해서 확인하세요.</span>
+				</div>
 			</div>
 			
-			<br>
-			<br>
+			<div class="card-group">
+			<c:forEach var="challenge" items="${list}">
+				  <div class="card">
+				 	 <input type="hidden" name="challNo" value="${challenge.challNo}" />
+				   <c:if test="${challenge.detailCategory == '201'}">
+				    	<a href="#"><img src="/images/study.png" class="card-img-top" style="max-width: 260px; height: 300px;"></a>
+				   </c:if>
+				   <c:if test="${challenge.detailCategory == '202'}">
+				    	<a href="#"><img src="/images/broken_heart.jpg" class="card-img-top" style="max-width: 260px; height: 300px;"></a>
+				   </c:if>
+				   <c:if test="${challenge.detailCategory == '205'}">
+				  	  <a href="#"><img src="/images/challenge_date.jpeg" class="card-img-top" style="max-width: 260px; height: 300px;"></a>
+				   </c:if>
+				   <c:if test="${challenge.detailCategory == '206'}">
+				  	  <a href="#"><img src="/images/challenge_bamboo.jpg" class="card-img-top" style="max-width: 260px; height: 300px;"></a>
+				   </c:if>
+				   <c:if test="${challenge.detailCategory == '댓글'}">
+				  	  <a href="#"><img src="/images/comment.jpg" class="card-img-top" style="max-width: 260px; height: 300px;"></a>
+				   </c:if>
+				   <!-- div 클릭시 상세정보 보기로 이동 -->
+				    <a href="#">
+					    <div class="card-body">
+					      <h5 class="card-title">${challenge.challTitle}</h5>
+					      <p class="card-text">조건 : ${challenge.postCommentComplete} 회 작성</p>
+					      <p class="card-text"> 
+					      <span class="badge badge-secondary"> ${challenge.challReward} 점</span>
+					      <%-- <p class="card-text">${challenge.challContent}</p> --%>
+					      <p class="card-text" style="text-align: right;"><small class="text-muted" >${weeklyChallenge.weeklyEnd} 00:00분까지 진행</small></p>
+					    </div>
+				    </a>
+				  </div>
+            	</c:forEach>
+				</div><!-- end of card-group -->
+				
+				<!-- 공백 footer -->
+	            <div class="footer challDateOut">
+						<div class="footer challDateIn">
+						</div>
+				</div>
             </ul>
+        </div>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
         </div>
     </div>
-</body></html>
+</body>
+</html>
