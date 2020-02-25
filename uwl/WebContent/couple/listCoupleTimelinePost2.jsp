@@ -554,6 +554,7 @@
     			console.log('파일업로드수정성공ㅋㅋ');
     			$('#exampleModal2 button.close').click();
     			data.post.uploadFileName
+    			$("input[value='"+postNo+"']").next().children("img").attr("src", "/images/"+data.post.uploadFileName);
     			$("input[value='"+postNo+"']").parent().find('div.uploadDate div:nth-child(2)').text(place);
     			$("input[value='"+postNo+"']").parent().find('div.uploadDate div:nth-child(3)').text(postContent);
     			//$('div.coupleTimelineMain').empty();

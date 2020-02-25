@@ -71,13 +71,18 @@ public class FriendRestController {
 		System.out.println("deleteFriend => deleteCouple run");
 		Couple couple = coupleService.getCouple(friend.getFirstUserId());
 		System.out.println("couple : " + couple);
-		coupleService.deleteCouple(couple);
-		coupleService.deleteCoupleTimeline(friend.getFirstUserId(), friend.getSecondUserId());
+		if (couple != null) {
+			coupleService.deleteCouple(couple);
+			coupleService.deleteCoupleTimeline(friend.getFirstUserId(), friend.getSecondUserId());
+		}
 		
 		Matching matching1 =  matchingService.getMatching(friend.getFirstUserId());
 		Matching matching2 = matchingService.getMatching(friend.getSecondUserId());
-		matchingService.deleteMatching(matching1);
-		matchingService.deleteMatching(matching2);
+		if (matching1 != null && matching2 != null) {
+			matchingService.deleteMatching(matching1);
+			matchingService.deleteMatching(matching2);
+		}
+		
 		System.out.println("deleteFriend => deleteCouple end");
 		
 		map.put("success", true);

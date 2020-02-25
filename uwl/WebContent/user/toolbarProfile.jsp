@@ -513,7 +513,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
-    <script src="/javascript/jquery.bootstrap-pureAlert.js"></script>
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
     <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
@@ -584,7 +583,8 @@
             // 친구신청취소, 친구끊기 Btn Event
             $(document).on("click", "div.deleteFriend", function() {
                 var text = $(this).children("a").text();
-
+				
+                
                 var pureAlert = $.pureAlert.confirm({
                     title: "알림",
                     content: text + "를 하시겠습니까?",
@@ -594,7 +594,6 @@
                     closeButton: false
                 });
                 pureAlert.on('ok.pure-alert', function(e) {
-
                     $.ajax({
                         url: "/friend/rest/deleteFriend",
                         method: "POST",
@@ -645,7 +644,6 @@
                         console.log(socketMsg)
                         wsocket.send(socketMsg);
                         addNoti(sessionUserId, targetUserId, "4", "4");
-						rightLoad();
                         
                         $("div.acceptFriend").remove();
                         var html = "<div class='deleteFriend'><a href='#'>친구끊기</a></div>" +
