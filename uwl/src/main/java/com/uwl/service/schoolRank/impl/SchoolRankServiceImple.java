@@ -50,16 +50,18 @@ public class SchoolRankServiceImple implements SchoolRankService {
 	
 	//Method
 	@Override
-	public Map<String, Object> getSchoolRankingList(Search search, int schoolNo) throws Exception {
+	public Map<String, Object> getSchoolRankingList(Search search) throws Exception {
 //	public List<SchoolRank> getSchoolRankingList(Search search) throws Exception {
 		
-				;
-		Map<String, Object> map = schoolRankDAO.getSchoolRankingList(search, schoolNo);
+				
+		List<SchoolRank> list  = schoolRankDAO.getSchoolRankingList(search);
 		
-		int totalCount = schoolRankDAO.getTotalCount(map);
-		System.out.println("schoolRankServiceImpl의 getSchoolRankingList() map : " + map);
+		int totalCount = schoolRankDAO.getTotalCount(search);
+		System.out.println("schoolRankServiceImpl의 getSchoolRankingList() search : " + search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("totalCount", totalCount);
-		map.put("list", map.get("list"));
+		map.put("list", list);
 		
 		return map;
 	}

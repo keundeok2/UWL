@@ -117,6 +117,7 @@
         div.work2 {
 
             width: 770px;
+            /* width: 730px; */
             height: 100vh;
             float: left;
             
@@ -229,19 +230,19 @@
 				  <div class="card">
 				 	 <input type="hidden" name="challNo" value="${challenge.challNo}" />
 				   <c:if test="${challenge.detailCategory == '201'}">
-				    	<a href="#"><img src="/images/study.png" class="card-img-top" style="max-width: 260px; height: 300px;"></a>
+				    	<a href="#"><img src="/images/study.png" class="card-img-top" style="max-width: 250px; height: 300px;"></a>
 				   </c:if>
 				   <c:if test="${challenge.detailCategory == '202'}">
-				    	<a href="#"><img src="/images/broken_heart.jpg" class="card-img-top" style="max-width: 260px; height: 300px;"></a>
+				    	<a href="#"><img src="/images/broken_heart.jpg" class="card-img-top" style="max-width: 250px; height: 300px;"></a>
 				   </c:if>
 				   <c:if test="${challenge.detailCategory == '205'}">
-				  	  <a href="#"><img src="/images/challenge_date.jpeg" class="card-img-top" style="max-width: 260px; height: 300px;"></a>
+				  	  <a href="#"><img src="/images/challenge_date.jpeg" class="card-img-top" style="max-width: 250px; height: 300px;"></a>
 				   </c:if>
 				   <c:if test="${challenge.detailCategory == '206'}">
-				  	  <a href="#"><img src="/images/challenge_bamboo.jpg" class="card-img-top" style="max-width: 260px; height: 300px;"></a>
+				  	  <a href="#"><img src="/images/challenge_bamboo.jpg" class="card-img-top" style="max-width: 250px; height: 300px;"></a>
 				   </c:if>
 				   <c:if test="${challenge.detailCategory == '댓글'}">
-				  	  <a href="#"><img src="/images/comment.jpg" class="card-img-top" style="max-width: 260px; height: 300px;"></a>
+				  	  <a href="#"><img src="/images/comment.jpg" class="card-img-top" style="max-width: 250px; height: 300px;"></a>
 				   </c:if>
 				   <!-- div 클릭시 상세정보 보기로 이동 -->
 				    <a href="#">

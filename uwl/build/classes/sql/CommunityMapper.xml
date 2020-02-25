@@ -39,6 +39,8 @@
 		<result property="enterUser" column="TARGET" jdbcType="VARCHAR"/>
 		<result property="enterUserName" column="TARGET_NAME" jdbcType="VARCHAR"/>
 		<result property="roomNo" column="ROOM_NO" jdbcType="NUMERIC"/>
+		<result property="lastDate" column="LAST_Date" jdbcType="DATE"/>
+		<result property="lastChat" column="LAST_CHAT" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	
@@ -208,8 +210,8 @@
 	<insert id="addChattingRoom" parameterType="chatting">	<!-- 채팅방 생성(1:1) -->
 		INSERT
 		INTO chatting_room(
-				room_no, master, target)
-		VALUES(seq_chatting_room_room_no.NEXTVAL, #{master}, #{enterUser})
+				room_no, master, target, last_date, last_chat)
+		VALUES(seq_chatting_room_room_no.NEXTVAL, #{master}, #{enterUser}, SYSDATE, '대화를 시작해보세요!')
 	</insert>
 	
 	<update id="enterChattingRoom" parameterType="chatting"> <!-- 채팅방 입장(1:1) -->
@@ -226,7 +228,7 @@
 	
 	<select id="getChattingRoomList" parameterType="chatting" resultMap="chattingSelectMap">
 		SELECT
-			room_no, master, target,
+			room_no, master, target, last_date, last_chat,
 				(SELECT name FROM users WHERE master = user_id) master_name,
 				(SELECT name FROM users WHERE target = user_id) target_name
 		FROM chatting_room
@@ -238,7 +240,12 @@
 	<!-- 채팅! -->
 	
 	
-	
+	<update id="updateChatting" parameterType="map">
+		UPDATE chatting_room
+		SET last_chat = #{msg},
+			last_date = SYSDATE
+		WHERE room_no = #{roomNo}
+	</update>
 	
 	
 	

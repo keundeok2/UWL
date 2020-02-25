@@ -19,7 +19,7 @@ public interface SchoolRankService {
 	public void updateSchoolTotalUser(SchoolRank schoolRank) throws Exception;
 		
 	//학교랭킹 리스트를 확인하기 위한 method
-	public Map<String, Object> getSchoolRankingList(Search search, int schoolNo) throws Exception;
+	public Map<String, Object> getSchoolRankingList(Search search) throws Exception;
 	
 	//개인랭킹 리스트를 확인하기 위한 method 
 	public Map<String, Object> getIndividualRankingList(Search search) throws Exception;

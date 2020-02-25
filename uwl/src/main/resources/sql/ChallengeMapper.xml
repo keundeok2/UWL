@@ -19,6 +19,9 @@
 		<result property="detailCategory" 	column="detail_category" 		jdbcType="VARCHAR" />
 		<result property="weeklyStart" 	column="weekly_start" 		jdbcType="DATE" />
 		<result property="weeklyEnd" 	column="weekly_end" 		jdbcType="DATE" />
+		
+		<!-- reward -->
+		<result property="reward.variableDate" 	column="variable_date" 		jdbcType="DATE" />
 		<!-- 가상컬럼과 바인딩 -->
 		<!-- 이전글 이후글 가상 컬럼과 바인딩 -->
 		<result property="preChallNo" 			column="pre_chall_no" 			jdbcType="NUMERIC"/>
@@ -212,6 +215,7 @@
 											c.chall_title,
 											c.chall_content,
 											c.chall_reward,
+											r.variable_date,
 											r.user_id,
 											c.view_status
 											FROM reward r, challenge c  

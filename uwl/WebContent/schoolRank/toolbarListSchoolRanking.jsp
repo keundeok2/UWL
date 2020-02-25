@@ -28,8 +28,11 @@
 	}
     
 		var myScroll = null;
-    
+		var userId = "${user.userId}";
+    	var searchCondition = "${search.searchCondition}";
 	    $(function() {
+	    	
+	    	console.log("searchCondition", searchCondition);
 	    	
 	        myScroll = new IScroll('#wrapper', {
 	            mouseWheel: true,
@@ -39,7 +42,135 @@
 	        setTimeout(function() {
         		myScroll.refresh();
         	}, 0)
+	  //iscroll infinite scroll
+        myScroll.on('scrollEnd', function() {
+        	//alert("스크롤앤드에 접근")
+            var wrapperHeight = $('#wrapper').height();
+            var ulHeight = $('#wrapper ul').height();
+            var evtHeight = wrapperHeight - ulHeight;
+
+            if (this.y <= evtHeight + 100) {
+                console.log('wrapperHeight', wrapperHeight);
+                console.log('ulHeight', ulHeight);
+                console.log('evtHeight', evtHeight);
+                console.log('this.y', this.y);
+
+                if (searchCondition == '1') {
+                	//alert("서치컨디션 1 if문에 진입")
+                	console.log("schoolRanking on");
+                	schoolRankingInfiniteScroll();
+                }
+                 if (searchCondition == '2') {
+                	console.log("userRanking on");
+                	userRankingInfiniteScroll();
+                } 
+                // list3 , list4 on 일때 추가하기 커플타임라인, 커플캘린더
+            }
+        });
+	        
 	    });
+	    
+	    
+	  
+	  
+        //숫자에 콤마를 찍어주는 함수
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+		
+        //schoolRankingInfiniteScroll
+        var schoolRankPage = 1;
+
+        function schoolRankingInfiniteScroll() {
+            if (schoolRankPage <= ${resultPage.maxPage}) {
+            	schoolRankPage++;
+                console.log('schoolRankPage : ' + schoolRankPage);
+
+                $.ajax({
+                    url: "/schoolRank/rest/getSchoolRankingList",
+                    method: "POST",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        currentPage: schoolRankPage
+                    }),
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    success: function(data) {
+                    	//alert("ajax 성공한거임");
+                    	var list = data.list
+                    	console.log("ajax 진입");
+                    	//${mySchool.recentlyTotalActivityPoint}
+                    	console.log("data.list : " + data.list[0].schoolName);
+                        for (var i = 0; i < data.list.length; i++) {
+                        	//alert("data.list[i].schoolRank : " + data.list[i].schoolRank)
+                        	var html = "<tr class='schoolData'>"
+                        				+"<td class='text-center' width='70px'>" + list[i].ranking + "</td>"
+                						+"<td class='text-center' width='100px'>" + list[i].schoolName +"</td>" 
+                						+"<td class='text-center' width='150px'>" + list[i].schoolAddress + "</td>"
+                						+"<td class='text-center' width='90px'><i class='fas fa-running'></i>" 
+                							+ numberWithCommas(list[i].totalActivityPoint) + "점"
+              							+ "</td>"
+              							+"</tr>"
+                            $("#schoolRanking").append(html);
+                            setTimeout(function() {
+                                myScroll.refresh();
+                            }, 0);
+                        }
+                    }
+                });
+            }
+        } //end of schoolRankingInfiniteScroll
+        
+        
+        
+        //userRankingInfiniteScroll
+        var userRankPage = 1;
+
+        function userRankingInfiniteScroll() {
+            if (userRankPage <= ${resultPage.maxPage}) {
+            	userRankPage++;
+                console.log('userRankPage : ' + userRankPage);
+
+                $.ajax({
+                    url: "/schoolRank/rest/getIndividualRankingList",
+                    method: "POST",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        currentPage: schoolRankPage
+                    }),
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    success: function(data) {
+                    	//alert("ajax 성공한거임");
+                    	var list = data.list
+                    	console.log("ajax 진입");
+                    	//${mySchool.recentlyTotalActivityPoint}
+                    	console.log("data.list : " + data.list[0].schoolName);
+                        for (var i = 0; i < data.list.length; i++) {
+                        	//alert("data.list[i].schoolRank : " + data.list[i].schoolRank)
+                        	var html = "<tr class='schoolData'>"
+                        				+"<td class='text-center' width='70px'>" + list[i].ranking + "</td>"
+                						+"<td class='text-center' width='100px'>" + list[i].userId +"</td>" 
+                						+"<td class='text-center' width='150px'>" + list[i].schoolName + "</td>"
+                						+"<td class='text-center' width='90px'><i class='fas fa-running'></i>" 
+                							+ numberWithCommas(list[i].recentlyTotalActivityPoint) + "점"
+              							+ "</td>"
+              							+"</tr>"
+                            $("#userRanking").append(html);
+                            setTimeout(function() {
+                                myScroll.refresh();
+                            }, 0);
+                        }
+                    }
+                });
+            }
+        } //end of userRankingInfiniteScroll
+        
+	  
 	    
 	  //document가 열린다면
 		$(document).ready(function(){
@@ -181,7 +312,7 @@
 									<label>
 										<i class="fas fa-school"></i> ${mySchool.schoolName} 
 										<i class="fas fa-running"></i> 
-									<fmt:formatNumber value="${mySchool.recentlyTotalActivityPoint}" pattern="#,###" />점
+									<fmt:formatNumber value="${mySchool.totalActivityPoint}" pattern="#,###" />점
 									
 									</label>
 								</h5>
@@ -197,13 +328,13 @@
 											<th class="text-center" width="90px">총 점수</th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody id="schoolRanking">
 
 										<c:if test="${search.searchCondition == 1}">
 											<c:set var="i" value="0" />
 											<c:forEach var="schoolRank" items="${list}">
 												<c:set var="i" value="${i+1 }" />
-												<tr>
+												<tr class="schoolData">
 														
 													<td class="text-center" width="70px">
 														<c:if test="${schoolRank.ranking == 1}">
@@ -221,7 +352,6 @@
 													<td class="text-center" width="150px">${schoolRank.schoolAddress}</td>
 													<td class="text-center" width="90px"> <i class="fas fa-running"></i>
 														<fmt:formatNumber value="${schoolRank.totalActivityPoint}" pattern="#,###" /> 점
-	
 													</td>
 												</tr>
 											</c:forEach>
@@ -252,7 +382,7 @@
 											<th class="text-center" width="90px">총 점수</th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody id="userRanking">
 
 										<c:if test="${search.searchCondition == 2}">
 											<c:set var="i" value="0" />
