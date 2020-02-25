@@ -222,7 +222,7 @@
             position: absolute;
             right: 23px;
             top: 50%;
-            transform: translateY(-50%);
+            transform: translate(-50%, -50%);
 
         }
         
@@ -613,8 +613,111 @@
 
 		#loginColor.on {
 			background: green;
-			
 		}
+		
+		#loginColor.coupleHeart{
+		}
+		
+		#loginColor.coupleHeart {
+		  background-color: red;
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            border-radius: 0px 0px 0px 0px;
+            position: absolute;
+            right: 23px;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+		}
+		
+		#loginColor.coupleHeart:before{
+		  content: "";
+		  background-color: red;
+		  border-radius: 50%;
+		  height: 10px;
+		  position: absolute;
+		  width: 10px;
+		}
+		#loginColor.coupleHeart:after {
+		  content: "";
+		  background-color: red;
+		  border-radius: 50%;
+		  height: 10px;
+		  position: absolute;
+		  width: 10px;
+		}
+		
+		#loginColor.coupleHeart:before {
+		  top: -5px;
+		  left: 0px;
+		  position: absolute;
+		}
+		
+		#loginColor.coupleHeart:after {
+		  top: 0px;
+		  left: 5px;
+		  position: absolute;
+		}
+			
+		#loginColor.coupleHeart {
+		  animation: heartbeat 1s infinite; 
+		}	
+		
+		 @keyframes heartbeat {
+		  0% {
+		    transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+		  }
+		  20% {
+		    transform: translate(-50%, -50%) rotate(-45deg) scale(1.25);
+		  } 
+		  40% {
+		    transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+		  }
+		} 	
+		
+		
+		#loginColor.dieHeart {
+		  background-color: #aaa;
+          width: 10px;
+          height: 10px;
+          display: inline-block;
+          border-radius: 0px 0px 0px 0px;
+          position: absolute;
+          right: 23px;
+          top: 50%;
+          transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+		}
+		#loginColor.dieHeart:before{
+		  content: "";
+		  background-color: #aaa;
+		  border-radius: 50%;
+		  height: 10px;
+		  position: absolute;
+		  width: 10px;
+		}
+		#loginColor.dieHeart:after {
+		  content: "";
+		  background-color: #aaa;
+		  border-radius: 50%;
+		  height: 10px;
+		  position: absolute;
+		  width: 10px;
+		}
+		#loginColor.dieHeart:before {
+		  top: -5px;
+		  left: 0px;
+		  position: absolute;
+		}
+		
+		#loginColor.dieHeart:after {
+		  top: 0px;
+		  left: 5px;
+		  position: absolute;
+		}
+		
+				
+		
+		
 		
 		  div.newCouple {
             
@@ -861,7 +964,7 @@
 	    	});
 	    });
 	    	//친구 찾기
-	    	$(document).ready(function(){
+	    	/* $(document).ready(function(){
 	    		var sessionUserId = "${sessionScope.user.userId}"
 	    		$.ajax({
 	    			url : "/friend/rest/getFriendListForSearch",
@@ -886,7 +989,7 @@
 						console.log("error");
 					}
 	    		});
-	    	});
+	    	}); */
 	    	
 	    	
 	    	function closeLayer( obj ) {
@@ -1355,7 +1458,8 @@
 	        });
 	        
 	        $('html').on("click",function(e){	//팝업 레이어 밖을 누르면 닫힌다.
-	        	if($('.popupLayer').css('display')=='none'){
+	        	if($('.popupLayer').css('display')=='none' || $('div.chattingList').hasClass('on')){
+	        		$('div.chattingList').removeClass('on');
 	        	}else{
 	        		$('.popupLayer').hide();
 	        		$('.friendList ul li a').css('backgroundColor','#efefef');
@@ -1605,12 +1709,54 @@
 	            } */
 	            for(var i=0; i<friendList.length; i++){
 	            	$('div.friendList ul li').find('span.' + friendList[i]).removeClass('on');
+	            	$('div.friendList ul li').find('span.' + friendList[i]).removeClass('coupleHeart');
 	            	compareDate = null;
+	            	for(var j=0; j<countLi; j++){
+	            		if(friendList[i] == $('div.friendList ul li').find('input[id="hiddenUserId"]').eq(j).val()){
+	            			$.ajax({
+	            				url : "/matching/rest/getMatchingByUserId",
+	            				method : "GET",
+	            				async : false,
+	            				headers : {
+	        						"Accept" : "application/json",
+	        						"Content-Type" : "application/json"
+	        					},
+	        					success : function(data){
+	        						if(data.secondUserId == friendList[i]){
+	        							$('div.friendList ul li').find('span.' + friendList[i]).addClass('dieHeart');	 
+	        						}else{
+				            		//	$('div.friendList ul li').find('span.' + loginFriendList[i]).addClass('on');        							
+	        						}
+	        					},
+	        					error : function(){
+	        					}
+	            			});
+	            		}
+	            	} 
 	            }
 	            for(var i=0; i<loginFriendList.length; i++){
 	            	for(var j=0; j<countLi; j++){
 	            		if(loginFriendList[i] == $('div.friendList ul li').find('input[id="hiddenUserId"]').eq(j).val()){
-	            			$('div.friendList ul li').find('span.' + loginFriendList[i]).addClass('on');
+	            			$.ajax({
+	            				url : "/matching/rest/getMatchingByUserId",
+	            				method : "GET",
+	            				async : false,
+	            				headers : {
+	        						"Accept" : "application/json",
+	        						"Content-Type" : "application/json"
+	        					},
+	        					success : function(data){
+	        						if(data.secondUserId == loginFriendList[i]){
+	        							$('div.friendList ul li').find('span.' + loginFriendList[i]).removeClass('dieHeart');
+	        							$('div.friendList ul li').find('span.' + loginFriendList[i]).addClass('coupleHeart');	 
+	        							
+	        						}else{
+				            			$('div.friendList ul li').find('span.' + loginFriendList[i]).addClass('on');        							
+	        						}
+	        					},
+	        					error : function(){
+	        					}
+	            			});
 	            		}
 	            	}
 	            }
@@ -2185,7 +2331,7 @@
                     $(".btn" + userId + "").remove();
                     $("div.friendList ul").html("");
 
-                    var li = "<li>친구 목록<a href='#'><i class='fa-user-plus'></i></a></li>";
+                    var li = "<li>친구 목록<a href='#'><i class='fas fa-user-plus'></i></a></li>";
                     $(li).appendTo("div.friendList ul");
                     rightLoad();
 
