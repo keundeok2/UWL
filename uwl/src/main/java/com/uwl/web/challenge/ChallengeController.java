@@ -416,7 +416,7 @@ public class ChallengeController {
 		
 	//	System.out.println("ChallengeController getWeeklyStart : " +weeklyStart );
 		
-		model.addAttribute("challenge", challenge);
+		model.addAttribute("weeklyChallenge", challenge);
 		model.addAttribute("list", list);
 		//model.addAttribute("strDate", strDate);
 		
