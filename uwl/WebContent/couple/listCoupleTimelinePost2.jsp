@@ -63,8 +63,9 @@
         div.coupleTimelineHeader div.firstUser2 {
 
             position: absolute;
-            top: 0;
-            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 230px;
         }
 
         div.coupleTimelineHeader div.dDay {
@@ -84,7 +85,7 @@
         }
 
         div.coupleTimelineHeader div.dDay div:nth-child(3) {
-            font-size: 13px;
+            font-size: 16px;
         }
 
         div.coupleTimelineHeader div.dDay div:nth-child(3) i {
@@ -95,15 +96,16 @@
         div.coupleTimelineHeader div.secondUser2 {
 
             position: absolute;
-            right: 10px;
-            top: 0;
+            right: 230px;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         div.coupleTimelineHeader div.userProfileImage {
 
             overflow: hidden;
-            width: 90px;
-            height: 90px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             position: relative;
             display: inline-block;
@@ -395,7 +397,10 @@
 		$('div.addCoupleTimelinePost div.modal-footer button:nth-child(4)').css({
 			'display' : 'none'
 		});
-		$('div.addCoupleTimelinePostModalBody input[name="file"]').val('');
+		$('div.addCoupleTimelinePost input[name="postNo"]').val('');
+		$('div.addCoupleTimelinePost input[type="file"]').val('');
+		
+		
     }
     
     function prependCoupleTimelinePost(post) {
@@ -447,11 +452,18 @@
                     prependCoupleTimelinePost(data.list[i]);
                     //alert(data.list[i].postNo);
                 }
+                
+                setTimeout(function() {
+                    myScroll.refresh();
+                }, 0);
             },
             error: function(request, status, error) {
                 alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
             }
         });
+    	
+    	
+    	
     }
     
     
@@ -485,22 +497,30 @@
     
     
     function updateCoupleTimelinePost() {
+    	var userId = $('input[name="userId"]').val();
+    	var postNo = $('div.addCoupleTimelinePost input[name="postNo"]').val();
+    	console.log('postNo : ' + postNo);
+    	
     	var formData = new FormData();
     	formData.append('place', $('div.addCoupleTimelinePostModalBody input[name="place"]').val());
     	formData.append('postContent', $('div.addCoupleTimelinePostModalBody textarea[name="postContent"]').val());
     	formData.append('file', $('div.addCoupleTimelinePostModalBody input[name="file"]')[0].files[0]);
     	
+    	console.log($('div.addCoupleTimelinePostModalBody input[name="place"]').val());
+    	console.log($('div.addCoupleTimelinePostModalBody textarea[name="postContent"]').val());
+    	console.log($('div.addCoupleTimelinePostModalBody input[name="file"]')[0].files[0]);
+    	
     	$.ajax({
     		type: 'POST',
     		enctype: 'multipart/form-data',
-    		url: '/couple/rest/addCoupleTimelinePost2',
+    		url: '/couple/rest/updateCoupleTimelinePost2/' + userId + '/' + postNo,
     		data: formData,
     		processData: false,
     		contentType: false,
     		cache: false,
     		timeout: 600000,
     		success: function() {
-    			console.log('파일업로드성공ㅋㅋ');
+    			console.log('파일업로드수정성공ㅋㅋ');
     			$('#exampleModal2 button.close').click();
     			$('div.coupleTimelineMain').empty();
     			refreshCoupleTimelinePostList();
@@ -512,7 +532,30 @@
     	});
     }
     
-    
+    function deleteCoupleTimelinePost() {
+    	var postNo = $('div.addCoupleTimelinePost input[name="postNo"]').val();
+    	$.ajax({
+            url: '/couple/rest/deleteCoupleTimelinePost2/' + postNo,
+            method: 'GET',
+            data: JSON.stringify({
+                postNo: postNo
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            success: function() {
+            	console.log('성공ㅋㅋ');
+            	$('#exampleModal2 button.close').click();
+    			$('div.coupleTimelineMain').empty();
+    			refreshCoupleTimelinePostList();
+    			resetCoupleTimelineModal();
+            },
+            error: function(request, status, error) {
+                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+        });
+    }
     
     /* function uploadFile(){
         var form = $('#FILE_FORM')[0];
@@ -567,16 +610,28 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                    	//alert('성공ㅋㅋ');
+                    	console.log('성공ㅋㅋ');
                         for (var i = 0; i < data.list.length; i++) {
                             prependCoupleTimelinePost(data.list[i]);
                             //alert(data.list[i].postNo);
                         }
+                        $('div.firstUser2 img').attr('src', '/images/' + data.firstUser.profileName);
+                        $('div.secondUser2 img').attr('src', '/images/' + data.secondUser.profileName);
+                        $('span.firstUserName').text(data.firstUser.name);
+                        $('span.secondUserName').text(data.secondUser.name);
+                        console.log(data.firstUser.profileName);
+                        console.log(data.secondUser.profileName);
+                        console.log(data.firstUser.name);
+                        console.log(data.secondUser.name);
+                        
+                        $('div.dDay div:nth-child(2)').text(data.calDateDays + '일째');
                     },
                     error: function(request, status, error) {
                         alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
+                
+                
             });
             
             
@@ -639,18 +694,18 @@
         }); 
             $('#addCoupleTimelinePostDatepicker').datepicker('setDate', 'today');
             
-            $('p.postDate').text($('#addCoupleTimelinePostDatepicker').val());
+            $('div.addCoupleTimelinePost p.postDate').text($('#addCoupleTimelinePostDatepicker').val());
 
-            $('input[name="place"]').on('keyup', function() {
-                var place = $('input[name="place"]').val();
-                $('p.place').text(place);
+            $('div.addCoupleTimelinePost input[name="place"]').on('keyup', function() {
+                var place = $('div.addCoupleTimelinePost input[name="place"]').val();
+                $('div.addCoupleTimelinePost p.place').text(place);
             });
             
             
-            $('div.postContent textarea').on('keyup', function() {
-            	var postContent = $('div.postContent textarea').val();
+            $('div.addCoupleTimelinePost div.postContent textarea').on('keyup', function() {
+            	var postContent = $('div.addCoupleTimelinePost div.postContent textarea').val();
             	
-            	$('p.postContent').text(postContent);
+            	$('div.addCoupleTimelinePost p.postContent').text(postContent);
             });
 
 
@@ -702,7 +757,7 @@
             		$('div.addCoupleTimelinePost div.modal-footer button:nth-child(4)').css({
             			'display' : 'block'
             		});
-            		$('div.addCoupleTimelinePostModalBody input[name="file"]').val(uploadFileName);
+            		$('div.addCoupleTimelinePost input[name="postNo"]').val(postNo);
                 },
                 error: function(request, status, error) {
                     alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -742,71 +797,7 @@
             </div>
         </div>
         <div class="coupleTimelineMain">
-            <div class="coupleTimelinePost">
-                <a href="#">
-                    <div class="uploadImage">
-                        <img src="/images/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="">
-                    </div>
-                    <div class="imageHover">
-                        <div class="uploadDate">
-                            <div>2020년 2월 4일 (화)</div>
-                            <div>강남구</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="coupleTimelinePost">
-                <a href="#">
-                    <div class="uploadImage">
-                        <img src="/images/75586249_215873686083699_2609154030926987378_n.jpg" alt="">
-                    </div>
-                    <div class="imageHover">
-                        <div class="uploadDate">
-                            <div>2020년 2월 4일 (화)</div>
-                            <div>강남구</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="coupleTimelinePost">
-                <a href="#">
-                    <div class="uploadImage">
-                        <img src="/images/79366246_186468522524707_4331720126046688510_n.jpg" alt="">
-                    </div>
-                    <div class="imageHover">
-                        <div class="uploadDate">
-                            <div>2020년 2월 4일 (화)</div>
-                            <div>강남구</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="coupleTimelinePost">
-                <a href="#">
-                    <div class="uploadImage">
-                        <img src="/images/80338524_165631637981527_6322626174459999431_n.jpg" alt="">
-                    </div>
-                    <div class="imageHover">
-                        <div class="uploadDate">
-                            <div>2020년 2월 4일 (화)</div>
-                            <div>강남구</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="coupleTimelinePost">
-                <a href="#">
-                    <div class="uploadImage">
-                        <img src="/images/80639752_2566781766943900_7436097228326880724_n.jpg" alt="">
-                    </div>
-                    <div class="imageHover">
-                        <div class="uploadDate">
-                            <div>2020년 2월 4일 (화)</div>
-                            <div>강남구</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
+            
         </div>
         <a href="#" class="addCoupleTimelinePostFixedButton" data-toggle="modal" data-target="#exampleModal2" onclick="resetCoupleTimelineModal()">
             <i class="fas fa-plus"></i> 게시글 등록
@@ -817,7 +808,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
             <div class="modal-content addCoupleTimelinePost">
                 <div class="modal-header">
@@ -884,10 +875,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
-    <!-- <div class="backgroundOverlay"></div> -->
+    
 </body>
 
 </html>
