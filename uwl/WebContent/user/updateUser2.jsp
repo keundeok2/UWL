@@ -569,7 +569,7 @@ font-family: 'Nanum Gothic', sans-serif;
                     <td></td>
                     <td>
                         <div><a href="#">제출</a></div>
-                        <div><a href="#">회원 탈퇴</a></div>
+                        <div style="display : none;"><a href="#">회원 탈퇴</a></div>
                     </td>
                 </tr>
             </table>

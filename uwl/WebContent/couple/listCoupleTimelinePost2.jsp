@@ -431,16 +431,43 @@
         $('div.coupleTimelineMain').prepend(post);
     }
     
+    function appendCoupleTimelinePost(post) {
+        var postNo = post.postNo;
+        var userId = post.userId;
+        var uploadFileName = post.uploadFileName;
+        var postDate = post.postDate;
+        var place = post.place;
+        var postTitle = post.postTitle;
+        var postContent = post.postContent;
+
+        var post = '<div class="coupleTimelinePost">' +
+            '<a href="#" data-toggle="modal" data-target="#exampleModal2">' +
+            '<input type="hidden" name="postNo" value="' + postNo + '">' +
+            '<div class="uploadImage">' +
+            '<img src="/images/' + uploadFileName + '" alt="">' +
+            '</div>' +
+            '<div class="imageHover">' +
+            '<div class="uploadDate">' +
+            '<div>' + postDate + '</div>' +
+            '<div>' + place + '</div>' +
+            '<div>' + postContent + '</div>' +
+            '</div>' +
+            '</div>' +
+            '</a>' +
+            '</div>';
+
+        $('div.coupleTimelineMain').append(post);
+    }
+    
     
     
     function refreshCoupleTimelinePostList() {
     	var userId = $('input[name="userId"]').val();
     	$.ajax({
-            url: '/couple/rest/getCoupleTimelinePostList/' + userId,
-            method: 'GET',
+            url: '/couple/rest/getCoupleTimelinePostList',
+            method: 'POST',
             dataType: 'json',
             data: JSON.stringify({
-                userId: userId
             }),
             headers: {
                 'Accept': 'application/json',
@@ -448,8 +475,10 @@
             },
             success: function(data) {
             	//alert('성공ㅋㅋ');
+            	coupleTimelinePage = 1;
+            	console.log("리프레시 커타라페이지 ㅋㅋ", coupleTimelinePage);
                 for (var i = 0; i < data.list.length; i++) {
-                    prependCoupleTimelinePost(data.list[i]);
+                    appendCoupleTimelinePost(data.list[i]);
                     //alert(data.list[i].postNo);
                 }
                 
@@ -458,7 +487,7 @@
                 }, 0);
             },
             error: function(request, status, error) {
-                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                alert("refresh 할 때 code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
             }
         });
     	
@@ -500,6 +529,8 @@
     	var userId = $('input[name="userId"]').val();
     	var postNo = $('div.addCoupleTimelinePost input[name="postNo"]').val();
     	console.log('postNo : ' + postNo);
+    	var postContent = $('div.addCoupleTimelinePostModalBody textarea[name="postContent"]').val();
+    	var place = $('div.addCoupleTimelinePostModalBody input[name="place"]').val();
     	
     	var formData = new FormData();
     	formData.append('place', $('div.addCoupleTimelinePostModalBody input[name="place"]').val());
@@ -519,11 +550,14 @@
     		contentType: false,
     		cache: false,
     		timeout: 600000,
-    		success: function() {
+    		success: function(data) {
     			console.log('파일업로드수정성공ㅋㅋ');
     			$('#exampleModal2 button.close').click();
-    			$('div.coupleTimelineMain').empty();
-    			refreshCoupleTimelinePostList();
+    			data.post.uploadFileName
+    			$("input[value='"+postNo+"']").parent().find('div.uploadDate div:nth-child(2)').text(place);
+    			$("input[value='"+postNo+"']").parent().find('div.uploadDate div:nth-child(3)').text(postContent);
+    			//$('div.coupleTimelineMain').empty();
+    			//refreshCoupleTimelinePostList();
     			resetCoupleTimelineModal();
     		},
     		error: function(request, status, error) {
@@ -547,8 +581,9 @@
             success: function() {
             	console.log('성공ㅋㅋ');
             	$('#exampleModal2 button.close').click();
-    			$('div.coupleTimelineMain').empty();
-    			refreshCoupleTimelinePostList();
+            	$("input[value='"+postNo+"']").parent().parent().remove();
+    			//$('div.coupleTimelineMain').empty();
+    			//refreshCoupleTimelinePostList();
     			resetCoupleTimelineModal();
             },
             error: function(request, status, error) {
@@ -578,7 +613,7 @@
     } */
     
     
-    
+    	var coupleTimelineMaxPage;
     
         $(function() {
             var userId = $('input[name="userId"]').val();
@@ -595,11 +630,11 @@
                 if (sessionUserRole == 3) {
 					//console.log("role ajax start");
                 $.ajax({
-                    url: '/couple/rest/getCoupleTimelinePostList/' + userId,
-                    method: 'GET',
+                    url: '/couple/rest/getCoupleTimelinePostList',
+                    method: 'POST',
                     dataType: 'json',
                     data: JSON.stringify({
-                        userId: userId
+                    	
                     }),
                     headers: {
                         'Accept': 'application/json',
@@ -607,8 +642,9 @@
                     },
                     success: function(data) {
                     	console.log('성공ㅋㅋ');
+                    	coupleTimelineMaxPage = data.resultPage.maxPage;
                         for (var i = 0; i < data.list.length; i++) {
-                            prependCoupleTimelinePost(data.list[i]);
+                            appendCoupleTimelinePost(data.list[i]);
                             //alert(data.list[i].postNo);
                         }
                         $('div.firstUser2 img').attr('src', '/images/' + data.firstUser.profileName);

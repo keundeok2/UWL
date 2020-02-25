@@ -70,10 +70,10 @@ public class CoupleRestController {
 		System.out.println("rest/login2/{userId} 끝");
 		return userId;
 	}
-	
-	@RequestMapping(value = "rest/getCoupleTimelinePostList/{userId}")
-	public Map getCoupleTimelinePostList(@PathVariable String userId) throws Exception {
+	@RequestMapping(value = "rest/getCoupleTimelinePostList", method = RequestMethod.POST)
+	public Map getCoupleTimelinePostList(@RequestBody Search search, HttpSession session) throws Exception {
 		System.out.println("rest/getCoupleTimelinePostList/{userId} 시작");
+		String userId = ((User)session.getAttribute("user")).getUserId();
 		
 		Couple couple = coupleService.getCouple(userId);
 		
@@ -97,12 +97,13 @@ public class CoupleRestController {
 		System.out.println("두 날짜의 날짜 차이(calDateDays) : " + calDateDays);
 		
 		
-		
-		Search search = new Search();
-		search.setCurrentPage(1);
-		search.setPageSize(100);
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(9);
 		Map<String, Object> map = coupleService.getCoupleTimelinePostList(search, userId);
-		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCoupleTimelinePost")).intValue(), pageUnit, pageSize);
+		System.out.println("totalCount : " + map.get("totalCoupleTimelinePost"));
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCoupleTimelinePost")).intValue(), pageUnit, 9);
 		System.out.println("resultPage : " + resultPage);
 		Map map2 = new HashMap();
 		map2.put("list", map.get("list"));

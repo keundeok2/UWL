@@ -52,13 +52,47 @@
                     if ($("section.displaySection div.list2").hasClass('on')) {
                         askInfiniteScroll();
                     }
+                    if ($("section.displaySection div.list3").hasClass('on')) {
+                        coupleTimelineInfiniteScroll(coupleTimelineMaxPage);
+                    }
                     if ($("section.displaySection div.list5").hasClass('on')) {
                         askQuestionInfiniteScroll();
                     }
                     // list3 , list4 on 일때 추가하기 커플타임라인, 커플캘린더
                 }
             });
+			
+            
+            var coupleTimelinePage = 1;
+            
+            function coupleTimelineInfiniteScroll(coupleTimelineMaxPage) {
+            	if (coupleTimelinePage <= coupleTimelineMaxPage) {
+            		coupleTimelinePage++;
+                    console.log('coupleTimelinePage : ' + coupleTimelinePage);
 
+                    $.ajax({
+                        url: "/couple/rest/getCoupleTimelinePostList",
+                        method: "POST",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            currentPage: coupleTimelinePage
+                        }),
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                        success: function(data) {
+                            for (var i = 0; i < data.list.length; i++) {
+                            	appendCoupleTimelinePost(data.list[i]);
+                            }
+                                setTimeout(function() {
+                                    myScroll.refresh();
+                                }, 0);
+                        }
+                    });
+                }
+			}
+            
 
 
 
