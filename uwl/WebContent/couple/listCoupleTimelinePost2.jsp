@@ -582,22 +582,18 @@
     
         $(function() {
             var userId = $('input[name="userId"]').val();
-			
-            
-            
-            
-            
-            
-
-            
-
-            
+			var sessionUserRole = "${user.role}";
 
             
 
             $(document).ready(function() {
 				//alert('온로드ㅋㅋ');
                 //alert('userId : ' + userId);
+                //console.log("sessionUserRole", sessionUserRole);
+                
+                
+                if (sessionUserRole == 3) {
+					//console.log("role ajax start");
                 $.ajax({
                     url: '/couple/rest/getCoupleTimelinePostList/' + userId,
                     method: 'GET',
@@ -630,6 +626,8 @@
                         alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
+				}
+                
                 
                 
             });

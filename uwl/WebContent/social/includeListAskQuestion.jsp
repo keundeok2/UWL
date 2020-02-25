@@ -420,7 +420,7 @@
                 <a href="#" class="listAskBtn">답변완료목록</a>
             </p>
         </form>
-            <p>주소 : <input type="text" value="http://localhost:8080/social/getAskList/${user.userId}" readonly="readonly"></p>
+            <p style="display:none">주소 : <input type="text" value="http://localhost:8080/social/getAskList/${user.userId}" readonly="readonly"></p>
         </div>
         <div class="addAsk">
         	<%-- <c:forEach var="ask" items="${askQuestionMap.list}">
@@ -435,7 +435,7 @@
             
             
         </div>
-        <div><a href="#">맨 위로 <i class="fas fa-caret-up"></i></a></div>
+        <div style="display: none"><a href="#">맨 위로 <i class="fas fa-caret-up"></i></a></div>
     </div>
 	
 </body>
