@@ -100,11 +100,12 @@ public class MatchingRestController {
 		if(matchingService.getItem(userId, "1") != null) {
 			map.put("userId", userId);
 			map.put("secondUserId", secondUserId);
-			map.put("secondUserName", secondUserName);
+			
 			map.put("result", true);
 		} else {
 			map.put("result", false);
 		}
+		map.put("secondUserName", secondUserName);
 		System.out.println("rest/updateItem/{userId}/{secondUserId} 끝");
 		return map;
 	}

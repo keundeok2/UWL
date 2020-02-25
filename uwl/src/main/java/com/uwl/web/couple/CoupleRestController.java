@@ -1,7 +1,9 @@
 package com.uwl.web.couple;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,7 @@ import com.uwl.service.domain.Matching;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.User;
 import com.uwl.service.matching.MatchingService;
+import com.uwl.service.user.UserService;
 
 @RestController
 @RequestMapping("/couple/*")
@@ -47,6 +50,10 @@ public class CoupleRestController {
 	@Autowired
 	@Qualifier("communityServiceImpl")
 	private CommunityService communityService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
 	
 	public CoupleRestController() {
 		
@@ -67,6 +74,30 @@ public class CoupleRestController {
 	@RequestMapping(value = "rest/getCoupleTimelinePostList/{userId}")
 	public Map getCoupleTimelinePostList(@PathVariable String userId) throws Exception {
 		System.out.println("rest/getCoupleTimelinePostList/{userId} 시작");
+		
+		Couple couple = coupleService.getCouple(userId);
+		
+		
+		String firstUserId = couple.getFirstUserId();
+		String secondUserId = couple.getSecondUserId();
+		
+		
+		User firstUser = userService.getUser(firstUserId);
+		User secondUser = userService.getUser(secondUserId);
+		
+		String matchingDate = couple.getMatchingDate().toString();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-mm-dd");
+		Date time = new Date();
+		String time1 = format1.format(time);
+		Date firstDate = format1.parse(matchingDate);
+		Date secondDate = format1.parse(time1);
+		long calDate = firstDate.getTime() - secondDate.getTime();
+		long calDateDays = calDate / (24 * 60 * 60 * 1000);
+		calDateDays = Math.abs(calDateDays);
+		System.out.println("두 날짜의 날짜 차이(calDateDays) : " + calDateDays);
+		
+		
+		
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(100);
@@ -78,6 +109,9 @@ public class CoupleRestController {
 		map2.put("resultPage", resultPage);
 		map2.put("search", search);
 		map2.put("userId", userId);
+		map2.put("firstUser", firstUser);
+		map2.put("secondUser", secondUser);
+		map2.put("calDateDays", calDateDays + 1);
 		System.out.println("list : " + map.get("list"));
 		System.out.println("rest/getCoupleTimelinePostList/{userId} 끝");
 		return map2;
@@ -147,6 +181,8 @@ public class CoupleRestController {
 	@RequestMapping(value = "rest/getCoupleTimelinePost/{userId}/{postNo}")
 	public Map getCoupleTimelinePost(@PathVariable String userId, @PathVariable int postNo) throws Exception {
 		System.out.println("rest/getCoupleTimelinePost/{userId} 시작");
+		
+		
 		Map<String, Object> map = new HashMap();
 		map.put("userId", userId);
 		Post post = coupleService.getCoupleTimelinePost(postNo);
@@ -172,12 +208,38 @@ public class CoupleRestController {
 	}
 	
 	@RequestMapping(value = "rest/updateCoupleTimelinePost2/{userId}/{postNo}")
-	public Map updateCoupleTimelinePost2(@PathVariable String userId, @PathVariable int postNo, @RequestBody Post post) throws Exception {
+	public Map updateCoupleTimelinePost2(@PathVariable String userId, @PathVariable int postNo, @RequestParam(value="file", required=false) MultipartFile file, @RequestParam(value="place") String place, @RequestParam(value="postContent") String postContent) throws Exception {
 		System.out.println("rest/updateCoupleTimelinePost2/{userId}/{postNo} 시작");
 		Map<String, Object> map = new HashMap();
 		map.put("userId", userId);
 		map.put("postNo", postNo);
+		Post post = coupleService.getCoupleTimelinePost(postNo);
+		
+		System.out.println("postNo : " + postNo);
+		
+		post.setPlace(place);
+		post.setPostContent(postContent);
+		
+		System.out.println("place : " + place);
+		System.out.println("postContent : " + postContent);
+		System.out.println("file : " + file);
+		
+		
+		String fileName = "";
+		
+		if( file != null) {
+			int startInt = file.getOriginalFilename().indexOf(".");
+//			String filePath ="C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
+			String filePath ="C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\uwl\\resources\\images\\";
+			fileName += UUID.randomUUID().toString().substring(0, 8)+System.currentTimeMillis()+file.getOriginalFilename().substring(startInt);
+			System.out.println("\t\t저장 파일 이름 : "+fileName);
+			File saveFile = new File(filePath+fileName);
+			file.transferTo(saveFile);
+			post.setUploadFileName(fileName);
+		}
 		coupleService.updateCoupleTimelinePost(post);
+		
+		System.out.println("업데이트성공ㅋㅋ");
 		Post post2 = coupleService.getCoupleTimelinePost(postNo);
 		map.put("post", post2);
 		System.out.println("rest/updateCoupleTimelinePost2/{userId}/{postNo} 끝");
