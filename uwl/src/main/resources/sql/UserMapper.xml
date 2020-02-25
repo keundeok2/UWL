@@ -223,7 +223,7 @@
         FROM (  SELECT inner_table.* , ROWNUM AS row_seq
                   FROM ( SELECT post_no , post_title, post_content, post_date , QUESTION_STATUS, reply_post_no
                             FROM post
-							WHERE user_id = #{userId} AND post_category_no = '5'
+							WHERE user_id = #{userId} AND post_category_no = '5' AND post_title !='문의사항답변등록'
 							ORDER BY post_date DESC) 
 				inner_table)
 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 
@@ -235,7 +235,9 @@
 	<select  id="getUserQuestionsList"  parameterType="search"	resultMap="postSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT * FROM post ORDER BY post_date DESC ) inner_table
+	  					FROM		(	SELECT * FROM post 
+	  					where post_title !='문의사항답변등록' AND post_category_no ='5'
+	  					ORDER BY post_date DESC ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
@@ -312,11 +314,32 @@
 	   	WHERE user_id = #{userId}
 	 </update>
 	 
+	 <!-- 전체회원 수 출력 -->
+	 <select  id="getTotalCountUser"  parameterType="map"	 resultType="int">
+	  	select count(*)  from(select * from users)
+	 </select>
 	 
-	 <!-- 전체 회원 수 -->	 
-	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
-	  	SELECT COUNT(*)
-	  	FROM(	SELECT user_id FROM users)
+	 <!-- 페이징처리 내가올린 문의사항 갯수 -->	 
+	 <select  id="getTotalCount"  parameterType="map"	 resultType="int">
+	  	select count(*) from (SELECT * 
+        FROM (  SELECT inner_table.* , ROWNUM AS row_seq
+                  FROM ( SELECT post_no , post_title, post_content, post_date , QUESTION_STATUS, reply_post_no
+                            FROM post
+							WHERE user_id = #{userId} AND post_category_no = '5'AND post_title !='문의사항답변등록'
+							ORDER BY post_date DESC) 
+				inner_table)
+		)
+	 </select>
+	 <!--  전체 회원의 문의사항 갯수 -->
+	  <select  id="getTotalCount2"  parameterType="search"	 resultType="int">
+	  	select count(*) from (SELECT * 
+        FROM (  SELECT inner_table.* , ROWNUM AS row_seq
+                  FROM ( SELECT post_no , post_title, post_content, post_date , QUESTION_STATUS, reply_post_no
+                            FROM post
+							WHERE post_category_no = '5' AND post_title !='문의사항답변등록'
+							ORDER BY post_date DESC) 
+				inner_table)
+		)
 	 </select>
 	 
 	 

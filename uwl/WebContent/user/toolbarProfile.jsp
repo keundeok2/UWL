@@ -729,6 +729,9 @@
 
                 //alert('userId : ' + sessionUserId);
                 //alert('secondUserId : ' + targetUserId);
+                
+                
+                
                 $.ajax({
                     url: '/matching/rest/addMatching3/' + sessionUserId + '/' + targetUserId,
                     method: 'GET',
@@ -753,7 +756,10 @@
                         $('div.modal-footer').find('button:nth-child(2)').css({
                             'display': 'none'
                         });
-                        $('div.modal-footer').find('button:nth-child(1)').text('확인');
+                        $('div.modal-footer').find('button:nth-child(1)').text('확인').on("click",function(){
+                        	socket.emit("matchingMe",sessionUserId);
+                            socket.emit("matchingYou",targetUserId);
+                        });
                     },
                     error: function(request, status, error) {
                         alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);

@@ -120,7 +120,8 @@ public class UserController {
 		System.out.println("UserController : addUser() schoolRank  : " + schoolRank);
 
 		// Business Logic
-		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
+//		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
+		String path = "C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\uwl\\resources\\images";
 		String name = "";
 
 		if (!file.getOriginalFilename().isEmpty()) {
@@ -359,7 +360,8 @@ public class UserController {
 			HttpSession session) throws Exception {
 		System.out.println("UserController : updateProfile() 호출");
 
-		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
+//		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
+		String path = "C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\uwl\\resources\\images";
 		String name = "";
 
 		if (!file.getOriginalFilename().isEmpty()) {
@@ -480,6 +482,7 @@ public class UserController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		System.out.println("@##@#@#@맵 @#@#@#@#" + map);
 		return "forward:/user/toolbarGetUserQuestions.jsp";
 	}
 

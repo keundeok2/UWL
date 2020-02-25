@@ -597,7 +597,7 @@
                                         <p><i class="far fa-heart"></i> ${post.likeCount }</p>
                                     </div>
                                 </div>
-                                <input type="hidden" class="postNo" value="${post.postNo }">
+                                <input type="hidden" class="postNo" value="${post.postNo}">
                                 
                             </a>
                         </div>
@@ -613,6 +613,8 @@
 				  
 				<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+                  <!-- 1번을 고정값으로 주므로써  POST로 넘겨 페이지넘버링해도 포인트가 적립안되게 해놓음-->
+                  <input type="hidden" name="postChallenge"value="1">
 			</div>
 				<!-- PageNavigation End... -->
 				

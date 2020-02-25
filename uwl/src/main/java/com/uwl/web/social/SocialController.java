@@ -159,10 +159,14 @@ public class SocialController {
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(pageSize);
+		search.setPageSize(10);
 		
 		String userId = ((User)session.getAttribute("user")).getUserId();
 		Map<String, Object> map = socialService.getNotiList(userId, search);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+				pageSize);
+		map.put("search",search);
+		map.put("resultPage", resultPage);
 		model.addAttribute("map", map);
 		
 		return "forward:/social/toolbarListNoti.jsp";

@@ -306,7 +306,8 @@
         div.chattingList.on {
             max-height: 600px;
             overflow-y: scroll;
-            border: 1px solid #ebebeb;
+           	border-radius: 12px;
+			border: solid 3px #dee2e6;
         }
 
 
@@ -404,6 +405,9 @@
         }
 
         div.chattingBox {
+            
+            border-radius: 12px;
+			border: solid 3px #dee2e6;
             
             width: 290px;
             font-size: 14px;
@@ -559,9 +563,10 @@
 			width: 200px;
 			height: 80px;
 			padding: 10px;
-			
-			
-			z-index: 1;
+			border-radius: 12px;
+			border: solid 3px #e38c48;
+			z-index: 7;
+			transition: max-height 1s
 		}
 		.popupLayer div {
 			position: absolute;
@@ -610,6 +615,71 @@
 			background: green;
 			
 		}
+		
+		  div.newCouple {
+            
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        div.firstUser {
+            
+            width: 50%;
+            float: left;
+            text-align: center;
+        }
+        div.profileImage {
+            
+            width: 40px;
+            height: 40px;
+            overflow: hidden;
+            border-radius: 50%;
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 10px;
+        }
+        div.userName {
+            
+            display: inline-block;
+            vertical-align: middle;
+        }
+        div.profileImage img {
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        div.secondUser {
+            
+            width: 50%;
+            text-align: center;
+            float: right;
+        }
+        div.heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            font-size: 35px;
+            color: #e04444;
+        }
+        
+        input#msg{
+        	border-radius: 12px;
+			border: solid 3px #dee2e6;
+			width: 220px;
+        }
+        button#msgProcess{
+        	border-radius: 12px;
+			border: solid 3px #dee2e6;
+			width : 50px;
+			background-color : #a9a9a9;
+        }
+        i#msgSend{
+        	color : #d25412;
+        }
 	</style>
 	
 <!--  ================================== 채팅 CDN =============================================================== -->
@@ -635,6 +705,87 @@
 	    
 	    
 	    $(document).ready(function(){
+	    	
+	    	
+	    	////매칭////////////////////////////////////////////////////////////////////////////////////////////////////
+	    	
+	    	
+	    	var matchingUserName_F = null;
+	    	var matchingUserProfile_F = null;
+	    	//매칭이 되었지만 로그아웃 상태여서 소켓 알람을 못받은 사람을 위한 모달 생성
+	    	$.ajax({
+	    		url : "/user/rest/getUser/"+"${sessionScope.user.userId}",
+	    		method : "GET",
+	    		headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(data){
+					if(data.role == '2'){
+						$.ajax({
+							url : "/matching/rest/getMatchingByUserId",
+							method : "GET",
+							async : false,
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(data){
+								$.ajax({
+									url : "/user/rest/getUser/"+data.secondUserId,
+									method : "GET",
+									async : false,
+									headers : {
+										"Accept" : "application/json",
+										"Content-Type" : "application/json"
+									},
+									success : function(data){
+										matchingUserName_F = data.name;
+										matchingUserProfile_F = data.profileName
+									},
+									error : function(){
+										alert('에러야아아아아앗!')
+									}
+								});
+							},
+							error : function(){
+								console.log('에러에러맨')
+							}
+						});
+						var sessionName = "${sessionScope.user.name}";
+						var sessionProfile = "${sessionScope.user.profileName}";
+						var view1 = "<img src='/images/"+sessionProfile+"' alt='' style='width:100%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)'/>";
+						var view2 = "<img src='/images/"+matchingUserProfile_F+"' alt='' style='width:100%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)'/>";	
+						$('.firstUser > .profileImage').append(view1);
+						$('.firstUser > .userName').text(sessionName);
+						$('.secondUser > .userName').text(matchingUserName_F);
+						$('.secondUser > .profileImage').append(view2)
+						$('#areYouCouple').modal();
+						$('#enjoyCoupleLife').on("click", function(){
+							$.ajax({
+								url : "/matching/rest/updateCoupleRole/"+"${sessionScope.user.userId}",
+								method : "GET",
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(){
+									console.log('유저3');
+								},
+								error : function(){
+									console.log('유저 실패');				
+								}
+							});
+						});
+					}
+				},
+				error : function(){
+					alert('error')
+				}
+	    	});
+	    	
+	    	
+	    	////매칭////////////////////////////////////////////////////////////////////////////////////////////////////
     		var sessionUserId = "${sessionScope.user.userId}";
     		var roomNos = [];
 			var userIds = [];
@@ -650,7 +801,10 @@
 				}),
 				success : function(data){
 					var length = data.length;
-					
+					if(length == 0){
+						var view = "<div id='pleaseStartNewChatting' style='font-size:14px; font-weight:bold;text-align:center'>친구들과 새로운 대화를 시작해보세요!</div><br>";
+							$('#forFriendListAppend').after(view);
+					}
 					for(var i=0; i<data.length; i++){
 						if(sessionUserId == data[i].master){
 							var userName = data[i].enterUserName;
@@ -820,6 +974,7 @@
     	var chattingRoom = null;
     	var nodeDate = null;
     	
+    	
         $(function() {
   			
         	var newUser = "${sessionScope.user.userId}";
@@ -849,6 +1004,80 @@
 	        
 	         ////////////////////////로그인 상태 판단(include라서 임시보관함)
 	        
+	    	var matchingSessionId = null;	//본인 아이디
+	        var matchingTargetId = null;	//socket.on으로 받는순간 timeSet으로 세팅 되었음 상대방 아이디임(확신)
+	        var targetName = null;	//상대방 이름
+	        var targetProfileName = null;	//상대방 프로필
+	        socket.on('matchingSession', function(matchingSession){
+		        //ajax로 처리해줄 놈들
+		        
+	        		matchingSessionId = matchingSession 	//얘는 매칭을 누른 최후의 유저였음
+					$.ajax({
+						url : "/user/rest/getUser/"+matchingTargetId,
+						method : "GET",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						async : false,
+						success : function(data){
+							if(data.role == '2'){
+								if("${sessionScope.user.userId}" == matchingSessionId || "${sessionScope.user.userId}" == matchingTargetId){
+									$.ajax({
+										url : "/user/rest/getUser/"+matchingSessionId,
+										method : "GET",
+										async : false,
+										headers : {
+											"Accept" : "application/json",
+											"Content-Type" : "application/json"
+										},
+										success : function(data){
+											targetProfileName = data.profileName;
+											targetName = data.name;
+										},
+										error : function(){
+											alert('에러에러 ㅋㅋ');
+										}
+									});
+									var view1 = "<img src='/images/"+data.profileName+"' alt='' style='width:100%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)'/>";
+									var view2 = "<img src='/images/"+targetProfileName+"' alt='' style='width:100%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)'/>";	
+									$('.firstUser > .profileImage').append(view1);
+									$('.firstUser > .userName').text(data.name);
+									$('.secondUser > .userName').text(targetName);
+									$('.secondUser > .profileImage').append(view2)
+									$('#areYouCouple').modal();
+									$('#enjoyCoupleLife').on("click", function(){
+										$.ajax({
+											url : "/matching/rest/updateCoupleRole/"+"${sessionScope.user.userId}",
+											method : "GET",
+											headers : {
+												"Accept" : "application/json",
+												"Content-Type" : "application/json"
+											},
+											success : function(){
+												console.log('유저3');
+											},
+											error : function(){
+												console.log('유저 실패');				
+											}
+										});
+									});
+								}
+							}
+							
+						},
+						error : function(){
+							alert('로그인 중인 유저의 에러 ㅋㅋ')
+						}
+					});					
+					
+	        	
+	        	
+	        	
+			});
+	    	socket.on('matchingTarget', function(matchingTarget){
+	    		matchingTargetId = matchingTarget
+	    	});
 	        
 	        
 	         ////////////////////////로그인 상태 판단(include라서 임시보관함)
@@ -892,6 +1121,23 @@
 			    				$('div.chattingBox').removeClass('on');
 			    				compareDate = null;
 			    				$('input[value="'+roomNo+'"]').parent().parent().parent().parent().remove();
+			    				$.ajax({
+			    		    		url : "/chatting/rest/getChattingRoomList",
+			    		    		method : "POST",
+			    		    		headers : {
+			    						"Accept" : "application/json",
+			    						"Content-Type" : "application/json"
+			    					},
+			    					data : JSON.stringify({
+			    						master : sessionUserId
+			    					}),
+			    					success : function(data){
+			    						var length = data.length;
+			    						if(length == 0){
+			    							var view = "<div id='pleaseStartNewChatting' style='font-size:14px; font-weight:bold;text-align:center'>친구들과 새로운 대화를 시작해보세요!</div><br>";
+			    							$('#forFriendListAppend').after(view);	    						}
+			    					}
+			    				});
 			    			},
 			    			error : function(){
 								    				
@@ -1106,6 +1352,14 @@
 	         	$('.chatFromMe').remove();
 				$('.chatFromUser').remove();
 				$('.chatDate').remove();
+	        });
+	        
+	        $('html').on("click",function(e){	//팝업 레이어 밖을 누르면 닫힌다.
+	        	if($('.popupLayer').css('display')=='none'){
+	        	}else{
+	        		$('.popupLayer').hide();
+	        		$('.friendList ul li a').css('backgroundColor','#efefef');
+	        	}
 	        });
 	        
 	        $(document).on("click", "#startChattingButton", function(){	//채팅방 개설
@@ -1343,7 +1597,6 @@
 	            		}
 	            	}
 	            }
-	            console.log(loginFriendList);
 	            
 	            /* if(loginFriendList.length == 0){
 	            	for(var i=0; i<countLi; i++){
@@ -1489,6 +1742,7 @@
  			$.redirect("/user/getProfile/" + targetUserId + "", {}, "GET");
  		});
  		$(document).on("click", '#goToChatting', function(){	//채팅창으로 가기
+ 			$('#pleaseStartNewChatting').remove();
  			$('.friendList ul li a').css('backgroundColor','#efefef');
  			$('.popupLayer').hide();
  			$('div.chattingBox').removeClass('on');
@@ -2035,14 +2289,10 @@
 <body>
 
 	<!-- ====================================== chattingHTML========================================================================== -->
-	<div class="popupLayer" id="popupLayer" style="overflow-y:scroll; overflow-x:scroll ">
-					<div>
-						<span onClick="closeLayer(this)"
-							style="cursor: pointer; font-size: 1.5em" title="닫기"><i class="fas fa-times" id="friendListPopUpTimes"></i>
-						</span>
-					</div>
-					<span id="searchFriendListByName"></span>
-				</div>
+	<div class="popupLayer" id="popupLayer" style="overflow-y:scroll; overflow-x:scroll; text-align:center; " >
+		<span id="searchFriendListByName"></span>
+		<br/>
+	</div>
     <div class="chattingIcon"><a href="#"><i class="fas fa-comments"></i></a>
     
 		<!-- ----------------이거 배찌임 -->
@@ -2112,7 +2362,7 @@
         </div>
         <div class="chattingArea">
             <input type="text" id="msg">
-            <button type="button" id="msgProcess">보낼래!</button>
+            <button type="button" id="msgProcess"><i class="fas fa-paper-plane" id="msgSend"></i></button>
         </div>
     </div>
 	<!-- ====================================== chattingHTML========================================================================== -->
@@ -2199,6 +2449,54 @@
         </div>
         <div class="toast-body"></div>
     </div>
+
+
+	<div class="modal fade" id="areYouCouple" tabindex="-1" role="dialog" aria-labelledby="areYouCoupleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+					<div class="newCouple">
+						<div class="firstUser">
+							<div class="profileImage">
+							</div>
+							<div class="userName">
+							</div>
+						</div>
+						<div class="secondUser">
+							<div class="userName">
+							</div>
+							<div class="profileImage">
+							</div>
+
+						</div>
+						<div class="heart">
+							<i class="fas fa-heart"></i>
+						</div>
+					</div>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body2">
+                        <div class="row">
+                            <div class="col-sm-12 areYouCoupleTarget" style="text-align:center">
+								<span style="font-weight:bold;text-align:center">
+								축하드립니다<br>
+								커플 회원이 되었습니다<br>
+								프로필에서 커플기능을 사용해보세요!<br>
+								</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="enjoyCoupleLife">확인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
 
 </body>
 

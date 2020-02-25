@@ -25,6 +25,11 @@ public interface MatchingDAO {
 	
 	
 	
+	public void updateCoupleRole(String userId) throws Exception;
+	
+	public void updateCoupleRoleOther(String userId) throws Exception;
+	
+	
 	
 	
 	public int getTotalMatchingCount(Search search) throws Exception;
