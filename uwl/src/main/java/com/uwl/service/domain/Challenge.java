@@ -21,7 +21,9 @@ public class Challenge {
 	//도전과제를 수행했을 경우 바인딩해주는 역할 
 	private Post post;
 	private Commentt commentt;
-	
+	private Reward reward;
+
+
 	//도전과제 flag (1: 수행, 2: 미수행)
 	private String challStatus;
 	
@@ -52,6 +54,15 @@ public class Challenge {
 
 
 
+	public Reward getReward() {
+		return reward;
+	}
+	
+	
+	
+	public void setReward(Reward reward) {
+		this.reward = reward;
+	}
 	public int getPreChallNo() {
 		return preChallNo;
 	}
@@ -356,8 +367,8 @@ public class Challenge {
 		return "Challenge [challNo=" + challNo + ", challCategory=" + challCategory + ", detailCategory="
 				+ detailCategory + ", challTitle=" + challTitle + ", challContent=" + challContent + ", challDate="
 				+ challDate + ", weeklyStart=" + weeklyStart + ", weeklyEnd=" + weeklyEnd + ", post=" + post
-				+ ", commentt=" + commentt + ", challStatus=" + challStatus + ", preChallNo=" + preChallNo
-				+ ", nextChallNo=" + nextChallNo + ", preChallTitle=" + preChallTitle + ", nextChallTitle="
+				+ ", commentt=" + commentt + ", reward=" + reward + ", challStatus=" + challStatus + ", preChallNo="
+				+ preChallNo + ", nextChallNo=" + nextChallNo + ", preChallTitle=" + preChallTitle + ", nextChallTitle="
 				+ nextChallTitle + ", firstUser=" + firstUser + ", firstUserLocation=" + firstUserLocation
 				+ ", secondUser=" + secondUser + ", secondUserLocation=" + secondUserLocation + ", challReward="
 				+ challReward + ", postCommentComplete=" + postCommentComplete + ", viewStatus=" + viewStatus + "]";

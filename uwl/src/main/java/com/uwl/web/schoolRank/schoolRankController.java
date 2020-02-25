@@ -90,13 +90,15 @@ public class schoolRankController {
 //		search.setSearchCondition(request.getParameter("searchCondition"));
 //		search.setSearchKeyword(request.getParameter("searchKeyword"));
 		
-		Map<String, Object> map = schoolRankService.getSchoolRankingList(search, schoolRank.getSchoolNo());
+		Map<String, Object> map = schoolRankService.getSchoolRankingList(search);
 		
 		Map<String, Object> individualMap = schoolRankService.getIndividualRankingList(search);
 		
+		System.out.println("=====>schoolRankController  user.userId : " + user.getUserId() );
 		SchoolRank mySchool = schoolRankService.getMySchool(user.getUserId());
 		
-		System.out.println("schoolRankController getSchoolRankingList()의 map : " + map);
+		System.out.println("=====>schoolRankController getSchoolRankingList()의 mySchool : " + mySchool);
+		System.out.println("=====>schoolRankController getSchoolRankingList()의 map : " + map);
 		
 		System.out.println("search : " + search + "=====================");
 		
