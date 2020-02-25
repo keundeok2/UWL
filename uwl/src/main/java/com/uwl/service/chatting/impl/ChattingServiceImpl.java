@@ -41,4 +41,10 @@ public class ChattingServiceImpl implements ChattingService {
 		return chattingDAO.getChattingRoomList(chatting);
 	}
 
+	@Override
+	public void updateChatting(String msg, int roomNo) throws Exception {
+		chattingDAO.updateChatting(msg, roomNo);
+		
+	}
+
 }

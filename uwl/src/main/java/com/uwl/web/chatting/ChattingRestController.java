@@ -1,5 +1,6 @@
 package com.uwl.web.chatting;
 
+import java.text.DateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uwl.service.chatting.ChattingService;
@@ -59,5 +61,10 @@ public class ChattingRestController {
 	@RequestMapping(value="/rest/getChattingRoomList", method=RequestMethod.POST)	//유저 채팅목록 호출
 	public List<Chatting> getChattingRoomList(@RequestBody Chatting chatting) throws Exception{
 		return chattingService.getChattingRoomList(chatting);
+	}
+	
+	@RequestMapping(value="/rest/updateChatting", method=RequestMethod.POST)
+	public void updateChatting(@RequestBody Chatting chatting) throws Exception{
+		chattingService.updateChatting(chatting.getLastChat(), chatting.getRoomNo());
 	}
 }

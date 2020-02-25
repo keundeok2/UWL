@@ -1,5 +1,7 @@
 package com.uwl.service.domain;
 
+import java.sql.Date;
+
 public class Chatting {
 	
 	private String master;	//개설자
@@ -11,9 +13,30 @@ public class Chatting {
 	private String enterUserName;	//참가자 이름
 	
 	private int roomNo;	//방 번호
+	
+	private String lastChat;
+	
+	private Date lastDate;
+	
 
 	public Chatting() {
 		
+	}
+	
+	public String getLastChat() {
+		return lastChat;
+	}
+	
+	public void setLastChat(String lastChat) {
+		this.lastChat = lastChat;
+	}
+	
+	public Date getLastDate() {
+		return lastDate;
+	}
+	
+	public void setLastDate(Date lastDate) {
+		this.lastDate = lastDate;
 	}
 
 	public String getMaster() {
@@ -59,8 +82,9 @@ public class Chatting {
 	@Override
 	public String toString() {
 		return "Chatting [master=" + master + ", masterName=" + masterName + ", enterUser=" + enterUser
-				+ ", enterUserName=" + enterUserName + ", roomNo=" + roomNo + "]";
+				+ ", enterUserName=" + enterUserName + ", roomNo=" + roomNo + ", lastChat=" + lastChat + ", lastDate="
+				+ lastDate + "]";
 	}
-	
-	
+
+
 }
