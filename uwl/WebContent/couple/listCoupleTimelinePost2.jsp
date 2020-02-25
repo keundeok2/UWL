@@ -539,44 +539,129 @@
         }
 
     </style>
+    
     <script>
+    
+    function prependCoupleTimelinePost(post) {
+        var postNo = post.postNo;
+        var userId = post.userId;
+        var uploadFileName = post.uploadFileName;
+        var postDate = post.postDate;
+        var place = post.place;
+        var postTitle = post.postTitle;
+        var postContent = post.postContent;
+
+        var post = '<div class="coupleTimelinePost">' +
+            '<a href="#">' +
+            '<input type="hidden" name="postNo" value="' + postNo + '">' +
+            '<div class="uploadImage">' +
+            '<img src="/images/' + uploadFileName + '" alt="">' +
+            '</div>' +
+            '<div class="imageHover">' +
+            '<div class="uploadDate">' +
+            '<div>' + postDate + '</div>' +
+            '<div>' + place + '</div>' +
+            '</div>' +
+            '</div>' +
+            '</a>' +
+            '</div>';
+
+        $('div.coupleTimelineMain').prepend(post);
+    }
+    
+    
+    
+    function refreshCoupleTimelinePostList() {
+    	var userId = $('input[name="userId"]').val();
+    	$.ajax({
+            url: '/couple/rest/getCoupleTimelinePostList/' + userId,
+            method: 'GET',
+            dataType: 'json',
+            data: JSON.stringify({
+                userId: userId
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            success: function(data) {
+            	//alert('성공ㅋㅋ');
+                for (var i = 0; i < data.list.length; i++) {
+                    prependCoupleTimelinePost(data.list[i]);
+                    //alert(data.list[i].postNo);
+                }
+            },
+            error: function(request, status, error) {
+                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+        });
+    }
+    
+    
+    function createRoom() {
+    	var formData = new FormData();
+    	formData.append('place', $('div.addCoupleTimelinePostModalBody input[name="place"]').val());
+    	formData.append('postContent', $('div.addCoupleTimelinePostModalBody textarea[name="postContent"]').val());
+    	formData.append('file', $('div.addCoupleTimelinePostModalBody input[name="file"]')[0].files[0]);
+    	
+    	$.ajax({
+    		type: 'POST',
+    		enctype: 'multipart/form-data',
+    		url: '/couple/rest/addCoupleTimelinePost2',
+    		data: formData,
+    		processData: false,
+    		contentType: false,
+    		cache: false,
+    		timeout: 600000,
+    		success: function() {
+    			console.log('파일업로드성공ㅋㅋ');
+    			$('#exampleModal2 button.close').click();
+    			$('div.coupleTimelineMain').empty();
+    			refreshCoupleTimelinePostList();
+    		},
+    		error: function(request, status, error) {
+                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+    	});
+    }
+    
+    
+    
+    /* function uploadFile(){
+        var form = $('#FILE_FORM')[0];
+        var formData = new FormData(form);
+        formData.append("fileObj", $("#input_img")[0].files[0]);
+		var place = $('div.addCoupleTimelinePostModalBody input[name="place"]').val();
+		var postContent = $('div.addCoupleTimelinePostModalBody textarea[name="postContent"]').val();
+		console.log('place : ' + place);
+		console.log('postContent : ' + postContent);
+        $.ajax({
+            url: '/couple/rest/addCoupleTimelinePost2',
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    type: 'POST',
+                    success: function(result){
+                        alert("업로드 성공!!");
+                    }
+            });
+    } */
+    
+    
+    
+    
         $(function() {
             var userId = $('input[name="userId"]').val();
 			
-            $('button.addPost').on('click', function() {
-            	$('form button[type="submit"]').click();
-            });
             
-            $('form button[type="submit"]').on('click', function() {
-            	
-                //alert('클릭ㅋㅋ');
-                $.ajax({
-                    url: '/couple/rest/addCoupleTimelinePost2/' + userId,
-                    method: 'POST',
-                    dataType: 'json',
-                    data: JSON.stringify({
-                        userId: userId
-                    }),
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    success: function(data) {
-                        //alert('성공ㅋㅋ');
-                        
-                        prependCoupleTimelinePost(data.post);
-                    },
-                    error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                    }
-                });
-            });
+            
+            
             
             
 
             $(document).on('click', 'div.coupleTimelineMain div.coupleTimelinePost a', function() {
                 //alert('클릭ㅋㅋ');
-                $('div.backgroundOverlay').addClass('on');
+                
                 var postNo = $(this).find('input[name="postNo"]').val();
                 $.ajax({
                     url: '/couple/rest/getCoupleTimelinePost/' + userId + '/' + postNo,
@@ -585,8 +670,6 @@
                     data: JSON.stringify({
                         userId: userId,
                         postNo: postNo
-
-
                     }),
                     headers: {
                         'Accept': 'application/json',
@@ -602,32 +685,7 @@
                 });
             });
 
-            function prependCoupleTimelinePost(post) {
-                var postNo = post.postNo;
-                var userId = post.userId;
-                var uploadFileName = post.uploadFileName;
-                var postDate = post.postDate;
-                var place = post.place;
-                var postTitle = post.postTitle;
-                var postContent = post.postContent;
-
-                var post = '<div class="coupleTimelinePost">' +
-                    '<a href="#">' +
-                    '<input type="hidden" name="postNo" value="' + postNo + '">' +
-                    '<div class="uploadImage">' +
-                    '<img src="img/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="">' +
-                    '</div>' +
-                    '<div class="imageHover">' +
-                    '<div class="uploadDate">' +
-                    '<div>' + postDate + '</div>' +
-                    '<div>' + place + '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</a>' +
-                    '</div>';
-
-                $('div.coupleTimelineMain').prepend(post);
-            }
+            
 
             
 
@@ -657,6 +715,8 @@
                     }
                 });
             });
+            
+            
 
             function afterCoupleTimelinePost(post) {
                 var postNo = post.postNo;
@@ -671,7 +731,7 @@
                     '<div class="coupleTimelinePost">' +
                     '<input type="hidden" name="postNo" value="' + postNo + '"' +
                     '<div class="coupleTimelinePostImage">' +
-                    '<img src="img/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="">' +
+                    '<img src="/images/' + uploadFileName + '" alt="">' +
                     '</div>' +
                     '<div>' +
                     '<div class="coupleTimelinePostUser">' +
@@ -761,8 +821,6 @@
 
         $(document).ready(function() {
         	$("#input_img").on("change", handleImgFileSelect);
-        	
-            
         });
 
         function handleImgFileSelect(e) {
@@ -789,35 +847,29 @@
 
         $(function() {
             $('div.addCoupleTimelinePost a.uploadFileName').on('click', function() {
-            	$('input[type="file"]').click();
-                
-                
+            	$('div.addCoupleTimelinePostModalBody input[type="file"]').click();
             });
 
-            /*$("#datepicker").datepicker({
-            dateFormat: 'yy년 m월 d일 DD',
-            onClose: function(e) {
-                var postDate = $('#datepicker').val();
-                $('p.postDate').text(postDate);
-                
+            
+            
+            
+			
+            
 
-            }
-
-        });*/
+            
         
-        $("#datepicker").datepicker({
+        
+         $("#addCoupleTimelinePostDatepicker").datepicker({
             dateFormat: 'yy-mm-dd',
             onClose: function(e) {
                 var postDate = $('#datepicker').val();
                 $('p.postDate').text(postDate);
-                
-
             }
 
-        });
-            $('#datepicker').datepicker('setDate', 'today');
+        }); 
+            $('#addCoupleTimelinePostDatepicker').datepicker('setDate', 'today');
             
-            $('p.postDate').text($('#datepicker').val());
+            $('p.postDate').text($('#addCoupleTimelinePostDatepicker').val());
 
             $('input[name="place"]').on('focusout', function() {
                 var place = $('input[name="place"]').val();
@@ -834,7 +886,8 @@
 
 
         });
-
+		
+        
     </script>
 </head>
 
@@ -948,14 +1001,14 @@
             <div class="modal-content addCoupleTimelinePost">
                 <div class="modal-header">
                     <div class="postDate" style="width: 100%">
-                        <input type="text" value="" name="postDate" id="datepicker">
+                        <input type="text" value="" name="postDate" id="addCoupleTimelinePostDatepicker">
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="">
+                    
 
 
 
@@ -969,51 +1022,41 @@
                         
 
 
-
-                            
+						<form id="addCoupleTimelinePostForm" enctype="multipart/form-data" accept-charset="euc-kr">
+                            <div class="addCoupleTimelinePostModalBody">
                             <a href="#" class="uploadFileName">
-
-
-
-
-
-
-                                <img src="/images/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="" id="img">
-
+								<img src="/images/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="" id="img">
                                 <div class="postDate">
                                     <div>
-                                        <p class="postDate"></p>
-                                        <p class="place"></p>
+                                        <p class="postDate" style="margin: 0;"></p>
+                                        <p class="place" style="margin: 0;"></p>
                                     </div>
                                 </div>
                             </a>
                             <div>
-                                <input type="file" id="input_img" name="uploadFileName" style="display: none"/>
-
+                                <input type="file" id="input_img" name="file" style="display: none"/>
                                 <div class="place">
-
                                     <p>
                                         <i class="fas fa-map-marker-alt"></i>
                                         <input type="text" value="" name="place" placeholder="위치 추가">
                                     </p>
                                 </div>
                                 <div class="postContent">
-
-                                    <textarea name="" id="" cols="30" rows="3" placeholder="문구 입력..." ></textarea>
-                                    <input type="hidden" name="postContent">
+                                    <textarea name="postContent" id="" cols="30" rows="3" placeholder="문구 입력..."></textarea>
                                 </div>
-
                             </div>
+                        </div>
                         
+                       </form>
 
 
 
-						<button type="submit" style="display:none"></button>
-                    </form>
+						
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                    <button type="button" class="btn btn-primary addPost">등록</button>
+                    <button type="button" class="btn btn-primary" onclick='createRoom()'>등록</button>
                 </div>
             </div>
         </div>
