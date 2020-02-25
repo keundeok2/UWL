@@ -374,7 +374,7 @@
                 var detailCategory = $(this).val();
                 var complete = null;
                 var challReward = null;
-                //alert("dsa : " + detailCategory);
+                console.log("detailCategory : " + detailCategory);
                 
                 $.ajax({
     				url : "/challenge/rest/listDetailCetegory",

@@ -471,6 +471,9 @@
 	                             <c:if test="${challenge.detailCategory == '206'}">
 	                             	대나무숲
 	                             </c:if>
+	                             <c:if test="${challenge.detailCategory == '댓글'}">
+	                             	댓글
+	                             </c:if>
                              </c:if>
                              
                             </td>
