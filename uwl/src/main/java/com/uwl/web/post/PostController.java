@@ -192,10 +192,10 @@ public class PostController {
 		}
 
 	@RequestMapping(value="deleteBoard", method=RequestMethod.GET) //--------------------------------테스트 종료
-	public String deleteBoard(@RequestParam("postNo") int postNo) throws Exception{
+	public String deleteBoard(@RequestParam("postNo") int postNo, Post post) throws Exception{
 		System.out.println("deleteBoard.GET");
 		postService.deleteBoard(postNo);
-		return "forward:/post/listBoard";
+		return "redirect:/post/listBoard?gatherCategoryNo="+post.getGatherCategoryNo()+"&postChallenge=1";
 	}
 	//pathVariable 넣어주기
 	@RequestMapping(value="listBoard")	//----------------------------테스트 종료
