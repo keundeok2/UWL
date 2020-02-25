@@ -88,6 +88,7 @@
             left: 50%;
             transform: translateX(-50%);
             overflow: hidden;
+            display: none;
         }
         
         div.hiddenBtn a {
@@ -326,6 +327,10 @@
                 left: 0;
             }
             
+            div.hiddenBtn {
+            	display: block;
+            }
+            
         }
 
 
@@ -345,6 +350,8 @@
             div.rightTop {
                 display: none;
             }
+            
+            
         }
 
 
@@ -529,8 +536,8 @@
         </div>
         
         <div class="hiddenBtn">
-            <a href="#">가입하기</a>
-            <a href="#">로그인</a>
+            <a href="/user/addUser">가입하기</a>
+            <a href="/user/login">로그인</a>
         </div>
     </form>
 </body>
