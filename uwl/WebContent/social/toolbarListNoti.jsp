@@ -503,7 +503,7 @@
                     <div class="col-md-12 col-lg-12">
                         <div id="tracking">
                             <div class="text-center tracking-status-intransit">
-                                <p class="tracking-status text-tight">새로운 알림 ${map.resultPage.currentPage }</p>
+                                <p class="tracking-status text-tight">새로운 알림</p>
                             </div>
                             <div class="tracking-list">
                                 <c:forEach items="${map.list}" var="noti">

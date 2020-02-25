@@ -114,119 +114,6 @@
         div.work2 img {
             display: none;
         }
-        
-        /* div 설정 */
-        .out{
-        	width: 96%;
-        	text-align: center;
-        	/* border: 1px solid black;  */
-        	padding: 20px;
-        	margin: 15px;
-        }
-        
-        .in{
-        	display: inline-block;
-        	width: 80%;
-        	/* border: 1px solid red; */ 
-        	height: 200px;
-        }
-        
-        
-        .introOut{
-        	width: 96%;
-        	text-align: center;
-        	/* border: 1px solid black;   */
-        	padding: 20px;
-        	margin-bottom: 30px;
-        }
-        
-        .introIn{
-        	display: inline-block;
-        	width: 80%;
-        	/* border-bottom: 3px solid #ebad7a;  */
-        	height: 80px;
-        } 
-        
-        h3 {
-        	background: #fff;
-        }
-        
-        h3.forBottomline:after {
-        	content: '';
-        	width: 450px;
-        	height: 3px;
-        	background-color: #ebad7a;
-        	display: block;
-        	position: absolute;
-        	bottom: -30px;
-        	left: 50%;
-        	transform: translateX(-50%);
-        }
-        .card-img-top{
-        	border-bottom: 1px solid gray;
-        }
-        
-        /* 총 카운트 또르르 올라가는거*/
-        .section4 {
-            background: url(../img/bg_main_row1.png) center top no-repeat;
-            background-size: cover;
-            /*height: 621px;*/
-            width: 100%;
-        }
-
-        .section4 .inner {
-            width: 70%;
-            margin: 0 auto;
-            text-align: center;
-            padding-top: 60px;
-        }
-
-        .section4 .text p:nth-child(1) {
-            font-weight: bold;
-            color: #2b8ad9;
-            margin-bottom: 10px;
-        }
-
-        .section4 .text p:nth-child(2) {
-            font-size: 30px;
-            margin-bottom: 40px;
-        }
-
-        .section4 .text p:nth-child(2) span {
-            font-weight: bold;
-            color: #3c3c3c;
-        }
-
-        .keyword {
-            width: 100%;
-            text-align: center;
-            padding-bottom: 50px;
-        }
-
-        .section4 .keyword > div {
-            width: 280px;
-            text-align: center;
-            border: 10px solid #a9ceed;
-            height: 280px;
-            
-            border-radius: 50%;
-            display: inline-block;
-            vertical-align: bottom;
-            margin: 30px;
-        }
-
-        .keyword p {
-            color: #2b8ad9;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .keyword span {
-            font-weight: normal;
-            color: #898989;
-            font-size: 16px;
-        }
     </style>
 
     <script type="text/javascript">
@@ -244,62 +131,6 @@
 	    		myScroll.refresh();
 	    		}, 0)
 		});
-	    
-	    
-	    //총 도전과제 갯수를 카운팅하는 function
-	    scrollCounting('div.keyword strong', 10, 3000);
-        scrollCounting('div.keyword strong:eq(3)', 1, 5000);
-
-        function scrollCounting(selector, step, duration) {
-            $(selector).each(function() {
-                var scrollTop = $(document).scrollTop();
-                var $selector = $(this);
-                var target = Number($selector.text());
-                var numNow = 0;
-                var numNowComma = '';
-                var countStep = step;
-                var timerSpeed = Math.round(duration / (target / countStep));
-                var isCounting = false;
-
-                checkVisibility();
-
-                $(window).on('scroll resize', function() {
-                    scrollTop = $(document).scrollTop();
-                    checkVisibility();
-                });
-
-                function checkVisibility() {
-                    var minShow = $selector.offset().top - $(window).height();
-                    var maxShow = $selector.offset().top + $selector.outerHeight();
-                    if (scrollTop >= minShow && scrollTop <= maxShow) {
-                        if (isCounting === false) {
-                            isCounting = true;
-                            addNumber();
-                        }
-                    } else {
-                        numNow = 0;
-                    }
-                }
-
-                function addNumber() {
-                    numNow += countStep;
-                    if (numNow >= target) {
-                        numNow = target;
-                        numNowComma = numNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        $selector.text(numNowComma);
-                        isCounting = false;
-                    } else {
-                        numNowComma = numNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        $selector.text(numNowComma);
-                        setTimeout(function() {
-                            addNumber();
-                        }, timerSpeed);
-                    }
-                }
-            });
-        }
-        //총 도전과제 갯수를 카운팅하는 function
-	    
 	    
         $(function() {
 
@@ -404,25 +235,19 @@
         <div class="work2"  id="wrapper">
         	<ul>
             <form class="form-inline">
-            
-           	<div class="header out">
-			    <div class="header in" style="position:relative;">
-		        	<h3 class="forBottomline" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
-		        		<b>${user.name} 님의 완료된<br>
-		        			도전과제를&emsp;&emsp;&emsp;&emsp;<br>
-		        			확인하세요&emsp;&emsp;&emsp;&emsp;
-		        		</b>
-		        	</h3> 
-			    </div>
-			</div>
-			<!-- 짧은 글귀 -->
-			<div class="intro introOut">
-				<div class="intro introIn">
-					<p style="font-weight: bold; text-align: center;">어떤 도전과제를 수행해서 점수를 획득했는지 아래 목록을 통해 확인하세요</p>
-					<p style="font-weight: bold; text-align: right; font-size: 30px;">총 <i class="fas fa-medal"></i> ${resultPage.totalCount} 개</p>
-				</div>
-			</div>
                 <div class="container-md">
+                    <br>
+                    <h2><i class="fas fa-medal"></i> 완료한 도전과제 목록</h2>
+                    <br>
+                    <div class="alert alert-secondary" role="alert">
+                        <span style="font-size: 20px"> 내가 완료된 도전과제를 볼 수 있습니다.</span>
+                    </div>
+                    <!-- <div class="notice">
+						<span style="font-size: 20px"> 내가 완료된 도전과제를 볼 수 있습니다.</span>
+					</div> -->
+                    <div class="totalComplete" style="float:right;">
+                        총 <i class="fas fa-medal"></i> ${resultPage.totalCount} 개
+                    </div>
                     <br>
                     <br>
                     <br>

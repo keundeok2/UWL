@@ -16,9 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.uwl.common.Page;
 import com.uwl.common.Search;
+import com.uwl.service.couple.CoupleService;
+import com.uwl.service.domain.Couple;
 import com.uwl.service.domain.Friend;
+import com.uwl.service.domain.Matching;
 import com.uwl.service.domain.User;
 import com.uwl.service.friend.FriendService;
+import com.uwl.service.matching.MatchingService;
 import com.uwl.service.user.UserService;
 
 @RestController
@@ -30,6 +34,13 @@ public class FriendRestController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CoupleService coupleService;
+	
+	@Autowired
+	private MatchingService matchingService;
+	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
 
@@ -56,6 +67,19 @@ public class FriendRestController {
 	public Map deleteFriend(@RequestBody Friend friend) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		friendService.deleteFriend(friend);
+		
+		System.out.println("deleteFriend => deleteCouple run");
+		Couple couple = coupleService.getCouple(friend.getFirstUserId());
+		System.out.println("couple : " + couple);
+		coupleService.deleteCouple(couple);
+		coupleService.deleteCoupleTimeline(friend.getFirstUserId(), friend.getSecondUserId());
+		
+		Matching matching1 =  matchingService.getMatching(friend.getFirstUserId());
+		Matching matching2 = matchingService.getMatching(friend.getSecondUserId());
+		matchingService.deleteMatching(matching1);
+		matchingService.deleteMatching(matching2);
+		System.out.println("deleteFriend => deleteCouple end");
+		
 		map.put("success", true);
 
 		return map;
