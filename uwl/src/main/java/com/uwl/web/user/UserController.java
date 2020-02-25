@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -125,8 +126,8 @@ public class UserController {
 		String name = "";
 
 		if (!file.getOriginalFilename().isEmpty()) {
-			file.transferTo(new File(path, file.getOriginalFilename()));
-			name = file.getOriginalFilename();
+			name = UUID.randomUUID() + file.getOriginalFilename();
+			file.transferTo(new File(path, name));
 			user.setProfileName(name);
 
 		} else {
@@ -226,8 +227,8 @@ public class UserController {
 		String name = "";
 
 		if (!file.getOriginalFilename().isEmpty()) {
-			file.transferTo(new File(path, file.getOriginalFilename()));
-			name = file.getOriginalFilename();
+			name = UUID.randomUUID() + file.getOriginalFilename();
+			file.transferTo(new File(path, name));
 			user.setProfileName(name);
 			userService.updateUser(user);
 			session.setAttribute("user", user);
@@ -365,8 +366,8 @@ public class UserController {
 		String name = "";
 
 		if (!file.getOriginalFilename().isEmpty()) {
-			file.transferTo(new File(path, file.getOriginalFilename()));
-			name = file.getOriginalFilename();
+			name = UUID.randomUUID() + file.getOriginalFilename();
+			file.transferTo(new File(path, name));
 			user.setProfileName(name);
 			userService.updateProfile(user);
 			session.setAttribute("user", user);

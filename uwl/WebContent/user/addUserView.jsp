@@ -853,7 +853,7 @@ p.level {
                     <!-- 						이미지 사이즈 -->
                     <img id="preview" src="#" alt="" style="width: 30%; height: 30%;"/>	
 					<!-- 						이미지 사이즈 -->
-                    <p><input type="file" name="file" id="fileInput" data-class-input="form-control" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);"></p>
+                    <p><input type="file" name="file" id="fileInput" data-class-input="form-control" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="clip: rect(0px 0px 0px 0px); display : none;"></p>
                     <div class="bootstrap-filestyle input-group">
 						<input type="text" id="userfile" class="form-control" name="userfile" onchange="readURL(this)" disabled>
 						<!-- 						아이콘 -->
