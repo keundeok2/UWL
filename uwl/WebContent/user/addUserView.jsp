@@ -563,8 +563,7 @@ p.level {
 	 			var firstView = "<span id='school1'>검색어 <strong>"+$("input[name='schoolName']").val()+"</strong> 에 대한 검색결과 총 <span>"+total+"</span>건입니다<hr/></span>"; 
 	 			$("#append").append(firstView);
 	 			
-		 			// ERROR !!!!!!!!!!!!!! 초등학교만 안됨 !!!!!!!!!!! $('#school2').remove();
-	 			$('#school2').remove();
+	 			$('#school2 *').remove();
 	 			for(var i=0; i<total; i++){
 	 				var schoolName = json.dataSearch.content[i].schoolName;
 	 				var adres = "     _"+json.dataSearch.content[i].adres;
