@@ -90,17 +90,31 @@ public class CoupleRestController {
 		return userId;
 	}
 	
-	private static final String UPLOAD_PATH = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images";
+	//private static final String UPLOAD_PATH = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images";
 	
 	@RequestMapping(value = "rest/addCoupleTimelinePost2")
-	public Map addCoupleTimelinePost2(@RequestBody Post post, HttpServletRequest request) throws Exception {
+	public Map addCoupleTimelinePost2(HttpServletRequest request, @RequestParam(value="file", required=false) MultipartFile file, @RequestParam(value="place") String place, @RequestParam(value="postContent") String postContent) throws Exception {
 		System.out.println("rest/addCoupleTimelinePost2/{userId} 시작");
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		String userId = user.getUserId();
+		Post post = new Post();
 		post.setUserId(userId);
+		post.setPlace(place);
+		post.setPostContent(postContent);
 		
 		
+		String fileName = "";
+		int startInt = file.getOriginalFilename().indexOf(".");
+		if( file != null) {
+//			String filePath ="C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
+			String filePath ="C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\uwl\\resources\\images\\";
+			fileName += UUID.randomUUID().toString().substring(0, 8)+System.currentTimeMillis()+file.getOriginalFilename().substring(startInt);
+			System.out.println("\t\t저장 파일 이름 : "+fileName);
+			File saveFile = new File(filePath+fileName);
+			file.transferTo(saveFile);
+			post.setUploadFileName(fileName);
+		}
 		
 		
 		coupleService.addCoupleTimelinePost(post);
@@ -111,24 +125,24 @@ public class CoupleRestController {
 		return map;
 	}
 	
-	private String saveFile(MultipartFile file) {
-		
-		UUID uuid = UUID.randomUUID();
-		String saveName = uuid + "_" + file.getOriginalFilename();
-		
-		System.out.println("saveName : " + saveName);
-		
-		File saveFile = new File(UPLOAD_PATH, saveName);
-		
-		try {
-			file.transferTo(saveFile);
-		} catch(Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		
-		return saveName;
-	}
+//	private String saveFile(MultipartFile file) {
+//		
+//		UUID uuid = UUID.randomUUID();
+//		String saveName = uuid + "_" + file.getOriginalFilename();
+//		
+//		System.out.println("saveName : " + saveName);
+//		
+//		File saveFile = new File(UPLOAD_PATH, saveName);
+//		
+//		try {
+//			file.transferTo(saveFile);
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//		
+//		return saveName;
+//	}
 	
 	@RequestMapping(value = "rest/getCoupleTimelinePost/{userId}/{postNo}")
 	public Map getCoupleTimelinePost(@PathVariable String userId, @PathVariable int postNo) throws Exception {

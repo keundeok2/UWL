@@ -1324,7 +1324,7 @@
                                 <%-- ${checkFriend1.friendStatus} ${checkFriend2.friendStatus} --%>
                                 <c:if test="${user.userId eq targetUserId }">
                                     <div class="profileUpdate"><a href="#">프로필 편집</a></div>
-                                    <div class="setting"><a href="#"><i class="fas fa-cog"></i></a></div>
+                                    <div class="setting" style="display:none"><a href="#"><i class="fas fa-cog"></i></a></div>
                                 </c:if>
                                 <c:if test="${user.userId ne targetUserId }">
                                     <c:if test="${checkFriend1.friendStatus == 2 }">
@@ -1470,7 +1470,7 @@
                                     비공개 계정입니다.
                                 </c:if>
                                 <c:if test="${user.publicStatus == 1 }">
-                                    <%-- <jsp:include page="/couple/listCoupleTimelinePost2.jsp" /> --%>
+                                    <jsp:include page="/couple/listCoupleTimelinePost2.jsp" />
                                 </c:if>
                             </div>
                             <div class="list4">
