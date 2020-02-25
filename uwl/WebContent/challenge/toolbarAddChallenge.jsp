@@ -658,8 +658,8 @@
                         <div class="row" id="reward">
                             &emsp;<select class="custom-select col-3" name="challCategory" id="challCategory">
                                 <option selected>카테고리</option>
-                                <option value="1" id="map">Map</option>
-                                <option value="2" id="vison">Vision</option>
+                               <!--  <option value="1" id="map">Map</option>
+                                <option value="2" id="vison">Vision</option> -->
                                 <option value="3" id="post">게시판활동</option>
                             </select>
                             <br>&emsp;

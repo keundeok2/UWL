@@ -18,4 +18,5 @@ public interface ChattingDAO {
 	//해당 회원의 채팅 목록 호출
 	public List<Chatting> getChattingRoomList(Chatting chatting) throws Exception;
 	
+	public void updateChatting(String msg, int RoomNo) throws Exception;
 }

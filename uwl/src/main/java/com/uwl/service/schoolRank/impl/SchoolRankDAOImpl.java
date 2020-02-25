@@ -51,23 +51,9 @@ public class SchoolRankDAOImpl implements SchoolRankDAO {
 	}
 
 	@Override
-	public Map<String, Object> getSchoolRankingList(Search search, int schoolNo) throws Exception {
+	public List<SchoolRank> getSchoolRankingList(Search search) throws Exception {
 		
-		Map<String, Object> map = new HashMap<String,Object>();
-		
-		System.out.println("SchoolRankDAO getSchoolRankingList search : " + search);
-		System.out.println("SchoolRankDAO getSchoolRankingList schoolNo : " + schoolNo);
-		
-		map.put("search", search);
-		map.put("schoolNo", schoolNo);
-		
-		List<SchoolRank> list = sqlSession.selectList("SchoolRankMapper.getSchoolRankingList", map);
-		
-		map.put("totalCount", sqlSession.selectOne("ChallengeMapper.getTotalCount", map));
-		map.put("list", list);
-		
-		return map;
-		
+		return sqlSession.selectList("SchoolRankMapper.getSchoolRankingList", search);
 	}
 	
 	@Override
@@ -87,10 +73,9 @@ public class SchoolRankDAOImpl implements SchoolRankDAO {
 	}
 
 	@Override
-	public int getTotalCount(Map<String, Object> map) throws Exception {
-		//맵으로 변경
-		System.out.println("SchoolRankDAO의 getTotalCount() map : " + map);
-		return sqlSession.selectOne("SchoolRankMapper.getTotalCount", map);
+	public int getTotalCount(Search search) throws Exception {
+		System.out.println("SchoolRankDAO의 getTotalCount() search : " + search);
+		return sqlSession.selectOne("SchoolRankMapper.getTotalCount", search);
 	}
 	
 	@Override

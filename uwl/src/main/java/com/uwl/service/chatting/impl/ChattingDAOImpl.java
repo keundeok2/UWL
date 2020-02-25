@@ -1,6 +1,8 @@
 package com.uwl.service.chatting.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,15 @@ public class ChattingDAOImpl implements ChattingDAO {
 	@Override
 	public List<Chatting> getChattingRoomList(Chatting chatting) throws Exception {
 		return sqlSession.selectList("CommunityMapper.getChattingRoomList", chatting);
+	}
+
+	@Override
+	public void updateChatting(String msg, int roomNo) throws Exception {
+		Map map = new HashMap<Object, Object>();
+		map.put("msg", msg);
+		map.put("roomNo", roomNo);
+		sqlSession.update("CommunityMapper.updateChatting", map);
+		
 	}
 
 
