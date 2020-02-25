@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-	<c:if test="${! empty user}">
+	<c:if test="${! empty sessionScope.user}">
         <jsp:forward page="/user/main" />
     </c:if>
 <!DOCTYPE html>
@@ -355,6 +355,7 @@
     	
 	$(function() {
 		var wrongPw = "${wrongPw}";
+		var wrongId = "${wrongId}";
 		console.log("wrongPw", wrongPw)
 		
 		if (wrongPw) {
@@ -369,6 +370,21 @@
                 delete reportStatus;
             });
 		}
+		
+		if (wrongId) {
+			Swal.fire({
+                icon: 'error',
+                title: '존재하지 않는 아이디입니다.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                confirmButtonColor: '#FF0000'
+            }).then((result) => {
+                delete reportDate;
+                delete reportStatus;
+            });
+		}
+		
+		
 	});
     
     

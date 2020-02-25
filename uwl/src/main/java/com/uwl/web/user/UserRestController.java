@@ -417,16 +417,16 @@ public class UserRestController {
 		MailUtils sendMail = new MailUtils(mailSender);
 
 		// JavaMailSender.setSubject(title) :: 메일 제목 설정
-		sendMail.setSubject("[어'울림] 본인 인증");
+		sendMail.setSubject("[어'울림] 이메일 인증");
 
 		// JavaMailSender.setText(text) :: 메일 내용 설정
 		// StringBuffer로 작성
-		sendMail.setText(new StringBuffer().append(
-				"<img src='http://optimal.inven.co.kr/upload/2020/02/13/bbs/i13419547136.png' style='width : 250px; height : 100px'>")
-				.append("<h1>어'울림 이메일 인증</h1>").append("<p>소셜 데이팅 서비스 어울림입니다.</p>")
-				.append("<p>인증번호를 입력하시면 이메일 인증이 완료됩니다.</p>").append(" <p>인증번호  :: ")
+		sendMail.setText(new StringBuffer()
+				.append("<div style='text-align : center'><img src='http://optimal.inven.co.kr/upload/2020/02/13/bbs/i13419547136.png' style='width : 40%; height : 40%'>")
+				.append("<h1>어'울림 이메일 인증</h1>").append("<h3>소셜 데이팅 서비스 어'울림입니다.</h3>")
+				.append("<h3>인증번호를 입력하시면 이메일 인증이 완료됩니다.</h3>").append(" <h3>인증번호  :: ")
 				// 본인인증을 위한 state를 메일로 발송
-				.append(state + "</p>").toString());
+				.append(state + "</h3></div>").toString());
 
 		// 파일 첨부
 //		sendMail.addInline("img", new FileDataSource("c:\\bonobono.jpg"));

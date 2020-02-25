@@ -505,6 +505,12 @@ public class UserController {
 		// Business Logic
 		User dbUser = userService.getUser(user.getUserId());
 
+		System.out.println("dbUser : \t\t\t" + dbUser);
+		if (dbUser == null) {
+			model.addAttribute("wrongId", true);
+			return "forward:/index.jsp";
+		}
+		
 		List reportList = new ArrayList<Report>();
 		reportList = reportService.getReportById(user.getUserId());
 		if (reportList != null) {
@@ -515,7 +521,6 @@ public class UserController {
 					Date today = new Date();
 					int result = stopDate.compareTo(today);
 					if (result >= 1) {
-						model.addAttribute("user", null);
 						model.addAttribute("stopStatus", true);
 						model.addAttribute("stopDate", stopDate);
 						return "forward:/index.jsp";
@@ -526,16 +531,20 @@ public class UserController {
 				}
 			}
 		}
+		
+		
 		if (user.getPassword().equals(dbUser.getPassword())) {
 			session.setAttribute("user", dbUser);
+			session.setMaxInactiveInterval(-1);
 			System.out.println(dbUser);
 			System.out.println("session scope 저장");
 			return "forward:/user/main";
 		} else {
-			model.addAttribute("user",null);
 			model.addAttribute("wrongPw", true);
 			return "forward:/index.jsp";
 		}
+		
+		
 	}
 
 	@RequestMapping("main")
@@ -564,7 +573,7 @@ public class UserController {
 
 		session.invalidate();
 
-		return "redirect:/index.jsp";
+		return "redirect:/";
 	}
 
 	// 아이디 중복체크

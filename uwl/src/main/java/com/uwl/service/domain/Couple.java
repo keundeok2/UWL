@@ -53,6 +53,12 @@ public class Couple {
 	public void setDeleteStatus(String deleteStatus) {
 		this.deleteStatus = deleteStatus;
 	}
+
+	@Override
+	public String toString() {
+		return "Couple [coupleNo=" + coupleNo + ", firstUserId=" + firstUserId + ", secondUserId=" + secondUserId
+				+ ", matchingDate=" + matchingDate + ", deleteStatus=" + deleteStatus + "]";
+	}
 	
 	
 }
