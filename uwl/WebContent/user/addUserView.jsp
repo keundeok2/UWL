@@ -567,8 +567,8 @@ p.level {
 	 			$('#school2').remove();
 	 			for(var i=0; i<total; i++){
 	 				var schoolName = json.dataSearch.content[i].schoolName;
-	 				var adres = "     ,"+json.dataSearch.content[i].adres;
-	 				var seq = "     ,"+json.dataSearch.content[i].seq;
+	 				var adres = "     _"+json.dataSearch.content[i].adres;
+	 				var seq = "     _"+json.dataSearch.content[i].seq;
 	 				//이렇게 DB에 저장하면 될듯..?
 	 				var secondView = "<span id='school2'><span>"+schoolName+adres+seq+"</span><br/><br/></span>"
 	 				$("#append2").append(secondView);
@@ -581,10 +581,12 @@ p.level {
 	 		$(function(){
 	 			$(document).on('click', 'span#school2', function() {
 					var schoolSplit = $(this).text();
-					var split = schoolSplit.split(',');
+					var split = schoolSplit.split('_');
 					var schoolName = split[0].trim();
 					var schoolAddress = split[1].trim();
 					var schoolNo = split[2].trim();	
+					console.log("schoolNo", schoolNo);
+					console.log("schoolName", schoolName);
 					
 	 				$("input[name='schoolName']").val(schoolName);
 	 				$("input[name='schoolAddress']").val(schoolAddress);
@@ -853,7 +855,7 @@ p.level {
                     <!-- 						이미지 사이즈 -->
                     <img id="preview" src="#" alt="" style="width: 30%; height: 30%;"/>	
 					<!-- 						이미지 사이즈 -->
-                    <p><input type="file" name="file" id="fileInput" data-class-input="form-control" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);"></p>
+                    <p><input type="file" name="file" id="fileInput" data-class-input="form-control" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="clip: rect(0px 0px 0px 0px); display : none;"></p>
                     <div class="bootstrap-filestyle input-group">
 						<input type="text" id="userfile" class="form-control" name="userfile" onchange="readURL(this)" disabled>
 						<!-- 						아이콘 -->
