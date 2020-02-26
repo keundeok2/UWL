@@ -156,7 +156,10 @@ public class MatchingServiceImpl implements MatchingService{
 		matchingDAO.updateCoupleRoleOther(userId);
 	}
 
-	
+	@Override
+	public void updateRoleFrom3To1(String userId) throws Exception {
+		matchingDAO.updateRoleFrom3To1(userId);
+	}
 
 	
 

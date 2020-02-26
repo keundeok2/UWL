@@ -90,7 +90,10 @@
 								html += "<div class='tracking-content'>"+data.list[i].sender.name+"님이 친구 요청을 수락했습니다.<span><a href='/user/getProfile/"+data.list[i].senderId+"'>"+data.list[i].sender.name+"님의 프로필로 이동</a></span></div>";
 							}
 							if (data.list[i].notiOrigin == 5 && data.list[i].notiCode == 2) {
-								html += "<div class='tracking-content'>1:1 문의사항의 답변이 완료되었습니다.<span><a href='/user/getUserQuestions/"+data.list[i].receiverId+"'>내 문의사항으로 이동</a></span></div>";
+								html += "<div class='tracking-content'>1:1 문의사항의 답변이 완료되었습니다.<span><a href='/user/getProfile/"+data.list[i].receiverId+"'>내 프로필로 이동</a></span></div>";
+							}
+							if (data.list[i].notiOrigin == 6 && data.list[i].notiCode == 5) {
+								html += "<div class='tracking-content'>누군가가 당신에게 꽃을 보냈습니다.<span><a href='/user/getUserQuestions/"+data.list[i].receiverId+"'>내 문의사항으로 이동</a></span></div>";
 							}
                     		
                     		html += "<button class='btn btn-outline-secondary btn-sm' id='deleteNoti' style='float : right;'>삭제</button>";
@@ -509,7 +512,12 @@
                                 <c:forEach items="${map.list}" var="noti">
                                     <div class="tracking-item ${noti.notiNo}">
 			                  <div class="tracking-icon status-intransit">
+			                  <c:if test="${noti.notiOrigin ne 6}">
 			                  <img src="/images/${noti.sender.profileName}">
+			                  </c:if>
+			                  <c:if test="${noti.notiOrigin eq 6}">
+			                  <img src="/images/defaultProfile.png">
+			                  </c:if>
 			                  </div>
 			                  <div class="tracking-date"><span>${noti.notiDate}</span></div>
 			                  <c:if test="${noti.notiOrigin eq 1 }">
@@ -538,6 +546,11 @@
 			                  <c:if test="${noti.notiOrigin eq 5 }">
 			                  	<c:if test="${noti.notiCode eq 2 }">
 			                  		<div class="tracking-content">1:1 문의사항의 답변이 완료되었습니다.<span><a href="/user/getUserQuestions/${noti.receiverId}">내 문의사항으로 이동</a></span></div>
+			                  	</c:if>
+			                  </c:if>
+			                  <c:if test="${noti.notiOrigin eq 6 }">
+			                  	<c:if test="${noti.notiCode eq 5 }">
+			                  		<div class="tracking-content">누군가가 당신에게 꽃을 보냈습니다.<span><a href="/user/getProfile/${user.userId }">내 프로필로 이동</a></span></div>
 			                  	</c:if>
 			                  </c:if>
 			                  <button class="btn btn-outline-secondary btn-sm" id="deleteNoti" style="float : right;">삭제</button>
