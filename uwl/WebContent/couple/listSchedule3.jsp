@@ -704,7 +704,7 @@
             width: 35px;
             text-align: center;
             border-radius: 50%;
-
+			font-size: 13px;
         }
 
         div.getSchedule div.getScheduleHeader a:hover {
@@ -767,9 +767,7 @@
             vertical-align: middle;
         }
 
-        div.getSchedule div.getScheduleMain div.postTitle div:nth-child() div.getSchedule div.getScheduleMain>div:nth-child(n + 2)>div:nth-child(2) a {
-            font-weight: bold;
-        }
+        
 
         div.getSchedule div.getScheduleMain>div:nth-child(n + 2)>div:nth-child(2) a:hover {
             text-decoration: underline;
