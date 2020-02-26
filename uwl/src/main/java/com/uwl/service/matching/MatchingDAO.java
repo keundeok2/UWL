@@ -29,7 +29,7 @@ public interface MatchingDAO {
 	
 	public void updateCoupleRoleOther(String userId) throws Exception;
 	
-	
+	public void updateRoleFrom3To1(String userId) throws Exception;
 	
 	
 	public int getTotalMatchingCount(Search search) throws Exception;

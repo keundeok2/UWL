@@ -91,8 +91,10 @@
 					FROM users, (SELECT second_user_id, friend_status
 					                FROM friend
 					                WHERE first_user_id = #{userId}
-					                AND friend_status = '2')
+					                AND friend_status = '2'
+					                )
 					WHERE user_id = second_user_id
+					ORDER BY name desc
 		) countTable
  	</select>
  	
@@ -153,6 +155,7 @@
 								</if>
 									AND u.user_id != #{userId}
 									AND u.school_no = s.school_no
+									AND u.user_id NOT LIKE '%'||'admin'||'%'
                                     </where>
 								) inner_table 
 				WHERE ROWNUM &lt; = #{search.endRowNum} ) 
