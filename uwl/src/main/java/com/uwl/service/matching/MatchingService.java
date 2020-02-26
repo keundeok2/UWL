@@ -28,7 +28,7 @@ public interface MatchingService {
 	
 	public void updateCoupleRoleOther(String userId) throws Exception;
 	
-	
+	public void updateRoleFrom3To1(String userId) throws Exception;
 	
 	
 	

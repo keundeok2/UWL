@@ -94,7 +94,7 @@
         $(document).on("click", "#applyBtn", function() {
             var sessionId = $("input#sessionId").val();
             console.log("sessionId", sessionId);
-            var userId = $(this).next().val();
+            var userId = $(this).parent().parent().children("input[type='hidden']").val();
             console.log("userId", userId);
 
             $.ajax({
@@ -128,7 +128,7 @@
         $(document).on("click", "#cancelBtn", function() {
             var sessionId = $("input#sessionId").val();
             console.log("sessionId", sessionId);
-            var userId = $(this).next().val();
+            var userId = $(this).parent().parent().children("input[type='hidden']").val();
             console.log("userId", userId);
             $.ajax({
                 url: "/friend/rest/deleteFriend",
@@ -166,7 +166,8 @@
                 }),
                 success: function(d) {
                     for (var i = 0; i < d.list.length; i++) {
-                        $("." + d.list[i].userId + "").remove();
+                        $("." + d.list[i].userId + "").css('visibility', 'hidden');
+                        //$("." + d.list[i].userId + "").remove();
                     }
                 }
             })
@@ -225,7 +226,12 @@
         
         
         $(document).on("click", "span.searchName", function() {
-			var targetUserId = $(this).parent().children("input:hidden").val();
+			var targetUserId = $(this).parent().parent().children("input:hidden").val();
+			console.log("targetUserId", targetUserId);
+			$.redirect("/user/getProfile/"+targetUserId, {}, "GET");
+		});
+        $(document).on("click", "span.searchUserId", function() {
+			var targetUserId = $(this).parent().parent().children("input:hidden").val();
 			console.log("targetUserId", targetUserId);
 			$.redirect("/user/getProfile/"+targetUserId, {}, "GET");
 		});
@@ -263,13 +269,28 @@
         }
 
 
-
+		tr.searchtr td{
+        	text-align : center;
+        	vertical-align: middle;
+        }
+        
+        tr.searchtr td > div {
+        	width: 100px;
+        	height: 100px;
+        	border-radius: 50%;
+        	overflow: hidden;
+        	position: relative;
+        	
+        }
 
 
         img#searchProfileName {
-            width: 100px;
             height: 100px;
-            border-radius: 50px;
+            position: absolute;
+            
+            top:50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     </style>
 
@@ -305,6 +326,8 @@
             background: #fff;
             border-left: 1px solid #eee;
         }
+        
+        
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
@@ -392,15 +415,36 @@
                 <br />
                 <div class="row justify-content-center">
                     <c:forEach var="friendUser" items="${map.list}">
-                        <div class="col-sm-8 col-md-8">
+                        <%-- <div class="col-sm-10 col-md-10">
                             <div id="${friendUser.userId}" class="searchList" style="margin-bottom : 30px;">
                                 <img src="../../images/${friendUser.profileName}" class="searchProfileName" id="searchProfileName" />&nbsp;
+                                <span class="searchUserId" style="margin-right:20px; font-weight : bold"><a href="#">${friendUser.userId}</a></span>
                                 <span class="searchName" style="margin-right:20px; font-weight : bold"><a href="#">${friendUser.name}</a></span>
                                 <span style="margin-right:20px;">${friendUser.schoolName}</span>
                                 <button type="button" class="btn btn-outline-primary ${friendUser.userId}" id="applyBtn">친구신청</button>
                                 <input type="hidden" value="${friendUser.userId}" />
                             </div>
-                        </div>
+                        </div> --%>
+                        
+                        <table class="table">
+                        <colgroup>
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="25%">
+                        <col width="15%">
+                        </colgroup>
+                        	<tbody>
+                        		<tr class="searchtr">
+                        			<td><div><img src="../../images/${friendUser.profileName}" class="searchProfileName" id="searchProfileName" /></div></td>
+                        			<td align="center"><span class="searchUserId" style="margin-right:20px; font-weight : bold"><a href="#">${friendUser.userId}</a></span></td>
+                        			<td align="center"><span class="searchName" style="margin-right:20px; font-weight : bold"><a href="#">${friendUser.name}</a></span></td>
+                        			<td align="center"><span style="margin-right:20px;">${friendUser.schoolName}</span></td>
+                        			<td align="center" id="${friendUser.userId }"><button type="button" class="btn btn-outline-primary ${friendUser.userId}" id="applyBtn">친구신청</button></td>
+                        			<input type="hidden" value="${friendUser.userId}" />
+                        		</tr>
+                        	</tbody>
+                        </table>
                     </c:forEach>
                     <c:if test="${empty map.list}">
                         검색된 회원이 없습니다.

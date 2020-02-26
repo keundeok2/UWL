@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uwl.common.Search;
@@ -144,13 +145,14 @@ public class MatchingRestController {
 	
 	
 	@RequestMapping(value = "rest/updateCoupleRole/{userId}")		//둘 다 수락을 눌러서 진짜 커플 매칭
-	public void updateCoupleRole(@PathVariable String userId) throws Exception{
+	public void updateCoupleRole(@PathVariable String userId, HttpSession session) throws Exception{
 		System.out.println("coupleMatching 시작");
-		
 		matchingService.updateCoupleRole(userId);
+		
+		User user = (User)session.getAttribute("user");
+		user.setRole("3");
+		session.setAttribute("user", user);
 	}
-	
-	
 	
 	
 	

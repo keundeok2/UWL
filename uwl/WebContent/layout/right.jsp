@@ -19,6 +19,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
     <script src="http://192.168.0.23:82/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
+    
+    <script>
+        var myScroll = null;
+
+        $(function() {
+
+            myScroll = new IScroll('#wrapper', {
+                mouseWheel: true,
+                scrollbars: true
+            });
+
+            setTimeout(function() {
+                myScroll.refresh();
+            }, 0);
+        });
+            </script>
         <style type="text/css">
         /* 일단 여기에 박았음 */
         div.addAskedFriendData img {
@@ -125,11 +141,19 @@
         selece:focus {
             outline: none;
         }
+		
+		div#wrapper {
+			position: relative;
+		}
+
 
         div.friendList {
             background-color: #efefef;
             border-radius: 10px;
             overflow: hidden;
+            
+            max-height: 620px;
+            
         }
 
         div.friendList ul {
@@ -817,7 +841,7 @@
 //채팅파트--------------------------------------------------------------
 	    
 	    
-	    $(document).ready(function(){
+	     $(document).ready(function(){
 	    	
 	    	
 	    	////매칭////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2501,9 +2525,10 @@
 				</div> -->
 			</div>
 		</div>
-		
+		<div id="wrapper">
         <ul id="forFriendListAppend">
         </ul>
+        </div>
     </div>
 
 

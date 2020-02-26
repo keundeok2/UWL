@@ -556,47 +556,14 @@
         <ul>
             <form>
                 <div class="mainHeader">
-                    <div class="left2" style="color: #d75e0f;">
-                        <c:if test="${gatherCategoryNo eq '201' }">
-                            <h1><i class="fas fa-graduation-cap"></i> 진학상담</h1>
-                        </c:if>
-                        <c:if test="${gatherCategoryNo eq '202' }">
-                            <h1><i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i></h1>
-                        </c:if>
-                        <c:if test="${gatherCategoryNo eq '203' }">
-                            <h1><i class="fas fa-male"></i> 남자끼리</h1>
-                        </c:if>
-                        <c:if test="${gatherCategoryNo eq '204' }">
-                            <h1><i class="fas fa-female"></i> 여자끼리</h1>
-                        </c:if>
-                        <c:if test="${gatherCategoryNo eq '205' }">
-                            <h1><i class="far fa-kiss-wink-heart"></i>데이트 자랑</h1>
-                        </c:if>
-                        <c:if test="${gatherCategoryNo eq '206' }">
-                            <h1><i class="fas fa-bullhorn"></i> 대나무 숲</h1>
-                        </c:if>
+                    <div class="left2">
+                        홈
                     </div>
                     <div class="right2">
                         <a href="#"><i class="far fa-star"></i></a>
                     </div>
                 </div>
-                <div class="mainTop">
-                    <ul>
-                        <li><a href="#">조회수 <i class="fas fa-arrow-up"></i></a></li>
-                        <li><a href="#">좋아요 <i class="fas fa-arrow-up"></i></a></li>
-                        <li><a href="#">작성일 <i class="fas fa-arrow-up"></i></a></li>
-                    </ul>
-                    <div class="search">
-                        <select name="" id="">
-                            <option value="">내용</option>
-                            <option value="">제목</option>
-                            <option value="">제목 + 내용</option>
-                            <option value="">작성자</option>
-                        </select>
-                        <input type="text" placeholder="내용을 입력해주세요">
-                        <a href="#">검색</a>
-                    </div>
-                </div>
+                
 
                 <div class="postList">
 

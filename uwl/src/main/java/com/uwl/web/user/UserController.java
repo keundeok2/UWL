@@ -256,6 +256,9 @@ public class UserController {
 		// 활동점수, 포인트
 		Reward reward = rewardService.getTotalPoint(targetUserId);
 		model.addAttribute("reward", reward);
+		//session reward
+		Reward sessionReward = rewardService.getTotalPoint(sessionUser.getUserId());
+		model.addAttribute("sessionReward", sessionReward);
 
 		// targetUserId : 프로필 주인
 		User user = userService.getUser(targetUserId);

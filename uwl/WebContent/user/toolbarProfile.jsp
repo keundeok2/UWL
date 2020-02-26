@@ -289,7 +289,7 @@
         }
 
         div.profileImage2 a img {
-            height: 100%;
+            width: 100%;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -714,16 +714,16 @@
                                     ' <input type="hidden" name="secondUserId" value="' + secondUserName + '">' + secondUserName + '님에게 보낸 꽃을 취소하시겠습니까?😥' +
                                     ' </form>';
                                 //alert(displayValue);
-                                $('div.modal-footer').find('button:nth-child(2)').addClass('check2');
+                                $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('check2');
                             }
-                            $('div.modal-body').html(displayValue);
-                            $('div.modal-footer').find('button:nth-child(2)').css({
+                            $('#exampleModal div.modal-body2').html(displayValue);
+                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                                 'display': 'block'
                             });
-                            $('div.modal-footer').find('button:nth-child(1)').text('취소');
+                            $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('취소');
                         },
                         error: function(request, status, error) {
-                            alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                            //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                         }
                     });
                 });
@@ -763,23 +763,28 @@
                     },
                     success: function(data) {
                         //alert('성공ㅋㅋ');
+                        socketMsg = sessionUserId + "," + targetUserId + "," + sessionName + "," + "6,5";
+                        console.log(socketMsg)
+                        wsocket.send(socketMsg);
+                        addNoti(sessionUserId, targetUserId, "6", "5");
+                        
                         var displayValue = '🌹🌹꽃을 보냈습니다🌹🌹';
 
-                        $('div.modal-body').html(displayValue);
+                        $('#exampleModal div.modal-body2').html(displayValue);
                         $('div.totalFlower span').text(data);
                         //alert($('div.totalFlower span').text());
                         $('.addMatching').text('꽃보내기취소');
                         $('.addMatching').removeClass('addMatching').addClass('deleteMatching');
-                        $('div.modal-footer').find('button:nth-child(2)').css({
+                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                             'display': 'none'
                         });
-                        $('div.modal-footer').find('button:nth-child(1)').text('확인').on("click",function(){
+                        $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('확인').on("click",function(){
                         	socket.emit("matchingMe",sessionUserId);
                             socket.emit("matchingYou",targetUserId);
                         });
                     },
                     error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -814,15 +819,15 @@
                             '<input type="hidden" name="secondUserId"value="' + targetUserId + '">' +
                             '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' + secondUserName + '님에게 보낸 꽃을 취소하시겠습니까?😥' +
                             '</form>';
-                        $('div.modal-body').html(displayValue);
-                        $('div.modal-footer').find('button:nth-child(2)').addClass('check2');
-                        $('div.modal-footer').find('button:nth-child(2)').css({
+                        $('#exampleModal div.modal-body2').html(displayValue);
+                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('check2');
+                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                             'display': 'block'
                         });
-                        $('div.modal-footer').find('button:nth-child(1)').text('취소');
+                        $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('취소');
                     },
                     error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -871,15 +876,15 @@
 
                         }
 
-                        $('div.modal-body').html(displayValue);
-                        $('div.modal-footer').find('button:nth-child(2)').css({
+                        $('#exampleModal div.modal-body2').html(displayValue);
+                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                             'display': 'none'
                         });
-                        $('div.modal-footer').find('button:nth-child(1)').text('확인');
+                        $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('확인');
 
                     },
                     error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -918,27 +923,36 @@
                                 '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' + secondUserName + '님에게 창을 사용하시겠습니까?' +
                                 '</form>';
 
-                            $('div.modal-footer').find('button:nth-child(2)').css({
+                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                                 'display': 'block'
                             });
-                            $('div.modal-footer').find('button:nth-child(2)').addClass('check3');
-                            $('div.modal-footer').find('button:nth-child(1)').text('취소');
+                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('check3');
+                            $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('취소');
                         } else {
                             displayValue = '사용 가능한 창이 없습니다😥<br>' +
                                 secondUserName + '님의 마음을 알고 싶으신가요? 지금 바로 구매하세요😉';
 
-                            $('div.modal-footer').find('button:nth-child(2)').css({
+                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                                 'display': 'block'
                             });
-                            $('div.modal-footer').find('button:nth-child(1)').text('취소');
-                            $('div.modal-footer').find('button:nth-child(2)').addClass('purchaseBtn');
+                            $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('취소');
+                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').text('구매');
+                            
+                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').on("click", function() {
+                            	$("div.modal").hide();
+								itemCategory = '1';
+								itemName = '창';
+								var sessionTotalPoint = $("input#sessionTotalPoint").val();
+								console.log(itemCategory, itemName, sessionTotalPoint);
+								$("#purchaseModal").modal();
+                            });
                         }
 
 
-                        $('div.modal-body').html(displayValue);
+                        $('#exampleModal div.modal-body2').html(displayValue);
                     },
                     error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -949,11 +963,11 @@
             $(document).on('click', '.check3', function() {
 
 
-                alert('클릭ㅋㅋ');
+                //alert('클릭ㅋㅋ');
                 $(this).removeClass('check3');
 
-                alert('userId : ' + sessionUserId);
-                alert('secondUserId : ' + targetUserId);
+                //alert('userId : ' + sessionUserId);
+                //alert('secondUserId : ' + targetUserId);
                 $.ajax({
                     url: '/matching/rest/updateItem3/' + sessionUserId + '/' + targetUserId,
                     method: 'GET',
@@ -967,10 +981,10 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                        alert('성공ㅋㅋ');
+                        //alert('성공ㅋㅋ');
                         var secondUserName = data.secondUserName;
                         var displayValue = '';
-                        alert('data.useResult : ' + data.useResult);
+                        //alert('data.useResult : ' + data.useResult);
                         if (data.useResult == '1') {
                             displayValue = '<form action="">' +
                                 '<input type="hidden" name="userId" value="' + sessionUserId + '">' +
@@ -992,14 +1006,14 @@
                         }
 
 
-                        $('div.modal-body').html(displayValue);
-                        $('div.modal-footer').find('button:nth-child(2)').css({
+                        $('#exampleModal div.modal-body2').html(displayValue);
+                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                             'display': 'none'
                         });
-                        $('div.modal-footer').find('button:nth-child(1)').text('확인');
+                        $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('확인');
                     },
                     error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -1051,7 +1065,6 @@
         var sessionPhone;
         var currPoint;
         var price;
-
         $(function() {
             //	IMP init
             IMP.init('imp12736999');
@@ -1066,8 +1079,12 @@
 
 
         $(document).on("click", ".purchaseBtn", function() {
-            $('div.modal-footer').find('button:nth-child(2)').removeClass('purchaseBtn');
-            var currPoint = $("input#totalPoint").val();
+        	////////////재이가 추가함///////////////////
+            $('#exampleModal div.modal-footer').find('button:nth-child(2)').removeClass('purchaseBtn'); //확인버튼을 누르면 class 지워짐
+            //모달 닫기
+            $("#exampleModal").modal("hide");
+			////////////재이가 추가함///////////////////
+			var currPoint = $("input#totalPoint").val();
             itemCategory = $(this).children("input[type='hidden']").val();
             itemCount = $(this).children("span").html();
             console.log("itemCount", itemCount);
@@ -1135,7 +1152,7 @@
                                 msg += '카드 승인번호 : ' + rsp.apply_num; */
 
                                 alert(msg);
-                                $.redirect("/user/getProfile/" + sessionId, {}, "get");
+                                $.redirect("/user/getProfile/" + targetUserId, {}, "get");
                             } else {
                                 //[3] 아직 제대로 결제가 되지 않았습니다.
                                 //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
@@ -1158,6 +1175,10 @@
         });
 
         $(document).on("click", "#pointBtn", function() {
+        	if (sessionId != targetUserId) {
+				currPoint = $("input#sessionTotalPoint").val();
+				alert(currPoint);
+			}
             var paymentOption = $(this).val();
             console.log("itemName", itemName);
             console.log("paymentOption", paymentOption);
@@ -1203,7 +1224,7 @@
                         if (data.success) {
                             var msg = '결제가 완료되었습니다.';
                             alert(msg);
-                            $.redirect("/user/getProfile/" + sessionId, {}, "get");
+                            $.redirect("/user/getProfile/" + targetUserId, {}, "get");
                         } else {
                             var msg = '결제에 실패하였습니다.';
                             alert(msg);
@@ -1320,6 +1341,7 @@
                 <input type="hidden" id="sessionName" value="${user.name}">
                 <input type="hidden" id="sessionPhone" value="${user.phone}">
                 <input type="hidden" id="totalPoint" value="${reward.recentlyTotalPoint}">
+                <input type="hidden" id="sessionTotalPoint" value="${sessionReward.recentlyTotalPoint}">
 
                 <div>
                     <div class="profileHeader">
@@ -1522,12 +1544,22 @@
                     <div class="row">
                         <div class="col-sm-12 pointTextDiv">
                             <p>현재 포인트 :
+                            <c:if test="${user.userId eq targetUser.userId }">
                                 <c:if test="${!empty reward.recentlyTotalPoint}">
                                     ${reward.recentlyTotalPoint}
                                 </c:if>
                                 <c:if test="${empty reward.recentlyTotalPoint}">
                                     0
                                 </c:if>
+                            </c:if>
+                            <c:if test="${user.userId ne targetUser.userId }">
+                                <c:if test="${!empty sessionReward.recentlyTotalPoint}">
+                                    ${sessionReward.recentlyTotalPoint}
+                                </c:if>
+                                <c:if test="${empty sessionReward.recentlyTotalPoint}">
+                                    0
+                                </c:if>
+                            </c:if>
                             </p> <!-- //////////////////////////// 유저포인트로 수정하기 -->
                         </div>
                         <div class="col-sm-6">
@@ -1555,7 +1587,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" style="font-weight:bold;text-align:center">
+                <div class="modal-body2" style="font-weight:bold;text-align:center">
 
                 </div>
                 <div class="modal-footer" style="border:none">
@@ -1623,7 +1655,7 @@
 						<form id="addCoupleTimelinePostForm" enctype="multipart/form-data" accept-charset="euc-kr">
                             <div class="addCoupleTimelinePostModalBody">
                             <a href="#" class="uploadFileName">
-								<img src="/images/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="" id="img">
+								<img src="" alt="" id="img">
                                 <div class="postDate">
                                     <div>
                                         <p class="postDate" style="margin: 0;"></p>
@@ -1633,7 +1665,7 @@
                                 </div>
                             </a>
                             <div>
-                                <input type="file" id="input_img" name="file" style="display: block"/>
+                                <input type="file" id="input_img" name="file" style="display: none"/>
                                 <div class="place">
                                     <p>
                                         <i class="fas fa-map-marker-alt"></i>

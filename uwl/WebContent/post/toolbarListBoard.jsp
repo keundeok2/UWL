@@ -263,9 +263,9 @@
             background-color: #d4782b;
 
             border-radius: 50%;
-            position: fixed;
-            bottom: 40px;
-            right: 22%;
+            position: absolute;
+            bottom: 25px;
+            right: 10px;
             box-shadow: 3px 3px 5px #868686;
             font-size: 30px;
             text-align: center;
@@ -605,7 +605,7 @@
                 </div>
 
 
-                <div class="a"><i class="fas fa-pencil-alt"></i></div>
+                
                 
 				<!-- PageNavigation Start... -->
 			<div>
@@ -624,8 +624,9 @@
 <!--         <form class="nav">
          페이징처리 ?? 
         </form> -->
-        
+            
         </ul>
+        <div class="a"><i class="fas fa-pencil-alt"></i></div>
     </div>
     <div class="rightToolbar2">
         <jsp:include page="/layout/right.jsp" />
