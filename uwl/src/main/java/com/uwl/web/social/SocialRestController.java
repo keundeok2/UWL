@@ -213,9 +213,9 @@ public class SocialRestController {
 				}
 			} else if (notification.getNotiOrigin().equals("6")) {
 				if (notification.getNotiCode().equals("5")) {
-					notiCode = "coupleTimelinePost";
+					notiCode = "matching";
 				} else
-					notiCode = "coupleTimelineComment";
+					notiCode = "matching";
 			}
 			fcmService.createReceiveNotification(sender, notification.getReceiverId(), notiCode);
 		}

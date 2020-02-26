@@ -92,7 +92,7 @@
  	
  	<select id="getCoupleTimelinePost" parameterType="int" resultMap="postSelectMap">
  		select
- 		post_no, user_id, post_title, post_content, to_char(post_date, 'DL'), uploadfile_name, view_status, post_category_no, place
+ 		post_no, user_id, post_title, post_content, post_date, uploadfile_name, view_status, post_category_no, place
  		from post
  		where post_no = #{value}
  	</select>
@@ -108,7 +108,7 @@
  				post.*, couple.first_user_id, couple.second_user_id
  				from (
  					select
- 					post_no, user_id, post_title, post_content, to_char(post_date, 'DL'), uploadfile_name, view_status, post_category_no, place
+ 					*
  					from post
  					where view_status = '1'
  				) post, (

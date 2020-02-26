@@ -498,14 +498,15 @@
                         </tr>
                     </table>
 
-                    <c:if test="${user.role == '4'}">
-                </div>
-                <div class="bottom">
-                    <div class="list">
-                        <a href="#" id="updateButton">수정</a>
-	            		<a href="#" id="deleteButton">삭제</a>
-                    </div>
-                </div>
+                <c:if test="${user.role == '4'}">
+	                </div>
+	                <div class="bottom">
+	                    <div class="list">
+	                        <a href="#" id="updateButton">수정</a>
+		            		<a href="#" id="deleteButton">삭제</a>
+	                    </div>
+	                </div>
+                </c:if>
 
                 <%-- <div>
                     <table>
@@ -519,7 +520,7 @@
                         </tr>
                     </table>
                 </div> --%>
-                </c:if>
+               
             </div>
             </ul>
         </div>

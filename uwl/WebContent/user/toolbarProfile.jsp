@@ -763,6 +763,11 @@
                     },
                     success: function(data) {
                         //alert('성공ㅋㅋ');
+                        socketMsg = sessionUserId + "," + targetUserId + "," + sessionName + "," + "6,5";
+                        console.log(socketMsg)
+                        wsocket.send(socketMsg);
+                        addNoti(sessionUserId, targetUserId, "6", "5");
+                        
                         var displayValue = '🌹🌹꽃을 보냈습니다🌹🌹';
 
                         $('#exampleModal div.modal-body2').html(displayValue);
@@ -931,7 +936,16 @@
                                 'display': 'block'
                             });
                             $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('취소');
-                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('purchaseBtn');
+                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').text('구매');
+                            
+                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').on("click", function() {
+                            	$("div.modal").hide();
+								itemCategory = '1';
+								itemName = '창';
+								var sessionTotalPoint = $("input#sessionTotalPoint").val();
+								console.log(itemCategory, itemName, sessionTotalPoint);
+								$("#purchaseModal").modal();
+                            });
                         }
 
 
@@ -1051,7 +1065,6 @@
         var sessionPhone;
         var currPoint;
         var price;
-
         $(function() {
             //	IMP init
             IMP.init('imp12736999');
@@ -1071,7 +1084,7 @@
             //모달 닫기
             $("#exampleModal").modal("hide");
 			////////////재이가 추가함///////////////////
-            var currPoint = $("input#totalPoint").val();
+			var currPoint = $("input#totalPoint").val();
             itemCategory = $(this).children("input[type='hidden']").val();
             itemCount = $(this).children("span").html();
             console.log("itemCount", itemCount);
@@ -1139,7 +1152,7 @@
                                 msg += '카드 승인번호 : ' + rsp.apply_num; */
 
                                 alert(msg);
-                                $.redirect("/user/getProfile/" + sessionId, {}, "get");
+                                $.redirect("/user/getProfile/" + targetUserId, {}, "get");
                             } else {
                                 //[3] 아직 제대로 결제가 되지 않았습니다.
                                 //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
@@ -1162,6 +1175,10 @@
         });
 
         $(document).on("click", "#pointBtn", function() {
+        	if (sessionId != targetUserId) {
+				currPoint = $("input#sessionTotalPoint").val();
+				alert(currPoint);
+			}
             var paymentOption = $(this).val();
             console.log("itemName", itemName);
             console.log("paymentOption", paymentOption);
@@ -1207,7 +1224,7 @@
                         if (data.success) {
                             var msg = '결제가 완료되었습니다.';
                             alert(msg);
-                            $.redirect("/user/getProfile/" + sessionId, {}, "get");
+                            $.redirect("/user/getProfile/" + targetUserId, {}, "get");
                         } else {
                             var msg = '결제에 실패하였습니다.';
                             alert(msg);
@@ -1324,6 +1341,7 @@
                 <input type="hidden" id="sessionName" value="${user.name}">
                 <input type="hidden" id="sessionPhone" value="${user.phone}">
                 <input type="hidden" id="totalPoint" value="${reward.recentlyTotalPoint}">
+                <input type="hidden" id="sessionTotalPoint" value="${sessionReward.recentlyTotalPoint}">
 
                 <div>
                     <div class="profileHeader">
@@ -1526,12 +1544,22 @@
                     <div class="row">
                         <div class="col-sm-12 pointTextDiv">
                             <p>현재 포인트 :
+                            <c:if test="${user.userId eq targetUser.userId }">
                                 <c:if test="${!empty reward.recentlyTotalPoint}">
                                     ${reward.recentlyTotalPoint}
                                 </c:if>
                                 <c:if test="${empty reward.recentlyTotalPoint}">
                                     0
                                 </c:if>
+                            </c:if>
+                            <c:if test="${user.userId ne targetUser.userId }">
+                                <c:if test="${!empty sessionReward.recentlyTotalPoint}">
+                                    ${sessionReward.recentlyTotalPoint}
+                                </c:if>
+                                <c:if test="${empty sessionReward.recentlyTotalPoint}">
+                                    0
+                                </c:if>
+                            </c:if>
                             </p> <!-- //////////////////////////// 유저포인트로 수정하기 -->
                         </div>
                         <div class="col-sm-6">
