@@ -105,10 +105,8 @@ public class FcmServiceImpl implements FcmService {
 			msg = sender + "님이 게시글에 댓글을 등록했습니다..";
 		} else if (notiCode.equals("question")) {
 			msg = "1:1 문의사항에 답변이 등록되었습니다.";
-		} else if (notiCode.equals("coupleTimelineComment")) {
-			msg = "커플타임라인에 댓글이 등록되었습니다.";
-		} else if (notiCode.equals("coupleTimelinePost")) {
-			msg = "커플타임라인에 새로운 게시글이 등록되었습니다.";
+		} else if (notiCode.equals("matching")) {
+			msg = "누군가가 당신에게 꽃을 보냈습니다.";
 		}
 		
 		request.setMessage(msg);
