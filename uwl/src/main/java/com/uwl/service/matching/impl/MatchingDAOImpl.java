@@ -168,7 +168,11 @@ public class MatchingDAOImpl implements MatchingDAO {
 		// TODO Auto-generated method stub
 		sqlSession.update("MatchingMapper.updateCoupleRoleOther", userId);
 	}
-
+	
+	@Override
+	public void updateRoleFrom3To1(String userId) throws Exception {
+		sqlSession.update("MatchingMapper.updateRoleFrom3To1", userId);
+	}
 	
 
 	

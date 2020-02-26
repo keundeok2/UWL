@@ -41,6 +41,15 @@
  		where user_id = #{value}
  	</update>
  	
+ 	<update id="updateRoleFrom3To1" parameterType="string">
+ 		update
+ 		users
+ 		<set>
+ 			role = '1'
+ 		</set>
+ 		where user_id = #{value}
+ 	</update>
+ 	
  	<insert id="addMatching" parameterType="matching">
  		insert
  		into matching (matching_no, first_user_id, second_user_id, send_date, matching_status)
