@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-
+ 
     <script type="text/javascript">
         $(function() {
             //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)

@@ -145,7 +145,9 @@
 			width: 100%;
 			margin: -20px;
 		}
-		
+		.modal-backdrop.show {
+        	display: none;
+        }
 	</style>
 	
 	

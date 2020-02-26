@@ -130,6 +130,9 @@
             background-color: #efefef;
             border-radius: 10px;
             overflow: hidden;
+            
+            max-height: 620px;
+            overflow-y: scroll;
         }
 
         div.friendList ul {

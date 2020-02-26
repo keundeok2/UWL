@@ -79,35 +79,7 @@
 
         }
         
-        div.hiddenBtn {
-            width: 355px;
-            
-            margin: 40px auto;
-           position: absolute;
-            top: 730px;
-            left: 50%;
-            transform: translateX(-50%);
-            overflow: hidden;
-            display: none;
-        }
         
-        div.hiddenBtn a {
-            line-height: 38px;
-            width: 170px;
-            text-align: center;
-            display: inline-block;
-            border: 1px solid #EBAD7A;
-            background-color: #EBAD7A;
-            color: #fff;
-            font-weight: bold;
-            border-radius: 30px;
-            float: left;
-        }
-        div.hiddenBtn a + a {
-            background-color: #fff;
-            color: #EBAD7A;
-            margin-left: 15px;
-        }
 
         div.intro div+div {
 
@@ -327,9 +299,7 @@
                 left: 0;
             }
             
-            div.hiddenBtn {
-            	display: block;
-            }
+            
             
         }
 
@@ -340,7 +310,7 @@
             div.rightTop {
                 display: none;
             }
-
+			
         }
 
 
@@ -535,10 +505,7 @@
             </div>
         </div>
         
-        <div class="hiddenBtn">
-            <a href="/user/addUser">가입하기</a>
-            <a href="/user/login">로그인</a>
-        </div>
+        
     </form>
 </body>
 
