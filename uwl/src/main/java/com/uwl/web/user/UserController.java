@@ -400,6 +400,7 @@ public class UserController {
 
 		System.out.println("/user/addQuestions : POST" + post);
 		// Business Logic
+		post.setPostContent(post.getPostContent().replace("\r\n", "<br>"));
 		userService.addQuestions(post);
 		return "forward:/user/toolbarGetQuestions.jsp";
 	}
@@ -412,6 +413,7 @@ public class UserController {
 
 		// Business Logic
 		Post post = userService.getQuestions(postNo);
+		post.setPostContent(post.getPostContent().replace("<br>", "\r\n"));
 		model.addAttribute("post", post);
 
 		return "forward:/user/toolbarUpdateQuestions.jsp";
@@ -425,6 +427,7 @@ public class UserController {
 		System.out.println("/user/updateQuestions : POST");
 
 		// Business Logic
+		post.setPostContent(post.getPostContent().replace("\r\n", "<br>"));
 		userService.updateQuestions(post);
 
 		return "redirect:/user/getQuestions?postNo=" + post.getPostNo();

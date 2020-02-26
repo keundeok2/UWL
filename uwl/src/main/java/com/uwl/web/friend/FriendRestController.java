@@ -64,23 +64,26 @@ public class FriendRestController {
 	}
 
 	@RequestMapping(value = "rest/deleteFriend", method = RequestMethod.POST)
-	public Map deleteFriend(@RequestBody Friend friend) throws Exception {
+	public Map deleteFriend(@RequestBody Friend friend, HttpSession session) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		friendService.deleteFriend(friend);
 		
 		System.out.println("deleteFriend => deleteCouple run");
 		Couple couple = coupleService.getCouple(friend.getFirstUserId());
-		System.out.println("couple : " + couple);
-		if (couple != null) {
-			coupleService.deleteCouple(couple);
-			coupleService.deleteCoupleTimeline(friend.getFirstUserId(), friend.getSecondUserId());
-		}
-		
 		Matching matching1 =  matchingService.getMatching(friend.getFirstUserId());
 		Matching matching2 = matchingService.getMatching(friend.getSecondUserId());
-		if (matching1 != null && matching2 != null) {
+		System.out.println("couple : " + couple);
+		
+		if (matching1 != null && matching2 != null && couple != null) {
 			matchingService.deleteMatching(matching1);
 			matchingService.deleteMatching(matching2);
+			coupleService.deleteCouple(couple);
+			coupleService.deleteCoupleTimeline(friend.getFirstUserId(), friend.getSecondUserId());
+			matchingService.updateRoleFrom3To1(friend.getFirstUserId());
+			matchingService.updateRoleFrom3To1(friend.getSecondUserId());
+			
+			
+			
 		}
 		
 		System.out.println("deleteFriend => deleteCouple end");

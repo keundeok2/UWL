@@ -309,7 +309,9 @@
                                 <br>
                                 <!--  내용  -->
 
-                                <div><textarea cols="50" rows="10" placeholder="내용입력" name="postContent" style="resize:none ; width:100% ">${post.postContent }</textarea></div>
+                                <div>
+                                <textarea cols="50" rows="10" placeholder="내용입력" name="postContent" style="resize:none ; width:100% ">${post.postContent }</textarea>
+                                </div>
                                 <br>
                             </td>
                             <tr>

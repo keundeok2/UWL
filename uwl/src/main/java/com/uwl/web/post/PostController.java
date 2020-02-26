@@ -248,7 +248,9 @@ public class PostController {
 	public String addNotice(@ModelAttribute("post") Post post,
 							HttpServletRequest request, Model model) throws Exception{
 		System.out.println("addNotice.POST");
+		post.setPostContent(post.getPostContent().replace("\r\n", "<br>"));
 		postService.addNotice(post);
+		System.out.println("post?? : " + post);
 		return "forward:/post/listNotice";
 	}
 	
@@ -256,6 +258,7 @@ public class PostController {
 	public String updateNotice(@RequestParam("postNo") int postNo, Model model) throws Exception{
 		System.out.println("updateNotice.GET");
 		Post post = postService.getNotice(postNo);
+		post.setPostContent(post.getPostContent().replace("<br>", "\r\n"));
 		Post post2 = postService.getNextOrPrePost(postNo);
 		model.addAttribute("post", post);
 		model.addAttribute("post2", post2);
@@ -264,6 +267,7 @@ public class PostController {
 	
 	@RequestMapping(value="updateNotice", method=RequestMethod.POST)	//-----------------------테스트 종료
 	public String updateNotice(@ModelAttribute("post") Post post, Post post2, int postNo ,Model model) throws Exception{
+		post.setPostContent(post.getPostContent().replace("\r\n", "<br>"));
 		postService.updateNotice(post);
 		post = postService.getNotice(post.getPostNo());
 		post2 = postService.getNextOrPrePost(postNo);
