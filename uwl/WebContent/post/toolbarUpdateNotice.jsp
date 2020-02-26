@@ -18,7 +18,7 @@
 	<script type="text/javascript">
 	var myScroll = null;
     
-    $(function() {
+    $(function() { 
     	
         myScroll = new IScroll('#wrapper', {
             mouseWheel: true,

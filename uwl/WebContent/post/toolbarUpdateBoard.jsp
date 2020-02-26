@@ -140,7 +140,7 @@
         }
         .modal-backdrop.show {
         	display: none;
-        }
+        } 
     </style>
 
 

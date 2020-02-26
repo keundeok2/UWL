@@ -397,7 +397,7 @@
                                         <td>기타</td>
                                     </c:if>
                                     <td><a href="/post/getNotice?postNo=${notice.postNo }">${notice.postTitle }</a></td>
-                                    <td>관리자</td>
+                                    <td>관리자</td> 
                                     <td>${notice.postDate }</td>
                                     <td>${notice.hitCount }</td>
                                 </tr>
