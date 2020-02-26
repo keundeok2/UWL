@@ -1714,7 +1714,7 @@
                                     'Content-Type': 'application/json'
                                 },
                                 success: function(data) {
-                                    alert('성공');
+                                    //alert('성공');
                                     //getPostDateAndAddPostTitle(data.postDate, data.postTitle, data.postNo);
                                     $('td').find('.wrap').remove();
                                     $('div.getSchedule').remove();
@@ -1722,7 +1722,7 @@
                         			refrechCalender();
                                 },
                                 error: function(request, status, error) {
-                                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                    //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                                 }
                             });
 
@@ -1918,7 +1918,7 @@
                                     'Content-Type': 'application/json'
                                 },
                                 success: function(data) {
-                                	alert('성공');
+                                	//alert('성공');
                                     //getPostDateAndAddPostTitle(data.postDate, data.postTitle, data.postNo);
                                     $('td').find('.wrap').remove();
                                     $('div.getSchedule').remove();
