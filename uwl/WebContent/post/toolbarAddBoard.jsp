@@ -50,6 +50,7 @@
         body {
             font-size: 100%;
             font-family: 'Quicksand', sans-serif;
+            
         }
 
         p.heading {
@@ -462,7 +463,7 @@
             font-size: 16px;
             font-family: 'Roboto', sans-serif;
             font-family: 'Nanum Gothic', sans-serif;
-
+			
         }
 
         div.layoutWrap2 {
@@ -471,6 +472,7 @@
 
             margin: 0 auto;
             overflow: hidden;
+            
         }
 
         div.leftToolbar2 {
@@ -481,6 +483,7 @@
             background-color: #fff;
             border-right: 1px solid #eee;
             padding: 15px 0 0 15px;
+            
         }
 
         div.work2 {
@@ -492,6 +495,8 @@
             position: relative;
 			
         }
+        
+         
 
         div.rightToolbar2 {
 

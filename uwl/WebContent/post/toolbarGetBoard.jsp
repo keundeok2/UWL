@@ -46,7 +46,7 @@
         	
         	$("#boardList").on("click", function() {
                 self.location = "/post/listBoard?gatherCategoryNo=" + gatherCategoryNo + "&postChallenge=1";
-            });
+            }); 
         	
             var refPostNo = ${post.postNo};
             

@@ -9,8 +9,8 @@
     <!-- 참조 : http://getbootstrap.com/css/   참조 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
     <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
@@ -18,7 +18,7 @@
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
 	<script type="text/javascript">
 	var myScroll = null;
-    
+     
     $(function() {
     	
         myScroll = new IScroll('#wrapper', {
@@ -148,7 +148,7 @@
 
         }
 
-        div.wrap>div:nth-child(4) table {
+        div.wrap2>div:nth-child(4) table {
 
             border-top: 2px solid #EBAD7A;
             border-bottom: 2px solid #EBAD7A;
@@ -156,57 +156,27 @@
             border-collapse: collapse;
         }
 
-        div.wrap>div:nth-child(4) table tr {
+        div.wrap2>div:nth-child(4) table tr {
 
             line-height: 35px;
             border-bottom: 1px solid #eee;
         }
 
 
-        div.wrap>div:nth-child(4) table tr td:nth-child(1) {
+        div.wrap2>div:nth-child(4) table tr td:nth-child(1) {
             width: 70px;
             text-align: center;
             border-right: 1px solid #eee;
             background-color: #fdfdfd;
         }
 
-        div.wrap>div:nth-child(4) table tr td:nth-child(2) {
+        div.wrap2>div:nth-child(4) table tr td:nth-child(2) {
             padding-left: 30px;
         }
     </style>
 
     <style>
-        div.layoutWrap {
-
-            width: 100%;
-            min-height: 200vh;
-            padding: 0 20%;
-            position: relative;
-        }
-
-        div.leftToolbar {
-            width: 20%;
-            height: 100vh;
-
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            background: #fff;
-            border-right: 1px solid #eee;
-        }
-
-        div.rightToolbar {
-            width: 20%;
-            height: 100vh;
-
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            background: #fff;
-            border-left: 1px solid #eee;
-        }
+        
     </style>
         <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
@@ -264,7 +234,7 @@
             height: 100vh;
             float: left;
             
-            position: relative;
+            
 			
         }
 
@@ -294,7 +264,7 @@
 
                 <input type="hidden" name="userId" value=${user.userId }>
 
-                <div class="wrap">
+                <div class="wrap2">
                     <div class="navigation">
                         <span>홈 > 고객행복센터 ></span>
                         <span>공지사항 등록</span>
@@ -339,7 +309,9 @@
                                 <br>
                                 <!--  내용  -->
 
-                                <div><textarea cols="50" rows="10" placeholder="내용입력" name="postContent" style="resize:none ; width:100% ">${post.postContent }</textarea></div>
+                                <div>
+                                <textarea cols="50" rows="10" placeholder="내용입력" name="postContent" style="resize:none ; width:100% ">${post.postContent }</textarea>
+                                </div>
                                 <br>
                             </td>
                             <tr>

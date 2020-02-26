@@ -14,7 +14,7 @@
     <script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
     <title>Insert title here</title>
     <style>
-        * {
+        * { 
             margin: 0;
             padding: 0;
             box-sizing: border-box;
