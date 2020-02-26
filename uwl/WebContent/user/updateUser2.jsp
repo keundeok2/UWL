@@ -609,7 +609,7 @@ font-family: 'Nanum Gothic', sans-serif;
                 </tr>
                 <tr>
                     <td></td>
-                    <td><a href="#">비밀번호를 잊으셨나요?</a></td>
+                    <td><a href="#" style="display:none">비밀번호를 잊으셨나요?</a></td>
                 </tr>
             </table>
         </form>

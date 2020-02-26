@@ -200,8 +200,8 @@
             </div>
         </div>
         
-        <div>
-            <a href="#">비밀번호를 잊으셨나요?</a> · <a href="#">어울림 가입</a>
+        <div style="margin-bottom: 10px;">
+            <a href="#" style="display:none">비밀번호를 잊으셨나요?</a><a href="#">어울림 가입</a>
         </div>
     </div>
    						 <div name="naverLogin" class="text-center">
