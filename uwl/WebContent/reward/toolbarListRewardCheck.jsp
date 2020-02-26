@@ -494,8 +494,8 @@
 					        </div>
 					    </div> <!-- end of section -->
 					    
-					    <!-- 총 포인트가 0이라면 보이는 것 -->
-                        <c:if test="${totalPointReward eq null}">
+					     <!-- 구매한게 아무것도 없다면 -->
+                        <c:if test="${purchaseList eq '[]'}">
                             <div class="row">
                                 <div class="col-sm-8" style="text-align: center;">
                                     <h3>적립한 내용이 없습니다.</h3>
@@ -505,7 +505,7 @@
                     
                     
                     
-                        <div class="row">
+                       <%--  <div class="row">
                             <div class="col-2">
                             </div>
                             <div class="col-4">
@@ -543,7 +543,7 @@
                                     <h3>적립한 내용이 없습니다.</h3>
                                 </div>
                             </div>
-                        </c:if>
+                        </c:if> --%>
 						
 						 <!-- 토탈포인트가 0이 아니라면 작동 -->
                       <%--   <c:if test="${totalPointReward ne null}"> --%>
