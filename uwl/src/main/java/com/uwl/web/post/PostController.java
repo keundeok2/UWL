@@ -103,7 +103,8 @@ public class PostController {
 		System.out.println("addBoard POST postChallenge : " + postChallenge);
 		
 		
-		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\"; //썸네일 저장할 경로
+//		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\"; //썸네일 저장할 경로
+		String path = "C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\uwl\\resources\\images";
 		String name="";
 //		userid hidden
 		if(!file.getOriginalFilename().isEmpty()) {	//썸네일을 올렸을 때

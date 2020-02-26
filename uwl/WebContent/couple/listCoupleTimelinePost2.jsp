@@ -60,11 +60,12 @@
             height: 90px;
         }
 
-        div.coupleTimelineHeader div.firstUser {
+        div.coupleTimelineHeader div.firstUser2 {
 
             position: absolute;
-            top: 0;
-            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 230px;
         }
 
         div.coupleTimelineHeader div.dDay {
@@ -84,7 +85,7 @@
         }
 
         div.coupleTimelineHeader div.dDay div:nth-child(3) {
-            font-size: 13px;
+            font-size: 16px;
         }
 
         div.coupleTimelineHeader div.dDay div:nth-child(3) i {
@@ -92,18 +93,19 @@
             margin: 0 5px;
         }
 
-        div.coupleTimelineHeader div.secondUser {
+        div.coupleTimelineHeader div.secondUser2 {
 
             position: absolute;
-            right: 10px;
-            top: 0;
+            right: 230px;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         div.coupleTimelineHeader div.userProfileImage {
 
             overflow: hidden;
-            width: 90px;
-            height: 90px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             position: relative;
             display: inline-block;
@@ -126,7 +128,7 @@
             text-align: center;
             display: inline-block;
             vertical-align: middle;
-
+			display: none;
         }
 
         div.coupleTimelineMain {
@@ -137,12 +139,12 @@
         div.coupleTimelineMain div.coupleTimelinePost {
 
             overflow: hidden;
-            width: calc(33.3333% - 10px);
+            width: calc(33.3333% - 4px);
             float: left;
             height: calc(710px / 3);
             vertical-align: middle;
-            margin-right: 15px;
-            margin-top: 15px;
+            margin-right: 6px;
+            margin-top: 6px;
             position: relative;
         }
 
@@ -185,236 +187,71 @@
 
 
 
-        div.getCoupleTimelinePost div.coupleTimelinePost {
+        
 
-            overflow: hidden;
+        
 
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1;
-            background: #fff;
-            width: 935px;
-            height: calc(935px * 0.6);
-        }
+        
 
-        div.getCoupleTimelinePost div.coupleTimelinePost div.addCoupleTimelineComment {
+        
 
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 40%;
-        }
+        
 
-        div.addCoupleTimelineComment div.postDate {
-            line-height: 35px;
-            padding-left: 15px;
+        
 
-        }
+        
 
-        div.addCoupleTimelineComment div.commentForm {
+        
 
-            line-height: 55px;
+        
 
-            overflow: hidden;
-            border-top: 1px solid #eee;
-        }
+        
 
-        div.addCoupleTimelineComment textarea {
-            border: none;
-            width: 87%;
-            float: left;
-            height: 55px;
-            resize: none;
-            padding-left: 15px;
-            line-height: 1.2;
-            font-size: 14px;
-            vertical-align: middle;
-            padding-top: 18px;
+        
 
-        }
+        
 
-        div.addCoupleTimelineComment textarea:focus {
-            outline: none;
-        }
+        
 
-        div.addCoupleTimelineComment a {
+        
 
-            width: 13%;
-            float: left;
+        
 
-            font-size: 14px;
-            font-weight: bold;
-            color: #EBAD7A;
+        
 
-        }
+        
 
-        div.getCoupleTimelinePost div.coupleTimelinePost div.coupleTimelinePostImage {
+        
 
-            overflow: hidden;
-            width: 60%;
-            float: left;
-        }
+        
 
-        div.getCoupleTimelinePost div.coupleTimelinePost div.coupleTimelinePostImage img {
-            width: 100%;
-        }
+        
 
-        div.getCoupleTimelinePost div.coupleTimelinePost>div:nth-child(2) {
+        
 
-            width: 40%;
-            float: right;
-
-        }
-
-        div.coupleTimelinePostUser {
-
-            position: relative;
-            height: 70px;
-            border-bottom: 1px solid #eee;
-
-        }
-
-        div.getCoupleTimelinePost div.postUserProfileImage {
-
-            overflow: hidden;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            position: relative;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 15px;
-        }
-
-        div.getCoupleTimelinePost div.postUserProfileImage img {
-            height: 100%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        div.getCoupleTimelinePost div.coupleTimelineUserId {
-            font-weight: bold;
-            font-size: 13px;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        div.getCoupleTimelinePost div.postContent {
-            font-size: 14px;
-        }
-
-        div.getCoupleTimelinePost div.postDate {
-            font-size: 12px;
-            color: #898989;
-        }
-
-        div.getCoupleTimelinePost div.coupleTimelinePostUser>div:nth-child(1) {
-            position: absolute;
-            top: 50%;
-            left: 15px;
-            transform: translateY(-50%);
-        }
-
-        div.getCoupleTimelinePost div.coupleTimelinePostUser>div:nth-child(2) {
-            position: absolute;
-            top: 50%;
-            right: 15px;
-            transform: translateY(-50%);
-            color: #898989;
-        }
-
-        div.getCoupleTimelinePost div.coupleTimelinePostContent>div.postUserProfileImage,
-        div.getCoupleTimelinePost div.coupleTimelinePostContent>div>div:nth-child(2) {
-            display: inline-block;
-            vertical-align: middle;
-
-        }
-
-        div.getCoupleTimelinePost div.coupleTimelinePostContent>div.postUserProfileImage {
-            margin-right: 15px;
-
-        }
-
-        div.getCoupleTimelinePost div.coupleTimelinePostContent {
-            padding-left: 15px;
-            height: 70px;
-            position: relative;
-        }
-
-        div.getCoupleTimelinePost div.coupleTimelinePostContent>div {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            left: 15px;
-        }
+        
 
 
 
-        div.coupleTimelineComment {
-
-            position: relative;
-            height: 70px;
-        }
+        
 
 
 
-        div.coupleTimelineComment:nth-child(2) {
+        
 
-            height: 70px;
-        }
+        
 
-        div.coupleTimelineComment>div>div {
-            display: inline-block;
-            vertical-align: middle;
-        }
+        
 
-        div.coupleTimelineComment>div:nth-child(1) {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
+        
 
-        div.coupleTimelineComment>div:nth-child(2) {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #898989;
-        }
+        
 
-        div.coupleTimelineUserId,
-        div.coupleTimelinePostContent div.postContent,
-        div.coupleTimelineComment div.postContent {
-            display: inline-block;
+        
 
-        }
+        
 
-        div.backgroundOverlay {
-            width: 100%;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.4);
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            bottom: 0;
-            display: none;
-        }
-
-        div.backgroundOverlay.on {
-            display: block;
-        }
-
-        div.listCoupleTimelineComment {
-            background-color: lavender;
-            height: calc((935px * 0.6) - 230px);
-            overflow-y: scroll;
-        }
+        
 
         a.addCoupleTimelinePostFixedButton {
             position: fixed;
@@ -542,6 +379,30 @@
     
     <script>
     
+    function resetCoupleTimelineModal() {
+    	$('div.addCoupleTimelinePostModalBody input[name="place"]').val('');
+		$('div.addCoupleTimelinePostModalBody textarea[name="postContent"]').val('');
+		$('div.addCoupleTimelinePostModalBody img').attr('src', '');
+		$('div.addCoupleTimelinePostModalBody div.postDate p.place').text('');
+		$('div.addCoupleTimelinePostModalBody div.postDate p.postContent').text('');
+		$('div.addCoupleTimelinePost div.modal-footer button:nth-child(1)').css({
+			'display' : 'block'
+		});
+		$('div.addCoupleTimelinePost div.modal-footer button:nth-child(2)').css({
+			'display' : 'none'
+		});
+		$('div.addCoupleTimelinePost div.modal-footer button:nth-child(3)').css({
+			'display' : 'block'
+		});
+		$('div.addCoupleTimelinePost div.modal-footer button:nth-child(4)').css({
+			'display' : 'none'
+		});
+		$('div.addCoupleTimelinePost input[name="postNo"]').val('');
+		$('div.addCoupleTimelinePost input[type="file"]').val('');
+		
+		
+    }
+    
     function prependCoupleTimelinePost(post) {
         var postNo = post.postNo;
         var userId = post.userId;
@@ -552,7 +413,7 @@
         var postContent = post.postContent;
 
         var post = '<div class="coupleTimelinePost">' +
-            '<a href="#">' +
+            '<a href="#" data-toggle="modal" data-target="#exampleModal2">' +
             '<input type="hidden" name="postNo" value="' + postNo + '">' +
             '<div class="uploadImage">' +
             '<img src="/images/' + uploadFileName + '" alt="">' +
@@ -561,6 +422,7 @@
             '<div class="uploadDate">' +
             '<div>' + postDate + '</div>' +
             '<div>' + place + '</div>' +
+            '<div>' + postContent + '</div>' +
             '</div>' +
             '</div>' +
             '</a>' +
@@ -569,16 +431,43 @@
         $('div.coupleTimelineMain').prepend(post);
     }
     
+    function appendCoupleTimelinePost(post) {
+        var postNo = post.postNo;
+        var userId = post.userId;
+        var uploadFileName = post.uploadFileName;
+        var postDate = post.postDate;
+        var place = post.place;
+        var postTitle = post.postTitle;
+        var postContent = post.postContent;
+
+        var post = '<div class="coupleTimelinePost">' +
+            '<a href="#" data-toggle="modal" data-target="#exampleModal2">' +
+            '<input type="hidden" name="postNo" value="' + postNo + '">' +
+            '<div class="uploadImage">' +
+            '<img src="/images/' + uploadFileName + '" alt="">' +
+            '</div>' +
+            '<div class="imageHover">' +
+            '<div class="uploadDate">' +
+            '<div>' + postDate + '</div>' +
+            '<div>' + place + '</div>' +
+            '<div>' + postContent + '</div>' +
+            '</div>' +
+            '</div>' +
+            '</a>' +
+            '</div>';
+
+        $('div.coupleTimelineMain').append(post);
+    }
+    
     
     
     function refreshCoupleTimelinePostList() {
     	var userId = $('input[name="userId"]').val();
     	$.ajax({
-            url: '/couple/rest/getCoupleTimelinePostList/' + userId,
-            method: 'GET',
+            url: '/couple/rest/getCoupleTimelinePostList',
+            method: 'POST',
             dataType: 'json',
             data: JSON.stringify({
-                userId: userId
             }),
             headers: {
                 'Accept': 'application/json',
@@ -586,15 +475,24 @@
             },
             success: function(data) {
             	//alert('성공ㅋㅋ');
+            	coupleTimelinePage = 1;
+            	console.log("리프레시 커타라페이지 ㅋㅋ", coupleTimelinePage);
                 for (var i = 0; i < data.list.length; i++) {
-                    prependCoupleTimelinePost(data.list[i]);
+                    appendCoupleTimelinePost(data.list[i]);
                     //alert(data.list[i].postNo);
                 }
+                
+                setTimeout(function() {
+                    myScroll.refresh();
+                }, 0);
             },
             error: function(request, status, error) {
-                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                alert("refresh 할 때 code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
             }
         });
+    	
+    	
+    	
     }
     
     
@@ -618,6 +516,7 @@
     			$('#exampleModal2 button.close').click();
     			$('div.coupleTimelineMain').empty();
     			refreshCoupleTimelinePostList();
+    			resetCoupleTimelineModal();
     		},
     		error: function(request, status, error) {
                 alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -626,6 +525,73 @@
     }
     
     
+    function updateCoupleTimelinePost() {
+    	var userId = $('input[name="userId"]').val();
+    	var postNo = $('div.addCoupleTimelinePost input[name="postNo"]').val();
+    	console.log('postNo : ' + postNo);
+    	var postContent = $('div.addCoupleTimelinePostModalBody textarea[name="postContent"]').val();
+    	var place = $('div.addCoupleTimelinePostModalBody input[name="place"]').val();
+    	
+    	var formData = new FormData();
+    	formData.append('place', $('div.addCoupleTimelinePostModalBody input[name="place"]').val());
+    	formData.append('postContent', $('div.addCoupleTimelinePostModalBody textarea[name="postContent"]').val());
+    	formData.append('file', $('div.addCoupleTimelinePostModalBody input[name="file"]')[0].files[0]);
+    	
+    	console.log($('div.addCoupleTimelinePostModalBody input[name="place"]').val());
+    	console.log($('div.addCoupleTimelinePostModalBody textarea[name="postContent"]').val());
+    	console.log($('div.addCoupleTimelinePostModalBody input[name="file"]')[0].files[0]);
+    	
+    	$.ajax({
+    		type: 'POST',
+    		enctype: 'multipart/form-data',
+    		url: '/couple/rest/updateCoupleTimelinePost2/' + userId + '/' + postNo,
+    		data: formData,
+    		processData: false,
+    		contentType: false,
+    		cache: false,
+    		timeout: 600000,
+    		success: function(data) {
+    			console.log('파일업로드수정성공ㅋㅋ');
+    			$('#exampleModal2 button.close').click();
+    			data.post.uploadFileName
+    			$("input[value='"+postNo+"']").next().children("img").attr("src", "/images/"+data.post.uploadFileName);
+    			$("input[value='"+postNo+"']").parent().find('div.uploadDate div:nth-child(2)').text(place);
+    			$("input[value='"+postNo+"']").parent().find('div.uploadDate div:nth-child(3)').text(postContent);
+    			//$('div.coupleTimelineMain').empty();
+    			//refreshCoupleTimelinePostList();
+    			resetCoupleTimelineModal();
+    		},
+    		error: function(request, status, error) {
+                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+    	});
+    }
+    
+    function deleteCoupleTimelinePost() {
+    	var postNo = $('div.addCoupleTimelinePost input[name="postNo"]').val();
+    	$.ajax({
+            url: '/couple/rest/deleteCoupleTimelinePost2/' + postNo,
+            method: 'GET',
+            data: JSON.stringify({
+                postNo: postNo
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            success: function() {
+            	console.log('성공ㅋㅋ');
+            	$('#exampleModal2 button.close').click();
+            	$("input[value='"+postNo+"']").parent().parent().remove();
+    			//$('div.coupleTimelineMain').empty();
+    			//refreshCoupleTimelinePostList();
+    			resetCoupleTimelineModal();
+            },
+            error: function(request, status, error) {
+                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+        });
+    }
     
     /* function uploadFile(){
         var form = $('#FILE_FORM')[0];
@@ -648,170 +614,64 @@
     } */
     
     
-    
+    	var coupleTimelineMaxPage;
     
         $(function() {
             var userId = $('input[name="userId"]').val();
-			
-            
-            
-            
-            
-            
-
-            $(document).on('click', 'div.coupleTimelineMain div.coupleTimelinePost a', function() {
-                //alert('클릭ㅋㅋ');
-                
-                var postNo = $(this).find('input[name="postNo"]').val();
-                $.ajax({
-                    url: '/couple/rest/getCoupleTimelinePost/' + userId + '/' + postNo,
-                    method: 'GET',
-                    dataType: 'json',
-                    data: JSON.stringify({
-                        userId: userId,
-                        postNo: postNo
-                    }),
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    success: function(data) {
-                        //alert(성공ㅋㅋ);
-                        afterCoupleTimelinePost(data);
-                    },
-                    error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                    }
-                });
-            });
-
-            
+			var sessionUserRole = "${user.role}";
 
             
 
             $(document).ready(function() {
 				//alert('온로드ㅋㅋ');
                 //alert('userId : ' + userId);
+                //console.log("sessionUserRole", sessionUserRole);
+                
+                
+                if (sessionUserRole == 3) {
+					//console.log("role ajax start");
                 $.ajax({
-                    url: '/couple/rest/getCoupleTimelinePostList/' + userId,
-                    method: 'GET',
+                    url: '/couple/rest/getCoupleTimelinePostList',
+                    method: 'POST',
                     dataType: 'json',
                     data: JSON.stringify({
-                        userId: userId
+                    	
                     }),
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                    	//alert('성공ㅋㅋ');
+                    	console.log('성공ㅋㅋ');
+                    	coupleTimelineMaxPage = data.resultPage.maxPage;
                         for (var i = 0; i < data.list.length; i++) {
-                            prependCoupleTimelinePost(data.list[i]);
+                            appendCoupleTimelinePost(data.list[i]);
                             //alert(data.list[i].postNo);
                         }
+                        $('div.firstUser2 img').attr('src', '/images/' + data.firstUser.profileName);
+                        $('div.secondUser2 img').attr('src', '/images/' + data.secondUser.profileName);
+                        $('span.firstUserName').text(data.firstUser.name);
+                        $('span.secondUserName').text(data.secondUser.name);
+                        console.log(data.firstUser.profileName);
+                        console.log(data.secondUser.profileName);
+                        console.log(data.firstUser.name);
+                        console.log(data.secondUser.name);
+                        
+                        $('div.dDay div:nth-child(2)').text(data.calDateDays + '일째');
                     },
                     error: function(request, status, error) {
                         alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
+				}
+                
+                
+                
             });
             
             
 
-            function afterCoupleTimelinePost(post) {
-                var postNo = post.postNo;
-                var userId = post.userId;
-                var uploadFileName = post.uploadFileName;
-                var postDate = post.postDate;
-                var place = post.place;
-                var postTitle = post.postTitle;
-                var postContent = post.postContent;
-
-                var post = '<div class="getCoupleTimelinePost">' +
-                    '<div class="coupleTimelinePost">' +
-                    '<input type="hidden" name="postNo" value="' + postNo + '"' +
-                    '<div class="coupleTimelinePostImage">' +
-                    '<img src="/images/' + uploadFileName + '" alt="">' +
-                    '</div>' +
-                    '<div>' +
-                    '<div class="coupleTimelinePostUser">' +
-                    '<div>' +
-                    '<div class="postUserProfileImage">' +
-                    '<img src="img/bonobono.jpg" alt="">' +
-                    '</div>' +
-                    '<div class="coupleTimelineUserId">' + userId + '</div>' +
-                    '</div>' +
-                    '<div><i class="fas fa-ellipsis-h"></i></div>' +
-                    '</div>' +
-                    '<div class="coupleTimelinePostContent">' +
-                    '<div>' +
-                    '<div class="postUserProfileImage">' +
-                    '<img src="img/bonobono.jpg" alt="">' +
-                    '</div>' +
-                    '<div>' +
-                    '<div class="coupleTimelineUserId">' + userId + '</div>' +
-                    '<div class="postContent">' +
-                    postContent +
-                    '</div>' +
-                    '<div class="postDate">' +
-                    '5주' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="listCoupleTimelineComment">' +
-                    '<div class="coupleTimelineComment">' +
-                    '<div>' +
-                    '<div class="postUserProfileImage">' +
-                    '<img src="img/bonobono.jpg" alt="">' +
-                    '</div>' +
-                    '<div>' +
-                    '<div class="coupleTimelineUserId">hyomindung</div>' +
-                    '<div class="postContent">' +
-                    '예쁘당' +
-                    '</div>' +
-                    '<div class="postDate">' +
-                    '5주' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="deleteBtn">' +
-                    '<i class="fas fa-times"></i>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="coupleTimelineComment">' +
-                    '<div>' +
-                    '<div class="postUserProfileImage">' +
-                    '<img src="img/bonobono.jpg" alt="">' +
-                    '</div>' +
-                    '<div>' +
-                    '<div class="coupleTimelineUserId">hyomindung</div>' +
-                    '<div class="postContent">' +
-                    '예쁘당' +
-                    '</div>' +
-                    '<div class="postDate">' +
-                    '5주' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="deleteBtn">' +
-                    '<i class="fas fa-times"></i>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="addCoupleTimelineComment">' +
-                    '<div class="postDate">' + postDate + '</div>' +
-                    '<div class="commentForm">' +
-                    '<textarea name="" id="" cols="30" rows="10" placeholder="댓글 달기..."></textarea>' +
-                    '<a href="#">게시</a>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>';
-
-                $('div.listCoupleTimelinePost').after(post);
-            }
+            
 
 
             
@@ -869,17 +729,18 @@
         }); 
             $('#addCoupleTimelinePostDatepicker').datepicker('setDate', 'today');
             
-            $('p.postDate').text($('#addCoupleTimelinePostDatepicker').val());
+            $('div.addCoupleTimelinePost p.postDate').text($('#addCoupleTimelinePostDatepicker').val());
 
-            $('input[name="place"]').on('focusout', function() {
-                var place = $('input[name="place"]').val();
-                $('p.place').text(place);
+            $('div.addCoupleTimelinePost input[name="place"]').on('keyup', function() {
+                var place = $('div.addCoupleTimelinePost input[name="place"]').val();
+                $('div.addCoupleTimelinePost p.place').text(place);
             });
             
             
-            $('div.postContent textarea').on('focusout', function() {
-            	var postContent = $('div.postContent textarea').text();
-            	$('input[name="postContent"]').val(postContent);
+            $('div.addCoupleTimelinePost div.postContent textarea').on('keyup', function() {
+            	var postContent = $('div.addCoupleTimelinePost div.postContent textarea').val();
+            	
+            	$('div.addCoupleTimelinePost p.postContent').text(postContent);
             });
 
 
@@ -887,7 +748,57 @@
 
         });
 		
-        
+        $(document).on('click', 'div.coupleTimelinePost > a', function() {
+        	console.log('클릭ㅋㅋ');
+        	resetCoupleTimelineModal();
+        	var userId = $('input[name="userId"]').val();
+        	var postNo = $(this).find('input[name="postNo"]').val();
+        	$.ajax({
+        		url: '/couple/rest/getCoupleTimelinePost/' + userId + '/' + postNo,
+        		method: 'GET',
+        		dataType: 'json',
+                data: JSON.stringify({
+                    userId: userId,
+                    postNo: postNo
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                success: function(data) {
+                	console.log('성공ㅋㅋ');
+                    var postDate = data.post.postDate;
+                    var uploadFileName = data.post.uploadFileName;
+                    var place = data.post.place;
+                    var postContent = data.post.postContent;
+                    
+                    $('#addCoupleTimelinePostDatepicker').val(postDate);
+                    $('div.addCoupleTimelinePostModalBody input[name="place"]').val(place);
+            		$('div.addCoupleTimelinePostModalBody textarea[name="postContent"]').val(postContent);
+            		
+            		$('div.addCoupleTimelinePostModalBody img').attr('src', '/images/' + uploadFileName);
+            		$('div.addCoupleTimelinePostModalBody div.postDate p.place').text(place);
+            		$('div.addCoupleTimelinePostModalBody div.postDate p.postContent').text(postContent);
+            		
+            		$('div.addCoupleTimelinePost div.modal-footer button:nth-child(1)').css({
+            			'display' : 'none'
+            		});
+            		$('div.addCoupleTimelinePost div.modal-footer button:nth-child(2)').css({
+            			'display' : 'block'
+            		});
+            		$('div.addCoupleTimelinePost div.modal-footer button:nth-child(3)').css({
+            			'display' : 'none'
+            		});
+            		$('div.addCoupleTimelinePost div.modal-footer button:nth-child(4)').css({
+            			'display' : 'block'
+            		});
+            		$('div.addCoupleTimelinePost input[name="postNo"]').val(postNo);
+                },
+                error: function(request, status, error) {
+                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                }
+        	})
+        });
     </script>
 </head>
 
@@ -895,7 +806,7 @@
     <input type="hidden" name="userId" value="${user.userId}">
     <div class="listCoupleTimelinePost">
         <div class="coupleTimelineHeader">
-            <div class="firstUser">
+            <div class="firstUser2">
                 <div class="userProfileImage">
                     <img src="/images/bonobono.jpg" alt="">
                 </div>
@@ -910,7 +821,7 @@
                     <span class="firstUserName">김근덕</span><i class="fas fa-heart"></i><span class="secondUserName">주형진</span>
                 </div>
             </div>
-            <div class="secondUser">
+            <div class="secondUser2">
                 <div class="weather">
 
                     <i class="fas fa-sun"></i>
@@ -921,73 +832,9 @@
             </div>
         </div>
         <div class="coupleTimelineMain">
-            <div class="coupleTimelinePost">
-                <a href="#">
-                    <div class="uploadImage">
-                        <img src="/images/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="">
-                    </div>
-                    <div class="imageHover">
-                        <div class="uploadDate">
-                            <div>2020년 2월 4일 (화)</div>
-                            <div>강남구</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="coupleTimelinePost">
-                <a href="#">
-                    <div class="uploadImage">
-                        <img src="/images/75586249_215873686083699_2609154030926987378_n.jpg" alt="">
-                    </div>
-                    <div class="imageHover">
-                        <div class="uploadDate">
-                            <div>2020년 2월 4일 (화)</div>
-                            <div>강남구</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="coupleTimelinePost">
-                <a href="#">
-                    <div class="uploadImage">
-                        <img src="/images/79366246_186468522524707_4331720126046688510_n.jpg" alt="">
-                    </div>
-                    <div class="imageHover">
-                        <div class="uploadDate">
-                            <div>2020년 2월 4일 (화)</div>
-                            <div>강남구</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="coupleTimelinePost">
-                <a href="#">
-                    <div class="uploadImage">
-                        <img src="/images/80338524_165631637981527_6322626174459999431_n.jpg" alt="">
-                    </div>
-                    <div class="imageHover">
-                        <div class="uploadDate">
-                            <div>2020년 2월 4일 (화)</div>
-                            <div>강남구</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="coupleTimelinePost">
-                <a href="#">
-                    <div class="uploadImage">
-                        <img src="/images/80639752_2566781766943900_7436097228326880724_n.jpg" alt="">
-                    </div>
-                    <div class="imageHover">
-                        <div class="uploadDate">
-                            <div>2020년 2월 4일 (화)</div>
-                            <div>강남구</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
+            
         </div>
-        <a href="#" class="addCoupleTimelinePostFixedButton" data-toggle="modal" data-target="#exampleModal2">
+        <a href="#" class="addCoupleTimelinePostFixedButton" data-toggle="modal" data-target="#exampleModal2" onclick="resetCoupleTimelineModal()">
             <i class="fas fa-plus"></i> 게시글 등록
         </a>
     </div>
@@ -996,14 +843,14 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
             <div class="modal-content addCoupleTimelinePost">
                 <div class="modal-header">
                     <div class="postDate" style="width: 100%">
                         <input type="text" value="" name="postDate" id="addCoupleTimelinePostDatepicker">
                     </div>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetCoupleTimelineModal()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -1030,11 +877,12 @@
                                     <div>
                                         <p class="postDate" style="margin: 0;"></p>
                                         <p class="place" style="margin: 0;"></p>
+                                        <p class="postContent" style="margin:0;"></p>
                                     </div>
                                 </div>
                             </a>
                             <div>
-                                <input type="file" id="input_img" name="file" style="display: none"/>
+                                <input type="file" id="input_img" name="file" style="display: block"/>
                                 <div class="place">
                                     <p>
                                         <i class="fas fa-map-marker-alt"></i>
@@ -1055,15 +903,17 @@
                     
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="resetCoupleTimelineModal()">취소</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="deleteCoupleTimelinePost()" style="display:none">삭제</button>
                     <button type="button" class="btn btn-primary" onclick='createRoom()'>등록</button>
+                    <button type="button" class="btn btn-primary" onclick='updateCoupleTimelinePost()' style="display:none">수정</button>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
-    <!-- <div class="backgroundOverlay"></div> -->
+    
 </body>
 
 </html>

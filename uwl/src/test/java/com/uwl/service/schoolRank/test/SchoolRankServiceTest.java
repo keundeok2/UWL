@@ -60,7 +60,7 @@ public class SchoolRankServiceTest {
 		search.setEndRowNum(3);
 		int schoolNo = 1438;
 		
-		Map<String, Object> map = schoolRankService.getSchoolRankingList(search, schoolNo);
+		Map<String, Object> map = schoolRankService.getSchoolRankingList(search);
 		
 //		System.out.println("ddd : " + map);
 		

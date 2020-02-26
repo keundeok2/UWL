@@ -222,7 +222,7 @@
             position: absolute;
             right: 23px;
             top: 50%;
-            transform: translateY(-50%);
+            transform: translate(-50%, -50%);
 
         }
         
@@ -587,9 +587,9 @@
 		/*채팅 배찌*/
 		div.chattingIcon > div{
             position: absolute;
-            background-color: #d25412;
-            width: 32px;
-            height: 32px;
+            background-color: red;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             top: -5px;
             right: -5px;
@@ -599,7 +599,7 @@
             font-weight: bold;
             position: absolute;
             top: 50%;
-            left: 50%;
+            left: 50%; 	
             transform: translate(-50%, -50%);
             color: #fff;
             font-size: 12px;
@@ -613,8 +613,111 @@
 
 		#loginColor.on {
 			background: green;
-			
 		}
+		
+		#loginColor.coupleHeart{
+		}
+		
+		#loginColor.coupleHeart {
+		  background-color: red;
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            border-radius: 0px 0px 0px 0px;
+            position: absolute;
+            right: 23px;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+		}
+		
+		#loginColor.coupleHeart:before{
+		  content: "";
+		  background-color: red;
+		  border-radius: 50%;
+		  height: 10px;
+		  position: absolute;
+		  width: 10px;
+		}
+		#loginColor.coupleHeart:after {
+		  content: "";
+		  background-color: red;
+		  border-radius: 50%;
+		  height: 10px;
+		  position: absolute;
+		  width: 10px;
+		}
+		
+		#loginColor.coupleHeart:before {
+		  top: -5px;
+		  left: 0px;
+		  position: absolute;
+		}
+		
+		#loginColor.coupleHeart:after {
+		  top: 0px;
+		  left: 5px;
+		  position: absolute;
+		}
+			
+		#loginColor.coupleHeart {
+		  animation: heartbeat 1s infinite; 
+		}	
+		
+		 @keyframes heartbeat {
+		  0% {
+		    transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+		  }
+		  20% {
+		    transform: translate(-50%, -50%) rotate(-45deg) scale(1.25);
+		  } 
+		  40% {
+		    transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+		  }
+		} 	
+		
+		
+		#loginColor.dieHeart {
+		  background-color: #aaa;
+          width: 10px;
+          height: 10px;
+          display: inline-block;
+          border-radius: 0px 0px 0px 0px;
+          position: absolute;
+          right: 23px;
+          top: 50%;
+          transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+		}
+		#loginColor.dieHeart:before{
+		  content: "";
+		  background-color: #aaa;
+		  border-radius: 50%;
+		  height: 10px;
+		  position: absolute;
+		  width: 10px;
+		}
+		#loginColor.dieHeart:after {
+		  content: "";
+		  background-color: #aaa;
+		  border-radius: 50%;
+		  height: 10px;
+		  position: absolute;
+		  width: 10px;
+		}
+		#loginColor.dieHeart:before {
+		  top: -5px;
+		  left: 0px;
+		  position: absolute;
+		}
+		
+		#loginColor.dieHeart:after {
+		  top: 0px;
+		  left: 5px;
+		  position: absolute;
+		}
+		
+				
+		
+		
 		
 		  div.newCouple {
             
@@ -679,6 +782,16 @@
         }
         i#msgSend{
         	color : #d25412;
+        }
+        
+        p {
+        	margin:0;
+        }
+        div.chattingContent{
+        	font-weight: bold;
+        }
+        p.chattingLastDate{
+        	font-weight: bold;
         }
 	</style>
 	
@@ -789,6 +902,8 @@
     		var sessionUserId = "${sessionScope.user.userId}";
     		var roomNos = [];
 			var userIds = [];
+			var lastDates = [];
+			var lastChats = [];
 	    	$.ajax({
 	    		url : "/chatting/rest/getChattingRoomList",
 	    		method : "POST",
@@ -815,12 +930,12 @@
 						}
 						roomNos.push(data[i].roomNo);
 						userIds.push(userId);
-				       
+						lastDates.push(data[i].lastDate);
+						lastChats.push(data[i].lastChat);
 				       var howManyView = "채팅("+length+")";
 				       $('#howManyChattingRoom').text(howManyView);
 					}
 					for(var i=0; i<roomNos.length; i++){
-						console.log(userIds[i])	//저장됨
 						$.ajax({
 							url : "/user/rest/getUser/"+userIds[i],
 							method : "GET",
@@ -838,12 +953,12 @@
 				                    +"<div class='chattingInfo'>"
 				                        +"<div class='chattingUser'>"
 				                            +"<p>"+data.name+"</p>"
-				                            +"<p>오전 10:13</p>"
+				                            +"<p class='chattingLastDate'>"+lastDates[i]+"</p>"
 				                            +"<input type='hidden' id='chattingUserId' value='"+data.userId+"'>"
 						                    +"<input type='hidden' id='roomNo' value='"+roomNos[i]+"'>"
 				                        +"</div>"
-				                        "<div class='chattingContent'>"
-				                            +"줄여서 테마"
+				                        +"<div class='chattingContent'>"
+				                            +lastChats[i]
 				                        +"</div>"
 				                    +"</div>"
 				                +"</a></li>";
@@ -861,7 +976,7 @@
 	    	});
 	    });
 	    	//친구 찾기
-	    	$(document).ready(function(){
+	    	/* $(document).ready(function(){
 	    		var sessionUserId = "${sessionScope.user.userId}"
 	    		$.ajax({
 	    			url : "/friend/rest/getFriendListForSearch",
@@ -886,7 +1001,7 @@
 						console.log("error");
 					}
 	    		});
-	    	});
+	    	}); */
 	    	
 	    	
 	    	function closeLayer( obj ) {
@@ -964,6 +1079,8 @@
         var sessionUserId = null;
         var sessionUserName = "${user.name}";
         
+        var lastChat = null;
+        var lastDate = null;
         var socket = null;
     	var chattingRoomNo = null;
     	var enterUserId = null;	//본인의 세션
@@ -985,7 +1102,6 @@
 	        	$('div.chattingIcon > div').css({
 	        		"display" : "none"
 	        	});
-	        	chattingCount = 0;
 	            $('div.chattingList').toggleClass('on');
 	            $('div.chattingBox').css({
 	            	"bottom": "110px",
@@ -1395,12 +1511,11 @@
 						                    +"<div class='chattingInfo'>"
 						                        +"<div class='chattingUser'>"
 						                            +"<p>"+data.name+"</p>"
-						                            +"<p>오전 10:13</p>"
+						                            +"<p></p>"
 						                            +"<input type='hidden' id='chattingUserId' value='"+enterUser+"'>"
 								                    +"<input type='hidden' id='roomNo' value='"+chattingRoomNo+"'>"
 						                        +"</div>"
-						                        "<div class='chattingContent'>"
-						                            +"줄여서 테마"
+						                        +"<div class='chattingContent'>"
 						                        +"</div>"
 						                    +"</div>"
 						                +"</a></li>";
@@ -1447,18 +1562,34 @@
 		        	socket.emit("receiver", receiverId);
 		        	socket.emit("msg", sendMsg);
 		        	socket.emit("chattingRoom", chattingRoomNo);
+		        	$.ajax({
+						url : "/chatting/rest/updateChatting",
+						method : "POST",
+						headers: {
+		                    "Accept": "application/json",
+		                    "Content-Type": "application/json"
+		                },
+						data : JSON.stringify({
+							lastChat : sendMsg,
+							roomNo : chattingRoomNo
+						}),
+						success : function(){
+							console.log('채팅방 업데이트 완료')
+						},
+						error : function(){
+							console.log('채팅방 업데이트 실패')
+						}
+		        	});
 		        	$('.chattingBoxContent').animate({
 		        		'scrollTop': '10000000px'
 		        	},1000);
 	        	}
 	        });
-	        var chattingCount = 0;
 	      ////////////////////////노드에서 데이터 받는 파트///////////////////////////  	
             socket.on('sender', function(senderId){
         		sender = senderId; 
 	        });
 	        socket.on('receiver', function(receiverId){
-	        	chattingCount = chattingCount+1;
 	        	receiver = receiverId;
 	        	if(receiverId == "${sessionScope.user.userId}"){
 	        		
@@ -1484,7 +1615,6 @@
 	        		$('div.chattingIcon > div').css({
 	        			"display" : 'block'
 	        		});
-	        		$('div.chattingIcon > div span').text(chattingCount);
 	        	}else{
 	        	}
 	        });
@@ -1521,6 +1651,17 @@
 	        	nodeDate = nodeDate.substring(16,21);
 	        });
 	        socket.on('msg', function(sendMsg){
+	        	
+	        	var roomCount = $('input[id=roomNo]').length;
+	        	if(receiver == "${sessionScope.user.userId}" || sender == "${sessionScope.user.userId}"){
+		        	for(var i=0; i<roomCount; i++){
+		        		if($('input[id=roomNo]').eq(i).val() == chattingRoom){
+		        			$('input[id=roomNo]').eq(i).parent().parent().find('.chattingContent').text("");
+		        			$('input[id=roomNo]').eq(i).parent().parent().find('.chattingContent').text(sendMsg);
+		        		}
+		        	}
+	        	}
+	        	
 	        	
 	        	var chattingContentSenderName = null;
 	        	var chattingContentSenderProfileName = null;
@@ -1605,12 +1746,54 @@
 	            } */
 	            for(var i=0; i<friendList.length; i++){
 	            	$('div.friendList ul li').find('span.' + friendList[i]).removeClass('on');
+	            	$('div.friendList ul li').find('span.' + friendList[i]).removeClass('coupleHeart');
 	            	compareDate = null;
+	            	for(var j=0; j<countLi; j++){
+	            		if(friendList[i] == $('div.friendList ul li').find('input[id="hiddenUserId"]').eq(j).val()){
+	            			$.ajax({
+	            				url : "/matching/rest/getMatchingByUserId",
+	            				method : "GET",
+	            				async : false,
+	            				headers : {
+	        						"Accept" : "application/json",
+	        						"Content-Type" : "application/json"
+	        					},
+	        					success : function(data){
+	        						if(data.secondUserId == friendList[i]){
+	        							$('div.friendList ul li').find('span.' + friendList[i]).addClass('dieHeart');	 
+	        						}else{
+				            		//	$('div.friendList ul li').find('span.' + loginFriendList[i]).addClass('on');        							
+	        						}
+	        					},
+	        					error : function(){
+	        					}
+	            			});
+	            		}
+	            	} 
 	            }
 	            for(var i=0; i<loginFriendList.length; i++){
 	            	for(var j=0; j<countLi; j++){
 	            		if(loginFriendList[i] == $('div.friendList ul li').find('input[id="hiddenUserId"]').eq(j).val()){
-	            			$('div.friendList ul li').find('span.' + loginFriendList[i]).addClass('on');
+	            			$.ajax({
+	            				url : "/matching/rest/getMatchingByUserId",
+	            				method : "GET",
+	            				async : false,
+	            				headers : {
+	        						"Accept" : "application/json",
+	        						"Content-Type" : "application/json"
+	        					},
+	        					success : function(data){
+	        						if(data.secondUserId == loginFriendList[i]){
+	        							$('div.friendList ul li').find('span.' + loginFriendList[i]).removeClass('dieHeart');
+	        							$('div.friendList ul li').find('span.' + loginFriendList[i]).addClass('coupleHeart');	 
+	        							
+	        						}else{
+				            			$('div.friendList ul li').find('span.' + loginFriendList[i]).addClass('on');        							
+	        						}
+	        					},
+	        					error : function(){
+	        					}
+	            			});
 	            		}
 	            	}
 	            }
@@ -1797,8 +1980,8 @@
 				    								if((data[i].master == sessionUserId && data[i].enterUser == targetId) || (data[i].master == targetId && data[i].enterUser == sessionUserId)){
 				    									console.log('일치하는 채팅방이 있다1');							//확인완료
 				    									chattingRoomNo = data[i].roomNo;
-				    									
-				    									
+				    									lastDate = data[i].lastDate;
+				    									lastChat = data[i].lastChat;
 				    									
 				    									socket.emit("enterUserId", data[i].master);
 				    									socket.emit("targetId", data[i].enterUser);
@@ -1822,13 +2005,13 @@
 														                    +"<div class='chattingInfo'>"
 														                        +"<div class='chattingUser'>"
 														                            +"<p>"+data.name+"</p>"
-														                            +"<p>오전 10:13</p>"
+														                            +"<p class='chattingLastDate'>"+lastDate+"</p>"
 														                            +"<input type='hidden' id='chattingUserId' value='"+targetId+"'>"
 																                    +"<input type='hidden' id='roomNo' value='"+chattingRoomNo+"'>"
 														                        +"</div>"
-														                        "<div class='chattingContent'>"
-														                            +"줄여서 테마"
-														                        +"</div>"
+														                        +"<div class='chattingContent'>"
+														                            +lastChat
+														                        +"</div>"   
 														                    +"</div>"
 														                +"</a></li>";
 														      		 $('#forFriendListAppend').after(view);
@@ -1999,8 +2182,8 @@
 						    								if((data[i].master == sessionUserId && data[i].enterUser == targetId) || (data[i].master == targetId && data[i].enterUser == sessionUserId)){
 						    									//console.log('기존에 채팅중이었던 방이다.'); -----------------확인완료 (for문 제어 잘해주길)
 						    									chattingRoomNo = data[i].roomNo;
-						    									
-						    									
+						    									lastDate = data[i].lastDate;
+						    									lastChat = data[i].lastChat;
 						    									socket.emit("enterUserId", data[i].master);
 						    									socket.emit("targetId", data[i].enterUser);
 						    									socket.emit("chattingRoomNo", chattingRoomNo);
@@ -2022,12 +2205,12 @@
 														                    +"<div class='chattingInfo'>"
 														                        +"<div class='chattingUser'>"
 														                            +"<p>"+data.name+"</p>"
-														                            +"<p>오전 10:13</p>"
+														                            +"<p class='chattingLastDate'>"+lastDate+"</p>"
 														                            +"<input type='hidden' id='chattingUserId' value='"+targetId+"'>"
 																                    +"<input type='hidden' id='roomNo' value='"+chattingRoomNo+"'>"
 														                        +"</div>"
-														                        "<div class='chattingContent'>"
-														                            +"줄여서 테마"
+														                        +"<div class='chattingContent'>"
+														                            +lastChat
 														                        +"</div>"
 														                    +"</div>"
 														                +"</a></li>";
@@ -2185,7 +2368,7 @@
                     $(".btn" + userId + "").remove();
                     $("div.friendList ul").html("");
 
-                    var li = "<li>친구 목록<a href='#'><i class='fa-user-plus'></i></a></li>";
+                    var li = "<li>친구 목록<a href='#'><i class='fas fa-user-plus'></i></a></li>";
                     $(li).appendTo("div.friendList ul");
                     rightLoad();
 

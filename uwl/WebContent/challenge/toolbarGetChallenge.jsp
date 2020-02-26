@@ -404,7 +404,7 @@
                 <c:if test="${user.role != '4'}">
                     <div class="navigation">
                         <div class="list">
-                            <a href="/challenge/listUserCompleteChallenge">목록</a>
+                            <a href="/challenge/listUserCompleteChallenge">내 목록</a>
                         </div>
                     </div>
                 </c:if>
@@ -471,6 +471,9 @@
 	                             <c:if test="${challenge.detailCategory == '206'}">
 	                             	대나무숲
 	                             </c:if>
+	                             <c:if test="${challenge.detailCategory == '댓글'}">
+	                             	댓글
+	                             </c:if>
                              </c:if>
                              
                             </td>
@@ -504,7 +507,7 @@
                     </div>
                 </div>
 
-                <div>
+                <%-- <div>
                     <table>
                         <tr>
                             <td>이전글</td>
@@ -515,7 +518,7 @@
                             <td><a id="nextPost" href="#">${preNextPost.nextChallTitle}</a></td>
                         </tr>
                     </table>
-                </div>
+                </div> --%>
                 </c:if>
             </div>
             </ul>

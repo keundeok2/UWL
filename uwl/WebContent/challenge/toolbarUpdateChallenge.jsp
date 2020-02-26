@@ -615,8 +615,8 @@
                         <div class="row" id="reward">
                             &emsp;<select class="custom-select col-3" name="challCategory" id="challCategory">
                                 <option selected>카테고리</option>
-                                <option value="1" ${!empty challenge.challCategory && challenge.challCategory=="1" ? "selected" : "" }>Map</option>
-                                <option value="2" ${!empty challenge.challCategory && challenge.challCategory=="2" ? "selected" : "" }>Vision</option>
+                               <%--  <option value="1" ${!empty challenge.challCategory && challenge.challCategory=="1" ? "selected" : "" }>Map</option>
+                                <option value="2" ${!empty challenge.challCategory && challenge.challCategory=="2" ? "selected" : "" }>Vision</option> --%>
                                 <option value="3" ${!empty challenge.challCategory && challenge.challCategory=="3" ? "selected" : "" }>게시판활동</option>
                             </select>
                             <br>&emsp;

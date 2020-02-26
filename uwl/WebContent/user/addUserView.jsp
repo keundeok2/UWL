@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE html>
 <html>
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--  jQuery CDN -->
@@ -27,10 +24,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
-<!--     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script> -->
     
-<!--     <script type="text/javascript"> -->
-<!--     </script> -->
 <style>
 * {
     margin: 0;
@@ -196,62 +190,48 @@ p.level {
     text-align: left;
 }
 </style>
-
-<!--     <script type="text/javascript"> 
-//         $(function() {
-//             // 네이버 아이디로 로그인 이미지 클릭 시 
-//             $("div[name='naverLogin']").on("click", function() {
-//                 // 새로 팝업창에서 네이버 로그인을 진행하기 위해 아무 의미없는 jsp로 연결
-//                 window.open("/naver/openWindow.jsp",
-//                     "popWin",
-//                     "left=700, top=90, width=537, height=750, marginwidth=0, marginheight=0, fullscreen=no, scrollbars=yes, scrolling=yes, menubar=no, resizable=no");
-//             })
-//         })
-     </script> -->
-
-
-<!--     <script type="text/javascript"> 
-//         $(document).ready(function() {
-//             $('#login').on("click", function() {
-//                 $("form").attr("method", "POST").attr("action", "/user/login").submit();
-//             });
-//         });
-   </script> -->
-    
     <script type="text/javascript">
-    $(function(){
-		$('#password2').keyup(function(){
-			 if( $('#password').val() != $('#password2').val() ) {	
-					$('#not').remove();
-					var view = "<span id='not' style='color:red'> 비밀번호가 일치하지 않습니다.</span>";
-					$('#password2').after(view);
-			 } else {
-				 $('#not').remove();
-					var view = "<span id='not' style='color:red'> 비밀번호가 일치합니다.</span>";
-					$('#password2').after(view);
-			 }
-		 });
-	});
-     
-     
-		//============= "가입"  Event 연결 =============
+
+    //============= "가입"  Event 연결 =============
 	 $(function() {
-		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$( '#signUp' ).on("click" , function() {
 			fncAddUser();
 		});
-	 });	//
+	 });	
 		
 		//============= "취소"  Event 처리 및  연결 =============
 	$(function() {
-		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$("a[name='cancel']").on("click" , function() {
+			 $("#userId").css("background-color", "#F8F8F8"); 
+			 $("#nickname").css("background-color", "#F8F8F8"); 
+			 $("#mail").css("background-color", "#F8F8F8"); 
 			$("form")[0].reset();
+			
 		});
 	});	
+	 
+	 $(function(){
+			$('#password2').keyup(function(){
+				 if( $('#password').val() != $('#password2').val() ) {	
+						$('#not').remove();
+						var view = "<span id='not' style='color:red'> 비밀번호가 일치하지 않습니다.</span>";
+						$('#password2').after(view);
+				 } else {
+					 $('#not').remove();
+						var view = "<span id='not'> 비밀번호가 일치합니다.</span>";
+						$('#password2').after(view);
+				 }
+				 var pwReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/g;
+				    if( !pwReg.test( $("input[name=password]").val() ) ) {
+				    	$('#not').remove();
+						var view = "<span id='not' style='color:red'> 패스워드는 최소 8자리, 숫자, 문자, 특수문자를 포함하여야 합니다. </span>";
+						$('#password').after(view);
+						return false;
+				    }	
+			 });
+		}); 
 		
 	function fncAddUser() {
-			
 		var id=$("input[name='userId']").val();
 		var pw=$("input[name='password']").val();
 		var pw_confirm=$("input[name='password2']").val();
@@ -280,15 +260,6 @@ p.level {
 			return false;
 	    }	
 	    
-	    var pwReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/g;
-	    if( !pwReg.test( $("input[name=password]").val() ) ) {
-	    	$('#not').remove();
-			var view = "<span id='not' style='color:red'> 패스워드는 최소 8자리, 숫자, 문자, 특수문자를 포함하여야 합니다. </span>";
-			$('#password').after(view);
-			$('#password').focus();
-			return false;
-	    }	
-	    
 		if(pw == null || pw.length <1){
 			$('#not').remove();
 			var view = "<span id='not' style='color:red'> 패스워드는 반드시 입력하셔야 합니다.</span>";
@@ -305,15 +276,6 @@ p.level {
 			return false;
 		}
 		
-// 		if( pw != pw_confirm ) {	
-// 			$('#not').remove();
-// 			var view = "<span id='not' style='color:red'> 비밀번호가 일치하지 않습니다.</span>";
-// 			$('#password2').after(view);
-// 			$('#password2').focus();
-// 			$("input[name='password2']").focus();
-// 			return false;
-// 		}
-
 		if(name == null || name.length <1){
 			$('#not').remove();
 			var view = "<span id='not' style='color:red'> 이름은 반드시 입력하셔야 합니다.</span>";
@@ -331,7 +293,6 @@ p.level {
 			return false;
 	    }
 		
-		
 		if(nickname == null || nickname.length <1){
 			$('#not').remove();
 			var view = "<span id='not' style='color:red'> 닉네임은 반드시 입력하셔야 합니다.</span>";
@@ -348,7 +309,6 @@ p.level {
 			$('#nickname').focus();
 			return false;
 	    }
-		
 			
 		if(schoolName == null || schoolName.length <1){
 			$('#not').remove();
@@ -366,7 +326,6 @@ p.level {
 			return false;
 		}
 		
-		// ERROR =========================================================== 수정 !!!!!!!!!!!!!!
 		if(gender == null || gender.length <1){
 			$('#not').remove();
 			var view = "<span id='not' style='color:red'> 성별은 반드시 입력하셔야 합니다.</span>";
@@ -375,20 +334,20 @@ p.level {
 			return false;
 		}
 		
-		 if(mail == null || mail.length <1){
+		if(mail == null || mail.length <1){
 			$('#not').remove();
 			var view = "<span id='not' style='color:red'> 메일은 반드시 입력하셔야 합니다.</span>";
 			$('#mail').after(view);
 			$('#mail').focus();
 			return false;
 		}
-		 
-		 if(mailValue != '1'){
+		
+		if(mailValue != '1'){
 				$('#not').remove();
 				var view = "<span id='not' style='color:red'> 메일 인증을 해주세요.</span>";
 				$('#mail').after(view);
 				$('#mail').focus();
-				alert(mailValue);
+				console.log(mailValue);
 				return false;
 		}	
 		 
@@ -398,9 +357,8 @@ p.level {
 								+ $("input[name='phone2']").val() + "-" 
 								+ $("input[name='phone3']").val();
 		}
-
 		$("input:hidden[name='phone']").val( value );
-		
+
 		Swal.fire({
 			  icon: 'success',
 			  title: '어 울림',
@@ -411,13 +369,14 @@ p.level {
 		setTimeout(function() {
 		$("form").attr("method" , "POST").attr("action" , "/user/addUser").submit();
 		},1000);
-	} //
+	} 
     
 	//==>"이메일" 유효성Check  Event 처리 및 연결============================= 
 	 $(function() {
 		 $("input[name='mail']").on("change" , function() {
 			 var mail=$("input[name='mail']").val();
-			 if(mail != "" && (mail.indexOf('@') < 1 || mail.indexOf('.') == -1) ){
+			 var nickReg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			 if(mail != "" && !nickReg.test( $("input[name=mail]").val()) && (mail.indexOf('@') < 1 || mail.indexOf('.') == -1)){
 				 $('#not').remove();
 				 var view = "<span id='not' class='mailNot' style='color:red'> 이메일 형식이 아닙니다.</span>";
 				 $('#mail').after(view);
@@ -426,9 +385,9 @@ p.level {
 		     }
 		});
 	});		
-		
+	
 	var isIdValid = false;
-	var isPwValid = false;
+// 	var isPwValid = false;
 // 	var isNameValid = false;
 	var isNicknameValid = false;
 	var isSchoolNameValid = false;
@@ -437,16 +396,15 @@ p.level {
 	var isMailValid = false;	
 	
 	function signupCheck() {
-		if (isIdValid && isPwValid && isNameValid && isNicknameValid && isBirthValid && isSchoolNameValid && isGenderValid) {
+		if (isIdValid && isNicknameValid && isSchoolNameValid && isMailValid) {
 			$("a[name='signUp']").prop("disabled", false);
-	       	$("a[nCname='signUp']").css("background-color", "#4CAF50"); //초록
+	       	$("a[name='signUp']").css("background-color", "#4CAF50"); //초록
 		} else {
 			$("a[name='signUp']").prop("disabled", true);
 		    $("a[name='signUp']").css("background-color", "#aaaaaa"); //회색
 		}
 	}
 	
-// 		===================================================================== 
    //==>"ID중복확인" Event 처리 및 연결
 		var checkId = false;
 	    //아이디 체크하여 가입버튼 비활성화, 중복확인.
@@ -463,7 +421,6 @@ p.level {
 	            	$('#not').remove();
 	                if(data == true) {
 	                    $("#userId").css("background-color", "#B0F6AC"); //초록
-// 	                    $("a[name='signUp']").css("background-color", "#4CAF50"); //초록
 	                    checkId = true;
 	                    isIdValid = true;
 	                    signupCheck();
@@ -471,13 +428,12 @@ p.level {
 	                    $("#userId").css("background-color", "#FFCECE"); //빨강
 	                    $("a[name='signUp']").prop("disabled", true);
 	                    $("a[name='signUp']").css("background-color", "#aaaaaa"); //회색
-		   				 var view = "<span id='not' class='mailNot' style='color:red'> 이미 사용 중인 아이디입니다.</span>";
-		   				 $('#userId').after(view);
-		   				 $('#userId').focus();
+		   				var view = "<span id='not' class='mailNot' style='color:red'> 이미 사용 중인 아이디입니다.</span>";
+		   				$('#userId').after(view);
+		   				$('#userId').focus();
 	                    checkId = false;
 	                    isIdValid = false;
-// 	                    $("#userId").remove();
-                         signupCheck();
+                        signupCheck();
 	                }
 	            },
 	            error : function(){
@@ -493,24 +449,26 @@ p.level {
 	        var inputed = $('#nickname').val();
 	        console.log(inputed);
 	        $.ajax({
-	            data : {
-	            	nickname : inputed
-	            },
 	            url : "/user/rest/checkDuplicationNickname",
-	            method : 'GET',
+	            method : 'POST',
+	            headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+	            data : JSON.stringify({
+	            	nickname : inputed
+	            }),
 	            success : function(data) {
 	            	$('#not').remove();
-	                if(data == true) {
+	                if(data.result == true) {
 	                    $("#nickname").css("background-color", "#B0F6AC"); //초록
 	                    $("a[name='signUp']").prop("disabled", false);
-                         $("a[name='signUp']").css("background-color", "#4CAF50"); //초록
-                         checkNick = true;
-                         isNicknameValid = true;
-                         signupCheck();
+                        $("a[name='signUp']").css("background-color", "#4CAF50"); //초록
+                        checkNick = true;
+                        isNicknameValid = true;
+                        signupCheck();
 	                }else {
 	                    $("#nickname").css("background-color", "#FFCECE"); //빨강
-// 	                    $("a[name='signUp']").prop("disabled", true);
-// 	                    $("a[name='signUp']").css("background-color", "#aaaaaa"); //회색
 	                    var view = "<span id='not' class='mailNot' style='color:red'> 이미 사용 중인 닉네임입니다.</span>";
 		   				$('#nickname').after(view);
 		   				$('#nickname').focus();
@@ -526,7 +484,7 @@ p.level {
 	    }		
 		    
 		  //==>"mail 중복확인" Event 처리 및 연결
-	    var mail = 0;
+	    var mail = false;
 		    // 체크하여 가입버튼 비활성화, 중복확인.
 	    function checkDuplicationMail() {
 	        var inputed = $('#mail').val();
@@ -544,18 +502,16 @@ p.level {
 	                    $("a[name='signUp']").prop("disabled", false);
                          $("a[name='signUp']").css("background-color", "#4CAF50"); //초록
                          mail = true;
-//                          isMailValid = true;
-//                          signupCheck();
+                         isMailValid = true;
+                         signupCheck();
 	                }else {
 	                    $("#mail").css("background-color", "#FFCECE"); //빨강
-// 	                    $("a[name='signUp']").prop("disabled", true);
-// 	                    $("a[name='signUp']").css("background-color", "#aaaaaa"); //회색
 	                    var view = "<span id='not' class='mailNot' style='color:red'> 동일한 이메일이 있습니다.</span>";
 		   				$('#mail').after(view);
 		   				$('#mail').focus();
 	                    mail = false;
-// 	                    isMailValid = false;
-//                          signupCheck();
+	                    isMailValid = false;
+                        signupCheck();
 	                }
 	            },
 	            error : function(){
@@ -563,12 +519,9 @@ p.level {
 	            }
 	        });
 	    }		
-//     });	    
 		    
 //	 		//==>"Modal 학교 주소찾기" Event 처리 및 연결 test================================ 
 	 	$(function() {
-				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-//  			$("button#checkSchool").on("click", function() {
 			$(document).ready(function(){ 
 	 			$("button#checkSchool").on("click" , function() {
 	 				var schoolLevel = $('input[name=school]:checked').val();
@@ -610,12 +563,11 @@ p.level {
 	 			var firstView = "<span id='school1'>검색어 <strong>"+$("input[name='schoolName']").val()+"</strong> 에 대한 검색결과 총 <span>"+total+"</span>건입니다<hr/></span>"; 
 	 			$("#append").append(firstView);
 	 			
-		 			// ERROR !!!!!!!!!!!!!! 초등학교만 안됨 !!!!!!!!!!! $('#school2').remove();
-	 			$('#school2').remove();
+	 			$('#school2 *').remove();
 	 			for(var i=0; i<total; i++){
 	 				var schoolName = json.dataSearch.content[i].schoolName;
-	 				var adres = "     ,"+json.dataSearch.content[i].adres;
-	 				var seq = "     ,"+json.dataSearch.content[i].seq;
+	 				var adres = "     _"+json.dataSearch.content[i].adres;
+	 				var seq = "     _"+json.dataSearch.content[i].seq;
 	 				//이렇게 DB에 저장하면 될듯..?
 	 				var secondView = "<span id='school2'><span>"+schoolName+adres+seq+"</span><br/><br/></span>"
 	 				$("#append2").append(secondView);
@@ -627,14 +579,14 @@ p.level {
 		 		
 	 		$(function(){
 	 			$(document).on('click', 'span#school2', function() {
-//	 	 				alert("문장이 클릭되었습니다.");
 					var schoolSplit = $(this).text();
-					var split = schoolSplit.split(',');
+					var split = schoolSplit.split('_');
 					var schoolName = split[0].trim();
 					var schoolAddress = split[1].trim();
 					var schoolNo = split[2].trim();	
+					console.log("schoolNo", schoolNo);
+					console.log("schoolName", schoolName);
 					
-// 	 				$("input[name='totalSchoolName']").val(totalSchoolName);
 	 				$("input[name='schoolName']").val(schoolName);
 	 				$("input[name='schoolAddress']").val(schoolAddress);
 	 				$("input[name='schoolNo']").val(schoolNo);
@@ -656,7 +608,6 @@ p.level {
 					$('#phone').after(view);
 					$('#phone').focus();
 			 }else{
-// 				 $('#phoneNumberCheckBox').remove(); // 뭐지
 				 $("a[id='checkPhone']").remove();
 				 $('#phoneNumberCheckBox').remove();
 				var view=
@@ -738,8 +689,6 @@ p.level {
 							if ( JSONData.result == "done" ) {
 								// 이메일 입력 칸을 인증번호입력칸으로 바꾸므로 입력한 이메일을 백업하는 input type hidden 설정 구간 
 								$("input[name='mail']").val($("input[name='mail']").val());
-// 								$("input[name='mail']").val("");
-// 								$("#mail").text("인증번호입력");
 								
 								// 본인인증할 state를 returnMap.put("mailCheck", state);로 반환했으므로 해당 값을 input type hidden에 백업
 								$("input[name='mailCheck']").val(JSONData.mailCheck);
@@ -750,8 +699,6 @@ p.level {
 								
 								$("a[id='#sendMail']").remove();
 								$("a:contains('인증번호확인')").show();
-// 								$("input[name='mail']").attr("placeholder", "인증번호 입력");
-// 								$("input[name='mail']").removeAttr("name");
 								$("input[name='confirmNo']").attr("placeholder", "인증번호 입력");
 							} 
 						}
@@ -764,10 +711,8 @@ p.level {
 			var mailCheck = $("input[name='mailCheck']").val();
 			console.log("비교대상 값 : " + mailCheck);
 			console.log("입력 값 : " + mailValue);
-					
 			// mailCheck는 이메일 인증 문자열 state이며 
 			// mailValue는 이메일 인증 유무를 판단하는 Flag이다 
-			
 			if ( mailCheck == "" ) {
 				$("h6").text("메일이 발송되지 않았습니다.");
 			}
@@ -778,23 +723,17 @@ p.level {
 					$("a:contains('메일전송')").remove();
 					$("span.mailNot").remove();
 					$("input[name='mailValue']").val("1");
-// 					$("h6").text("인증되었습니다.");
 					$("h6").text("메일 발송이 완료되었습니다.").remove();
 					$("input[name='confirmNo']").attr("readonly", true);
 					$("input[name='mail']").attr("readonly", true);
 					$("a:contains('인증번호확인')").remove();
 					$("a:contains('인증완료!')").show();
-					isMailValid = true;
-					signupCheck();
 				}
-				
 				if ( mailCheck != mailValue ) {
 					 $('#not').remove();
 					var view = "<span id='not' style='color:red'>인증번호가 틀렸습니다. 다시 확인해주세요.</span>"
 					$('#mail').after(view);
 					$('#mail').focus();
-					isMailValid = false;
-					signupCheck();
 				}
 			}
 		});
@@ -813,7 +752,6 @@ p.level {
 //   사진 첨부 ===============================================================================
  	$(document).ready(function(){
 		 $("#fileInput").on('change', function(){  // 값이 변경되면
-// 			 alert("fileInput 변경");
 			 if(window.FileReader){  // modern browser
 				var profileName = $(this)[0].files[0].name;
 			 }else {  // old IE
@@ -878,13 +816,11 @@ p.level {
                     <p><i class="fas fa-star-of-life"></i>학교</p>
                     <p>
                     	<input type="text" name="schoolName" id="schoolName" data-toggle="modal" data-target="#schoolModal" readonly="readonly">
-                    	<!-- <input type="hidden" name="schoolName" value=""> -->
                     	<input type="hidden" name="schoolNo" value="">
                     	<input type="hidden" name="schoolAddress" value="">
                     </p>
                 </div>
                 <p><a href="#" data-toggle="modal" data-target="#schoolModal">주소찾기</a></p>
-
                 <div class="id" id="phoneCheckAppend">
                     <p>휴대전화번호</p>
                     <p><input type="text" name="phone" id="phone" placeholder=" - 는 제외하고 입력해주세요."></p>
@@ -909,18 +845,16 @@ p.level {
                     <p><a href="#" id="sendMail" onclick="return false">메일전송</a></p>
                     <p><a href="#" id="checkMailBtn" onclick="return false" onclick="return false">인증번호확인</a></p>
                     <p><a href="#" onclick="return false" >인증완료!</a></p>
-                    
                     <p><input type="hidden" name="mailValue" value=""></p>
 			    	<p><input type="hidden" name="mailCheck" value=""></p>
 			    	<p><input type="hidden" name="mail1" value=""></p>
                 </div>
-                
                 <div class="id">
                     <p>사진</p>
                     <!-- 						이미지 사이즈 -->
                     <img id="preview" src="#" alt="" style="width: 30%; height: 30%;"/>	
 					<!-- 						이미지 사이즈 -->
-                    <p><input type="file" name="fileInput" id="fileInput" data-class-input="form-control" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);"></p>
+                    <p><input type="file" name="file" id="fileInput" data-class-input="form-control" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="clip: rect(0px 0px 0px 0px); display : none;"></p>
                     <div class="bootstrap-filestyle input-group">
 						<input type="text" id="userfile" class="form-control" name="userfile" onchange="readURL(this)" disabled>
 						<!-- 						아이콘 -->
@@ -938,13 +872,6 @@ p.level {
                 </div>
             </div>
         </div>
-<!--         <div name="naverLogin" class="text-center"> -->
-<!--             네이버 아이디로 로그인 이미지 -->
-<!--             <img src="/images/naverImage.png" width="180" height="40" /> -->
-<!--             <br /> -->
-<!--         </div> -->
-     
-     
          <!-- Modal 학교 주소 찾기 -->
 		<div class="modal fade" id="schoolModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
@@ -956,17 +883,10 @@ p.level {
 		        </button>
 		      </div>
 		      <div class="modal-body">
-<!-- 		       <div class="form-group"> -->
-<!-- 					<label for="userId">ID</label> -->
-<%-- 						<input type="text" name="userId" id="userId" class="form-control" readonly="readonly" value="${user.userId }"> --%>
-<!-- 				</div>					 -->
 				<div class="form-group">
 					<label for="schoolName">학교</label>
-<!-- 						<input name="schoolName" id="schoolName" class="form-control" type="text"> -->
-<%-- 			     	<input type="text" class="form-control" id="schoolName" name="schoolName" value="${user.schoolNo}" readonly="readonly"> --%>
 			     	<input type="text" class="form-control" id="ModalSchoolName" name="ModalSchoolName" 
 			     					onkeydown = "if (event.keyCode == 13)document.getElementById('checkSchool').click()" />
-<!-- 			     	<input type="submit" class="form-control" id="searchSchool" href="/user/addUserView.jsp"> -->
 				</div>	
 				<div >
 				    <input type="radio" id="school" name="school" value="elem_list" checked />초등학교

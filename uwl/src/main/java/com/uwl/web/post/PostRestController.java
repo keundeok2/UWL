@@ -1,6 +1,7 @@
 package com.uwl.web.post;
 
 import java.io.File;
+import java.util.UUID;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,8 +22,8 @@ public class PostRestController {
 //		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
 		String path = "C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\uwl\\resources\\images";
 		String name = "";
-		file.transferTo(new File(path, file.getOriginalFilename()));
-		name = file.getOriginalFilename();
+		name = UUID.randomUUID() + file.getOriginalFilename();
+		file.transferTo(new File(path, name));
 		return name;
 	}
 }

@@ -164,11 +164,12 @@
  					from couple
  					where delete_status = '1'
  				) couple
- 				where (post.user_id = couple.first_user_id
- 				and post.user_id = #{userId})
- 				or (post.user_id = couple.second_user_id
- 				and post.user_id = #{userId})
+ 				where (couple.first_user_id = #{userId}
+ 				OR couple.second_user_id = #{userId})
+ 				AND (post.user_id = couple.FIRST_USER_ID 
+ 				OR post.user_id = couple.SECOND_USER_ID )
  				and post.post_category_no = '6'
+ 				order by post_no
  				
  		
  	</sql>

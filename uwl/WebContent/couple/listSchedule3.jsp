@@ -23,6 +23,7 @@
             data: JSON.stringify({
                 userId: userId,
                 postDate: postDate
+                
             }),
             headers: {
                 'Accept': 'application/json',
@@ -1302,6 +1303,7 @@
                     var postNo = $(this).find('input.postNo').val();
                     //alert('postNo : ' + postNo);
                     var getScheduleModal = '';
+                    var postTitle = '';
                     $.ajax({
                         url: '/couple/rest/getSchedule/' + userId + '/' + postNo,
                         method: 'GET',
@@ -1317,12 +1319,15 @@
                         success: function(data) {
 
 
-                            var postTitle = data.post.postTitle;
+                            postTitle = data.post.postTitle;
                             var postDate = data.post.postDate;
                             var place = data.post.place;
                             var postContent = data.post.postContent;
 
-
+							console.log('postTitle : ' + postTitle);
+							console.log('postDate : ' + postDate);
+							console.log('place : ' + place);
+							console.log('postContent : ' + postContent);
 
 
                             getScheduleModal = '<div class="getScheduleModal">' +
@@ -1433,7 +1438,7 @@
                                 //alert('클릭ㅋㅋㅋㅋ');
 
                                 var postNoForUpdateSchedule = $(this).parent().parent().find('input[name="postNo"]').val();
-                                var userId = $('input[name="userId"]').val();;
+                                var userId = $('input[name="userId"]').val();
                                 console.log('postNoForUpdateSchedule : ' + postNoForUpdateSchedule);
                                 console.log('userId : ' + userId);
                                 $.ajax({
@@ -1679,13 +1684,13 @@
                             //$('td').find('.wrap').remove();
                             //alert('클릭ㅋㅋ');
                             var userId = $('input[name="userId"]').val();
-                            var postTitle = $('input[name="postTitle"]').val();
-                            var postDate = $('input[name="postDate"]').val();
+                            var postTitle = $('div.wrap input[name="postTitle"]').val();
+                            var postDate = $('div.wrap input[name="postDate"]').val();
 
                             postDate = postDate.substring(0, 4) + '-' + postDate.substring(6, 8) + '-' + postDate.substring(10, 12);
 
-                            var place = $('input[name="place"]').val();
-                            var postContent = $('input[name="postContent"]').val();
+                            var place = $('div.wrap input[name="place"]').val();
+                            var postContent = $('div.wrap input[name="postContent"]').val();
 
                             console.log('userId : ' + userId);
                             console.log('postTitle : ' + postTitle);
@@ -1709,7 +1714,7 @@
                                     'Content-Type': 'application/json'
                                 },
                                 success: function(data) {
-                                    //alert('성공');
+                                    alert('성공');
                                     //getPostDateAndAddPostTitle(data.postDate, data.postTitle, data.postNo);
                                     $('td').find('.wrap').remove();
                                     $('div.getSchedule').remove();
@@ -1717,7 +1722,7 @@
                         			refrechCalender();
                                 },
                                 error: function(request, status, error) {
-                                    //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                                 }
                             });
 
@@ -1883,13 +1888,13 @@
                             //$('td').find('.wrap').remove();
                             //alert('클릭ㅋㅋ');
                             var userId = $('input[name="userId"]').val();
-                            var postTitle = $('input[name="postTitle"]').val();
-                            var postDate = $('input[name="postDate"]').val();
+                            var postTitle = $('div.wrap input[name="postTitle"]').val();
+                            var postDate = $('div.wrap input[name="postDate"]').val();
 
                             postDate = postDate.substring(0, 4) + '-' + postDate.substring(6, 8) + '-' + postDate.substring(10, 12);
 
-                            var place = $('input[name="place"]').val();
-                            var postContent = $('input[name="postContent"]').val();
+                            var place = $('div.wrap input[name="place"]').val();
+                            var postContent = $('div.wrap input[name="postContent"]').val();
 
                             console.log('userId : ' + userId);
                             console.log('postTitle : ' + postTitle);
@@ -1913,9 +1918,12 @@
                                     'Content-Type': 'application/json'
                                 },
                                 success: function(data) {
-                                    //alert('성공');
-                                    getPostDateAndAddPostTitle(data.postDate, data.postTitle, data.postNo);
+                                	alert('성공');
+                                    //getPostDateAndAddPostTitle(data.postDate, data.postTitle, data.postNo);
                                     $('td').find('.wrap').remove();
+                                    $('div.getSchedule').remove();
+                        			$('.cal-schedule').empty();
+                        			refrechCalender();
                                 },
                                 error: function(request, status, error) {
                                     //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
