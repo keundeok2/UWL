@@ -19,6 +19,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
     <script src="http://192.168.0.23:82/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
+    
+    
         <style type="text/css">
         /* 일단 여기에 박았음 */
         div.addAskedFriendData img {
@@ -125,6 +127,9 @@
         selece:focus {
             outline: none;
         }
+		
+		
+
 
         div.friendList {
             background-color: #efefef;
@@ -2504,9 +2509,10 @@
 				</div> -->
 			</div>
 		</div>
-		
+		<div id="wrapper">
         <ul id="forFriendListAppend">
         </ul>
+        </div>
     </div>
 
 
@@ -2588,7 +2594,7 @@
 <option value="2" ${search.searchCondition==2 ? "selected" : "" }>학교명</option>-->
                 <option value="0">아이디</option>
                 <option value="1">이름</option>
-                <option value="2">학교명</option>
+                
             </select>
         </div>
         <div class="friendList">

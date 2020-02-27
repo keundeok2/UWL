@@ -704,7 +704,7 @@
             width: 35px;
             text-align: center;
             border-radius: 50%;
-
+			font-size: 13px;
         }
 
         div.getSchedule div.getScheduleHeader a:hover {
@@ -767,9 +767,7 @@
             vertical-align: middle;
         }
 
-        div.getSchedule div.getScheduleMain div.postTitle div:nth-child() div.getSchedule div.getScheduleMain>div:nth-child(n + 2)>div:nth-child(2) a {
-            font-weight: bold;
-        }
+        
 
         div.getSchedule div.getScheduleMain>div:nth-child(n + 2)>div:nth-child(2) a:hover {
             text-decoration: underline;
@@ -1714,7 +1712,7 @@
                                     'Content-Type': 'application/json'
                                 },
                                 success: function(data) {
-                                    alert('성공');
+                                    //alert('성공');
                                     //getPostDateAndAddPostTitle(data.postDate, data.postTitle, data.postNo);
                                     $('td').find('.wrap').remove();
                                     $('div.getSchedule').remove();
@@ -1722,7 +1720,7 @@
                         			refrechCalender();
                                 },
                                 error: function(request, status, error) {
-                                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                    //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                                 }
                             });
 
@@ -1918,7 +1916,7 @@
                                     'Content-Type': 'application/json'
                                 },
                                 success: function(data) {
-                                	alert('성공');
+                                	//alert('성공');
                                     //getPostDateAndAddPostTitle(data.postDate, data.postTitle, data.postNo);
                                     $('td').find('.wrap').remove();
                                     $('div.getSchedule').remove();

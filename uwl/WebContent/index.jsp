@@ -484,7 +484,7 @@
                         <div class="password">
                             <p>비밀번호</p>
                             <p><input type="password" name="password"></p>
-                            <p><a href="#" tabindex="-1">비밀번호를 잊으셨나요?</a></p>
+                            <p style="display:none"><a href="#" tabindex="-1">비밀번호를 잊으셨나요?</a></p>
                         </div>
                         <div><a href="#" id="login">로그인</a></div>
                     </div>
