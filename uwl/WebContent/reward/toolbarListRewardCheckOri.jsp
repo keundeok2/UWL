@@ -21,11 +21,73 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
 
     <script>
+    	
+		//숫자에 콤마를 찍어주는 함수
+	    function numberWithCommas(x) {
+	        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	    }
+		
+	 	//rewardListInfiniteScroll
+        var rewardListPage = 1;
+
+        function rewardListInfiniteScroll() {
+            if (rewardListPage <= ${resultPage.maxPage}) {
+            	rewardListPage++;
+                console.log('rewardListPage : ' + rewardListPage);
+                //alert("rewardListPage : " + rewardListPage);
+
+                $.ajax({
+                    url: "/reward/rest/listRewardCheck",
+                    method: "POST",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        currentPage: rewardListPage
+                    }),
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    success: function(data) {
+                    	//alert("ajax 성공한거임");
+                    	var list = data.list
+                    	//console.log("ajax 진입");
+                    	//${mySchool.recentlyTotalActivityPoint}
+                    	console.log("data.list : " + data.list[0].totalPoint);
+                    	//alert("data.list : " + data.list[0].totalPoint);
+                          for (var i = 0; i < data.list.length; i++) {
+                        	//alert("data.list[i].schoolRank : " + data.list[i].schoolRank)
+                         	var html =  "<tbody>" 
+	                         				+ "<tr>"
+						                  	   	+  "<th scope='row'>" + list[i].rowSeq + "</th>"
+						                	    + "<td> + " + numberWithCommas(list[i].variableActivityPoint) + "</td>" 
+						                	    + "<td>" +  numberWithCommas(list[i].totalPoint) + "</td>" 
+						                	    + "<td>" + list[i].variableDate + "</td>"
+					                	    + "</tr>"  
+					                	+"</tbody>" 
+                            $("#rewardList").append(html);
+              							
+                            setTimeout(function() {
+                                myScroll.refresh();
+                            }, 0);
+                        }  //end of for */
+                    }
+                });
+            }
+        } //end of schoolRankingInfiniteScroll
+        
+        
+        
+        /* <tr id="rewardList">
+	      <th scope="row">${i}</th>
+	      <td>+ <fmt:formatNumber value="${reward.variableActivityPoint}" pattern="#,###,###" /></td>
+	      <td><fmt:formatNumber value="${reward.totalPoint}" pattern="#,###,###" /></td>
+	      <td>${reward.variableDate}</td>
+	    </tr> */
+    	
     	var sessionUserId = "${user.userId}";
         var myScroll = null;
 
-        $(function() {
-
+        $(function() { 
             myScroll = new IScroll('#wrapper', {
                 mouseWheel: true,
                 scrollbars: true
@@ -35,7 +97,29 @@
                 myScroll.refresh();
             }, 0);
             
+          	//iscroll infinite scroll
+            myScroll.on('scrollEnd', function() {
+            	//alert("스크롤앤드에 접근")
+                var wrapperHeight = $('#wrapper').height();
+                var ulHeight = $('#wrapper ul').height();
+                var evtHeight = wrapperHeight - ulHeight;
+
+                if (this.y <= evtHeight + 100) {
+                    console.log('wrapperHeight', wrapperHeight);
+                    console.log('ulHeight', ulHeight);
+                    console.log('evtHeight', evtHeight);
+                    console.log('this.y', this.y);
+					
+                    //구매와 아닐떄를 나누기
+                    rewardListInfiniteScroll() 
+                }
+            });
+        });
+
+          
+       $(function() {
             $('div.leftNavigation li a').on('click', function() {
+            	//alert("li a 작동중 ㅋㅋ")
                 $('div.leftNavigation li').removeClass('on');
                 $(this).parent().addClass('on');
                 var index = $(this).parent().index();
@@ -49,6 +133,8 @@
 				$.redirect("/purchase/getPurchaseList",{userId : sessionUserId});
 			});
         });
+       
+     
 
     </script>
     <style type="text/css">
@@ -230,6 +316,119 @@
             border-left: 1px solid #eee;
             padding: 15px 15px 0 15px;
         }
+        
+        /* div 설정 */
+        .out{
+        	width: 96%;
+        	text-align: center;
+        	/* border: 1px solid black;  */
+        	padding: 20px;
+        	margin: 15px;
+        	border-bottom: 2px solid #eee;
+        }
+        
+        .in{
+        	display: inline-block;
+        	width: 80%;
+        	/* border: 1px solid red; */ 
+        	height: 200px;
+        }
+        
+        
+        .introOut{
+        	width: 96%;
+        	text-align: center;
+        	/* border: 1px solid black;   */
+        	padding: 20px;
+        	margin-bottom: 30px;
+        }
+        
+        .introIn{
+        	display: inline-block;
+        	width: 80%;
+        	/* border-bottom: 3px solid #ebad7a;  */
+        	height: 80px;
+        } 
+        
+        h3 {
+        	background: #fff;
+        }
+        
+        h3.forBottomline:after {
+        	content: '';
+        	width: 450px;
+        	height: 3px;
+        	background-color: #ebad7a;
+        	display: block;
+        	position: absolute;
+        	bottom: -30px;
+        	left: 50%;
+        	transform: translateX(-50%);
+        }
+        .card-img-top{
+        	border-bottom: 1px solid gray;
+        }
+        
+        /* 총 카운트 또르르 올라가는거*/
+        .section4 {
+            /* background: url(/images/trophy_complete.png) center top no-repeat; */
+            background-size: cover;
+            /*height: 621px;*/
+            width: 100%;
+        }
+
+        .section4 .inner {
+            width: 70%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section4 .text p:nth-child(1) {
+            font-weight: bold;
+            color: #2b8ad9;
+            margin-bottom: 10px;
+        }
+
+        .section4 .text p:nth-child(2) {
+            font-size: 30px;
+            margin-bottom: 40px;
+        }
+
+        .section4 .text p:nth-child(2) span {
+            font-weight: bold;
+            color: #3c3c3c;
+        }
+
+        .keyword {
+            width: 100%;
+            text-align: center;
+          	padding-bottom: 50px; 
+        }
+
+        .section4 .keyword > span {
+            width: 100px;
+            text-align: center;
+            border: 5px solid #e38c48;
+            height: 120px;
+            
+            border-radius: 50%;
+            display: inline-block;
+            vertical-align: text-top;
+            margin: 30px;
+        }
+
+        .keyword p {
+            /* color: #e38c48; */
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .keyword span {
+            font-weight: normal;
+            color: #898989;
+            font-size: 16px;
+        }
 
     </style>
 </head>
@@ -241,7 +440,17 @@
         </div>
         <div class="work2" id="wrapper">
             <ul>
+               	<div class="header out">
+				    <div class="header in" style="position:relative;">
+			        	<h3 class="forBottomline" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
+			        		<b>${user.name} 님의 내역
+			        		</b>
+			        	</h3> 
+				    </div>
+				</div>
+            	
                 <div class="updateUser">
+					
                     <div class="leftNavigation">
                         <ul>
                             <li class="on"><a href="#"><i class="fas fa-coins"></i> 포인트 적립내역</a></li>
@@ -250,42 +459,76 @@
                     </div>
 
 
-
-
                     <!--첫번째 탭에 나오는 부분-->
                     <div class="updateProfile on">
-                        <div class="row">
-                            <div class="col-2">
-                            </div>
-                            <div class="col-4">
-                                <br>
-                                <h4 class="total" align="right">
-                                    <i class="fas fa-coins"></i>
-                                     <c:if test="${totalPointReward eq null}">
-                                     	0 점
-                                     </c:if>
-                                     <c:if test="${totalPointReward ne null}">
-                                    	<fmt:formatNumber value="${totalPointReward.recentlyTotalPoint}" pattern="#,###,###" /> 점
-                                     </c:if>
-
-                                </h4>
-                            </div>
-                            <div class="col-4">
-                                <br>
-                                <h4 class="total" align="right"><i class="fas fa-running" style="color: #28aa10;"></i>
-                                	<c:if test="${totalPointReward eq null}">
-                                     	0 점
-                                     </c:if>
-                                     <c:if test="${totalPointReward ne null}">
-                                  	  <fmt:formatNumber value="${totalPointReward.recentlyTotalActivityPoint}" pattern="#,###,###" /> 점
-                                     </c:if>
-                                </h4>
-                            </div>
-                        </div>
-                        <br>
-
-
-                        <!-- 총 포인트가 0이라면 보이는 것 -->
+						<!-- 총 도전과제 완료 갯수 -->
+						<div class="section4">
+					        <div class="inner">
+					            
+					            <div class="keyword">
+					                <!-- 포인트 -->
+					                <span>
+					                	<br>
+					                	<br>
+				                        <img src="/images/gold_coins.png" style="width: 80px; height: 80px;">
+				                        <br>
+					                    <p style="font-size: 15px">
+				                       		<c:if test="${totalPointReward eq null}">
+			                                	0 점
+			                                </c:if>
+			                                <c:if test="${totalPointReward ne null}">
+			                            		<fmt:formatNumber value="${totalPointReward.recentlyTotalPoint}" pattern="#,###,###" />점
+			                                </c:if>
+					                    </p>
+					                </span>
+					                <!-- 활동점수 -->
+					                <span>
+					                	<br>
+					                	<br>
+				                        <img src="/images/piggy-bank.png" style="width: 80px; height: 80px;">
+				                        <br>
+					                    <p style="font-size: 15px">
+				                       		<c:if test="${totalPointReward eq null}">
+			                                	0 점
+			                                </c:if>
+			                                <c:if test="${totalPointReward ne null}">
+			                               		<fmt:formatNumber value="${totalPointReward.recentlyTotalPoint}" pattern="#,###,###" /> 점
+			                                </c:if>
+					                    </p>
+					                </span>
+					            </div>
+					        </div>
+					    </div> <!-- end of section -->
+					    
+					    <!-- 적립한 내역이 없으면  -->
+					    <c:if test="${totalPointReward ne null}">
+					    <!-- list시작 -->
+					    <table class="table" id = "rewardList">
+						  <thead>
+						    <tr>
+						      <th scope="col">#</th>
+						      <th scope="col">포인트</th>
+						      <th scope="col">총 점수</th>
+						      <th scope="col">날짜</th>
+						    </tr>
+						  </thead>
+						  <c:set var="i" value="0" />
+						   <c:forEach var="reward" items="${list}">
+							<c:set var="i" value="${i+1 }" />
+						 <!--  <tbody id="rewardList"> -->
+						  <tbody>
+						    <tr>
+						      <th scope="row">${reward.rowSeq}</th>
+						      <td>+ <fmt:formatNumber value="${reward.variableActivityPoint}" pattern="#,###,###" /></td>
+						      <td><fmt:formatNumber value="${reward.totalPoint}" pattern="#,###,###" /></td>
+						      <td>${reward.variableDate}</td>
+						    </tr>
+						  </tbody>
+						  </c:forEach>
+						</table>
+						</c:if> <!-- end of not null point -->
+						
+						<!-- 총 포인트가 0이라면 보이는 것 -->
                         <c:if test="${totalPointReward eq null}">
                             <div class="row">
                                 <div class="col-sm-8" style="text-align: center;">
@@ -293,67 +536,63 @@
                                 </div>
                             </div>
                         </c:if>
-
-                        <!-- 토탈포인트가 0이 아니라면 작동 -->
-                        <c:if test="${totalPointReward ne null}">
-                            <div class="row">
-                                <c:forEach var="reward" items="${list}">
-                                    <div class="col-sm-10">
-                                        <div class="card">
-
-                                            <div class="card-body">
-                                                <h5 class="card-title">
-                                                    <!-- 카테고리가 Map 일 때 -->
-                                                    <c:if test="${reward.challenge.challCategory eq '1'}">
-                                                        <h4><i class="fas fa-map-marked-alt col-sm-2" style="font-size: 25px;"></i> Map</h4>
-                                                    </c:if>
-
-                                                    <!-- 카테고리가 Vsion 일 때 -->
-                                                    <c:if test="${reward.challenge.challCategory eq '2'}">
-                                                        <h4><i class="fas fa-camera col-sm-2" style="font-size: 25px;"></i> Vision</h4>
-                                                    </c:if>
-                                                    <!-- 카테고리가 게시판활동 일 때 -->
-                                                    <c:if test="${reward.challenge.challCategory eq '3'}">
-                                                        <h4><i class="far fa-clipboard" style="font-size: 25px;"></i> 게시판활동</h4>
-                                                    </c:if>
-                                                    <br>
-                                                </h5>
-                                                <p class="card-text">
-                                                    <h6 class="col-sm-10"><b> 제목 : ${reward.challenge.challTitle}</b></h6>
-                                                    <i class="fas fa-coins col-sm-5" style="font-size: 25px;">
-                                                        <font size="4px" color="black">
-                                                            <fmt:formatNumber value="${reward.variableActivityPoint}" pattern="#,###,###" />
-
-                                                        </font>
-                                                    </i>
-                                                    <i class="fas fa-piggy-bank col-sm-5" style="font-size: 25px;">
-                                                        <font size="4px" ; color="black" ;>총:  
-                                                            <fmt:formatNumber value="${reward.totalPoint}" pattern="#,###,###" />
-
-                                                        </font>
-                                                    </i>
-                                                </p>
-                                                <p class="card-text" style="text-align: right;">
-                                                    <i class="far fa-calendar-check col-sm-4" style="font-size: 25px; text-align: left;">
-                                                        <font size="3px" ; color="black" ;>
-                                                            <fmt:formatDate var="variableDate" value="${reward.variableDate}" pattern="yy-MM-dd" />${variableDate}</font>
-                                                    </i>
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <br>
-                                    </div> <!-- end of card -->
-
-                                </c:forEach>
-                            </div><!-- end of class row -->
-                        </c:if>
-                    </div>
+                    </div> <!-- end of first -->
 
 
                     <!--두번째 탭에 나오는 부분-->
                     <div class="updatePassword">
-                        <div class="row">
+                    	
+                    	<!-- 총 도전과제 완료 갯수 -->
+						<div class="section4">
+					        <div class="inner">
+					            
+					            <div class="keyword">
+					                <!-- 포인트 -->
+					                <span>
+					                	<br>
+					                	<br>
+				                        <img src="/images/gold_coins.png" style="width: 80px; height: 80px;">
+				                        <br>
+					                    <p style="font-size: 15px">
+				                       		<c:if test="${totalPointReward eq null}">
+			                                	0 점
+			                                </c:if>
+			                                <c:if test="${totalPointReward ne null}">
+			                            		<fmt:formatNumber value="${totalPointReward.recentlyTotalPoint}" pattern="#,###,###" />점
+			                                </c:if>
+					                    </p>
+					                </span>
+					                <!-- 활동점수 -->
+					                <span>
+					                	<br>
+					                	<br>
+				                        <img src="/images/piggy-bank.png" style="width: 80px; height: 80px;">
+				                        <br>
+					                    <p style="font-size: 15px">
+				                       		<c:if test="${totalPointReward eq null}">
+			                                	0 점
+			                                </c:if>
+			                                <c:if test="${totalPointReward ne null}">
+			                               		<fmt:formatNumber value="${totalPointReward.recentlyTotalPoint}" pattern="#,###,###" /> 점
+			                                </c:if>
+					                    </p>
+					                </span>
+					            </div>
+					        </div>
+					    </div> <!-- end of section -->
+					    
+					     <!-- 구매한게 아무것도 없다면 -->
+                        <c:if test="${purchaseList eq '[]'}">
+                            <div class="row">
+                                <div class="col-sm-8" style="text-align: center;">
+                                    <h3>적립한 내용이 없습니다.</h3>
+                                </div>
+                            </div>
+                        </c:if>
+                    
+                    
+                    
+                       <%--  <div class="row">
                             <div class="col-2">
                             </div>
                             <div class="col-4">
@@ -391,7 +630,7 @@
                                     <h3>적립한 내용이 없습니다.</h3>
                                 </div>
                             </div>
-                        </c:if>
+                        </c:if> --%>
 						
 						 <!-- 토탈포인트가 0이 아니라면 작동 -->
                       <%--   <c:if test="${totalPointReward ne null}"> --%>

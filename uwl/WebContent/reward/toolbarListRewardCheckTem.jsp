@@ -52,8 +52,7 @@
                     	var list = data.list
                     	//console.log("ajax 진입");
                     	//${mySchool.recentlyTotalActivityPoint}
-                    	//console.log("data.list : " + data.list[0]);
-                    	//alert("data.list : " + data.list[0].totalPoint);
+                    	console.log("data.list : " + data.list[0].totalPoint);
                     	//alert("data.list : " + data.list[0].totalPoint);
                           for (var i = 0; i < data.list.length; i++) {
                         	//alert("data.list[i].schoolRank : " + data.list[i].schoolRank)
@@ -66,7 +65,7 @@
 					                	    + "</tr>"  
 					                	+"</tbody>" 
                             $("#rewardList").append(html);
-              				//alert(html);
+              							
                             setTimeout(function() {
                                 myScroll.refresh();
                             }, 0);
@@ -87,7 +86,7 @@
                 //alert("rewardListPage : " + rewardListPage);
 
                 $.ajax({
-                    url: "/reward/rest/listPurchaseCheck",
+                    url: "/reward/rest/listRewardCheck",
                     method: "POST",
                     dataType: "json",
                     data: JSON.stringify({
@@ -97,39 +96,35 @@
                         "Accept": "application/json",
                         "Content-Type": "application/json"
                     },
-                    success: function(data) {
-                    	//alert("ajax purchase 성공한거임");
-                    	var list = data.list;
+                    success: function(purchase) {
+                    	//alert("ajax 성공한거임");
+                    	var list = purchase.list;
                     	var resultContents = null;
                     	//console.log("ajax 진입");
-                    	console.log("purchaseListInfiniteScroll data.totalPoint : " +data.list[0].totalPoint);
-                    	console.log("purchaseListInfiniteScroll list : " +list[0].totalPoint);
-                    	console.log("purchaseListInfiniteScroll list : " + data.list.length);
-                    	console.log("purchaseListInfiniteScroll list : " + list[0].purchaseItemCategory);
-                    	//alert("purchaseListInfiniteScroll list[i].purchase.itemCategory; : " + list[0].purchaseItem.itemCategory); 
+                    	console.log("purchaseListInfiniteScroll data.totalPoint : " + purchase.list[0].totalPoint);
+                    	alert("purchaseListInfiniteScroll list[i].purchase.itemCategory; : " + list[0].purchase.itemCategory); 
                         
-                    	for (var i = 0; i < data.list.length; i++) {
+                    	for (var i = 0; i < purchase.list.length; i++) {
                        	//alert("data.list[i].schoolRank : " + data.list[i].schoolRank)
-	                    	var itemCategory = list[i].purchaseItem.itemCategory;
-                       		//alert(list[i].itemCategory);
+	                    	var itemCategory = list[i].purchase.itemCategory;
                        		//alert("넘어온 아이템카테고리 값 : " + itemCategory)
                         	var contentFirst = "<tbody>"
 			                    	+ "<tr>"
 			                  	    +  "<th scope='row'>" + list[i].rowSeq + "</th>"
 			                  	    +  "<td>"
 	               			 //아이템 뷰를 구분짓는 거.
-                 	    	 if ( itemCategory == 1) {
-                 	    		//alert("창 if문에 접속함")
+                 	    	if ( list[i].purchaseItem.itemCategory == '1') {
+                 	    		alert("창 if문에 접속함")
 		                		itemCategory = "창";
-							}else if (itemCategory == 2) {
-                 	    		//alert("방패 if문에 접속함")
+							}else if (list[i].purchaseItem.itemCategory == '2') {
+                 	    		alert("방패 if문에 접속함")
 			                	itemCategory = "방패";
-							} 
+							}
 			                  
 			            var contentSecond = itemCategory + "</td>"
-		           						 + "<td>" + numberWithCommas(list[i].variablePoint) + "</td>" 
-		           						 + "<td>" + numberWithCommas(list[i].totalPoint) + "</td>" 
-		           						 + "<td>" + list[i].variableDate + "</td>"
+		           						 + "<td>" + numberWithCommas(purchase.list[i].totalPointvariablePoint) + "</td>" 
+		           						 + "<td>" + numberWithCommas(purchase.list[i].totalPoint) + "</td>" 
+		           						 + "<td>" + purchase.list[i].totalPoint.variableDate + "</td>"
 			                  	    	 + "</tr>"
 			                  	  	+ "</tbody>"
                        	
@@ -184,11 +179,11 @@
 					
                     //구매와 아닐떄를 나누기
                      if( $(".updateProfile").hasClass("on") ){
-						//alert("updateProfile on에 들어옴");
+						alert("updateProfile on에 들어옴");
 						rewardListInfiniteScroll();
 					}else if ( $(".updatePassword").hasClass("on") ){
-						//alert("updatePassword on에 들어옴")
-                    	purchaseListInfiniteScroll();
+						alert("updatePassword on에 들어옴")
+                    	//purchaseListInfiniteScroll();
 					} 
                     
                 }
@@ -583,7 +578,7 @@
 					    <!-- 적립한 내역이 없으면  -->
 					    <c:if test="${totalPointReward ne null}">
 					    <!-- list시작 -->
-					    <table class="table" id = "rewardList">
+					    <table class="table" id = "purchaseList">
 						  <thead>
 						    <tr>
 						      <th scope="col">#</th>
@@ -672,7 +667,7 @@
                         </c:if>
                         
 					    <!-- list시작 -->
-					    <table class="table" id = "purchaseList">
+					    <table class="table" id = "rewardList">
 						  <thead>
 						    <tr>
 						      <th scope="col">#</th>
