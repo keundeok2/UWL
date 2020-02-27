@@ -383,6 +383,9 @@
 				});
 			 
 			 
+			 $('#goCommunity').addClass('on');
+             $('#community').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
+			 
 		 });
 	    
 	    

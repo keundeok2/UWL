@@ -491,6 +491,10 @@
             padding: 15px 15px 0 15px;
         }
 
+		a#notiIcon {
+			color: #EBAD7A;
+			
+		}
     </style>
 </head>
 

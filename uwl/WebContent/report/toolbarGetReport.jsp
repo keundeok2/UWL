@@ -13,6 +13,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
     <title>Insert title here</title>
+    <script src="/javascript/iscroll.js"></script>
+    <script>
+        var myScroll = null;
+
+        $(function() {
+
+            myScroll = new IScroll('#wrapper', {
+                mouseWheel: true,
+                scrollbars: true
+            });
+
+            setTimeout(function() {
+                myScroll.refresh();
+            }, 0);
+        });
+    </script>
 
     <style>
         * {
@@ -131,7 +147,7 @@
             height: 100vh;
             float: left;
             
-            position: relative;
+            
 			
         }
 
@@ -166,6 +182,12 @@
                         <p>&nbsp;</p>
                         <div class="table table-responsive">
                             <table class="table">
+                               <colgroup>
+                                   <col width="20%">
+                                   <col width="30%">
+                                   <col width="20%">
+                                   <col width="30%">
+                               </colgroup>
                                 <tr>
                                     <th class="success">신고 날짜</th>
                                     <td>${report.reportDate }</td>
