@@ -23,17 +23,27 @@
     <!-- fontawesome -->
     <script src="https://kit.fontawesome.com/fb8ae6e812.js" crossorigin="anonymous"></script>
     <!-- 나눔고딕 -->
-    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Noto+Sans+KR&display=swap" rel="stylesheet">
+  	<script>
+    $(function() {
+    	
+    	
+        myScroll = new IScroll('#wrapper', {
+            mouseWheel: true,
+            scrollbars: false
+        });
+        
+        setTimeout(function() {
+    		myScroll.refresh();
+    	}, 50);
+	});	
+    </script>
 
     <style>
         div.challDate {
             text-align: right;
         }
 
-        body {
-            font-family: 'Nanum Gothic', sans-serif;
-            font-family: 'Noto Sans KR', sans-serif;
-        }
+        
 
         /* 아이콘 색 지정*/
         
@@ -91,7 +101,8 @@
             padding: 0 65px;
             color: #fff;
             font-weight: bold;
-            margin: 20px 0;
+            /* 재이수정 */
+            margin: 20px 0 0 0;
             border-color: #c33214;
             border: medium;
         }
@@ -143,23 +154,17 @@
 			}); //end of ajax 
         });
 	    
-	    $(function() {
-	    	
-	        myScroll = new IScroll('#wrapper', {
-	            mouseWheel: true,
-	            scrollbars: true
-	        });
-	        
-	        setTimeout(function() {
-	    		myScroll.refresh();
-	    		}, 0);
-		});	
+	    
 	    
 		
         
 
     
         $(function() {
+        	
+        	/* 재이수정 */
+        	
+            
 
             //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
             $(".list-group-item").on("click", function() {
@@ -306,7 +311,60 @@
             padding: 15px 15px 0 15px;
         }
         
+        /* 재이수정 */
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+            
+        }
+
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
+        
+        div.challengeChallCountent {
+        	overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            /* 라인수 */
+            -webkit-box-orient: vertical;
+            word-wrap: break-word;
+            line-height: 1.2em;
+            max-height: 3.6em;
+            /* line-height 가 1.2em 이고 3라인을 자르기 때문에 height는 1.2em * 3 = 3.6em */
+            margin-bottom: 10px;
+        }
+        
+        #goMaster {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goMaster ul li:nth-child(1) {
+        	color: #EBAD7A;
+        }
     </style>
+    
 </head>
 
 <body>
@@ -315,13 +373,22 @@
             <jsp:include page="/layout/left.jsp" />
         </div>
         <div class="work2"  id="wrapper">
-        	<ul>
+        	<ul style="padding-bottom: 20px;">
+        	<!-- 재이수정 -->
+        	<div class="mainHeader">
+                    <div class="left2">
+                        주간 도전과제 목록 (관리자용)
+                    </div>
+                    <div class="right2">
+                        <a href="#"><i class="far fa-star"></i></a>
+                    </div>
+                </div>
             <form class="form-inline">
+            
+            
                 <div class="container-md">
-                    <br>
-                    <h2>주간 도전과제 목록 (관리자용) </h2>
-                    <br>
-                    <div class="alert alert-secondary" role="alert">
+                    
+                    <div class="alert alert-secondary" role="alert" style="margin-top: 10px">
                         <font style="font-size: 20px" id="startChallenge"></font><br>
                         	
                         <div class="addChallenge">
@@ -337,21 +404,22 @@
                     </div>
                     <br>
                     <br>
-                    <br>
+                    
                 
 
 
-                    <div class="list-group">
+                    <div class="list-group" style="margin-bottom: 10px">
                         <c:forEach var="challenge" items="${list}">
-                            <a href="#" class="list-group-item list-group-item-action" id="challengeBox">
+                            <a href="#" class="list-group-item list-group-item-action" id="challengeBox" style="margin-bottom: 10px;border-top:1px solid #EBAD7A;border-radius: 0">
                                 <div class="d-flex w-100 justify-content-between">
                                     <input type="hidden" value="${challenge.challNo}">
-                                    <h5 class="mb-1">${challenge.challTitle}</h5>
+                                    <h5 class="mb-1" style="max-width:610px">${challenge.challTitle}</h5>
                                     <small class="text-muted">${challenge.challDate}</small>
                                 </div>
+                                <div class="challengeChallCountent">
                                 ${challenge.challContent}
-                                <p class="mb-1">
-                                </p>
+                                </div>
+                                
                                 <small class="text-muted">
                                     <c:if test="${challenge.challCategory == '1'}">
                                         <i class="fas fa-map-marked-alt" style="font-size: 25px; "></i>&nbsp;&nbsp;Map&nbsp;&nbsp;
@@ -368,7 +436,7 @@
                                       <fmt:formatNumber value="${challenge.challReward}" pattern="#,###" />점 
                                 </small>
                             </a>
-                            <br>
+                            
                         </c:forEach>
                     </div>
                     <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
@@ -376,14 +444,13 @@
             </div>
             </form>
 
-            <br>
-            <br>
+            
 
             <!-- PageNavigation Start... -->
             <jsp:include page="../common/pageNavigator_new.jsp" />
             <!-- PageNavigation End... -->
 
-
+			
 			</ul>
         </div>
     
