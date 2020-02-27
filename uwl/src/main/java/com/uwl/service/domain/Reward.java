@@ -13,7 +13,18 @@ public class Reward {
 	private int rewardNo;
 	private Purchase purchaseItem;
 	private Challenge challenge;
+	private String rowSeq;
 	
+	public String getRowSeq() {
+		return rowSeq;
+	}
+
+
+	public void setRowSeq(String rowSeq) {
+		this.rowSeq = rowSeq;
+	}
+
+
 	//바인딩문제로 인해 2개를 분류하였음
 	private int variablePoint;
 	private int variableActivityPoint;
@@ -179,10 +190,11 @@ public class Reward {
 	@Override
 	public String toString() {
 		return "Reward [userId=" + userId + ", rewardNo=" + rewardNo + ", purchaseItem=" + purchaseItem + ", challenge="
-				+ challenge + ", variablePoint=" + variablePoint + ", variableActivityPoint=" + variableActivityPoint
-				+ ", variableDate=" + variableDate + ", totalPoint=" + totalPoint + ", totalActivityPoint="
-				+ totalActivityPoint + ", completeResult=" + completeResult + ", recentlyTotalPoint="
-				+ recentlyTotalPoint + ", recentlyTotalActivityPoint=" + recentlyTotalActivityPoint + "]";
+				+ challenge + ", rowSeq=" + rowSeq + ", variablePoint=" + variablePoint + ", variableActivityPoint="
+				+ variableActivityPoint + ", variableDate=" + variableDate + ", totalPoint=" + totalPoint
+				+ ", totalActivityPoint=" + totalActivityPoint + ", completeResult=" + completeResult
+				+ ", recentlyTotalPoint=" + recentlyTotalPoint + ", recentlyTotalActivityPoint="
+				+ recentlyTotalActivityPoint + "]";
 	}
 
 	
