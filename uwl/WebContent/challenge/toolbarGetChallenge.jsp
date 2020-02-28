@@ -92,7 +92,7 @@
         div.challenge table tr:nth-child(3) td:nth-child(1),
         div.challenge table tr:nth-child(3) td:nth-child(3), 
         div.challenge table tr:nth-child(4) td:nth-child(1) {
-            background-color: #fdfdfd;
+            background-color: #fafafa;
 			
             font-weight: bold;
         }
@@ -462,10 +462,10 @@
                 <div class="challenge">
                     <table>
                         <colgroup>
-                            <col width="10%">
-                            <col width="40%">
-                            <col width="10%">
-                            <col width="40%">
+                            <col width="15%">
+                            <col width="35%">
+                            <col width="15%">
+                            <col width="35%">
                         </colgroup>
                         <tr><!-- 1번째 tr -->
                             <td>제목</td>
