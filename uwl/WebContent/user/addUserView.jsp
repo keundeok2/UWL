@@ -642,6 +642,7 @@ p.level {
 							//인증완료 시
 							$('#codeNumberCheck').remove();
 							$('#code').remove();
+							$('#yes').remove();
 							var view = "<span id='yes'>인증이 완료되었습니다</span>"
 							$('#phone').after(view);
 						}else{
