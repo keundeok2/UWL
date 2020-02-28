@@ -309,23 +309,23 @@ WHERE r.chall_no = c.chall_no AND r.user_id = #{userId} ORDER BY r.variable_date
 	 
 	 <!-- SQL : SELECT ROW Count -->	 <!-- 파라미터를 map으로 가져올것. -->
 	 <select  id="getChallCommentCompleteCount"  parameterType="challenge"	 resultType="int">
-	  	SELECT COUNT(*) 
+	  	   	SELECT COUNT(*) 
 		FROM(SELECT  c.user_id,
+ 					c.post_no,
 					p.gather_category_no,
 					c.comment_date,
 					week.weekly_start,
 					week.weekly_end
 	FROM commentt c, post p, (SELECT the_latest.weekly_start,
-																		the_latest.weekly_end
-														FROM (SELECT weekly_start,
-																	(weekly_start + 7) weekly_end
-																		FROM challenge 
-																		WHERE weekly_start IS NOT NULL 
-																		ORDER BY chall_no DESC) the_latest
-														WHERE ROWNUM = 1) week
-	WHERE  c.user_id = p.user_id AND c.post_no = p.post_no
-	AND c.comment_date  BETWEEN week.weekly_start  AND week.weekly_end
-	AND p.user_id = #{commentt.userId}) countTable
+																	the_latest.weekly_end
+													FROM (SELECT weekly_start,
+																(weekly_start + 7) weekly_end
+																	FROM challenge 
+																	WHERE weekly_start IS NOT NULL 
+																	ORDER BY chall_no DESC) the_latest
+												WHERE ROWNUM = 1) week
+	WHERE  c.post_no = p.post_no AND c.comment_date  BETWEEN week.weekly_start  AND week.weekly_end
+	AND c.user_id = #{commentt.userId}) countTable
 	 </select>
 	 
 	 <!-- 이전글 이후글보기 추가 -->

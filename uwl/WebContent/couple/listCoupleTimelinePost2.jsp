@@ -399,7 +399,11 @@
 		});
 		$('div.addCoupleTimelinePost input[name="postNo"]').val('');
 		$('div.addCoupleTimelinePost input[type="file"]').val('');
-		
+		$("#addCoupleTimelinePostDatepicker").datepicker({
+            dateFormat: 'yy-mm-dd'
+
+        }); 
+            $('#addCoupleTimelinePostDatepicker').datepicker('setDate', 'today');
 		
     }
     
@@ -586,6 +590,10 @@
     			//$('div.coupleTimelineMain').empty();
     			//refreshCoupleTimelinePostList();
     			resetCoupleTimelineModal();
+    			
+    			setTimeout(function() {
+                    myScroll.refresh();
+                }, 0);
             },
             error: function(request, status, error) {
                 alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -720,11 +728,7 @@
         
         
          $("#addCoupleTimelinePostDatepicker").datepicker({
-            dateFormat: 'yy-mm-dd',
-            onClose: function(e) {
-                var postDate = $('#datepicker').val();
-                $('p.postDate').text(postDate);
-            }
+            dateFormat: 'yy-mm-dd'
 
         }); 
             $('#addCoupleTimelinePostDatepicker').datepicker('setDate', 'today');
@@ -777,6 +781,7 @@
             		$('div.addCoupleTimelinePostModalBody textarea[name="postContent"]').val(postContent);
             		
             		$('div.addCoupleTimelinePostModalBody img').attr('src', '/images/' + uploadFileName);
+            		$('div.addCoupleTimelinePostModalBody div.postDate p.postDate').text(postDate);
             		$('div.addCoupleTimelinePostModalBody div.postDate p.place').text(place);
             		$('div.addCoupleTimelinePostModalBody div.postDate p.postContent').text(postContent);
             		
@@ -793,6 +798,8 @@
             			'display' : 'block'
             		});
             		$('div.addCoupleTimelinePost input[name="postNo"]').val(postNo);
+            		
+            		
                 },
                 error: function(request, status, error) {
                     alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);

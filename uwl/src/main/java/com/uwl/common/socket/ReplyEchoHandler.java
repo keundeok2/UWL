@@ -100,6 +100,12 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
 						receiverSession.sendMessage(tmpMsg);
 					}
 					
+					if ("6".equals(notiOrigin) && "5".equals(notiCode) && receiverSession != null) {
+						TextMessage tmpMsg = new TextMessage("누군가가 당신에게 꽃을 보냈습니다.");
+						System.out.println(tmpMsg);
+						receiverSession.sendMessage(tmpMsg);
+					}
+					
 				}
 			}
 		}

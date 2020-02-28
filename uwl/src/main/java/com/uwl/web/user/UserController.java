@@ -121,8 +121,8 @@ public class UserController {
 		System.out.println("UserController : addUser() schoolRank  : " + schoolRank);
 
 		// Business Logic
-//		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
-		String path = "C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\uwl\\resources\\images";
+		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\";
+//		String path = "C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\uwl\\resources\\images";
 		String name = "";
 
 		if (!file.getOriginalFilename().isEmpty()) {
@@ -256,6 +256,9 @@ public class UserController {
 		// 활동점수, 포인트
 		Reward reward = rewardService.getTotalPoint(targetUserId);
 		model.addAttribute("reward", reward);
+		//session reward
+		Reward sessionReward = rewardService.getTotalPoint(sessionUser.getUserId());
+		model.addAttribute("sessionReward", sessionReward);
 
 		// targetUserId : 프로필 주인
 		User user = userService.getUser(targetUserId);

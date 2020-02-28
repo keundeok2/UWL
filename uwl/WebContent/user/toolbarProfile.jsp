@@ -289,7 +289,7 @@
         }
 
         div.profileImage2 a img {
-            width: 100%;
+            height: 100%;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -714,16 +714,16 @@
                                     ' <input type="hidden" name="secondUserId" value="' + secondUserName + '">' + secondUserName + '님에게 보낸 꽃을 취소하시겠습니까?😥' +
                                     ' </form>';
                                 //alert(displayValue);
-                                $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('check2');
+                                $('div.modal-footer').find('button:nth-child(2)').addClass('check2');
                             }
-                            $('#exampleModal div.modal-body2').html(displayValue);
-                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
+                            $('div.modal-body').html(displayValue);
+                            $('div.modal-footer').find('button:nth-child(2)').css({
                                 'display': 'block'
                             });
-                            $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('취소');
+                            $('div.modal-footer').find('button:nth-child(1)').text('취소');
                         },
                         error: function(request, status, error) {
-                            //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                            alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                         }
                     });
                 });
@@ -765,21 +765,21 @@
                         //alert('성공ㅋㅋ');
                         var displayValue = '🌹🌹꽃을 보냈습니다🌹🌹';
 
-                        $('#exampleModal div.modal-body2').html(displayValue);
+                        $('div.modal-body').html(displayValue);
                         $('div.totalFlower span').text(data);
                         //alert($('div.totalFlower span').text());
                         $('.addMatching').text('꽃보내기취소');
                         $('.addMatching').removeClass('addMatching').addClass('deleteMatching');
-                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
+                        $('div.modal-footer').find('button:nth-child(2)').css({
                             'display': 'none'
                         });
-                        $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('확인').on("click",function(){
+                        $('div.modal-footer').find('button:nth-child(1)').text('확인').on("click",function(){
                         	socket.emit("matchingMe",sessionUserId);
                             socket.emit("matchingYou",targetUserId);
                         });
                     },
                     error: function(request, status, error) {
-                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -814,15 +814,15 @@
                             '<input type="hidden" name="secondUserId"value="' + targetUserId + '">' +
                             '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' + secondUserName + '님에게 보낸 꽃을 취소하시겠습니까?😥' +
                             '</form>';
-                        $('#exampleModal div.modal-body2').html(displayValue);
-                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('check2');
-                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
+                        $('div.modal-body').html(displayValue);
+                        $('div.modal-footer').find('button:nth-child(2)').addClass('check2');
+                        $('div.modal-footer').find('button:nth-child(2)').css({
                             'display': 'block'
                         });
-                        $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('취소');
+                        $('div.modal-footer').find('button:nth-child(1)').text('취소');
                     },
                     error: function(request, status, error) {
-                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -871,15 +871,15 @@
 
                         }
 
-                        $('#exampleModal div.modal-body2').html(displayValue);
-                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
+                        $('div.modal-body').html(displayValue);
+                        $('div.modal-footer').find('button:nth-child(2)').css({
                             'display': 'none'
                         });
-                        $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('확인');
+                        $('div.modal-footer').find('button:nth-child(1)').text('확인');
 
                     },
                     error: function(request, status, error) {
-                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -918,27 +918,27 @@
                                 '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' + secondUserName + '님에게 창을 사용하시겠습니까?' +
                                 '</form>';
 
-                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
+                            $('div.modal-footer').find('button:nth-child(2)').css({
                                 'display': 'block'
                             });
-                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('check3');
-                            $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('취소');
+                            $('div.modal-footer').find('button:nth-child(2)').addClass('check3');
+                            $('div.modal-footer').find('button:nth-child(1)').text('취소');
                         } else {
                             displayValue = '사용 가능한 창이 없습니다😥<br>' +
                                 secondUserName + '님의 마음을 알고 싶으신가요? 지금 바로 구매하세요😉';
 
-                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
+                            $('div.modal-footer').find('button:nth-child(2)').css({
                                 'display': 'block'
                             });
-                            $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('취소');
-                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('purchaseBtn');
+                            $('div.modal-footer').find('button:nth-child(1)').text('취소');
+                            $('div.modal-footer').find('button:nth-child(2)').addClass('purchaseBtn');
                         }
 
 
-                        $('#exampleModal div.modal-body2').html(displayValue);
+                        $('div.modal-body').html(displayValue);
                     },
                     error: function(request, status, error) {
-                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -949,11 +949,11 @@
             $(document).on('click', '.check3', function() {
 
 
-                //alert('클릭ㅋㅋ');
+                alert('클릭ㅋㅋ');
                 $(this).removeClass('check3');
 
-                //alert('userId : ' + sessionUserId);
-                //alert('secondUserId : ' + targetUserId);
+                alert('userId : ' + sessionUserId);
+                alert('secondUserId : ' + targetUserId);
                 $.ajax({
                     url: '/matching/rest/updateItem3/' + sessionUserId + '/' + targetUserId,
                     method: 'GET',
@@ -967,10 +967,10 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                        //alert('성공ㅋㅋ');
+                        alert('성공ㅋㅋ');
                         var secondUserName = data.secondUserName;
                         var displayValue = '';
-                        //alert('data.useResult : ' + data.useResult);
+                        alert('data.useResult : ' + data.useResult);
                         if (data.useResult == '1') {
                             displayValue = '<form action="">' +
                                 '<input type="hidden" name="userId" value="' + sessionUserId + '">' +
@@ -992,14 +992,14 @@
                         }
 
 
-                        $('#exampleModal div.modal-body2').html(displayValue);
-                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
+                        $('div.modal-body').html(displayValue);
+                        $('div.modal-footer').find('button:nth-child(2)').css({
                             'display': 'none'
                         });
-                        $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('확인');
+                        $('div.modal-footer').find('button:nth-child(1)').text('확인');
                     },
                     error: function(request, status, error) {
-                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -1066,11 +1066,7 @@
 
 
         $(document).on("click", ".purchaseBtn", function() {
-        	////////////재이가 추가함///////////////////
-            $('#exampleModal div.modal-footer').find('button:nth-child(2)').removeClass('purchaseBtn'); //확인버튼을 누르면 class 지워짐
-            //모달 닫기
-            $("#exampleModal").modal("hide");
-			////////////재이가 추가함///////////////////
+            $('div.modal-footer').find('button:nth-child(2)').removeClass('purchaseBtn');
             var currPoint = $("input#totalPoint").val();
             itemCategory = $(this).children("input[type='hidden']").val();
             itemCount = $(this).children("span").html();
@@ -1226,17 +1222,13 @@
         	if($('ul.sectionNav').find('li').hasClass('coupleTimeline')) {
         		$('ul.sectionNav').addClass('on');
         	}
+        	
+        	
         });
 
     </script>
 
-    <style>
-
-
-
-
-
-    </style>
+    
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
         * {
@@ -1308,7 +1300,19 @@
             padding: 15px 15px 0 15px;
         }
 
+		a#myProfile {
+			color: #EBAD7A;
+			
+        }
+        
     </style>
+    <script>
+    	$(function() {
+    		$('a#myProfile span:nth-child(1)').css({
+    			'border' : '2px solid #EBAD7A'
+    		});
+    	});
+    </script>
 </head>
 
 <body>
@@ -1559,7 +1563,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body2" style="font-weight:bold;text-align:center">
+                <div class="modal-body" style="font-weight:bold;text-align:center">
 
                 </div>
                 <div class="modal-footer" style="border:none">
@@ -1627,7 +1631,7 @@
 						<form id="addCoupleTimelinePostForm" enctype="multipart/form-data" accept-charset="euc-kr">
                             <div class="addCoupleTimelinePostModalBody">
                             <a href="#" class="uploadFileName">
-								<img src="" alt="" id="img">
+								<img src="/images/81289090_165505291382436_7785460071330541719_n(1).jpg" alt="" id="img">
                                 <div class="postDate">
                                     <div>
                                         <p class="postDate" style="margin: 0;"></p>
@@ -1637,7 +1641,7 @@
                                 </div>
                             </a>
                             <div>
-                                <input type="file" id="input_img" name="file" style="display: none"/>
+                                <input type="file" id="input_img" name="file" style="display: block"/>
                                 <div class="place">
                                     <p>
                                         <i class="fas fa-map-marker-alt"></i>
