@@ -495,6 +495,34 @@
 			color: #EBAD7A;
 			
 		}
+		
+		div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
     </style>
 </head>
 
@@ -505,14 +533,22 @@
         </div>
         <div class="work2" id="wrapper">
         <ul>
-            <div class="container">
+        <div class="mainHeader">
+                 <div class="left2">
+                     새로운 알림
+                 </div>
+                 <div class="right2">
+                     <a href="#"><i class="far fa-star"></i></a>
+                 </div>
+            </div>
+            <div>
                 <div class="row">
                     <div class="col-md-12 col-lg-12">
-                        <div id="tracking">
-                            <div class="text-center tracking-status-intransit">
+                        <div id="tracking" style="border-bottom:1px solid #eee">
+                            <!-- <div class="text-center tracking-status-intransit">
                                 <p class="tracking-status text-tight">새로운 알림</p>
-                            </div>
-                            <div class="tracking-list">
+                            </div> -->
+                            <div class="tracking-list" style="border:none;border-bottom:1px solid #eee">
                                 <c:forEach items="${map.list}" var="noti">
                                     <div class="tracking-item ${noti.notiNo}">
 			                  <div class="tracking-icon status-intransit">

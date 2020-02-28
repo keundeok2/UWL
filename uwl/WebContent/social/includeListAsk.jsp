@@ -211,7 +211,7 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
         div.list2 div.ask {
             background-color: #fff;
             margin-top: 10px;
-            border-radius: 40px;
+            border-radius: 20px;
             padding: 20px 20px 10px;
         }
 
@@ -220,14 +220,14 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
 
             font-size: 12px;
             text-indent: 5px;
-            margin-bottom: 28px;
+            margin-bottom: 10px;
             margin-top: 2px;
         }
 
         div.list2 div.ask p:nth-child(3),
         div.list2 div.ask p:nth-child(4) {
 
-            text-indent: 30px;
+            text-indent: 15px;
             margin-bottom: 0;
         }
 

@@ -1311,6 +1311,11 @@
     		$('a#myProfile span:nth-child(1)').css({
     			'border' : '2px solid #EBAD7A'
     		});
+    		
+    		
+    		$('.modal:contains("Insert Image")').appendTo("body");
+    		
+    		
     	});
     </script>
 </head>
@@ -1485,7 +1490,7 @@
                                     <jsp:include page="/social/includeListTimeline.jsp" />
                                 </c:if>
                             </div>
-                            <div class="list2">
+                            <div class="list2" style="background:#EBAD7A">
                                 <c:if test="${targetUser.publicStatus == 2 && user.userId ne targetUser.userId}">
                               		<div style="text-align : center">
                               		<img alt="#" src="/images/lock-icon.png" style="width : 30%; height : 30%;">
@@ -1498,6 +1503,7 @@
                             </div>
                             <div class="list3">
                                     <jsp:include page="/couple/listCoupleTimelinePost2.jsp" />
+                                    
                             </div>
                             <div class="list4">
                                     <jsp:include page="/couple/listSchedule3.jsp" />
@@ -1670,6 +1676,9 @@
             </div>
         </div>
     </div>
+    
+    
+    
 </body>
 
 </html>
