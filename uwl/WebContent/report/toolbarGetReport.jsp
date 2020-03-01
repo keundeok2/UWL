@@ -7,12 +7,32 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
     <title>Insert title here</title>
+    <script src="/javascript/iscroll.js"></script>
+    <script>
+        var myScroll = null;
+
+        $(function() {
+
+            myScroll = new IScroll('#wrapper', {
+                mouseWheel: true,
+                scrollbars: true
+            });
+
+            setTimeout(function() {
+                myScroll.refresh();
+            }, 0);
+            
+            
+            $('#myModal').appendTo("body");
+            $('#master').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
+        });
+    </script>
 
     <style>
         * {
@@ -74,6 +94,10 @@
             background: #fff;
             border-left: 1px solid #eee;
         }
+        
+        .fa-crown {
+            color: #ffc811;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
@@ -131,7 +155,7 @@
             height: 100vh;
             float: left;
             
-            position: relative;
+            
 			
         }
 
@@ -145,7 +169,56 @@
             padding: 15px 15px 0 15px;
         }
         
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
         
+        table.table th,
+        table.table td {
+        	border: none;
+        }
+        
+        table.table tr {
+        	border-bottom: 1px solid #eee;
+        }
+        table.table tr:nth-child(1) {
+        	border-top: 1px solid #eee;
+        }
+        
+        
+        
+        #goMaster {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goMaster ul li:nth-child(2) {
+        	color: #EBAD7A;
+        }
     </style>
 
 </head>
@@ -157,15 +230,29 @@
         </div>
         <div class="work2" id="wrapper">
         <ul>
+        	<div class="mainHeader">
+                 <div class="left2">
+                     신고 조회
+                 </div>
+                 <div class="right2">
+                     <a href="#"><i class="far fa-star"></i></a>
+                 </div>
+            </div>
             <form method="POST" action="/report/updateReport">
                 <div>
-                    <div></div>
+                    
                     <div>
-                        <br>
-                        <h2 class="text-center">신고 조회</h2>
-                        <p>&nbsp;</p>
-                        <div class="table table-responsive">
+                        
+                        
+                        
+                        <div class="table table-responsive" style="margin-top:30px">
                             <table class="table">
+                               <colgroup>
+                                   <col width="20%">
+                                   <col width="30%">
+                                   <col width="20%">
+                                   <col width="30%">
+                               </colgroup>
                                 <tr>
                                     <th class="success">신고 날짜</th>
                                     <td>${report.reportDate }</td>
@@ -269,9 +356,13 @@
 
             </form>
             </ul>
+            
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
         </div>
     </div>
+    
+    
+    
 </body></html>

@@ -15,6 +15,22 @@
     <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
     <title>Insert title here</title>
+    <script src="/javascript/iscroll.js"></script>
+    <script>
+        var myScroll = null;
+
+        $(function() {
+
+            myScroll = new IScroll('#wrapper', {
+                mouseWheel: true,
+                scrollbars: false
+            });
+
+            setTimeout(function() {
+                myScroll.refresh();
+            }, 0);
+        });
+        </script>
  
     <style>
         * {
@@ -252,7 +268,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -261,34 +277,37 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;d
+            position: relative;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
-            overflow: hidden;
-            overflow-y: scroll;
-            font-size: 12px;
 
+            position: relative;
+			
         }
-        h6 {
-        	font-size: 16px;
-        }
+
+		div.work2 > ul {
+			padding: 10px;
+		}
 
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
         }
     </style>
 </head>
@@ -298,7 +317,8 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        <ul>
             <form>
 
                 <input type="hidden" id="userId" name="userId" value="${user.userId}" />
@@ -383,8 +403,7 @@
 
 
 
-                <br>
-                <br>
+                
 
 
 
@@ -394,9 +413,7 @@
                 <input type="hidden" />${post.commentCount}
                 <input type="hidden" />${post.postDate}
                 <input type="hidden" />${post.postNo}
-                <br>
-                <br>
-                <br>
+                
 
 
 
@@ -414,6 +431,7 @@
 
 
             </form>
+            </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />

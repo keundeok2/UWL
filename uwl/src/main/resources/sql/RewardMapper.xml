@@ -9,6 +9,7 @@
 	<resultMap id="rewardSelectMap" type="reward">
 		<result property="rewardNo" 			column="reward_no" 			jdbcType="NUMERIC"/>
 		<result property="userId" 			column="user_id" 			jdbcType="VARCHAR"/>
+		<result property="rowSeq" 			column="row_seq" 			jdbcType="VARCHAR"/>
 		
 		<result property="purchaseItem.purchaseNo" 			column="purchase_no" 			jdbcType="NUMERIC"/>
 		<result property="purchaseItem.itemCategory" 			column="item_category" 			jdbcType="VARCHAR"/>
@@ -177,6 +178,8 @@
 								</if>
 					ORDER BY variable_date DESC)countTable
 	 </select>
+	 
+	 
  	
  	
 </mapper>

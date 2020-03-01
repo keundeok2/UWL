@@ -459,6 +459,10 @@
             border: 1px solid #eee;
             background: #fff;
         }
+        
+        a#home {
+        	color: #EBAD7A;
+        }
 
         div.rightToolbar {
             width: 20%;

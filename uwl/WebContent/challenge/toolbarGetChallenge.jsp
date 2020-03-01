@@ -48,9 +48,9 @@
         div.navigation {
 
             /*  margin-bottom: 5px; */
-            margin-bottom: 30px;
+            
             text-align: right;
-            margin-right: 30px;
+            padding-right: 10px;
         }
 
         div.navigation span:nth-child(2) {
@@ -92,7 +92,7 @@
         div.challenge table tr:nth-child(3) td:nth-child(1),
         div.challenge table tr:nth-child(3) td:nth-child(3), 
         div.challenge table tr:nth-child(4) td:nth-child(1) {
-            background-color: #fdfdfd;
+            background-color: #fafafa;
 			
             font-weight: bold;
         }
@@ -124,6 +124,7 @@
         /* 수정삭제를 하기위해 내가 추가한 것 */
         div.bottom div.list {
             text-align: right;
+            padding-right: 10px;
         }
 
         div.bottom div.list a {
@@ -205,6 +206,15 @@
         body {
             font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
+        
+        #goMaster {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goMaster ul li:nth-child(1) {
+        	color: #EBAD7A;
+        }
     </style>
     <script type="text/javascript">
     
@@ -220,6 +230,10 @@
 	        setTimeout(function() {
 	    		myScroll.refresh();
 	    		}, 0);
+	        
+	        /* 재이수정 */
+	        $('#master').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
+        	
 		});	
 	        
     
@@ -368,7 +382,38 @@
             padding: 15px 15px 0 15px;
         }
         
+        /* 재이수정 */
         
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+        div.mainHeader div.left2 {
+            width: 90%;
+            float: left;
+        }
+		div.mainHeader div.left2 span {
+			font-weight: normal;
+			font-size: 13px;
+			margin-left: 10px;
+		}
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 10%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
     </style>
 </head>
 
@@ -379,19 +424,25 @@
         </div>
         <div class="work2" id="wrapper">
         	<ul>
-            <div class="wrap">
-
-                <div class="challengeTop">
-                    <span>도전과제 상세보기 <i class="fas fa-users"></i></span>
-                    <br>
-                    <br>
-                    <c:if test="${user.role == '4'}">
+        		<!-- 재이수정 -->
+        		<div class="mainHeader">
+                    <div class="left2">
+                        도전과제 상세보기 <i class="fas fa-users"></i>
+                        
+                        <c:if test="${user.role == '4'}">
                         <span>등록된 정보를 확인해 주세요.</span>
                     </c:if>
                     <c:if test="${user.role != '4'}">
                         <span>완료한 도전과제의 정보입니다.</span>
                     </c:if>
+                    </div>
+                    <div class="right2">
+                        <a href="#"><i class="far fa-star"></i></a>
+                    </div>
                 </div>
+            <div class="wrap">
+
+                
 
                 <c:if test="${user.role == '4'}">
                     <div class="navigation">
@@ -412,10 +463,10 @@
                 <div class="challenge">
                     <table>
                         <colgroup>
-                            <col width="10%">
-                            <col width="40%">
-                            <col width="10%">
-                            <col width="40%">
+                            <col width="15%">
+                            <col width="35%">
+                            <col width="15%">
+                            <col width="35%">
                         </colgroup>
                         <tr><!-- 1번째 tr -->
                             <td>제목</td>
