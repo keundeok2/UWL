@@ -142,6 +142,12 @@
 							questionTitle : "ask"
 						}),
 						success : function(d) {
+							Swal.fire({
+								  icon: 'success',
+								  title: '답변등록완료!',
+								  showConfirmButton: false,
+								  timer: 800
+								})
 							$("div."+questionPostNo+"").remove();
 							console.log("d", d);
 							var html = "<div class='ask'>"

@@ -42,6 +42,12 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
 			questionTitle : "ask"
 		}),
 		success : function() {
+			Swal.fire({
+				  icon: 'success',
+				  title: '등록완료!',
+				  showConfirmButton: false,
+				  timer: 800
+				})
 			$("textarea").val("");
 			//socket push
 			socketMsg = sessionId + "," + targetUserId + "," + sessionUserName + "," + "2,5";

@@ -114,7 +114,7 @@
 		</property>
 	</bean>
 	
-	<bean id="replyEchochoHandler" class="com.uwl.common.socket.ReplyEchoHandler"/>
+		<bean id="replyEchochoHandler" class="com.uwl.common.socket.ReplyEchoHandler"/>
 	
 	<websocket:handlers>
 		<websocket:mapping handler="replyEchochoHandler" path="/replyEcho"/>
@@ -123,4 +123,5 @@
 			<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
+	
 </beans>
