@@ -114,4 +114,14 @@
 		</property>
 	</bean>
 	
+		<bean id="replyEchochoHandler" class="com.uwl.common.socket.ReplyEchoHandler"/>
+	
+	<websocket:handlers>
+		<websocket:mapping handler="replyEchochoHandler" path="/replyEcho"/>
+		<websocket:handshake-interceptors>
+			<!-- HttpSession을 WebSocketSession에 실어줌. 즉 WebSocketSession에서 HttpSession에 접근할 수 있음 -->
+			<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+		</websocket:handshake-interceptors>
+	</websocket:handlers>
+	
 </beans>
