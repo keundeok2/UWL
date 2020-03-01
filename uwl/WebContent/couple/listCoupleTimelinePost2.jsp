@@ -147,6 +147,10 @@
             margin-top: 6px;
             position: relative;
         }
+        
+        div.coupleTimelineMain div.coupleTimelinePost:last-child {
+        	margin-bottom: 50px;
+        }
 
         div.coupleTimelineMain div.coupleTimelinePost:nth-child(3n) {
             margin-right: 0;
@@ -638,7 +642,6 @@
             $(document).ready(function() {
 				//alert('온로드ㅋㅋ');
                 //alert('userId : ' + userId);
-                //console.log("sessionUserRole", sessionUserRole);
                 
                 
                 if (sessionUserRole == 3) {

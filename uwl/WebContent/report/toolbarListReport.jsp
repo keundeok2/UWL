@@ -38,6 +38,7 @@
 	    setTimeout(function() {
 			myScroll.refresh();
 		}, 0);
+	    $('#master').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
 	});
 
 	$(document).ready(function(){
@@ -87,6 +88,8 @@
 </script>
 
 <style>
+
+
         * {
             margin: 0;
             padding: 0;
@@ -154,6 +157,10 @@
         }
         #goMaster ul li:nth-child(2) {
         	color: #EBAD7A;
+        }
+        
+        .fa-crown {
+            color: #ffc811;
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">

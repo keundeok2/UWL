@@ -544,11 +544,11 @@
             <div>
                 <div class="row">
                     <div class="col-md-12 col-lg-12">
-                        <div id="tracking" style="border-bottom:1px solid #eee">
+                        <div id="tracking">
                             <!-- <div class="text-center tracking-status-intransit">
                                 <p class="tracking-status text-tight">새로운 알림</p>
                             </div> -->
-                            <div class="tracking-list" style="border:none;border-bottom:1px solid #eee">
+                            <div class="tracking-list" style="border:none;">
                                 <c:forEach items="${map.list}" var="noti">
                                     <div class="tracking-item ${noti.notiNo}">
 			                  <div class="tracking-icon status-intransit">

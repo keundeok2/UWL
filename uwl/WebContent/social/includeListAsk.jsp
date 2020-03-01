@@ -70,7 +70,7 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
 				                +"<p><span>익명</span> · <span>"+d.list[i].questionDate+"</span></p>"
 				                +"<p><a href='#'><i class='fas fa-ellipsis-h'></i></a></p>"
 				                +"<p>"+d.list[i].questionContent+"</p>"
-				                +"<p><a class='rejectBtn'>거절하기</a><a class='regBtn'><i class='fas fa-pen'></i> 답하기</a></p>"
+				                +"<p><a href='#' class='rejectBtn'>거절하기</a><a href='#' class='regBtn'><i class='fas fa-pen'></i> 답하기</a></p>"
 				                +"<input type='hidden' value='"+d.list[i].questionPostNo+"'>"
 				            +"</div>";
 				$(html).appendTo("div.addAsk");
@@ -215,6 +215,10 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
             padding: 20px 20px 10px;
         }
 
+
+		div.list2 div.ask:last-child {
+			margin-bottom: 50px;
+		}
         div.list2 div.ask p:nth-child(2),
         div.list2 div.ask p:nth-child(4) {
 
@@ -230,7 +234,10 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
             text-indent: 15px;
             margin-bottom: 0;
         }
-
+		div.list2 div.ask p:nth-child(1),
+		div.list2 div.ask p:nth-child(3) {
+			font-weight: bold;
+		}
         
 
     </style>

@@ -30,6 +30,7 @@
             
             
             $('#myModal').appendTo("body");
+            $('#master').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
         });
     </script>
 
@@ -92,6 +93,10 @@
             bottom: 0;
             background: #fff;
             border-left: 1px solid #eee;
+        }
+        
+        .fa-crown {
+            color: #ffc811;
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">

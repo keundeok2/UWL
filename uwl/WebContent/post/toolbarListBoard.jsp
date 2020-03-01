@@ -77,6 +77,8 @@
             width: 50%;
             float: left;
         }
+        
+        
 
         div.mainHeader div.right2 {
             text-align: right;
@@ -88,66 +90,14 @@
             vertical-align: baseline;
         }
 
-        /*정렬, 검색*/
-        div.mainTop {
-
-            overflow: hidden;
-            padding: 5px 10px 5px;
-
-            background-color: #fff;
-            margin-bottom: 10px;
-        }
-
-        div.mainTop ul {
-
-            width: 50%;
-            float: left;
-        }
-
-        div.mainTop ul li {
-            float: left;
-            margin-right: 15px;
-            line-height: 30px;
-        }
-
-        div.search {
-            width: 50%;
-            float: right;
-
-            text-align: right;
-        }
-
-        div.search select {
-
-            line-height: 30px;
-            height: 30px;
-        }
-
-        div.search input {
-
-            border: none;
-            border: 1px solid #898989;
-            line-height: 30px;
-            height: 30px;
-            text-indent: 5px;
-        }
-
-        div.search a {
-
-            display: inline-block;
-            height: 30px;
-            line-height: 30px;
-            padding: 0 10px;
-            border: 1px solid;
-            vertical-align: middle;
-        }
+        
 
 
 
 
 
         div.postList {
-            padding: 5px;
+            padding: 10px;
         }
 
         div.postList div.post {
@@ -156,55 +106,90 @@
 
             padding: 10px;
             margin-bottom: 10px;
-            box-shadow: 3px 3px 3px #b1b1b1;
-            border-radius: 15px;
+            
+            
+            
+            box-shadow: 5px 5px rgb(238, 238, 238);
+            border: 1px solid #eee;
+            border-radius: 10px;
         }
 
         div.uploadFile {
 
-            width: 30%;
+            width: calc(30% - 10px);
             float: left;
-            padding-right: 10px;
+            margin-right: 10px;
             height: 190px;
             overflow: hidden;
+            
+            border-radius: 10px;
+            position: relative;
+            background: rgb(238, 238, 238);
         }
 
         div.uploadFile img {
             width: 100%;
-
+            
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         div.post>a>div:nth-child(2) {
 
             width: 70%;
             float: right;
+            
         }
 
         div.postTop {
 
             overflow: hidden;
             margin-bottom: 10px;
+            
+            
         }
 
         div.postTop div.postTitle {
 
             width: 80%;
             float: left;
+            
+            
         }
-
+        p {
+            margin: 0;
+        }
         div.postTitle p {
             display: inline-block;
+            
+            
         }
 
         div.postTitle p:nth-child(1) {
             font-size: 20px;
             font-weight: bold;
             margin-right: 10px;
-            width: 80%;
+            width: calc(100% - 10px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            /* 라인수 */
+            -webkit-box-orient: vertical;
+            word-wrap: break-word;
+            line-height: 1.2em;
+            max-height: 2.4em;
+            /* line-height 가 1.2em 이고 3라인을 자르기 때문에 height는 1.2em * 3 = 3.6em */
+            
+            
         }
 
         div.postTitle p:nth-child(2) {
             vertical-align: top;
+            font-weight: bold;
+            color: #d75e0f;
         }
 
         div.postCategory {
@@ -213,6 +198,7 @@
             float: right;
             width: 20%;
             text-align: right;
+            
         }
 
         div.postContent {
@@ -220,15 +206,15 @@
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
+            -webkit-line-clamp: 4;
             /* 라인수 */
             -webkit-box-orient: vertical;
             word-wrap: break-word;
             line-height: 1.2em;
-            height: 3.6em;
+            max-height: 4.8em;
             /* line-height 가 1.2em 이고 3라인을 자르기 때문에 height는 1.2em * 3 = 3.6em */
             margin-bottom: 10px;
-
+            
         }
 
         div.postContent img {
@@ -238,6 +224,8 @@
         div.post>a>div:nth-child(2)>div:nth-child(3) p {
             margin-right: 40px;
             display: inline-block;
+            
+            font-weight: bold;
         }
 
         div.post>a>div:nth-child(2) {
@@ -275,6 +263,33 @@
         div.a i {
             line-height: 60px;
             color: #fff;
+        }
+        
+        div.addPostBtn {
+        	width: 60px;
+            height: 60px;
+            background-color: rgb(232,115,123);
+
+            border-radius: 50%;
+            position: fixed;
+            bottom: 165px;
+            right: 20px;
+            
+            
+            text-align: center;
+            color: #fff;
+        }
+        div.addPostBtn a {
+        	display: block;
+        	position: absolute;
+        	top: 50%;
+        	left: 50%;
+        	transform: translate(-50%, -50%);
+        	width: 60px;
+        }
+        div.addPostBtn a div:nth-child(2) {
+        	font-size: 12px;
+        	font-weight: bold;
         }
     </style>
     <script type="text/javascript">
@@ -346,7 +361,7 @@
 				}) //challenge   
 	    	}// 도전과제 ajax수행 로직 end of if
 	    	
-	    	$('.a').on("click", function(){
+	    	$('.addPostBtn').on("click", function(){
 	    		var gatherCategoryNo = ${gatherCategoryNo};
 	    		self.location = "/post/addBoard?gatherCategoryNo="+gatherCategoryNo + "&postChallenge=2";
 	    	});
@@ -382,9 +397,13 @@
 					fncGetList(1);
 				});
 			 
+			 $('#community').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
+			 var category = $('.mainHeader .left2 span').text();
 			 
-			 $('#goCommunity').addClass('on');
-             $('#community').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
+			 console.log(category);
+			 $('#goCommunity ul li:contains("' + category + '")').css({
+				 'color': '#EBAD7A'
+			 });
 			 
 		 });
 	    
@@ -425,6 +444,15 @@
             background: #fff;
             border-left: 1px solid #eee;
         }
+        
+        #goCommunity {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        /* #goCommunity ul li:nth-child(1) {
+        	color: #EBAD7A;
+        } */
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
@@ -513,22 +541,22 @@
                 <div class="mainHeader">
                     <div class="left2" style="color: #d75e0f;">
                         <c:if test="${gatherCategoryNo eq '201' }">
-                            <h1><i class="fas fa-graduation-cap"></i> 진학상담</h1>
+                            <i class="fas fa-graduation-cap"></i> <span>진학상담</span>
                         </c:if>
                         <c:if test="${gatherCategoryNo eq '202' }">
-                            <h1><i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i></h1>
+                            <i class="fas fa-heart"></i> <span>사랑과 이별</span> <i class="fas fa-heart-broken"></i>
                         </c:if>
                         <c:if test="${gatherCategoryNo eq '203' }">
-                            <h1><i class="fas fa-male"></i> 남자끼리</h1>
+                            <i class="fas fa-male"></i> <span>남자끼리</span>
                         </c:if>
                         <c:if test="${gatherCategoryNo eq '204' }">
-                            <h1><i class="fas fa-female"></i> 여자끼리</h1>
+                            <i class="fas fa-female"></i> <span>여자끼리</span>
                         </c:if>
                         <c:if test="${gatherCategoryNo eq '205' }">
-                            <h1><i class="far fa-kiss-wink-heart"></i>데이트 자랑</h1>
+                            <i class="far fa-kiss-wink-heart"></i> <span>데이트자랑</span>
                         </c:if>
                         <c:if test="${gatherCategoryNo eq '206' }">
-                            <h1><i class="fas fa-bullhorn"></i> 대나무 숲</h1>
+                            <i class="fas fa-bullhorn"></i> <span>대나무 숲</span>
                         </c:if>
                         <input type="hidden" class="gatherCategoryNo" name="gatherCategoryNo" value="${gatherCategoryNo }" id="gatherCategoryNo">
                         <input type="hidden" class="postChallenge" name="postChallenge" value="2" id="postChallenge">
@@ -537,23 +565,7 @@
                         <a href="#"><i class="far fa-star"></i></a>
                     </div>
                 </div>
-                <div class="mainTop">
-                    <ul>
-                        <li><a href="#">조회수 <i class="fas fa-arrow-up"></i></a></li>
-                        <li><a href="#">좋아요 <i class="fas fa-arrow-up"></i></a></li>
-                        <li><a href="#">작성일 <i class="fas fa-arrow-up"></i></a></li>
-                    </ul>
-                    <div class="search">
-                        <select name="" id="">
-                            <option value="">내용</option>
-                            <option value="">제목</option>
-                            <option value="">제목 + 내용</option>
-                            <option value="">작성자</option>
-                        </select>
-                        <input type="text" placeholder="내용을 입력해주세요">
-                        <a href="#">검색</a>
-                    </div>
-                </div>
+                
 
                 <div class="postList">
 					
@@ -561,7 +573,7 @@
                         <div class="post">
                             <a href="#">
                                 <div class="uploadFile">
-                                    <img src="/images/${post.uploadFileName}" alt="" style='border-radius: 10px;'>
+                                    <img src="/images/${post.uploadFileName}" alt="">
                                 </div>
                                 <div>
                                     <div class="postTop">
@@ -611,7 +623,7 @@
                 
                 
 				<!-- PageNavigation Start... -->
-			<div>
+			<div style="padding:15px 0 30px">
 					<jsp:include page="../common/pageNavigator_new.jsp"/>
 				  
 				<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
@@ -629,7 +641,12 @@
         </form> -->
             
         </ul>
-        <div class="a"><i class="fas fa-pencil-alt"></i></div>
+        <div class="addPostBtn">
+        	<a href="#">
+        		<div><i class="fas fa-pencil-alt"></i></div>
+        		<div>글쓰기</div>
+        	</a>
+        </div>
     </div>
     <div class="rightToolbar2">
         <jsp:include page="/layout/right.jsp" />

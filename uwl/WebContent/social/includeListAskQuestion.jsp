@@ -48,7 +48,7 @@
 				                +"<p><span>익명</span> · <span>"+d.list[0].questionDate+"</span></p>"
 				                +"<p><a href='#'><i class='fas fa-ellipsis-h'></i></a></p>"
 				                +"<p>"+d.list[0].questionContent+"</p>"
-				                +"<p><a class='rejectBtn'>거절하기</a><a class='regBtn'><i class='fas fa-pen'></i> 답하기</a></p>"
+				                +"<p><a href='#' class='rejectBtn'>거절하기</a><a href='#' class='regBtn'><i class='fas fa-pen'></i> 답하기</a></p>"
 				                +"<input type='hidden' value='"+d.list[0].questionPostNo+"'>"
 				            +"</div>"
 				$("div.addAsk").prepend(html);
@@ -104,7 +104,7 @@
 							        + '</textarea>'
 							        + '<p>최대 1000자까지 입력가능합니다.'
 							        + '</p>'
-							        + '<p><a class="replyBtn"><i class="fas fa-pen"></i> 답하기</a></p>'
+							        + '<p><a href="#" class="replyBtn"><i class="fas fa-pen"></i> 답하기</a></p>'
 							    + '</div>';
                 $(this).parent().parent().append(displayValue);
                 setTimeout(function() {
@@ -151,6 +151,9 @@
 							                +"<p><span>"+d.list[0].user.name+"</span> ｜ <span>"+d.list[0].answerDate+"</span></p>"
 							            +"</div>";
 							$("div.askList").prepend(html);
+							setTimeout(function() {
+			            		myScroll.refresh();
+			            	}, 0);
 						}
 					})
 				})
@@ -324,6 +327,7 @@
             border-radius: 40px;
             border: 1px solid;
             color: #d25412;
+            
         }
 
         

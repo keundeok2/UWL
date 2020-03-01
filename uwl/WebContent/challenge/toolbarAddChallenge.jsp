@@ -190,6 +190,8 @@
 	        setTimeout(function() {
 	    		myScroll.refresh();
 	    		}, 0);
+	        
+	        $('#master').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
 		});
     
         function fncAddChallenge() {

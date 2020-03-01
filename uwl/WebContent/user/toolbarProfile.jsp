@@ -15,10 +15,14 @@
         var myScroll = null;
 
         $(function() {
+        	
+        	$('a#myProfile span:nth-child(1)').css({
+        		'border': '2px solid #EBAD7A'
+        	});
 
             myScroll = new IScroll('#wrapper', {
                 mouseWheel: true,
-                scrollbars: true
+                scrollbars: false
             });
 
             setTimeout(function() {
@@ -447,7 +451,7 @@
 
         div.sectionList ul.sectionNav li {
 
-            /*float: left;*/
+            
             width: 25%;
             text-align: center;
             line-height: 50px;
@@ -455,9 +459,11 @@
             color: #898989;
             font-weight: bold;
             display: inline-block;
+            
         }
         
         ul.sectionNav.on li {
+            
             float: left;
         }
 
@@ -1308,10 +1314,6 @@
     </style>
     <script>
     	$(function() {
-    		$('a#myProfile span:nth-child(1)').css({
-    			'border' : '2px solid #EBAD7A'
-    		});
-    		
     		
     		$('.modal:contains("Insert Image")').appendTo("body");
     		
@@ -1647,7 +1649,7 @@
                                 </div>
                             </a>
                             <div>
-                                <input type="file" id="input_img" name="file" style="display: block"/>
+                                <input type="file" id="input_img" name="file" style="display:none"/>
                                 <div class="place">
                                     <p>
                                         <i class="fas fa-map-marker-alt"></i>

@@ -232,6 +232,7 @@
 	    		}, 0);
 	        
 	        /* 재이수정 */
+	        $('#master').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
         	
 		});	
 	        

@@ -43,7 +43,7 @@ font-family: 'Nanum Gothic', sans-serif;
         }
         div.leftNavigation {
             
-            width: 30%;
+            width: 25%;
             float: left;
         }
         div.leftNavigation ul li a {
@@ -55,10 +55,10 @@ font-family: 'Nanum Gothic', sans-serif;
         div.updateProfile,
         div.updatePassword {
             padding-top: 20px;
-            width: 70%;
+            width: 75%;
             float: right;
             border-left: 1px solid #eee;
-            min-height: 100vh;
+            min-height: calc(100vh - 56px);
         }
         div.updateProfile table,
         div.updatePassword table {
@@ -188,10 +188,10 @@ font-family: 'Nanum Gothic', sans-serif;
         
         div.publicStatus {
             
-            width: 70%;
+            width: 75%;
             float: right;
             border-left: 1px solid #eee;
-            min-height: 100vh;
+            min-height: calc(100vh - 56px);
         }
         div.publicStatus > div {
             
@@ -243,6 +243,9 @@ font-family: 'Nanum Gothic', sans-serif;
         }
         div.leftNavigation li.on {
             border-left: 3px solid;
+        }
+        div.leftNavigation li {
+        	border-left: 3px solid transparent;
         }
     </style>
     <script>
@@ -473,7 +476,38 @@ font-family: 'Nanum Gothic', sans-serif;
             padding: 15px 15px 0 15px;
         }
         
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
         
+        a#myProfile {
+			color: #EBAD7A;
+			
+        }
     </style>
 </head>
 
@@ -484,6 +518,14 @@ font-family: 'Nanum Gothic', sans-serif;
         </div>
         <div class="work2" id="wrapper">
         <ul>
+        <div class="mainHeader">
+                 <div class="left2">
+                     프로필 편집
+                 </div>
+                 <div class="right2">
+                     <a href="#"><i class="far fa-star"></i></a>
+                 </div>
+            </div>
         	<div class="updateUser">
         <div class="leftNavigation">
             <ul>
@@ -538,7 +580,7 @@ font-family: 'Nanum Gothic', sans-serif;
                 </tr>
                 <tr>
                     <td></td>
-                    <td>개인 정보</td>
+                    <td style="padding-left:10px">개인 정보</td>
                 </tr>
                 <tr>
                     <td>이메일</td>
@@ -556,7 +598,7 @@ font-family: 'Nanum Gothic', sans-serif;
                     <c:if test="${user.gender == 2 }">
                     	<c:set var="gender" value="남성"/>
                     </c:if>
-                    <td>${gender}</td>
+                    <td style="padding-left:10px">${gender}</td>
                 </tr>
                 <tr>
                     <td>학교</td>
