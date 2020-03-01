@@ -4,6 +4,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	@font-face { font-family: 'GmarketSansMedium'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff'); font-weight: normal; font-style: normal; }
+    	* {
+            font-family: 'GmarketSansMedium';
+        }
+    </style>
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -145,6 +154,12 @@
         div.modal-backdrop.show {
 			display: none;
 		}
+		
+		#goCommunity {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
     </style>
 
 
@@ -182,7 +197,20 @@
 		  $(".dropdownbox").click(function(){
 			  
 			  
-			  $('#choiceCategory').removeClass('fa-caret-down').addClass('fa-caret-up');
+			  
+			  if($('#choiceCategory').hasClass('fa-caret-down')) {
+				  console.log('내려간다ㅋㅋ');
+				  $('#choiceCategory').removeClass('fa-caret-down').addClass('fa-caret-up');
+				  
+				  
+				  /* if($('#choiceCategory').hasClass('fa-caret-up')) {
+					  console.log('올라간다ㅋㅋ');
+					  $('#choiceCategory').removeClass('fa-caret-up').addClass('fa-caret-down');
+				  } */
+			  } else {
+				  console.log('올라간다ㅋㅋ');
+				  $('#choiceCategory').removeClass('fa-caret-up').addClass('fa-caret-down');
+			  }
 			  
 			  
 			  
@@ -195,6 +223,16 @@
 		        $(".dropdownbox > p").html($(this).html());
 		        $(".menu").removeClass("showMenu");
 		        
+		        var category = $(this).find('span').text();
+		        console.log(category);
+		        
+		        $('#goCommunity ul li').css({
+					 'color': '#333'
+				 });
+		        
+		        $('#goCommunity ul li:contains("' + category + '")').css({
+					 'color': '#EBAD7A'
+				 });
 		      });
               
               
@@ -589,20 +627,20 @@
                         
                         <div class="wrapper" style="margin-top:25px">
                             <div class="dropdownbox">
-                                <p>어디에 글 쓸래? <i class="fas " id="choiceCategory"></i></p>
+                                <p>어디에 글 쓸래? <i class="fas fa-caret-down" id="choiceCategory"></i></p>
                             </div>
                             <ul class="menu">
-                                <li value="201"><i class="fas fa-graduation-cap"></i> 진학상담</li>
-                                <li value="202"><i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i></li>
+                                <li value="201"><i class="fas fa-graduation-cap"></i> <span>진학상담</span></li>
+                                <li value="202"><i class="fas fa-heart"></i> <span>사랑과 이별</span> <i class="fas fa-heart-broken"></i></li>
                                 <c:if test="${user.gender == '2' }">
-                                    <li value="203"><i class="fas fa-male"></i> 남자끼리</li>
+                                    <li value="203"><i class="fas fa-male"></i> <span>남자끼리</span></li>
                                 </c:if>
                                 <c:if test="${user.gender == '1' }">
-                                    <li value="204"><i class="fas fa-female"></i> 여자끼리</li>
+                                    <li value="204"><i class="fas fa-female"></i> <span>여자끼리</span></li>
                                 </c:if>
 
-                                <li value="205"><i class="far fa-kiss-wink-heart"></i> 데이트 자랑</li>
-                                <li value="206"><i class="fas fa-bullhorn"></i> 대나무 숲</li>
+                                <li value="205"><i class="far fa-kiss-wink-heart"></i> <span>데이트자랑</span></li>
+                                <li value="206"><i class="fas fa-bullhorn"></i> <span>대나무 숲</span></li>
                             </ul>
                             <input type="hidden" name="gatherCategoryNo" value="" id="gatherCategoryNo">
                             <input type="hidden" name="postChallenge" value="2" id="postChallenge">

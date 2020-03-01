@@ -5,6 +5,15 @@
 <html lang="en">
 
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	@font-face { font-family: 'GmarketSansMedium'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff'); font-weight: normal; font-style: normal; }
+    	* {
+            font-family: 'GmarketSansMedium';
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--  CDN -->
@@ -19,8 +28,9 @@
     <script src="https://kit.fontawesome.com/4b823cf630.js" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-messaging.js"></script>
-    <title>Document</title>
+    
     <style>
+    
         * {
             margin: 0;
             padding: 0;
@@ -545,6 +555,7 @@
             background-color: #fff;
             border-left: 1px solid #eee;
             padding: 15px 15px 0 15px;
+            
         }
         
         

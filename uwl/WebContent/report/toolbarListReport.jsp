@@ -4,6 +4,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	@font-face { font-family: 'GmarketSansMedium'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff'); font-weight: normal; font-style: normal; }
+    	* {
+            font-family: 'GmarketSansMedium';
+        }
+    </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet"
@@ -317,7 +326,7 @@
 							<br />
 							<div class="panel-body">
 
-								<table class="table table-striped table-condensed">
+								<table class="table table-striped table-condensed" style="font-size:15px;">
 								
 									<thead>
 										<tr>

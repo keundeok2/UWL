@@ -4,6 +4,15 @@
 <html lang="en">
 
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	@font-face { font-family: 'GmarketSansMedium'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff'); font-weight: normal; font-style: normal; }
+    	* {
+            font-family: 'GmarketSansMedium';
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>어울림</title>
@@ -17,7 +26,7 @@
         $(function() {
         	
         	$('a#myProfile span:nth-child(1)').css({
-        		'border': '2px solid #EBAD7A'
+        		'border': '3px solid #EBAD7A'
         	});
 
             myScroll = new IScroll('#wrapper', {
@@ -1311,6 +1320,36 @@
 			
         }
         
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
+        
+        
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
+        
     </style>
     <script>
     	$(function() {
@@ -1329,6 +1368,14 @@
         </div>
         <div class="work2" id="wrapper">
             <ul>
+            <div class="mainHeader">
+                    <div class="left2">
+                        ${targetUser.name} 프로필
+                    </div>
+                    <div class="right2">
+                        <a href="#"><i class="far fa-star"></i></a>
+                    </div>
+                </div>
                 <input type="hidden" id="sessionUserId" value="${user.userId}">
                 <input type="hidden" id="targetUserId" value="${targetUserId}">
                 <input type="hidden" id="sessionMail" value="${user.mail}">
