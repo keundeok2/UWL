@@ -5,6 +5,16 @@
 <html lang="en">
 
 <head> 
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	@font-face { font-family: 'GmarketSansMedium'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff'); font-weight: normal; font-style: normal; }
+    	
+    	* {
+            font-family: 'GmarketSansMedium';
+        }
+    </style>
     <meta charset="UTF-8">
     <!-- 참조 : http://getbootstrap.com/css/   참조 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -257,7 +267,7 @@
 					//alert(  $( "td.ct_btn01:contains('검색')" ).html() );
 					fncGetList(1);
 				});
-			 
+			 $('#more').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
 			 
 		 });
         
@@ -439,7 +449,14 @@
             background: #fff;
             border-left: 1px solid #eee;
         }
-        
+        #goMore {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goMore ul li:nth-child(2) {
+        	color: #EBAD7A;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>

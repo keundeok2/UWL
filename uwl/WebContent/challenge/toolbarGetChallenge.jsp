@@ -242,7 +242,7 @@
 	        
 	        /* 재이수정 */
 	        $('#master').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
-        	
+	        $('#challenge').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
 		});	
 	        
     
@@ -422,6 +422,15 @@
 
         div.mainHeader div.right2 i {
             vertical-align: baseline;
+        }
+        
+        #goChallenge {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goChallenge ul li:nth-child(1) {
+        	color: #EBAD7A;
         }
     </style>
 </head>

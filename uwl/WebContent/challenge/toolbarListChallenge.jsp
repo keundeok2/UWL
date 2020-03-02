@@ -286,7 +286,7 @@
 				</div>
             </ul>
         </div>
-        </div>
+        
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
         </div>

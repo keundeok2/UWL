@@ -30,6 +30,12 @@
         .table {
             overflow-x: hidden;
         }
+        
+        #goCommunity {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
     </style>
     <script type="text/javascript">
     
@@ -45,6 +51,14 @@
 	        setTimeout(function() {
 	    		myScroll.refresh();
 	    	}, 0);
+	        
+	        $('#community').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
+			 var category = $('.mainHeader .left2 span').text();
+			 
+			 console.log(category);
+			 $('#goCommunity ul li:contains("' + category + '")').css({
+				 'color': '#EBAD7A'
+			 });
 	    });
     
         $(document).ready(function() {
@@ -324,7 +338,35 @@
             margin: 20px 0;
         	
         }
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
         
+        
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
     </style>
     
     
@@ -337,11 +379,36 @@
         </div>
         <div class="work2" id="wrapper">
         	<ul>
+        	<div class="mainHeader">
+                    <div class="left2">
+                        <c:if test="${post.gatherCategoryNo eq '201' }">
+                                <i class="fas fa-graduation-cap"></i> <span>진학상담</span>
+                            </c:if>
+                            <c:if test="${post.gatherCategoryNo eq '202' }">
+                                <i class="fas fa-heart"></i> <span>사랑과 이별</span> <i class="fas fa-heart-broken"></i>
+                            </c:if>
+                            <c:if test="${post.gatherCategoryNo eq '203' }">
+                                <i class="fas fa-male"></i> <span>남자끼리</span>
+                            </c:if>
+                            <c:if test="${post.gatherCategoryNo eq '204' }">
+                                <i class="fas fa-female"></i> <span>여자끼리</span>
+                            </c:if>
+                            <c:if test="${post.gatherCategoryNo eq '205' }">
+                                <i class="far fa-kiss-wink-heart"></i> <span>데이트자랑</span>
+                            </c:if>
+                            <c:if test="${post.gatherCategoryNo eq '206' }">
+                                <i class="fas fa-bullhorn"></i> <span>대나무 숲</span>
+                            </c:if>
+                    </div>
+                    <div class="right2">
+                        <a href="#"><i class="far fa-star"></i></a>
+                    </div>
+                </div>
             <form method="POST" action="/report/updateReport">
                 <div>
-                    <div></div>
+                    <!-- <div></div> -->
                     <div>
-                        <br>
+                        <%-- <br>
                         <h5>
                             <c:if test="${post.gatherCategoryNo eq '201' }">
                                 <i class="fas fa-graduation-cap"></i> 진학상담
@@ -361,12 +428,12 @@
                             <c:if test="${post.gatherCategoryNo eq '206' }">
                                 <i class="fas fa-bullhorn"></i> 대나무 숲
                             </c:if>
-                        </h5>
-                        <h3>${post.postTitle }</h3>
+                        </h5> --%>
+                        <h3 style="margin-top:10px;padding-left:10px">${post.postTitle }</h3>
                         <div class="table table-responsive">
                             <table class="table">
                                 <tr>
-                                    <th class="success">
+                                    <th class="success" style="vertical-align:middle">
                                         ${post.user.nickname }
                                         ｜
                                         <span><i class="fas fa-heart" style="color:red"></i> ${post.likeCount }</span>
@@ -409,9 +476,9 @@
                     </div>
                 </div>
             </form>
-
-            <jsp:include page="../community/includeListComment.jsp"></jsp:include>
-
+			<div style="padding:0 10px;">
+            	<jsp:include page="../community/includeListComment.jsp"></jsp:include>
+			</div>
             </ul>
             <!-- <div class="back">
             <a href="#" id="boardList">목록으로</a>

@@ -4,6 +4,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	@font-face { font-family: 'GmarketSansMedium'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff'); font-weight: normal; font-style: normal; }
+    	
+    	* {
+            font-family: 'GmarketSansMedium';
+        }
+    </style>
     <meta charset="UTF-8">
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -15,6 +25,8 @@
                 // 			self.location = "/user/getUser?userId=${user.userId}"
                 $("form").attr("method", "POST").attr("action", "/user/updateQuestions").submit();
             });
+            
+            $('#more').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
         });
     </script>
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
@@ -158,6 +170,15 @@
         div.wrap>div:nth-child(4) table tr td:nth-child(2) {
             padding-left: 30px;
         }
+        
+        #goMore {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goMore ul li:nth-child(2) {
+        	color: #EBAD7A;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
@@ -192,7 +213,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -201,32 +222,35 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;d
+            position: relative;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
-            overflow: hidden;
-            overflow-y: scroll;
-			font-size: 12px;
+
+            position: relative;
+			
         }
-		h6 {
-        	font-size: 16px;
-        }
+
+		
+
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
         }
     </style>
 </head>
