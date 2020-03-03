@@ -3,7 +3,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   	
- <div class="container text-center">
+ <div class="container text-center" style="padding:20px 0">
 	<nav aria-label="Page navigation example" >
 	  <ul class="pagination justify-content-center" >
 		  <!-- 좌측 -->
@@ -25,13 +25,13 @@
 	    
 	    	<c:if test="${ resultPage.currentPage == i }">
 		   	 <li class="page-item">
-		   	 	<a class="page-link" href="javascript:fncGetList('${ i }');">${ i }<span class="sr-only">(current)</span></a>
+		   	 	<a class="page-link" href="javascript:fncGetList('${ i }');" style="color:#de7527;">${ i }<span class="sr-only">(current)</span></a>
 		   	 </li>
 	    	</c:if>
 	    	
 	    	<c:if test="${ resultPage.currentPage != i}">
 			    <li class="page-item">
-			    	<a class="page-link" href="javascript:fncGetList('${ i }');">${ i }</a>
+			    	<a class="page-link" href="javascript:fncGetList('${ i }');" style="color:#898989;">${ i }</a>
 			    </li>
 	    	</c:if>
 	    	

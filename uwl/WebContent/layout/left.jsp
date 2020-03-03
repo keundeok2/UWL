@@ -138,7 +138,7 @@
             margin-right: 10px;
             text-align: center;
             vertical-align: middle;
-            border: 2px solid transparent;
+            border: 3px solid transparent;
         }
         
 

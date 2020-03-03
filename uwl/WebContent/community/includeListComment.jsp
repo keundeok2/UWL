@@ -49,6 +49,10 @@
 	    		display: inline-block;
 	    		float: right;
 	    	}
+	    	
+	    	#commentTable {
+	    		margin-bottom: 100px;
+	    	}
 	    </style>
 	    
 	    <script type="text/javascript">
@@ -561,7 +565,7 @@
 		    </c:forEach>
 	        </table>
 	        
-			    <br><br><br><br>
+			    
 	    	</div>
     </div>
 </div>

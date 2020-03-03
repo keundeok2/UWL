@@ -527,9 +527,7 @@ div.askBody {
 p.commentPtag {
 	display : inline;
 }
-div.modal-backdrop.show {
-	display: none;
-}
+
 </style>
 <title>어울림</title>
 </head>

@@ -4,6 +4,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	@font-face { font-family: 'GmarketSansMedium'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff'); font-weight: normal; font-style: normal; }
+    	* {
+            font-family: 'GmarketSansMedium';
+        }
+    </style>
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -34,7 +43,7 @@
 
 
 
-        @import url(https://fonts.googleapis.com/css?family=Quicksand:300,400);
+        
 
         *,
         *:before,
@@ -49,7 +58,7 @@
 
         body {
             font-size: 100%;
-            font-family: 'Quicksand', sans-serif;
+            
             
         }
 
@@ -71,6 +80,7 @@
             background: #FFFFFF;
             color: #000000;
             cursor: pointer;
+            
         }
 
         .dropdownbox>p {
@@ -86,9 +96,9 @@
         ul.menu {
             position: relative;
             margin: 0 -20px;
-            width: 200px;
+            width: 185px;
             overflow: hidden;
-            height: 0;
+            max-height: 0;
             margin-top: 10px;
             -webkit-transition: all 0.3s ease-in;
             -moz-transition: all 0.3s ease-in;
@@ -114,7 +124,9 @@
             transition: all 0.3s ease-in;
             border-bottom: 1px dotted #000000;
         }
-
+        ul.menu li:last-child {
+            border-bottom: none;
+        }
         ul.menu li:hover {
             padding-left: 20px;
             color: #000000;
@@ -123,12 +135,11 @@
 
         .menu.showMenu {
             /*-moz-transform:scale(1);*/
-            height: 200px;
+            max-height: 200px;
+            padding-top: 15px;
         }
 
-        body {
-            overflow-y: scroll;
-        }
+        
 
         .wrapper {
             text-align: left;
@@ -138,10 +149,17 @@
             text-align: left;
             width: 100%;
             margin: -20px;
+            margin-left: -30px;
         }
         div.modal-backdrop.show {
 			display: none;
 		}
+		
+		#goCommunity {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
     </style>
 
 
@@ -163,13 +181,61 @@
 	var gatherCategoryNo = null;
 	
 	$(document).ready(function(){
+		$(".dropdownbox").on('click', function() {
+			setTimeout(function() {
+	    		myScroll.refresh();
+	    	}, 500);
+		});
+		
+		$(".menu > li").on('click', function() {
+			setTimeout(function() {
+	    		myScroll.refresh();
+	    	}, 500);
+		});
+		
+		
 		  $(".dropdownbox").click(function(){
-			  $('#choiceCategory').removeClass();
+			  
+			  
+			  
+			  if($('#choiceCategory').hasClass('fa-caret-down')) {
+				  console.log('내려간다ㅋㅋ');
+				  $('#choiceCategory').removeClass('fa-caret-down').addClass('fa-caret-up');
+				  
+				  
+				  /* if($('#choiceCategory').hasClass('fa-caret-up')) {
+					  console.log('올라간다ㅋㅋ');
+					  $('#choiceCategory').removeClass('fa-caret-up').addClass('fa-caret-down');
+				  } */
+			  } else {
+				  console.log('올라간다ㅋㅋ');
+				  $('#choiceCategory').removeClass('fa-caret-up').addClass('fa-caret-down');
+			  }
+			  
+			  
+			  
 		    $(".menu").toggleClass("showMenu");
+		    
+		    
+		    
+		    
 		      $(".menu > li").click(function(){
 		        $(".dropdownbox > p").html($(this).html());
 		        $(".menu").removeClass("showMenu");
+		        
+		        var category = $(this).find('span').text();
+		        console.log(category);
+		        
+		        $('#goCommunity ul li').css({
+					 'color': '#333'
+				 });
+		        
+		        $('#goCommunity ul li:contains("' + category + '")').css({
+					 'color': '#EBAD7A'
+				 });
 		      });
+              
+              
 		  });
 		});
 	
@@ -507,7 +573,34 @@
             border-left: 1px solid #eee;
             padding: 15px 15px 0 15px;
         }
-        
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+            
+        }
+
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
         
     </style>
 </head>
@@ -519,49 +612,57 @@
         </div>
         <div class="work2" id="wrapper">
         <ul>
+        <div class="mainHeader">
+                    <div class="left2">
+                        게시글 등록
+                    </div>
+                    <div class="right2">
+                        <a href="#"><i class="far fa-star"></i></a>
+                    </div>
+                </div>
             <form enctype="multipart/form-data">
                 <div>
                     <div></div>
-                    <div>
-                        <br><br><br>
-                        <div class="wrapper">
+                    <div style="padding-bottom:10px;">
+                        
+                        <div class="wrapper" style="margin-top:25px">
                             <div class="dropdownbox">
-                                <p>어디에 글 쓸래? <i class="fas fa-sort-down" id="choiceCategory"></i></p>
+                                <p>어디에 글 쓸래? <i class="fas fa-caret-down" id="choiceCategory"></i></p>
                             </div>
                             <ul class="menu">
-                                <li value="201"><i class="fas fa-graduation-cap"></i> 진학상담</li>
-                                <li value="202"><i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i></li>
+                                <li value="201"><i class="fas fa-graduation-cap"></i> <span>진학상담</span></li>
+                                <li value="202"><i class="fas fa-heart"></i> <span>사랑과 이별</span> <i class="fas fa-heart-broken"></i></li>
                                 <c:if test="${user.gender == '2' }">
-                                    <li value="203"><i class="fas fa-male"></i> 남자끼리</li>
+                                    <li value="203"><i class="fas fa-male"></i> <span>남자끼리</span></li>
                                 </c:if>
                                 <c:if test="${user.gender == '1' }">
-                                    <li value="204"><i class="fas fa-female"></i> 여자끼리</li>
+                                    <li value="204"><i class="fas fa-female"></i> <span>여자끼리</span></li>
                                 </c:if>
 
-                                <li value="205"><i class="far fa-kiss-wink-heart"></i> 데이트 자랑</li>
-                                <li value="206"><i class="fas fa-bullhorn"></i> 대나무 숲</li>
+                                <li value="205"><i class="far fa-kiss-wink-heart"></i> <span>데이트자랑</span></li>
+                                <li value="206"><i class="fas fa-bullhorn"></i> <span>대나무 숲</span></li>
                             </ul>
                             <input type="hidden" name="gatherCategoryNo" value="" id="gatherCategoryNo">
                             <input type="hidden" name="postChallenge" value="2" id="postChallenge">
                         </div>
                         <div class="table table-responsive">
-                            <table class="table">
+                            <table class="table" style="margin-bottom:10px;border-bottom:1px solid #eee">
                                 <tr>
                                     <th class="success">
                                         <input type="text" name="postTitle" id="inputPostTitle" placeholder="제목을 입력하세요" style="width:570px" />
                                     </th>
                                 </tr>
-                                <tr>
-                                    <td colspan="3"></td>
-                                </tr>
+                                
                             </table>
-                            <textarea id="summernote" name="postContent"></textarea>
+                            <div style="padding:0 10px">
+                                <textarea id="summernote" name="postContent"></textarea>
+                            </div>
                             <br>
 
 
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" style="padding:0 10px">
 
                             <label for="InputSubject1" style="color: #d75e0f; font-weight: bold;">썸네일 등록</label>
 
@@ -592,18 +693,19 @@
 
 
 
-                        <div style="text-align:right;width:100%">
+                        <div style="text-align:right;width:100%;padding-right:10px;">
                             <div class="form-group">
                                 <button type="button" class="btn btn-outline-secondary" id="complete" style="width:150px">등록</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                </form>
         </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
         </div>
     </div>
-            </form>
+            
 </body></html>

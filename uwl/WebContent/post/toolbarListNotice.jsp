@@ -5,6 +5,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	
+    </style>
     <meta charset="UTF-8">
     <!-- 참조 : http://getbootstrap.com/css/   참조 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -137,6 +143,15 @@
         div.form-inline{
         	text-align: center;
         	}
+        	
+        	#goMore {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goMore ul li:nth-child(1) {
+        	color: #EBAD7A;
+        }
     </style>
 
     <style>
@@ -261,6 +276,8 @@
         setTimeout(function() {
     		myScroll.refresh();
     	}, 0);
+        
+        $('#more').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
     });
     
     //=============    검색 / page 두가지 경우 모두  Event  처리 =============	

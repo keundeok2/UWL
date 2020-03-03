@@ -4,6 +4,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	
+    </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet"
@@ -38,6 +44,7 @@
 	    setTimeout(function() {
 			myScroll.refresh();
 		}, 0);
+	    $('#master').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
 	});
 
 	$(document).ready(function(){
@@ -76,12 +83,19 @@
 				fncGetList(1);
 			});
 		 
+		 var tdNum = $('table th td').length;
+		 
+		 $('table th td:nth-child(n + 2)').css({
+			 'width' : 'calc(95% / ' + (tdNum - 1) + ')'
+		 });
 		 
 	 });
 	
 </script>
 
 <style>
+
+
         * {
             margin: 0;
             padding: 0;
@@ -140,6 +154,19 @@
             bottom: 0;
             background: #fff;
             border-left: 1px solid #eee;
+        }
+        
+        #goMaster {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goMaster ul li:nth-child(2) {
+        	color: #EBAD7A;
+        }
+        
+        .fa-crown {
+            color: #ffc811;
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
@@ -212,7 +239,38 @@
             padding: 15px 15px 0 15px;
         }
         
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
         
+        table.table td {
+        	border-top: none;
+        	border-bottom: 1px solid #eee;
+        }
     </style>
 
 
@@ -224,8 +282,16 @@
         </div>
         <div class="work2" id="wrapper">
         <ul>
-            <form class="form-signin">
-		<div class="container">
+        <div class="mainHeader">
+                    <div class="left2">
+                        신고목록 확인
+                    </div>
+                    <div class="right2">
+                        <a href="#"><i class="far fa-star"></i></a>
+                    </div>
+                </div>
+            <form class="form-signin" style="margin-top:20px;">
+		<div>
 			<div class="row">
 				<div class="col-md-12">
 
@@ -233,20 +299,19 @@
 
 						<div class="panel panel-primary">
 
-							<br />
-							<br />
+							
 							<div class="text-center">
-								<h3 style="color: #2C3E50">신고목록 확인</h3>
-								<h4>
+								
+								<h4 style="margin-bottom:10px">
 									<label for="Choose Report" style="color: #E74C3C">Choose Report</label>
 								</h4>
 									<c:if test="${search.searchCondition eq 1 }">
-										<input type="radio" name="searchCondition" value="1" checked="checked"/>아직 처리가 안됐어요!
-										<input type="radio" name="searchCondition" value="2"/>처리완료 됐어요!
+										<input type="radio" name="searchCondition" value="1" checked="checked"/> 아직 처리가 안됐어요!
+										<input type="radio" name="searchCondition" value="2" style="margin-left:10px;"/> 처리완료 됐어요!
 									</c:if>
 									<c:if test="${search.searchCondition eq 2 }">
-										<input type="radio" name="searchCondition" value="1"/>아직 처리가 안됐어요!
-										<input type="radio" name="searchCondition" value="2" checked="checked"/>처리완료 됐어요!
+										<input type="radio" name="searchCondition" value="1"/> 아직 처리가 안됐어요!
+										<input type="radio" name="searchCondition" value="2" checked="checked" style="margin-left:10px;"/> 처리완료 됐어요!
 									</c:if>									
 										 &emsp;
 									<br>
@@ -258,18 +323,19 @@
 							<br />
 							<div class="panel-body">
 
-								<table class="table table-striped table-condensed">
+								<table class="table table-striped table-condensed" style="font-size:15px;">
+								
 									<thead>
 										<tr>
-											<th class="text-center" width="110px">#</th>
-											<th class="text-center" width="110px">신고한 회원</th>
-											<th class="text-center" width="110px">신고 당한회원</th>
-											<th class="text-center" width="110px">신고 카테고리</th>
-											<th class="text-center" width="110px">신고날짜</th>
+											<th class="text-center" width="5%">#</th>
+											<th class="text-center">신고한 회원</th>
+											<th class="text-center">신고 당한회원</th>
+											<th class="text-center">신고 카테고리</th>
+											<th class="text-center">신고날짜</th>
 											<c:if test="${search.searchCondition eq 2 }">
-											<th class="text-center" width="110px">정지 날짜</th>
+											<th class="text-center">정지 날짜</th>
 											</c:if>
-											<th class="text-center" width="110px">분류</th>
+											<th class="text-center">분류</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -278,12 +344,12 @@
 										<c:set var="i" value="0" />
 										<c:forEach var="report" items="${list }">
 											<c:set var="i" value="${i+1 }" />
-											<tr>
+											<tr style="cursor: pointer;">
 												<input type="hidden" class="reportNo" value="${report.reportNo }">
-												<td class="text-center" width="150px">${i }</td>
-												<td class="text-center" width="150px">${report.userId01 }</td>
-												<td class="text-center" width="150px">${report.userId02 }</td>
-												<td class="text-center" width="150px">
+												<td class="text-center">${i }</td>
+												<td class="text-center">${report.userId01 }</td>
+												<td class="text-center">${report.userId02 }</td>
+												<td class="text-center">
 													<c:if
 														test="${report.reportCategoryNo == '1' }">
 														<span>부적적한 게시글</span>
@@ -298,11 +364,11 @@
 														<span>기타</span>
 													</c:if>
 												</td>
-												<td class="text-center" width="150px">${report.reportDate }</td>
+												<td class="text-center">${report.reportDate }</td>
 												<c:if test="${search.searchCondition eq 2 }">
-													<td class="text-center" width="150px">${report.stopDate }</td>
+													<td class="text-center">${report.stopDate }</td>
 												</c:if>
-												<td class="text-center" width="150px">
+												<td class="text-center">
 													<c:if test="${report.reportWhat == '1' }">
 														게시글
 													</c:if>
@@ -329,7 +395,7 @@
 	</form>
 	
 	<form class="nav">
-    		<div class="navnav" style="padding: 5px 350px">
+    		<div class="navnav" style="margin:0 auto">
 				<!-- PageNavigation Start... -->
 					<jsp:include page="../common/pageNavigator_new.jsp"/>
 				<!-- PageNavigation End... -->
@@ -340,6 +406,7 @@
 			</div>
 	</form>
 	</ul>
+	
 	</div>
 	 <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />

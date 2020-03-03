@@ -4,6 +4,12 @@
 <html lang="en">
 
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>어울림</title>
@@ -15,10 +21,14 @@
         var myScroll = null;
 
         $(function() {
+        	
+        	$('a#myProfile span:nth-child(1)').css({
+        		'border': '3px solid #EBAD7A'
+        	});
 
             myScroll = new IScroll('#wrapper', {
                 mouseWheel: true,
-                scrollbars: true
+                scrollbars: false
             });
 
             setTimeout(function() {
@@ -447,7 +457,7 @@
 
         div.sectionList ul.sectionNav li {
 
-            /*float: left;*/
+            
             width: 25%;
             text-align: center;
             line-height: 50px;
@@ -455,9 +465,11 @@
             color: #898989;
             font-weight: bold;
             display: inline-block;
+            
         }
         
         ul.sectionNav.on li {
+            
             float: left;
         }
 
@@ -1305,12 +1317,43 @@
 			
         }
         
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
+        
+        
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
+        
     </style>
     <script>
     	$(function() {
-    		$('a#myProfile span:nth-child(1)').css({
-    			'border' : '2px solid #EBAD7A'
-    		});
+    		
+    		$('.modal:contains("Insert Image")').appendTo("body");
+    		
+    		
     	});
     </script>
 </head>
@@ -1322,6 +1365,14 @@
         </div>
         <div class="work2" id="wrapper">
             <ul>
+            <div class="mainHeader">
+                    <div class="left2">
+                        ${targetUser.name} 프로필
+                    </div>
+                    <div class="right2">
+                        <a href="#"><i class="far fa-star"></i></a>
+                    </div>
+                </div>
                 <input type="hidden" id="sessionUserId" value="${user.userId}">
                 <input type="hidden" id="targetUserId" value="${targetUserId}">
                 <input type="hidden" id="sessionMail" value="${user.mail}">
@@ -1485,7 +1536,7 @@
                                     <jsp:include page="/social/includeListTimeline.jsp" />
                                 </c:if>
                             </div>
-                            <div class="list2">
+                            <div class="list2" style="background:#EBAD7A">
                                 <c:if test="${targetUser.publicStatus == 2 && user.userId ne targetUser.userId}">
                               		<div style="text-align : center">
                               		<img alt="#" src="/images/lock-icon.png" style="width : 30%; height : 30%;">
@@ -1498,6 +1549,7 @@
                             </div>
                             <div class="list3">
                                     <jsp:include page="/couple/listCoupleTimelinePost2.jsp" />
+                                    
                             </div>
                             <div class="list4">
                                     <jsp:include page="/couple/listSchedule3.jsp" />
@@ -1641,7 +1693,7 @@
                                 </div>
                             </a>
                             <div>
-                                <input type="file" id="input_img" name="file" style="display: block"/>
+                                <input type="file" id="input_img" name="file" style="display:none"/>
                                 <div class="place">
                                     <p>
                                         <i class="fas fa-map-marker-alt"></i>
@@ -1670,6 +1722,9 @@
             </div>
         </div>
     </div>
+    
+    
+    
 </body>
 
 </html>

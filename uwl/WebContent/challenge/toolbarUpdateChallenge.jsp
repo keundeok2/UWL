@@ -4,6 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	
+    </style>
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -21,8 +27,26 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
     <!--썸머노트 -->
-
-
+	<script src="/javascript/iscroll.js"></script>
+	<script>
+	var myScroll = null;
+    
+    $(function() {
+    	
+        myScroll = new IScroll('#wrapper', {
+            mouseWheel: true,
+            scrollbars: true
+        });
+        
+        setTimeout(function() {
+    		myScroll.refresh();
+    		}, 0);
+        
+        /* 재이수정 */
+        $('#master').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
+    	
+	});	
+	</script>
 
     <title>Insert title here</title>
 
@@ -36,7 +60,7 @@
 
 
 
-        @import url(https://fonts.googleapis.com/css?family=Quicksand:300,400);
+        
 
         *,
         *:before,
@@ -49,10 +73,7 @@
             box-sizing: border-box
         }
 
-        body {
-            font-size: 100%;
-            font-family: 'Quicksand', sans-serif;
-        }
+        
 
         p.heading {
             line-height: 1.2;
@@ -60,10 +81,7 @@
             text-align: left;
         }
 
-        .wrapper {
-            margin: 15px auto;
-            max-width: 700px;
-        }
+        
 
         .dropdownbox {
             margin: 0 auto;
@@ -127,18 +145,53 @@
             height: 200px;
         }
 
-        body {
-            overflow-y: scroll;
-        }
+        
 
-        .wrapper {
-            text-align: left;
-        }
+        
 
         .dropdownbox {
             text-align: left;
             width: 100%;
             margin: -20px;
+        }
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+        div.mainHeader div.left2 {
+            width: 90%;
+            float: left;
+        }
+		div.mainHeader div.left2 span {
+			font-weight: normal;
+			font-size: 13px;
+			margin-left: 10px;
+		}
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 10%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
+        
+        #goMaster {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goMaster ul li:nth-child(1) {
+        	color: #EBAD7A;
         }
     </style>
 
@@ -554,7 +607,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -563,31 +616,35 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
-            overflow: hidden;
-            overflow-y: scroll;
-
+            
+            position: relative;
+			
         }
 
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
         }
+        
+        
     </style>
 </head>
 
@@ -596,23 +653,27 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        <ul>
+        <div class="mainHeader">
+                    <div class="left2">
+                        도전과제 업데이트
+                            <span class="badge badge-danger">Update</span>
+                    </div>
+                    <div class="right2">
+                        <a href="#"><i class="far fa-star"></i></a>
+                    </div>
+                </div>
             <form enctype="multipart/form-data">
                 <div>
-                    <div></div>
+                    
                     <div>
 
-                        <br>
-                        <br>
-                        <h2>도전과제 업데이트
-                            <span class="badge badge-danger">Update</span>
-                        </h2>
-
-                        <br>
+                        
 						<!-- hidden -->
                         <input type="hidden" name="challNo" value="${challenge.challNo}" />
                         <!-- 카테고리 -->
-                        <div class="row" id="reward">
+                        <div class="row" id="reward" style="margin:0;padding:0;margin-top:10px;width:770px;">
                             &emsp;<select class="custom-select col-3" name="challCategory" id="challCategory">
                                 <option selected>카테고리</option>
                                <%--  <option value="1" ${!empty challenge.challCategory && challenge.challCategory=="1" ? "selected" : "" }>Map</option>
@@ -721,7 +782,7 @@
                             
                             <div class="row col-6" id="changeReward">
 	                             <!-- 보상점수 -->
-	                            <div class="input-group col-5">
+	                            <div class="input-group col-5" style="padding:0;">
 	                                <div class="input-group-prepend">
 	                                    <span class="input-group-text" style="width: 35px; height: 38px;"><i class="fas fa-coins"></i></span>
 	                                </div>
@@ -733,7 +794,7 @@
 	                            
 	                            <!-- 달성조건 -->
 	                            <c:if test="${challenge.challCategory == '3' && !empty challenge.postCommentComplete}">
-	                                <div class="input-group col-5" id="postCommentComplete">
+	                                <div class="input-group col-5" id="postCommentComplete" style="padding:0;margin-left:15px">
 	                                    <div class="input-group-prepend">
 	                                        <span class="input-group-text" style="width: 35px; height: 38px;"><i class="fas fa-trophy" aria-hidden="true"></i></span>
 	                                    </div><input type="text" class="form-control" name="postCommentComplete" value="${challenge.postCommentComplete}">
@@ -753,28 +814,27 @@
 	                            </c:if> 
                             </div> <!-- end of row -->
                         </div><!--  end of #rewad -->
-                        <br>
+                        
 
                         <div class="table table-responsive">
-                            <table class="table">
+                            <table class="table" style="border-bottom:1px solid #eee">
                                 <tr>
                                     <th class="success">
                                          <input type="text" name="challTitle" id="challTitle" value="${challenge.challTitle}" style="width:570px" />
                                     </th>
                                 </tr>
-                                <tr>
-                                    <td colspan="3"></td>
-                                </tr>
+                                
                             </table>
+                            <div style="padding:0 10px;">
                             <textarea id="summernote" name="challContent">${challenge.challContent}</textarea>
-                            <br>
+                            </div>
 
 
                         </div>
 
 
 
-                        <div style="text-align:right;width:100%">
+                        <div style="text-align:right;width:100%;padding-right:10px">
                             <div class="form-group">
                                 <button type="button" class="btn btn-outline-secondary" id="complete" style="width:150px">등록</button>
                                 <button type="button" class="btn btn-outline-secondary" id="cancle" style="width:150px">취소</button>
@@ -783,6 +843,7 @@
                     </div>
                 </div>
             </form>
+            </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />
