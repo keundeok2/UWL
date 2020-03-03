@@ -259,6 +259,10 @@ font-family: 'Nanum Gothic', sans-serif;
     
     $(function() {
     	
+    	$('a#myProfile span:nth-child(1)').css({
+    		'border': '2px solid #EBAD7A'
+    	});
+    	
         myScroll = new IScroll('#wrapper', {
             mouseWheel: true,
             scrollbars: true

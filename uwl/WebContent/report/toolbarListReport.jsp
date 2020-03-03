@@ -323,7 +323,7 @@
 							<br />
 							<div class="panel-body">
 
-								<table class="table table-striped table-condensed" style="font-size:15px;">
+								<table class="table table-striped table-condensed">
 								
 									<thead>
 										<tr>

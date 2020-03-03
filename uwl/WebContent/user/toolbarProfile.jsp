@@ -23,7 +23,7 @@
         $(function() {
         	
         	$('a#myProfile span:nth-child(1)').css({
-        		'border': '3px solid #EBAD7A'
+        		'border': '2px solid #EBAD7A'
         	});
 
             myScroll = new IScroll('#wrapper', {
@@ -264,7 +264,7 @@
 
         body {
             color: #333;
-            font-size: 15px;
+            font-size: 16px;
             font-family: 'Roboto', sans-serif;
             font-family: 'Nanum Gothic', sans-serif;
 
@@ -718,7 +718,7 @@
                                     ' </form>';
                                 //alert(displayValue);
 
-                                $('div.modal-footer').find('button:nth-child(2)').addClass('check');
+                                $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('check');
                             } else {
                                 displayValue = '<form action="">' +
                                     ' <input type="hidden" name="userId" value="' + sessionUserId + '">' +
@@ -726,16 +726,16 @@
                                     ' <input type="hidden" name="secondUserId" value="' + secondUserName + '">' + secondUserName + '님에게 보낸 꽃을 취소하시겠습니까?😥' +
                                     ' </form>';
                                 //alert(displayValue);
-                                $('div.modal-footer').find('button:nth-child(2)').addClass('check2');
+                                $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('check2');
                             }
-                            $('div.modal-body').html(displayValue);
-                            $('div.modal-footer').find('button:nth-child(2)').css({
+                            $('#exampleModal div.modal-body').html(displayValue);
+                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                                 'display': 'block'
                             });
-                            $('div.modal-footer').find('button:nth-child(1)').text('취소');
+                            $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('취소');
                         },
                         error: function(request, status, error) {
-                            alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                            //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                         }
                     });
                 });
@@ -777,21 +777,21 @@
                         //alert('성공ㅋㅋ');
                         var displayValue = '🌹🌹꽃을 보냈습니다🌹🌹';
 
-                        $('div.modal-body').html(displayValue);
+                        $('#exampleModal div.modal-body').html(displayValue);
                         $('div.totalFlower span').text(data);
                         //alert($('div.totalFlower span').text());
                         $('.addMatching').text('꽃보내기취소');
                         $('.addMatching').removeClass('addMatching').addClass('deleteMatching');
-                        $('div.modal-footer').find('button:nth-child(2)').css({
+                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                             'display': 'none'
                         });
-                        $('div.modal-footer').find('button:nth-child(1)').text('확인').on("click",function(){
+                        $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('확인').on("click",function(){
                         	socket.emit("matchingMe",sessionUserId);
                             socket.emit("matchingYou",targetUserId);
                         });
                     },
                     error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -826,15 +826,15 @@
                             '<input type="hidden" name="secondUserId"value="' + targetUserId + '">' +
                             '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' + secondUserName + '님에게 보낸 꽃을 취소하시겠습니까?😥' +
                             '</form>';
-                        $('div.modal-body').html(displayValue);
-                        $('div.modal-footer').find('button:nth-child(2)').addClass('check2');
-                        $('div.modal-footer').find('button:nth-child(2)').css({
+                        $('#exampleModal div.modal-body').html(displayValue);
+                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('check2');
+                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                             'display': 'block'
                         });
-                        $('div.modal-footer').find('button:nth-child(1)').text('취소');
+                        $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('취소');
                     },
                     error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -883,15 +883,15 @@
 
                         }
 
-                        $('div.modal-body').html(displayValue);
-                        $('div.modal-footer').find('button:nth-child(2)').css({
+                        $('#exampleModal div.modal-body').html(displayValue);
+                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                             'display': 'none'
                         });
-                        $('div.modal-footer').find('button:nth-child(1)').text('확인');
+                        $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('확인');
 
                     },
                     error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -930,27 +930,27 @@
                                 '<input type="hidden" name="secondUserId" value="' + targetUserId + '">' + secondUserName + '님에게 창을 사용하시겠습니까?' +
                                 '</form>';
 
-                            $('div.modal-footer').find('button:nth-child(2)').css({
+                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                                 'display': 'block'
                             });
-                            $('div.modal-footer').find('button:nth-child(2)').addClass('check3');
-                            $('div.modal-footer').find('button:nth-child(1)').text('취소');
+                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('check3');
+                            $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('취소');
                         } else {
                             displayValue = '사용 가능한 창이 없습니다😥<br>' +
                                 secondUserName + '님의 마음을 알고 싶으신가요? 지금 바로 구매하세요😉';
 
-                            $('div.modal-footer').find('button:nth-child(2)').css({
+                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                                 'display': 'block'
                             });
-                            $('div.modal-footer').find('button:nth-child(1)').text('취소');
-                            $('div.modal-footer').find('button:nth-child(2)').addClass('purchaseBtn');
+                            $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('취소');
+                            $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('purchaseBtn');
                         }
 
 
-                        $('div.modal-body').html(displayValue);
+                        $('#exampleModal div.modal-body').html(displayValue);
                     },
                     error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -961,11 +961,11 @@
             $(document).on('click', '.check3', function() {
 
 
-                alert('클릭ㅋㅋ');
+                //alert('클릭ㅋㅋ');
                 $(this).removeClass('check3');
 
-                alert('userId : ' + sessionUserId);
-                alert('secondUserId : ' + targetUserId);
+                //alert('userId : ' + sessionUserId);
+                //alert('secondUserId : ' + targetUserId);
                 $.ajax({
                     url: '/matching/rest/updateItem3/' + sessionUserId + '/' + targetUserId,
                     method: 'GET',
@@ -979,10 +979,10 @@
                         'Content-Type': 'application/json'
                     },
                     success: function(data) {
-                        alert('성공ㅋㅋ');
+                        //alert('성공ㅋㅋ');
                         var secondUserName = data.secondUserName;
                         var displayValue = '';
-                        alert('data.useResult : ' + data.useResult);
+                        //alert('data.useResult : ' + data.useResult);
                         if (data.useResult == '1') {
                             displayValue = '<form action="">' +
                                 '<input type="hidden" name="userId" value="' + sessionUserId + '">' +
@@ -1004,14 +1004,14 @@
                         }
 
 
-                        $('div.modal-body').html(displayValue);
-                        $('div.modal-footer').find('button:nth-child(2)').css({
+                        $('#exampleModal div.modal-body').html(displayValue);
+                        $('#exampleModal div.modal-footer').find('button:nth-child(2)').css({
                             'display': 'none'
                         });
-                        $('div.modal-footer').find('button:nth-child(1)').text('확인');
+                        $('#exampleModal div.modal-footer').find('button:nth-child(1)').text('확인');
                     },
                     error: function(request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
@@ -1078,7 +1078,8 @@
 
 
         $(document).on("click", ".purchaseBtn", function() {
-            $('div.modal-footer').find('button:nth-child(2)').removeClass('purchaseBtn');
+            $('#exampleModal div.modal-footer').find('button:nth-child(2)').removeClass('purchaseBtn');
+            $("#exampleModal").modal("hide");
             var currPoint = $("input#totalPoint").val();
             itemCategory = $(this).children("input[type='hidden']").val();
             itemCount = $(this).children("span").html();
@@ -1297,7 +1298,7 @@
             width: 770px;
             height: 100vh;
             float: left;
-
+			position: relative;
             
 
         }

@@ -21,7 +21,7 @@
     <!-- fontawesome -->
     <script src="https://kit.fontawesome.com/fb8ae6e812.js" crossorigin="anonymous"></script>
     <!-- 나눔고딕 -->
-    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Noto+Sans+KR&display=swap" rel="stylesheet">
+    
 
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
@@ -45,7 +45,7 @@
         }
 
         body {
-            font-size: 12px;
+            font-size: 16px;
             color: #333;
             font-family: 'Roboto', sans-serif;
             font-family: 'Nanum Gothic', sans-serif;
@@ -209,9 +209,7 @@
         }
 
         /*삭제 알럿창 sweet alert2 */
-        body {
-            font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
-        }
+        
         
         #goMaster {
             transition: max-height 1s;

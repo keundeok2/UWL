@@ -223,7 +223,7 @@ $(document).on("click", ".addQuestionBtnAsk", function(evt) {
 
 
 		div.list2 div.ask:last-child {
-			margin-bottom: 50px;
+			margin-bottom: 30px;
 		}
         div.list2 div.ask p:nth-child(2),
         div.list2 div.ask p:nth-child(4) {

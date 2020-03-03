@@ -349,7 +349,7 @@
             resize: none;
             height: 120px;
             background-color: #f8f8f8;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             padding: 5px;
         }
 		div.commentForm {
@@ -361,7 +361,7 @@
             
             width: 50%;
             float: left;
-            
+            line-height: 30px;
         }
 
         div.askQuestionList div.commentForm > p:nth-child(3) {

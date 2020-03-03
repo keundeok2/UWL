@@ -432,7 +432,9 @@
 				});
 			}
 	
-	
+	$(function() {
+		$('.modal').appendTo("body");
+	});
 </script>
 
 <style type="text/css">
