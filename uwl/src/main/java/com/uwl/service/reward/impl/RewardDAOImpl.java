@@ -82,10 +82,23 @@ public class RewardDAOImpl implements RewardDAO{
 		List<Reward> list = sqlSession.selectList("RewardMapper.getUserPurchaseList", map);
 		System.out.println("RewardDAOImpl list : " + list);
 		Reward purReward = new Reward();
-		purReward.setUserId(list.get(0).getUserId());
-		System.out.println(list.get(0).getUserId());
-		purReward.setPurchaseItem(list.get(0).getPurchaseItem());
-		System.out.println(list.get(0).getPurchaseItem());
+		//list에 아무정보가 없다면
+		if (list.size() == 0) {
+			System.out.println("RewardDAOImpl에 list의 size가 0일때");
+			System.out.println("purReward의 값 : " + purReward);
+			//사이즈가 없다면 빈깡통을 넣어줌
+			Purchase emptyPurchase = new Purchase();
+			purReward.setPurchaseItem(emptyPurchase);
+		}else {
+			System.out.println("RewardDAOImpl에 list의 size가 0이 아닐때");
+			purReward.setUserId(list.get(0).getUserId());
+			System.out.println(list.get(0).getUserId());
+			purReward.setPurchaseItem(list.get(0).getPurchaseItem());
+			System.out.println(list.get(0).getPurchaseItem());
+		}
+		
+		
+		
 		map.put("list", list);
 		map.put("totalCount", sqlSession.selectOne("RewardMapper.getTotalCountOne",purReward));
 		System.out.println("RewardDAOImpl의 Map의 정보 : " + map);

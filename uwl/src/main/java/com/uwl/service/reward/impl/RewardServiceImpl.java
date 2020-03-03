@@ -79,7 +79,7 @@ public class RewardServiceImpl implements RewardService{
 		
 		map.put("totalCount", new Integer(totalCount));
 		map.put("list", map.get("list"));
-		
+		System.out.println("======>>>><<>>RewardServiceImple 끝");
 		return map;
 		
 	}
