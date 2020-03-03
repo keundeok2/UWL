@@ -10,10 +10,7 @@
     <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
     <title>어울림</title>
     <style type="text/css">
-    	@font-face { font-family: 'GmarketSansMedium'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff'); font-weight: normal; font-style: normal; }
-    	* {
-            font-family: 'GmarketSansMedium';
-        }
+    	
     </style>
     <meta charset="UTF-8">
     <title>Insert title here</title>
@@ -374,6 +371,14 @@
         #goMaster ul li:nth-child(1) {
         	color: #EBAD7A;
         }
+        
+        .list-group > a {
+        	margin-bottom: 10px;
+        }
+        
+        .list-group > a:last-child {
+        	margin-bottom: 0;
+        }
     </style>
     
 </head>
@@ -384,7 +389,7 @@
             <jsp:include page="/layout/left.jsp" />
         </div>
         <div class="work2"  id="wrapper">
-        	<ul style="padding-bottom: 20px;">
+        	<ul>
         	<!-- 재이수정 -->
         	<div class="mainHeader">
                     <div class="left2">
@@ -419,9 +424,9 @@
                 
 
 
-                    <div class="list-group" style="margin-bottom: 10px">
+                    <div class="list-group">
                         <c:forEach var="challenge" items="${list}">
-                            <a href="#" class="list-group-item list-group-item-action" id="challengeBox" style="margin-bottom: 10px;border-top:1px solid #EBAD7A;border-radius: 0">
+                            <a href="#" class="list-group-item list-group-item-action" id="challengeBox" style="border-top:1px solid #EBAD7A;border-radius:.25rem;">
                                 <div class="d-flex w-100 justify-content-between">
                                     <input type="hidden" value="${challenge.challNo}">
                                     <h5 class="mb-1" style="max-width:610px">${challenge.challTitle}</h5>
