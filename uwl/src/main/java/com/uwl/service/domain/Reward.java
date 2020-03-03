@@ -14,17 +14,6 @@ public class Reward {
 	private Purchase purchaseItem;
 	private Challenge challenge;
 	private String rowSeq;
-	
-	public String getRowSeq() {
-		return rowSeq;
-	}
-
-
-	public void setRowSeq(String rowSeq) {
-		this.rowSeq = rowSeq;
-	}
-
-
 	//바인딩문제로 인해 2개를 분류하였음
 	private int variablePoint;
 	private int variableActivityPoint;
@@ -47,6 +36,16 @@ public class Reward {
 	
 		
 	//Method
+	
+	public String getRowSeq() {
+		return rowSeq;
+	}
+
+
+	public void setRowSeq(String rowSeq) {
+		this.rowSeq = rowSeq;
+	}
+	
 	public int getVariablePoint() {
 		return variablePoint;
 	}
