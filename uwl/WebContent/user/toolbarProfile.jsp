@@ -28,7 +28,7 @@
 
             myScroll = new IScroll('#wrapper', {
                 mouseWheel: true,
-                scrollbars: false
+                scrollbars: true
             });
 
             setTimeout(function() {
@@ -1298,7 +1298,7 @@
             height: 100vh;
             float: left;
 
-            position: relative;
+            
 
         }
 
