@@ -103,7 +103,7 @@
 
 
         div.postList {
-            padding: 10px;
+            padding: 10px 10px 0 10px;
         }
 
         div.postList div.post {
@@ -118,6 +118,9 @@
             box-shadow: 5px 5px rgb(238, 238, 238);
             border: 1px solid #eee;
             border-radius: 10px;
+        }
+        div.postList div.post:last-child {
+        	margin-bottom: 0;
         }
 
         div.uploadFile {
@@ -159,7 +162,7 @@
 
         div.postTop div.postTitle {
 
-            width: 80%;
+            width: 75%;
             float: left;
             
             
@@ -177,7 +180,7 @@
             font-size: 20px;
             font-weight: bold;
             margin-right: 10px;
-            width: calc(100% - 10px);
+            width: calc(100% - 5px);
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -202,9 +205,10 @@
 
             display: inline-block;
             float: right;
-            width: 20%;
+            width: 25%;
             text-align: right;
-            
+            color: #898989;
+            font-size: 14px;
         }
 
         div.postContent {
@@ -630,7 +634,7 @@
                 
                 
 				<!-- PageNavigation Start... -->
-			<div style="padding:15px 0 30px">
+			<div>
 					<jsp:include page="../common/pageNavigator_new.jsp"/>
 				  
 				<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->

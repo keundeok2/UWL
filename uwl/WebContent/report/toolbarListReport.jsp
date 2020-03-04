@@ -382,7 +382,7 @@
 									</tbody>
 								</table>
 								<div class="text-center">
-									<h4>
+									<h4 style="margin-bottom:0;">
 										<label style="color: #E74C3C" for="Total">Total : </label> ${resultPage.totalCount }건
 									</h4>
 								</div>

@@ -536,6 +536,9 @@
 
 
         });
+        $(function() {
+    		$('.modal').appendTo("body");
+    	});
     </script>
 
 

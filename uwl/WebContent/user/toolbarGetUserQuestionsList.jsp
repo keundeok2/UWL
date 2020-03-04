@@ -22,6 +22,25 @@
 
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
+        <script src="/javascript/iscroll.js"></script>
+        
+        <script>
+        var myScroll = null;
+
+        $(function() {
+
+            myScroll = new IScroll('#wrapper', {
+                mouseWheel: true,
+                scrollbars: true
+            });
+
+            setTimeout(function() {
+                myScroll.refresh();
+            }, 0);
+            
+            
+        });
+        </script>
     
     <title>Insert title here</title>
 
@@ -227,6 +246,37 @@
         }
         #goMore ul li:nth-child(2) {
         	color: #EBAD7A;
+        }
+        
+        div.mainHeader2 {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+        div.mainHeader2 div.left2 {
+            width: 90%;
+            float: left;
+        }
+		div.mainHeader2 div.left2 span {
+			font-weight: normal;
+			font-size: 13px;
+			margin-left: 10px;
+		}
+        div.mainHeader2 div.right2 {
+            text-align: right;
+            width: 10%;
+            float: right;
+        }
+
+        div.mainHeader2 div.right2 i {
+            vertical-align: baseline;
         }
     </style>
 
@@ -474,13 +524,23 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        <ul>
+        <div class="mainHeader2">
+                 <div class="left2">
+                     전체회원의 문의사항 목록
+                     
+                 </div>
+                 <div class="right2">
+                     <a href="#"><i class="far fa-star"></i></a>
+                 </div>
+            </div>
             <div class="wrap">
+            
+            
 
                 <div class="main">
-            <div class="mainHeader">
-                <span>전체회원의 문의사항 목록</span>
-            </div>
+            
             <div class="select">
                 <select name="gatherCategoryNo">
                			 <option>선택</option>
@@ -599,6 +659,7 @@
 				</form>
         </div>
             </div>
+            </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />

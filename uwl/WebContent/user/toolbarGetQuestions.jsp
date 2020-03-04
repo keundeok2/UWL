@@ -20,6 +20,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
     <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
         <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
+        <script src="/javascript/iscroll.js"></script>
+        
+        <script>
+        var myScroll = null;
+
+        $(function() {
+
+            myScroll = new IScroll('#wrapper', {
+                mouseWheel: true,
+                scrollbars: true
+            });
+
+            setTimeout(function() {
+                myScroll.refresh();
+            }, 0);
+            
+            
+        });
+        </script>
      
     <style>
         * {
@@ -296,6 +315,37 @@
             border-left: 1px solid #eee;
             padding: 15px 15px 0 15px;
         }
+        
+        div.mainHeader2 {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+        div.mainHeader2 div.left2 {
+            width: 90%;
+            float: left;
+        }
+		div.mainHeader2 div.left2 span {
+			font-weight: normal;
+			font-size: 13px;
+			margin-left: 10px;
+		}
+        div.mainHeader2 div.right2 {
+            text-align: right;
+            width: 10%;
+            float: right;
+        }
+
+        div.mainHeader2 div.right2 i {
+            vertical-align: baseline;
+        }
     </style>
 </head>
 
@@ -304,16 +354,20 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        <ul>
+        <div class="mainHeader2">
+                 <div class="left2">
+                     내 문의사항 보기
+                     
+                 </div>
+                 <div class="right2">
+                     <a href="#"><i class="far fa-star"></i></a>
+                 </div>
+            </div>
             <div class="wrap">
-                <div class="navigation">
-                    <span>홈 > 고객행복센터 ></span>
-                    <span>내 문의사항 보기</span>
-                </div>
-                <div class="noticeTop">
-                    <span>내 문의사항 보기</span>
-                    <span></span>
-                </div>
+            
+                
                 <div class="notice">
                     <table>
                         <colgroup>
@@ -417,6 +471,7 @@
                 </div>
 
             </div>
+            </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />

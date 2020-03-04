@@ -264,7 +264,36 @@
             border-left: 1px solid #eee;
             padding: 15px 15px 0 15px;
         }
-        
+        div.mainHeader2 {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+        div.mainHeader2 div.left2 {
+            width: 90%;
+            float: left;
+        }
+		div.mainHeader2 div.left2 span {
+			font-weight: normal;
+			font-size: 13px;
+			margin-left: 10px;
+		}
+        div.mainHeader2 div.right2 {
+            text-align: right;
+            width: 10%;
+            float: right;
+        }
+
+        div.mainHeader2 div.right2 i {
+            vertical-align: baseline;
+        }
         
     </style>
 </head>
@@ -276,20 +305,22 @@
         </div>
         <div class="work2" id="wrapper">
         <ul>
+        <div class="mainHeader2">
+                 <div class="left2">
+                     공지사항 등록
+                     <span>공지사항을 등록해 보아요</span>
+                 </div>
+                 <div class="right2">
+                     <a href="#"><i class="far fa-star"></i></a>
+                 </div>
+            </div>
             <form method="post" action="/post/addNotice">
                 <!--if문 넣어서 selected 지정해주기-->
 
                 <input type="hidden" name="userId" value=${user.userId }>
 
                 <div class="wrap2">
-                    <div class="navigation">
-                        <span>홈 > 고객행복센터 ></span>
-                        <span>공지사항 등록</span>
-                    </div>
-                    <div class="noticeTop">
-                        <span>공지사항 등록</span>
-                        <span>공지사항을 등록해 보아요 </span>
-                    </div>
+                    
                     <div class="notice">
                         <table>
                             <colgroup>

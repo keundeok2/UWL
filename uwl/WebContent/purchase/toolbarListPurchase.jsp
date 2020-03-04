@@ -245,6 +245,41 @@
             border-left: 1px solid #eee;
             padding: 15px 15px 0 15px;
         }
+        div.mainHeader2 {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+        div.mainHeader2 div.left2 {
+            width: 90%;
+            float: left;
+        }
+		div.mainHeader2 div.left2 span {
+			font-weight: normal;
+			font-size: 13px;
+			margin-left: 10px;
+		}
+        div.mainHeader2 div.right2 {
+            text-align: right;
+            width: 10%;
+            float: right;
+        }
+
+        div.mainHeader2 div.right2 i {
+            vertical-align: baseline;
+        }
+        div.work2 .table td {
+        	text-align: center;
+        }
+        
+        
         
         
     </style>
@@ -257,16 +292,31 @@
         </div>
         <div class="work2" id="wrapper">
         <ul>
-            <div class="container">
-                <div class="page-header text-center">
+        <div class="mainHeader2">
+                 <div class="left2">
+                     나의 구매내역
+                 </div>
+                 <div class="right2">
+                     <a href="#"><i class="far fa-star"></i></a>
+                 </div>
+            </div>
+            <div>
+                <!-- <div class="page-header text-center">
 					<h3 style="color: #2C3E50">나의 구매내역</h3>
 					<h4>
 						<label for="Choose Report" style="color: #E74C3C">PURCHASE HISTORY </label>
 					</h4>
-                </div>
-                <br/>
-                <table class="table table-hover">
-
+                </div> -->
+                
+                <table class="table table-hover" style="margin-bottom:0;text-align:center">
+					<colgroup>
+						<col width="16.6666%">
+						<col width="16.6666%">
+						<col width="16.6666%">
+						<col width="16.6666%">
+						<col width="16.6666%">
+						<col width="16.6666%">
+					</colgroup>
                     <thead>
                         <tr class="table-header">
                             <th align="center">주문번호</th>

@@ -8,10 +8,7 @@
     <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
     <title>어울림</title>
     <style type="text/css">
-    	@font-face { font-family: 'GmarketSansMedium'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff'); font-weight: normal; font-style: normal; }
-    	* {
-            font-family: 'GmarketSansMedium';
-        }
+    	
     </style>
     <meta charset="UTF-8">
     <title>Insert title here</title>
@@ -149,9 +146,7 @@
             margin: -20px;
             margin-left: -30px;
         }
-        .modal-backdrop.show {
-        	display: none;
-        } 
+        
         
         #goCommunity {
             transition: max-height 1s;
@@ -394,6 +389,10 @@
                 $('.gatherCategoryName').html('대나무 숲');
             }
         });
+        
+        $(function() {
+    		$('.modal').appendTo("body");
+    	});
     </script>
 
     <style>

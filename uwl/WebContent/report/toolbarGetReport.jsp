@@ -211,9 +211,7 @@
         table.table tr {
         	border-bottom: 1px solid #eee;
         }
-        table.table tr:nth-child(1) {
-        	border-top: 1px solid #eee;
-        }
+        
         
         
         
@@ -251,7 +249,7 @@
                         
                         
                         
-                        <div class="table table-responsive" style="margin-top:30px">
+                        <div class="table table-responsive">
                             <table class="table">
                                <colgroup>
                                    <col width="20%">

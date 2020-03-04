@@ -410,7 +410,33 @@
             padding: 15px 15px 0 15px;
         }
         
-        
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
     </style>
 </head>
 
@@ -421,6 +447,14 @@
         </div>
         <div class="work2"  id="wrapper">
         	<ul>
+        	<div class="mainHeader">
+                 <div class="left2">
+                     완료한 도전과제
+                 </div>
+                 <div class="right2">
+                     <a href="#"><i class="far fa-star"></i></a>
+                 </div>
+            </div>
             <form class="form-inline">
             
            	<div class="header out">

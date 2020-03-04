@@ -170,11 +170,7 @@
             width: 90%;
             float: left;
         }
-		div.mainHeader div.left2 span {
-			font-weight: normal;
-			font-size: 13px;
-			margin-left: 10px;
-		}
+		
         div.mainHeader div.right2 {
             text-align: right;
             width: 10%;
@@ -510,6 +506,9 @@
 
 
         });
+        $(function() {
+    		$('.modal').appendTo("body");
+    	});
     </script>
 
 

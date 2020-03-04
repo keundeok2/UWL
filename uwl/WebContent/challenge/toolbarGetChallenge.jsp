@@ -105,9 +105,11 @@
 
         div.challenge table tr td {
 
-            padding-left: 15px;
+            padding: 0 15px;
         }
-
+		div.challenge table tr:nth-child(5) td {
+			padding: 10px 15px;
+		}
         div.challenge table tr td img {
             vertical-align: middle;
 
@@ -440,7 +442,7 @@
         		<!-- 재이수정 -->
         		<div class="mainHeader">
                     <div class="left2">
-                        도전과제 상세보기 <i class="fas fa-users"></i>
+                        도전과제 상세보기 <i class="fas fa-users" style="vertical-align:-1px;"></i>
                         
                         <c:if test="${user.role == '4'}">
                         <span>등록된 정보를 확인해 주세요.</span>
@@ -496,7 +498,7 @@
                                     <i class="fas fa-camera" style="font-size: 25px; "></i>&nbsp;&nbsp;Vision&nbsp;&nbsp;
                                 </c:if>
                                 <c:if test="${challenge.challCategory == '3'}">
-                                    <i class="far fa-clipboard" style="font-size: 25px; "></i>&nbsp;&nbsp;게시판활동&nbsp;&nbsp;
+                                    <i class="far fa-clipboard" style="font-size: 20px;vertical-align:-1px"></i>&nbsp;&nbsp;게시판활동&nbsp;&nbsp;
                                 </c:if>
                             </td>
                             <td>작성일</td>
