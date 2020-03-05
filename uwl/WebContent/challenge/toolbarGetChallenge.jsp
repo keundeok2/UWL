@@ -250,7 +250,7 @@
             ///////////////////////////////////////////
 
             //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-            $("#prePost").on("click", function() {
+            /* $("#prePost").on("click", function() {
                 var preChallNo = ${ preNextPost.preChallNo};
                 console.log("preChallNo : " + preChallNo);
                 alert("preChallNo : " + preChallNo);
@@ -264,7 +264,7 @@
                 console.log("nextChallNo" + nextChallNo);
                 alert("nextChallNo" + nextChallNo);
                 self.location = "/challenge/getChallengeAdmin?challNo=" + nextChallNo;
-            });
+            }); */
 
             /* update event */
             
@@ -563,9 +563,9 @@
                             </td>
                         </tr>
                     </table>
-
+</div>
                 <c:if test="${user.role == '4'}">
-	                </div>
+	                
 	                <div class="bottom">
 	                    <div class="list">
 	                        <a href="#" id="updateButton">수정</a>

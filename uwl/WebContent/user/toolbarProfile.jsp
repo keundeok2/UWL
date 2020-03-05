@@ -374,7 +374,7 @@
         div.totalFlower {
 
             display: inline-block;
-            margin-right: 35px;
+            margin-right: 25px;
         }
 
         div.totalFlower span {
@@ -384,13 +384,13 @@
         div.activityPoint {
 
             display: inline-block;
-            margin-right: 35px;
+            margin-right: 25px;
         }
 
         div.point {
 
             display: inline-block;
-            margin-right: 35px;
+            margin-right: 25px;
         }
 
         div.activityPoint span {
@@ -404,7 +404,7 @@
         div.totalItem {
 
             display: inline-block;
-            margin-right: 35px;
+            margin-right: 25px;
         }
 
         div.totalItem span {

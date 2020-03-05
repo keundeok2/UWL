@@ -62,7 +62,7 @@ public class RewardController {
 	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
-	@Value("#{commonProperties['pageSize']}")
+	//@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	@Value("#{commonProperties['price']}")
 	int price;
@@ -79,7 +79,7 @@ public class RewardController {
  	@RequestMapping(value = "listRewardCheck")
 	public String getUserBothPointList(@ModelAttribute("search") Search search,
 										Model model, HttpServletRequest request, HttpSession session ) throws Exception{
-		
+		pageSize = 10;
 		
 		user = (User)session.getAttribute("user");
 		

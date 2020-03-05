@@ -47,7 +47,7 @@ public class RewardRestController {
 	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
-	@Value("#{commonProperties['pageSize']}")
+	//@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	@Value("#{commonProperties['price']}")
 	int price;
@@ -82,7 +82,8 @@ public class RewardRestController {
 	//@ModelAttribute("user") User user
  	@RequestMapping(value = "rest/listRewardCheck", method = RequestMethod.POST)
 	public Map getUserBothPointList(@RequestBody Search search,HttpSession session ) throws Exception{
-		
+ 		//page사이즈를 10을 setting
+ 		pageSize = 10;
  		System.out.println("rest/Reward/getUserBothPointList : POST ");
 		
 		user = (User)session.getAttribute("user");
@@ -169,6 +170,8 @@ public class RewardRestController {
  	@RequestMapping(value = "rest/listPurchaseCheck", method = RequestMethod.POST)
  	public Map getpurchasePointList(@RequestBody Search search,HttpSession session ) throws Exception{
  		
+ 		//page사이즈를 10을 setting
+ 		pageSize = 10;
  		System.out.println("rest/Reward/getpurchasePointList : POST ");
  		
  		user = (User)session.getAttribute("user");

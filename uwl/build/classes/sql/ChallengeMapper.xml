@@ -131,6 +131,24 @@
 		WHERE chall_no = #{challNo}
 	 </update>
 	 
+	<!-- 주간도전과제 viewStatus를 4번으로 변경하여 고정해줌 --> 
+	<update	id="startChallenge"	parameterType="challenge" >
+	   	UPDATE challenge 
+	   	<set>
+			view_status = '4'
+		</set>
+		WHERE chall_no = #{challNo}
+	 </update>
+	 
+	<!-- 주간도전과제 viewStatus를 4번으로 변경한것을 다시 1번으로 변경해줌 --> 
+	<update	id="resetChallenge"	parameterType="challenge" >
+	   	UPDATE challenge 
+	   	<set>
+			view_status = '1'
+		</set>
+		WHERE chall_no = #{challNo}
+	 </update>
+	 
 	 <!-- SQL : SELECT LIST - Admin 용 오류나면 parameterType 의심 -->
 	 <select  id="getAdminChallengeList"  parameterType="search"	resultMap="challengSelectMap">
 	  	SELECT *
@@ -145,7 +163,7 @@
 									post_comment_complete,
 									detail_category
 						 	FROM challenge
-							WHERE view_status = '1'
+							WHERE view_status = '1' OR view_status = '4'
 							<if test="searchCondition != null">
 								<where>
 									<if test="searchCondition == 1 and searchKeyword !='' ">
@@ -159,6 +177,11 @@
 			 				ORDER BY chall_date DESC) inner_table
 				WHERE ROWNUM &lt;= #{endRowNum:INTEGER} )
 				WHERE row_seq BETWEEN #{startRowNum:INTEGER} AND #{endRowNum:INTEGER} 
+	 </select>
+	 
+	 <!-- SQL : 주간도전과제 4번인 경우만 view해줌 ===>새로 추가함 -->
+	 <select  id="getWeeklyChallengeList"  resultMap="challengSelectMap">
+	  	SELECT * FROM challenge WHERE view_status = '4'
 	 </select>
 	 
 	 <!-- SQL : SELECT ONE -ADMIN -->
@@ -235,7 +258,7 @@ WHERE r.chall_no = c.chall_no AND r.user_id = #{userId} ORDER BY r.variable_date
 									chall_reward,
 									view_status,
 									weekly_start FROM challenge
-									WHERE weekly_start IS NULL AND view_status = '1'
+									WHERE weekly_start IS NULL AND view_status = '1' OR  view_status = '4'
 			 				<if test="searchCondition != null">
 								<where>
 									<if test="searchCondition == 1 and searchKeyword !='' ">
