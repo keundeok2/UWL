@@ -550,7 +550,7 @@
             <form>
 
                 <div class="mainHeader">
-                    <div class="left2" style="color: #d75e0f;">
+                    <div class="left2">
                         <c:if test="${gatherCategoryNo eq '201' }">
                             <i class="fas fa-graduation-cap"></i> <span>진학상담</span>
                         </c:if>

@@ -243,7 +243,7 @@
             width: 70%;
             float: right;
             border-left: 1px solid #eee;
-            min-height: 100vh;
+            min-height: calc(100vh - 56px);
         }
 
 
@@ -486,7 +486,7 @@
         }
 
         .section4 .keyword > span {
-            width: 100px;
+            width: 120px;
             text-align: center;
             border: 5px solid #e38c48;
             height: 120px;
@@ -537,6 +537,10 @@
         div.mainHeader div.right2 i {
             vertical-align: baseline;
         }
+        
+        #rewardList tr:last-child {
+        	margin-bottom: 30px;
+        }
     </style>
 </head>
 
@@ -549,20 +553,20 @@
             <ul>
             	<div class="mainHeader">
                  <div class="left2">
-                     포인트
+                     ${user.name}님의 내역
                  </div>
                  <div class="right2">
                      <a href="#"><i class="far fa-star"></i></a>
                  </div>
             </div>
-               	<div class="header out">
+               	<%-- <div class="header out">
 				    <div class="header in" style="position:relative;">
 			        	<h3 class="forBottomline" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
 			        		<b>${user.name} 님의 내역
 			        		</b>
 			        	</h3> 
 				    </div>
-				</div>
+				</div> --%>
             	
                 <div class="updateUser">
 					
@@ -587,7 +591,7 @@
 					                	<br>
 				                        <img src="/images/gold_coins.png" style="width: 80px; height: 80px;">
 				                        <br>
-					                    <p style="font-size: 15px">
+					                    <p style="font-size: 15px;font-weight:bold;color:#333;">
 				                       		<c:if test="${totalPointReward eq null}">
 			                                	0 점
 			                                </c:if>
@@ -602,7 +606,7 @@
 					                	<br>
 				                        <img src="/images/piggy-bank.png" style="width: 80px; height: 80px;">
 				                        <br>
-					                    <p style="font-size: 15px">
+					                    <p style="font-size: 15px;font-weight:bold;color:#333">
 				                       		<c:if test="${totalPointReward eq null}">
 			                                	0 점
 			                                </c:if>
@@ -669,7 +673,7 @@
 					                	<br>
 				                        <img src="/images/gold_coins.png" style="width: 80px; height: 80px;">
 				                        <br>
-					                    <p style="font-size: 15px">
+					                    <p style="font-size: 15px;font-weight:bold;color:#333;">
 				                       		<c:if test="${totalPointReward eq null}">
 			                                	0 점
 			                                </c:if>
@@ -684,7 +688,7 @@
 					                	<br>
 				                        <img src="/images/piggy-bank.png" style="width: 80px; height: 80px;">
 				                        <br>
-					                    <p style="font-size: 15px">
+					                    <p style="font-size: 15px;font-weight:bold;color:#333;">
 				                       		<c:if test="${totalPointReward eq null}">
 			                                	0 점
 			                                </c:if>
@@ -699,8 +703,8 @@
 					    
 					     <!-- 구매한게 아무것도 없다면 -->
                         <c:if test="${purchaseList eq '[]'}">
-                            <div class="row">
-                                <div class="col-sm-8" style="text-align: center;">
+                            <div style="text-align: center;">
+                                <div>
                                     <h3>적립한 내용이 없습니다.</h3>
                                 </div>
                             </div>

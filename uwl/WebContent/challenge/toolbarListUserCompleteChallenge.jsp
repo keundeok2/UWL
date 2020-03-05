@@ -437,6 +437,16 @@
         div.mainHeader div.right2 i {
             vertical-align: baseline;
         }
+        
+        div.work2 div.list-group a + a {
+        	margin-top: 10px;
+        }
+        
+        div.work2 div.list-group a {
+        	border-radius: .25rem;
+        	border: none;
+        	border: 1px solid #EBAD7A;
+        }
     </style>
 </head>
 
@@ -449,7 +459,7 @@
         	<ul>
         	<div class="mainHeader">
                  <div class="left2">
-                     완료한 도전과제
+                     ${user.name}님의 완료한 도전과제
                  </div>
                  <div class="right2">
                      <a href="#"><i class="far fa-star"></i></a>
@@ -457,7 +467,7 @@
             </div>
             <form class="form-inline">
             
-           	<div class="header out">
+           	<%-- <div class="header out">
 			    <div class="header in" style="position:relative;">
 		        	<h3 class="forBottomline" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
 		        		<b>${user.name} 님이(가)<br> 
@@ -465,7 +475,7 @@
 		        		</b>
 		        	</h3> 
 			    </div>
-			</div>
+			</div> --%>
 			
 			
 			<!-- 총 도전과제 완료 갯수 -->
@@ -476,10 +486,10 @@
 		                <div>
 		                	<br>
 		                	<br>
-	                        <img src="/images/trophy_complete.png" style="width: 150px; height: 150px;">
+	                        <img src="/images/trophy_complete.png" style="width: 140px; height: 140px;">
 	                        <br>
-		                    <p>
-	                       		총 <strong>${resultPage.totalCount} </strong>개<br>
+		                    <p style="margin-top:10px;">
+	                       		총 <strong>${resultPage.totalCount}</strong>개<br>
 		                    </p>
 		                </div>
 		            
@@ -510,9 +520,7 @@
 				</div> --%>
              	
              	
-                    <br>
-                    <br>
-                    <br>
+                    
                     <div class="list-group">
                         <c:forEach var="challenge" items="${list}">
                             <a href="#" class="list-group-item list-group-item-action" id="challengeBox">
@@ -538,7 +546,7 @@
                                     </c:if>
                                 </small>
                             </a>
-                            <br>
+                            
                         </c:forEach>
                     </div>
                     <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
@@ -546,8 +554,7 @@
                     </div>
             </form>
 
-            <br>
-            <br>
+            
 
             <!-- PageNavigation Start... -->
             <jsp:include page="../common/pageNavigator_new.jsp" />
