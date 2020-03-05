@@ -324,6 +324,25 @@
                 console.log("myScroll2 refresh");
                 myScroll2.refresh();
             }, 0); */
+            
+            myScroll.on('scrollEnd', function() {
+            	//alert("스크롤앤드에 접근")
+                var wrapperHeight = $('#wrapper').height();
+                var ulHeight = $('#wrapper ul').height();
+                var evtHeight = wrapperHeight - ulHeight;
+
+                if (this.y <= evtHeight + 100) {
+                    console.log('wrapperHeight', wrapperHeight);
+                    console.log('ulHeight', ulHeight);
+                    console.log('evtHeight', evtHeight);
+                    console.log('this.y', this.y);
+                    mainPostListInfiniteScroll();
+                }
+            });
+            
+            
+            
+            
         });
 
 
@@ -391,11 +410,100 @@
         firebaseModule.init();
 
         $(document).ready(function() {
-            $('.post').on("click", function() {
+            $(document).on("click",".post",function(){
                 var postNo = $(this).children().find('.postNo').val();
                 self.location = "/post/getBoard?postNo=" + postNo;
             });
         });
+        
+        
+        //무한스크롤 시작--------------------------------------------------------------------------------------------------------------------------
+        var mainPostListPage = 1;
+		
+        function mainPostListInfiniteScroll() {	//6개가 늘어날 때는
+            if (mainPostListPage <= ${resultPage.maxPage}) {		//여길 안들어감 ㅋㅋ
+            	mainPostListPage++;
+                console.log('mainPostListPage : ' + mainPostListPage);
+
+                $.ajax({
+                    url: "/post/rest/listBoard",
+                    method: "POST",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        currentPage: mainPostListPage
+                    }),
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    success: function(data) {
+                    	
+                    	var list = data.list;
+                    	for(var i=0; i<list.length; i++){ //view 붙이기용 for문 ㅋㅋ
+                    		
+                    		
+                    		if(list[i].gatherCategoryNo == '201'){
+                    			var categoryView = '<i class="fas fa-graduation-cap"></i> 진학상담';
+                    		}
+                    		if(list[i].gatherCategoryNo == '202'){
+                    			var categoryView = '<i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i>';
+                    		}
+                    		if(list[i].gatherCategoryNo == '203'){
+                    			var categoryView = '<i class="fas fa-male"></i> 남자끼리';
+                    		}
+                    		if(list[i].gatherCategoryNo == '204'){
+                    			var categoryView = '<i class="fas fa-female"></i> 여자끼리';
+                    		}
+                    		if(list[i].gatherCategoryNo == '205'){
+                    			var categoryView = '<i class="far fa-kiss-wink-heart"></i> 데이트 자랑';
+                    		}
+                    		if(list[i].gatherCategoryNo == '206'){
+                    			var categoryView = '<i class="fas fa-bullhorn"></i> 대나무 숲';
+                    		}
+                    		
+                    		var view = '<div class="post">'
+                    						+ '<a href="#">'
+                    							+ '<div class="uploadFile">'
+                    								+ ' <img src="/images/'+list[i].uploadFileName+'" alt="">'
+                    							+ '</div>'
+                    							+ '<div>'
+                    								+ '<div class="postTop">'
+                    									+ '<div class="postTitle">'
+                    										+ '<p>'+list[i].postTitle+'</p>'
+                    										+ '<p>'+list[i].user.nickname+'</p>'
+                    									+ '</div>'
+                    									+ '<div class="postCategory">'
+                    										+ categoryView
+                    										+ ' <p>'+list[i].postDate+'</p>'
+                    									+ '</div>'
+                    								+ '</div>'
+                    								+ '<div class="postContent">'
+                    									+ list[i].postContent
+                    								+ '</div>'
+                    								+ '<div>'
+                    									+ '<p><i class="far fa-comment"></i> '+list[i].commentCount+'</p>'
+                    									+ '<p><i class="far fa-eye"></i> '+list[i].hitCount+'</p>'
+                    									+ '<p><i class="far fa-heart"></i> '+list[i].likeCount+'</p>'
+                    								+ '</div>'
+                    							+ '</div>'
+                    							+ '<input type="hidden" class="postNo" value="'+list[i].postNo+'">'
+                    						+ '</a>'
+                    					+ '</div>';
+                    		$('.cummunityPostList').append(view);
+                    	}
+                          
+                        setTimeout(function() {
+                            myScroll.refresh();
+                        }, 0);
+                    },
+                    error : function(){
+                    	alert('에러');
+                    }
+                });
+            }
+        } //end of rewardListInfiniteScroll
+        //무한스크롤 끝 ------------------------------------------------------------------------------------------------------------------------------------------
+        
     </script>
     <style>
         div.layoutWrap2 {
@@ -843,6 +951,8 @@
                                     </a></li>
                             </ul>
                         </div>
+                        
+                        <!-- POST -->
                         <div class="cummunityPostList">
                            <c:forEach var="post" items="${list }">
                             <div class="post">
@@ -857,9 +967,9 @@
                                                 <p>${post.user.nickname }</p>
                                             </div>
                                             <div class="postCategory">
-                                                <c:if test="${post.gatherCategoryNo eq '201' }">
+                                            <c:if test="${post.gatherCategoryNo eq '201' }">
                                                 <i class="fas fa-graduation-cap"></i> 진학상담
-                                                </c:if>
+                                            </c:if>
                                             <c:if test="${post.gatherCategoryNo eq '202' }">
                                                 <i class="fas fa-heart"></i> 사랑과 이별 <i class="fas fa-heart-broken"></i>
                                             </c:if>
@@ -893,6 +1003,8 @@
                             </div>
                             </c:forEach>
                         </div>
+                        <!-- POST -->                        
+                        
                     </div>
                 </form>
             </ul>

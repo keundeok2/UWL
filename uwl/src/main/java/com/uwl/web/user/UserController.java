@@ -563,7 +563,7 @@ public class UserController {
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(pageSize);
-		String gatherCategoryNo = "206";
+		String gatherCategoryNo = "";
 		Map<String, Object> map = postService.getBoardList(search, gatherCategoryNo);
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
