@@ -22,11 +22,20 @@ public interface ChallengeDAO {
 	//등록된 도전과제를 삭제하는 method (플래그만 해서 지울것? 아니면 진짜로 db에서 delete??)
 	public void deleteChallenge(Challenge challenge) throws Exception;
 	
+	//viewStatus를 4번으로 3개만 변경
+	public void startChallenge(Challenge challenge) throws Exception;
+	
+	//viewStatus를 4번으로 변경했던것을 다시 1번으로 초기화하는 method
+	public void resetChallenge(Challenge challenge) throws Exception;
+	
 	//주간으로 진행되는 도전과제의 시작날짜와 끝의 시간을 가져오는 method
 	public Challenge getWeeklyStart() throws Exception;
 	
 	//Adimin이 도전과제 List를 가져오는 method
 	public List<Challenge> getAdminChallengeList(Search search) throws Exception;
+	
+	//4번으로 바꾼것을 담아서 view해주는 것.
+	public List<Challenge> getWeeklyChallengeList() throws Exception;
 	
 	//특정 도전과제를 가져오는 method
 	public Challenge getChallengeAdmin(int challNo) throws Exception;

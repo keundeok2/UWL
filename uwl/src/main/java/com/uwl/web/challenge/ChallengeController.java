@@ -2,8 +2,10 @@ package com.uwl.web.challenge;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -363,9 +365,6 @@ public class ChallengeController {
 		///도전과제 끝시간에 도착했을때 한번 더 실행 ==> 다시 set도 해줘야됨. 끝난시간 = 새로운 시작시간
 		
 		
-		//challService.addWeeklyStart(challenge);
-		
-		//System.out.println("======%%%%%>>>ChallengeController getChallengeList()의 map에 담긴 list : " + list);
 		
 		//////////////// 주간도전과제 시작과 끝을 세팅 ////////////////
 
@@ -384,17 +383,87 @@ public class ChallengeController {
 		//현재시각 알기
 		String sysdate = transFormat.format(cal.getTime());
 
-		System.out.println("----------> " + weeklyEnd);
-		System.out.println("ddsadsa : " + sysdate);
+		System.out.println("----weeklyEnd-----> " + weeklyEnd);
+		System.out.println("sysdate : " + sysdate);
 		
-		//종료시간이 현재시각과 같다면
-//		if (weeklyEnd.equals(sysdate)) {
-//			System.out.println("==========>>>>종료시간 if문에 접속함");
-//			//그러면 주간도전과제를 실행
-//		}
-		Map<String, Object> map = challService.getChallengeList();
+		List<Challenge> list = null;
+		Map<String, Object> map = null;
+		Map<String, Object> weeklyStartMap = challService.getWeeklyChallengeList();
 		
-		List<Challenge> list = (List<Challenge>)(map.get("list"));
+		//만약 list에 담긴정보가 없다면
+		List<Challenge> listIf = (List<Challenge>)(weeklyStartMap.get("list"));
+		if (listIf.size() == 0) {
+			System.out.println("list가 null일때");
+			//랜덤으로 돌린 3개의 정보를 가져온다.
+			map = challService.getChallengeList();
+			System.out.println("list가 null일때 ===> map : " + map);
+			list = (List<Challenge>)(map.get("list"));
+			System.out.println("list가 null일때 ==> list : " + list);
+			
+			//최초 1번 null이면 식별자를 4번으로 바꿔줌.
+			for (int i = 0; i < list.size(); i++) {
+				challService.startChallenge(list.get(i));
+			}
+			
+			weeklyStartMap = challService.getWeeklyChallengeList();
+			list = (List<Challenge>)(weeklyStartMap.get("list"));
+			map.put("list", list);
+			model.addAttribute("list", list);
+			model.addAttribute("weeklyChallenge", challenge);
+			
+			System.out.println("list : " + list);
+			
+			return "forward:/challenge/toolbarListChallenge.jsp";
+			
+		}else if (weeklyEnd.equals(sysdate) && listIf.size() == 3) {
+			System.out.println("==========>>>>종료시간 if문에 접속함");
+			weeklyStartMap = challService.getWeeklyChallengeList();
+			list = (List<Challenge>)(weeklyStartMap.get("list"));
+			System.out.println("바꾸기전 list : " + list);
+			for (int i = 0; i < list.size(); i++) {
+				challService.resetChallenge(list.get(i));
+			}
+			
+			map = challService.getChallengeList();
+			list = (List<Challenge>)(map.get("list"));
+			System.out.println("바꾼 후  list : " + list);
+			for (int i = 0; i < list.size(); i++) {
+				challService.startChallenge(list.get(i));
+			}
+			
+			map.put("list", list);
+			model.addAttribute("list", list);
+			model.addAttribute("weeklyChallenge", challenge);
+			
+			return "forward:/challenge/toolbarListChallenge.jsp";
+			
+		}else{
+			System.out.println("4번으로 바꾼거만 view해줌");
+			weeklyStartMap = challService.getWeeklyChallengeList();
+			System.out.println("4번으로 바꾼거만 2222해줌");
+			list = (List<Challenge>)(weeklyStartMap.get("list"));
+			System.out.println("4번으로 바꾼거만 3333해줌");
+			//map.put("list", list);
+			System.out.println("4번만 있는 map : " + map);
+			System.out.println("4번만 있는 list : " + list);
+			model.addAttribute("list", list);
+			model.addAttribute("weeklyChallenge", challenge);
+			
+			System.out.println("list : " + list);
+			
+			return "forward:/challenge/toolbarListChallenge.jsp";
+			
+		}
+		
+//		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyy:MM:dd-hh:mm:ss", Locale.KOREA );
+//		Date currentTime = new Date ();
+//		String mTime = mSimpleDateFormat.format ( currentTime );
+//		System.out.println ("현재시각 : " + mTime  + "weeklyEnd : " + weeklyEnd);
+
+
+		
+		
+		//List<Challenge> list = (List<Challenge>)(map.get("list"));
 		
 		
 		
@@ -416,12 +485,12 @@ public class ChallengeController {
 		
 	//	System.out.println("ChallengeController getWeeklyStart : " +weeklyStart );
 		
-		model.addAttribute("weeklyChallenge", challenge);
-		model.addAttribute("list", list);
+		//model.addAttribute("weeklyChallenge", challenge);
+		//model.addAttribute("list", list);
 		//model.addAttribute("strDate", strDate);
 		
 		//return "forward:/challenge/listChallenge.jsp";
-		return "forward:/challenge/toolbarListChallenge.jsp";
+		//return "forward:/challenge/toolbarListChallenge.jsp";
 	}
 	
 	
