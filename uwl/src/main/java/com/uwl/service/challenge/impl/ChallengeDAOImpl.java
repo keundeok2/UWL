@@ -56,6 +56,25 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 		sqlSession.update("ChallengeMapper.deleteChallenge", challenge);
 	}
 	
+	///////////////////////////////// 주간도전과제 고정을 위해 새로추가한것. /////////////////////////////////
+	@Override
+	public void startChallenge(Challenge challenge) throws Exception {
+		sqlSession.update("ChallengeMapper.startChallenge", challenge);
+		
+	}
+
+	@Override
+	public void resetChallenge(Challenge challenge) throws Exception {
+		sqlSession.update("ChallengeMapper.resetChallenge", challenge);
+		
+	}
+
+	@Override
+	public List<Challenge> getWeeklyChallengeList() throws Exception {
+		return sqlSession.selectList("ChallengeMapper.getWeeklyChallengeList");
+	}
+	///////////////////////////////// 주간도전과제 고정을 위해 새로추가한것. /////////////////////////////////
+	
 	@Override
 	public List<Challenge> getAdminChallengeList(Search search) throws Exception {
 		return sqlSession.selectList("ChallengeMapper.getAdminChallengeList",search);
@@ -130,6 +149,8 @@ public class ChallengeDAOImpl implements ChallengeDAO{
 		System.out.println("ChallengeDAOImpl의  getWeeklyStart()");
 		return sqlSession.selectOne("ChallengeMapper.getWeeklyStart");
 	}
+
+	
 
 	
 	
