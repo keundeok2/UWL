@@ -49,9 +49,22 @@ public class FriendRestController {
 
 	@RequestMapping(value = "rest/requestFriend", method = RequestMethod.POST)
 	public Map requestFriend(@RequestBody Friend friend) throws Exception {
+		System.out.println("FriendRestController requestFriend Run===========");
 		Map<String, Object> map = new HashMap<String, Object>();
-		friendService.requestFriend(friend);
-		map.put("success", true);
+		
+		Friend inputFriend = new Friend();
+		inputFriend.setFirstUserId(friend.getSecondUserId());
+		inputFriend.setSecondUserId(friend.getFirstUserId());
+		
+		Friend check = friendService.checkRequest(inputFriend);
+		System.out.println("check : " + check);
+		if (check == null) {
+			friendService.requestFriend(friend);
+			map.put("success", true);
+		} else {
+			friendService.acceptFriend(friend);
+			map.put("success", true);
+		}
 		return map;
 	}
 
@@ -176,5 +189,6 @@ public class FriendRestController {
 		returnMap.put("list", returnList);
 		return returnMap;
 	}
+	
 	
 }
