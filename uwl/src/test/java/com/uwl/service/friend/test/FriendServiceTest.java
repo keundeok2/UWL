@@ -27,7 +27,7 @@ public class FriendServiceTest {
 	@Qualifier("friendServiceImpl")
 	private FriendService friendService;
 	
-	@Test
+//	@Test
 	public void requestFriend() throws Exception{
 		Friend friend = new Friend();
 		friend.setFirstUserId("user40");
@@ -124,11 +124,11 @@ public class FriendServiceTest {
 		System.out.println(friendService.checkFriend(friend));
 	}
 	
-//	@Test
+	@Test
 	public void checkRequest() throws Exception{
 		Friend friend = new Friend();
 		friend.setFirstUserId("user01");
-		friend.setSecondUserId("user40");
+		friend.setSecondUserId("kkd17666");
 		
 		friendService.checkRequest(friend);
 	}

@@ -83,6 +83,12 @@
                         itemNo: itemNo
                     }),
                     success: function(d) {
+                    	Swal.fire({
+            				  icon: 'success',
+            				  title: '환불이 완료되었습니다.',
+            				  showConfirmButton: false,
+            				  timer: 800
+            			})
                         var html = "<button class='btn btn-outline-secondary btn-sm' type='button'>환불완료</button>";
                         $("." + purchaseNo + "").remove();
                         $(html).appendTo("#" + purchaseNo + "");
