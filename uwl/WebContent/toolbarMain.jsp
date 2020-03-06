@@ -905,10 +905,10 @@
                             <div class="banner-infinite">
                                 <div class="box">
                                     <ul class="banner">
-                                 	   <c:forEach var="schoolRank" items="${individualRank}" end="5">
+                                 	   <c:forEach var="userRank" items="${individualRank}" end="5">
 	                                        <li>
 	                                        	<a href="#" class="userRanking">
-	                                                ${schoolRank.ranking} 위 <span><img src="/images/bonobono.jpg" alt=""></span> ${schoolRank.userId}
+	                                                ${userRank.ranking} 위 <span><img src="/images/bonobono.jpg" alt=""></span> ${userRank.userId}
 	                                            </a>
 	                                        </li>
                                  	   </c:forEach>
