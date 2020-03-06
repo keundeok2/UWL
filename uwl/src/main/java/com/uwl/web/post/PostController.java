@@ -161,7 +161,8 @@ public class PostController {
 	public String updateBoard(@ModelAttribute("post") Post post, @RequestParam("file") MultipartFile file
 								, Model model, HttpSession session) throws Exception {
 		System.out.println("updateBoard.POST");
-		String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\"; //썸네일 저장할 경로
+		//String path = "C:\\Users\\User\\git\\UWL\\uwl\\WebContent\\resources\\images\\"; //썸네일 저장할 경로
+		String path = "C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\uwl\\resources\\images";
 		String name="";
 		User user = (User)session.getAttribute("user");
 		Search search = new Search();
