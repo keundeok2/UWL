@@ -5,6 +5,12 @@
 <html lang="en">
 
 <head> 
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	
+    </style>
     <meta charset="UTF-8">
     <!-- 참조 : http://getbootstrap.com/css/   참조 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,7 +34,7 @@
     <title>Insert title here</title>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-
+	<script src="/javascript/iscroll.js"></script>
     <script type="text/javascript">
     
     var myScroll = null;
@@ -43,7 +49,7 @@
         setTimeout(function() {
     		myScroll.refresh();
     	}, 0);
-    })
+    });
         // 	$(function() {
         // 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
         // 		$("button").on("click", function() {
@@ -257,7 +263,7 @@
 					//alert(  $( "td.ct_btn01:contains('검색')" ).html() );
 					fncGetList(1);
 				});
-			 
+			 $('#more').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
 			 
 		 });
         
@@ -439,7 +445,14 @@
             background: #fff;
             border-left: 1px solid #eee;
         }
-        
+        #goMore {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goMore ul li:nth-child(2) {
+        	color: #EBAD7A;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
@@ -510,6 +523,36 @@
             border-left: 1px solid #eee;
             padding: 15px 15px 0 15px;
         }
+        div.mainHeader2 {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+        div.mainHeader2 div.left2 {
+            width: 90%;
+            float: left;
+        }
+		div.mainHeader2 div.left2 span {
+			font-weight: normal;
+			font-size: 13px;
+			margin-left: 10px;
+		}
+        div.mainHeader2 div.right2 {
+            text-align: right;
+            width: 10%;
+            float: right;
+        }
+
+        div.mainHeader2 div.right2 i {
+            vertical-align: baseline;
+        }
         
     </style>
 </head>
@@ -521,19 +564,25 @@
         </div>
         <div class="work2" id="wrapper">
         <ul>
+        <div class="mainHeader2">
+                 <div class="left2">
+                     내가올린 문의사항
+                     
+                 </div>
+                 <div class="right2">
+                     <a href="#"><i class="far fa-star"></i></a>
+                 </div>
+            </div>
             <div class="wrap">
 	
                 <div class="main">
-                    <div class="mainHeader">
-                        <span>내가올린 문의사항</span>
-                        <span></span>
-                    </div>
+                    
                     <div class="noticeList">
                         <table>
 
                             <div class="addNotice">
                                 <c:if test="${user.role eq '4' }">
-                                    <button onclick="location.href='/user/getUserQuestionsList'">문의사항 전체목록</button>
+                                    <button onclick="location.href='/user/getUserQuestionsList'" style="border:none">문의사항 전체목록</button>
                                 </c:if>
                                 <a href="/user/addQuestions">문의사항 등록</a>
                             </div>

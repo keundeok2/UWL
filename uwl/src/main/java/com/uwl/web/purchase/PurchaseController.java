@@ -33,9 +33,6 @@ public class PurchaseController {
 	@Autowired
 	private PurchaseService purchaseService;
 
-	@Autowired
-	private ImpService impService;
-
 	@RequestMapping(value = "/getPurchaseList", method = RequestMethod.POST)
 	public String getPurchaseList(@ModelAttribute Search search, HttpSession httpSession, Model model)
 			throws Exception {

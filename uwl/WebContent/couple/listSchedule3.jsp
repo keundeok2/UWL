@@ -53,7 +53,7 @@
 
 
             /* updateSchedule */
-
+            $('#updateSchedleModal').appendTo("body");
 
         });
 
@@ -94,11 +94,11 @@
 
     </script>
     <style>
-        div.list4 .modal-dialog {
+        #updateSchedleModal .modal-dialog {
             max-width: 760px;
         }
 
-        div.list4 div.modal-content {
+        #updateSchedleModal div.modal-content {
             width: 760px;
         }
 

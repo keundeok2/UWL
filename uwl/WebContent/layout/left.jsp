@@ -138,7 +138,9 @@
             margin-right: 10px;
             text-align: center;
             vertical-align: middle;
+            border: 2px solid transparent;
         }
+        
 
         a#myProfile span:nth-child(1) img {
 
@@ -373,11 +375,7 @@
             </h4>
             <div id="goMaster">
                 <ul>
-                    <li>
-                        <h6>
-                            <a href="#" id="userList">전체회원 목록</a>
-                        </h6>
-                    </li>
+                    
                     <li>
                         <h6>
                             <a href="#" id="challengeControl">도전과제 관리</a>

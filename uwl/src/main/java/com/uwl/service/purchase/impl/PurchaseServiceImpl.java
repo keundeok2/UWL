@@ -1,7 +1,6 @@
 package com.uwl.service.purchase.impl;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.uwl.common.Search;
 import com.uwl.service.domain.Purchase;
-import com.uwl.service.domain.Reward;
 import com.uwl.service.purchase.PurchaseDAO;
 import com.uwl.service.purchase.PurchaseService;
 import com.uwl.service.reward.RewardDAO;

@@ -59,8 +59,9 @@ public class RewardServiceImpl implements RewardService{
 		System.out.println("ServiceImpl getUserBothPointList() totalcount : " + totalCount);
 		
 		Map<String, Object> map = rewardDAO.getUserBothPointList(search, reward);
-		
+		System.out.println("ServiceImpl getUserBothPointList() list : " + map.get("list"));
 		map.put("totalCount", new Integer(totalCount));
+		map.put("list", map.get("list"));
 		
 		return map;
 	}
@@ -77,8 +78,8 @@ public class RewardServiceImpl implements RewardService{
 		Map<String, Object> map = rewardDAO.getUserPurchaseList(search, reward);
 		
 		map.put("totalCount", new Integer(totalCount));
-		
-		
+		map.put("list", map.get("list"));
+		System.out.println("======>>>><<>>RewardServiceImple 끝");
 		return map;
 		
 	}

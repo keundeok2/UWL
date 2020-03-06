@@ -5,6 +5,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	
+    </style>
     <meta charset="UTF-8">
     <!-- 참조 : http://getbootstrap.com/css/   참조 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,6 +35,8 @@
         setTimeout(function() {
     		myScroll.refresh();
     	}, 0);
+        
+        $('#more').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
     });
     </script>
     
@@ -160,6 +168,15 @@
         div.wrap>div:nth-child(4) table tr td:nth-child(2) {
             padding-left: 30px;
         }
+        
+        #goMore {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goMore ul li:nth-child(1) {
+        	color: #EBAD7A;
+        }
     </style>
     <title>Insert title here</title>
 
@@ -267,7 +284,36 @@
         }
         
 
-        
+        div.mainHeader2 {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+        div.mainHeader2 div.left2 {
+            width: 90%;
+            float: left;
+        }
+		div.mainHeader2 div.left2 span {
+			font-weight: normal;
+			font-size: 13px;
+			margin-left: 10px;
+		}
+        div.mainHeader2 div.right2 {
+            text-align: right;
+            width: 10%;
+            float: right;
+        }
+
+        div.mainHeader2 div.right2 i {
+            vertical-align: baseline;
+        }
     </style>
 </head> 
 
@@ -278,16 +324,18 @@
         </div>
         <div class="work2" id="wrapper">
         <ul>
+        <div class="mainHeader2">
+                 <div class="left2">
+                     공지사항
+                     <span>어울림의 새로운 소식들과 유용한 정보들을 한곳에서 확인하세요.</span>
+                 </div>
+                 <div class="right2">
+                     <a href="#"><i class="far fa-star"></i></a>
+                 </div>
+            </div>
             <form>
                 <div class="wrap">
-                    <div class="navigation">
-                        <span>홈 > 고객행복센터 ></span>
-                        <span>공지사항</span>
-                    </div>
-                    <div class="noticeTop">
-                        <span>공지사항</span>
-                        <span>어울림의 새로운 소식들과 유용한 정보들을 한곳에서 확인하세요.</span>
-                    </div>
+                    
                     <div class="notice">
                         <table>
                             <colgroup>

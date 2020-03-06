@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--  jQuery CDN -->
@@ -642,6 +645,7 @@ p.level {
 							//인증완료 시
 							$('#codeNumberCheck').remove();
 							$('#code').remove();
+							$('#yes').remove();
 							var view = "<span id='yes'>인증이 완료되었습니다</span>"
 							$('#phone').after(view);
 						}else{

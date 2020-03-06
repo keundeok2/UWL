@@ -71,19 +71,25 @@
  						FROM post p, users u
  						WHERE post_category_no = '2'
  						AND view_status = '1'
- 						AND gather_category_no = #{gatherCategoryNo}
-	 						<if test="search.searchCondition != null">
-	 							<if test="search.searchCondition == 1 and search.searchKeyword != '' ">
-	 								AND post_title LIKE #{search.searchKeyword}
-	 							</if>
-	 							<if test="search.searchCondition == 2 and search.searchKeyword != '' ">
-	 								AND post_title LIKE #{search.searchKeyword}
-	 								AND post_content LIKE #{search.searchKeyword}
-	 							</if>
-	 							<if test="search.searchCondition == 3 and search.searchKeyword != '' ">
-	 								<!--  AND 작성자-->
-	 							</if>
-	 						</if>
+ 						<if test="gatherCategoryNo != '' ">
+	 						AND gather_category_no = #{gatherCategoryNo}
+		 						<if test="search.searchCondition != null">
+		 							<if test="search.searchCondition == 1 and search.searchKeyword != '' ">
+		 								AND post_title LIKE #{search.searchKeyword}
+		 							</if>
+		 							<if test="search.searchCondition == 2 and search.searchKeyword != '' ">
+		 								AND post_title LIKE #{search.searchKeyword}
+		 								AND post_content LIKE #{search.searchKeyword}
+		 							</if>
+		 							<if test="search.searchCondition == 3 and search.searchKeyword != '' ">
+		 								<!--  AND 작성자-->
+		 							</if>
+		 						</if>
+ 						</if>
+ 						<if test="gatherCategoryNo == '' ">
+ 							AND gather_category_no != '204'
+ 							AND gather_category_no != '203'
+ 						</if>
 	 					AND p.user_id = u.user_id
  						ORDER BY post_date DESC) inner_table
  			WHERE ROWNUM &lt;= #{search.endRowNum} )
@@ -188,7 +194,7 @@
 	 </select>
 	 
 	 <!-- 각각 게시판  -->
- 	<select  id="getTotalCount2"  parameterType="String" resultType="int">
+ 	<select  id="getTotalCount2"  parameterType="post" resultType="int">
 	  	
 SELECT count(*)
  		FROM ( SELECT inner_table.*
@@ -196,7 +202,9 @@ SELECT count(*)
  						FROM post p, users u
  						WHERE post_category_no = '2'
  						AND view_status = '1'
- 						AND gather_category_no = #{gatherCategoryNo}
+ 						<if test="gatherCategoryNo != '' ">
+	 						AND gather_category_no = #{gatherCategoryNo}
+ 						</if>
 	 					AND p.user_id = u.user_id
  						ORDER BY post_date DESC) inner_table
                         )

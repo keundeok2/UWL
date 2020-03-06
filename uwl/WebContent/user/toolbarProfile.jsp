@@ -4,9 +4,12 @@
 <html lang="en">
 
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>어울림</title>
+    
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -15,6 +18,10 @@
         var myScroll = null;
 
         $(function() {
+        	
+        	$('a#myProfile span:nth-child(1)').css({
+        		'border': '2px solid #EBAD7A'
+        	});
 
             myScroll = new IScroll('#wrapper', {
                 mouseWheel: true,
@@ -254,7 +261,7 @@
 
         body {
             color: #333;
-            font-size: 15px;
+            font-size: 16px;
             font-family: 'Roboto', sans-serif;
             font-family: 'Nanum Gothic', sans-serif;
 
@@ -367,7 +374,7 @@
         div.totalFlower {
 
             display: inline-block;
-            margin-right: 35px;
+            margin-right: 25px;
         }
 
         div.totalFlower span {
@@ -377,13 +384,13 @@
         div.activityPoint {
 
             display: inline-block;
-            margin-right: 35px;
+            margin-right: 25px;
         }
 
         div.point {
 
             display: inline-block;
-            margin-right: 35px;
+            margin-right: 25px;
         }
 
         div.activityPoint span {
@@ -397,7 +404,7 @@
         div.totalItem {
 
             display: inline-block;
-            margin-right: 35px;
+            margin-right: 25px;
         }
 
         div.totalItem span {
@@ -706,7 +713,7 @@
                                     ' </form>';
                                 //alert(displayValue);
 
-                                $('div.modal-footer').find('button:nth-child(2)').addClass('check');
+                                $('#exampleModal div.modal-footer').find('button:nth-child(2)').addClass('check');
                             } else {
                                 displayValue = '<form action="">' +
                                     ' <input type="hidden" name="userId" value="' + sessionUserId + '">' +
@@ -1324,8 +1331,42 @@
             border-left: 1px solid #eee;
             padding: 15px 15px 0 15px;
         }
+		a#myProfile {
+			color: #EBAD7A;
+			
+        }
+        
+        div.mainHeader {
 
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
+        
+        
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
     </style>
+    
 </head>
 
 <body>
@@ -1335,6 +1376,14 @@
         </div>
         <div class="work2" id="wrapper">
             <ul>
+            	<div class="mainHeader">
+                    <div class="left2">
+                        ${targetUser.name} 프로필
+                    </div>
+                    <div class="right2">
+                        <a href="#"><i class="far fa-star"></i></a>
+                    </div>
+                </div>
                 <input type="hidden" id="sessionUserId" value="${user.userId}">
                 <input type="hidden" id="targetUserId" value="${targetUserId}">
                 <input type="hidden" id="sessionMail" value="${user.mail}">

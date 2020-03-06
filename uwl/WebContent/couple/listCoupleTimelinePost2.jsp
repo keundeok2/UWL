@@ -65,7 +65,7 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            left: 230px;
+            left: 10px;
         }
 
         div.coupleTimelineHeader div.dDay {
@@ -96,7 +96,7 @@
         div.coupleTimelineHeader div.secondUser2 {
 
             position: absolute;
-            right: 230px;
+            right: 10px;
             top: 50%;
             transform: translateY(-50%);
         }
@@ -128,7 +128,7 @@
             text-align: center;
             display: inline-block;
             vertical-align: middle;
-			display: none;
+			
         }
 
         div.coupleTimelineMain {
@@ -146,6 +146,10 @@
             margin-right: 6px;
             margin-top: 6px;
             position: relative;
+        }
+        
+        div.coupleTimelineMain div.coupleTimelinePost:last-child {
+        	margin-bottom: 50px;
         }
 
         div.coupleTimelineMain div.coupleTimelinePost:nth-child(3n) {
@@ -183,8 +187,12 @@
             color: #fff;
         }
 
-
-
+		div.coupleTimelinePost div.imageHover div.uploadDate > div {
+			padding: 0 10px;
+		}
+		div.coupleTimelinePost div.imageHover div.uploadDate > div:nth-child(1) {
+			font-weight: bold;
+		}
 
 
         
@@ -254,15 +262,16 @@
         
 
         a.addCoupleTimelinePostFixedButton {
-            position: fixed;
+            position: absolute;
             right: 10px;
-            top: 10px;
+            bottom: -50px;
             background-color: #eee;
             line-height: 35px;
             padding: 0 10px;
             border-radius: 30px;
             font-weight: bold;
             display: inline-block;
+            z-index: 1;
         }
 
         a.uploadFileName {
@@ -633,7 +642,6 @@
             $(document).ready(function() {
 				//alert('온로드ㅋㅋ');
                 //alert('userId : ' + userId);
-                //console.log("sessionUserRole", sessionUserRole);
                 
                 
                 if (sessionUserRole == 3) {
@@ -656,8 +664,8 @@
                             appendCoupleTimelinePost(data.list[i]);
                             //alert(data.list[i].postNo);
                         }
-                        $('div.firstUser2 img').attr('src', '/images/' + data.firstUser.profileName);
-                        $('div.secondUser2 img').attr('src', '/images/' + data.secondUser.profileName);
+                        $('div.firstUser2 .userProfileImage img').attr('src', '/images/' + data.firstUser.profileName);
+                        $('div.secondUser2 .userProfileImage img').attr('src', '/images/' + data.secondUser.profileName);
                         $('span.firstUserName').text(data.firstUser.name);
                         $('span.secondUserName').text(data.secondUser.name);
                         console.log(data.firstUser.profileName);
@@ -818,7 +826,7 @@
                     <img src="/images/bonobono.jpg" alt="">
                 </div>
                 <div class="weather">
-                    <i class="fas fa-smog"></i>
+                    <img src="/images/031-cloud.png" alt="" width="30px" style="vertical-align:middle">
                 </div>
             </div>
             <div class="dDay">
@@ -831,19 +839,20 @@
             <div class="secondUser2">
                 <div class="weather">
 
-                    <i class="fas fa-sun"></i>
+                    <img src="/images/031-sun.png" alt="" width="30px" style="vertical-align:middle">
                 </div>
                 <div class="userProfileImage">
                     <img src="/images/bonobono.jpg" alt="">
                 </div>
             </div>
+            <a href="#" class="addCoupleTimelinePostFixedButton" data-toggle="modal" data-target="#exampleModal2" onclick="resetCoupleTimelineModal()">
+            <i class="fas fa-plus"></i> 게시글 등록
+        </a>
         </div>
         <div class="coupleTimelineMain">
             
         </div>
-        <a href="#" class="addCoupleTimelinePostFixedButton" data-toggle="modal" data-target="#exampleModal2" onclick="resetCoupleTimelineModal()">
-            <i class="fas fa-plus"></i> 게시글 등록
-        </a>
+        
     </div>
 
     <!-- Button trigger modal -->

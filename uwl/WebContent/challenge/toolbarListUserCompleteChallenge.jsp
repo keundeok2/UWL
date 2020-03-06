@@ -4,6 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	
+    </style>
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -226,6 +232,15 @@
             color: #898989;
             font-size: 16px;
         }
+        
+        #goChallenge {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goChallenge ul li:nth-child(2) {
+        	color: #EBAD7A;
+        }
     </style>
 
     <script type="text/javascript">
@@ -313,7 +328,7 @@
                 self.location = "/challenge/getChallenge?challNo=" + challNo;
             });
 
-
+            $('#challenge').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
 
         });
 
@@ -395,7 +410,43 @@
             padding: 15px 15px 0 15px;
         }
         
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
         
+        div.work2 div.list-group a + a {
+        	margin-top: 10px;
+        }
+        
+        div.work2 div.list-group a {
+        	border-radius: .25rem;
+        	border: none;
+        	border: 1px solid #EBAD7A;
+        }
     </style>
 </head>
 
@@ -406,9 +457,17 @@
         </div>
         <div class="work2"  id="wrapper">
         	<ul>
+        	<div class="mainHeader">
+                 <div class="left2">
+                     ${user.name}님의 완료한 도전과제
+                 </div>
+                 <div class="right2">
+                     <a href="#"><i class="far fa-star"></i></a>
+                 </div>
+            </div>
             <form class="form-inline">
             
-           	<div class="header out">
+           	<%-- <div class="header out">
 			    <div class="header in" style="position:relative;">
 		        	<h3 class="forBottomline" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
 		        		<b>${user.name} 님이(가)<br> 
@@ -416,7 +475,7 @@
 		        		</b>
 		        	</h3> 
 			    </div>
-			</div>
+			</div> --%>
 			
 			
 			<!-- 총 도전과제 완료 갯수 -->
@@ -427,10 +486,10 @@
 		                <div>
 		                	<br>
 		                	<br>
-	                        <img src="/images/trophy_complete.png" style="width: 150px; height: 150px;">
+	                        <img src="/images/trophy_complete.png" style="width: 140px; height: 140px;">
 	                        <br>
-		                    <p>
-	                       		총 <strong>${resultPage.totalCount} </strong>개<br>
+		                    <p style="margin-top:10px;">
+	                       		총 <strong>${resultPage.totalCount}</strong>개<br>
 		                    </p>
 		                </div>
 		            
@@ -461,9 +520,7 @@
 				</div> --%>
              	
              	
-                    <br>
-                    <br>
-                    <br>
+                    
                     <div class="list-group">
                         <c:forEach var="challenge" items="${list}">
                             <a href="#" class="list-group-item list-group-item-action" id="challengeBox">
@@ -489,7 +546,7 @@
                                     </c:if>
                                 </small>
                             </a>
-                            <br>
+                            
                         </c:forEach>
                     </div>
                     <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
@@ -497,8 +554,7 @@
                     </div>
             </form>
 
-            <br>
-            <br>
+            
 
             <!-- PageNavigation Start... -->
             <jsp:include page="../common/pageNavigator_new.jsp" />

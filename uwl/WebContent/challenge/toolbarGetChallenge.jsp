@@ -5,6 +5,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	
+    </style>
     <meta charset="UTF-8">
     <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -15,7 +21,7 @@
     <!-- fontawesome -->
     <script src="https://kit.fontawesome.com/fb8ae6e812.js" crossorigin="anonymous"></script>
     <!-- 나눔고딕 -->
-    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Noto+Sans+KR&display=swap" rel="stylesheet">
+    
 
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script>
@@ -39,7 +45,7 @@
         }
 
         body {
-            font-size: 12px;
+            font-size: 16px;
             color: #333;
             font-family: 'Roboto', sans-serif;
             font-family: 'Nanum Gothic', sans-serif;
@@ -48,9 +54,9 @@
         div.navigation {
 
             /*  margin-bottom: 5px; */
-            margin-bottom: 30px;
+            
             text-align: right;
-            margin-right: 30px;
+            padding-right: 10px;
         }
 
         div.navigation span:nth-child(2) {
@@ -92,16 +98,18 @@
         div.challenge table tr:nth-child(3) td:nth-child(1),
         div.challenge table tr:nth-child(3) td:nth-child(3), 
         div.challenge table tr:nth-child(4) td:nth-child(1) {
-            background-color: #fdfdfd;
+            background-color: #fafafa;
 			
             font-weight: bold;
         }
 
         div.challenge table tr td {
 
-            padding-left: 15px;
+            padding: 0 15px;
         }
-
+		div.challenge table tr:nth-child(5) td {
+			padding: 10px 15px;
+		}
         div.challenge table tr td img {
             vertical-align: middle;
 
@@ -124,6 +132,7 @@
         /* 수정삭제를 하기위해 내가 추가한 것 */
         div.bottom div.list {
             text-align: right;
+            padding-right: 10px;
         }
 
         div.bottom div.list a {
@@ -202,8 +211,15 @@
         }
 
         /*삭제 알럿창 sweet alert2 */
-        body {
-            font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        
+        
+        #goMaster {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goMaster ul li:nth-child(1) {
+        	color: #EBAD7A;
         }
     </style>
     <script type="text/javascript">
@@ -220,6 +236,10 @@
 	        setTimeout(function() {
 	    		myScroll.refresh();
 	    		}, 0);
+	        
+	        /* 재이수정 */
+	        $('#master').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
+	        $('#challenge').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
 		});	
 	        
     
@@ -230,7 +250,7 @@
             ///////////////////////////////////////////
 
             //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-            $("#prePost").on("click", function() {
+            /* $("#prePost").on("click", function() {
                 var preChallNo = ${ preNextPost.preChallNo};
                 console.log("preChallNo : " + preChallNo);
                 alert("preChallNo : " + preChallNo);
@@ -244,7 +264,7 @@
                 console.log("nextChallNo" + nextChallNo);
                 alert("nextChallNo" + nextChallNo);
                 self.location = "/challenge/getChallengeAdmin?challNo=" + nextChallNo;
-            });
+            }); */
 
             /* update event */
             
@@ -368,7 +388,47 @@
             padding: 15px 15px 0 15px;
         }
         
+        /* 재이수정 */
         
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+        div.mainHeader div.left2 {
+            width: 90%;
+            float: left;
+        }
+		div.mainHeader div.left2 span {
+			font-weight: normal;
+			font-size: 13px;
+			margin-left: 10px;
+		}
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 10%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
+        
+        #goChallenge {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goChallenge ul li:nth-child(1) {
+        	color: #EBAD7A;
+        }
     </style>
 </head>
 
@@ -379,19 +439,25 @@
         </div>
         <div class="work2" id="wrapper">
         	<ul>
-            <div class="wrap">
-
-                <div class="challengeTop">
-                    <span>도전과제 상세보기 <i class="fas fa-users"></i></span>
-                    <br>
-                    <br>
-                    <c:if test="${user.role == '4'}">
+        		<!-- 재이수정 -->
+        		<div class="mainHeader">
+                    <div class="left2">
+                        도전과제 상세보기 <i class="fas fa-users" style="vertical-align:-1px;"></i>
+                        
+                        <c:if test="${user.role == '4'}">
                         <span>등록된 정보를 확인해 주세요.</span>
                     </c:if>
                     <c:if test="${user.role != '4'}">
                         <span>완료한 도전과제의 정보입니다.</span>
                     </c:if>
+                    </div>
+                    <div class="right2">
+                        <a href="#"><i class="far fa-star"></i></a>
+                    </div>
                 </div>
+            <div class="wrap">
+
+                
 
                 <c:if test="${user.role == '4'}">
                     <div class="navigation">
@@ -412,10 +478,10 @@
                 <div class="challenge">
                     <table>
                         <colgroup>
-                            <col width="10%">
-                            <col width="40%">
-                            <col width="10%">
-                            <col width="40%">
+                            <col width="15%">
+                            <col width="35%">
+                            <col width="15%">
+                            <col width="35%">
                         </colgroup>
                         <tr><!-- 1번째 tr -->
                             <td>제목</td>
@@ -432,7 +498,7 @@
                                     <i class="fas fa-camera" style="font-size: 25px; "></i>&nbsp;&nbsp;Vision&nbsp;&nbsp;
                                 </c:if>
                                 <c:if test="${challenge.challCategory == '3'}">
-                                    <i class="far fa-clipboard" style="font-size: 25px; "></i>&nbsp;&nbsp;게시판활동&nbsp;&nbsp;
+                                    <i class="far fa-clipboard" style="font-size: 20px;vertical-align:-1px"></i>&nbsp;&nbsp;게시판활동&nbsp;&nbsp;
                                 </c:if>
                             </td>
                             <td>작성일</td>
@@ -497,9 +563,9 @@
                             </td>
                         </tr>
                     </table>
-
+</div>
                 <c:if test="${user.role == '4'}">
-	                </div>
+	                
 	                <div class="bottom">
 	                    <div class="list">
 	                        <a href="#" id="updateButton">수정</a>

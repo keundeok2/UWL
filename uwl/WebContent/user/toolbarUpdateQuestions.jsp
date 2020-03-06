@@ -4,6 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	
+    </style>
     <meta charset="UTF-8">
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -15,9 +21,30 @@
                 // 			self.location = "/user/getUser?userId=${user.userId}"
                 $("form").attr("method", "POST").attr("action", "/user/updateQuestions").submit();
             });
+            
+            $('#more').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
         });
     </script>
     <script src="https://kit.fontawesome.com/6ffe1f5c93.js" crossorigin="anonymous"></script>
+    <script src="/javascript/iscroll.js"></script>
+        
+        <script>
+        var myScroll = null;
+
+        $(function() {
+
+            myScroll = new IScroll('#wrapper', {
+                mouseWheel: true,
+                scrollbars: true
+            });
+
+            setTimeout(function() {
+                myScroll.refresh();
+            }, 0);
+            
+            
+        });
+        </script>
 
     <style>
         * {
@@ -158,6 +185,15 @@
         div.wrap>div:nth-child(4) table tr td:nth-child(2) {
             padding-left: 30px;
         }
+        
+        #goMore {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goMore ul li:nth-child(2) {
+        	color: #EBAD7A;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
@@ -192,7 +228,7 @@
         }
 
         div.layoutWrap2 {
-            width: 1500px;
+            width: 1280px;
             height: 100vh;
 
             margin: 0 auto;
@@ -201,32 +237,65 @@
 
         div.leftToolbar2 {
 
-            width: 300px;
+            width: 240px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-right: 1px solid #eee;
+            padding: 15px 0 0 15px;d
+            position: relative;
         }
 
         div.work2 {
 
-            width: 900px;
+            width: 770px;
             height: 100vh;
             float: left;
-            overflow: hidden;
-            overflow-y: scroll;
-			font-size: 12px;
+
+            position: relative;
+			
         }
-		h6 {
-        	font-size: 16px;
-        }
+
+		
+
         div.rightToolbar2 {
 
-            width: 300px;
+            width: 270px;
             height: 100vh;
             float: left;
             background-color: #fff;
             border-left: 1px solid #eee;
+            padding: 15px 15px 0 15px;
+        }
+        div.mainHeader2 {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+        div.mainHeader2 div.left2 {
+            width: 90%;
+            float: left;
+        }
+		div.mainHeader2 div.left2 span {
+			font-weight: normal;
+			font-size: 13px;
+			margin-left: 10px;
+		}
+        div.mainHeader2 div.right2 {
+            text-align: right;
+            width: 10%;
+            float: right;
+        }
+
+        div.mainHeader2 div.right2 i {
+            vertical-align: baseline;
         }
     </style>
 </head>
@@ -236,19 +305,22 @@
         <div class="leftToolbar2">
             <jsp:include page="/layout/left.jsp" />
         </div>
-        <div class="work2">
+        <div class="work2" id="wrapper">
+        <ul>
+        <div class="mainHeader2">
+                 <div class="left2">
+                     내 문의사항 수정
+                     
+                 </div>
+                 <div class="right2">
+                     <a href="#"><i class="far fa-star"></i></a>
+                 </div>
+            </div>
             <form>
 
 
                 <div class="wrap">
-                    <div class="navigation">
-                        <span>홈 > 고객행복센터 ></span>
-                        <span>내 문의사항 수정</span>
-                    </div>
-                    <div class="noticeTop">
-                        <span>내 문의사항 수정</span>
-                        <span></span>
-                    </div>
+                    
                     <div class="notice">
                         <table>
                             <colgroup>
@@ -347,6 +419,7 @@
 
 
             </form>
+            </ul>
         </div>
         <div class="rightToolbar2">
             <jsp:include page="/layout/right.jsp" />

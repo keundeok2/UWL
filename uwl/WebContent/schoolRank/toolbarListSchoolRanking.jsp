@@ -4,6 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>어울림</title>
@@ -31,6 +37,8 @@
 		var userId = "${user.userId}";
     	var searchCondition = "${search.searchCondition}";
 	    $(function() {
+	    	
+	    	$('#challenge').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
 	    	
 	    	console.log("searchCondition", searchCondition);
 	    	
@@ -263,7 +271,42 @@
             padding: 15px 15px 0 15px;
         }
         
+        #goChallenge {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goChallenge ul li:nth-child(3) {
+        	color: #EBAD7A;
+        }
         
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
     </style>
 </head>
 
@@ -274,8 +317,16 @@
 	        </div>
 	        <div class="work2" id="wrapper">
 	       	 <ul>
+	       	 <div class="mainHeader">
+                 <div class="left2">
+                     학교별 랭킹
+                 </div>
+                 <div class="right2">
+                     <a href="#"><i class="far fa-star"></i></a>
+                 </div>
+            </div>
 	       	 	<form class="form-signin" name="testForm">
-		<div class="container">
+		<div>
 			<div class="row">
 				<div class="col-md-12">
 
@@ -308,7 +359,7 @@
 								</button>
 							</div>
 							<c:if test="${search.searchCondition eq 1 }">
-								<h5 style="text-align: right;">
+								<h5 style="text-align: right;padding-right:10px">
 									<label>
 										<i class="fas fa-school"></i> ${mySchool.schoolName} 
 										<i class="fas fa-running"></i> 

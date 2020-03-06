@@ -4,6 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="/images/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon1.ico" type="image/x-icon">
+    <title>어울림</title>
+    <style type="text/css">
+    	
+    </style>
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -37,7 +43,7 @@
 
 
 
-        @import url(https://fonts.googleapis.com/css?family=Quicksand:300,400);
+        
 
         *,
         *:before,
@@ -47,13 +53,10 @@
             border: none;
             outline: none;
             -moz-box-sizing: border-box;
-            box-sizing: border-box
+            box-sizing: border-box;
         }
 
-        body {
-            font-size: 100%;
-            font-family: 'Quicksand', sans-serif;
-        }
+        
 
         p.heading {
             line-height: 1.2;
@@ -128,9 +131,7 @@
             height: 200px;
         }
 
-        body {
-            overflow-y: scroll;
-        }
+        
 
         .wrapper {
             text-align: left;
@@ -141,6 +142,40 @@
             width: 100%;
             margin: -20px;
         }
+        /* 재이수정 */
+        div.mainHeader {
+
+            line-height: 55px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+
+		
+        div.mainHeader div.left2 {
+            width: 50%;
+            float: left;
+        }
+
+        div.mainHeader div.right2 {
+            text-align: right;
+            width: 50%;
+            float: right;
+        }
+
+        div.mainHeader div.right2 i {
+            vertical-align: baseline;
+        }
+        
+        #challReward,
+        #postCommentComplete {
+        	padding-right: 0;
+        }
     </style>
 
 
@@ -150,6 +185,9 @@
 	    
 	    $(function() {
 	    	
+	    	/* 재이수정 */
+        	
+	    	
 	        myScroll = new IScroll('#wrapper', {
 	            mouseWheel: true,
 	            scrollbars: true
@@ -158,6 +196,8 @@
 	        setTimeout(function() {
 	    		myScroll.refresh();
 	    		}, 0);
+	        
+	        $('#master').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
 		});
     
         function fncAddChallenge() {
@@ -496,6 +536,9 @@
 
 
         });
+        $(function() {
+    		$('.modal').appendTo("body");
+    	});
     </script>
 
 
@@ -559,6 +602,15 @@
             background: #fff;
             border-left: 1px solid #eee;
         }
+        
+        #goMaster {
+            transition: max-height 1s;
+            max-height: 500px;
+            padding-top: 10px;
+        }
+        #goMaster ul li:nth-child(1) {
+        	color: #EBAD7A;
+        }
     </style>
      <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap" rel="stylesheet">
     <style>
@@ -619,6 +671,7 @@
             position: relative;
 			
         }
+        
 
         div.rightToolbar2 {
 
@@ -641,21 +694,25 @@
         </div>
         <div class="work2" id="wrapper">
         	<ul>
+        	<!-- 재이수정 -->
+        	<div class="mainHeader">
+                    <div class="left2">
+                        도전과제 작성
+                            <span class="badge badge-danger">New</span>
+                    </div>
+                    <div class="right2">
+                        <a href="#"><i class="far fa-star"></i></a>
+                    </div>
+                </div>
             <form enctype="multipart/form-data">
                 <div>
                     <div></div>
                     <div>
 
-                        <br>
-                        <br>
-                        <h2>도전과제 작성
-                            <span class="badge badge-danger">New</span>
-                        </h2>
-
-                        <br>
+                        
 
                         <!-- 카테고리 -->
-                        <div class="row" id="reward">
+                        <div class="row" id="reward" style="margin-top: 10px; padding-left:10px;">
                             &emsp;<select class="custom-select col-3" name="challCategory" id="challCategory">
                                 <option selected>카테고리</option>
                                <!--  <option value="1" id="map">Map</option>
@@ -677,28 +734,27 @@
                             </div> -->
                             
                         </div>
-                        <br>
+                        
 
                         <div class="table table-responsive">
-                            <table class="table">
+                            <table class="table" style="border-bottom: 1px solid #eee;">
                                 <tr>
                                     <th class="success">
-                                        <input type="text" name="challTitle" id="challTitle" placeholder="제목을 입력하세요" style="width:570px" />
+                                        <input type="text" name="challTitle" id="challTitle" placeholder="제목을 입력하세요" style="width:570px;" />
                                     </th>
                                 </tr>
-                                <tr>
-                                    <td colspan="3"></td>
-                                </tr>
+                                
                             </table>
-                            <textarea id="summernote" name="challContent"></textarea>
-                            <br>
+                            <div style="padding: 0 10px;">
+                            <textarea id="summernote" name="challContent" style="border: none;resize:none"></textarea>
+                            </div>
 
 
                         </div>
 
+						
 
-
-                        <div style="text-align:right;width:100%">
+                        <div style="text-align:right;width:100%; padding-right:10px;">
                             <div class="form-group">
                                 <button type="button" class="btn btn-outline-secondary" id="complete" style="width:150px">등록</button>
                                 <button type="button" class="btn btn-outline-secondary" id="cancle" style="width:150px">취소</button>

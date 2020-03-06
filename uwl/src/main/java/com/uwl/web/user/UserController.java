@@ -373,13 +373,17 @@ public class UserController {
 			file.transferTo(new File(path, name));
 			user.setProfileName(name);
 			userService.updateProfile(user);
-			session.setAttribute("user", user);
+			
+			User dbUser = userService.getUser(user.getUserId());
+			session.setAttribute("user", dbUser);
+			
 			return "redirect:/user/getProfile/" + user.getUserId();
 		} else {
 			User originalUser = (User) session.getAttribute("user");
 			user.setProfileName(originalUser.getProfileName());
 			userService.updateProfile(user);
-			session.setAttribute("user", user);
+			User dbUser = userService.getUser(user.getUserId());
+			session.setAttribute("user", dbUser);
 		}
 
 		return "redirect:/user/getProfile/" + user.getUserId();
@@ -559,7 +563,7 @@ public class UserController {
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(pageSize);
-		String gatherCategoryNo = "206";
+		String gatherCategoryNo = "";
 		Map<String, Object> map = postService.getBoardList(search, gatherCategoryNo);
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
