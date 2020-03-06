@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -297,7 +298,19 @@
             });
         }
 
-
+        
+        $(function() {
+	        $("#schoolRankingMain").on("click", function() { //학교랭킹 nav
+	        	//alert("dsds")
+	            $(location).attr('href', "/schoolRank/listSchoolRanking");
+	        });
+	        
+	        $(".userRanking").on("click", function() { //학교랭킹 nav
+	        	//alert("작동중")
+		        $('form').attr("method","POST").attr("action", "/schoolRank/listSchoolRanking").submit();
+	        });
+	        
+        });
         var myScroll = null;
         /* var myScroll2 = null; */
 
@@ -503,6 +516,8 @@
             }
         } //end of rewardListInfiniteScroll
         //무한스크롤 끝 ------------------------------------------------------------------------------------------------------------------------------------------
+        
+       
         
     </script>
     <style>
@@ -862,37 +877,17 @@
                             <div class="image-slide">
                                 <div class="box">
                                     <ul class="slide">
-                                        <li><a href="#">
-                                                <div class="rank"><span>1</span>위</div>
-                                                <div class="schoolName">신성여자고등학교</div>
-                                                <div class="schoolAddr">제주특별자치도 제주시 아라동 아봉로 174-1</div>
-                                                <div class="schoolScore">3,000점</div>
-                                            </a></li>
-                                        <li><a href="#">
-                                                <div class="rank"><span>2</span>위</div>
-                                                <div class="schoolName">신성여자고등학교</div>
-                                                <div class="schoolAddr">제주특별자치도 제주시 아라동 아봉로 174-1</div>
-                                                <div class="schoolScore">3,000점</div>
-                                            </a></li>
-                                        <li><a href="#">
-                                                <div class="rank"><span>3</span>위</div>
-                                                <div class="schoolName">신성여자고등학교</div>
-                                                <div class="schoolAddr">제주특별자치도 제주시 아라동 아봉로 174-1</div>
-                                                <div class="schoolScore">3,000점</div>
-                                            </a></li>
-                                        <li><a href="#">
-                                                <div class="rank"><span>4</span>위</div>
-                                                <div class="schoolName">신성여자고등학교</div>
-                                                <div class="schoolAddr">제주특별자치도 제주시 아라동 아봉로 174-1</div>
-                                                <div class="schoolScore">3,000점</div>
-                                            </a></li>
-                                        <li><a href="#">
-                                                <div class="rank"><span>5</span>위</div>
-                                                <div class="schoolName">신성여자고등학교</div>
-                                                <div class="schoolAddr">제주특별자치도 제주시 아라동 아봉로 174-1</div>
-                                                <div class="schoolScore">3,000점</div>
-                                            </a></li>
-                                        <li><a href="#">
+										<c:forEach var="schoolRank" items="${schoolList}" end="4">
+                                        <li>
+                                        	<a href="#">
+                                                <div class="rank"><span>${schoolRank.ranking}</span>위</div>
+                                                <div class="schoolName">${schoolRank.schoolName}</div>
+                                                <div class="schoolAddr">${schoolRank.schoolAddress}</div>
+                                                <div class="schoolScore"><fmt:formatNumber value="${schoolRank.totalActivityPoint}" pattern="#,###" /> 점</div>
+                                            </a>
+                                        </li>
+                                        </c:forEach>
+                                        <li><a href="#" id="schoolRankingMain">
                                                 <div>
                                                     <div>학교별 랭킹<br>바로가기!</div>
                                                     <div><i class="fas fa-chevron-circle-right"></i></div>
@@ -910,24 +905,15 @@
                             <div class="banner-infinite">
                                 <div class="box">
                                     <ul class="banner">
-                                        <li><a href="#">
-                                                1위 <span><img src="/images/bonobono.jpg" alt=""></span> admin재이
-                                            </a></li>
-                                        <li><a href="#">
-                                                2위 <span><img src="/images/bonobono.jpg" alt=""></span> admin형진
-                                            </a></li>
-                                        <li><a href="#">
-                                                3위 <span><img src="/images/bonobono.jpg" alt=""></span> admin민우
-                                            </a></li>
-                                        <li><a href="#">
-                                                4위 <span><img src="/images/bonobono.jpg" alt=""></span> admin태규
-                                            </a></li>
-                                        <li><a href="#">
-                                                5위 <span><img src="/images/bonobono.jpg" alt=""></span> admin근덕
-                                            </a></li>
-                                        <li><a href="#">
-                                                6위 <span><img src="/images/bonobono.jpg" alt=""></span> admin샛별
-                                            </a></li>
+                                 	   <c:forEach var="schoolRank" items="${individualRank}" end="5">
+	                                        <li>
+	                                        	<a href="#" class="userRanking">
+	                                                ${schoolRank.ranking} 위 <span><img src="/images/bonobono.jpg" alt=""></span> ${schoolRank.userId}
+	                                            </a>
+	                                        </li>
+                                 	   </c:forEach>
+                                 	    <!-- 개인랭킹으로 넘어가기위한 hidden값 -->
+                          		   		<input type="hidden" name="searchCondition" value="2"/>
                                     </ul>
                                 </div>
                                 <p class="control">
