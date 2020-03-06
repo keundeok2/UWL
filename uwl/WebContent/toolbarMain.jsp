@@ -517,7 +517,20 @@
         } //end of rewardListInfiniteScroll
         //무한스크롤 끝 ------------------------------------------------------------------------------------------------------------------------------------------
         
-       
+       $(function(){
+    	   $(".noticeOne").on("click", function(){
+    		  var noticeNo = $(this).find(".noticeNo").val()
+    		  self.location = "/post/getNotice?postNo=" + noticeNo;
+    	   });
+    	   
+    	   $('.addPostBtn').on("click", function(){
+	    		var gatherCategoryNo = "0711";
+	    		self.location = "/post/addBoard?gatherCategoryNo="+gatherCategoryNo + "&postChallenge=2";
+	    	});
+    	   
+       });
+        
+        
         
     </script>
     <style>
@@ -923,18 +936,12 @@
                         </div>
                         <div class="notice">
                             <ul>
-                                <li><a href="#">
-                                        <span>공지</span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eaque maxime dolorum mollitia molestias ex distinctio quae explicabo vitae ipsa libero nihil voluptas, suscipit impedit sequi. Aut, natus nostrum quas.
-                                    </a></li>
-                                <li><a href="#">
-                                        <span>공지</span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eaque maxime dolorum mollitia molestias ex distinctio quae explicabo vitae ipsa libero nihil voluptas, suscipit impedit sequi. Aut, natus nostrum quas.
-                                    </a></li>
-                                <li><a href="#">
-                                        <span>공지</span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eaque maxime dolorum mollitia molestias ex distinctio quae explicabo vitae ipsa libero nihil voluptas, suscipit impedit sequi. Aut, natus nostrum quas.
-                                    </a></li>
-                                <li><a href="#">
-                                        <span>공지</span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eaque maxime dolorum mollitia molestias ex distinctio quae explicabo vitae ipsa libero nihil voluptas, suscipit impedit sequi. Aut, natus nostrum quas.
-                                    </a></li>
+                            	<c:forEach var="noticeList" items="${noticeList }" end="2">
+	                                <li><a href="#" class="noticeOne">
+	                                        <span>공지</span>${noticeList.postTitle }
+	                                        <input type="hidden" class="noticeNo" value="${noticeList.postNo }">
+	                                </a></li>
+                            	</c:forEach>
                             </ul>
                         </div>
                         
