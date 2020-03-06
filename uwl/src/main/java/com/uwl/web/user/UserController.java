@@ -559,14 +559,28 @@ public class UserController {
 	}
 
 	@RequestMapping("main")
-	public String main(Model model) throws Exception {
+	public String main(Model model, HttpSession session) throws Exception {
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(pageSize);
+		//스쿨랭킹 순위를 위해 추가한 정보
+		User user = (User)session.getAttribute("user");
+		
+		//학교랭킹
+		Map<String, Object> schoolMap = schoolRankService.getSchoolRankingList(search);
+		
+		//개인랭킹
+		Map<String, Object> individualMap = schoolRankService.getIndividualRankingList(search);
+		
+		model.addAttribute("schoolList", schoolMap.get("list"));
+		model.addAttribute("individualRank", individualMap.get("list"));
+		//////////////////
+		
 		String gatherCategoryNo = "";
 		Map<String, Object> map = postService.getBoardList(search, gatherCategoryNo);
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
+		
 
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
