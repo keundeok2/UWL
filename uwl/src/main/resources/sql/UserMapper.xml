@@ -407,6 +407,21 @@
 		select * from post where post_category_no = '5' and post_no = #{value}
 	 </select>
 	
+	
+	
+	<!-- 	날씨  -->
+	<select id="getWeather" parameterType="String">
+		select c.couple_no , u.user_id  , s.school_address , urr.user_id   ,urr.school_address 
+		from school_rank s, users u, couple c,
+                                    ( select sr.school_address, ur.user_id , cc.couple_no
+                                     from school_rank sr, users ur , couple cc
+                                     where ur.school_no = sr.school_no AND ur.user_id = #{value} ) urr
+  		where u.school_no = s.school_no AND u.user_id = #{value}   AND urr.couple_no  =    c.couple_no ;
+	</select>
+	
+	
+	
+	
 </mapper>
 
 

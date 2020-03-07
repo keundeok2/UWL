@@ -1,6 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" 
 integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
@@ -25,11 +25,10 @@ integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXy
 
 <script>
 
-	
-	//profile.jsp
+
 	$(document).ready(function(){
-		
 		$.ajax({
+			
 			//	REQUEST
 			url: "/user/rest/getWeather", 
 			type: 'POST',
@@ -39,13 +38,12 @@ integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXy
 				"Content-Type" : "application/json"
 			},
 			data : JSON.stringify({
-				x : "61",
-				y : "126"
-			}),
-			
+            	user: "name21" //  
+            }),
 			
 			// RESPONSE data => return 받은 값. ex) map, string ...
 			success : function(data) {
+				console.log(": Success");
 				console.log(data);
 				console.log(data.SKY);
 				console.log(data.PTY);
@@ -72,6 +70,8 @@ integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXy
 					var view = "<h1><a href='javascript:;'><i class='fas fa-cloud-sun-rain'  id='PTY4'> 소나기</i></a></h1>";
 				}
 				$("div.weather").append(view); 
+			}, error: function(XMLHHttpRequest, textStatus, errorThrown) {
+				console.log(": Fail");
 			}
 		})
 	});
@@ -90,9 +90,13 @@ integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXy
 	<i class='fas fa-cloud-meatball' id='PTY2'> 비/눈</i> <br><br>
 	<i class='far fa-snowflake'  id='PTY3'> 눈</i> <br><br>
 	<i class='fas fa-cloud-sun-rain'  id='PTY4'> 소나기</i> <br><br>
- 
 	<hr/>
+ 		${user.schoolName }
+ 		${user.schoolNo }
 	<div class="weather"></div>
+	
+	
+	
 	
 </body>
 </html>
