@@ -576,16 +576,23 @@ public class UserController {
 		model.addAttribute("individualRank", individualMap.get("list"));
 		//////////////////
 		
+		//메인에 게시글 가져오기 위해 추가된 것
 		String gatherCategoryNo = "";
 		Map<String, Object> map = postService.getBoardList(search, gatherCategoryNo);
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
-		
 
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
+		//메인에 게시글 가져오기 위해 추가된 것
+		
+		//메인에 공지사항 가져오기 위해 추가된 것
+		Map<String , Object> noticeList = postService.getNoticeList(search);
+		model.addAttribute("noticeList", noticeList.get("list"));
+		//메인에 공지사항 가져오기 위해 추가된 것
+		
 		return "forward:/toolbarMain.jsp";
 	}
 

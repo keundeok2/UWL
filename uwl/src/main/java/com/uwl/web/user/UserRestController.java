@@ -43,6 +43,7 @@ import com.uwl.common.MailUtils;
 import com.uwl.common.Page;
 import com.uwl.common.Search;
 import com.uwl.service.domain.Ask;
+import com.uwl.service.domain.Couple;
 import com.uwl.service.domain.Post;
 import com.uwl.service.domain.Report;
 import com.uwl.service.domain.User;
@@ -529,11 +530,22 @@ public class UserRestController {
 			return map;
 		}
 		
-		@RequestMapping(value = "/rest/getWeather", method = RequestMethod.POST)
-		private Map getWeather(@RequestBody Weather weather) throws Exception{
+		// 수정해야함...
+		@RequestMapping(value = "rest/getWeather", method = RequestMethod.POST)
+		public Map getWeather(@RequestBody Couple couple) throws Exception{
+			
+		
+//			System.out.println("session: " + session);
+			
+			Weather weather = new Weather(); //test
+		
 			Map<String, String> map = weatherService.getWeather(weather);
+			
+			System.out.println("map: " + map);
+			
 			return map;
 		}
+		
 //		@RequestMapping(value = "/rest/checkReport")
 //		public String checkReport(@RequestBody User user) throws Exception {
 //			List reportList = new ArrayList<Report>();

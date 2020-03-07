@@ -36,19 +36,8 @@ public class WeatherServiceImpl implements WeatherService {
 	@Override
 	public Map getWeather(Weather weather) throws Exception {
 
-//		String x = "60";	//weather.getX;
-//		String y = "127";
-
-//		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst"); /*URL*/
-//        urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "serviceKey"); /*Service Key*/
-//        urlBuilder.append("=" + URLEncoder.encode("ServiceKey","UTF-8") + "=" + weatherKey);
-//        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
-//        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
-//        urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode("date", "UTF-8")); 
-//        urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode("time", "UTF-8")); /*05시 발표*/
-//        urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode("x", "UTF-8")); /*예보지점 X 좌표값*/
-//        urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode("y", "UTF-8")); /*예보지점의 Y 좌표값*/
-//        urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON)Default: XML*/
+//		String x ;	//weather.getX;
+//		String y ;
 
 		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-ddHH", Locale.KOREA);
 
@@ -92,15 +81,27 @@ public class WeatherServiceImpl implements WeatherService {
 			to = "23";
 			System.out.println("23 = " + to);
 		}
+		
+		
+//		if (couple.getSchoolAddress().equals('서울')) {
+//			x = "60" ;
+//			y = "127" ;
+//		}
+		
 
-		System.out.println("날짜 = " + date + "\n시간 = " + to + "00" + "\nX = " + weather.getX() + "\nY = " + weather.getY());
+		System.out.println("날짜 = " + date + "\n시간 = " + to + "00" + "\nY = " + weather.getY() + "\nX = " + weather.getX());
+//		System.out.println("날짜 = " + date + "\n시간 = " + to + "00" + "\nY = " + y + "\nX = " + x );
 
 		try {
 
 			String url = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?serviceKey=" + weatherKey
 					+ "&numOfRows=10&pageNo=1&base_date=" + date + "&base_time=" + to + "00&nx=" + weather.getX() + "&ny=" + weather.getY()
 					+ "&dataType=json";
-
+			
+//			String url = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?serviceKey=" + weatherKey
+//					+ "&numOfRows=10&pageNo=1&base_date=" + date + "&base_time=" + to + "00&nx=" + x + "&ny=" + y
+//					+ "&dataType=json";
+			
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));

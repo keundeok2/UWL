@@ -41,8 +41,8 @@ public class WeatherServiceTest {
 		
 //		weather.setDate("20200214");
 //		weather.setTo("23");
-		weather.setX("60");
-		weather.setY("127");
+		weather.setX("127");
+		weather.setY("60");
 		
 		// 60, 127 서울
 		// 61, 126 강남

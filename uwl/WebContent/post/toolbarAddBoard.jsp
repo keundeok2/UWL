@@ -279,35 +279,9 @@
 					enctype : 'multipart/form-data',
 					processData : false,
 					success : function(data) {
-						let timerInterval
-						Swal.fire({
-						  title: '잠시만 기다려주세요!!',
-						  html: '<b></b>',
-						  timer: 3000,
-						  timerProgressBar: true,
-						  onBeforeOpen: () => {
-						    Swal.showLoading()
-						    timerInterval = setInterval(() => {
-						      const content = Swal.getContent()
-						      if (content) {
-						        const b = content.querySelector('b')
-						        if (b) {
-						          b.textContent = Swal.getTimerLeft()
-						        }
-						      }
-						    }, 100)
-						  },
-						  onClose: () => {
-						    clearInterval(timerInterval)
-						  }
-						}).then((result) => {
 						  /* Read more about handling dismissals below */
-						  if (result.dismiss === Swal.DismissReason.timer) {
 							var file = "/images/"+data;
 							$('#summernote').summernote('insertImage',file);
-						  }
-						})
-						
 					},
 					error : function(){
 						alert("에러냐 ㅋㅋ");

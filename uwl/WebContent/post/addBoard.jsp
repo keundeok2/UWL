@@ -207,7 +207,7 @@
 						Swal.fire({
 						  title: '잠시만 기다려주세요!!',
 						  html: '<b></b>',
-						  timer: 3000,
+						  timer: 1,
 						  timerProgressBar: true,
 						  onBeforeOpen: () => {
 						    Swal.showLoading()
