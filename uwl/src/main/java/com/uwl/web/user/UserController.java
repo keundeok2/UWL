@@ -559,11 +559,25 @@ public class UserController {
 	}
 
 	@RequestMapping("main")
-	public String main(Model model) throws Exception {
+	public String main(Model model, HttpSession session) throws Exception {
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(pageSize);
-		String gatherCategoryNo = "206";
+		//스쿨랭킹 순위를 위해 추가한 정보
+		User user = (User)session.getAttribute("user");
+		
+		//학교랭킹
+		Map<String, Object> schoolMap = schoolRankService.getSchoolRankingList(search);
+		
+		//개인랭킹
+		Map<String, Object> individualMap = schoolRankService.getIndividualRankingList(search);
+		
+		model.addAttribute("schoolList", schoolMap.get("list"));
+		model.addAttribute("individualRank", individualMap.get("list"));
+		//////////////////
+		
+		//메인에 게시글 가져오기 위해 추가된 것
+		String gatherCategoryNo = "";
 		Map<String, Object> map = postService.getBoardList(search, gatherCategoryNo);
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
@@ -572,6 +586,13 @@ public class UserController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("gatherCategoryNo", gatherCategoryNo);
+		//메인에 게시글 가져오기 위해 추가된 것
+		
+		//메인에 공지사항 가져오기 위해 추가된 것
+		Map<String , Object> noticeList = postService.getNoticeList(search);
+		model.addAttribute("noticeList", noticeList.get("list"));
+		//메인에 공지사항 가져오기 위해 추가된 것
+		
 		return "forward:/toolbarMain.jsp";
 	}
 

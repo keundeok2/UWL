@@ -209,7 +209,7 @@
         	border-bottom: 1px solid gray;
         }
         
-        div.mainHeader {
+        div.mainHeader2 {
 
             line-height: 55px;
             font-weight: bold;
@@ -221,19 +221,22 @@
             border-bottom: 1px solid #ebebeb;
             background-color: #fff;
         }
-
-        div.mainHeader div.left2 {
-            width: 50%;
+        div.mainHeader2 div.left2 {
+            width: 90%;
             float: left;
         }
-
-        div.mainHeader div.right2 {
+		div.mainHeader2 div.left2 span {
+			font-weight: normal;
+			font-size: 13px;
+			margin-left: 10px;
+		}
+        div.mainHeader2 div.right2 {
             text-align: right;
-            width: 50%;
+            width: 10%;
             float: right;
         }
 
-        div.mainHeader div.right2 i {
+        div.mainHeader2 div.right2 i {
             vertical-align: baseline;
         }
     </style>
@@ -247,15 +250,16 @@
         </div>
         <div class="work2" id="wrapper">
         	<ul>
-        	<div class="mainHeader">
+        	<div class="mainHeader2">
                  <div class="left2">
                      진행중인 도전과제
+                     <span>어울림 커뮤니티를 활동하여 도전하세요</span>
                  </div>
                  <div class="right2">
                      <a href="#"><i class="far fa-star"></i></a>
                  </div>
             </div>
-        	<div class="header out">
+        	<!-- <div class="header out">
 			    <div class="header in" style="position:relative;">
 		        	<h3 class="forBottomline" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
 		        		<b>어울림 커뮤니티를<br>
@@ -268,7 +272,7 @@
 			
 			<div class="header out">
 				<img src="/images/list_challenge_background.jpg" style="max-width: 100%; height: auto;">
-			</div>
+			</div> -->
 			
 			<!-- 시간 고지 및 상세사항 글쓰기 -->
 			<div class="mid challDateOut">
@@ -278,34 +282,34 @@
 				</div>
 			</div>
 			
-			<div class="card-group">
+			<div class="card-group" style="width:100%">
 			<c:forEach var="challenge" items="${list}">
-				  <div class="card">
+				  <div class="card" style="width:calc(33.3333% - 20px);margin:0 10px;box-shadow:5px 5px #eee;border:none;border-radius:0;border:1px solid #eee;">
 				 	 <input type="hidden" name="challNo" value="${challenge.challNo}" />
 				   <c:if test="${challenge.detailCategory == '201'}">
-				    	<a href="#"><img src="/images/study.png" class="card-img-top" style="max-width: 250px; height: 300px;"></a>
+				    	<a href="#" style="display:block;height:200px;overflow:hidden;"><img src="/images/study.png" class="card-img-top" style="width:100%;border:none"></a>
 				   </c:if>
 				   <c:if test="${challenge.detailCategory == '202'}">
-				    	<a href="#"><img src="/images/broken_heart.jpg" class="card-img-top" style="max-width: 250px; height: 300px;"></a>
+				    	<a href="#" style="display:block;height:200px;overflow:hidden;"><img src="/images/broken_heart.jpg" class="card-img-top" style="width:100%;border:none"></a>
 				   </c:if>
 				   <c:if test="${challenge.detailCategory == '205'}">
-				  	  <a href="#"><img src="/images/challenge_date.jpeg" class="card-img-top" style="max-width: 250px; height: 300px;"></a>
+				  	  <a href="#" style="display:block;height:200px;overflow:hidden;"><img src="/images/challenge_date.jpeg" class="card-img-top" style="width:100%;border:none"></a>
 				   </c:if>
 				   <c:if test="${challenge.detailCategory == '206'}">
-				  	  <a href="#"><img src="/images/challenge_bamboo.jpg" class="card-img-top" style="max-width: 250px; height: 300px;"></a>
+				  	  <a href="#" style="display:block;height:200px;overflow:hidden;"><img src="/images/challenge_bamboo.jpg" class="card-img-top" style="width:100%;border:none"></a>
 				   </c:if>
 				   <c:if test="${challenge.detailCategory == '댓글'}">
-				  	  <a href="#"><img src="/images/comment.jpg" class="card-img-top" style="max-width: 250px; height: 300px;"></a>
+				  	  <a href="#" style="display:block;height:200px;overflow:hidden;"><img src="/images/comment.jpg" class="card-img-top" style="width:100%;border:none"></a>
 				   </c:if>
 				   <!-- div 클릭시 상세정보 보기로 이동 -->
 				    <a href="#">
-					    <div class="card-body">
-					      <h5 class="card-title">${challenge.challTitle}</h5>
-					      <p class="card-text">조건 : ${challenge.postCommentComplete} 회 작성</p>
+					    <div class="card-body"">
+					      <h5 class="card-title" style="font-weight:bold">${challenge.challTitle}</h5>
+					      <p class="card-text">조건 : ${challenge.postCommentComplete}회 작성</p>
 					      <p class="card-text"> 
-					      <span class="badge badge-secondary"> ${challenge.challReward} 점</span>
+					      <span class="badge badge-secondary" style="margin-top:5px;"> ${challenge.challReward}점</span>
 					      <%-- <p class="card-text">${challenge.challContent}</p> --%>
-					      <p class="card-text" style="text-align: right;"><small class="text-muted" >${weeklyChallenge.weeklyEnd} 00:00분까지 진행</small></p>
+					      <p class="card-text" style="text-align: right;margin-top:10px"><small class="text-muted" >${weeklyChallenge.weeklyEnd} 00:00분까지 진행</small></p>
 					    </div>
 				    </a>
 				  </div>

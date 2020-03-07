@@ -121,7 +121,9 @@ public class PostDAOImpl implements PostDAO{
 	
 	@Override // 각각 게시판
 	public int getTotalCount2(String gatherCategoryNo) throws Exception {
-		return sqlSession.selectOne("PostMapper.getTotalCount2", gatherCategoryNo);
+		Post post = new Post();
+		post.setGatherCategoryNo(gatherCategoryNo);
+		return sqlSession.selectOne("PostMapper.getTotalCount2", post);
 	}
 
 

@@ -101,6 +101,33 @@ public class ChallengeServiceImpl implements ChallengeService{
 	public Challenge getNextOrPrePost(int challNo) throws Exception {
 		return challengeDAO.getNextOrPrePost(challNo);
 	}
+	
+///////////////////////////////// 주간도전과제 고정을 위해 새로추가한것. /////////////////////////////////
+	//view_Status를 4번으로 변경
+	@Override
+	public void startChallenge(Challenge challenge) throws Exception {
+		challengeDAO.startChallenge(challenge);
+	}
+
+	//view_Status를 1번으로 변경
+	@Override
+	public void resetChallenge(Challenge challenge) throws Exception {
+		challengeDAO.resetChallenge(challenge);
+		
+	}
+
+	@Override
+	public Map<String, Object> getWeeklyChallengeList() throws Exception {
+		
+		List<Challenge> list = challengeDAO.getWeeklyChallengeList();
+		System.out.println("list : " + list);
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		
+		return map;
+	}
+	
+///////////////////////////////// 주간도전과제 고정을 위해 새로추가한것. /////////////////////////////////
 
 
 	@Override
@@ -146,7 +173,9 @@ public class ChallengeServiceImpl implements ChallengeService{
 	public Reward completePostChallenge(Reward reward, Challenge challenge, Map<String, Object> map, User user) throws Exception {
 		
 		boolean completeResult = false;
-		List<Challenge> list = (List<Challenge>)(map.get("list"));
+		//List<Challenge> list = (List<Challenge>)(map.get("list"));
+		List<Challenge> list = challengeDAO.getWeeklyChallengeList();
+		System.out.println("completeConmentChallenge list : " + list);
 		Post challpost = challenge.getPost();
 		challpost.setUser(user);
 		Commentt commentt = challenge.getCommentt();
@@ -221,7 +250,12 @@ public class ChallengeServiceImpl implements ChallengeService{
 		
 		boolean completeResult = false;
 		System.out.println("completeConmentChallenge challenge : " + challenge);
-		List<Challenge> list = (List<Challenge>)(map.get("list"));
+		//기존 정보를 가져오는 list
+		//List<Challenge> list = (List<Challenge>)(map.get("list"));
+		//Map<String, Object> challengeMap = 
+		List<Challenge> list = challengeDAO.getWeeklyChallengeList();
+		System.out.println("completeConmentChallenge list : " + list);
+		
 		Post challpost = challenge.getPost();
 		challpost.setUser(user);
 		Commentt commentt = challenge.getCommentt();
@@ -309,6 +343,8 @@ public class ChallengeServiceImpl implements ChallengeService{
 	public Challenge getWeeklyStart() throws Exception {
 		return challengeDAO.getWeeklyStart();
 	}
+
+	
 
 	
 
