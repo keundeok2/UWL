@@ -268,8 +268,9 @@
 
             display: inline-block;
             position: fixed;
-            bottom: 25px;
-            right: 90px;
+            bottom: 94px;
+            right: 20px;
+            z-index: 10000000;
         }
 
         div.chattingIcon a {
@@ -303,11 +304,11 @@
             position: fixed;
             max-height: 0;
             overflow: hidden;
-            right: 10px;
-            bottom: 110px;
+            right: 85px;
+            bottom: 20px;
             transition: max-height 0.3s;
             border: none;
-            z-index: 9;
+            z-index: 1000000;
 
         }
 
@@ -1112,14 +1113,14 @@
 	        	});
 	            $('div.chattingList').toggleClass('on');
 	            $('div.chattingBox').css({
-	            	"bottom": "110px",
-	            	"right": "440px",
+	            	"bottom": "20px",
+	            	"right": "510px",
 					"z-index": '9'
 				});
 	            if(!$('div.chattingList').hasClass('on')){
 	            	 $('div.chattingBox').css({
-	            		'bottom': '30px',
-						'right': '160px',
+	            		'bottom': '20px',
+						'right': '90px',
 						"z-index": '9'
 	 				});
 	            }
@@ -2036,8 +2037,8 @@
 				    						        		'scrollTop': '10000000px'
 				    						        	});
 				    									$('div.chattingBox').css({
-				    										'bottom': '30px',
-				    										'right': '160px',
+				    										'bottom': '20px',
+				    										'right': '90px',
 				    										"z-index": '9'
 				    									});
 				    									if(data[i].enterUser == "${sessionScope.user.userId}"){
@@ -2118,8 +2119,8 @@
 					        		'scrollTop': '10000000px'
 					        	});
 								$('div.chattingBox').css({
-									'bottom': '30px',
-									'right': '160px',
+									'bottom': '20px',
+									'right': '90px',
 									"z-index": '9'
 								});			//-------------------------------------------------------확인완료
 								if(data[i].enterUser == "${sessionScope.user.userId}"){
@@ -2236,8 +2237,8 @@
 						    						        		'scrollTop': '10000000px'
 						    						        	});
 						    									$('div.chattingBox').css({
-						    										'bottom': '30px',
-						    										'right': '160px',
+						    										'bottom': '20px',
+						    										'right': '90px',
 						    										"z-index": '9'
 						    									});
 						    									if(data[i].enterUser == "${sessionScope.user.userId}"){
