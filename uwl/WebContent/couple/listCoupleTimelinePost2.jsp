@@ -814,7 +814,9 @@
                 }
         	})
         });
+        
     </script>
+    
 </head>
 
 <body>
@@ -825,9 +827,13 @@
                 <div class="userProfileImage">
                     <img src="/images/bonobono.jpg" alt="">
                 </div>
-                <div class="weather">
+                
+                
+               <!--  <div class="weather">
                     <img src="/images/031-cloud.png" alt="" width="30px" style="vertical-align:middle">
-                </div>
+                </div> -->
+                
+                
             </div>
             <div class="dDay">
                 <div>처음 만난 날</div>
@@ -837,10 +843,13 @@
                 </div>
             </div>
             <div class="secondUser2">
-                <div class="weather">
-
+            
+            
+                <!-- <div class="weather">
                     <img src="/images/031-sun.png" alt="" width="30px" style="vertical-align:middle">
-                </div>
+                </div> -->
+                
+                
                 <div class="userProfileImage">
                     <img src="/images/bonobono.jpg" alt="">
                 </div>
