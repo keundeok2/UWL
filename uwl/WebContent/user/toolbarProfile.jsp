@@ -1081,7 +1081,7 @@
             sessionName = $("input#sessionName").val();
             sessionPhone = $("input#sessionPhone").val();
             currPoint = $("input#totalPoint").val();
-            price = 100; ///////////////////// controller에서 받은 값으로 변경하기
+            price = 99000; ///////////////////// controller에서 받은 값으로 변경하기
         });
 
 
@@ -1184,7 +1184,7 @@
         $(document).on("click", "#pointBtn", function() {
         	if (sessionId != targetUserId) {
 				currPoint = $("input#sessionTotalPoint").val();
-				alert(currPoint);
+				//alert(currPoint);
 			}
             var paymentOption = $(this).val();
             console.log("itemName", itemName);

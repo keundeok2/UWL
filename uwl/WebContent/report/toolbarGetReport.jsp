@@ -37,6 +37,18 @@
             
             $('#myModal').appendTo("body");
             $('#master').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
+            
+            
+            $('#myModal').find('button').on('click', function() {
+            	var plusStopDate = $('select[name="plusStopDate"]').val();
+            	alert('클릭ㅋㅋ' + plusStopDate);
+            	
+            	$('#updateReport select[name="plusStopDate"]').val(plusStopDate);
+            	var plusStopDate2 = $('#updateReport select[name="plusStopDate"]').val();
+            	alert('plusStopDate : ' + plusStopDate2);
+            	
+            	/* $('form#updateReport').submit(); */
+            });
         });
     </script>
 
@@ -242,7 +254,7 @@
                      <a href="#"><i class="far fa-star"></i></a>
                  </div>
             </div>
-            <form method="POST" action="/report/updateReport">
+            <form method="POST" action="/report/updateReport" id="updateReport">
                 <div>
                     
                     <div>
@@ -343,7 +355,7 @@
                                             <option value=999>영구 정지</option>
                                         </select>
                                     </div>
-                                    <button type="submit" class="btn btn-danger" style="margin:0 auto"><i class="fas fa-pause-circle"></i>&nbsp;처리</button>
+                                    <button type="button" class="btn btn-danger" style="margin:0 auto"><i class="fas fa-pause-circle"></i>&nbsp;처리</button>
                                     <br>
                                 </div>
                             </div>
