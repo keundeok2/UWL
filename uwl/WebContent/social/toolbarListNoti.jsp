@@ -325,7 +325,7 @@
             border-radius: 50%;
             font-size: 1.1rem;
             background-color: #fff;
-            color: #fff
+            color: #fff;
         }
 
         .tracking-item .tracking-icon.status-sponsored {
@@ -568,7 +568,7 @@
 			                  <div class="tracking-date"><span>${noti.notiDate}</span></div>
 			                  <c:if test="${noti.notiOrigin eq 1 }">
 			                  	<c:if test="${noti.notiCode eq 1}">
-			                  		<div class="tracking-content">${noti.sender.name}님이 게시글에 댓글을 등록했습니다.<span><a href="/post/getBoard?postNo=${noti.postNo}">해당 게시글로 이동</a></span></div>
+			                  		<div class="tracking-content">${noti.sender.nickname}님이 게시글에 댓글을 등록했습니다.<span><a href="/post/getBoard?postNo=${noti.postNo}">해당 게시글로 이동</a></span></div>
 			                  	</c:if>
 			                  </c:if>
 			                  <c:if test="${noti.notiOrigin eq 2 }">
