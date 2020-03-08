@@ -389,6 +389,15 @@
                             <tr>
                                 <td>작성자</td>
                                 <td>${post.userId }</td>
+                                <td>공개여부</td>
+                                <td>
+                                <c:if test="${post.viewStatus == '1' or post.viewStatus == null}">
+                                    공개
+                                </c:if>
+                                <c:if test="${post.viewStatus == '2'}">
+                                    비공개
+                                </c:if>
+                            </td>
 
                             </tr>
                             <tr>
