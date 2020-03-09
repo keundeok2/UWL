@@ -28,6 +28,20 @@
 			return false;
 		}
 		
+		if (timelinePostContent.length > 1000) {
+			var pureAlert = $.pureAlert({
+				title : "알림",
+				content : "최대 1000자 까지 입력가능합니다.",
+				okBtn : "확인",
+				autoShow : true,
+				closeButton : false
+			})
+			
+			pureAlert.pureAlert('show');
+			
+			return false;
+		}
+		
 		$("form#addTimelineForm")
 		.attr("method", "post")
 		.attr("action", "/social/addTimeline")
