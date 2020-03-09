@@ -190,7 +190,7 @@
 
         div.postTop div.postTitle {
 
-            width: 80%;
+            width: 75%;
             float: left;
 
 
@@ -235,7 +235,7 @@
 
             display: inline-block;
             float: right;
-            width: 20%;
+            width: 25%;
             text-align: right;
 			color: #898989;
             font-size: 14px;
