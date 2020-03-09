@@ -40,14 +40,22 @@
             
             
             $('#myModal').find('button').on('click', function() {
-            	var plusStopDate = $('select[name="plusStopDate"]').val();
-            	alert('클릭ㅋㅋ' + plusStopDate);
+            	//alert('클릭ㅋㅋ');
             	
-            	$('#updateReport select[name="plusStopDate"]').val(plusStopDate);
-            	var plusStopDate2 = $('#updateReport select[name="plusStopDate"]').val();
-            	alert('plusStopDate : ' + plusStopDate2);
             	
-            	/* $('form#updateReport').submit(); */
+            	var value1 = $('select[name="plusStopDate"]').val();
+            	
+            	$('input[name="plusStopDate"]').val(value1);
+            	
+            	var value0 = $('input[name="plusStopDate"]').val();
+            	
+            	//alert('inputValue : ' + value0);
+            	//alert('selectValue : ' + value1);
+            	
+            	
+            	
+            	
+            	$('form#updateReport').submit();
             });
         });
     </script>
@@ -335,6 +343,7 @@
                     </div>
 
                     <div class="container">
+                    	<input type="hidden" name="plusStopDate">
                         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
