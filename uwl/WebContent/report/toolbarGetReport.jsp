@@ -37,6 +37,26 @@
             
             $('#myModal').appendTo("body");
             $('#master').find('i:nth-child(3)').removeClass('fa-caret-down').addClass('fa-caret-up');
+            
+            
+            $('#myModal').find('button').on('click', function() {
+            	//alert('클릭ㅋㅋ');
+            	
+            	
+            	var value1 = $('select[name="plusStopDate"]').val();
+            	
+            	$('input[name="plusStopDate"]').val(value1);
+            	
+            	var value0 = $('input[name="plusStopDate"]').val();
+            	
+            	//alert('inputValue : ' + value0);
+            	//alert('selectValue : ' + value1);
+            	
+            	
+            	
+            	
+            	$('form#updateReport').submit();
+            });
         });
     </script>
 
@@ -242,7 +262,7 @@
                      <a href="#"><i class="far fa-star"></i></a>
                  </div>
             </div>
-            <form method="POST" action="/report/updateReport">
+            <form method="POST" action="/report/updateReport" id="updateReport">
                 <div>
                     
                     <div>
@@ -323,6 +343,7 @@
                     </div>
 
                     <div class="container">
+                    	<input type="hidden" name="plusStopDate">
                         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -343,7 +364,7 @@
                                             <option value=999>영구 정지</option>
                                         </select>
                                     </div>
-                                    <button type="submit" class="btn btn-danger" style="margin:0 auto"><i class="fas fa-pause-circle"></i>&nbsp;처리</button>
+                                    <button type="button" class="btn btn-danger" style="margin:0 auto"><i class="fas fa-pause-circle"></i>&nbsp;처리</button>
                                     <br>
                                 </div>
                             </div>

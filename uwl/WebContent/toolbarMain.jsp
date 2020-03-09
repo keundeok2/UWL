@@ -190,7 +190,7 @@
 
         div.postTop div.postTitle {
 
-            width: 80%;
+            width: 75%;
             float: left;
 
 
@@ -235,7 +235,7 @@
 
             display: inline-block;
             float: right;
-            width: 20%;
+            width: 25%;
             text-align: right;
 			color: #898989;
             font-size: 14px;
@@ -699,6 +699,9 @@
             display: inline-block;
             font-weight: bold;
             vertical-align: -5px;
+            width: 75%;
+            
+            vertical-align: top;
         }
 
         div.weeklySchoolRanking div.schoolAddr {
@@ -921,12 +924,12 @@
                                  	   <c:forEach var="userRank" items="${individualRank}" end="5">
 	                                        <li>
 	                                        	<a href="#" class="userRanking">
-	                                                ${userRank.ranking} 위 <span><img src="/images/bonobono.jpg" alt=""></span> ${userRank.userId}
+	                                                ${userRank.ranking}위 <span><img src="/images/bonobono.jpg" alt=""></span> ${userRank.userId}
 	                                            </a>
 	                                        </li>
                                  	   </c:forEach>
                                  	    <!-- 개인랭킹으로 넘어가기위한 hidden값 -->
-                          		   		<input type="hidden" name="searchCondition" value="2"/>
+                          		   		<!-- <input type="hidden" name="searchCondition" value="2"/> -->
                                     </ul>
                                 </div>
                                 <p class="control">
